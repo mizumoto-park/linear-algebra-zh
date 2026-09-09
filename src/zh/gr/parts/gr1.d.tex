@@ -1,0 +1,800 @@
+\subsection{\texorpdfstring{通解$=$特解$+$齐次解}{通解=特解+齐次解}}
+前一小节中对解集的种种描述都符合同一个模式：
+它们都是一个向量——该方程组的一个特解——
+加上另外一些向量的无限制组合。
+\nearbyexample{ex:ManyParamsInfManySolsSystem} 给出的解集
+例示了这一点。
+\begin{equation*}
+  \set{
+   \underbracket[.7pt]{
+     \colvec[r]{0 \\ 4 \\ 0 \\ 0 \\ 0}}_{\text{\shortstack{\rule{0pt}{2ex}特解}}}+
+   \underbracket[.7pt]{w\colvec[r]{1 \\ -1 \\ 3 \\ 1 \\ 0}+
+       u\colvec[r]{1/2 \\ -1 \\ 1/2 \\ 0 \\ 1}}_{\text{\shortstack{\rule{0pt}{2ex}无限制\\
+                                                                组合}}}
+       \suchthat w,u\in\Re}
+\end{equation*}
+组合之所以是无限制的，是指 $w$ 和 $u$ 可以取任何实数\Dash 没有
+类似“要求满足 $2w-u=0\mspace{1mu}$”这样的条件来限制
+我们可以使用哪些数对 $w,u$。
+
+前面的例题展示了一个符合该模式的无穷解集。
+另外两类解集也同样符合该模式。
+单元素解集符合该模式，是因为它有一个特解，
+而无限制组合那一部分是平凡的。
+也就是说，它不是两个向量的组合，也不是一个向量的组合，
+而是零个向量的组合。
+（按照约定，空向量集的和是零向量。）
+空解集符合该模式，是因为此时没有特解，
+从而不存在这种形式的和。
+
+\begin{theorem} \label{th:GenEqPartPlusHomo}
+%<*th:GenEqPartPlusHomo>
+任一线性方程组的
+解集都有形式
+\begin{equation*}
+   \set{\vec{p}+c_1\vec{\beta}_1+\,\cdots\,+c_k\vec{\beta}_k
+     \suchthat c_1,\,\ldots\,,c_k\in\Re}
+\end{equation*}
+其中 \( \vec{p} \) 是任意一个特解，
+而向量 $\vec{\beta}_1$, \ldots, $\vec{\beta}_k$ 的个数
+等于该方程组经高斯消元后自由变量的个数。
+%</th:GenEqPartPlusHomo>
+\end{theorem}
+
+解的描述分为两部分：
+特解 $\vec{p}$，
+以及诸 $\vec{\beta}$ 的无限制线性组合。
+我们将用与之相应的两个引理来证明该定理。
+
+我们首先关注无限制的组合。
+为此，我们考虑以零向量
+作为特解的方程组，
+这样便能将 $\vec{p}+c_1\vec{\beta}_1+\dots+c_k\vec{\beta}_k$
+缩短为 $c_1\vec{\beta}_1+\dots+c_k\vec{\beta}_k$。
+
+\begin{definition} \label{df:HomogeneousEquation}
+%<*df:HomogeneousEquation>
+如果一个线性方程带有常数零，从而可以写成
+$a_1x_1+a_2x_2+\,\cdots\,+a_nx_n=0$ 的形式，
+则称它是\definend{齐次的}\index{homogeneous equation}%
+\index{linear equation!homogeneous}。
+%</df:HomogeneousEquation>
+\end{definition}
+
+\begin{example}  \label{ex:FirstExHomoSys}
+对任一线性方程组，比如
+\begin{equation*}
+  \begin{linsys}{2}
+    3x  &+  &4y  &=  3  \\
+    2x  &-  &y   &=  1
+  \end{linsys}
+\end{equation*}
+我们将右端设为零，从而得到与之相应的
+一个齐次方程组。
+\begin{equation*}
+  \begin{linsys}{2}
+    3x  &+  &4y  &=  0  \\
+    2x  &-  &y   &=  0
+  \end{linsys}
+\end{equation*}
+把原方程组的化简
+\begin{equation*}
+  \begin{linsys}{2}
+    3x  &+  &4y  &=  3  \\
+    2x  &-  &y   &=  1
+  \end{linsys}
+  \grstep{-(2/3)\rho_1+\rho_2}
+  \begin{linsys}{2}
+    3x  &+  &4y        &=  3  \\
+        &   &-(11/3)y   &=  -1
+   \end{linsys}
+\end{equation*}
+与相应的齐次方程组的化简加以比较。
+\begin{equation*}
+  \begin{linsys}{2}
+    3x  &+  &4y  &=  0  \\
+    2x  &-  &y   &=  0
+  \end{linsys}
+  \grstep{-(2/3)\rho_1+\rho_2}
+  \begin{linsys}{2}
+    3x  &+  &4y        &=  0  \\
+        &   &-(11/3)y   &=  0
+   \end{linsys}
+\end{equation*}
+显然这两个化简的进行方式完全相同。
+于是我们可以通过研究如何化简相应的齐次方程组，
+来代替研究如何化简一个线性方程组。
+\end{example}
+
+研究相应的齐次方程组比研究原方程组
+有一个很大的优点。
+非齐次方程组可能无解。
+但齐次方程组必定相容，因为它总是至少有
+一个解：零向量。
+
+
+\begin{example} \label{ex:HomoZeroOnlySol}
+有些齐次方程组以零向量作为它们唯一的解。
+\begin{equation*}
+   \begin{linsys}{3}
+     3x  &+  &2y  &+  &z  &=  &0  \\
+     6x  &+  &4y  &   &   &=  &0  \\
+         &   &y   &+  &z  &=  &0
+   \end{linsys}
+   \grstep{-2\rho_1 +\rho_2}
+   \begin{linsys}{3}
+      3x  &+  &2y  &+  &z  &=  &0  \\
+          &   &    &   &-2z&=  &0  \\
+          &   &y   &+  &z  &=  &0
+    \end{linsys}
+   \grstep{\rho_2 \leftrightarrow\rho_3}
+   \begin{linsys}{3}
+      3x  &+  &2y  &+  &z  &=  &0  \\
+          &   &y   &+  &z  &=  &0  \\
+          &   &    &   &-2z&=  &0
+    \end{linsys}
+\end{equation*}
+\end{example}
+
+\begin{example} \label{ex:SolnChemProb}
+有些齐次方程组有许多解。
+其中一个就是第一节第一个小节首页的化学问题\index{Chemistry problem}。
+\begin{align*}
+  \begin{linsys}{4}
+              7x  &   &   &-  &7z  &   &   &=  &0  \\
+              8x  &+  &y  &-  &5z  &-  &2w &=  &0  \\
+                  &   &y  &-  &3z  &   &   &=  &0  \\
+                  &   &3y &-  &6z  &-  &w  &=  &0
+  \end{linsys}
+  &\grstep{-(8/7)\rho_1+\rho_2}
+  \begin{linsys}{4}
+                7x &   &   &-  &7z  &   &   &=  &0  \\
+                   &   &y  &+  &3z  &-  &2w &=  &0  \\
+                   &   &y  &-  &3z  &   &   &=  &0  \\
+                   &   &3y &-  &6z  &-  &w  &=  &0
+   \end{linsys}                                        \\
+  &\grstep[-3\rho_2+\rho_4]{-\rho_2+\rho_3}
+  \begin{linsys}{4}
+                7x &   &   &-  &7z  &   &   &=  &0  \\
+                   &   &y  &+  &3z  &-  &2w &=  &0  \\
+                   &   &   &   &-6z &+  &2w &=  &0  \\
+                   &   &   &   &-15z&+  &5w &=  &0
+   \end{linsys}                                        \\
+  &\grstep{-(5/2)\rho_3+\rho_4}
+  \begin{linsys}{4}
+                7x &   &   &-  &7z  &   &   &=  &0  \\
+                   &   &y  &+  &3z  &-  &2w &=  &0  \\
+                   &   &   &   &-6z &+  &2w &=  &0  \\
+                   &   &   &   &    &   &0  &=  &0
+   \end{linsys}
+\end{align*}
+解集
+\begin{equation*}
+  \set{\colvec[r]{1/3 \\ 1 \\ 1/3 \\ 1}w \suchthat w\in\Re}
+\end{equation*}
+除了零向量之外还有许多向量
+（如果把 \( w \) 取为分子的个数，那么只有当 \( w \) 是 $3$ 的非负倍数时，
+解才有意义）。
+\end{example}
+
+\begin{lemma} \label{le:HomoSltnSpanVecs}
+%<*le:HomoSltnSpanVecs>
+对任一齐次线性方程组，存在向量 $\vec{\beta}_1$, \ldots, $\vec{\beta}_k$，
+使得该方程组的解集为
+\begin{equation*}
+  \set{c_1\vec{\beta}_1+\cdots+c_k\vec{\beta}_k \suchthat c_1,\ldots,c_k\in\Re}
+\end{equation*}
+其中 $k$ 是该方程组的阶梯形形式中
+自由变量的个数。
+%</le:HomoSltnSpanVecs>
+\end{lemma}
+
+在证明之前，我们先讨论关于它的几点。
+第一，该证明验证的是：给定一个阶梯形的齐次方程组，
+我们可以用回代把所有首变量
+都用自由变量表示出来。
+要明白为什么这足以建立该引理，我们给出一个例子
+（我们也将借这次逐步演算来说明
+证明中的记号）。
+
+%<*ex:HomoSystemGivesSpanningSet0>
+考虑这个阶梯形的齐次方程组。
+\begin{equation*}
+  \begin{linsys}{5}
+     x  &+  &y   &+  &2z  &+  &u  &+  &v  &=  &0  \\
+        &   &y   &+  &z  &+  &u  &-  &v  &=  &0  \\
+        &   &    &   &   &   &u  &+  &v  &=  &0
+  \end{linsys}
+\end{equation*}
+它有五个变量：$x_1=x$, \ldots{}, $x_5=v$。
+做回代时，我们从最底下的行，即方程~$m=3$ 开始。
+利用它的首项 $a_{m,\ell_m}x_m=a_{3,4}x_4=1\cdot u$，
+我们解出它的首变量 $x_{\ell_3}=x_4=u$
+（记号中的“$\ell$”代表“leading”，即“首”）。
+我们得到 $u=-v$。
+%</ex:HomoSystemGivesSpanningSet0>
+
+现在回代进入迭代阶段。
+%<*ex:HomoSystemGivesSpanningSet1>
+我们将用变量~$t$ 来数当前行位于底部之上多少行，
+于是取 $t=1$，
+考察行 $m-t=3-1=2$。
+来到这一行时，我们已经把行~$3$ 的首变量
+用自由变量表示了出来。
+将 $x_{\ell_3}=x_4=u$ 用它关于
+自由变量的表达式代入，得到 $y+z+(-v)-v=0$。
+然后解出这一行的首变量，得
+$x_{\ell_{m-t}}=x_2=y=-z+2v$。
+
+接下来是位于底部之上 $t=2$ 的那一行，即行 $m-t=1$。
+至此我们已经把行 $3$ 和行~$2$ 的首变量
+用自由变量表示了出来。
+代入 $x_{\ell_3}=u$ 与 $x_{\ell_2}=y$，得到
+$x+(-z+2v)+2z+(-v)+v=0$。
+然后解出首变量关于自由变量的表达式
+$x_{\ell_1}=x=-z-2v$。
+%</ex:HomoSystemGivesSpanningSet2>
+
+%<*ex:HomoSystemGivesSpanningSet3>
+这个例子的要点在于：现在我们已经完成了。
+只要把解写成向量记法
+\begin{equation*}
+  \colvec{x \\ y \\ z \\ u \\ v}
+  =\colvec{-1 \\ -1 \\ 1 \\ 0 \\ 0}z
+   +\colvec{-2 \\ 2 \\ 0 \\ -1 \\ 1}v
+  \qquad \text{其中 $z,v\in\Re$}
+\end{equation*}
+就能看出，引理陈述中的 $\vec{\beta}_1$ 与 $\vec{\beta}_2$
+就是与自由变量 $z$ 和~$v$ 相关联的向量。
+%</ex:HomoSystemGivesSpanningSet3>
+
+关于证明的第二点也可以由那个例子看出。
+回代沿方程组自下而上推进，用来自较低行的结论
+处理下一行。
+这提示了证明策略：数学归纳法。\index{mathematical induction}\index{proof techniques!induction}\index{induction}%
+
+归纳法是一种重要而又不显然的证明技术，本书中
+将会多次出现。
+我们的归纳证明分两步进行：基础步骤
+和归纳步骤。
+在基础步骤中，我们验证该命题对某个最初的情形成立，
+这里即：对阶梯形线性方程组，我们能写出
+最底下方程的首变量关于自由变量的表达式。
+在归纳步骤中，我们必须建立一个蕴含关系，
+即：如果该命题对所有前面的情形都成立，
+那么可以推出该命题对当前情形
+也成立。
+具体到这里，归纳假设是：如果对
+下面的各行我们能把首变量
+用自由变量表示出来，那么对再上面一行
+我们也能把首变量用这些方式表示出来。
+
+这两个步骤合在一起便对所有的行证明了该命题：
+由基础步骤，它对最底下的方程成立，
+而由归纳步骤，它对最底下方程成立这一事实
+表明它对再上面一个方程也成立。
+然后，再用一次
+归纳步骤便推出它对再上面第三个方程成立，
+如此等等。\appendrefs{mathematical induction}%
+
+\begin{proof}
+%<*pf:HomoSltnSpanVecs0>
+用高斯消元法化成阶梯形。
+其中可能出现一些 \( 0=0 \) 方程；我们忽略它们
+（如果
+方程组只由 \( 0=0 \)~方程构成，那么该引理显然成立，
+因为没有首变量）。
+% If there are any variables that appear only with with a coefficient of
+% $0$ then they are free, and will never lead a row, so we will
+% ignore that possibility.
+但因为方程组是齐次的，所以没有矛盾方程。
+
+我们将用归纳法验证
+每个首变量都能用
+自由变量表示出来。
+这将结束证明，因为
+我们可以把自由变量用作参数，
+而诸 $\vec{\beta}$ 就是由那些
+自由变量的系数构成的向量。
+%</pf:HomoSltnSpanVecs0>
+
+%<*pf:HomoSltnSpanVecs1>
+对于基础步骤，考虑最底下的方程，
+\begin{equation*}
+  a_{m,\ell_m}x_{\ell_m}+a_{m,1+\ell_{m}}x_{1+\ell_{m}}+\cdots+a_{m,n}x_n=0
+   % \tag{$*$}
+\end{equation*}
+其中 \( a_{m,\ell_m}\neq 0 \)。
+%</pf:HomoSltnSpanVecs1>
+%<*pf:HomoSltnSpanVecs2>
+这是最底下一行，所以
+首变量之后 % $x_{\ell_{m}+1}$, \ldots{}
+的任何变量
+必定都是自由变量。
+把这些变量移到右端并除以 $a_{m,\ell_m}$
+\begin{equation*}
+  x_{\ell_m}
+  =(-a_{m,1+\ell_{m}}/a_{m,\ell_m})x_{1+\ell_{m}}+\cdots+(-a_{m,n}/a_{m,\ell_m})x_n
+\end{equation*}
+便将首变量用自由变量表示了出来。
+%</pf:HomoSltnSpanVecs2>
+（一个技术性细节：~如果最底下的方程中
+在~$x_{\ell_m}$ 的右侧没有变量，
+那么 \( x_{\ell_m}=0 \)。
+这也满足我们正在验证的命题，因为，
+正如本小节开头所提及的，
+它把 \( x_{\ell_m} \) 写成了
+若干个自由变量的和，具体说是零个自由变量的和，
+这里采用的惯例是：
+平凡的和总计为~$0$。）
+
+%<*pf:HomoSltnSpanVecs3>
+对于归纳步骤，假设对第 \( m \) 个方程，
+以及\text{第 \( (m-1) \) 个}
+方程，等等，直到并包括\mbox{第 \( m-(t-1) \) 个}~方程，
+我们都能
+把该方程的首变量用自由变量表示出来。
+也就是说，
+假设“我们能将一行的首变量
+用自由变量表示出来”这一命题
+对最底下的 $t$~行成立，其中 $1\leq t<m$。
+我们必须验证：由此该命题
+对上面紧邻的那个方程，
+即第 \( (m-t) \) 个方程也成立。
+
+对 \( x_{\ell_m} \), \ldots, \( x_{\ell_{m-(t-1)}} \) 中的每一个，
+代入它关于自由变量的表达式。
+所得结果的首项为
+$a_{m-t,\ell_{m-t}}x_{\ell_{m-t}}$，其中 \( a_{m-t,\ell_{m-t}}\neq 0 \)，
+而左端的其余部分
+是自由变量的组合。
+把自由变量移到
+右端并除以
+\( a_{m-t,\ell_{m-t}} \)，最后就把
+\( x_{\ell_{m-t}} \) 表示成了自由变量的表达式。
+
+基础步骤和归纳步骤都已完成，所以由
+数学归纳法原理，该命题为真。
+%</pf:HomoSltnSpanVecs3>
+\end{proof}
+
+这表明，正如在引理与它的证明之间所讨论的，
+我们可以用自由变量
+来参数化解集。
+我们说向量集
+$\set{c_1\vec{\beta}_1+\cdots+c_k\vec{\beta}_k \suchthat c_1,\ldots,c_k\in\Re}$
+\definend{由}集合
+\( \set{\smash{\vec{\beta}_1},\ldots,\smash{\vec{\beta}_k}} \)
+\definend{生成}\index{generated by}\index{generated}，
+或者说是~\definend{由它张成的}\index{spanned by}\index{span}。
+
+% The proof mentions a tricky point.
+% We follow the convention that the sum of an empty set of vectors is the
+% zero vector.
+% In particular, we needs this where
+% a homogeneous system has a unique solution because it
+% takes the \( c \)'s to be the free variables
+% and if there is a unique solution then there are no free variables.
+
+为了完成对 \nearbytheorem{th:GenEqPartPlusHomo} 的证明，
+下一个引理考虑解集描述中的
+特解部分。
+
+\begin{lemma}  \label{th:GenEqPartHomo}
+%<*th:GenEqPartHomo>
+对一个线性方程组以及它的任意一个特解 $\vec{p}\/$，
+其解集等于
+% \begin{equation*}
+$
+  \set{\vec{p}+\vec{h} \suchthat \text{ \( \vec{h} \) 满足
+                                相应的齐次方程组}     }$。
+%\end{equation*}
+%</th:GenEqPartHomo>
+\end{lemma}
+
+% So fixing any particular solution gives the above
+% description of the solution set.
+
+\begin{proof}
+我们将证明两个方向的集合包含：
+方程组的任何解都在上述集合中，而且
+上述集合中的任何向量都是该
+方程组的解。\appendrefs{set equality}
+
+%<*pf:GenEqPartHomo0>
+先证第一个方向的包含：如果一个向量满足该方程组，
+那么它在上述集合中。
+设 \( \vec{s} \) 满足该方程组。
+那么 \( \vec{s}-\vec{p} \) 满足相应的
+齐次方程组，因为对每个方程下标 \( i \)，
+\begin{multline*}
+  a_{i,1}(s_1-p_1)+\cdots+a_{i,n}(s_n-p_n) \\
+  =(a_{i,1}s_1+\cdots+a_{i,n}s_n)
+  -(a_{i,1}p_1+\cdots+a_{i,n}p_n)
+  =d_i-d_i
+  =0
+\end{multline*}
+其中 \( p_j \) 与 \( s_j \) 分别是
+\( \vec{p} \) 与 \( \vec{s} \) 的第 \( j \) 个分量。
+把 \( \vec{s}-\vec{p} \) 记作 \( \vec{h} \)，
+便将 \( \vec{s} \) 表成了所需的 \( \vec{p}+\vec{h} \) 形式。
+%</pf:GenEqPartHomo0>
+
+%<*pf:GenEqPartHomo1>
+再证另一个方向的包含：取形如 $\vec{p}+\vec{h}$ 的向量，
+其中 \( \vec{p} \) 满足该方程组，\( \vec{h} \) 满足
+相应的齐次方程组，注意到 $\vec{p}+\vec{h}$
+满足所给的方程组，因为对任一方程下标~$i$，
+\begin{multline*}
+  a_{i,1}(p_1+h_1)+\cdots+a_{i,n}(p_n+h_n)  \\
+  =(a_{i,1}p_1+\cdots+a_{i,n}p_n)
+   +(a_{i,1}h_1+\cdots+a_{i,n}h_n)
+  =d_i+0
+  =d_i
+\end{multline*}
+其中如前所述，\( p_j \) 与 \( h_j \) 分别是
+\( \vec{p} \) 与 \( \vec{h} \) 的第 \( j \) 个分量。
+%</pf:GenEqPartHomo1>
+\end{proof}
+
+这两个引理合起来便证明了 \nearbytheorem{th:GenEqPartPlusHomo}。
+请用这句口诀记住该定理：
+“\( \text{通解} = \text{特解} + \text{齐次解} \)”。
+
+\begin{example} \label{ex:IllusGenEqPartHomo}
+下面这个方程组例示了 \nearbytheorem{th:GenEqPartPlusHomo}。
+\begin{equation*}
+  \begin{linsys}{3}
+    x  &+  &2y  &-  &z  &=  &1  \\
+    2x &+  &4y  &   &   &=  &2  \\
+       &   &y   &-  &3z &=  &0
+  \end{linsys}
+\end{equation*}
+高斯消元法
+\begin{equation*}
+  \grstep{-2\rho_1+\rho_2}
+  \begin{linsys}{3}
+    x  &+  &2y  &-  &z  &=  &1  \\
+       &   &    &   &2z &=  &0  \\
+       &   &y   &-  &3z &=  &0
+  \end{linsys}
+  \grstep{\rho_2\leftrightarrow\rho_3}
+  \begin{linsys}{3}
+      x  &+  &2y  &-  &z  &=  &1  \\
+         &   &y   &-  &3z &=  &0  \\
+         &   &    &   &2z &=  &0
+   \end{linsys}
+\end{equation*}
+表明通解是一个单元素集。
+\begin{equation*}
+  \set{\colvec[r]{1 \\ 0 \\ 0} }
+\end{equation*}
+这个单个的向量显然是一个特解。
+相应的齐次方程组经同样的行变换化简
+\begin{equation*}
+  \begin{linsys}{3}
+    x  &+  &2y  &-  &z  &=  &0  \\
+    2x &+  &4y  &   &   &=  &0  \\
+       &   &y   &-  &3z &=  &0
+  \end{linsys}
+  \grstep{-2\rho_1+\rho_2}
+  \repeatedgrstep{\rho_2\swap\rho_3}
+  \begin{linsys}{3}
+      x  &+  &2y  &-  &z  &=  &0  \\
+         &   &y   &-  &3z &=  &0  \\
+         &   &    &   &2z &=  &0
+   \end{linsys}
+\end{equation*}
+也给出一个单元素集。
+\begin{equation*}
+  \set{\colvec[r]{0 \\ 0 \\ 0} }
+\end{equation*}
+于是，正如本小节开头所讨论的，
+在这种只有一个解的情形，通解就是取特解
+再加上相应的齐次方程组的唯一解。
+\end{example}
+
+\begin{example}
+本小节开头还讨论过，通解集为空的情形
+也符合 $\text{通解}=\text{特解}+\text{齐次解}$ 的模式。
+这个方程组例示了这一点。
+\begin{equation*}
+  \begin{linsys}{4}
+    x  &   &  &+  &z  &+ &w  &=  &-1  \\
+   2x  &-  &y &   &   &+ &w  &=  &3   \\
+    x  &+  &y &+  &3z &+ &2w &=  &1
+  \end{linsys}
+  \grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+  \begin{linsys}{4}
+    x  &   &  &+  &z  &+ &w  &=  &-1  \\
+       &   &-y&-  &2z &- &w  &=  &5   \\
+       &   &y &+  &2z &+ &w  &=  &2
+   \end{linsys}
+\end{equation*}
+它无解，因为最后两个方程
+相互冲突。
+但相应的齐次方程组确实有解，正如所有
+齐次方程组一样。
+\begin{equation*}
+  \begin{linsys}{4}
+    x  &   &  &+  &z  &+ &w  &=  &0   \\
+   2x  &-  &y &   &   &+ &w  &=  &0   \\
+    x  &+  &y &+  &3z &+ &2w &=  &0
+  \end{linsys}
+  \grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+  \grstep{\rho_2+\rho_3}
+  \begin{linsys}{4}
+    x  &   &  &+  &z  &+ &w  &=  &0   \\
+       &   &-y&-  &2z &- &w  &=  &0   \\
+       &   &  &   &   &  &0  &=  &0
+  \end{linsys}
+\end{equation*}
+事实上，这个解集是无穷的。
+\begin{equation*}
+  \set{\colvec[r]{-1 \\ -2 \\ 1 \\ 0}z+\colvec[r]{-1 \\ -1 \\ 0 \\ 1}w
+         \suchthat z,w\in\Re}
+\end{equation*}
+尽管如此，由于原方程组没有特解，它的
+通解集为空\Dash 不存在形如
+$\vec{p}+\vec{h}$ 的向量，因为没有 $\vec{p}\:$。
+\end{example}
+
+\begin{corollary} \label{co:ThreeKindsSolutionSets}
+%<*co:ThreeKindsSolutionSets>
+线性方程组的解集要么为空，要么只有一个元素，
+要么有无穷多个元素。
+%</co:ThreeKindsSolutionSets>
+\end{corollary}
+
+\begin{proof}
+%<*pf:ThreeKindsSolutionSets0>
+这三种情形发生的例子我们都已见过，
+所以只需证明没有其他的可能。
+
+首先注意，一个至少有一个非 \( \zero \) 解 $\vec{v}$ 的齐次方程组
+有无穷多个解。
+这是因为~$\vec{v}$ 的任何标量倍数也满足该齐次
+方程组，而且 $\vec{v}$ 的标量倍数组成的集合中有无穷多个向量：
+如果 $s,t\in\Re$ 不相等，那么 $s\vec{v}\neq t\vec{v}$，
+因为 $s\vec{v}-t\vec{v}=(s-t)\vec{v}$ 非 $\zero$：
+$\vec{v}$ 的任何非 $0$ 分量在经非 $0$ 因子 $s-t$ 倍乘后，
+都会给出非 $0$ 的值。
+%</pf:ThreeKindsSolutionSets0>
+
+%<*pf:ThreeKindsSolutionSets1>
+现在应用 \nearbylemma{th:GenEqPartHomo} 得出：解集
+\begin{equation*}
+  \set{\vec{p}+\vec{h}\suchthat
+    \text{\( \vec{h} \) 满足相应的齐次方程组}}
+\end{equation*}
+要么为空（若不存在特解 \( \vec{p} \)），
+要么只有一个元素（若存在 \( \vec{p} \) 且齐次方程组
+有唯一解 \( \zero \)），要么是无穷的（若存在
+\( \vec{p} \) 且齐次方程组有非 $\zero$ 解，
+从而由上一段可知它有无穷多个解）。
+%</pf:ThreeKindsSolutionSets1>
+\end{proof}
+
+下表概括了影响通解大小的各个因素。
+
+\smallskip
+%<*table:KindsSolutionSets>
+\begin{center} % \small
+\begin{tabular}{r@{}c}
+  &\hspace*{2.5em}\begin{tabular}{c}
+      \textit{齐次方程组的} \\[-.5ex]
+      \textit{解的个数}
+    \end{tabular}                            \\[1.7ex]
+  \begin{tabular}{r@{\hspace*{.5em}}}
+     \ \\[.6ex]
+     \textit{特解} \\[-.55ex]
+     \textit{是否存在}
+  \end{tabular}
+  &\begin{tabular}{r|c@{\hspace*{1em}}c} % \cline{2-3}
+     \multicolumn{1}{c}{\ }
+         &\textit{一个}    &\textit{无穷多个}                    \\
+     \cline{2-3}
+     \textit{有}
+        &\rule{0ex}{16pt}\begin{tabular}{@{}c@{}} 唯一 \\[-.5ex] 解 \end{tabular}
+        &\begin{tabular}{@{}c@{}} 无穷多个 \\[-.5ex] 解 \end{tabular}
+         \\[2ex] % \hline
+     \textit{无}
+        &\begin{tabular}{@{}c@{}} 无 \\[-.5ex] 解 \end{tabular}
+        &\begin{tabular}{@{}c@{}} 无 \\[-.5ex] 解 \end{tabular}
+         \\ % \hline
+   \end{tabular}
+\end{tabular}
+\end{center}
+%</table:KindsSolutionSets>
+\smallskip
+
+表中上方的那一维比较简单。
+对一个线性方程组施行高斯消元法时，
+忽略右端的常数，只关注
+左端的系数，
+那么最终要么每个变量都领头某一行，要么
+我们发现某个变量不领头任何行，也就是说，
+我们发现某个变量是自由变量。
+（我们通过考虑相应的齐次方程组来将
+“忽略右端的常数”形式化。）
+
+一个值得注意的特殊情形是方程个数与未知数个数相同的方程组。
+这样的方程组将有解，且解唯一，
+当且仅当它
+化简为一个每个变量都领头所在行的阶梯形方程组
+（因为变量的个数与行的个数相同），
+而这又当且仅当
+相应的齐次方程组有唯一解。
+
+\begin{definition} \label{df:Nonsingular}
+%<*df:Nonsingular>
+如果一个方阵是某个有唯一解的齐次方程组的系数矩阵，
+则称它是\definend{非奇异的}\index{nonsingular!matrix}
+\index{matrix!nonsingular}。
+否则，即当它是某个有无穷多解的齐次方程组的系数矩阵时，
+称它是\definend{奇异的}\index{singular!matrix}\index{matrix!singular}。
+%</df:Nonsingular>
+\end{definition}
+
+\begin{example}
+下面两个矩阵中，第一个是非奇异的而第二个是奇异的
+\begin{equation*}
+  \begin{mat}[r]
+    1  &2  \\
+    3  &4
+  \end{mat}
+  \qquad
+  \begin{mat}[r]
+    1  &2  \\
+    3  &6
+  \end{mat}
+\end{equation*}
+因为下面两个齐次方程组中第一个有唯一解，
+而第二个有无穷多解。
+\begin{equation*}
+  \begin{linsys}[b]{2}
+    x &+  &2y  &=  &0  \\
+   3x &+  &4y  &=  &0
+  \end{linsys}
+  \qquad
+  \begin{linsys}[b]{2}
+    x &+  &2y  &=  &0  \\
+   3x &+  &6y  &=  &0
+  \end{linsys}
+\end{equation*}
+我们在定义中作出这一区分，是因为方程个数与变量个数相同的方程组
+只有两种表现方式，取决于它的系数矩阵
+是非奇异的还是奇异的。
+当系数矩阵非奇异时，无论右端常数是什么，方程组
+都有唯一解：~例如，高斯消元法表明方程组
+\begin{equation*}
+  \begin{linsys}{2}
+    x  &+  &2y  &=  &a \\
+    3x &+  &4y  &=  &b
+  \end{linsys}
+\end{equation*}
+有唯一解 $x=b-2a$ 和  $y=(3a-b)/2$。
+另一方面，当系数矩阵奇异时，方程组绝不会有唯一解\Dash 它
+要么无解，要么有无穷多解，如下面这两个方程组。
+\begin{equation*}
+  \begin{linsys}[b]{2}
+    x  &+  &2y  &=   &1   \\
+   3x  &+  &6y  &=   &2
+  \end{linsys}
+  \qquad
+  \begin{linsys}[b]{2}
+    x  &+  &2y  &=   &1   \\
+   3x  &+  &6y  &=   &3
+  \end{linsys}
+\end{equation*}
+\end{example}
+
+定义中使用“奇异”一词是因为它的意思是
+“偏离一般的预期”。
+人们常常想当然地以为变量个数与方程个数相同的方程组
+会有唯一解。
+因此，我们可以认为这个词隐含着
+“麻烦的”，或者至少“不理想的”意味。
+（“奇异”一词恰好用来指那些绝不会恰有一个解的方程组，
+这有讽刺意味，但它是标准术语。）
+
+\begin{example}
+来自 \nearbyexample{ex:FirstExHomoSys}、
+\nearbyexample{ex:HomoZeroOnlySol}
+和 \nearbyexample{ex:IllusGenEqPartHomo} 的方程组，
+其相应的齐次方程组都有唯一解。
+因此这些矩阵都是非奇异的。
+\begin{equation*}
+  \begin{mat}[r]
+    3  &4  \\
+    2  &-1
+  \end{mat}
+  \qquad
+  \begin{mat}[r]
+    3  &2   &1  \\
+    6  &-4  &0  \\
+    0  &1   &1
+  \end{mat}
+  \qquad
+  \begin{mat}[r]
+    1  &2  &-1 \\
+    2  &4  &0  \\
+    0  &1  &-3
+  \end{mat}
+\end{equation*}
+而 \nearbyexample{ex:SolnChemProb} 中的化学问题
+是一个有不止一个解的齐次方程组，所以它的矩阵
+是奇异的。
+\begin{equation*}
+  \begin{mat}[r]
+    7  &0  &-7 &0  \\
+    8  &1  &-5 &-2 \\
+    0  &1  &-3 &0  \\
+    0  &3  &-6 &-1
+  \end{mat}
+\end{equation*}
+\end{example}
+
+上面的表格有两个维度。
+我们已经考虑了上面那一个：~只考虑方程组的左端，
+我们就能判断一个给定的线性方程组落入哪一列；
+右端的常数在这件事中不起作用。
+
+表格的另一个维度，
+即判断是否存在特解，就更棘手了。
+考虑这两个左端相同但右端不同的方程组。
+\begin{equation*}
+  \begin{linsys}[b]{2}
+    3x &+ &2y &= &5  \\
+    3x &+ &2y &= &5
+  \end{linsys}
+  \qquad
+  \begin{linsys}[b]{2}
+    3x &+ &2y &= &5  \\
+    3x &+ &2y &= &4
+  \end{linsys}
+\end{equation*}
+第一个有解而第二个没有，所以在这里右端的常数
+决定了方程组是否有解。
+我们可能猜想线性方程组的左端
+决定解的个数，而右端决定是否有解，
+但这个猜测并不正确。
+比较这两个右端相同但左端不同的方程组。
+\begin{equation*}
+  \begin{linsys}[b]{2}
+    3x &+ &2y &= &5  \\
+    4x &+ &2y &= &4
+  \end{linsys}
+  \qquad
+  \begin{linsys}[b]{2}
+    3x &+ &2y &= &5  \\
+    3x &+ &2y &= &4
+  \end{linsys}
+\end{equation*}
+第一个有解而第二个没有。
+因此，仅凭方程组右端的常数
+并不能决定解是否存在。
+确切地说，这取决于左端与
+右端之间的某种相互作用。
+
+为了对这种相互作用有一些直观认识，
+考虑这个方程组，其中一个系数未加指定，
+记为变量~$c$。
+\begin{equation*}
+  \begin{linsys}{3}
+    x  &+  &2y  &+  &3z  &=  &1  \\
+    x  &+  &y   &+  &z   &=  &1  \\
+   cx  &+  &3y  &+  &4z  &=  &0
+  \end{linsys}
+\end{equation*}
+如果 \( c=2 \)，那么该方程组无解，因为左端
+第三行是前两行的和，而右端不是。
+如果 \( c\neq 2 \)，那么该方程组有唯一解（取 \( c=1 \) 试一试）。
+要使方程组有解：如果左端系数矩阵的某一行
+是其他几行的线性组合，
+那么右端该行的常数必须是
+同样那几行的常数的同样组合。
+
+关于这种相互作用的更多直观认识来自对线性组合的研究。
+这将是第二章的重点；在那之前，
+我们要在本章其余部分完成对高斯消元法本身的研究。

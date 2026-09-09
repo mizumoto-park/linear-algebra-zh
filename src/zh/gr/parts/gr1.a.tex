@@ -1,0 +1,681 @@
+% Chapter 1, Section 1 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-09
+\chapter{线性方程组}\leavevmode  % because no preamble?
+\section{求解线性方程组}
+线性方程组在科学和数学中很常见。
+来自高中科学的这两个例子\cite{Onan}
+可以让我们体会它们是如何产生的。
+
+第一个例子来自
+\hypertarget{ex:Statics}{静力学}。\index{Statics problem}
+假设我们有三个物体，
+已知其中一个的质量为$2$~千克，
+而想求出两个未知的质量。
+用一根米尺做实验，得到下面两个平衡状态。
+\begin{center}
+  \includegraphics{gr/mp/ch1.1}
+  \qquad
+  \includegraphics{gr/mp/ch1.2}
+\end{center}
+要使两边平衡，必须有左边的力矩之和等于右边的力矩之和，其中
+一个物体的力矩是它的质量乘以它到
+支点的距离。
+这就给出了一个含两个线性方程的方程组。
+\begin{align*}  % odd formatting to match chem problem below
+      40h + 15c &= 100  \\
+            25c &= 50+50h
+\end{align*}
+
+第二个例子
+来自化学。\index{Chemistry problem}
+在可控条件下，我们可以将甲苯$\hbox{C}_7\hbox{H}_8$与
+硝酸$\hbox{H}\hbox{N}\hbox{O}_3$混合，生成
+三硝基甲苯$\hbox{C}_7\hbox{H}_5\hbox{O}_6\hbox{N}_3$，
+同时得到副产物水
+（条件必须受到极好的控制\Dash 三硝基甲苯
+更为人熟知的名称是TNT）。
+我们应该按怎样的比例混合它们？
+反应前出现的每种元素的原子个数
+\begin{equation*}
+    x\, {\rm C}_7{\rm H}_8\ +\ y\,{\rm H}{\rm N}{\rm O}_3
+    \quad\longrightarrow\quad
+    z\,{\rm C}_7{\rm H}_5{\rm O}_6{\rm N}_3\ +\ w\,{\rm H}_2{\rm O}
+\tag*{}\end{equation*}
+必须等于反应后出现的原子个数。
+把它依次应用于元素 C、H、N 和 O，就得到
+下面的方程组。
+\begin{align*}  % odd formatting to state more naturally
+      7x      &= 7z  \\
+      8x +1y  &= 5z+2w  \\
+      1y      &= 3z  \\
+      3y      &= 6z+1w
+\end{align*}
+
+这两个例子都归结为求解一个方程组。
+在每个方程组中，方程只含有每个变量的一次幂。
+本章将说明如何求解任何这样的方程组。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{高斯消元法}
+\begin{definition}\label{def:linearcombination}
+%<*df:linearcombination>
+\( x_1 \), \ldots, \( x_n \) 的一个\definend{线性组合}\index{linear combination}形如
+\begin{equation*}
+   a_1x_1+a_2x_2+a_3x_3+\cdots+a_nx_n
+\end{equation*}
+其中数\( a_1, \ldots ,a_n\in\Re \)称为该组合的
+\definend{系数}\index{linear equation!coefficients}。
+%</df:linearcombination>
+%<*df:linearequations>
+变量 $x_1$, \ldots, $x_n$ 的一个\definend{线性方程}\index{linear equation}
+形如
+$a_1x_1+a_2x_2+a_3x_3+\cdots+a_nx_n=d$
+其中
+\( d\in\Re \) 称为\definend{常数}\index{linear equation!constant}。
+
+\( n \) 元组 \( (s_1,s_2,\ldots ,s_n)\in\Re^n \) 是该方程的一个
+\definend{解}\index{linear equation!solution of} %
+（或者说它\definend{满足}该方程），如果用数
+$s_1$, \ldots, $s_n$ 代替各变量
+得到一个真的陈述：
+$a_1s_1+a_2s_2+\cdots+a_ns_n=d$。
+一个\definend{线性方程组}\index{linear equation!system of}%
+\index{system of linear equations}
+\begin{equation*}
+  \begin{linsys}{4}
+    a_{1,1}x_1 &+ &a_{1,2}x_2  &+  &\cdots &+ &a_{1,n}x_n &=  &d_1  \\
+    a_{2,1}x_1 &+ &a_{2,2}x_2  &+  &\cdots &+ &a_{2,n}x_n &=  &d_2  \\
+             &  &           &   &       &  &          &\vdotswithin{=}  \\
+    a_{m,1}x_1 &+ &a_{m,2}x_2  &+  &\cdots &+ &a_{m,n}x_n &=  &d_m
+  \end{linsys}
+\end{equation*}
+有解
+\( (s_1,s_2,\ldots ,s_n) \)，如果该 $n$ 元组是所有
+方程的解。
+%</df:linearequations>
+\end{definition}
+
+\begin{example}
+组合 \( 3x_1 + 2x_2 \) 是 $x_1$ 与 $x_2$ 的线性组合。
+组合 \( 3x_1^2 + 2x_2 \) 不是 $x_1$ 与 $x_2$ 的线性函数，
+\( 3x_1 + 2\sin(x_2) \) 也不是。
+\end{example}
+
+我们通常取 $x_1$, \ldots, $x_n$ 彼此不同，因为在含有重复项的和式中，
+我们可以重新整理使各项唯一，如 $2x+3y+4x=6x+3y$。
+我们有时写出系数为零的项，如
+$x-2y+0z$，有时则将其省略，视哪种方便而定。
+
+\begin{example}
+有序对 \( (-1,5) \) 是下面这个方程组的解。
+\begin{equation*}
+  \begin{linsys}{2}
+    3x_1 &+ &2x_2 &= &7  \\
+    -x_1 &+ &x_2  &= &6
+  \end{linsys}
+\end{equation*}
+相比之下，\( (5,-1) \) 不是解。
+\end{example}
+
+求出由全部解组成的集合称为
+\definend{求解}\index{system of linear equations!solving}
+方程组。
+我们不需要猜测或碰运气；
+有一个总是有效的算法。
+这个算法就是
+\definend{高斯消元法}\index{Gauss's Method}%
+\index{system of linear equations!Gauss's Method}
+（或称\definend{高斯消去法}\index{Gaussian elimination}%
+\index{system of linear equations!Gaussian elimination}
+或\definend{线性消去法}\index{linear elimination}%
+\index{system of linear equations!linear elimination}%
+\index{system of linear equations!elimination}%
+\index{elimination, Gaussian}）。
+% It transforms the system, step by step, into one
+% with a form that we can easily solve.
+% We will first illustrate how it goes and then we will see the
+% formal statement.
+
+\begin{example}
+为求解方程组
+\begin{equation*}
+  \begin{linsys}{3}
+                     &   &      &   &3x_3  &=  &9  \\
+                 x_1 &+  &5x_2  &-  &2x_3  &=  &2  \\
+      \frac{1}{3}x_1 &+  &2x_2  &   &      &=  &3
+  \end{linsys}
+\end{equation*}
+我们一步一步地变换它，直到它化成
+我们容易求解的形式。
+
+第一个变换
+通过对换第一行与第三行来重写方程组。
+\begin{align*}
+  \quad
+  &\grstep{ \text{对换第1行与第3行} }
+  \begin{linsys}{3}
+        \frac{1}{3}x_1 &+  &2x_2  &   &      &=  &3  \\
+                   x_1 &+  &5x_2  &-  &2x_3  &=  &2  \\
+                       &   &      &   &3x_3  &=  &9
+    \end{linsys}
+\end{align*}
+第二个变换将第一行倍乘~$3$。
+\begin{align*}
+\quad
+  &\grstep{ \text{将第1行倍乘3} }
+  \begin{linsys}{3}
+        x_1 &+  &6x_2  &   &      &=  &9  \\
+        x_1 &+  &5x_2  &-  &2x_3  &=  &2  \\
+            &   &      &   &3x_3  &=  &9
+   \end{linsys}
+\end{align*}
+第三个变换是本例中唯一非平凡的变换。
+我们在心中将第一行的两边乘以 \( -1 \)，
+再在心中把它加到第二行上，
+并把所得结果写成新的第二行。
+\begin{align*}
+  &\grstep{ \text{将第1行的\(-1\)倍加到第2行} }
+  \begin{linsys}{3}
+        x_1 &+  &6x_2  &   &      &=  &9  \\
+            &   &-x_2  &-  &2x_3  &=  &-7 \\
+            &   &      &   &3x_3  &=  &9
+   \end{linsys}
+\end{align*}
+这些步骤已把方程组化成
+我们容易求出每个变量之值的形式。
+最下面的方程表明 \( x_3=3 \)。
+用 $3$ 代替中间方程中的 \( x_3 \)，可知 \( x_2=1 \)。
+再将这两个值代入最上面的方程，
+得到 \( x_1=3 \)。
+于是方程组有唯一解；
+解集为\set{(3,1,3)}。
+\end{example}
+
+我们将在全书使用高斯消元法。
+它快捷而容易。
+我们现在来证明
+它还是安全的：
+高斯消元法从不丢失解，也从不
+引入多余的解，因此
+一个元组在我们应用该方法之前是方程组的解，当且仅当
+在应用之后它仍是方程组的解。
+
+\begin{theorem}[高斯消元法]
+\index{linear equation!solution of!Gauss's Method} \label{th:GaussMethod}
+%<*th:GaussMethod>
+若一个线性方程组经由下述操作之一
+变成另一个方程组
+\begin{enumerate}
+  \setlength{\itemsep}{0ex}
+  \item
+    一个方程与另一个方程对换
+  \item
+    一个方程的两边乘以一个非零常数
+  \item
+    一个方程被替换成它本身与另一个方程的倍数之和
+\end{enumerate}
+则这两个方程组有相同的解集。
+%</th:GaussMethod>
+\end{theorem}
+
+这三种操作各有一个限制。
+不允许把一行乘以~\( 0 \)，因为显然那样
+会改变解集。
+类似地，不允许把一行的倍数加到该行自身，因为
+把一行加上它的~\( -1 \) 倍相当于把该行
+乘以~\( 0 \)。
+我们也不允许把一行与它自身对换，
+这是为了让第四章的某些结果更容易。
+再说，这种操作毫无意义。
+
+\begin{proof}
+我们在这里讨论方程对换这种操作。
+另外两种
+情形类似，见\nearbyexercise{ex:ProveGaussMethod}。
+
+%<*pf:GaussMethod0>
+考虑一个线性方程组。
+\begin{equation*}
+  \begin{linsys}{4}
+    a_{1,1}x_1  &+  &a_{1,2}x_2 &+  &\cdots  &+ &a_{1,n}x_n  &=  &d_1\hfill\hbox{}  \\
+                &   &           &   &        &   &     &\vdotswithin{=}  \\
+    a_{i,1}x_1  &+  &a_{i,2}x_2 &+  &\cdots  &+ &a_{i,n}x_n  &=  &d_i\hfill\hbox{}  \\
+                &   &           &   &        &   &     &\vdotswithin{=}  \\
+    a_{j,1}x_1  &+  &a_{j,2}x_2 &+  &\cdots  &+ &a_{j,n}x_n  &=  &d_j\hfill\hbox{}  \\
+                &   &           &   &        &   &     &\vdotswithin{=} \\
+    a_{m,1}x_1  &+  &a_{m,2}x_2 &+  &\cdots  &+ &a_{m,n}x_n  &=  &d_m  \\
+  \end{linsys}
+\end{equation*}
+元组 \( (s_1,\ldots\,,s_n) \)
+满足这个方程组，
+当且仅当将这些值代入各变量，即用 $s$ 代替 $x$，得到一个真陈述的合取：
+$a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n=d_1$
+与\ldots\
+$a_{i,1}s_1+a_{i,2}s_2+\cdots+a_{i,n}s_n=d_i$
+与\ldots\ $a_{j,1}s_1+a_{j,2}s_2+\cdots+a_{j,n}s_n=d_j$
+与\ldots\ $a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n=d_m$。
+%</pf:GaussMethod0>
+
+%<*pf:GaussMethod1>
+在用“与”连接的一列陈述中，我们可以
+重新排列这些陈述的次序。
+因此
+该要求成立当且仅当
+$a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n=d_1$
+与\ldots\ $a_{j,1}s_1+a_{j,2}s_2+\cdots+a_{j,n}s_n=d_j$
+与\ldots\ $a_{i,1}s_1+a_{i,2}s_2+\cdots+a_{i,n}s_n=d_i$
+与\ldots\ $a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n=d_m$。
+这正是 \( (s_1,\ldots\,,s_n) \)
+在对换行之后满足方程组的要求。
+%</pf:GaussMethod1>
+\end{proof}
+
+\begin{definition} \label{df:GaussMethod}
+%<*df:GaussMethod>
+来自
+\nearbytheorem{th:GaussMethod}
+的这三种操作是
+\definend{初等化简操作},\index{Gauss's Method!elementary operations}%
+\index{elementary reduction operations}
+或称\definend{行变换}\index{elementary row operations}，
+或称\definend{高斯操作}。
+它们是
+\definend{对换}\index{elementary reduction operations! swapping}%
+\index{swapping rows}、
+\definend{倍乘一个标量}（或称
+\definend{倍乘}\index{elementary reduction operations! rescaling}%
+\index{rescaling rows}），以及
+\definend{倍加}\index{elementary reduction operations! row combination}%
+\index{combining rows}\index{adding rows}。
+%</df:GaussMethod>
+\end{definition}
+
+在写出计算过程时，我们将
+把“第 \(i\) 行”缩写为“\( \rho_i \)”
+（这是希腊字母 rho，读音如同英文的“row”）。
+例如，我们将用
+\( k\rho_i+\rho_j \)
+表示一个倍加操作，
+其中发生变化的行写在后面。
+为了减少书写，当多个加法步骤使用同一个 $\rho_i$ 时，我们常常
+将它们合并，如下面的
+例子所示。
+
+\begin{example}
+高斯消元法系统地应用行变换来求解方程组。
+下面是一个典型的例子。
+\begin{equation*}
+  \begin{linsys}{3}
+    x  &+  &y  &   &   &=  &0  \\
+   2x  &-  &y  &+  &3z &=  &3  \\
+    x  &-  &2y &-  &z  &=  &3
+  \end{linsys}
+\end{equation*}
+我们先用第一行
+消去第二行中的 $2x$ 和第三行中的 $x$。
+为消去 $2x$，我们在心中将整个第一行乘以 $-2$，
+把它加到
+第二行上，并把结果写成新的第二行。
+为消去第三行中的~$x$，我们将第一行乘以
+$-1$，加到第三行上，并把结果写成
+新的第三行。
+\begin{align*}
+  &\grstep[-\rho_1 +\rho_3]{-2\rho_1 +\rho_2}
+  \begin{linsys}{3}
+     x  &+  &y  &   &   &=  &0  \\
+        &   &-3y&+  &3z &=  &3  \\
+        &   &-3y&-  &z  &=  &3
+  \end{linsys}
+\end{align*}
+% In this version of the system, the last two equations involve only two unknowns.
+最后，我们把第二个方程组变换成第三个方程组，使得
+最下面的方程只含一个未知数。
+为此我们用
+第二行消去第三行中的 $y$~项。
+\begin{equation*}
+  \grstep{-\rho_2 +\rho_3}
+  \begin{linsys}{3}
+     x  &+  &y  &   &   &=  &0  \\
+        &   &-3y&+  &3z &=  &3  \\
+        &   &   &   &-4z&=  &0
+   \end{linsys}
+\end{equation*}
+现在求方程组的解就容易了。
+第三行给出 \( z=0 \)。
+将它回代\index{Gauss's Method!back-substitution}%
+\index{back-substitution}
+到第二行，得到 \( y=-1 \)。
+再回代到第一行，得到 \( x=1 \)。
+\end{example}
+
+\begin{example}
+对于本章开头来自物理的问题\index{Statics problem}，高斯消元法给出
+\begin{equation*}
+   \begin{linsys}{2}
+     40h  &+  &15c  &=  &100      \\
+     -50h &+  &25c  &=  &50
+   \end{linsys}
+   \grstep{5/4\rho_1 +\rho_2}
+   \begin{linsys}{2}
+      40h  &+  &15c       &=  &100      \\
+           &   &(175/4)c  &=  &175
+    \end{linsys}
+\end{equation*}
+于是 \( c=4 \)，回代给出 \( h=1 \)。
+（化学问题我们稍后求解。）
+\end{example}
+
+\begin{example}
+行化简
+\begin{align*}
+   \begin{linsys}{3}
+        x  &+  &y  &+  &z  &=  &9  \\
+       2x  &+  &4y &-  &3z &=  &1  \\
+       3x  &+  &6y &-  &5z &=  &0
+   \end{linsys}
+   &\grstep[-3\rho_1 +\rho_3]{-2\rho_1 +\rho_2}
+   \begin{linsys}{3}
+      x  &+  &y  &+  &z  &=  &9  \\
+         &   &2y &-  &5z &=  &-17\\
+         &   &3y &-  &8z&=  &-27
+    \end{linsys}                                    \\
+   &\grstep{-(3/2)\rho_2+\rho_3}
+   \begin{linsys}{3}
+      x  &+  &y  &+  &z            &=  &9  \\
+         &   &2y &-  &5z           &=  &-17\\
+         &   &   &   &-(1/2)z      &=  &-(3/2)
+    \end{linsys}
+\end{align*}
+表明 \( z=3 \)、\( y=-1 \)、\( x=7 \)。
+\end{example}
+
+如上面的例子所示，高斯消元法
+的要点是利用初等化简
+操作来为回代做好准备。
+
+\begin{definition} \label{df:EchelonForm}
+%<*df:EchelonForm>
+在方程组的每一行中，
+系数非零的第一个变量是该行的
+\definend{首变量}\index{echelon form!leading variable}%
+\index{leading!variable}。%
+若每个首变量
+都位于其上一行的首变量的右侧，
+第一行的首变量除外，
+且系数全为零的行都在底部，
+则称方程组处于\definend{阶梯形}\index{echelon form}。
+%</df:EchelonForm>
+\end{definition}
+
+\begin{example}
+前面的三个例题只用了倍加操作。
+下面这个线性方程组需要对换操作
+才能化成阶梯形，因为
+在第一次倍加之后
+\begin{align*}
+   \begin{linsys}{4}
+                x  &-  &y  &   &   &   &   &=  &0  \\
+               2x  &-  &2y &+  &z  &+  &2w &=  &4  \\
+                   &   &y  &   &   &+  &w  &=  &0  \\
+                   &   &   &   &2z &+  &w  &=  &5
+   \end{linsys}
+   &\grstep{-2\rho_1 +\rho_2}
+   \begin{linsys}{4}
+      x  &-  &y  &\spaceforemptycolumn   &   &   &   &=  &0  \\
+         &   &   &   &z  &+  &2w &=  &4  \\
+         &   &y  &   &   &+  &w  &=  &0  \\
+         &   &   &   &2z &+  &w  &=  &5
+   \end{linsys}
+\end{align*}
+第二个方程没有首变量 $y$。
+我们将它与下方有首变量 $y$ 的一行对换。
+\begin{align*}
+   &\grstep{\rho_2 \leftrightarrow\rho_3}
+   \begin{linsys}{4}
+      x  &-  &y  &\spaceforemptycolumn   &   &   &   &=  &0  \\
+         &   &y  &   &   &+  &w  &=  &0  \\
+         &   &   &   &z  &+  &2w &=  &4  \\
+         &   &   &   &2z &+  &w  &=  &5
+    \end{linsys}
+\end{align*}
+（若第二个方程下方有多于一个合适的行，
+则我们可以任选其一。）
+此后，高斯消元法像之前那样继续进行。
+\begin{align*}
+   &\grstep{-2\rho_3 +\rho_4}
+   \begin{linsys}{4}
+      x  &-  &y  &\spaceforemptycolumn   &   &   &   &=  &0  \\
+         &   &y  &   &   &+  &w  &=  &0  \\
+         &   &   &   &z  &+  &2w &=  &4  \\
+         &   &   &   &   &   &-3w&=  &-3
+    \end{linsys}
+\end{align*}
+回代给出 \( w=1 \)、\( z=2 \)、\( y=-1 \) 与 \( x=-1 \)。
+\end{example}
+
+严格说来，求解线性方程组并不需要
+行倍乘操作。
+我们在这里引入它，是因为它很方便，而且本章稍后我们将把它用于
+高斯消元法的一个变体，即
+高斯–若尔当消元法。
+
+到目前为止的所有方程组中，方程的个数都与未知数的个数相同。
+它们全都有解，而且全都只有一个解。
+在本小节结束时，我们来看看
+还可能发生哪些别的情况。
+
+\begin{example} \label{ex:MoreEqsThanUnks}
+这个方程组
+的方程个数多于变量的个数。
+\begin{equation*}
+    \begin{linsys}{2}
+      x  &+  &3y  &=  &1  \\
+     2x  &+  &y   &=  &-3 \\
+     2x  &+  &2y  &=  &-2
+    \end{linsys}
+\end{equation*}
+高斯消元法也能帮助我们理解这个方程组，因为
+\begin{align*}
+    &\grstep[-2\rho_1 +\rho_3]{-2\rho_1 +\rho_2}
+    \begin{linsys}{2}
+       x  &+  &3y  &=  &1  \\
+          &   &-5y &=  &-5 \\
+          &   &-4y &=  &-4
+     \end{linsys}
+\end{align*}
+表明其中一个方程是多余的。
+阶梯形
+\begin{equation*}
+    \grstep{-(4/5)\rho_2 +\rho_3}
+    \begin{linsys}{2}
+       x  &+  &3y  &=  &1  \\
+          &   &-5y &=  &-5 \\
+          &   &0   &=  &0
+     \end{linsys}
+\end{equation*}
+给出 \( y=1 \) 与 \( x=-2 \)。
+“\( 0=0 \)”反映了这种多余性。
+\end{example}
+
+对于变量个数多于方程个数的方程组，高斯消元法同样有用。
+下一小节有很多例子。
+
+线性方程组与上面所示例子的另一种不同之处
+在于某些线性方程组没有唯一解。
+这可能以两种方式发生。
+第一种是方程组可能根本没有解。
+
+\begin{example} \label{ex:MoreEqsThanUnksInconsis}
+将上一个例题中的方程组与这个方程组对比。
+\begin{equation*}
+    \begin{linsys}{2}
+      x  &+  &3y  &=  &1  \\
+     2x  &+  &y   &=  &-3 \\
+     2x  &+  &2y  &=  &0
+    \end{linsys}
+    \grstep[-2\rho_1 +\rho_3]{-2\rho_1 +\rho_2}
+    \begin{linsys}{2}
+       x  &+  &3y  &=  &1  \\
+          &   &-5y &=  &-5 \\
+          &   &-4y &=  &-2
+     \end{linsys}
+\end{equation*}
+这里方程组是无解的：~没有任何数对 $(s_1,s_2)$ 能
+同时满足全部三个方程。
+阶梯形使这种无解性显而易见。
+\begin{equation*}
+  \grstep{-(4/5)\rho_2 +\rho_3}
+  \begin{linsys}{2}
+     x  &+  &3y  &=  &1  \\
+        &   &-5y &=  &-5 \\
+        &   &0   &=  &2
+   \end{linsys}
+\end{equation*}
+解集为空。
+\end{example}
+
+\begin{example}
+前面的方程组中方程个数多于未知数的个数，但造成无解的原因并不在于此\Dash
+\nearbyexample{ex:MoreEqsThanUnks}
+的方程个数多于未知数的个数，但它却是相容的。
+反过来，方程个数多于未知数对于无解来说也不是必要的，正如我们看到这个方程个数与未知数个数相同的
+无解方程组那样。
+\begin{equation*}
+  \begin{linsys}{2}
+    x  &+  &2y  &=  &8  \\
+   2x  &+  &4y  &=  &8
+  \end{linsys}
+  \grstep{-2\rho_1 + \rho_2}
+  \begin{linsys}{2}
+     x  &+  &2y  &=  &8  \\
+        &   &0   &=  &-8
+   \end{linsys}
+\end{equation*}
+其实，
+无解与左右两边的相互作用有关；
+在上面第一个方程组中，左边的第二个方程是第一个的两倍，但右边的第二个常数却不是第一个的两倍。
+以后我们将进一步讨论方程组各部分之间的
+依赖关系。
+\end{example}
+
+除了没有解之外，
+线性方程组没有唯一解的另一种方式
+是有许多解。
+
+\begin{example}
+在这个方程组中
+\begin{equation*}
+  \begin{linsys}{2}
+    x  &+  &y   &=  &4  \\
+   2x  &+  &2y  &=  &8
+  \end{linsys}
+\end{equation*}
+满足第一个方程的任何数对也
+满足第二个方程。
+解集
+% \( \{ (x,y)\suchthat x+y=4 \} \)
+\( \set{ (x,y)\suchthat x+y=4} \)
+是无穷的；一些例子
+中的数对为~$(0,4)$、$(-1,5)$ 与 $(2.5,1.5)$。
+
+在这里应用高斯消元法的结果与前面的例题形成对比，
+因为我们没有得到矛盾方程。
+\begin{equation*}
+  \grstep{-2\rho_1 + \rho_2}
+  \begin{linsys}{2}
+    x  &+  &y   &=  &4  \\
+       &   &0   &=  &0
+   \end{linsys}
+\end{equation*}
+\end{example}
+
+不要被那个例题迷惑：~一个 $0=0$ 方程
+并不是方程组有许多解的信号。
+
+\begin{example}  \label{ex:NoZerosInfManySols}
+没有 \( 0=0 \) 方程并不能阻止一个方程组有
+许多不同的解。
+这个方程组处于阶梯形，
+没有 $0=0$，却有无穷多解，
+包括 $(0,1,-1)$、
+$(0,1/2,-1/2)$、$(0,0,0)$ 与 $(0,-\pi,\pi)$
+（任何第一个分量为 $0$ 且第二个分量为第三个的
+相反数的三元组都是一个解）。
+\begin{equation*}
+  \begin{linsys}{3}
+     x  &+  &y  &+  &z  &=  &0  \\
+        &   &y  &+  &z  &=  &0
+   \end{linsys}
+\end{equation*}
+
+\( 0=0 \) 的出现也不意味着方程组必定有
+许多解。
+\nearbyexample{ex:MoreEqsThanUnks} 表明了这一点。
+下面这个方程组也是如此，它
+根本没有解，尽管
+其阶梯形中有一个 $0=0$ 行。
+\begin{align*}
+  \begin{linsys}{3}
+    2x  &   &   &-   &2z  &=  &6  \\
+        &   &y  &+   &z   &=  &1  \\
+    2x  &+  &y  &-   &z   &=  &7  \\
+        &   &3y &+   &3z  &=  &0
+  \end{linsys}
+  &\grstep{-\rho_1 +\rho_3}
+  \begin{linsys}{3}
+     2x  &\spaceforemptycolumn   &   &-   &2z  &=  &6  \\
+         &   &y  &+   &z   &=  &1  \\
+         &   &y  &+   &z   &=  &1  \\
+         &   &3y &+   &3z  &=  &0
+  \end{linsys}                                    \\
+  &\grstep[-3\rho_2 +\rho_4]{-\rho_2 +\rho_3}
+  \begin{linsys}{3}
+     2x  &\spaceforemptycolumn    &   &-   &2z  &=  &6  \\
+         &   &y  &+   &z   &=  &1  \\
+         &   &   &    &0   &=  &0  \\
+         &   &   &    &0   &=  &-3
+   \end{linsys}
+\end{align*}
+\end{example}
+
+总之，
+高斯消元法用行变换
+把方程组准备好以便进行回代。
+如果任何一步出现矛盾方程，那么我们就可以停下来，
+得出方程组无解的结论。
+如果我们到达阶梯形而没有矛盾方程，
+并且每个变量都是其所在行的
+首变量，那么方程组有唯一解，我们可以通过
+回代求出它。
+最后，如果我们到达阶梯形而没有矛盾方程，
+但解不唯一\Dash
+也就是说，至少有一个变量不是首变量\Dash
+那么方程组有许多解。
+
+下一小节将探讨第三种情形。
+我们将看到这样的方程组必定有无穷多解，
+并且我们将描述
+解集。
+
+
+\medskip
+\noindent\textbf{注。}\hspace*{.2em}
+\textit{在这里的练习以及全书其余练习中，
+你必须对每个答案给出理由。
+例如，若一个问题问某个方程组是否有解，那么你必须
+通过给出解来论证“有”的回答，并且必须
+通过证明不存在解来论证“无”的回答。}

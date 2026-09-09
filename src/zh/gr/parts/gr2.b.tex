@@ -1,0 +1,315 @@
+\begin{exercises}
+  \recommended \item
+    求每个向量的规范名称。
+    \begin{exparts}
+      \partsitem \( \Re^2 \) 中从 \( (2,1) \) 到 \( (4,2) \) 的向量
+      \partsitem \( \Re^2 \) 中从 \( (3,3) \) 到 \( (2,5) \) 的向量
+      \partsitem \( \Re^3 \) 中从 \( (1,0,6) \) 到 \( (5,0,3) \) 的向量
+      \partsitem \( \Re^3 \) 中从 \( (6,8,8) \) 到 \( (6,8,8) \) 的向量
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( \colvec[r]{2 \\ 1}  \)
+        \partsitem \( \colvec[r]{-1 \\ 2}  \)
+        \partsitem \( \colvec[r]{4 \\ 0 \\ -3}  \)
+        \partsitem \( \colvec[r]{0 \\ 0 \\ 0}  \)
+      \end{exparts*}  
+     \end{answer}
+  \recommended \item 
+    判断这两个向量是否相等。
+    \begin{exparts}
+      \partsitem 从 \( (5,3) \) 到 \( (6,2) \) 的向量与
+        从 \( (1,-2) \) 到 \( (1,1) \) 的向量
+      \partsitem 从 \( (2,1,1) \) 到 \( (3,0,4) \) 的向量与
+        从 \( (5,1,4) \) 到 \( (6,0,7) \) 的向量
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 不相等，它们的规范位置不同。
+          \begin{equation*}
+            \colvec[r]{1 \\ -1}
+            \qquad
+            \colvec[r]{0 \\ 3}
+          \end{equation*}
+        \partsitem 相等，它们的规范位置相同。
+          \begin{equation*}
+            \colvec[r]{1 \\ -1 \\ 3}
+          \end{equation*}
+      \end{exparts}  
+     \end{answer}
+  \recommended \item
+    \( (1,0,2,1) \) 是否在经过
+    \( (-2,1,1,0) \) 和 \( (5,10,-1,4) \) 的直线上？
+    \begin{answer}
+      这条直线是这个集合。
+      \begin{equation*}
+        \set{\colvec[r]{-2 \\ 1 \\ 1 \\ 0}
+             +\colvec[r]{7 \\ 9 \\ -2 \\ 4}t \suchthat t\in\Re }
+      \end{equation*}
+      注意，方程组
+      \begin{equation*}
+        \begin{linsys}{2}
+          -2  &+  &7t  &=  &1  \\
+           1  &+  &9t  &=  &0  \\
+           1  &-  &2t  &=  &2  \\
+           0  &+  &4t  &=  &1  
+        \end{linsys}
+      \end{equation*}
+      无解。
+      因此所给的点不在这条直线上。  
+    \end{answer}
+  \recommended \item
+     \begin{exparts}
+        \partsitem 描述经过 \( (1,1,5,-1) \)、
+           \( (2,2,2,0) \) 与 \( (3,1,0,4) \) 的平面。
+        \partsitem 原点在那个平面内吗？
+      \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 注意到
+          \begin{equation*}
+            \colvec[r]{2 \\ 2 \\ 2 \\ 0}
+            -\colvec[r]{1 \\ 1 \\ 5 \\ -1}
+            =\colvec[r]{1 \\ 1 \\ -3 \\ 1}
+            \qquad
+            \colvec[r]{3 \\ 1 \\ 0 \\ 4}
+            -\colvec[r]{1 \\ 1 \\ 5 \\ -1}
+            =\colvec[r]{2 \\ 0 \\ -5 \\ 5}
+          \end{equation*}
+          所以该平面是这个集合。
+          \begin{equation*}
+            \set{\colvec[r]{1 \\ 1 \\ 5 \\ -1}
+                 +\colvec[r]{1 \\ 1 \\ -3 \\ 1}t
+                 +\colvec[r]{2 \\ 0 \\ -5 \\ 5}s
+                \suchthat t,s\in\Re}
+          \end{equation*}
+        \partsitem 不在；方程组
+          \begin{equation*}
+            \begin{linsys}{3}
+              1  &+  &1t  &+  &2s  &=  &0  \\
+              1  &+  &1t  &   &    &=  &0  \\
+              5  &-  &3t  &-  &5s  &=  &0  \\
+             -1  &+  &1t  &+  &5s  &=  &0  
+            \end{linsys}
+          \end{equation*}
+          无解。
+      \end{exparts}  
+    \end{answer}
+  \item 给出下面每一个的向量描述。
+    \begin{exparts}
+      \item $\Re^3$~中方程为 $x-2y+z=4$ 的平面子集
+      \item $\Re^3$~中方程为 $2x+y+4z=-1$ 的平面
+      \item $\Re^4$~中方程为 $x+y+z+w=10$ 的超平面子集
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \item 把 $x-2y+z=4$ 看作只含一个方程的线性方程组，
+          以变量 $y$ 和~$z$ 为参数进行参数化，得到
+          $x=4+2y-z$。
+          由此得到这个平面的向量描述。
+          \begin{equation*}
+            \set{\colvec{x \\ y \\ z}=\colvec{4 \\ 0 \\ 0}
+                                       +\colvec{2 \\ 1 \\ 0}\cdot y
+                                       +\colvec{-1 \\ 0 \\ 1}\cdot z
+                             \suchthat y,z\in\Re}
+          \end{equation*}
+        \item 参数化给出 $x=-(1/2)-(1/2)y-2z$，
+          所以这就是向量描述。
+          \begin{equation*}
+            \colvec{x \\ y \\ z}=\colvec{-1/2 \\ 0 \\ 0}
+                                       +\colvec{-1/2 \\ 1 \\ 0}\cdot y
+                                       +\colvec{-2 \\ 0 \\ 1}\cdot z
+          \end{equation*}
+        \item 这里 
+          $x=10-y-z-w$，于是我们得到含三个参数的向量描述。
+          \begin{equation*}
+            \colvec{x \\ y \\ z \\ w}=\colvec{10 \\ 0 \\ 0 \\ 0}
+                                       +\colvec{-1 \\ 1 \\ 0 \\ 0}\cdot y
+                                       +\colvec{-1 \\ 0 \\ 1 \\ 0}\cdot z
+                                       +\colvec{-1 \\ 0 \\ 0 \\ 1}\cdot w
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 
+    描述包含这个点与这条直线的平面。
+    \begin{equation*}
+      \colvec[r]{2 \\ 0 \\ 3}
+      \qquad
+      \set{\colvec[r]{-1 \\ 0 \\ -4}
+           +\colvec[r]{1 \\ 1 \\ 2}t
+           \suchthat t\in\Re}
+    \end{equation*}
+    \begin{answer}
+      向量
+      \begin{equation*}
+        \colvec[r]{2 \\ 0 \\ 3}
+      \end{equation*}
+      不在这条直线上。
+      由于
+      \begin{equation*}
+        \colvec[r]{2 \\ 0 \\ 3}
+        -\colvec[r]{-1 \\ 0 \\ -4}
+        =\colvec[r]{3 \\ 0 \\ 7}
+      \end{equation*}
+      我们可以这样描述该平面。
+      \begin{equation*}
+        \set{\colvec[r]{-1 \\ 0 \\ -4}
+             +m\colvec[r]{1 \\ 1 \\ 2}
+             +n\colvec[r]{3 \\ 0 \\ 7}
+            \suchthat m,n\in\Re}
+      \end{equation*}  
+   \end{answer}
+  \recommended \item
+    求这两个平面的交。
+    \begin{equation*}
+      \set{\colvec[r]{1 \\ 1 \\ 1}t+
+           \colvec[r]{0 \\ 1 \\ 3}s
+           \suchthat t,s\in\Re}
+      \qquad
+      \set{\colvec[r]{1 \\ 1 \\ 0}
+           +\colvec[r]{0 \\ 3 \\ 0}k+
+           \colvec[r]{2 \\ 0 \\ 4}m
+           \suchthat k,m\in\Re}
+    \end{equation*}
+    \begin{answer}
+      重合的点就是下面这个方程组的解。
+      \begin{equation*}
+        \begin{linsys}{2}
+         t  &  &   &= &1+2m\hfill      \\
+         t  &+ &s  &= &1+3k\hfill      \\
+         t  &+ &3s &= &4m\hfill
+        \end{linsys}
+      \end{equation*}
+      用高斯消元法
+      \begin{align*}
+        \begin{amat}{4}
+          1  &0  &0  &-2  &1  \\
+          1  &1  &-3 &0   &1  \\
+          1  &3  &0  &-4  &0
+        \end{amat}
+        &\grstep[-\rho_1+\rho_3]{-\rho_1+\rho_2}
+        \begin{amat}{4}
+          1  &0  &0  &-2  &1  \\
+          0  &1  &-3 &2   &0  \\
+          0  &3  &0  &-2  &-1
+        \end{amat}                       \\                         
+        &\grstep{-3\rho_2+\rho_3}
+        \begin{amat}{4}
+          1  &0  &0  &-2  &1  \\
+          0  &1  &-3 &2   &0  \\
+          0  &0  &9  &-8  &-1
+        \end{amat}
+      \end{align*}
+      得到 \( k=-(1/9)+(8/9)m \)，所以 \( s=-(1/3)+(2/3)m \) 且 \( t=1+2m \)。
+      交是下面这个集合。
+      \begin{equation*}
+        \set{\colvec[r]{1 \\ 1 \\ 0}+
+             \colvec[r]{0 \\ 3 \\ 0}(-\frac{1}{9}+\frac{8}{9}m)+
+             \colvec[r]{2 \\ 0 \\ 4}m
+             \suchthat m\in\Re}
+        =\set{\colvec[r]{1 \\ 2/3 \\ 0}
+             +\colvec[r]{2 \\ 8/3 \\ 4}m
+             \suchthat m\in\Re}
+      \end{equation*}    
+    \end{answer}
+  \recommended \item
+    在可能的情况下，求每一对的交。
+    \begin{exparts}
+      \partsitem \( \set{\colvec[r]{1 \\ 1 \\ 2}+t\colvec[r]{0 \\ 1 \\ 1}
+                     \suchthat t\in\Re} \),\,
+            \( \set{\colvec[r]{1 \\ 3 \\ -2}+s\colvec[r]{0 \\ 1 \\ 2}
+                     \suchthat s\in\Re} \)
+      \partsitem \( \set{\colvec[r]{2 \\ 0 \\ 1}+t\colvec[r]{1 \\ 1 \\ -1}
+                     \suchthat t\in\Re} \),\,
+            \( \set{s\colvec[r]{0 \\ 1 \\ 2}
+                     +w\colvec[r]{0 \\ 4 \\ 1}
+                     \suchthat s,w\in\Re} \)
+    \end{exparts}
+    \begin{answer}
+       \begin{exparts}
+        \partsitem 方程组
+          \begin{equation*}
+            \begin{linsys}{1}
+              1     &= &1\hfill         \\
+              1+t   &= &3+s\hfill         \\
+              2+t   &= &-2+2s\hfill
+            \end{linsys}
+          \end{equation*}
+          给出 \( s=6 \) 与 \( t=8 \)，所以这就是解集。
+          \begin{equation*}
+            \set{\colvec[r]{1 \\ 9 \\ 10}     }
+          \end{equation*}
+        \partsitem 这个方程组
+          \begin{equation*}
+            \begin{linsys}{1}
+            2+t   &=  &0 \hfill        \\
+            t     &=  &s+4w\hfill        \\
+            1-t   &=  &2s+w\hfill
+            \end{linsys}
+          \end{equation*}
+          给出 \( t=-2 \)、\( w=-1 \) 与 \( s=2 \)，所以它们的交
+          是这个点。
+          \begin{equation*}
+            \colvec[r]{0 \\ -2 \\ 3}
+          \end{equation*}
+      \end{exparts}  
+    \end{answer}
+  \item 
+      我们应当如何定义 $\Re^0$？
+      \begin{answer}
+        我们将在后面把它定义成恰有一个元素的集合\Dash 一个
+        “原点”。  
+      \end{answer}
+  \puzzle \item   
+    \cite{MathMag57p173}
+    一个人以每小时
+    \( 3 \) 英里的速率向东行进，发觉风好像从正北方向吹来。
+    当他的速度加倍时，风好像来自东北方向。
+    风的速度是多少？
+    \begin{answer}
+      \answerasgiven %
+      向量三角形如下图所示，因此 \( \vec{w}=3\sqrt{2} \)，
+      风从西北方向吹来。
+      \begin{center}
+        \setlength{\unitlength}{4pt}      % wind triangles.
+        \begin{picture}(20,12)(0,0)
+           \put(0,10){\vector(1,0){20} }
+           \put(0,10){\vector(1,-1){10} }
+              \put(3.8,5){\makebox(0,0)[r]{\small \( \vec{w} \)} }
+           \put(10,0){\vector(1,1){10} }
+           \put(10,0){\line(0,1){10} }
+        \end{picture}
+      \end{center}  
+     \end{answer}
+  \item \checked \label{exer:Euclid}  
+    欧几里得（Euclid）把平面描述为
+    “一个与其上的直线处处均匀相合的面”。
+    希罗（Heron）等注释家把它解释为：
+    “（平的面是）这样的面：若一条直线经过 
+    其上的两点，
+    则这条直线处处、以一切方式完全与该面重合”。
+    （译文取自 \cite{Heath}，第171-172页。）
+    本节中所描述的平面具有这种性质吗？
+    这个描述足以恰当地定义平面吗？
+    \begin{answer}
+      欧几里得无疑是在设想 \( \Re^3 \) 之内的平面。
+      然而，请注意 \( \Re^1 \) 与 \( \Re^2 \) 也都满足
+      这个定义。  
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

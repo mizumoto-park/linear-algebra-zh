@@ -1,0 +1,518 @@
+  \item 
+    \( \absval{\vec{u}_1+\cdots+\vec{u}_n} \leq
+         \absval{\vec{u}_1}+\cdots+\absval{\vec{u}_n} \)
+    是否成立？
+    若为真，则它将是三角不等式的推广。
+    \begin{answer}
+      成立；
+      我们可以用归纳法证明它。
+
+      设这些向量都在某个 \( \Re^k \) 中。
+      显然，该论断对单个向量成立。
+      三角不等式就是该论断用于两个向量的情形。
+      归纳步骤假设该论断对 \( n \) 个或更少的
+      向量成立。
+      那么，由两个向量的三角不等式可得下式
+      \begin{equation*}
+         \absval{\vec{u}_1+\cdots+\vec{u}_n+\vec{u}_{n+1}}
+         \leq
+         \absval{\vec{u}_1+\cdots+\vec{u}_n}+\absval{\vec{u}_{n+1}}
+      \end{equation*}
+      再对右端第一个和项
+      应用归纳假设，
+      便知它小于等于
+      \( \absval{\vec{u}_1}+\cdots+\absval{\vec{u}_n}+\absval{\vec{u}_{n+1}} \)。  
+    \end{answer}
+  \item  
+    在 Cauchy-Schwarz 不等式中，两边之比是多少？
+    \begin{answer}
+      按定义
+      \begin{equation*}
+        \frac{\vec{u}\dotprod\vec{v}}{
+            \absval{\vec{u}\,}\,\absval{\vec{v}\,}}=\cos\theta
+      \end{equation*}
+      其中 \( \theta \) 是两向量之间的夹角。
+      于是该比值就是 \( \absval{\cos\theta} \)。  
+   \end{answer}
+  \item 
+    为什么把零向量定义为与每个向量都垂直？
+    \begin{answer}
+      这样，“向量正交当且仅当它们的
+      点积为零”这一论断就没有例外了。
+    \end{answer}
+  \item 
+    描述 \( \Re^1 \) 中两个向量之间的夹角。
+    \begin{answer}
+      我们可用下式
+      来求 \( (a) \) 与 \( (b) \)（其中 \( a,b\neq 0 \)）的夹角
+      \begin{equation*}
+         \arccos(\frac{ab}{\sqrt{a^2}\sqrt{b^2}}).
+      \end{equation*}
+      若 \( a \) 或 \( b \) 为零，则夹角为 \( \pi/2 \) 弧度。
+      否则，若 \( a \) 与 \( b \) 异号，则夹角为
+      \( \pi \) 弧度，不然夹角为零~弧度。  
+   \end{answer}
+  \item 
+    给出一个简单的充要条件，用以判定两个向量之间的
+    夹角是锐角、直角还是钝角。
+     \begin{answer}
+       \( \vec{u} \) 与 \( \vec{v} \) 的夹角当
+       \( \vec{u}\dotprod\vec{v}> 0 \) 时为锐角，当
+       \( \vec{u}\dotprod\vec{v}=0 \) 时为直角，当
+       \( \vec{u}\dotprod\vec{v}<0 \) 时为钝角。
+       这是因为在夹角公式中，分母绝不会
+       为负。  
+     \end{answer}
+  \item 
+    将勾股定理（Pythagorean 定理）的
+    逆命题推广到 \( \Re^n \)，即
+    若 \( \vec{u} \) 与 \( \vec{v} \)
+    垂直，则
+    \( \absval{\vec{u}+\vec{v}\,}^2=\absval{\vec{u}\,}^2+\absval{\vec{v}\,}^2 \)。
+    \begin{answer}
+      设 \( \vec{u},\vec{v}\in\Re^n \)。
+      若 \( \vec{u} \) 与 \( \vec{v} \) 垂直，则
+      \begin{equation*}
+        \absval{\vec{u}+\vec{v}\,}^2
+        =(\vec{u}+\vec{v})\dotprod(\vec{u}+\vec{v})    
+        =\vec{u}\dotprod\vec{u}+2\,\vec{u}\dotprod\vec{v}
+               +\vec{v}\dotprod\vec{v}  
+        =\vec{u}\dotprod\vec{u}+\vec{v}\dotprod\vec{v}  
+        =\absval{\vec{u}\,}^2+\absval{\vec{v}\,}^2
+      \end{equation*}  
+      （第三个等号成立是因为 \( \vec{u}\dotprod\vec{v}=0 \)）。
+    \end{answer}
+  \item 
+    证明 \( \absval{\vec{u}\,}=\absval{\vec{v}\,} \)
+    当且仅当 \( \vec{u}+\vec{v} \) 与
+    \( \vec{u}-\vec{v} \) 垂直。
+    在 \( \Re^2 \) 中举一个例子。
+    \begin{answer}
+      当 \( \vec{u},\vec{v}\in\Re^n \) 时，向量
+      \( \vec{u}+\vec{v} \) 与 \( \vec{u}-\vec{v} \) 垂直当且
+      仅当
+      $0=(\vec{u}+\vec{v})\dotprod(\vec{u}-\vec{v})
+         =\vec{u}\dotprod\vec{u}-\vec{v}\dotprod\vec{v}$，
+      这表明这两个向量垂直当且仅当
+      \( \vec{u}\dotprod\vec{u}=\vec{v}\dotprod\vec{v} \)。
+      而这又当且仅当 \( \absval{\vec{u}\,}=\absval{\vec{v}\,} \) 时成立。  
+   \end{answer}
+  \item 
+    证明：若一个向量与另外两个向量各自垂直，则
+    它与这两个向量张成的平面中的每个向量垂直。
+    （\textit{注：} 
+    它们张成的可能是 
+    退化平面\Dash 一条直线或一个点\Dash 但
+    该论断仍然成立。）
+    \begin{answer}
+      设 \( \vec{u}\in\Re^n \) 与
+      \( \vec{v}\in\Re^n \) 及 \( \vec{w}\in\Re^n \) 都垂直。
+      那么，对任意 \( k,m\in\Re \) 我们有下式。
+      \begin{equation*}
+        \vec{u}\dotprod(k\vec{v}+m\vec{w})
+        =k(\vec{u}\dotprod\vec{v})+m(\vec{u}\dotprod\vec{w})
+        =k(0)+m(0)=0
+      \end{equation*}  
+    \end{answer}
+  \item 
+    证明：当 \( \vec{u},\vec{v}\in\Re^n \) 为非零向量时，
+    向量
+    \begin{equation*}
+       \frac{\vec{u}}{\absval{\vec{u}\,} }+\frac{\vec{v}}{\absval{\vec{v}\,} }
+    \end{equation*}
+    平分它们之间的夹角。
+    在 \( \Re^2 \) 中加以图示。
+    \begin{answer}
+      我们来证明一个更一般的结论：~若
+      \( \absval{\vec{z}_1}=\absval{\vec{z}_2} \)，其中
+      \( \vec{z}_1,\vec{z}_2\in\Re^n \)，则 \( \vec{z}_1+\vec{z}_2 \)
+      平分 \( \vec{z}_1 \) 与 \( \vec{z}_2 \) 之间的夹角
+      \begin{center}
+        \setlength{\unitlength}{4pt}      % sum of equal length vectors.
+        \begin{picture}(37,12)(0,0)
+          \put(0,0){\begin{picture}(12,12)(0,0)
+                      \thicklines
+                      \put(0,0){\vector(2,1){8} }
+                      \put(0,0){\vector(1,2){4} }
+                      \put(0,0){\vector(1,1){12} }
+                      \thinlines
+                      \put(8,4){\line(1,2){4} }
+                      \put(4,8){\line(2,1){8} }
+                    \end{picture} }
+          \put(18.5,7){\makebox(0,0){\small 可得} }
+          \put(25,0){\begin{picture}(12,12)(0,0)
+                      \thinlines
+                      \put(0,0){\line(2,1){8} }
+                      \put(0,0){\line(1,2){4} }
+                      \put(0,0){\line(1,1){12} }
+                      \put(8,4){\line(1,2){4} }
+                      \put(4,8){\line(2,1){8} }
+
+                      \put(2,3.8){\( \prime \)}
+                      \put(4.2,1.5){\( \prime \)}
+                      \multiput(5.7,5.2)(0.5,0.5){2}{\( \prime \)}
+                      \multiput(9.0,5.8)(0.5,1.0){3}{\( \prime \)}
+                      \multiput(6.6,8.7)(0.6,0.3){3}{\( \prime \)}
+                    \end{picture} }
+        \end{picture}
+      \end{center}
+      （我们忽略 \( \vec{z}_1 \) 与 \( \vec{z}_2 \) 为
+      零向量的情形）。
+
+      \( \vec{z}_1+\vec{z}_2=\zero \) 的情形很容易。
+      对其余情形，由夹角的定义， 
+      只需证明下式即告完成。
+      \begin{equation*}
+        \frac{\vec{z}_1\dotprod(\vec{z}_1+\vec{z}_2)}{
+              \absval{\vec{z}_1}\,\absval{\vec{z}_1+\vec{z}_2} }
+        =
+        \frac{\vec{z}_2\dotprod(\vec{z}_1+\vec{z}_2)}{
+              \absval{\vec{z}_2}\,\absval{\vec{z}_1+\vec{z}_2} }
+      \end{equation*}
+      而在每个表达式内部展开则得
+      \begin{equation*}
+        \frac{\vec{z}_1\dotprod\vec{z}_1+\vec{z}_1\dotprod\vec{z}_2}{
+              \absval{\vec{z}_1}\,\absval{\vec{z}_1+\vec{z}_2} }
+        \qquad
+        \frac{\vec{z}_2\dotprod\vec{z}_1+\vec{z}_2\dotprod\vec{z}_2}{
+              \absval{\vec{z}_2}\,\absval{\vec{z}_1+\vec{z}_2} }
+      \end{equation*}
+      且 \( \vec{z}_1\dotprod\vec{z}_1=\absval{\vec{z}_1}^2
+              =\absval{\vec{z}_2}^2=\vec{z}_2\dotprod\vec{z}_2 \)，故
+      两者相等。  
+    \end{answer}
+  \item 
+    验证夹角的定义在量纲上是正确的：
+    (1)~若 \( k>0 \)，则 \( k\vec{u} \)
+    与 \( \vec{v} \) 之间夹角的余弦等于 \( \vec{u} \)
+    与 \( \vec{v} \) 之间夹角的余弦；(2)~若 \( k<0 \)，则 \( k\vec{u} \) 与 \( \vec{v} \)
+    之间夹角的余弦是 \( \vec{u} \) 与 \( \vec{v} \) 之间夹角
+    余弦的相反数。
+    \begin{answer}
+      我们可以把这两个论断一并证明。
+      设 \( \vec{u}, \vec{v}\in\Re^n \)，写 
+      \begin{equation*}
+         \vec{u}=\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}
+         \qquad
+         \vec{v}=\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+      \end{equation*}
+      并计算。 
+      \begin{equation*}
+        \cos\theta=
+        \frac{ku_1v_1+\cdots+ku_nv_n}{
+             \sqrt{{(ku_1)}^2+\cdots+{(ku_n)}^2}\sqrt{{b_1}^2+\cdots+{b_n}^2} }
+        =\frac{k}{\absval{k}}
+        \frac{\vec{u}\cdot\vec{v}}{\absval{\vec{u}\,}\,\absval{\vec{v}\,} }
+        =\pm
+        \frac{\vec{u}\dotprod\vec{v}}{\absval{\vec{u}\,}\,\absval{\vec{v}\,} }
+      \end{equation*}  
+    \end{answer}
+  \recommended \item 
+    证明内积运算具有\definend{线性}：~对
+    \( \vec{u},\vec{v},\vec{w}\in\Re^n \) 及 \( k,m\in\Re \)，
+    $\vec{u}\dotprod(k\vec{v}+m\vec{w})=
+       k(\vec{u}\dotprod\vec{v})+m(\vec{u}\dotprod\vec{w})$。
+    \begin{answer}
+      设
+      \begin{equation*}
+        \vec{u}=\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n},
+        \quad
+        \vec{v}=\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+        \quad
+        \vec{w}=\colvec{w_1 \\ \vdotswithin{w_1} \\ w_n}
+      \end{equation*}
+      于是
+      \begin{align*}
+        \vec{u}\dotprod\bigl(k\vec{v}+m\vec{w}\bigr)
+        &=\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}\dotprod
+         \bigl( \colvec{kv_1 \\ \vdotswithin{kv_1} \\ kv_n}
+               +\colvec{mw_1 \\ \vdotswithin{mw_1} \\ mw_n} \bigr)   \\
+        &=\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}\dotprod
+         \colvec{kv_1+mw_1 \\ \vdotswithin{kv_1+mw_1} \\ kv_n+mw_n}    \\
+        &=u_1(kv_1+mw_1)+\cdots+u_n(kv_n+mw_n)    \\
+        &=ku_1v_1+mu_1w_1+\cdots+ku_nv_n+mu_nw_n    \\
+        &=(ku_1v_1+\cdots+ku_nv_n)+(mu_1w_1+\cdots+mu_nw_n)    \\
+        &=k(\vec{u}\dotprod\vec{v})+m(\vec{u}\dotprod\vec{w})
+      \end{align*}  
+      这正是所要证的。
+    \end{answer}
+  % \item 
+  %   The \definend{geometric mean}\index{mean!geometric} 
+  %   of two positive reals \( x, y \) is \( \sqrt{xy} \).
+  %   It is analogous to the \definend{arithmetic mean}\index{mean!arithmetic} 
+  %   \( (x+y)/2 \).
+  %   Use the Cauchy-Schwarz inequality to show that
+  %   the geometric mean of any \( x,y\in\Re \) is less
+  %   than or equal to the arithmetic mean.
+  %   \begin{answer}
+  %     For \( x,y\in\Re^+ \), set
+  %     \begin{equation*}
+  %       \vec{u}=\colvec{\sqrt{x} \\ \sqrt{y}}
+  %       \qquad
+  %       \vec{v}=\colvec{\sqrt{y} \\ \sqrt{x}}
+  %     \end{equation*}
+  %     so that the Cauchy-Schwarz inequality asserts that (after squaring)
+  %     \begin{align*}
+  %       (\sqrt{x}\sqrt{y}+\sqrt{y}\sqrt{x})^2
+  %       &\leq(\sqrt{x}\sqrt{x}+\sqrt{y}\sqrt{y})(\sqrt{y}\sqrt{y}
+  %                                             +\sqrt{x}\sqrt{x})   \\
+  %       (2\sqrt{x}\sqrt{y})^2
+  %       &\leq(x+y)^2                            \\
+  %       \sqrt{xy}
+  %       &\leq\frac{x+y}{2}
+  %     \end{align*}
+  %     as desired.  
+  %   \end{answer}
+  \puzzle \item 
+    \cite{Cleary}
+    占星家声称，通过把 $2000$~年前
+    星辰所在的位置纳入考量，便能识别出
+    随个人生日而异的人格与运势走向。
+    %, during the Hellenistic period.  
+    假如提出这套体系的不是观星占卜的人，而是一群喜欢线性代数的数学教师
+    （我们称他们为“向量术士”），他们想出了如下类似的系统：~把你的生日
+    看作行向量
+    $\rowvec{\text{月} &\text{日}}$。  
+    例如，我生于7~月$12$日，所以我的向量就是
+    $\rowvec{7  &12}$。  
+    向量术士们定下规则：两人相处是否融洽
+    取决于向量之间的夹角。  
+    夹角越小，关系越和睦。
+    \begin{exparts}
+      \item 求你的向量与我的向量之间的夹角，
+        以弧度计。
+      \item 你会与我相处得更好，
+        还是与一位生于9~月$19$日的教授相处得更好？
+      \item 若要关系最为和睦，
+        对方应当生于何时？ 
+      \item 是否存在与你具有“最糟情形”关系的人，
+        即你的向量与他的向量正交？  
+        若有，这类人的生日是什么？  
+        若无，请解释为什么。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \item 例如，生日为10~月$12$日时得到下式。
+          \begin{equation*}
+            \theta
+            =
+            \arccos(\,\frac{\colvec[r]{7 \\ 12}\dotprod\colvec[r]{10 \\ 12}}{
+                  \absval{\colvec[r]{7 \\ 12}\,}\cdot\absval{\colvec[r]{10 \\ 12}\,} }\,)
+            =\arccos(\frac{214}{\sqrt{244}\sqrt{193}})
+            \approx \text{$0.17$~弧度}
+          \end{equation*}
+        \item 把同一公式用于 $\rowvec{9 &19}$，得
+           约 $0.09$~弧度。
+        \item 若对方生于
+           同一天，则夹角为 $0$~弧度。
+           若一个生日是另一个生日的标量倍数，夹角也会为 $0$。
+           例如，生于3~月$6$日的人 
+           与生于2~月$4$日的人关系和睦。
+
+          给定一个生日，我们可以让 \Sage{} 
+          绘出其他日期所对应的夹角。
+          本例展示了所有日期与7~月12日的关系。
+\begin{lstlisting}
+  sage: plot3d(lambda x, y: math.acos((x*7+y*12)/(math.sqrt(7**2+12**2)*math.sqrt(x**2+y**2))),
+                                                                 (1,12),(1,31))
+\end{lstlisting}
+          % The result looks like this.
+          \begin{center}
+            \includegraphics[height=2in]{gr/bin/rcbday.jpg}
+          \end{center}
+        \item 我们希望最大化下式。
+          \begin{equation*}
+            \theta
+            =
+            \arccos(\,\frac{\colvec[r]{7 \\ 12}\dotprod\colvec{m \\ d}}{
+                  \absval{\colvec[r]{7 \\ 12}\,}\cdot\absval{\colvec{m \\ d}\,} }\,)
+          \end{equation*}
+          当然，$m$ 与 $d$ 都不能取负值，因此我们
+          无法得到与给定向量正交的向量。
+          下面的 Python 脚本用暴力法求出最大夹角。
+\begin{lstlisting}
+  import math
+  days={1:31,  # Jan
+        2:29, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
+  BDAY=(7,12)
+  max_res=0
+  max_res_date=(-1,-1)
+  for month in range(1,13):
+      for day in range(1,days[month]+1):
+          num=BDAY[0]*month+BDAY[1]*day
+          denom=math.sqrt(BDAY[0]**2+BDAY[1]**2)*math.sqrt(month**2+day**2)
+          if denom>0:
+              res=math.acos(min(num*1.0/denom,1))
+              print "day:",str(month),str(day)," angle:",str(res)
+              if res>max_res:
+                  max_res=res
+                  max_res_date=(month,day)
+  print "For ",str(BDAY),"worst case",str(max_res),"rads, date",str(max_res_date)
+  print "  That is ",180*max_res/math.pi,"degrees"
+\end{lstlisting}
+          结果为 
+\begin{lstlisting}
+  For  (7, 12) worst case 0.95958064648 rads, date (12, 1)
+    That is  54.9799211457 degrees
+\end{lstlisting}
+
+          更具概念性的方法是考察所有点 
+          $(\text{月},\text{日})$ 与点 $(7,12)$ 的关系。
+          下图
+          清楚地表明答案是12~月$1$日或1~月$31$日，取决于
+          哪个离生日更远。 
+          虚线平分从原点到
+          12~月$1$日的直线与从原点到1~月$31$日的直线之间的夹角。
+          直线以上的生日离12~月$1$日最远， 
+          直线以下的生日离1~月$31$日最远。
+          \begin{center}
+            \includegraphics{gr/mp/ch1.54}
+          \end{center}
+      \end{exparts}
+    \end{answer}
+  \puzzle \item 
+    \cite{Monthly33p118}
+    一艘船以速度和方向 \( \vec{v}_1 \) 航行；视风（依桅杆上的风向标判断）
+    沿向量
+    \( \vec{a} \) 的方向吹；当船的方向与速度从
+    \( \vec{v}_1 \) 变为 \( \vec{v}_2 \) 后，视风沿
+    向量 \( \vec{b} \) 的方向。
+
+    求风的向量速度。
+    \begin{answer}
+      \answerasgiven %
+      风的实际速度 \( \vec{v} \) 等于
+      船的速度与风的视速度之和。
+      不失一般性，可设 \( \vec{a} \) 与
+      \( \vec{b} \) 为单位向量，并可写成
+      \begin{equation*}
+         \vec{v}=\vec{v}_1+s\vec{a}=\vec{v}_2+t\vec{b}
+      \end{equation*}
+      其中 \( s \) 与 \( t \) 为待定标量。
+      先与 \( \vec{a} \) 作点积、再与 \( \vec{b} \) 作点积
+      以得到
+      \begin{align*}
+         s-t\vec{a}\dotprod\vec{b}
+         &=\vec{a}\dotprod(\vec{v}_2-\vec{v}_1)    \\
+         s\vec{a}\dotprod\vec{b}-t
+         &=\vec{b}\dotprod(\vec{v}_2-\vec{v}_1)
+      \end{align*}
+      将第二式乘以 \( \vec{a}\dotprod\vec{b} \)， 
+      再从第一式中减去所得结果，便求得
+      \begin{equation*}
+         s=
+         \frac{[\vec{a}-(\vec{a}\dotprod\vec{b})\vec{b}]
+                   \dotprod(\vec{v}_2-\vec{v}_1)
+              }{1-(\vec{a}\dotprod\vec{b})^2}.
+      \end{equation*}
+      代回原来的方程，便得
+      \begin{equation*}
+         \vec{v}=\vec{v}_1+
+         \frac{[\vec{a}-(\vec{a}\dotprod\vec{b})\vec{b}]
+                 \dotprod(\vec{v}_2-\vec{v}_1)
+             \vec{a}}{1-(\vec{a}\dotprod\vec{b})^2}.
+      \end{equation*}  
+    \end{answer}
+  \item  
+     通过先证明
+     Lagrange 恒等式来验证 Cauchy-Schwarz 不等式：
+     \begin{equation*}
+      \left(\sum_{1\leq j\leq n} a_jb_j \right)^2
+      =
+      \left(\sum_{1\leq j\leq n}a_j^2\right)
+      \left(\sum_{1\leq j\leq n}b_j^2\right)
+      -
+      \sum_{1\leq k < j\leq n}(a_kb_j-a_jb_k)^2
+     \end{equation*}
+     然后注意到最后一项为正。
+     % (Recall the meaning
+     % \begin{equation*}
+     %   \sum_{1\leq j\leq n}a_jb_j=
+     %   a_1b_1+a_2b_2+\cdots+a_nb_n
+     % \end{equation*}
+     % and
+     % \begin{equation*}
+     %   \sum_{1\leq j\leq n}{a_j}^2=
+     %   {a_1}^2+{a_2}^2+\cdots+{a_n}^2
+     % \end{equation*}
+     % of the \( \Sigma \) notation.)
+     这一结果 
+     是对 Cauchy-Schwarz 不等式的改进，因为它给出了
+     两边之差的公式。
+     请在 \( \Re^2 \) 中解释这个差。
+     \begin{answer}
+       我们对 \( n \) 使用归纳法。
+
+       在 \( n=1 \) 的基底情形，该恒等式化为
+       \begin{equation*}
+          (a_1b_1)^2=({a_1}^2)({b_1}^2)-0
+       \end{equation*}
+       显然成立。
+
+       归纳步骤假设该公式对 
+       \( 0 \), \ldots, \( n \) 各情形成立。
+       我们将证明它在 \( n+1 \) 情形也成立。
+       从右端出发
+       \begin{multline*}
+         \bigl( \sum_{1\leq j\leq n+1}{a_j}^2\bigr)
+         \bigl( \sum_{1\leq j\leq n+1}{b_j}^2\bigr)
+         -
+         \sum_{1\leq k<j\leq n+1}\bigl(a_kb_j-a_jb_k\bigr)^2  \\
+       \begin{aligned}
+         &=
+         \bigl[ (\sum_{1\leq j\leq n}{a_j}^2)+{a_{n+1}}^2\bigr]
+         \bigl[ (\sum_{1\leq j\leq n}{b_j}^2)+{b_{n+1}}^2\bigr]   \\     
+         &\hbox{}\quad -
+         \bigl[\sum_{1\leq k<j\leq n}\bigl(a_kb_j-a_jb_k\bigr)^2+
+         \sum_{1\leq k\leq n}\bigl(a_kb_{n+1}-a_{n+1}b_k\bigr)^2  \bigr] \\
+         &=
+         \bigl( \sum_{1\leq j\leq n}{a_j}^2\bigr)
+         \bigl( \sum_{1\leq j\leq n}{b_j}^2\bigr)
+         +
+         \sum_{1\leq j\leq n}{b_j}^2{a_{n+1}}^2                 
+         +
+         \sum_{1\leq j\leq n}{a_j}^2{b_{n+1}}^2
+         +
+         {a_{n+1}}^2{b_{n+1}}^2                                 \\
+         &\hbox{}\qquad\hbox{} -
+         \bigl[\sum_{1\leq k<j\leq n}\bigl(a_kb_j-a_jb_k\bigr)^2+
+         \sum_{1\leq k\leq n}\bigl(a_kb_{n+1}-a_{n+1}b_k\bigr)^2  \bigr] \\
+         &=
+         \bigl( \sum_{1\leq j\leq n}{a_j}^2\bigr)
+         \bigl( \sum_{1\leq j\leq n}{b_j}^2\bigr)
+         -\sum_{1\leq k<j\leq n}\bigl(a_kb_j-a_jb_k\bigr)^2   \\   
+         &\hbox{}\quad +
+         \sum_{1\leq j\leq n}{b_j}^2{a_{n+1}}^2
+         +
+         \sum_{1\leq j\leq n}{a_j}^2{b_{n+1}}^2
+         +
+         {a_{n+1}}^2{b_{n+1}}^2                                 \\
+         &\hbox{}\qquad\hbox{} -
+         \sum_{1\leq k\leq n}\bigl(a_kb_{n+1}-a_{n+1}b_k\bigr)^2
+        \end{aligned}
+       \end{multline*}
+       再应用归纳假设。
+       \begin{align*}
+         &=
+         \bigl( \sum_{1\leq j\leq n}a_jb_j\bigr)^2              
+         +
+         \sum_{1\leq j\leq n}{b_j}^2{a_{n+1}}^2
+         +
+         \sum_{1\leq j\leq n}{a_j}^2{b_{n+1}}^2
+         +
+         {a_{n+1}}^2{b_{n+1}}^2                          \\              
+         &\hbox{}\qquad\hbox{}-
+         \bigl[\sum_{1\leq k\leq n}{a_k}^2{b_{n+1}}^2
+           -2\sum_{1\leq k\leq n}a_kb_{n+1}a_{n+1}b_k
+           +\sum_{1\leq k\leq n}{a_{n+1}}^2{b_k}^2\bigr]        \\
+         &=
+         \bigl( \sum_{1\leq j\leq n}a_jb_j\bigr)^2
+         +2\bigl(\sum_{1\leq k\leq n}a_kb_{n+1}a_{n+1}b_k\bigr)
+         +{a_{n+1}}^2{b_{n+1}}^2                                 \\
+         &=
+         \bigl[\bigl(\sum_{1\leq j\leq n}a_jb_j\bigr)+a_{n+1}b_{n+1}\bigr]^2
+       \end{align*}
+       即得左端。  
+   \end{answer}
+\end{exercises}
+

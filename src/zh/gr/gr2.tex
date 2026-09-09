@@ -1,0 +1,2045 @@
+% Chapter 1, Section 2 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linalg.html
+%  2001-Jun-09
+\section{线性几何}
+\textit{如果你已经见过向量的基本内容，那么
+本节是一份可选的复习。
+不过，后面的内容会用到这里的材料，
+所以如果这对你不是复习，那么它就不是可选的。}
+
+在第一节中，我们费了些功夫才证明
+解集只有三种类型\Dash 单点集、空集与
+无限集。
+但
+对于含两个方程两个未知元的方程组，从几何上看这一点很容易。
+把每个二元方程画成平面中的一条直线，那么这两条直线
+可能交于唯一一点，
+平行，或者重合为同一条直线。
+%<*diagram:ThreeKindsSolutionSets>
+\begin{center}
+  \begin{minipage}[b]{1.45in}
+    \raisebox{-2pt}[8pt][0pt]{\small \begin{tabular}{@{}l}
+      \small \textit{唯一解}
+    \end{tabular}}
+    \begin{center}
+      \includegraphics{gr/mp/ch1.3} \\[.75ex]
+      \small $\begin{linsys}{2}
+                         3x  &+  &2y  &=  &7   \\
+                         x   &-  &y   &=  &-1
+                       \end{linsys}$
+    \end{center}
+  \end{minipage}
+  \hspace*{0em}
+  \begin{minipage}[b]{1.45in}
+    \raisebox{-2pt}[8pt][0pt]{\small \begin{tabular}{@{}l}
+      \small \textit{无解}
+    \end{tabular}}
+    \begin{center}
+      \includegraphics{gr/mp/ch1.4} \\[.75ex]
+      \small $\begin{linsys}{2}
+                         3x  &+  &2y  &=  &7   \\
+                         3x  &+  &2y  &=  &4
+                       \end{linsys}$
+    \end{center}
+  \end{minipage}
+  \hspace*{0em}
+  \begin{minipage}[b]{1.45in}
+    \raisebox{-2pt}[8pt][0pt]{\small \begin{tabular}[t]{@{}l}
+      \textit{无穷多} \\
+      \textit{个解}
+    \end{tabular}}
+    \begin{center}
+      \includegraphics{gr/mp/ch1.5}         \\[.75ex]
+      \small $ \begin{linsys}{2}
+                         3x  &+  &2y  &=  &7   \\
+                         6x  &+  &4y  &=  &14
+                       \end{linsys}$
+    \end{center}
+  \end{minipage}
+\end{center}
+%</diagram:ThreeKindsSolutionSets>
+这些图形并不是证明前一节诸结论的捷径，因为那些结论
+适用于含任意多个变量的线性方程组。
+但它们确实提供了直观上的认识，是看待那些结论的另一种方式。
+
+本节将建立把我们的结论用几何方式表达所需的工具。
+特别地，虽然二维情形是我们所熟悉的，
+但要推广到含两个以上未知元的方程组，我们将需要一些高维几何。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsectionoptional{空间中的向量}
+“高维几何”听起来很新奇。
+它确实新奇\Dash 有趣而且令人大开眼界。
+但它并不遥远，也并非难以企及。
+
+我们先把一维空间定义为 \( \Re \)。
+为看出这个定义是合理的，
+想象一维空间
+\begin{center}
+  \includegraphics{gr/mp/ch1.6}
+\end{center}
+并选取一点标记为 $0$，另选一点标记为~$1$。
+\begin{center}
+  \includegraphics{gr/mp/ch1.7}
+\end{center}
+现在，有了刻度和方向，我们便与 \( \Re \) 建立了对应。
+例如，要找与 \( +2.17 \) 相配的点，从 \( 0 \) 出发，朝 \( 1 \) 的方向前进，
+走过 \( 2.17 \) 倍的距离即可。
+
+这里把大小与方向结合起来的基本想法，
+是推广到更高维的关键。
+
+$\Re^n$ 中由一个大小和一个方向组成的对象
+称为\definend{向量\/}\index{vector}
+（我们使用与前一节相同的词，因为我们将在下文说明
+如何用列向量来描述这样的对象）。
+我们可以把向量画成有某个长度并指向某个方向的图形。
+\begin{center}
+  \includegraphics{gr/mp/ch1.8}
+\end{center}
+把向量定义为由大小和方向组成时，有一个微妙之处\Dash 下面的这两个
+\begin{center}
+  \includegraphics{gr/mp/ch1.9}
+\end{center}
+是相等的，尽管它们从不同的位置出发。
+它们相等，是因为它们长度相等且方向相同。
+再强调一遍：那些向量不仅相似，它们是相等的。
+
+处于不同位置的东西怎么会相等？
+把向量想成表示一个位移
+（“vector”一词在拉丁语中的意思是“搬运者”或“旅行者”）。
+这两个正方形经历的位移相等，尽管它们从不同的位置出发。
+\begin{center}
+  \includegraphics{gr/mp/ch1.10}
+\end{center}
+当我们想强调向量并不固定于某处这一性质时，
+我们称它们为\definend{自由}\index{vector!free}向量。
+于是，这些自由向量是相等的，
+因为每一个都是向右一、向上二的位移。
+\begin{center}
+  \includegraphics{gr/mp/ch1.12}
+\end{center}
+更一般地，平面中的向量相同当且仅当它们
+第一分量的改变量相同且第二分量的改变量相同：~从
+\( (a_1,a_2) \)
+延伸到 \( (b_1,b_2) \) 的向量等于从
+\( (c_1,c_2) \) 到 \( (d_1,d_2) \) 的向量，当且仅当
+\( b_1-a_1=d_1-c_1 \) 且 \( b_2-a_2=d_2-c_2 \)。
+
+说“那个假若从 \( (a_1,a_2) \) 出发
+就会延伸到 \( (b_1,b_2) \) 的向量”会很不方便。
+我们转而把这个向量描述为
+\begin{equation*}
+  \colvec{b_1-a_1 \\ b_2-a_2}
+\end{equation*}
+这样，上面所示的“向右一、向上二”的箭头
+就表示成这种形式。
+\begin{equation*}
+  \colvec[r]{1 \\ 2}
+\end{equation*}
+我们常把箭头画成从原点出发，并说它处于
+\definend{规范位置}\index{vector!canonical position}
+（或\definend{自然位置}\index{vector!natural position}
+或\definend{标准位置}\index{vector!standard position}）。
+当
+\begin{equation*}
+  \vec{v}=\colvec{v_1 \\ v_2}
+\end{equation*}
+处于规范位置时，它从原点延伸到终点 $(v_1,v_2)$。
+
+我们通常会说“点
+\begin{equation*}
+  \colvec[r]{1 \\ 2}\text{”}
+\end{equation*}
+而不是说那个向量的“规范位置的终点”。
+% That is, we shall find it convienent to blur the distinction between a point
+% in space and the vector that, if it starts at the origin, ends at that
+% point.
+因此，我们把下面两者都称为 \( \Re^2 \)。
+\begin{equation*}
+   \set{(x_1,x_2)\suchthat x_1,x_2\in\Re}
+   \qquad
+   \set{\colvec{x_1 \\ x_2}\suchthat x_1,x_2\in\Re}
+\end{equation*}
+
+在前一节中，我们出于代数上的动机定义了向量与向量运算；
+\begin{equation*}
+   r\cdot\colvec{v_1 \\ v_2}
+   =
+   \colvec{rv_1 \\ rv_2}
+  \qquad
+   \colvec{v_1 \\  v_2}
+   +
+   \colvec{w_1 \\ w_2}
+   =
+   \colvec{v_1+w_1 \\ v_2+w_2}
+\end{equation*}
+现在我们可以从几何上理解这些运算。%
+\index{vector!sum}\index{vector!scalar multiple}\index{sum!vector}
+\index{scalar multiple!vector}
+例如，若 \( \vec{v} \) 表示一个位移，
+则 \( 3\vec{v}\, \) 表示沿同一方向但三倍远的位移，
+而 \( -1\vec{v}\, \) 表示与 \( \vec{v}\, \) 距离相同但方向相反的位移。
+\begin{center}
+  \includegraphics{gr/mp/ch1.13}
+\end{center}
+又，当 \( \vec{v} \) 与 \( \vec{w} \) 表示位移时，
+\( \vec{v}+\vec{w}\/ \) 表示这两个位移的合成。
+\begin{center}
+  \includegraphics{gr/mp/ch1.14}
+\end{center}
+长箭头就是这个合成位移，其含义如下：想象你正
+在轮船的甲板上行走。
+假设在一分钟内，
+船的运动使船相对于海水产生了位移 $\vec{v}$，
+而在同一分钟内，你的行走使你相对于甲板产生了位移 $\vec{w}$。
+那么 $\vec{v}+\vec{w}\/$ 就是
+你相对于海水的位移。
+
+理解向量和的另一种方式是借助
+\definend{平行四边形法则}。\index{parallelogram rule}%
+\index{vector!sum}
+画出由向量 $\vec{v}$ 与 $\vec{w}$ 构成的平行四边形。
+那么和 $\vec{v}+\vec{w}$\index{vector!sum}\index{addition of vectors}
+沿对角线延伸到对角的顶点。
+\begin{center}
+  \includegraphics{gr/mp/ch1.15}
+\end{center}
+
+上面的图形展示了向量及向量运算
+在 \( \Re^2 \) 中的表现。
+我们可以推广到 $\Re^3$，或推广到没有图形可用的更高维空间，
+做法是下述显然的推广：~从
+\( (a_1,\ldots,a_n) \) 出发而到达 \( (b_1,\ldots,b_n) \) 的
+自由向量由这一列表示。
+\begin{equation*}
+  \colvec{b_1-a_1 \\ \vdotswithin{b_1-a_1} \\ b_n-a_n}
+\end{equation*}
+若向量有相同的表示，则它们相等。
+对于点与规范表示终止于该点的那个向量，我们并不过分讲究二者的区分。
+\begin{equation*}
+  \Re^n=
+  \set{\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}\suchthat v_1,\ldots,v_n\in\Re}
+\end{equation*}
+并且，我们按分量做加法与标量乘法。
+
+考虑过点之后，我们接下来考虑直线。\index{line}
+在 $\Re^2$ 中，过 \( (1,2) \) 与 \( (3,1) \) 的直线
+由这个集合中诸向量（的终点）组成。
+% \begin{equation*}
+%    \set{ \colvec[r]{1 \\ 2}+t\colvec[r]{2 \\ -1}\suchthat t\in\Re}
+% \end{equation*}
+% That description expresses this picture.
+\begin{center}
+  \includegraphics{gr/mp/ch1.16}
+\end{center}
+在这个描述中，与参数~\( t \) 相伴的向量
+\begin{equation*}
+  \colvec[r]{2 \\ -1}=\colvec[r]{3 \\ 1}-\colvec[r]{1 \\ 2}
+\end{equation*}
+就是图中画成整条身躯都落在直线上的那一个\Dash 它是这条直线的
+一个\definend{方向向量}\index{vector!direction}%
+\index{direction vector}。
+注意，这条直线上位于 \( x=1 \) 左边的点
+要用 \( t \) 的负值来描述。
+% Note also that this description of lines generalizes the familiar
+% $y=b+mx$ form for lines in the plane.
+
+在 \( \Re^3 \) 中，
+过 \( (1,2,1) \) 与 \( (0,3,2) \) 的直线是这种形式的向量（的终点）组成的集合
+\begin{center}
+  \includegraphics{gr/mp/ch1.17}
+  % \includegraphics{gr/mp/ch1.55}
+\end{center}
+而更高维空间中的直线也以同样的方式处理。
+
+在 $\Re^3$ 中，
+一条直线使用一个参数，因此该直线上的质点
+可以沿一维自由地来回移动。
+一张平面则涉及两个参数。
+例如，过点
+\( (1,0,5) \)、\( (2,1,-3) \) 与 \( (-2,4,0.5) \) 的平面
+由这个集合中诸向量（的终点）组成。
+\begin{equation*}
+  \set{ \colvec[r]{1 \\ 0 \\ 5}
+         +t\colvec[r]{1 \\ 1 \\ -8}
+         +s\colvec[r]{-3 \\ 4 \\ -4.5}
+       \suchthat t,s\in\Re      }
+\end{equation*}
+与各参数相伴的列向量来自这些计算。
+\begin{equation*}
+  \colvec[r]{1 \\ 1 \\ -8}
+  =
+  \colvec[r]{2 \\ 1 \\ -3}
+  -
+  \colvec[r]{1 \\ 0 \\ 5}
+  \qquad
+  \colvec[r]{-3 \\ 4 \\ -4.5}
+  =
+  \colvec[r]{-2 \\ 4 \\ 0.5}
+  -
+  \colvec[r]{1 \\ 0 \\ 5}
+\end{equation*}
+与直线一样，注意我们用负的 $t$、负的 $s$，或两者兼有，
+来描述这个平面中的一些点。
+
+微积分教材常用一个线性方程来描述平面。
+% \newsavebox{\jhscratchbox}
+% \savebox{\jhscratchbox}{\includegraphics{gr/mp/ch1.18}}
+% \newlength{\jhscratchlength}\newlength{\jhscratchheight}
+% \settowidth{\jhscratchlength}{\usebox{\jhscratchbox}}
+\begin{equation*}
+  % \usebox{\jhscratchbox}
+  \vcenteredhbox{\includegraphics{gr/mp/ch1.18}}
+\end{equation*}
+% \begin{equation*}
+%   P=\set{\colvec{x \\ y \\ z}\suchthat 2x+3y-z=4}
+% \end{equation*}
+要从这个描述转到向量描述，
+把它看成只含一个方程的线性方程组并参数化：\( x=2-y/2-z/2 \)。
+\begin{equation*}
+   \vcenteredhbox{\includegraphics{gr/mp/ch1.19}}
+\end{equation*}
+图中以灰色画出的是与 $y$ 和~$z$ 相伴的向量，它们从原点沿 $x$ 轴平移~$2$ 个单位，
+从而整条身躯都落在平面内。
+于是这两个向量的和，即以黑色画出的那个，
+连同平行四边形的其余部分，整条身躯都在平面内。
+% \begin{center}
+%   \makebox[\jhscratchlength][l]{\includegraphics{gr/mp/ch1.20}}
+% \end{center}
+% \begin{equation*}
+%   P=\set{\colvec[r]{2 \\ 0 \\ 0}
+%          +y\cdot\colvec[r]{-1/2 \\ 1 \\ 0}
+%          +z\cdot\colvec[r]{-1/2 \\ 0 \\ 1}\suchthat y,z\in\Re}
+% \end{equation*}
+
+推广一下，形如
+$\set{\vec{p}+t_1\vec{v}_1+t_2\vec{v}_2+\cdots+t_k\vec{v}_k
+             \suchthat t_1,\ldots ,t_k\in\Re}$
+（其中 \( \vec{v}_1,\ldots,\vec{v}_k\in\Re^n \) 且 $k\leq n$）的集合是一个
+\definend{\( k \) 维线性曲面}\index{linear surface}
+（或\definend{\( k \) 平坦集}\index{flat, $k$-flat}）。
+例如，在 $\Re^4$ 中
+\begin{equation*}
+  \set{\colvec[r]{2 \\ \pi \\ 3 \\ -0.5}
+       +t\colvec[r]{1 \\ 0 \\ 0 \\ 0}
+       \suchthat t\in\Re}
+\end{equation*}
+是一条直线，
+\begin{equation*}
+  \set{
+       \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+       +t\colvec[r]{1 \\ 1 \\ 0 \\ -1}
+       +s\colvec[r]{2 \\ 0 \\ 1 \\ 0}
+       \suchthat t,s\in\Re}
+\end{equation*}
+是一张平面，而
+\begin{equation*}
+  \set{
+       \colvec[r]{3 \\ 1 \\ -2 \\ 0.5}
+       +r\colvec[r]{0 \\ 0 \\ 0 \\ -1}
+       +s\colvec[r]{1 \\ 0 \\ 1 \\ 0}
+       +t\colvec[r]{2 \\ 0 \\ 1 \\ 0}
+       \suchthat r,s,t\in\Re}
+\end{equation*}
+是一个三维线性曲面。
+同样，直观的理解是：直线允许沿一个方向的运动，
+平面允许沿两个方向的组合运动，等等。
+当线性曲面的维数比空间的维数小一时，
+即当在 $\Re^n$ 中我们有一个
+$(n-1)$ 平坦集时，
+该曲面称为\definend{超平面}。\index{hyperplane}
+
+对线性曲面的描述在维数方面可能使人产生误解。
+例如，这个
+\begin{equation*}
+  L=\set{
+       \colvec[r]{1 \\ 0 \\ -1 \\ -2}
+       +t\colvec[r]{1 \\ 1 \\ 0 \\ -1}
+       +s\colvec[r]{2 \\ 2 \\ 0 \\ -2}
+       \suchthat t,s\in\Re}
+\end{equation*}
+是一个\definend{退化的}平面，因为它实际上是一条直线，
+这是因为
+这两个向量互为倍数，我们可以省去其中一个。
+\begin{equation*}
+  L=\set{
+       \colvec[r]{1 \\ 0 \\ -1 \\ -2}
+       +r\colvec[r]{1 \\ 1 \\ 0 \\ -1}
+       \suchthat r\in\Re}
+\end{equation*}
+在第二章的“线性无关”一节中，我们将看到向量之间的何种关系
+会使它们生成的线性曲面退化。
+
+现在我们可以
+用几何语言重述前面得到的结论。
+第一，含 \( n \) 个未知元的线性方程组的解集
+是 \( \Re^n \) 中的一个线性曲面。
+具体地说，它是一个 \( k \) 维线性曲面，其中
+\( k \) 是该方程组的某个阶梯形形式中
+自由变量的个数。
+例如，在单个方程的情形，解集是 $\Re^n$ 中的 $n-1$ 维超平面，其中 $n\geq 1$。
+第二，齐次线性方程组的解集
+是过原点的线性曲面。
+最后，我们可以把任一线性方程组的通解集
+看成是其相应的齐次方程组的解集
+从原点偏移一个向量而来，
+这个向量即任一特解。
+
+
+
+
+\begin{exercises}
+  \recommended \item
+    求每个向量的规范名称。
+    \begin{exparts}
+      \partsitem \( \Re^2 \) 中从 \( (2,1) \) 到 \( (4,2) \) 的向量
+      \partsitem \( \Re^2 \) 中从 \( (3,3) \) 到 \( (2,5) \) 的向量
+      \partsitem \( \Re^3 \) 中从 \( (1,0,6) \) 到 \( (5,0,3) \) 的向量
+      \partsitem \( \Re^3 \) 中从 \( (6,8,8) \) 到 \( (6,8,8) \) 的向量
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( \colvec[r]{2 \\ 1}  \)
+        \partsitem \( \colvec[r]{-1 \\ 2}  \)
+        \partsitem \( \colvec[r]{4 \\ 0 \\ -3}  \)
+        \partsitem \( \colvec[r]{0 \\ 0 \\ 0}  \)
+      \end{exparts*}  
+     \end{answer}
+  \recommended \item 
+    判断这两个向量是否相等。
+    \begin{exparts}
+      \partsitem 从 \( (5,3) \) 到 \( (6,2) \) 的向量与
+        从 \( (1,-2) \) 到 \( (1,1) \) 的向量
+      \partsitem 从 \( (2,1,1) \) 到 \( (3,0,4) \) 的向量与
+        从 \( (5,1,4) \) 到 \( (6,0,7) \) 的向量
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 不相等，它们的规范位置不同。
+          \begin{equation*}
+            \colvec[r]{1 \\ -1}
+            \qquad
+            \colvec[r]{0 \\ 3}
+          \end{equation*}
+        \partsitem 相等，它们的规范位置相同。
+          \begin{equation*}
+            \colvec[r]{1 \\ -1 \\ 3}
+          \end{equation*}
+      \end{exparts}  
+     \end{answer}
+  \recommended \item
+    \( (1,0,2,1) \) 是否在经过
+    \( (-2,1,1,0) \) 和 \( (5,10,-1,4) \) 的直线上？
+    \begin{answer}
+      这条直线是这个集合。
+      \begin{equation*}
+        \set{\colvec[r]{-2 \\ 1 \\ 1 \\ 0}
+             +\colvec[r]{7 \\ 9 \\ -2 \\ 4}t \suchthat t\in\Re }
+      \end{equation*}
+      注意，方程组
+      \begin{equation*}
+        \begin{linsys}{2}
+          -2  &+  &7t  &=  &1  \\
+           1  &+  &9t  &=  &0  \\
+           1  &-  &2t  &=  &2  \\
+           0  &+  &4t  &=  &1  
+        \end{linsys}
+      \end{equation*}
+      无解。
+      因此所给的点不在这条直线上。  
+    \end{answer}
+  \recommended \item
+     \begin{exparts}
+        \partsitem 描述经过 \( (1,1,5,-1) \)、
+           \( (2,2,2,0) \) 与 \( (3,1,0,4) \) 的平面。
+        \partsitem 原点在那个平面内吗？
+      \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 注意到
+          \begin{equation*}
+            \colvec[r]{2 \\ 2 \\ 2 \\ 0}
+            -\colvec[r]{1 \\ 1 \\ 5 \\ -1}
+            =\colvec[r]{1 \\ 1 \\ -3 \\ 1}
+            \qquad
+            \colvec[r]{3 \\ 1 \\ 0 \\ 4}
+            -\colvec[r]{1 \\ 1 \\ 5 \\ -1}
+            =\colvec[r]{2 \\ 0 \\ -5 \\ 5}
+          \end{equation*}
+          所以该平面是这个集合。
+          \begin{equation*}
+            \set{\colvec[r]{1 \\ 1 \\ 5 \\ -1}
+                 +\colvec[r]{1 \\ 1 \\ -3 \\ 1}t
+                 +\colvec[r]{2 \\ 0 \\ -5 \\ 5}s
+                \suchthat t,s\in\Re}
+          \end{equation*}
+        \partsitem 不在；方程组
+          \begin{equation*}
+            \begin{linsys}{3}
+              1  &+  &1t  &+  &2s  &=  &0  \\
+              1  &+  &1t  &   &    &=  &0  \\
+              5  &-  &3t  &-  &5s  &=  &0  \\
+             -1  &+  &1t  &+  &5s  &=  &0  
+            \end{linsys}
+          \end{equation*}
+          无解。
+      \end{exparts}  
+    \end{answer}
+  \item 给出下面每一个的向量描述。
+    \begin{exparts}
+      \item $\Re^3$~中方程为 $x-2y+z=4$ 的平面子集
+      \item $\Re^3$~中方程为 $2x+y+4z=-1$ 的平面
+      \item $\Re^4$~中方程为 $x+y+z+w=10$ 的超平面子集
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \item 把 $x-2y+z=4$ 看作只含一个方程的线性方程组，
+          以变量 $y$ 和~$z$ 为参数进行参数化，得到
+          $x=4+2y-z$。
+          由此得到这个平面的向量描述。
+          \begin{equation*}
+            \set{\colvec{x \\ y \\ z}=\colvec{4 \\ 0 \\ 0}
+                                       +\colvec{2 \\ 1 \\ 0}\cdot y
+                                       +\colvec{-1 \\ 0 \\ 1}\cdot z
+                             \suchthat y,z\in\Re}
+          \end{equation*}
+        \item 参数化给出 $x=-(1/2)-(1/2)y-2z$，
+          所以这就是向量描述。
+          \begin{equation*}
+            \colvec{x \\ y \\ z}=\colvec{-1/2 \\ 0 \\ 0}
+                                       +\colvec{-1/2 \\ 1 \\ 0}\cdot y
+                                       +\colvec{-2 \\ 0 \\ 1}\cdot z
+          \end{equation*}
+        \item 这里 
+          $x=10-y-z-w$，于是我们得到含三个参数的向量描述。
+          \begin{equation*}
+            \colvec{x \\ y \\ z \\ w}=\colvec{10 \\ 0 \\ 0 \\ 0}
+                                       +\colvec{-1 \\ 1 \\ 0 \\ 0}\cdot y
+                                       +\colvec{-1 \\ 0 \\ 1 \\ 0}\cdot z
+                                       +\colvec{-1 \\ 0 \\ 0 \\ 1}\cdot w
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 
+    描述包含这个点与这条直线的平面。
+    \begin{equation*}
+      \colvec[r]{2 \\ 0 \\ 3}
+      \qquad
+      \set{\colvec[r]{-1 \\ 0 \\ -4}
+           +\colvec[r]{1 \\ 1 \\ 2}t
+           \suchthat t\in\Re}
+    \end{equation*}
+    \begin{answer}
+      向量
+      \begin{equation*}
+        \colvec[r]{2 \\ 0 \\ 3}
+      \end{equation*}
+      不在这条直线上。
+      由于
+      \begin{equation*}
+        \colvec[r]{2 \\ 0 \\ 3}
+        -\colvec[r]{-1 \\ 0 \\ -4}
+        =\colvec[r]{3 \\ 0 \\ 7}
+      \end{equation*}
+      我们可以这样描述该平面。
+      \begin{equation*}
+        \set{\colvec[r]{-1 \\ 0 \\ -4}
+             +m\colvec[r]{1 \\ 1 \\ 2}
+             +n\colvec[r]{3 \\ 0 \\ 7}
+            \suchthat m,n\in\Re}
+      \end{equation*}  
+   \end{answer}
+  \recommended \item
+    求这两个平面的交。
+    \begin{equation*}
+      \set{\colvec[r]{1 \\ 1 \\ 1}t+
+           \colvec[r]{0 \\ 1 \\ 3}s
+           \suchthat t,s\in\Re}
+      \qquad
+      \set{\colvec[r]{1 \\ 1 \\ 0}
+           +\colvec[r]{0 \\ 3 \\ 0}k+
+           \colvec[r]{2 \\ 0 \\ 4}m
+           \suchthat k,m\in\Re}
+    \end{equation*}
+    \begin{answer}
+      重合的点就是下面这个方程组的解。
+      \begin{equation*}
+        \begin{linsys}{2}
+         t  &  &   &= &1+2m\hfill      \\
+         t  &+ &s  &= &1+3k\hfill      \\
+         t  &+ &3s &= &4m\hfill
+        \end{linsys}
+      \end{equation*}
+      用高斯消元法
+      \begin{align*}
+        \begin{amat}{4}
+          1  &0  &0  &-2  &1  \\
+          1  &1  &-3 &0   &1  \\
+          1  &3  &0  &-4  &0
+        \end{amat}
+        &\grstep[-\rho_1+\rho_3]{-\rho_1+\rho_2}
+        \begin{amat}{4}
+          1  &0  &0  &-2  &1  \\
+          0  &1  &-3 &2   &0  \\
+          0  &3  &0  &-2  &-1
+        \end{amat}                       \\                         
+        &\grstep{-3\rho_2+\rho_3}
+        \begin{amat}{4}
+          1  &0  &0  &-2  &1  \\
+          0  &1  &-3 &2   &0  \\
+          0  &0  &9  &-8  &-1
+        \end{amat}
+      \end{align*}
+      得到 \( k=-(1/9)+(8/9)m \)，所以 \( s=-(1/3)+(2/3)m \) 且 \( t=1+2m \)。
+      交是下面这个集合。
+      \begin{equation*}
+        \set{\colvec[r]{1 \\ 1 \\ 0}+
+             \colvec[r]{0 \\ 3 \\ 0}(-\frac{1}{9}+\frac{8}{9}m)+
+             \colvec[r]{2 \\ 0 \\ 4}m
+             \suchthat m\in\Re}
+        =\set{\colvec[r]{1 \\ 2/3 \\ 0}
+             +\colvec[r]{2 \\ 8/3 \\ 4}m
+             \suchthat m\in\Re}
+      \end{equation*}    
+    \end{answer}
+  \recommended \item
+    在可能的情况下，求每一对的交。
+    \begin{exparts}
+      \partsitem \( \set{\colvec[r]{1 \\ 1 \\ 2}+t\colvec[r]{0 \\ 1 \\ 1}
+                     \suchthat t\in\Re} \),\,
+            \( \set{\colvec[r]{1 \\ 3 \\ -2}+s\colvec[r]{0 \\ 1 \\ 2}
+                     \suchthat s\in\Re} \)
+      \partsitem \( \set{\colvec[r]{2 \\ 0 \\ 1}+t\colvec[r]{1 \\ 1 \\ -1}
+                     \suchthat t\in\Re} \),\,
+            \( \set{s\colvec[r]{0 \\ 1 \\ 2}
+                     +w\colvec[r]{0 \\ 4 \\ 1}
+                     \suchthat s,w\in\Re} \)
+    \end{exparts}
+    \begin{answer}
+       \begin{exparts}
+        \partsitem 方程组
+          \begin{equation*}
+            \begin{linsys}{1}
+              1     &= &1\hfill         \\
+              1+t   &= &3+s\hfill         \\
+              2+t   &= &-2+2s\hfill
+            \end{linsys}
+          \end{equation*}
+          给出 \( s=6 \) 与 \( t=8 \)，所以这就是解集。
+          \begin{equation*}
+            \set{\colvec[r]{1 \\ 9 \\ 10}     }
+          \end{equation*}
+        \partsitem 这个方程组
+          \begin{equation*}
+            \begin{linsys}{1}
+            2+t   &=  &0 \hfill        \\
+            t     &=  &s+4w\hfill        \\
+            1-t   &=  &2s+w\hfill
+            \end{linsys}
+          \end{equation*}
+          给出 \( t=-2 \)、\( w=-1 \) 与 \( s=2 \)，所以它们的交
+          是这个点。
+          \begin{equation*}
+            \colvec[r]{0 \\ -2 \\ 3}
+          \end{equation*}
+      \end{exparts}  
+    \end{answer}
+  \item 
+      我们应当如何定义 $\Re^0$？
+      \begin{answer}
+        我们将在后面把它定义成恰有一个元素的集合\Dash 一个
+        “原点”。  
+      \end{answer}
+  \puzzle \item   
+    \cite{MathMag57p173}
+    一个人以每小时
+    \( 3 \) 英里的速率向东行进，发觉风好像从正北方向吹来。
+    当他的速度加倍时，风好像来自东北方向。
+    风的速度是多少？
+    \begin{answer}
+      \answerasgiven %
+      向量三角形如下图所示，因此 \( \vec{w}=3\sqrt{2} \)，
+      风从西北方向吹来。
+      \begin{center}
+        \setlength{\unitlength}{4pt}      % wind triangles.
+        \begin{picture}(20,12)(0,0)
+           \put(0,10){\vector(1,0){20} }
+           \put(0,10){\vector(1,-1){10} }
+              \put(3.8,5){\makebox(0,0)[r]{\small \( \vec{w} \)} }
+           \put(10,0){\vector(1,1){10} }
+           \put(10,0){\line(0,1){10} }
+        \end{picture}
+      \end{center}  
+     \end{answer}
+  \item \checked \label{exer:Euclid}  
+    欧几里得（Euclid）把平面描述为
+    “一个与其上的直线处处均匀相合的面”。
+    希罗（Heron）等注释家把它解释为：
+    “（平的面是）这样的面：若一条直线经过 
+    其上的两点，
+    则这条直线处处、以一切方式完全与该面重合”。
+    （译文取自 \cite{Heath}，第171-172页。）
+    本节中所描述的平面具有这种性质吗？
+    这个描述足以恰当地定义平面吗？
+    \begin{answer}
+      欧几里得无疑是在设想 \( \Re^3 \) 之内的平面。
+      然而，请注意 \( \Re^1 \) 与 \( \Re^2 \) 也都满足
+      这个定义。  
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsectionoptional{长度与夹角的度量}
+我们已经把第一节中关于解集的结论翻译成了几何语言，以便更好地理解这些集合。
+但我们必须当心，不要被自己的术语所误导\Dash 给 \( \Re^k \) 中形如
+\( \set{\vec{p}+t\vec{v}\suchthat t\in\Re} \) 与
+\( \set{\vec{p}+t\vec{v}+s\vec{w}\suchthat t,s\in\Re} \)
+的子集标注为"直线"与"平面"，并不能使它们表现得像我们过去经验中的
+直线和平面那样。
+确切地说，我们必须确保这些名称与这些集合相称。
+虽然我们无法证明这些集合满足我们的直觉\Dash 关于直觉我们无法证明任何东西\Dash
+但在本小节中我们将观察到，
+一个在 \( \Re^2 \) 与 \( \Re^3 \) 中熟悉的结果，当推广到任意的 \( \Re^n \) 时，
+支持了直线是直的、平面是平的这一观念。
+具体而言，我们将给出两个 $\Re^n$ 向量在它们所生成的平面内的夹角的定义，
+来看看如何在一个"平面"内做欧几里得几何。
+
+\begin{definition} \label{df:Length}
+%<*df:Length>
+向量 \( \vec{v}\in\Re^n \) 的\definend{长度}\index{vector!length}\index{length of a vector}
+% (or \definend{norm}\index{vector!norm}\index{norm})
+是其各分量的平方和的平方根。
+\begin{equation*}
+  \absval{\vec{v}\,}=\sqrt{v_1^2+\cdots+v_n^2}
+\end{equation*}
+%</df:Length>
+\end{definition}
+
+\begin{remark}
+这是勾股定理的一个自然推广。
+一篇经典的引导性讨论见 \cite{MathematicsPlausReason}。
+\end{remark}
+
+对任意非零的 $\vec{v}$，向量 $\vec{v}/\absval{\vec{v}}$ 的长度为一。
+我们说这一做法将
+$\vec{v}$ \definend{规范化}\index{normalize, vector}\index{vector!normalize}为长度一。
+
+我们可以用它来得到两个向量之间夹角的公式。
+考虑 \( \Re^3 \) 中两个向量，它们互不为对方的倍数
+\begin{center}
+  \includegraphics{gr/mp/ch1.21}
+\end{center}
+（互为倍数的特殊情形将在下文看到并非例外）。
+它们确定一个二维平面\Dash
+例如，把它们放到标准位置，取由原点与两个端点所形成的平面。
+在该平面中考虑以 \( \vec{u} \)、\( \vec{v} \) 与 \( \vec{u}-\vec{v} \) 为边的三角形。
+\begin{center}
+  \includegraphics{gr/mp/ch1.22}
+\end{center}
+应用余弦定理：
+$\absval{\vec{u}-\vec{v}\,}^2
+  =
+  \absval{\vec{u}\,}^2+\absval{\vec{v}\,}^2-
+    2\,\absval{\vec{u}\,}\,\absval{\vec{v}\,}\cos\theta$
+其中 \( \theta \) 是两个向量之间的夹角。
+左边给出
+\begin{multline*}
+(u_1-v_1)^2+(u_2-v_2)^2+(u_3-v_3)^2  \\
+     =(u_1^2-2u_1v_1+v_1^2)+(u_2^2-2u_2v_2+v_2^2)+(u_3^2-2u_3v_3+v_3^2)
+\end{multline*}
+而右边给出下式。
+\begin{equation*}
+(u_1^2+u_2^2+u_3^2)+(v_1^2+v_2^2+v_3^2)-
+     2\,\absval{\vec{u}\,}\,\absval{\vec{v}\,}\cos\theta
+\end{equation*}
+消去平方项 $u_1^2$、\ldots、$v_3^2$ 并除以 $2$，便得到夹角的公式。
+\begin{equation*}
+  \theta
+  =
+  \arccos(\,\frac{u_1v_1+u_2v_2+u_3v_3}{
+         \absval{\vec{u}\,}\,\absval{\vec{v}\,} }\,)
+\end{equation*}
+
+在更高维的空间中我们无法像上面那样作图，
+但可以改用解析的方法来进行论证。
+首先，分子的形式是清楚的；它来自 \( (u_i-v_i)^2 \) 的中间项。
+
+\begin{definition} \label{df:DotProduct}
+%<*df:DotProduct>
+两个 \( n \) 分量实向量的\definend{点积}\index{vector!dot product}\index{dot product}
+（或\definend{内积}\index{inner product}
+或\definend{标量积}\index{scalar product}）
+是其分量的线性组合。
+\begin{equation*}
+  \vec{u}\dotprod\vec{v}=\lincombo{u}{v}
+\end{equation*}
+%</df:DotProduct>
+\end{definition}
+\noindent 注意两个向量的点积是一个实数，
+而不是向量，并且
+只有当两个向量的分量个数相同时，点积才有定义。
+还要注意点积与长度相关：
+\( \vec{u}\dotprod\vec{u}=u_1u_1+\cdots+u_nu_n=\absval{\vec{u}\,}^2 \)。
+
+\begin{remark}
+有些作者要求第一个向量为行向量，
+第二个向量为列向量。
+我们将不这样严格，而是允许在两个列向量之间进行点积运算。
+\end{remark}
+
+我们仍在用解析的方法推理，但以图形为指导，
+用下面的定理来论证：由 \( \Re^n \) 中构成
+\( \vec{u} \)、\( \vec{v} \) 与 \( \vec{u}+\vec{v} \) 主体的线段所形成的三角形，
+位于 \( \vec{u} \) 与
+\( \vec{v} \) 生成的 \( \Re^n \) 的平面子集中（见下图）。
+
+\begin{theorem}[三角不等式] \label{th:TriangleInequality}
+\index{Triangle Inequality}
+%<*th:TriangleInequality>
+对任意 \( \vec{u},\vec{v}\in\Re^n \)，
+\begin{equation*}
+  \absval{\vec{u}+\vec{v}\,}\leq\absval{\vec{u}\,}+\absval{\vec{v}\,}
+\end{equation*}
+当且仅当其中一个向量是另一个向量的非负标量倍数时取等号。
+%</th:TriangleInequality>
+\end{theorem}
+
+这就是人们熟悉的那句话的来源：
+"两点之间直线最短。"
+\begin{center}
+  \includegraphics{gr/mp/ch1.23}
+\end{center}
+
+\begin{proof}
+（我们将用到点积的一些尚未验证的代数性质，例如
+\( \vec{u}\dotprod(\vec{a}+\vec{b})
+   =\vec{u}\dotprod\vec{a}+\vec{u}\dotprod\vec{b} \)
+以及 $\vec{u}\dotprod\vec{v}=\vec{v}\dotprod\vec{u}$。
+参见 \nearbyexercise{exer:AlgPropsDotProd}。）
+%<*pf:TriangleInequality0>
+由于所有的数都是正的，
+该不等式成立当且仅当两边平方后的不等式成立。
+\begin{align*}
+  \absval{\vec{u}+\vec{v}\,}^2
+  &\leq(\,\absval{\vec{u}\,}+\absval{\vec{v}\,}\,)^2                            \\
+  (\,\vec{u}+\vec{v}\,)\dotprod(\,\vec{u}+\vec{v}\,)
+  &\leq\absval{\vec{u}\,}^2+2\,\absval{\vec{u}\,}\,\absval{\vec{v}\,}
+     +\absval{\vec{v}\,}^2                                         \\
+  \vec{u}\dotprod\vec{u}+\vec{u}\dotprod\vec{v}
+     +\vec{v}\dotprod\vec{u}+\vec{v}\dotprod\vec{v}
+  &\leq\vec{u}\dotprod\vec{u}+2\,\absval{\vec{u}\,}\,\absval{\vec{v}\,}
+    +\vec{v}\dotprod\vec{v}                                          \\
+  2\,\vec{u}\dotprod\vec{v}
+  &\leq 2\,\absval{\vec{u}\,}\,\absval{\vec{v}\,}
+\end{align*}
+%</pf:TriangleInequality0>
+%<*pf:TriangleInequality1>
+而这一个不等式又当且仅当
+将两边乘以非负数
+\( \absval{\vec{u}\,} \)
+与 \( \absval{\vec{v}\,} \)
+所得到的
+\begin{equation*}
+  2\,(\,\absval{\vec{v}\,}\,\vec{u}\,)\dotprod(\,\absval{\vec{u}\,}\,\vec{v}\,)
+  \leq
+  2\,\absval{\vec{u}\,}^2\,\absval{\vec{v}\,}^2
+\end{equation*}
+再改写为
+\begin{equation*}
+  0
+  \leq
+  \absval{\vec{u}\,}^2\,\absval{\vec{v}\,}^2
+   -2\,(\,\absval{\vec{v}\,}\,\vec{u}\,)\dotprod(\,\absval{\vec{u}\,}\,\vec{v}\,)
+  +\absval{\vec{u}\,}^2\,\absval{\vec{v}\,}^2
+\end{equation*}
+这一关系成立。
+但通过因式分解可知它是成立的
+\begin{equation*}
+  0\leq
+  (\,\absval{\vec{u}\,}\,\vec{v}-\absval{\vec{v}\,}\,\vec{u}\,)\dotprod
+  (\,\absval{\vec{u}\,}\,\vec{v}-\absval{\vec{v}\,}\,\vec{u}\,)
+\end{equation*}
+因为它只是说向量
+\( \absval{\vec{u}\,}\,\vec{v}-\absval{\vec{v}\,}\,\vec{u}\, \)
+的长度的平方不是负数。
+%</pf:TriangleInequality1>
+%<*pf:TriangleInequality2>
+至于等号，它成立当且仅当
+\( \absval{\vec{u}\,}\,\vec{v}-\absval{\vec{v}\,}\,\vec{u} \) 为 \( \zero \)。
+容易验证：
+\( \absval{\vec{u}\,}\,\vec{v}=\absval{\vec{v}\,}\,\vec{u}\, \)
+当且仅当一个向量是另一个向量的非负实标量倍数。
+%</pf:TriangleInequality2>
+\end{proof}
+
+这一结果支持了如下直觉：即使在更高维的空间中，直线也是直的，平面也是平的。
+从定义出发我们容易验证，线性曲面具有这样的性质：
+该曲面中的任意两点，
+它们之间的线段仍包含在该曲面中。
+但若线性曲面不是平的，那就可能出现捷径。
+\begin{center}
+  \includegraphics{gr/mp/ch1.24}
+\end{center}
+由于三角不等式表明，在任意 $\Re^n$ 中两个端点之间的最短路线
+就是连接它们的线段，
+所以线性曲面没有弯曲。
+
+回到角度度量的定义。
+三角不等式证明的核心是
+\( \vec{u}\dotprod\vec{v}\leq \absval{\vec{u}\,}\,\absval{\vec{v}\,} \)
+这一行。
+我们或许会想知道，是否有些向量对以下述方式满足该不等式：~虽然 \( \vec{u}\dotprod\vec{v} \)
+是一个较大的数，其绝对值大于右边，
+但它是负的较大数。
+下面的结论表明这种情况不会发生。
+
+\begin{corollary}[Cauchy–Schwarz 不等式]
+\label{th:CauchySchwarz}
+\index{Cauchy-Schwarz Inequality}\index{Schwarz Inequality}
+%<*co:CauchySchwarzInequality>
+对任意 \( \vec{u},\vec{v}\in\Re^n \)，
+\begin{equation*}
+   \absval{\,\vec{u}\dotprod\vec{v}\,}
+   \leq
+   \absval{\,\vec{u}\,}\,\absval{\vec{v}\,}
+\end{equation*}
+当且仅当一个向量是另一个向量的标量倍数时取等号。
+%</co:CauchySchwarzInequality>
+\end{corollary}
+
+\begin{proof}
+%<*pf:CauchySchwarzInequality>
+三角不等式的证明表明
+\( \vec{u}\dotprod\vec{v}\leq \absval{\vec{u}\,}\,\absval{\vec{v}\,} \)，所以
+若 $\vec{u}\dotprod\vec{v}$ 为正或为零，则证明已完成。
+若 \( \vec{u}\dotprod\vec{v} \) 为负，则下式成立。
+\begin{equation*}
+ \absval{\,\vec{u}\dotprod\vec{v}\,}
+   =-(\,\vec{u}\dotprod\vec{v}\,)
+   =(-\vec{u}\,)\dotprod\vec{v}
+   \leq
+   \absval{-\vec{u}\,}\,\absval{\vec{v}\,}
+   =\absval{\vec{u}\,}\,\absval{\vec{v}\,}
+\end{equation*}
+等号成立的条件见 \nearbyexercise{exer:EqOfCauchySchwarz}。
+%</pf:CauchySchwarzInequality>
+\end{proof}
+
+Cauchy–Schwarz 不等式向我们保证下一个定义是有意义的，
+因为该分式的绝对值小于或等于一。
+
+\begin{definition}
+%<*df:Angle>
+两个非零向量 \( \vec{u},\vec{v}\in\Re^n \) 之间的\definend{夹角}\index{vector!angle}\index{angle}为
+\begin{equation*}
+  \theta
+  =
+  \arccos(\,\frac{\vec{u}\dotprod\vec{v}}{
+                  \absval{\vec{u}\,}\,\absval{\vec{v}\,} }\,)
+\end{equation*}
+（若其中有一个是零向量，则我们取夹角为直角）。
+%</df:Angle>
+\end{definition}
+
+\begin{corollary} \label{co:VectorsOrthogonalIffDoTProductZero}
+%<*co:VectorsOrthogonalIffDoTProductZero>
+\( \Re^n \) 中的向量
+是正交的，\index{vector!orthogonal}\index{orthogonal}
+即垂直的，\index{vector!perpendicular}\index{perpendicular}
+当且仅当它们的点积为零。
+它们平行当且仅当它们的点积等于
+它们长度的乘积。
+%</co:VectorsOrthogonalIffDoTProductZero>
+\end{corollary}
+
+\begin{example}
+这些向量是正交的。
+\begin{center}
+  \begin{minipage}{0.6in} % to vertically center graphic
+    \includegraphics{gr/mp/ch1.25}
+  \end{minipage}
+  \qquad
+  $\colvec[r]{1 \\ -1}\dotprod\colvec[r]{1 \\ 1}=0$
+\end{center}
+我们把箭头画在离开标准位置的地方，
+但尽管如此，这两个向量仍是正交的。
+\end{example}
+
+\begin{example}
+本小节开头给出的 \( \Re^3 \) 夹角公式
+是该定义的一个特例。
+在这两个向量之间
+\begin{center}
+  \includegraphics{gr/mp/ch1.26}
+\end{center}
+夹角为
+\begin{equation*}
+   \arccos(\frac{(1)(0)+(1)(3)+(0)(2)}{\sqrt{1^2+1^2+0^2}\sqrt{0^2+3^2+2^2}})
+   =\arccos(\frac{3}{\sqrt{2}\sqrt{13}})
+\end{equation*}
+约为 $0.94~\text{弧度}$。
+注意这两个向量并不正交。
+虽然 \( yz \)-平面看起来可能与
+\( xy \)-平面垂直，但实际上这两个平面只是在如下的弱意义上如此：
+每个平面中都存在与另一平面中所有向量正交的向量。
+但每个平面中并非所有向量都与另一平面中的所有向量正交。
+\end{example}
+
+
+
+
+\begin{exercises}
+  \recommended \item
+    求下列每个向量的长度。
+    \begin{exparts*}
+      \partsitem \( \colvec[r]{3 \\ 1}  \)
+      \partsitem \( \colvec[r]{-1 \\ 2}  \)
+      \partsitem \( \colvec[r]{4 \\ 1 \\ 1}  \)
+      \partsitem \( \colvec[r]{0 \\ 0 \\ 0}  \)
+      \partsitem \( \colvec[r]{1 \\ -1 \\ 1 \\ 0}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( \sqrt{3^2+1^2}=\sqrt{10}  \)
+        \partsitem \( \sqrt{5}  \)
+        \partsitem \( \sqrt{18}  \)
+        \partsitem \( 0  \)
+        \partsitem \( \sqrt{3}  \)
+      \end{exparts*}   
+    \end{answer}
+  \recommended \item 
+    求下列每对向量之间的夹角（若它有定义）。
+    \begin{exparts*}
+       \partsitem
+         \( \colvec[r]{1 \\ 2}, \colvec[r]{1 \\ 4} \)
+       \partsitem
+         \( \colvec[r]{1 \\ 2 \\ 0}, \colvec[r]{0 \\ 4 \\ 1} \)
+       \partsitem
+         \( \colvec[r]{1 \\ 2}, \colvec[r]{1 \\ 4 \\ -1} \)
+    \end{exparts*}
+    \begin{answer}
+       \begin{exparts*}
+         \partsitem \( \arccos(9/\sqrt{85})\approx 0.22\mbox{\ 弧度} \)
+         \partsitem \( \arccos(8/\sqrt{85})\approx 0.52\mbox{\ 弧度} \)
+         \partsitem 无定义。
+      \end{exparts*}      
+     \end{answer}
+  \recommended \item 
+    \cite{Ohanian}
+    在日德兰海战（Battle of Jutland）前的机动过程中，
+    英国战列巡洋舰 \textit{Lion} 号按如下方式移动（单位为海里）：~\( 1.2 \) 海里向北，
+    \( 6.1 \) 海里沿南偏东 \( 38 \) 度方向，
+    \( 4.0 \) 海里沿北偏东 \( 89 \) 度方向，
+    以及 \( 6.5 \) 海里沿北偏东 \( 31 \) 度方向。
+    求起始位置与终止位置之间的距离。
+    （忽略地球曲率。）
+    \begin{answer}
+      我们把每个位移表示为一个向量，舍入到一位
+      小数，因为这就是题目陈述所具有的精度，
+      然后相加得到总位移 
+      （忽略地球曲率）。
+      \begin{equation*}
+        \colvec[r]{0.0 \\ 1.2}
+        +\colvec[r]{3.8 \\ -4.8}
+        +\colvec[r]{4.0 \\ 0.1}
+        +\colvec[r]{3.3 \\ 5.6}
+        =\colvec[r]{11.1 \\ 2.1}
+      \end{equation*}
+      距离为 \( \sqrt{11.1^2+2.1^2}\approx 11.3 \)。  
+    \end{answer}
+  \item 
+    求 \( k \) 使得这两个向量垂直。
+    \begin{equation*}
+       \colvec{k \\ 1}
+       \qquad
+       \colvec[r]{4 \\ 3}
+    \end{equation*}
+    \begin{answer}
+       解 \( (k)(4)+(1)(3)=0 \) 得 \( k=-3/4 \)。  
+    \end{answer}
+  \item 
+    描述 \( \Re^3 \) 中与分量为 $1$、$3$、$-1$
+    的那个向量正交的全体向量组成的集合。
+    % \begin{equation*}
+    %   \colvec[r]{1 \\ 3 \\ -1}
+    % \end{equation*}
+    \begin{answer}
+      我们可以用参数把集合
+      \begin{equation*}
+         \set{\colvec{x \\ y \\ z}\suchthat 1x+3y-1z=0}
+      \end{equation*}
+      描述成这种形式：
+      \begin{equation*}
+         \set{\colvec[r]{-3 \\ 1 \\ 0}y+\colvec[r]{1 \\ 0 \\ 1}z
+               \suchthat y,z\in\Re}
+      \end{equation*}  
+    \end{answer}
+  \recommended \item
+    \begin{exparts}
+      \partsitem  求 \( \Re^2 \) 中单位正方形的对角线与
+        任一条坐标轴之间的夹角。
+      \partsitem  求 \( \Re^3 \) 中单位立方体的对角线与
+        一条坐标轴之间的夹角。
+      \partsitem  求 \( \Re^n \) 中单位立方体的对角线与
+        一条坐标轴之间的夹角。
+      \partsitem  当 \( n \) 趋于 \( \infty \) 时，
+        \( \Re^n \) 中单位立方体的对角线与任一条坐标轴
+        之间的夹角的极限是什么？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 我们可以取 \( x \) 轴。
+          \begin{equation*}
+            \arccos (\frac{(1)(1)+(0)(1)}{\sqrt{1}\sqrt{2}})
+            \approx 0.79~\text{弧度}
+          \end{equation*}
+        \partsitem 同样，取 \( x \) 轴。
+          \begin{equation*}
+            \arccos (\frac{(1)(1)+(0)(1)+(0)(1)}{\sqrt{1}\sqrt{3}})
+            \approx 0.96~\text{弧度}
+          \end{equation*}
+        \partsitem \( x \) 轴前面很管用，这里它同样管用。
+          \begin{equation*}
+            \arccos (\frac{(1)(1)+\cdots+(0)(1)}{\sqrt{1}\sqrt{n}})
+            =\arccos (\frac{1}{\sqrt{n}})
+          \end{equation*}
+        \partsitem 利用上一小题的公式，
+            $\lim_{n\to\infty} \arccos(1/\sqrt{n})
+              =\pi/2\text{\ 弧度}$。
+      \end{exparts}  
+    \end{answer}
+  \item  
+    是否有向量与它自身垂直？
+    \begin{answer}
+      显然，\( u_1u_1+\cdots+u_nu_n \) 为零当且仅当
+      每个 \( u_i \) 都为零。
+      所以只有 \( \zero\in\Re^n \) 与它自身垂直。  
+    \end{answer}
+  \item \label{exer:AlgPropsDotProd}  
+    描述点积的代数性质。
+    \begin{exparts}
+      \partsitem 它对加法是否右分配：
+        \(
+           (\vec{u}+\vec{v})\dotprod\vec{w}
+           =
+           \vec{u}\dotprod\vec{w}+\vec{v}\dotprod\vec{w} \)？
+       \partsitem 它是否左分配（对加法）？
+       \partsitem 它是否可交换？
+       \partsitem 是否可结合？
+       \partsitem 它与标量乘法如何相互作用？
+    \end{exparts}
+    与往常一样，任何断言都必须有恰当的论证来支撑。
+    \begin{answer}
+      在下面每一小题中，假设向量 
+      \( \vec{u},\vec{v},\vec{w}\in\Re^n \) 
+      的分量分别为
+      \( u_1,\ldots,u_n,v_1,\ldots,w_n \)。
+      \begin{exparts}
+        \partsitem 点积对加法右分配。
+           \begin{align*}
+              (\vec{u}+\vec{v})\dotprod\vec{w}
+              &=[\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}
+                +\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}]\dotprod
+                \colvec{w_1 \\ \vdotswithin{w_1} \\ w_n}               \\
+              &=
+              \colvec{u_1+v_1 \\ \vdotswithin{u_1+v_1} \\ u_n+v_n}\dotprod
+                \colvec{w_1 \\ \vdotswithin{w_1} \\ w_n}               \\
+              &=
+              (u_1+v_1)w_1+\cdots+(u_n+v_n)w_n              \\
+              &=
+              (u_1w_1+\cdots+u_nw_n)+(v_1w_1+\cdots+v_nw_n)  \\
+              &=
+              \vec{u}\dotprod\vec{w}+\vec{v}\dotprod\vec{w}
+           \end{align*}
+        \partsitem 点积也左分配：
+          $\vec{w}\dotprod(\vec{u}+\vec{v})=
+              \vec{w}\dotprod\vec{u}+\vec{w}\dotprod\vec{v}$。
+          证明与上一小题完全类似。
+        \partsitem 点积可交换。
+          \begin{equation*}
+            \colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}\dotprod
+              \colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+            =u_1v_1+\cdots+u_nv_n   
+            =v_1u_1+\cdots+v_nu_n   
+            =\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}\dotprod
+              \colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}
+          \end{equation*}
+        \partsitem 由于 \( \vec{u}\dotprod\vec{v} \) 
+          是标量而不是向量，
+          表达式 \( (\vec{u}\dotprod\vec{v})\dotprod\vec{w} \) 没有
+          意义；标量与向量的点积没有定义。
+        \partsitem 这是一个含糊的问题，所以它有多种答案。
+          其中有 
+          (1)~\( k(\vec{u}\dotprod\vec{v})=(k\vec{u})\dotprod\vec{v} \)
+          以及 \( k(\vec{u}\dotprod\vec{v})=\vec{u}\dotprod(k\vec{v}) \)，
+          (2)~\( k(\vec{u}\dotprod\vec{v})\neq (k\vec{u})\dotprod(k\vec{v}) \)
+          （一般而言；容易举出例子），以及
+          (3)~\( \absval{k\vec{v}\,}=\lvert k\rvert\absval{\vec{v}\,} \) 
+          （长度与点积之间的联系在于：
+          长度的平方就是向量
+          与自身的点积）。
+      \end{exparts}   
+    \end{answer}
+  \item \label{exer:EqOfCauchySchwarz} 
+    验证 \nearbycorollary{th:CauchySchwarz}
+    （Cauchy–Schwarz 不等式）中的取等条件。
+    \begin{exparts}
+       \partsitem 证明：若 \( \vec{u} \) 是
+         \( \vec{v} \) 的负标量倍，则 \( \vec{u}\dotprod\vec{v} \) 与
+         \( \vec{v}\dotprod\vec{u} \) 都小于或等于零。
+       \partsitem 证明：\( \absval{\vec{u}\dotprod\vec{v}}=
+                            \absval{\vec{u}\,}\,\absval{\vec{v}\,} \)
+         当且仅当其中一个向量是另一个向量的标量倍。
+    \end{exparts}
+    \begin{answer}
+       \begin{exparts}
+         \partsitem 容易验证：对 \( k\in\Re \) 与
+           \( \vec{x},\vec{y}\in\Re^n \)，
+           \( (k\vec{x})\dotprod\vec{y}=k(\vec{x}\dotprod\vec{y})
+           =\vec{x}\dotprod(k\vec{y}) \)。
+           现在，对 \( k\in\Re \) 与 \( \vec{v},\vec{w}\in\Re^n \)，
+           若 \( \vec{u}=k\vec{v} \)，则
+           \( \vec{u}\dotprod\vec{v}=(k\vec{v})\dotprod\vec{v}
+             =k(\vec{v}\dotprod\vec{v}) \)，
+           它是 \( k \) 乘一个非负
+           实数。
+
+           \( \vec{v}=k\vec{u} \) 的情形类似（实际上，取本段中的
+           \( k \) 为上文 \( k \) 的倒数即知，我们只需担心
+           \( k=0 \) 的情形）。
+         \partsitem 我们先考虑 $\vec{u}\dotprod\vec{v}\geq 0$ 的情形。
+           由三角不等式可知，
+           \( \vec{u}\dotprod\vec{v}=\absval{\vec{u}\,}\,\absval{\vec{v}\,} \)
+           当且仅当其中一个向量是另一个向量的非负标量倍。
+           但这就足够了，因为 
+           本题第一小题表明，
+           在两个向量的点积为正的背景下，
+           下面两个命题 
+           “其中一个向量是
+           另一个向量的标量倍”与“其中一个向量是另一个向量的非负
+           标量倍”
+           等价。
+
+           最后考虑 $\vec{u}\dotprod\vec{v}< 0$ 的情形。
+           由于
+           $0<\absval{\vec{u}\dotprod\vec{v}}=-(\vec{u}\dotprod\vec{v})
+            =(-\vec{u})\dotprod\vec{v}$ 且 
+           $\absval{\vec{u}\,}\,\absval{\vec{v}\,}
+              =\absval{-\vec{u}\,}\,\absval{\vec{v}\,}$，
+           我们有 
+           $0<(-\vec{u})\dotprod\vec{v}=\absval{-\vec{u}\,}\,\absval{\vec{v}\,}$。
+           于是上一段适用，给出：$-\vec{u}$ 与 $\vec{v}$ 这两个向量
+           之一是另一个的标量倍。
+           而这等价于断言 $\vec{u}$ 与 $\vec{v}$ 这两个向量
+           之一是另一个的标量倍， 
+           即为所证。  
+      \end{exparts}  
+    \end{answer}
+  \item 
+    假设 \( \vec{u}\dotprod\vec{v}=\vec{u}\dotprod\vec{w} \)
+    且 \( \vec{u}\neq\vec{0} \)。
+    是否必有 \( \vec{v}=\vec{w} \)？
+    \begin{answer}
+      不必。
+      下面这些向量给出一个例子。
+      \begin{equation*}
+        \vec{u}=\colvec[r]{1 \\ 0}
+        \quad
+        \vec{v}=\colvec[r]{1 \\ 0}
+        \quad
+        \vec{w}=\colvec[r]{1 \\ 1}
+      \end{equation*}  
+    \end{answer}
+  \recommended \item
+    除零向量之外，是否还有
+    长度为零的向量？
+    （若“有”，请举出一个例子。
+    若“没有”，请给出证明。）
+    \begin{answer}
+      我们证明：向量长度为零当且仅当它的
+      所有分量都为零。
+
+      设 \( \vec{u}\in\Re^n \) 的分量为 \( u_1,\ldots,u_n \)。
+      回忆一下：任何实数的平方都大于或等于
+      零，且仅当该实数为零时才取等号。
+      于是
+      \( \absval{\vec{u}\,}^2={u_1}^2+\cdots+{u_n}^2 \) 是若干个
+      大于或等于零的数之和，因而它本身也大于或等于
+      零，且当且仅当每个 \( u_i \) 都为零时取等号。
+      因此 \( \absval{\vec{u}\,}=0 \) 当且仅当
+      \( \vec{u} \) 的所有分量都为零。    
+    \end{answer}
+  \recommended \item 
+    求 \( \Re^2 \) 中连接
+    \( (x_1,y_1) \) 与 \( (x_2,y_2) \) 的线段的中点。
+    再推广到 \( \Re^n \)。
+    \begin{answer}
+      容易验证
+      \begin{equation*}
+        \bigl( \frac{x_1+x_2}{2},\frac{y_1+y_2}{2}  \bigr)
+      \end{equation*}
+      在连接这两点的直线上，并且到两点的距离相等。
+      推广是显然的。  
+    \end{answer}
+  \item 
+    证明：若 \( \vec{v}\neq\zero \)，则
+    \( \vec{v}/\absval{\vec{v}\,} \) 的长度为一。
+    若 \( \vec{v}=\zero \)，情形如何？
+    \begin{answer}
+      设 \( \vec{v}\in\Re^n \) 的分量为 \( v_1,\ldots,v_n \)。
+      若 \( \vec{v}\neq \zero \)，则有下面的计算。
+      \begin{multline*}
+        \sqrt{\left(\frac{v_1}{\sqrt{{v_1}^2+\cdots+{v_n}^2}}\right)^2+
+              \dots+\left(\frac{v_n}{\sqrt{{v_1}^2+\cdots+{v_n}^2}}\right)^2}
+        \\
+        \begin{aligned}
+          &=\sqrt{\left(\frac{{v_1}^2}{{v_1}^2+\cdots+{v_n}^2}\right)+
+              \dots+\left(\frac{{v_n}^2}{{v_1}^2+\cdots+{v_n}^2}\right)}   \\
+          &=1
+        \end{aligned}
+      \end{multline*}
+      若 \( \vec{v}=\zero \)，则 \( \vec{v}/\absval{\vec{v}\,} \) 没有
+      定义。
+    \end{answer}
+  \item 
+     证明：若 \( r\geq 0 \)，则
+     \( r\vec{v} \) 的长度是 \( \vec{v} \) 的
+     \( r \) 倍。
+     若 \( r< 0 \)，情形如何？
+    \begin{answer}
+      对于第一个问题，设 \( \vec{v}\in\Re^n \) 且
+      \( r\geq 0 \)，开方并提取公因子。
+      \begin{equation*}
+        \absval{r\vec{v}\,}
+        =\sqrt{(rv_1)^2+\cdots+(rv_n)^2}     
+        =\sqrt{r^2({v_1}^2+\cdots+{v_n}^2}     
+        =r\absval{\vec{v}\,}
+      \end{equation*}
+      对于第二个问题，结果的长度是 \( r \) 倍，但它
+      指向相反的方向，这体现在
+      \( r\vec{v}+(-r)\vec{v}=\zero \)。  
+    \end{answer}
+  \recommended \item 
+    长度为一的向量 \( \vec{v}\in\Re^n \) 是
+    \definend{单位}\index{vector!unit}向量。
+    证明：两个单位向量的点积的绝对值
+    小于或等于一。
+    “小于”能发生吗？
+    “等于”呢？
+    \begin{answer}
+      设 \( \vec{u},\vec{v}\in\Re^n \) 的长度都是 \( 1 \)。
+      应用 Cauchy–Schwarz：
+      $\absval{\vec{u}\dotprod\vec{v}}
+             \leq\absval{\vec{u}\,}\,\absval{\vec{v}\,}=1$。
+
+      为看到“小于”能发生，在 \( \Re^2 \) 中取
+      \begin{equation*}
+        \vec{u}=\colvec[r]{1 \\ 0}
+        \qquad
+        \vec{v}=\colvec[r]{0 \\ 1}
+      \end{equation*}
+      并注意 \( \vec{u}\dotprod\vec{v}=0 \)。
+      对于“等于”，注意 \( \vec{u}\dotprod\vec{u}=1 \)。  
+    \end{answer}
+  \item 
+    当平面不经过原点时，对
+    箭身位于该平面内的向量作运算，
+    比起平面
+    经过原点时要更为复杂。
+    考虑本小节插图中平面 
+    \begin{equation*}
+      \set{\colvec[r]{2 \\ 0 \\ 0}
+            +\colvec[r]{-0.5 \\ 1 \\ 0} y
+            +\colvec[r]{-0.5 \\ 0 \\ 1} z
+            \suchthat y,z\in\Re}
+    \end{equation*}
+    以及三个以
+    $(2,0,0)$、$(1.5,1,0)$ 与 $(1.5,0,1)$ 为终点的向量。
+    \begin{exparts}
+      \partsitem 重画该图，其中包括一个起点在 $(2,0,0)$ 
+        的、箭身位于平面内的向量，它的长度是图中所示的平面内
+        终点为 $(1.5,1,0)$ 的那个向量的两倍。
+        这个向量的终点不是 $(3,2,0)$；它是多少？
+      \partsitem 重画该图，其中包括平面内的平行四边形 
+        用以显示终点为 $(1.5,0,1)$ 与 $(1.5,1,0)$ 
+        的两个向量之和。
+        这个和的终点（位于对角线上）不是 $(3,1,1)$；它是多少？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 图中所示的向量
+          \begin{center}
+            \includegraphics{gr/mp/ch1.32}
+          \end{center}
+          并不是将
+          \begin{equation*}
+            \colvec[r]{2 \\ 0 \\ 0}
+              +\colvec[r]{-0.5 \\ 1 \\ 0}\cdot 1
+            =\colvec[r]{1.5 \\ 1 \\ 0}
+          \end{equation*}
+          加倍的结果，而是将参数加倍的结果。 
+          \begin{equation*}
+            \colvec[r]{2 \\ 0 \\ 0}
+              +\colvec[r]{-0.5 \\ 1 \\ 0}\cdot 2
+            =\colvec[r]{1 \\ 2 \\ 0}
+          \end{equation*}
+          下面比较长度。 
+          \begin{equation*}
+            \sqrt{1^2+2^2+0^2}
+            =\sqrt{(2\cdot 0.5)^2 + (2\cdot 1)^2+ (2\cdot 0)^2}
+            =\sqrt{2^2\cdot(0.5^2+1^2+0^2)}
+            =2\cdot\sqrt{0.5^2+1^2+0^2}
+          \end{equation*}
+        \partsitem 向量
+          \begin{center}
+            \includegraphics{gr/mp/ch1.19}
+          \end{center}
+          并不是下式相加的结果：
+          \begin{equation*}
+            (\colvec[r]{2 \\ 0 \\ 0}
+              +\colvec[r]{-0.5 \\ 1 \\ 0}\cdot 1)
+            +
+            (\colvec[r]{2 \\ 0 \\ 0}
+              +\colvec[r]{-0.5 \\ 0 \\ 1}\cdot 1)
+          \end{equation*}
+          而是 
+          \begin{equation*}
+            \colvec[r]{2 \\ 0 \\ 0}
+              +\colvec[r]{-0.5 \\ 1 \\ 0}\cdot 1
+              +\colvec[r]{-0.5 \\ 0 \\ 1}\cdot 1
+            =\colvec[r]{1 \\ 1 \\ 1}
+          \end{equation*}
+          后者将参数相加。
+      \end{exparts}
+    \end{answer}
+  \item 
+    证明：线段
+    \( \overline{(a_1,a_2)(b_1,b_2)} \) 与
+    \( \overline{(c_1,c_2)(d_1,d_2)} \)
+    有相同的长度与斜率，若
+    \(  b_1-a_1=d_1-c_1 \) 且 \( b_2-a_2=d_2-c_2 \)。
+    这是“仅当”的吗？
+    \begin{answer}
+      “若”这一半是直接的。
+      若 \( b_1-a_1=d_1-c_1 \) 且 \( b_2-a_2=d_2-c_2 \)，则
+      \begin{equation*}
+        \sqrt{(b_1-a_1)^2+(b_2-a_2)^2}
+        =\sqrt{(d_1-c_1)^2+(d_2-c_2)^2}
+      \end{equation*}
+      所以二者长度相同；斜率同样容易：
+      \begin{equation*}
+        \frac{b_2-a_2}{b_1-a_1}
+        =\frac{d_2-c_2}{d_1-a_1}
+      \end{equation*}
+      （若分母为 \( 0 \)，则二者的斜率都无定义）。
+
+     对于“仅当”，假设
+     两条线段有相同的长度与斜率
+     （斜率无定义的情形是容易的；我们处理两条
+     线段都有斜率 \( m \) 的情形）。
+     另外不失一般性，假设 $a_1<b_1$ 且
+     $c_1<d_1$。
+     第一条线段是
+     \( \overline{(a_1,a_2)(b_1,b_2)}=
+     \set{(x,y)\suchthat y=mx+n_1,\; x\in [a_1..b_1]} \)
+     （$n_1$ 为某个截距）
+     而第二条线段是 \( \overline{(c_1,c_2)(d_1,d_2)}=
+     \set{(x,y)\suchthat y=mx+n_2,\; x\in [c_1..d_1]} \)
+     （$n_2$ 为某个数）。
+     于是这两条线段的长度为
+     \begin{equation*}
+     \sqrt{(b_1-a_1)^2+((mb_1+n_1)-(ma_1+n_1))^2}
+       =\sqrt{(1+m^2)(b_1-a_1)^2}
+     \end{equation*}
+     以及，类似地，\( \sqrt{(1+m^2)(d_1-c_1)^2} \)。
+     因此 \( \absval{b_1-a_1}=\absval{d_1-c_1} \)。
+     于是，由于我们假定了 \( a_1<b_1 \) 与 \( c_1<d_1 \)，故有
+     \( b_1-a_1=d_1-c_1 \)。
+
+     另一个等式类似。   
+   \end{answer}
+  % \item 
+  %   Prove that
+  %   \(
+  %     \absval{\vec{u}+\vec{v}\,}^2+\absval{\vec{u}-\vec{v}\,}^2
+  %     =2\absval{\vec{u}\,}^2+2\absval{\vec{v}\,}^2.
+  %   \)
+  %   \begin{answer}
+  %     Write
+  %     \begin{equation*}
+  %       \vec{u}=\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}
+  %       \qquad
+  %       \vec{v}=\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+  %     \end{equation*}
+  %     and then this computation works.
+  %     \begin{align*}
+  %       \absval{\vec{u}+\vec{v}\,}^2+\absval{\vec{u}-\vec{v}\,}^2
+  %       &=(u_1+v_1)^2+\cdots+(u_n+v_n)^2   \\
+  %       &\quad +(u_1-v_1)^2+\cdots+(u_n-v_n)^2     \\
+  %       &={u_1}^2+2u_1v_1+{v_1}^2+\cdots+{u_n}^2+2u_nv_n+{v_n}^2       \\
+  %       &\quad +{u_1}^2-2u_1v_1+{v_1}^2+\cdots+{u_n}^2-2u_nv_n+{v_n}^2 \\
+  %       &=2({u_1}^2+\cdots+{u_n}^2)+2({v_1}^2+\cdots+{v_n}^2) \\
+  %       &=2\absval{\vec{u}\,}^2+2\absval{\vec{v}\,}^2
+  %    \end{align*}   
+  %   \end{answer}
+  % \item 
+  %   Show that if \( \vec{x}\dotprod\vec{y}=0 \) for every \( \vec{y} \)
+  %   then \( \vec{x}=\zero \).
+  %   \begin{answer}
+  %     We will prove this demonstrating that the contrapositive
+  %     statement holds:~if \( \vec{x}\neq\zero \) then there
+  %     is a \( \vec{y} \) with \( \vec{x}\dotprod\vec{y}\neq 0 \).
+  %
+  %     Assume that \( \vec{x}\in\Re^n \).
+  %     If \( \vec{x}\neq\zero \) then it has a nonzero component, say the
+  %     \( i \)-th one \( x_i \).
+  %     But the vector \( \vec{y}\in\Re^n \) that is all zeroes except for
+  %     a one in component~$i$ gives
+  %     \( \vec{x}\dotprod\vec{y}=x_i \).  
+  %     (A slicker proof just considers $\vec{x}\dotprod\vec{x}$.)
+  %   \end{answer}
+  \item 
+    \( \absval{\vec{u}_1+\cdots+\vec{u}_n} \leq
+         \absval{\vec{u}_1}+\cdots+\absval{\vec{u}_n} \)
+    是否成立？
+    若为真，则它将是三角不等式的推广。
+    \begin{answer}
+      成立；
+      我们可以用归纳法证明它。
+
+      设这些向量都在某个 \( \Re^k \) 中。
+      显然，该论断对单个向量成立。
+      三角不等式就是该论断用于两个向量的情形。
+      归纳步骤假设该论断对 \( n \) 个或更少的
+      向量成立。
+      那么，由两个向量的三角不等式可得下式
+      \begin{equation*}
+         \absval{\vec{u}_1+\cdots+\vec{u}_n+\vec{u}_{n+1}}
+         \leq
+         \absval{\vec{u}_1+\cdots+\vec{u}_n}+\absval{\vec{u}_{n+1}}
+      \end{equation*}
+      再对右端第一个和项
+      应用归纳假设，
+      便知它小于等于
+      \( \absval{\vec{u}_1}+\cdots+\absval{\vec{u}_n}+\absval{\vec{u}_{n+1}} \)。  
+    \end{answer}
+  \item  
+    在 Cauchy-Schwarz 不等式中，两边之比是多少？
+    \begin{answer}
+      按定义
+      \begin{equation*}
+        \frac{\vec{u}\dotprod\vec{v}}{
+            \absval{\vec{u}\,}\,\absval{\vec{v}\,}}=\cos\theta
+      \end{equation*}
+      其中 \( \theta \) 是两向量之间的夹角。
+      于是该比值就是 \( \absval{\cos\theta} \)。  
+   \end{answer}
+  \item 
+    为什么把零向量定义为与每个向量都垂直？
+    \begin{answer}
+      这样，“向量正交当且仅当它们的
+      点积为零”这一论断就没有例外了。
+    \end{answer}
+  \item 
+    描述 \( \Re^1 \) 中两个向量之间的夹角。
+    \begin{answer}
+      我们可用下式
+      来求 \( (a) \) 与 \( (b) \)（其中 \( a,b\neq 0 \)）的夹角
+      \begin{equation*}
+         \arccos(\frac{ab}{\sqrt{a^2}\sqrt{b^2}}).
+      \end{equation*}
+      若 \( a \) 或 \( b \) 为零，则夹角为 \( \pi/2 \) 弧度。
+      否则，若 \( a \) 与 \( b \) 异号，则夹角为
+      \( \pi \) 弧度，不然夹角为零~弧度。  
+   \end{answer}
+  \item 
+    给出一个简单的充要条件，用以判定两个向量之间的
+    夹角是锐角、直角还是钝角。
+     \begin{answer}
+       \( \vec{u} \) 与 \( \vec{v} \) 的夹角当
+       \( \vec{u}\dotprod\vec{v}> 0 \) 时为锐角，当
+       \( \vec{u}\dotprod\vec{v}=0 \) 时为直角，当
+       \( \vec{u}\dotprod\vec{v}<0 \) 时为钝角。
+       这是因为在夹角公式中，分母绝不会
+       为负。  
+     \end{answer}
+  \item 
+    将勾股定理（Pythagorean 定理）的
+    逆命题推广到 \( \Re^n \)，即
+    若 \( \vec{u} \) 与 \( \vec{v} \)
+    垂直，则
+    \( \absval{\vec{u}+\vec{v}\,}^2=\absval{\vec{u}\,}^2+\absval{\vec{v}\,}^2 \)。
+    \begin{answer}
+      设 \( \vec{u},\vec{v}\in\Re^n \)。
+      若 \( \vec{u} \) 与 \( \vec{v} \) 垂直，则
+      \begin{equation*}
+        \absval{\vec{u}+\vec{v}\,}^2
+        =(\vec{u}+\vec{v})\dotprod(\vec{u}+\vec{v})    
+        =\vec{u}\dotprod\vec{u}+2\,\vec{u}\dotprod\vec{v}
+               +\vec{v}\dotprod\vec{v}  
+        =\vec{u}\dotprod\vec{u}+\vec{v}\dotprod\vec{v}  
+        =\absval{\vec{u}\,}^2+\absval{\vec{v}\,}^2
+      \end{equation*}  
+      （第三个等号成立是因为 \( \vec{u}\dotprod\vec{v}=0 \)）。
+    \end{answer}
+  \item 
+    证明 \( \absval{\vec{u}\,}=\absval{\vec{v}\,} \)
+    当且仅当 \( \vec{u}+\vec{v} \) 与
+    \( \vec{u}-\vec{v} \) 垂直。
+    在 \( \Re^2 \) 中举一个例子。
+    \begin{answer}
+      当 \( \vec{u},\vec{v}\in\Re^n \) 时，向量
+      \( \vec{u}+\vec{v} \) 与 \( \vec{u}-\vec{v} \) 垂直当且
+      仅当
+      $0=(\vec{u}+\vec{v})\dotprod(\vec{u}-\vec{v})
+         =\vec{u}\dotprod\vec{u}-\vec{v}\dotprod\vec{v}$，
+      这表明这两个向量垂直当且仅当
+      \( \vec{u}\dotprod\vec{u}=\vec{v}\dotprod\vec{v} \)。
+      而这又当且仅当 \( \absval{\vec{u}\,}=\absval{\vec{v}\,} \) 时成立。  
+   \end{answer}
+  \item 
+    证明：若一个向量与另外两个向量各自垂直，则
+    它与这两个向量张成的平面中的每个向量垂直。
+    （\textit{注：} 
+    它们张成的可能是 
+    退化平面\Dash 一条直线或一个点\Dash 但
+    该论断仍然成立。）
+    \begin{answer}
+      设 \( \vec{u}\in\Re^n \) 与
+      \( \vec{v}\in\Re^n \) 及 \( \vec{w}\in\Re^n \) 都垂直。
+      那么，对任意 \( k,m\in\Re \) 我们有下式。
+      \begin{equation*}
+        \vec{u}\dotprod(k\vec{v}+m\vec{w})
+        =k(\vec{u}\dotprod\vec{v})+m(\vec{u}\dotprod\vec{w})
+        =k(0)+m(0)=0
+      \end{equation*}  
+    \end{answer}
+  \item 
+    证明：当 \( \vec{u},\vec{v}\in\Re^n \) 为非零向量时，
+    向量
+    \begin{equation*}
+       \frac{\vec{u}}{\absval{\vec{u}\,} }+\frac{\vec{v}}{\absval{\vec{v}\,} }
+    \end{equation*}
+    平分它们之间的夹角。
+    在 \( \Re^2 \) 中加以图示。
+    \begin{answer}
+      我们来证明一个更一般的结论：~若
+      \( \absval{\vec{z}_1}=\absval{\vec{z}_2} \)，其中
+      \( \vec{z}_1,\vec{z}_2\in\Re^n \)，则 \( \vec{z}_1+\vec{z}_2 \)
+      平分 \( \vec{z}_1 \) 与 \( \vec{z}_2 \) 之间的夹角
+      \begin{center}
+        \setlength{\unitlength}{4pt}      % sum of equal length vectors.
+        \begin{picture}(37,12)(0,0)
+          \put(0,0){\begin{picture}(12,12)(0,0)
+                      \thicklines
+                      \put(0,0){\vector(2,1){8} }
+                      \put(0,0){\vector(1,2){4} }
+                      \put(0,0){\vector(1,1){12} }
+                      \thinlines
+                      \put(8,4){\line(1,2){4} }
+                      \put(4,8){\line(2,1){8} }
+                    \end{picture} }
+          \put(18.5,7){\makebox(0,0){\small 可得} }
+          \put(25,0){\begin{picture}(12,12)(0,0)
+                      \thinlines
+                      \put(0,0){\line(2,1){8} }
+                      \put(0,0){\line(1,2){4} }
+                      \put(0,0){\line(1,1){12} }
+                      \put(8,4){\line(1,2){4} }
+                      \put(4,8){\line(2,1){8} }
+
+                      \put(2,3.8){\( \prime \)}
+                      \put(4.2,1.5){\( \prime \)}
+                      \multiput(5.7,5.2)(0.5,0.5){2}{\( \prime \)}
+                      \multiput(9.0,5.8)(0.5,1.0){3}{\( \prime \)}
+                      \multiput(6.6,8.7)(0.6,0.3){3}{\( \prime \)}
+                    \end{picture} }
+        \end{picture}
+      \end{center}
+      （我们忽略 \( \vec{z}_1 \) 与 \( \vec{z}_2 \) 为
+      零向量的情形）。
+
+      \( \vec{z}_1+\vec{z}_2=\zero \) 的情形很容易。
+      对其余情形，由夹角的定义， 
+      只需证明下式即告完成。
+      \begin{equation*}
+        \frac{\vec{z}_1\dotprod(\vec{z}_1+\vec{z}_2)}{
+              \absval{\vec{z}_1}\,\absval{\vec{z}_1+\vec{z}_2} }
+        =
+        \frac{\vec{z}_2\dotprod(\vec{z}_1+\vec{z}_2)}{
+              \absval{\vec{z}_2}\,\absval{\vec{z}_1+\vec{z}_2} }
+      \end{equation*}
+      而在每个表达式内部展开则得
+      \begin{equation*}
+        \frac{\vec{z}_1\dotprod\vec{z}_1+\vec{z}_1\dotprod\vec{z}_2}{
+              \absval{\vec{z}_1}\,\absval{\vec{z}_1+\vec{z}_2} }
+        \qquad
+        \frac{\vec{z}_2\dotprod\vec{z}_1+\vec{z}_2\dotprod\vec{z}_2}{
+              \absval{\vec{z}_2}\,\absval{\vec{z}_1+\vec{z}_2} }
+      \end{equation*}
+      且 \( \vec{z}_1\dotprod\vec{z}_1=\absval{\vec{z}_1}^2
+              =\absval{\vec{z}_2}^2=\vec{z}_2\dotprod\vec{z}_2 \)，故
+      两者相等。  
+    \end{answer}
+  \item 
+    验证夹角的定义在量纲上是正确的：
+    (1)~若 \( k>0 \)，则 \( k\vec{u} \)
+    与 \( \vec{v} \) 之间夹角的余弦等于 \( \vec{u} \)
+    与 \( \vec{v} \) 之间夹角的余弦；(2)~若 \( k<0 \)，则 \( k\vec{u} \) 与 \( \vec{v} \)
+    之间夹角的余弦是 \( \vec{u} \) 与 \( \vec{v} \) 之间夹角
+    余弦的相反数。
+    \begin{answer}
+      我们可以把这两个论断一并证明。
+      设 \( \vec{u}, \vec{v}\in\Re^n \)，写 
+      \begin{equation*}
+         \vec{u}=\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}
+         \qquad
+         \vec{v}=\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+      \end{equation*}
+      并计算。 
+      \begin{equation*}
+        \cos\theta=
+        \frac{ku_1v_1+\cdots+ku_nv_n}{
+             \sqrt{{(ku_1)}^2+\cdots+{(ku_n)}^2}\sqrt{{b_1}^2+\cdots+{b_n}^2} }
+        =\frac{k}{\absval{k}}
+        \frac{\vec{u}\cdot\vec{v}}{\absval{\vec{u}\,}\,\absval{\vec{v}\,} }
+        =\pm
+        \frac{\vec{u}\dotprod\vec{v}}{\absval{\vec{u}\,}\,\absval{\vec{v}\,} }
+      \end{equation*}  
+    \end{answer}
+  \recommended \item 
+    证明内积运算具有\definend{线性}：~对
+    \( \vec{u},\vec{v},\vec{w}\in\Re^n \) 及 \( k,m\in\Re \)，
+    $\vec{u}\dotprod(k\vec{v}+m\vec{w})=
+       k(\vec{u}\dotprod\vec{v})+m(\vec{u}\dotprod\vec{w})$。
+    \begin{answer}
+      设
+      \begin{equation*}
+        \vec{u}=\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n},
+        \quad
+        \vec{v}=\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+        \quad
+        \vec{w}=\colvec{w_1 \\ \vdotswithin{w_1} \\ w_n}
+      \end{equation*}
+      于是
+      \begin{align*}
+        \vec{u}\dotprod\bigl(k\vec{v}+m\vec{w}\bigr)
+        &=\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}\dotprod
+         \bigl( \colvec{kv_1 \\ \vdotswithin{kv_1} \\ kv_n}
+               +\colvec{mw_1 \\ \vdotswithin{mw_1} \\ mw_n} \bigr)   \\
+        &=\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}\dotprod
+         \colvec{kv_1+mw_1 \\ \vdotswithin{kv_1+mw_1} \\ kv_n+mw_n}    \\
+        &=u_1(kv_1+mw_1)+\cdots+u_n(kv_n+mw_n)    \\
+        &=ku_1v_1+mu_1w_1+\cdots+ku_nv_n+mu_nw_n    \\
+        &=(ku_1v_1+\cdots+ku_nv_n)+(mu_1w_1+\cdots+mu_nw_n)    \\
+        &=k(\vec{u}\dotprod\vec{v})+m(\vec{u}\dotprod\vec{w})
+      \end{align*}  
+      这正是所要证的。
+    \end{answer}
+  % \item 
+  %   The \definend{geometric mean}\index{mean!geometric} 
+  %   of two positive reals \( x, y \) is \( \sqrt{xy} \).
+  %   It is analogous to the \definend{arithmetic mean}\index{mean!arithmetic} 
+  %   \( (x+y)/2 \).
+  %   Use the Cauchy-Schwarz inequality to show that
+  %   the geometric mean of any \( x,y\in\Re \) is less
+  %   than or equal to the arithmetic mean.
+  %   \begin{answer}
+  %     For \( x,y\in\Re^+ \), set
+  %     \begin{equation*}
+  %       \vec{u}=\colvec{\sqrt{x} \\ \sqrt{y}}
+  %       \qquad
+  %       \vec{v}=\colvec{\sqrt{y} \\ \sqrt{x}}
+  %     \end{equation*}
+  %     so that the Cauchy-Schwarz inequality asserts that (after squaring)
+  %     \begin{align*}
+  %       (\sqrt{x}\sqrt{y}+\sqrt{y}\sqrt{x})^2
+  %       &\leq(\sqrt{x}\sqrt{x}+\sqrt{y}\sqrt{y})(\sqrt{y}\sqrt{y}
+  %                                             +\sqrt{x}\sqrt{x})   \\
+  %       (2\sqrt{x}\sqrt{y})^2
+  %       &\leq(x+y)^2                            \\
+  %       \sqrt{xy}
+  %       &\leq\frac{x+y}{2}
+  %     \end{align*}
+  %     as desired.  
+  %   \end{answer}
+  \puzzle \item 
+    \cite{Cleary}
+    占星家声称，通过把 $2000$~年前
+    星辰所在的位置纳入考量，便能识别出
+    随个人生日而异的人格与运势走向。
+    %, during the Hellenistic period.  
+    假如提出这套体系的不是观星占卜的人，而是一群喜欢线性代数的数学教师
+    （我们称他们为“向量术士”），他们想出了如下类似的系统：~把你的生日
+    看作行向量
+    $\rowvec{\text{月} &\text{日}}$。  
+    例如，我生于7~月$12$日，所以我的向量就是
+    $\rowvec{7  &12}$。  
+    向量术士们定下规则：两人相处是否融洽
+    取决于向量之间的夹角。  
+    夹角越小，关系越和睦。
+    \begin{exparts}
+      \item 求你的向量与我的向量之间的夹角，
+        以弧度计。
+      \item 你会与我相处得更好，
+        还是与一位生于9~月$19$日的教授相处得更好？
+      \item 若要关系最为和睦，
+        对方应当生于何时？ 
+      \item 是否存在与你具有“最糟情形”关系的人，
+        即你的向量与他的向量正交？  
+        若有，这类人的生日是什么？  
+        若无，请解释为什么。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \item 例如，生日为10~月$12$日时得到下式。
+          \begin{equation*}
+            \theta
+            =
+            \arccos(\,\frac{\colvec[r]{7 \\ 12}\dotprod\colvec[r]{10 \\ 12}}{
+                  \absval{\colvec[r]{7 \\ 12}\,}\cdot\absval{\colvec[r]{10 \\ 12}\,} }\,)
+            =\arccos(\frac{214}{\sqrt{244}\sqrt{193}})
+            \approx \text{$0.17$~弧度}
+          \end{equation*}
+        \item 把同一公式用于 $\rowvec{9 &19}$，得
+           约 $0.09$~弧度。
+        \item 若对方生于
+           同一天，则夹角为 $0$~弧度。
+           若一个生日是另一个生日的标量倍数，夹角也会为 $0$。
+           例如，生于3~月$6$日的人 
+           与生于2~月$4$日的人关系和睦。
+
+          给定一个生日，我们可以让 \Sage{} 
+          绘出其他日期所对应的夹角。
+          本例展示了所有日期与7~月12日的关系。
+\begin{lstlisting}
+  sage: plot3d(lambda x, y: math.acos((x*7+y*12)/(math.sqrt(7**2+12**2)*math.sqrt(x**2+y**2))),
+                                                                 (1,12),(1,31))
+\end{lstlisting}
+          % The result looks like this.
+          \begin{center}
+            \includegraphics[height=2in]{gr/bin/rcbday.jpg}
+          \end{center}
+        \item 我们希望最大化下式。
+          \begin{equation*}
+            \theta
+            =
+            \arccos(\,\frac{\colvec[r]{7 \\ 12}\dotprod\colvec{m \\ d}}{
+                  \absval{\colvec[r]{7 \\ 12}\,}\cdot\absval{\colvec{m \\ d}\,} }\,)
+          \end{equation*}
+          当然，$m$ 与 $d$ 都不能取负值，因此我们
+          无法得到与给定向量正交的向量。
+          下面的 Python 脚本用暴力法求出最大夹角。
+\begin{lstlisting}
+  import math
+  days={1:31,  # Jan
+        2:29, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
+  BDAY=(7,12)
+  max_res=0
+  max_res_date=(-1,-1)
+  for month in range(1,13):
+      for day in range(1,days[month]+1):
+          num=BDAY[0]*month+BDAY[1]*day
+          denom=math.sqrt(BDAY[0]**2+BDAY[1]**2)*math.sqrt(month**2+day**2)
+          if denom>0:
+              res=math.acos(min(num*1.0/denom,1))
+              print "day:",str(month),str(day)," angle:",str(res)
+              if res>max_res:
+                  max_res=res
+                  max_res_date=(month,day)
+  print "For ",str(BDAY),"worst case",str(max_res),"rads, date",str(max_res_date)
+  print "  That is ",180*max_res/math.pi,"degrees"
+\end{lstlisting}
+          结果为 
+\begin{lstlisting}
+  For  (7, 12) worst case 0.95958064648 rads, date (12, 1)
+    That is  54.9799211457 degrees
+\end{lstlisting}
+
+          更具概念性的方法是考察所有点 
+          $(\text{月},\text{日})$ 与点 $(7,12)$ 的关系。
+          下图
+          清楚地表明答案是12~月$1$日或1~月$31$日，取决于
+          哪个离生日更远。 
+          虚线平分从原点到
+          12~月$1$日的直线与从原点到1~月$31$日的直线之间的夹角。
+          直线以上的生日离12~月$1$日最远， 
+          直线以下的生日离1~月$31$日最远。
+          \begin{center}
+            \includegraphics{gr/mp/ch1.54}
+          \end{center}
+      \end{exparts}
+    \end{answer}
+  \puzzle \item 
+    \cite{Monthly33p118}
+    一艘船以速度和方向 \( \vec{v}_1 \) 航行；视风（依桅杆上的风向标判断）
+    沿向量
+    \( \vec{a} \) 的方向吹；当船的方向与速度从
+    \( \vec{v}_1 \) 变为 \( \vec{v}_2 \) 后，视风沿
+    向量 \( \vec{b} \) 的方向。
+
+    求风的向量速度。
+    \begin{answer}
+      \answerasgiven %
+      风的实际速度 \( \vec{v} \) 等于
+      船的速度与风的视速度之和。
+      不失一般性，可设 \( \vec{a} \) 与
+      \( \vec{b} \) 为单位向量，并可写成
+      \begin{equation*}
+         \vec{v}=\vec{v}_1+s\vec{a}=\vec{v}_2+t\vec{b}
+      \end{equation*}
+      其中 \( s \) 与 \( t \) 为待定标量。
+      先与 \( \vec{a} \) 作点积、再与 \( \vec{b} \) 作点积
+      以得到
+      \begin{align*}
+         s-t\vec{a}\dotprod\vec{b}
+         &=\vec{a}\dotprod(\vec{v}_2-\vec{v}_1)    \\
+         s\vec{a}\dotprod\vec{b}-t
+         &=\vec{b}\dotprod(\vec{v}_2-\vec{v}_1)
+      \end{align*}
+      将第二式乘以 \( \vec{a}\dotprod\vec{b} \)， 
+      再从第一式中减去所得结果，便求得
+      \begin{equation*}
+         s=
+         \frac{[\vec{a}-(\vec{a}\dotprod\vec{b})\vec{b}]
+                   \dotprod(\vec{v}_2-\vec{v}_1)
+              }{1-(\vec{a}\dotprod\vec{b})^2}.
+      \end{equation*}
+      代回原来的方程，便得
+      \begin{equation*}
+         \vec{v}=\vec{v}_1+
+         \frac{[\vec{a}-(\vec{a}\dotprod\vec{b})\vec{b}]
+                 \dotprod(\vec{v}_2-\vec{v}_1)
+             \vec{a}}{1-(\vec{a}\dotprod\vec{b})^2}.
+      \end{equation*}  
+    \end{answer}
+  \item  
+     通过先证明
+     Lagrange 恒等式来验证 Cauchy-Schwarz 不等式：
+     \begin{equation*}
+      \left(\sum_{1\leq j\leq n} a_jb_j \right)^2
+      =
+      \left(\sum_{1\leq j\leq n}a_j^2\right)
+      \left(\sum_{1\leq j\leq n}b_j^2\right)
+      -
+      \sum_{1\leq k < j\leq n}(a_kb_j-a_jb_k)^2
+     \end{equation*}
+     然后注意到最后一项为正。
+     % (Recall the meaning
+     % \begin{equation*}
+     %   \sum_{1\leq j\leq n}a_jb_j=
+     %   a_1b_1+a_2b_2+\cdots+a_nb_n
+     % \end{equation*}
+     % and
+     % \begin{equation*}
+     %   \sum_{1\leq j\leq n}{a_j}^2=
+     %   {a_1}^2+{a_2}^2+\cdots+{a_n}^2
+     % \end{equation*}
+     % of the \( \Sigma \) notation.)
+     这一结果 
+     是对 Cauchy-Schwarz 不等式的改进，因为它给出了
+     两边之差的公式。
+     请在 \( \Re^2 \) 中解释这个差。
+     \begin{answer}
+       我们对 \( n \) 使用归纳法。
+
+       在 \( n=1 \) 的基底情形，该恒等式化为
+       \begin{equation*}
+          (a_1b_1)^2=({a_1}^2)({b_1}^2)-0
+       \end{equation*}
+       显然成立。
+
+       归纳步骤假设该公式对 
+       \( 0 \), \ldots, \( n \) 各情形成立。
+       我们将证明它在 \( n+1 \) 情形也成立。
+       从右端出发
+       \begin{multline*}
+         \bigl( \sum_{1\leq j\leq n+1}{a_j}^2\bigr)
+         \bigl( \sum_{1\leq j\leq n+1}{b_j}^2\bigr)
+         -
+         \sum_{1\leq k<j\leq n+1}\bigl(a_kb_j-a_jb_k\bigr)^2  \\
+       \begin{aligned}
+         &=
+         \bigl[ (\sum_{1\leq j\leq n}{a_j}^2)+{a_{n+1}}^2\bigr]
+         \bigl[ (\sum_{1\leq j\leq n}{b_j}^2)+{b_{n+1}}^2\bigr]   \\     
+         &\hbox{}\quad -
+         \bigl[\sum_{1\leq k<j\leq n}\bigl(a_kb_j-a_jb_k\bigr)^2+
+         \sum_{1\leq k\leq n}\bigl(a_kb_{n+1}-a_{n+1}b_k\bigr)^2  \bigr] \\
+         &=
+         \bigl( \sum_{1\leq j\leq n}{a_j}^2\bigr)
+         \bigl( \sum_{1\leq j\leq n}{b_j}^2\bigr)
+         +
+         \sum_{1\leq j\leq n}{b_j}^2{a_{n+1}}^2                 
+         +
+         \sum_{1\leq j\leq n}{a_j}^2{b_{n+1}}^2
+         +
+         {a_{n+1}}^2{b_{n+1}}^2                                 \\
+         &\hbox{}\qquad\hbox{} -
+         \bigl[\sum_{1\leq k<j\leq n}\bigl(a_kb_j-a_jb_k\bigr)^2+
+         \sum_{1\leq k\leq n}\bigl(a_kb_{n+1}-a_{n+1}b_k\bigr)^2  \bigr] \\
+         &=
+         \bigl( \sum_{1\leq j\leq n}{a_j}^2\bigr)
+         \bigl( \sum_{1\leq j\leq n}{b_j}^2\bigr)
+         -\sum_{1\leq k<j\leq n}\bigl(a_kb_j-a_jb_k\bigr)^2   \\   
+         &\hbox{}\quad +
+         \sum_{1\leq j\leq n}{b_j}^2{a_{n+1}}^2
+         +
+         \sum_{1\leq j\leq n}{a_j}^2{b_{n+1}}^2
+         +
+         {a_{n+1}}^2{b_{n+1}}^2                                 \\
+         &\hbox{}\qquad\hbox{} -
+         \sum_{1\leq k\leq n}\bigl(a_kb_{n+1}-a_{n+1}b_k\bigr)^2
+        \end{aligned}
+       \end{multline*}
+       再应用归纳假设。
+       \begin{align*}
+         &=
+         \bigl( \sum_{1\leq j\leq n}a_jb_j\bigr)^2              
+         +
+         \sum_{1\leq j\leq n}{b_j}^2{a_{n+1}}^2
+         +
+         \sum_{1\leq j\leq n}{a_j}^2{b_{n+1}}^2
+         +
+         {a_{n+1}}^2{b_{n+1}}^2                          \\              
+         &\hbox{}\qquad\hbox{}-
+         \bigl[\sum_{1\leq k\leq n}{a_k}^2{b_{n+1}}^2
+           -2\sum_{1\leq k\leq n}a_kb_{n+1}a_{n+1}b_k
+           +\sum_{1\leq k\leq n}{a_{n+1}}^2{b_k}^2\bigr]        \\
+         &=
+         \bigl( \sum_{1\leq j\leq n}a_jb_j\bigr)^2
+         +2\bigl(\sum_{1\leq k\leq n}a_kb_{n+1}a_{n+1}b_k\bigr)
+         +{a_{n+1}}^2{b_{n+1}}^2                                 \\
+         &=
+         \bigl[\bigl(\sum_{1\leq j\leq n}a_jb_j\bigr)+a_{n+1}b_{n+1}\bigr]^2
+       \end{align*}
+       即得左端。  
+   \end{answer}
+\end{exercises}
+

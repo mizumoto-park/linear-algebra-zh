@@ -1,0 +1,5693 @@
+% Chapter 1, Section 1 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-09
+\chapter{线性方程组}\leavevmode  % because no preamble?
+\section{求解线性方程组}
+线性方程组在科学和数学中很常见。
+来自高中科学的这两个例子\cite{Onan}
+可以让我们体会它们是如何产生的。
+
+第一个例子来自
+\hypertarget{ex:Statics}{静力学}。\index{Statics problem}
+假设我们有三个物体，
+已知其中一个的质量为$2$~千克，
+而想求出两个未知的质量。
+用一根米尺做实验，得到下面两个平衡状态。
+\begin{center}
+  \includegraphics{gr/mp/ch1.1}
+  \qquad
+  \includegraphics{gr/mp/ch1.2}
+\end{center}
+要使两边平衡，必须有左边的力矩之和等于右边的力矩之和，其中
+一个物体的力矩是它的质量乘以它到
+支点的距离。
+这就给出了一个含两个线性方程的方程组。
+\begin{align*}  % odd formatting to match chem problem below
+      40h + 15c &= 100  \\
+            25c &= 50+50h
+\end{align*}
+
+第二个例子
+来自化学。\index{Chemistry problem}
+在可控条件下，我们可以将甲苯$\hbox{C}_7\hbox{H}_8$与
+硝酸$\hbox{H}\hbox{N}\hbox{O}_3$混合，生成
+三硝基甲苯$\hbox{C}_7\hbox{H}_5\hbox{O}_6\hbox{N}_3$，
+同时得到副产物水
+（条件必须受到极好的控制\Dash 三硝基甲苯
+更为人熟知的名称是TNT）。
+我们应该按怎样的比例混合它们？
+反应前出现的每种元素的原子个数
+\begin{equation*}
+    x\, {\rm C}_7{\rm H}_8\ +\ y\,{\rm H}{\rm N}{\rm O}_3
+    \quad\longrightarrow\quad
+    z\,{\rm C}_7{\rm H}_5{\rm O}_6{\rm N}_3\ +\ w\,{\rm H}_2{\rm O}
+\tag*{}\end{equation*}
+必须等于反应后出现的原子个数。
+把它依次应用于元素 C、H、N 和 O，就得到
+下面的方程组。
+\begin{align*}  % odd formatting to state more naturally
+      7x      &= 7z  \\
+      8x +1y  &= 5z+2w  \\
+      1y      &= 3z  \\
+      3y      &= 6z+1w
+\end{align*}
+
+这两个例子都归结为求解一个方程组。
+在每个方程组中，方程只含有每个变量的一次幂。
+本章将说明如何求解任何这样的方程组。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{高斯消元法}
+\begin{definition}\label{def:linearcombination}
+%<*df:linearcombination>
+\( x_1 \), \ldots, \( x_n \) 的一个\definend{线性组合}\index{linear combination}形如
+\begin{equation*}
+   a_1x_1+a_2x_2+a_3x_3+\cdots+a_nx_n
+\end{equation*}
+其中数\( a_1, \ldots ,a_n\in\Re \)称为该组合的
+\definend{系数}\index{linear equation!coefficients}。
+%</df:linearcombination>
+%<*df:linearequations>
+变量 $x_1$, \ldots, $x_n$ 的一个\definend{线性方程}\index{linear equation}
+形如
+$a_1x_1+a_2x_2+a_3x_3+\cdots+a_nx_n=d$
+其中
+\( d\in\Re \) 称为\definend{常数}\index{linear equation!constant}。
+
+\( n \) 元组 \( (s_1,s_2,\ldots ,s_n)\in\Re^n \) 是该方程的一个
+\definend{解}\index{linear equation!solution of} %
+（或者说它\definend{满足}该方程），如果用数
+$s_1$, \ldots, $s_n$ 代替各变量
+得到一个真的陈述：
+$a_1s_1+a_2s_2+\cdots+a_ns_n=d$。
+一个\definend{线性方程组}\index{linear equation!system of}%
+\index{system of linear equations}
+\begin{equation*}
+  \begin{linsys}{4}
+    a_{1,1}x_1 &+ &a_{1,2}x_2  &+  &\cdots &+ &a_{1,n}x_n &=  &d_1  \\
+    a_{2,1}x_1 &+ &a_{2,2}x_2  &+  &\cdots &+ &a_{2,n}x_n &=  &d_2  \\
+             &  &           &   &       &  &          &\vdotswithin{=}  \\
+    a_{m,1}x_1 &+ &a_{m,2}x_2  &+  &\cdots &+ &a_{m,n}x_n &=  &d_m
+  \end{linsys}
+\end{equation*}
+有解
+\( (s_1,s_2,\ldots ,s_n) \)，如果该 $n$ 元组是所有
+方程的解。
+%</df:linearequations>
+\end{definition}
+
+\begin{example}
+组合 \( 3x_1 + 2x_2 \) 是 $x_1$ 与 $x_2$ 的线性组合。
+组合 \( 3x_1^2 + 2x_2 \) 不是 $x_1$ 与 $x_2$ 的线性函数，
+\( 3x_1 + 2\sin(x_2) \) 也不是。
+\end{example}
+
+我们通常取 $x_1$, \ldots, $x_n$ 彼此不同，因为在含有重复项的和式中，
+我们可以重新整理使各项唯一，如 $2x+3y+4x=6x+3y$。
+我们有时写出系数为零的项，如
+$x-2y+0z$，有时则将其省略，视哪种方便而定。
+
+\begin{example}
+有序对 \( (-1,5) \) 是下面这个方程组的解。
+\begin{equation*}
+  \begin{linsys}{2}
+    3x_1 &+ &2x_2 &= &7  \\
+    -x_1 &+ &x_2  &= &6
+  \end{linsys}
+\end{equation*}
+相比之下，\( (5,-1) \) 不是解。
+\end{example}
+
+求出由全部解组成的集合称为
+\definend{求解}\index{system of linear equations!solving}
+方程组。
+我们不需要猜测或碰运气；
+有一个总是有效的算法。
+这个算法就是
+\definend{高斯消元法}\index{Gauss's Method}%
+\index{system of linear equations!Gauss's Method}
+（或称\definend{高斯消去法}\index{Gaussian elimination}%
+\index{system of linear equations!Gaussian elimination}
+或\definend{线性消去法}\index{linear elimination}%
+\index{system of linear equations!linear elimination}%
+\index{system of linear equations!elimination}%
+\index{elimination, Gaussian}）。
+% It transforms the system, step by step, into one
+% with a form that we can easily solve.
+% We will first illustrate how it goes and then we will see the
+% formal statement.
+
+\begin{example}
+为求解方程组
+\begin{equation*}
+  \begin{linsys}{3}
+                     &   &      &   &3x_3  &=  &9  \\
+                 x_1 &+  &5x_2  &-  &2x_3  &=  &2  \\
+      \frac{1}{3}x_1 &+  &2x_2  &   &      &=  &3
+  \end{linsys}
+\end{equation*}
+我们一步一步地变换它，直到它化成
+我们容易求解的形式。
+
+第一个变换
+通过对换第一行与第三行来重写方程组。
+\begin{align*}
+  \quad
+  &\grstep{ \text{对换第1行与第3行} }
+  \begin{linsys}{3}
+        \frac{1}{3}x_1 &+  &2x_2  &   &      &=  &3  \\
+                   x_1 &+  &5x_2  &-  &2x_3  &=  &2  \\
+                       &   &      &   &3x_3  &=  &9
+    \end{linsys}
+\end{align*}
+第二个变换将第一行倍乘~$3$。
+\begin{align*}
+\quad
+  &\grstep{ \text{将第1行倍乘3} }
+  \begin{linsys}{3}
+        x_1 &+  &6x_2  &   &      &=  &9  \\
+        x_1 &+  &5x_2  &-  &2x_3  &=  &2  \\
+            &   &      &   &3x_3  &=  &9
+   \end{linsys}
+\end{align*}
+第三个变换是本例中唯一非平凡的变换。
+我们在心中将第一行的两边乘以 \( -1 \)，
+再在心中把它加到第二行上，
+并把所得结果写成新的第二行。
+\begin{align*}
+  &\grstep{ \text{将第1行的\(-1\)倍加到第2行} }
+  \begin{linsys}{3}
+        x_1 &+  &6x_2  &   &      &=  &9  \\
+            &   &-x_2  &-  &2x_3  &=  &-7 \\
+            &   &      &   &3x_3  &=  &9
+   \end{linsys}
+\end{align*}
+这些步骤已把方程组化成
+我们容易求出每个变量之值的形式。
+最下面的方程表明 \( x_3=3 \)。
+用 $3$ 代替中间方程中的 \( x_3 \)，可知 \( x_2=1 \)。
+再将这两个值代入最上面的方程，
+得到 \( x_1=3 \)。
+于是方程组有唯一解；
+解集为\set{(3,1,3)}。
+\end{example}
+
+我们将在全书使用高斯消元法。
+它快捷而容易。
+我们现在来证明
+它还是安全的：
+高斯消元法从不丢失解，也从不
+引入多余的解，因此
+一个元组在我们应用该方法之前是方程组的解，当且仅当
+在应用之后它仍是方程组的解。
+
+\begin{theorem}[高斯消元法]
+\index{linear equation!solution of!Gauss's Method} \label{th:GaussMethod}
+%<*th:GaussMethod>
+若一个线性方程组经由下述操作之一
+变成另一个方程组
+\begin{enumerate}
+  \setlength{\itemsep}{0ex}
+  \item
+    一个方程与另一个方程对换
+  \item
+    一个方程的两边乘以一个非零常数
+  \item
+    一个方程被替换成它本身与另一个方程的倍数之和
+\end{enumerate}
+则这两个方程组有相同的解集。
+%</th:GaussMethod>
+\end{theorem}
+
+这三种操作各有一个限制。
+不允许把一行乘以~\( 0 \)，因为显然那样
+会改变解集。
+类似地，不允许把一行的倍数加到该行自身，因为
+把一行加上它的~\( -1 \) 倍相当于把该行
+乘以~\( 0 \)。
+我们也不允许把一行与它自身对换，
+这是为了让第四章的某些结果更容易。
+再说，这种操作毫无意义。
+
+\begin{proof}
+我们在这里讨论方程对换这种操作。
+另外两种
+情形类似，见\nearbyexercise{ex:ProveGaussMethod}。
+
+%<*pf:GaussMethod0>
+考虑一个线性方程组。
+\begin{equation*}
+  \begin{linsys}{4}
+    a_{1,1}x_1  &+  &a_{1,2}x_2 &+  &\cdots  &+ &a_{1,n}x_n  &=  &d_1\hfill\hbox{}  \\
+                &   &           &   &        &   &     &\vdotswithin{=}  \\
+    a_{i,1}x_1  &+  &a_{i,2}x_2 &+  &\cdots  &+ &a_{i,n}x_n  &=  &d_i\hfill\hbox{}  \\
+                &   &           &   &        &   &     &\vdotswithin{=}  \\
+    a_{j,1}x_1  &+  &a_{j,2}x_2 &+  &\cdots  &+ &a_{j,n}x_n  &=  &d_j\hfill\hbox{}  \\
+                &   &           &   &        &   &     &\vdotswithin{=} \\
+    a_{m,1}x_1  &+  &a_{m,2}x_2 &+  &\cdots  &+ &a_{m,n}x_n  &=  &d_m  \\
+  \end{linsys}
+\end{equation*}
+元组 \( (s_1,\ldots\,,s_n) \)
+满足这个方程组，
+当且仅当将这些值代入各变量，即用 $s$ 代替 $x$，得到一个真陈述的合取：
+$a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n=d_1$
+与\ldots\
+$a_{i,1}s_1+a_{i,2}s_2+\cdots+a_{i,n}s_n=d_i$
+与\ldots\ $a_{j,1}s_1+a_{j,2}s_2+\cdots+a_{j,n}s_n=d_j$
+与\ldots\ $a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n=d_m$。
+%</pf:GaussMethod0>
+
+%<*pf:GaussMethod1>
+在用“与”连接的一列陈述中，我们可以
+重新排列这些陈述的次序。
+因此
+该要求成立当且仅当
+$a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n=d_1$
+与\ldots\ $a_{j,1}s_1+a_{j,2}s_2+\cdots+a_{j,n}s_n=d_j$
+与\ldots\ $a_{i,1}s_1+a_{i,2}s_2+\cdots+a_{i,n}s_n=d_i$
+与\ldots\ $a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n=d_m$。
+这正是 \( (s_1,\ldots\,,s_n) \)
+在对换行之后满足方程组的要求。
+%</pf:GaussMethod1>
+\end{proof}
+
+\begin{definition} \label{df:GaussMethod}
+%<*df:GaussMethod>
+来自
+\nearbytheorem{th:GaussMethod}
+的这三种操作是
+\definend{初等化简操作},\index{Gauss's Method!elementary operations}%
+\index{elementary reduction operations}
+或称\definend{行变换}\index{elementary row operations}，
+或称\definend{高斯操作}。
+它们是
+\definend{对换}\index{elementary reduction operations! swapping}%
+\index{swapping rows}、
+\definend{倍乘一个标量}（或称
+\definend{倍乘}\index{elementary reduction operations! rescaling}%
+\index{rescaling rows}），以及
+\definend{倍加}\index{elementary reduction operations! row combination}%
+\index{combining rows}\index{adding rows}。
+%</df:GaussMethod>
+\end{definition}
+
+在写出计算过程时，我们将
+把“第 \(i\) 行”缩写为“\( \rho_i \)”
+（这是希腊字母 rho，读音如同英文的“row”）。
+例如，我们将用
+\( k\rho_i+\rho_j \)
+表示一个倍加操作，
+其中发生变化的行写在后面。
+为了减少书写，当多个加法步骤使用同一个 $\rho_i$ 时，我们常常
+将它们合并，如下面的
+例子所示。
+
+\begin{example}
+高斯消元法系统地应用行变换来求解方程组。
+下面是一个典型的例子。
+\begin{equation*}
+  \begin{linsys}{3}
+    x  &+  &y  &   &   &=  &0  \\
+   2x  &-  &y  &+  &3z &=  &3  \\
+    x  &-  &2y &-  &z  &=  &3
+  \end{linsys}
+\end{equation*}
+我们先用第一行
+消去第二行中的 $2x$ 和第三行中的 $x$。
+为消去 $2x$，我们在心中将整个第一行乘以 $-2$，
+把它加到
+第二行上，并把结果写成新的第二行。
+为消去第三行中的~$x$，我们将第一行乘以
+$-1$，加到第三行上，并把结果写成
+新的第三行。
+\begin{align*}
+  &\grstep[-\rho_1 +\rho_3]{-2\rho_1 +\rho_2}
+  \begin{linsys}{3}
+     x  &+  &y  &   &   &=  &0  \\
+        &   &-3y&+  &3z &=  &3  \\
+        &   &-3y&-  &z  &=  &3
+  \end{linsys}
+\end{align*}
+% In this version of the system, the last two equations involve only two unknowns.
+最后，我们把第二个方程组变换成第三个方程组，使得
+最下面的方程只含一个未知数。
+为此我们用
+第二行消去第三行中的 $y$~项。
+\begin{equation*}
+  \grstep{-\rho_2 +\rho_3}
+  \begin{linsys}{3}
+     x  &+  &y  &   &   &=  &0  \\
+        &   &-3y&+  &3z &=  &3  \\
+        &   &   &   &-4z&=  &0
+   \end{linsys}
+\end{equation*}
+现在求方程组的解就容易了。
+第三行给出 \( z=0 \)。
+将它回代\index{Gauss's Method!back-substitution}%
+\index{back-substitution}
+到第二行，得到 \( y=-1 \)。
+再回代到第一行，得到 \( x=1 \)。
+\end{example}
+
+\begin{example}
+对于本章开头来自物理的问题\index{Statics problem}，高斯消元法给出
+\begin{equation*}
+   \begin{linsys}{2}
+     40h  &+  &15c  &=  &100      \\
+     -50h &+  &25c  &=  &50
+   \end{linsys}
+   \grstep{5/4\rho_1 +\rho_2}
+   \begin{linsys}{2}
+      40h  &+  &15c       &=  &100      \\
+           &   &(175/4)c  &=  &175
+    \end{linsys}
+\end{equation*}
+于是 \( c=4 \)，回代给出 \( h=1 \)。
+（化学问题我们稍后求解。）
+\end{example}
+
+\begin{example}
+行化简
+\begin{align*}
+   \begin{linsys}{3}
+        x  &+  &y  &+  &z  &=  &9  \\
+       2x  &+  &4y &-  &3z &=  &1  \\
+       3x  &+  &6y &-  &5z &=  &0
+   \end{linsys}
+   &\grstep[-3\rho_1 +\rho_3]{-2\rho_1 +\rho_2}
+   \begin{linsys}{3}
+      x  &+  &y  &+  &z  &=  &9  \\
+         &   &2y &-  &5z &=  &-17\\
+         &   &3y &-  &8z&=  &-27
+    \end{linsys}                                    \\
+   &\grstep{-(3/2)\rho_2+\rho_3}
+   \begin{linsys}{3}
+      x  &+  &y  &+  &z            &=  &9  \\
+         &   &2y &-  &5z           &=  &-17\\
+         &   &   &   &-(1/2)z      &=  &-(3/2)
+    \end{linsys}
+\end{align*}
+表明 \( z=3 \)、\( y=-1 \)、\( x=7 \)。
+\end{example}
+
+如上面的例子所示，高斯消元法
+的要点是利用初等化简
+操作来为回代做好准备。
+
+\begin{definition} \label{df:EchelonForm}
+%<*df:EchelonForm>
+在方程组的每一行中，
+系数非零的第一个变量是该行的
+\definend{首变量}\index{echelon form!leading variable}%
+\index{leading!variable}。%
+若每个首变量
+都位于其上一行的首变量的右侧，
+第一行的首变量除外，
+且系数全为零的行都在底部，
+则称方程组处于\definend{阶梯形}\index{echelon form}。
+%</df:EchelonForm>
+\end{definition}
+
+\begin{example}
+前面的三个例题只用了倍加操作。
+下面这个线性方程组需要对换操作
+才能化成阶梯形，因为
+在第一次倍加之后
+\begin{align*}
+   \begin{linsys}{4}
+                x  &-  &y  &   &   &   &   &=  &0  \\
+               2x  &-  &2y &+  &z  &+  &2w &=  &4  \\
+                   &   &y  &   &   &+  &w  &=  &0  \\
+                   &   &   &   &2z &+  &w  &=  &5
+   \end{linsys}
+   &\grstep{-2\rho_1 +\rho_2}
+   \begin{linsys}{4}
+      x  &-  &y  &\spaceforemptycolumn   &   &   &   &=  &0  \\
+         &   &   &   &z  &+  &2w &=  &4  \\
+         &   &y  &   &   &+  &w  &=  &0  \\
+         &   &   &   &2z &+  &w  &=  &5
+   \end{linsys}
+\end{align*}
+第二个方程没有首变量 $y$。
+我们将它与下方有首变量 $y$ 的一行对换。
+\begin{align*}
+   &\grstep{\rho_2 \leftrightarrow\rho_3}
+   \begin{linsys}{4}
+      x  &-  &y  &\spaceforemptycolumn   &   &   &   &=  &0  \\
+         &   &y  &   &   &+  &w  &=  &0  \\
+         &   &   &   &z  &+  &2w &=  &4  \\
+         &   &   &   &2z &+  &w  &=  &5
+    \end{linsys}
+\end{align*}
+（若第二个方程下方有多于一个合适的行，
+则我们可以任选其一。）
+此后，高斯消元法像之前那样继续进行。
+\begin{align*}
+   &\grstep{-2\rho_3 +\rho_4}
+   \begin{linsys}{4}
+      x  &-  &y  &\spaceforemptycolumn   &   &   &   &=  &0  \\
+         &   &y  &   &   &+  &w  &=  &0  \\
+         &   &   &   &z  &+  &2w &=  &4  \\
+         &   &   &   &   &   &-3w&=  &-3
+    \end{linsys}
+\end{align*}
+回代给出 \( w=1 \)、\( z=2 \)、\( y=-1 \) 与 \( x=-1 \)。
+\end{example}
+
+严格说来，求解线性方程组并不需要
+行倍乘操作。
+我们在这里引入它，是因为它很方便，而且本章稍后我们将把它用于
+高斯消元法的一个变体，即
+高斯–若尔当消元法。
+
+到目前为止的所有方程组中，方程的个数都与未知数的个数相同。
+它们全都有解，而且全都只有一个解。
+在本小节结束时，我们来看看
+还可能发生哪些别的情况。
+
+\begin{example} \label{ex:MoreEqsThanUnks}
+这个方程组
+的方程个数多于变量的个数。
+\begin{equation*}
+    \begin{linsys}{2}
+      x  &+  &3y  &=  &1  \\
+     2x  &+  &y   &=  &-3 \\
+     2x  &+  &2y  &=  &-2
+    \end{linsys}
+\end{equation*}
+高斯消元法也能帮助我们理解这个方程组，因为
+\begin{align*}
+    &\grstep[-2\rho_1 +\rho_3]{-2\rho_1 +\rho_2}
+    \begin{linsys}{2}
+       x  &+  &3y  &=  &1  \\
+          &   &-5y &=  &-5 \\
+          &   &-4y &=  &-4
+     \end{linsys}
+\end{align*}
+表明其中一个方程是多余的。
+阶梯形
+\begin{equation*}
+    \grstep{-(4/5)\rho_2 +\rho_3}
+    \begin{linsys}{2}
+       x  &+  &3y  &=  &1  \\
+          &   &-5y &=  &-5 \\
+          &   &0   &=  &0
+     \end{linsys}
+\end{equation*}
+给出 \( y=1 \) 与 \( x=-2 \)。
+“\( 0=0 \)”反映了这种多余性。
+\end{example}
+
+对于变量个数多于方程个数的方程组，高斯消元法同样有用。
+下一小节有很多例子。
+
+线性方程组与上面所示例子的另一种不同之处
+在于某些线性方程组没有唯一解。
+这可能以两种方式发生。
+第一种是方程组可能根本没有解。
+
+\begin{example} \label{ex:MoreEqsThanUnksInconsis}
+将上一个例题中的方程组与这个方程组对比。
+\begin{equation*}
+    \begin{linsys}{2}
+      x  &+  &3y  &=  &1  \\
+     2x  &+  &y   &=  &-3 \\
+     2x  &+  &2y  &=  &0
+    \end{linsys}
+    \grstep[-2\rho_1 +\rho_3]{-2\rho_1 +\rho_2}
+    \begin{linsys}{2}
+       x  &+  &3y  &=  &1  \\
+          &   &-5y &=  &-5 \\
+          &   &-4y &=  &-2
+     \end{linsys}
+\end{equation*}
+这里方程组是无解的：~没有任何数对 $(s_1,s_2)$ 能
+同时满足全部三个方程。
+阶梯形使这种无解性显而易见。
+\begin{equation*}
+  \grstep{-(4/5)\rho_2 +\rho_3}
+  \begin{linsys}{2}
+     x  &+  &3y  &=  &1  \\
+        &   &-5y &=  &-5 \\
+        &   &0   &=  &2
+   \end{linsys}
+\end{equation*}
+解集为空。
+\end{example}
+
+\begin{example}
+前面的方程组中方程个数多于未知数的个数，但造成无解的原因并不在于此\Dash
+\nearbyexample{ex:MoreEqsThanUnks}
+的方程个数多于未知数的个数，但它却是相容的。
+反过来，方程个数多于未知数对于无解来说也不是必要的，正如我们看到这个方程个数与未知数个数相同的
+无解方程组那样。
+\begin{equation*}
+  \begin{linsys}{2}
+    x  &+  &2y  &=  &8  \\
+   2x  &+  &4y  &=  &8
+  \end{linsys}
+  \grstep{-2\rho_1 + \rho_2}
+  \begin{linsys}{2}
+     x  &+  &2y  &=  &8  \\
+        &   &0   &=  &-8
+   \end{linsys}
+\end{equation*}
+其实，
+无解与左右两边的相互作用有关；
+在上面第一个方程组中，左边的第二个方程是第一个的两倍，但右边的第二个常数却不是第一个的两倍。
+以后我们将进一步讨论方程组各部分之间的
+依赖关系。
+\end{example}
+
+除了没有解之外，
+线性方程组没有唯一解的另一种方式
+是有许多解。
+
+\begin{example}
+在这个方程组中
+\begin{equation*}
+  \begin{linsys}{2}
+    x  &+  &y   &=  &4  \\
+   2x  &+  &2y  &=  &8
+  \end{linsys}
+\end{equation*}
+满足第一个方程的任何数对也
+满足第二个方程。
+解集
+% \( \{ (x,y)\suchthat x+y=4 \} \)
+\( \set{ (x,y)\suchthat x+y=4} \)
+是无穷的；一些例子
+中的数对为~$(0,4)$、$(-1,5)$ 与 $(2.5,1.5)$。
+
+在这里应用高斯消元法的结果与前面的例题形成对比，
+因为我们没有得到矛盾方程。
+\begin{equation*}
+  \grstep{-2\rho_1 + \rho_2}
+  \begin{linsys}{2}
+    x  &+  &y   &=  &4  \\
+       &   &0   &=  &0
+   \end{linsys}
+\end{equation*}
+\end{example}
+
+不要被那个例题迷惑：~一个 $0=0$ 方程
+并不是方程组有许多解的信号。
+
+\begin{example}  \label{ex:NoZerosInfManySols}
+没有 \( 0=0 \) 方程并不能阻止一个方程组有
+许多不同的解。
+这个方程组处于阶梯形，
+没有 $0=0$，却有无穷多解，
+包括 $(0,1,-1)$、
+$(0,1/2,-1/2)$、$(0,0,0)$ 与 $(0,-\pi,\pi)$
+（任何第一个分量为 $0$ 且第二个分量为第三个的
+相反数的三元组都是一个解）。
+\begin{equation*}
+  \begin{linsys}{3}
+     x  &+  &y  &+  &z  &=  &0  \\
+        &   &y  &+  &z  &=  &0
+   \end{linsys}
+\end{equation*}
+
+\( 0=0 \) 的出现也不意味着方程组必定有
+许多解。
+\nearbyexample{ex:MoreEqsThanUnks} 表明了这一点。
+下面这个方程组也是如此，它
+根本没有解，尽管
+其阶梯形中有一个 $0=0$ 行。
+\begin{align*}
+  \begin{linsys}{3}
+    2x  &   &   &-   &2z  &=  &6  \\
+        &   &y  &+   &z   &=  &1  \\
+    2x  &+  &y  &-   &z   &=  &7  \\
+        &   &3y &+   &3z  &=  &0
+  \end{linsys}
+  &\grstep{-\rho_1 +\rho_3}
+  \begin{linsys}{3}
+     2x  &\spaceforemptycolumn   &   &-   &2z  &=  &6  \\
+         &   &y  &+   &z   &=  &1  \\
+         &   &y  &+   &z   &=  &1  \\
+         &   &3y &+   &3z  &=  &0
+  \end{linsys}                                    \\
+  &\grstep[-3\rho_2 +\rho_4]{-\rho_2 +\rho_3}
+  \begin{linsys}{3}
+     2x  &\spaceforemptycolumn    &   &-   &2z  &=  &6  \\
+         &   &y  &+   &z   &=  &1  \\
+         &   &   &    &0   &=  &0  \\
+         &   &   &    &0   &=  &-3
+   \end{linsys}
+\end{align*}
+\end{example}
+
+总之，
+高斯消元法用行变换
+把方程组准备好以便进行回代。
+如果任何一步出现矛盾方程，那么我们就可以停下来，
+得出方程组无解的结论。
+如果我们到达阶梯形而没有矛盾方程，
+并且每个变量都是其所在行的
+首变量，那么方程组有唯一解，我们可以通过
+回代求出它。
+最后，如果我们到达阶梯形而没有矛盾方程，
+但解不唯一\Dash
+也就是说，至少有一个变量不是首变量\Dash
+那么方程组有许多解。
+
+下一小节将探讨第三种情形。
+我们将看到这样的方程组必定有无穷多解，
+并且我们将描述
+解集。
+
+
+\medskip
+\noindent\textbf{注。}\hspace*{.2em}
+\textit{在这里的练习以及全书其余练习中，
+你必须对每个答案给出理由。
+例如，若一个问题问某个方程组是否有解，那么你必须
+通过给出解来论证“有”的回答，并且必须
+通过证明不存在解来论证“无”的回答。}
+\begin{exercises}
+  \recommended \item 
+    用高斯消元法求出每个方程组的唯一解。
+    \begin{exparts*}
+      \partsitem 
+        $\begin{linsys}[t]{2}
+          2x  &+  &3y  &=  &13  \\
+          x   &-  &y   &=  &-1
+        \end{linsys}$
+      \partsitem 
+        $\begin{linsys}[t]{3}
+          x   &  &  &-  &z  &=  &0  \\
+          3x  &+ &y &   &   &=  &1  \\
+          -x  &+ &y &+  &z  &=  &4
+        \end{linsys}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 高斯消元法
+          \begin{equation*}
+            \grstep{-(1/2)\rho_1+\rho_2}
+            \begin{linsys}{2}
+               2x  &+  &3y      &=  &13  \\
+                   &-  &(5/2)y  &=  &-15/2              
+            \end{linsys}
+          \end{equation*}
+          得到解为$y=3$与$x=2$。
+        \partsitem 这里高斯消元法
+          \begin{equation*}
+            \grstep[\rho_1+\rho_3]{-3\rho_1+\rho_2}
+            \begin{linsys}{3}
+              x   &  &  &-  &z  &=  &0  \\
+                  &  &y &+  &3z &=  &1  \\
+                  &  &y &   &   &=  &4
+            \end{linsys}
+            \grstep{-\rho_2+\rho_3}
+            \begin{linsys}{3}
+              x   &  &  &-  &z    &=  &0  \\
+                  &  &y &+  &3z   &=  &1  \\
+                  &  &  &   &-3z  &=  &3
+            \end{linsys}
+          \end{equation*}
+          给出$x=-1$，$y=4$，$z=-1$。
+      \end{exparts}
+    \end{answer}
+  \item
+    每个方程组都已是阶梯形。
+    对每一个，说明该方程组是唯一解、无解，还是无穷多解。
+    \begin{exparts*}
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+           -3x &+ &2y   &= &0  \\          
+               &  &-2y  &= &0            
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{3}
+             x &+ &y &  &   &= &4  \\          
+               &  &y &- &z  &= &0  \\           
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{3}
+             x &+ &y &  &   &= &4  \\          
+               &  &y &  &-z  &= &0  \\ 
+               &  &  &  &0  &= &0  
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+             x &+ &y    &= &4  \\          
+               &  &0    &= &4            
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{3}
+            3x &+ &6y &+  &z  &= &-0.5  \\          
+               &  &   &   &-z &= &2.5  \\           
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+             x &- &3y    &= &2  \\          
+               &  &0    &= &0            
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+             2x &+ &2y    &= &4  \\
+                &  &y     &= &1 \\          
+                 &  &0    &= &4            
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+              2x &+ &y   &= &0  
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+              x &- &y    &= &-1  \\
+                &  &0     &= &0 \\          
+                 &  &0    &= &4            
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{3}
+              x &+ &y  &- &3z  &= &-1  \\
+                &  &y  &- &z  &= &2  \\
+                &  &  &  &z    &= &0  \\
+                &  &  &  &0   &= &0  
+        \end{linsys}\)
+    \end{exparts*}
+    \begin{answer}
+      如果方程组含有矛盾方程，那么它无解。
+      否则，如果有变量不引领任何一行，那么它有无穷多解。
+      最后一种情形是，既没有矛盾方程，而每个变量又都引领某一行，
+      这时它有唯一解。
+      \begin{exparts}
+        \partsitem 唯一解
+        \partsitem 无穷多解
+        \partsitem 无穷多解
+        \partsitem 无解
+        \partsitem 无穷多解
+        \partsitem 无穷多解
+        \partsitem 无解
+        \partsitem 无穷多解
+        \partsitem 无解
+        \partsitem 唯一解
+      \end{exparts}
+    \end{answer}
+  \recommended \item  
+    用高斯消元法求解每个方程组，
+    或者得出“无穷多解”或“无解”的结论。
+    \begin{exparts*}
+      \partsitem \(
+               \begin{linsys}[t]{2}
+                  2x  &+  &2y  &=  &5  \\
+                   x  &-  &4y  &=  &0  
+               \end{linsys}
+             \)
+      \partsitem \(
+               \begin{linsys}[t]{2}
+                  -x  &+  &y   &=  &1  \\
+                   x  &+  &y   &=  &2  
+               \end{linsys}
+             \) 
+      \partsitem  \(
+               \begin{linsys}[t]{3}
+                   x  &-  &3y  &+  &z  &=  &1  \\
+                   x  &+  &y   &+  &2z &=  &14 
+                \end{linsys}
+             \) 
+      \partsitem  \(
+               \begin{linsys}[t]{2}
+                  -x  &-  &y   &=  &1  \\
+                 -3x  &-  &3y  &=  &2  
+               \end{linsys}
+             \) 
+      \partsitem  \(
+               \begin{linsys}[t]{3}
+                      &   &4y  &+  &z  &=  &20 \\
+                  2x  &-  &2y  &+  &z  &=  &0  \\
+                   x  &   &    &+  &z  &=  &5  \\
+                   x  &+  &y   &-  &z  &=  &10 
+                \end{linsys}
+             \)
+      \partsitem \( \begin{linsys}[t]{4}
+                 2x  &   &   &+  &z  &+  &w  &=  &5  \\
+                     &   &y  &   &   &-  &w  &=  &-1 \\
+                 3x  &   &   &-  &z  &-  &w  &=  &0  \\
+                 4x  &+  &y  &+  &2z &+  &w  &=  &9  
+               \end{linsys}
+            \)
+    \end{exparts*}
+    \begin{answer} 
+      \begin{exparts}
+       \partsitem 高斯消元
+        \begin{equation*}
+          \grstep{-(1/2)\rho_1+\rho_2}
+          \begin{linsys}{2}
+             2x  &+  &2y  &=  &5  \\
+                 &   &-5y &=  &-5/2  
+          \end{linsys}
+        \end{equation*}
+        表明\( y=1/2 \)与\( x=2 \)是唯一解。
+      \partsitem 高斯消元法
+        \begin{equation*}
+          \grstep{\rho_1+\rho_2}
+          \begin{linsys}{2}
+             -x  &+  &y   &=  &1  \\
+                 &   &2y  &=  &3  
+           \end{linsys}
+        \end{equation*}
+        给出\( y=3/2 \)与\( x=1/2 \)这个唯一解。
+      \partsitem 行化简
+        \begin{equation*}
+            \grstep{-\rho_1+\rho_2}
+            \begin{linsys}{3}
+                x  &-  &3y  &+  &z  &=  &1  \\
+                   &   &4y  &+  &z  &=  &13 
+             \end{linsys}
+        \end{equation*}
+        由于变量$z$不是任何一行的首变量，
+        这表明方程组有无穷多解。
+      \partsitem 行化简
+        \begin{equation*}
+          \grstep{-3\rho_1+\rho_2}
+          \begin{linsys}{2}
+             -x  &-  &y   &=  &1  \\
+                 &   &0   &=  &-1 
+           \end{linsys}
+        \end{equation*}
+        表明方程组无解。
+      \partsitem 高斯消元法
+        \begin{align*}
+            \grstep{\rho_1\leftrightarrow\rho_4}
+            \begin{linsys}{3}
+                x  &+  &y   &-  &z  &=  &10 \\
+               2x  &-  &2y  &+  &z  &=  &0  \\
+                x  &   &    &+  &z  &=  &5  \\
+                   &   &4y  &+  &z  &=  &20 
+             \end{linsys}
+            &\grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \begin{linsys}{3}
+                x  &+  &y   &-  &z  &=  &10 \\
+                   &   &-4y &+  &3z &=  &-20\\
+                   &   &-y  &+  &2z &=  &-5 \\
+                   &   &4y  &+  &z  &=  &20 
+             \end{linsys}                                      \\
+            &\grstep[\rho_2+\rho_4]{-(1/4)\rho_2+\rho_3}
+            \begin{linsys}{3}
+                x  &+  &y   &-  &z      &=  &10 \\
+                   &   &-4y &+  &3z     &=  &-20\\
+                   &   &    &   &(5/4)z &=  &0  \\
+                   &   &    &   &4z     &=  &0  
+             \end{linsys}
+        \end{align*}
+        给出唯一解\( (x,y,z)=(5,5,0) \)。
+      \partsitem 这里高斯消元法给出
+         \begin{align*}
+            &\grstep[-2\rho_1+\rho_4]{-(3/2)\rho_1+\rho_3}
+            \begin{linsys}{4}
+               2x  &\spaceforemptycolumn   &   &+  &z       &+  &w       &=  &5  \\
+                   &   &y  &   &        &-  &w       &=  &-1 \\
+                   &   &   &-  &(5/2)z  &-  &(5/2)w  &=  &-15/2  \\
+                   &   &y  &   &        &-  &w       &=  &-1  
+             \end{linsys}                                             \\ 
+            &\grstep{-\rho_2+\rho_4}
+            \begin{linsys}{4}
+               2x  &\spaceforemptycolumn   &   &+  &z       &+  &w       &=  &5  \\
+                   &   &y  &   &        &-  &w       &=  &-1 \\
+                   &   &   &-  &(5/2)z  &-  &(5/2)w  &=  &-15/2  \\
+                   &   &   &   &        &   &0       &=  &0 
+             \end{linsys}
+         \end{align*}
+         这表明方程组有无穷多解。
+      \end{exparts} 
+    \end{answer}
+  \item  
+    求解每个方程组，
+    或者得出“无穷多解”或“无解”的结论。
+    使用高斯消元法。
+    \begin{exparts*}
+      \partsitem \(
+               \begin{linsys}[t]{3}
+                   x  &+  &y   &+  &z   &=  &5  \\
+                   x  &-  &y   &   &    &=  &0  \\
+                      &   &y   &+  &2z  &=  &7  
+               \end{linsys}
+             \)
+      \partsitem \(
+               \begin{linsys}[t]{3}
+                   3x  &  &    &+  &z   &=  &7  \\
+                    x  &-  &y   &+   &3z    &=  &4  \\
+                    x   &+  &2y   &-  &5z  &=  &-1  
+               \end{linsys}
+             \)
+      \partsitem \(
+               \begin{linsys}[t]{3}
+                   x   &+  &3y   &+  &z   &=  &0  \\
+                   -x  &-  &y   &   &    &=  &2  \\
+                   -x   &+  &y   &+  &2z  &=  &8  
+               \end{linsys}
+             \)
+    \end{exparts*}
+    \begin{answer} 
+      \begin{exparts}
+       \partsitem 
+         % sage: M = matrix(RDF, [[1,1,1], [1,-1,0], [0,1,2]])
+         % sage: v = vector(RDF, [5,0,7])
+         % sage: M_prime = M.augment(v)
+         % sage: gauss_method(M_prime)
+         % [ 1.0  1.0  1.0  5.0]
+         % [ 1.0 -1.0  0.0  0.0]
+         % [ 0.0  1.0  2.0  7.0]
+         %  take -1.0 times row 1 plus row 2
+         % [ 1.0  1.0  1.0  5.0]
+         % [ 0.0 -2.0 -1.0 -5.0]
+         % [ 0.0  0.0  1.5  4.5]
+         %  take 0.5 times row 2 plus row 3
+         % [ 1.0  1.0  1.0  5.0]
+         % [ 0.0 -2.0 -1.0 -5.0]
+         % [ 0.0  0.0  1.5  4.5]
+          高斯消元法
+          \begin{align*}
+           \begin{linsys}{3}
+              x  &+  &y   &+  &z   &=  &5  \\
+              x  &-  &y   &   &    &=  &0  \\
+                 &   &y   &+  &2z  &=  &7  
+           \end{linsys}
+           &\grstep{-\rho_1+\rho_2} 
+           \begin{linsys}{3}
+              x  &+  &y   &+  &z   &=  &5  \\
+              0  &   &-2y  &-   &z    &=  &-5  \\
+                 &   &y   &+  &2z  &=  &7  
+           \end{linsys}                                     \\
+           &\grstep{(1/2)\rho_2+\rho_3} 
+           \begin{linsys}{3}
+              x  &+  &y   &+  &z   &=  &5  \\
+              0  &   &-2y  &-   &1    &=  &-5  \\
+                 &   &    &+  &(3/2)z  &=  &7/2  
+           \end{linsys}
+          \end{align*}
+          再经回代得到$x=1$，$y=1$，$z=3$。
+       \partsitem 
+         % sage: M = matrix(QQ, [[3,0,1], [1,-1,3], [1,2,-5]])
+         % sage: v = vector(RDF, [7,4,-1])
+         % sage: v = vector(QQ, [7,4,-1])
+         % sage: M_prime = M.augment(v)
+         % sage: gauss_method(M_prime)
+         % [ 3  0  1  7]
+         % [ 1 -1  3  4]
+         % [ 1  2 -5 -1]
+         %  take -1/3 times row 1 plus row 2
+         %  take -1/3 times row 1 plus row 3
+         % [    3     0     1     7]
+         % [    0    -1   8/3   5/3]
+         % [    0     2 -16/3 -10/3]
+         %  take 2 times row 2 plus row 3
+         % [  3   0   1   7]
+         % [  0  -1 8/3 5/3]
+         % [  0   0   0   0]
+          这里高斯消元法
+          \begin{align*}
+            \begin{linsys}{3}
+                3x  &  &    &+  &z   &=  &7  \\
+                 x  &-  &y   &+   &3z    &=  &4  \\
+                 x   &+  &2y   &-  &5z  &=  &-1  
+            \end{linsys}
+            &\grstep[-(1/3)\rho_1+\rho_3]{-(1/3)\rho_1+\rho_2} 
+            \begin{linsys}{3}
+                3x  &  &    &+  &z        &=  &7  \\
+                    &  &-y   &+ &(8/3)z   &=  &5/3  \\
+                    &  &2y   &- &(16/3)z  &=  &-(10/3)  
+            \end{linsys}                                      \\
+            &\grstep{2\rho_2+\rho_3} 
+            \begin{linsys}{3}
+                3x  &  &    &+  &z        &=  &7  \\
+                    &  &-y   &+ &(8/3)z   &=  &5/3  \\
+                    &  &     &  &0        &=  &0  
+            \end{linsys}
+        \end{align*}
+        发现变量~$z$不引领任何一行。
+        方程组有无穷多解。
+        \partsitem
+          % sage: M = matrix(QQ, [[1,3,1], [-1,-1,0], [-1,1,2]])
+          % sage: v = vector(QQ, [0,2,8])
+          % sage: M_prime = M.augment(v)
+          % sage: gauss_method(M_prime)
+          % [ 1  3  1  0]
+          % [-1 -1  0  2]
+          % [-1  1  2  8]
+          %  take 1 times row 1 plus row 2
+          %  take 1 times row 1 plus row 3
+          % [1 3 1 0]
+          % [0 2 1 2]
+          % [0 4 3 8]
+          %  take -2 times row 2 plus row 3
+          % [1 3 1 0]
+          % [0 2 1 2]
+          % [0 0 1 4]
+          下列步骤
+          \begin{equation*}
+            \begin{linsys}{3}
+               x   &+  &3y   &+  &z   &=  &0  \\
+               -x  &-  &y   &   &    &=  &2  \\
+               -x   &+  &y   &+  &2z  &=  &8  
+            \end{linsys}
+            \grstep[\rho_1+\rho_3]{\rho_1+\rho_2}
+            \begin{linsys}{3}
+               x   &+  &3y   &+  &z   &=  &0  \\
+                   &   &2y   &+  &z   &=  &2  \\
+                   &   &4y   &+  &3z  &=  &8  
+            \end{linsys}
+            \grstep{-2\rho_2+\rho_3}
+            \begin{linsys}{3}
+               x   &+  &3y   &+  &z   &=  &0  \\
+                   &   &2y   &+  &z   &=  &2  \\
+                   &   &     &   &z   &=  &4  
+            \end{linsys}
+          \end{equation*}
+          给出$(x,y,z)=(-1,-1,4)$。
+      \end{exparts} 
+    \end{answer}
+  \recommended \item 
+    我们可以用高斯消元法以外的方法求解线性方程组。
+    中学里常教的一种方法是：从某个方程中解出一个变量，
+    再把所得的表达式代入其他方程。
+    然后重复这一步骤，直到得到只含一个
+    变量的方程。
+    由此我们得到解中的第一个数，再通过
+    回代得到其余的数。
+    这个方法比高斯消元法耗时更长，因为它涉及
+    更多算术运算，而且也更容易出错。
+    为了说明它如何可能导致错误的结论，我们将使用方程组
+    \begin{equation*}
+      \begin{linsys}{2}
+            x  &+  &3y  &=  &1  \\
+            2x  &+  &y   &=  &-3 \\
+            2x  &+  &2y  &=  &0  
+      \end{linsys}
+    \end{equation*}
+    它来自\nearbyexample{ex:MoreEqsThanUnksInconsis}。
+    \begin{exparts}
+      \partsitem 从第一个方程解出$x$，
+        并把该表达式代入第二个方程。
+        求出所得的$y$。
+      \partsitem 再次从第一个方程解出$x$，
+        但这次把该表达式代入第三个方程。
+        求出这个$y$。
+    \end{exparts}
+    使用这个方法的人必须额外采取什么步骤，
+    才能避免错误地得出方程组有解的结论？
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 由$x=1-3y$得到$2(1-3y)+y=-3$，从而$y=1$。
+        \partsitem 由$x=1-3y$得到$2(1-3y)+2y=0$，
+           从而得出$y=1/2$的结论。
+      \end{exparts}
+      使用这个方法的人必须把每个可能的解代回所有方程加以检验。
+    \end{answer}
+  \recommended \item 
+    当\( k \)取哪些值时，这个方程组
+    无解、有无穷多解，或有唯一解？
+    \begin{equation*}
+       \begin{linsys}{2}
+          x  &-  &y  &=  &1  \\
+         3x  &-  &3y &=  &k  
+       \end{linsys}
+    \end{equation*}
+    \begin{answer}
+      作消元
+      \begin{equation*}
+        \grstep{-3\rho_1+\rho_2}
+        \begin{linsys}{2}
+          x  &-  &y  &=  &1\hfill  \\
+             &   &0  &=  &-3+k\hfill  
+        \end{linsys}
+      \end{equation*}
+      由此得出：若\( k\neq 3 \)，则该方程组无解；
+      若\( k=3 \)，则它有无穷多解。
+      它永远不会有唯一解。  
+    \end{answer}
+  \item 
+    这个方程组不是线性的，因为其中出现的是$\sin\alpha$而不是$\alpha$
+    \begin{equation*}
+      \begin{linsys}{3}
+         2\sin\alpha  &-  &\cos\beta  &+  &3\tan\gamma  &=  &3  \\
+         4\sin\alpha  &+  &2\cos\beta &-  &2\tan\gamma  &=  &10  \\
+         6\sin\alpha  &-  &3\cos\beta &+  &\tan\gamma   &=  &9  
+      \end{linsys}
+    \end{equation*}
+    然而我们仍可以应用高斯消元法。
+    请做一做。
+    该方程组有解吗？
+    \begin{answer}
+      令\( x=\sin\alpha \)，\( y=\cos\beta \)，\( z=\tan\gamma \)：
+      \begin{equation*}
+        \begin{linsys}{3}
+           2x  &-  &y  &+  &3z  &=  &3  \\
+           4x  &+  &2y &-  &2z  &=  &10  \\
+           6x  &-  &3y &+  &z   &=  &9  
+        \end{linsys}
+         \grstep[-3\rho_1+\rho_3]{-2\rho_1+\rho_2}
+         \begin{linsys}{3}
+           2x  &-  &y  &+  &3z  &=  &3  \\
+               &   &4y &-  &8z  &=  &4   \\
+               &   &   &   &-8z &=  &0  
+         \end{linsys}
+      \end{equation*}
+      得到\( z=0 \)，\( y=1 \)，\( x=2 \)。
+      注意，没有\( \alpha\in\R \)满足$\sin\alpha=2$。  
+      \end{answer}
+  \recommended \item 
+    常数（各个$b$）必须满足什么条件，
+    才能使下面每个方程组都有解？
+    \textit{提示。}
+    应用高斯消元法，看看右边会发生什么。
+    \begin{exparts*}
+      \partsitem  \(
+        \begin{linsys}[t]{2}
+           x  &-  &3y  &=  &b_1 \\
+          3x  &+  &y   &=  &b_2 \\
+           x  &+  &7y  &=  &b_3 \\
+          2x  &+  &4y  &=  &b_4 
+        \end{linsys}   \)
+      \partsitem \(
+        \begin{linsys}[t]{3}
+           x_1  &+  &2x_2  &+  &3x_3  &=  &b_1  \\
+          2x_1  &+  &5x_2  &+  &3x_3  &=  &b_2  \\
+           x_1  &   &      &+  &8x_3  &=  &b_3  
+        \end{linsys}   \)
+    \end{exparts*}
+    \begin{answer} 
+      \begin{exparts}
+       \partsitem 高斯消元法
+         \begin{equation*}
+           \grstep[-\rho_1+\rho_3 \\ -2\rho_1+\rho_4]{-3\rho_1+\rho_2}
+           \begin{linsys}{2}
+              x  &-  &3y  &=  &b_1\hfill \\
+                 &   &10y &=  &-3b_1+b_2\hfill \\
+                 &   &10y &=  &-b_1+b_3\hfill \\
+                 &   &10y &=  &-2b_1+b_4\hfill 
+            \end{linsys}         
+           \grstep[-\rho_2+\rho_4]{-\rho_2+\rho_3}
+           \begin{linsys}{2}
+              x  &-  &3y  &=  &b_1\hfill \\
+                 &   &10y &=  &-3b_1+b_2\hfill \\
+                 &   &0   &=  &2b_1-b_2+b_3\hfill \\
+                 &   &0   &=  &b_1-b_2+b_4\hfill 
+            \end{linsys}
+         \end{equation*}
+         表明该方程组相容当且仅当
+         \( b_3=-2b_1+b_2 \)与\( b_4=-b_1+b_2 \)同时成立。
+       \partsitem 消元
+         \begin{align*}
+            &\grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \begin{linsys}{3}
+              x_1  &+  &2x_2  &+  &3x_3  &=  &b_1\hfill  \\
+                   &   &x_2   &-  &3x_3  &=  &-2b_1+b_2\hfill  \\
+                   &   &-2x_2 &+  &5x_3  &=  &-b_1+b_3\hfill  
+             \end{linsys}                                          \\
+            &\grstep{2\rho_2+\rho_3}
+            \begin{linsys}{3}
+              x_1  &+  &2x_2  &+  &3x_3  &=  &b_1\hfill  \\
+                   &   &x_2   &-  &3x_3  &=  &-2b_1+b_2\hfill  \\
+                   &   &      &   &-x_3  &=  &-5b_1+2b_2+b_3\hfill  
+             \end{linsys}
+         \end{align*}
+         表明\( b_1 \)、\( b_2 \)与\( b_3 \)各自可以取任何
+         实数\Dash 该方程组总有唯一解。
+      \end{exparts}   
+      \end{answer}
+  \item 
+    判断真假：未知数多于方程个数的方程组
+    至少有一个解。
+    （与往常一样，要断言“真”必须给出证明，
+    而要断言“假”则必须举出反例。）
+    \begin{answer}
+      下面这个未知数多于方程个数的方程组
+      \begin{equation*}
+        \begin{linsys}{3}
+          x  &+  &y  &+  &z  &=  &0  \\
+          x  &+  &y  &+  &z  &=  &1  
+        \end{linsys}
+      \end{equation*}
+      无解。   
+      \end{answer}
+  \item 
+    任何像本小节开头那样的化学\index{Chemistry problem}问题\Dash
+    配平反应的问题\Dash 都必须有无穷多解吗？
+    \begin{answer}
+      是的。
+      例如，同一个反应可以在两个不同的烧瓶中进行，
+      这一事实表明任何一个解的两倍是另一个不同的解
+      （如果物理上确实发生反应，那么至少必须
+      有一个非零解）。
+    \end{answer}
+  \recommended \item 
+    求系数
+    \( a \)、\( b \)、\( c \)，使得\( f(x)=ax^2+bx+c \)的图像
+    经过点\( (1,2) \)、\( (-1,6) \)和\( (2,3) \)。
+    \begin{answer}
+      由\( f(1)=2 \)、\( f(-1)=6 \)以及\( f(2)=3 \)我们得到
+      一个线性方程组。
+      \begin{equation*}
+        \begin{linsys}{3}
+          1a  &+  &1b  &+  &c  &=  &2  \\
+          1a  &-  &1b  &+  &c  &=  &6  \\
+          4a  &+  &2b  &+  &c  &=  &3  
+         \end{linsys}
+      \end{equation*}
+      高斯消元法
+      \begin{equation*}
+         \grstep[-4\rho_1+\rho_3]{-\rho_1+\rho_2}
+         \begin{linsys}{3}
+            a  &+  &b  &+  &c  &=  &2  \\
+               &   &-2b&   &   &=  &4  \\
+               &   &-2b&-  &3c &=  &-5 
+          \end{linsys}               
+         \grstep{-\rho_2+\rho_3}
+         \begin{linsys}{3}
+            a  &+  &b  &+  &c  &=  &2  \\
+               &   &-2b&   &   &=  &4  \\
+               &   &   &   &-3c&=  &-9 
+           \end{linsys}
+      \end{equation*}
+      表明解为\( f(x)=1x^2-2x+3 \)。  
+      \end{answer}
+  \item 在\nearbytheorem{th:GaussMethod}之后我们注意到，
+   用~$0$乘某一行是不允许的，因为这可能改变解集。 
+   举一个解集为~$S_0$的方程组的例子，使得
+   用~$0$乘某一行之后，新方程组的解集为~$S_1$，
+   并且$S_0$是$S_1$的真子集，即$S_0\neq S_1$。
+   再举一个$S_0=S_1$的例子。 
+    \begin{answer}
+      这里$S_0=\set{(1,1)}$
+      \begin{equation*}
+          \begin{linsys}{2}
+             x  &+  &y  &=  &2  \\
+             x  &-  &y  &=  &0
+           \end{linsys}               
+          \grstep{0\rho_2}
+          \begin{linsys}{2}
+             x  &+  &y  &=  &2  \\
+                &   &0  &=  &0
+           \end{linsys}               
+      \end{equation*}
+      而$S_1$是一个真超集，因为它
+      至少包含两个点：$(1,1)$和~$(2,0)$。
+      在这个例子中解集没有改变。  
+      \begin{equation*}
+          \begin{linsys}{2}
+             x  &+  &y  &=  &2  \\
+            2x  &+  &2y &=  &4
+           \end{linsys}               
+          \grstep{0\rho_2}
+          \begin{linsys}{2}
+             x  &+  &y  &=  &2  \\
+                &   &0  &=  &0
+           \end{linsys}               
+      \end{equation*}
+    \end{answer}
+  \item 
+    高斯消元法的工作方式是对方程组中的方程作组合，
+    得到新的方程。
+    \begin{exparts}
+      \partsitem 我们能否通过一系列
+        高斯消元步骤，从这个方程组中的方程导出方程\( 3x-2y=5 \)？
+        \begin{equation*}
+          \begin{linsys}{2}
+             x  &+  &y  &=  &1  \\
+            4x  &-  &y  &=  &6
+          \end{linsys}
+        \end{equation*}
+      \partsitem 我们能否通过一系列
+        高斯消元步骤，从这个方程组中的方程导出方程\( 5x-3y=2 \)？
+        \begin{equation*}
+          \begin{linsys}{2}
+            2x  &+  &2y &=  &5  \\
+            3x  &+  &y  &=  &4
+          \end{linsys}
+        \end{equation*}
+      \partsitem 我们能否通过一系列
+        高斯消元步骤，从该方程组中的方程导出\( 6x-9y+5z=-2 \)？
+        \begin{equation*}
+          \begin{linsys}{3}
+            2x  &+  &y  &-  &z  &=  &4  \\
+            6x  &-  &3y &+  &z  &=  &5
+          \end{linsys}
+        \end{equation*}
+    \end{exparts}
+    \begin{answer} 
+       \begin{exparts} 
+        \partsitem 能。观察可知，所给方程来自
+          \( -\rho_1+\rho_2 \)。
+        \partsitem 不能。
+          数对\( (1,1) \)满足所给方程。
+          然而，这个数对
+          不满足该方程组中的第一个方程。
+        \partsitem 能。
+          要判断所给行是否为\( c_1\rho_1+c_2\rho_2 \)，求解
+          联系$x$、$y$、
+          $z$的系数与常数的方程组：
+          \begin{equation*}
+            \begin{linsys}{2}
+               2c_1  &+  &6c_2  &=  &6  \\
+                c_1  &-  &3c_2  &=  &-9 \\
+               -c_1  &+  &c_2   &=  &5  \\
+               4c_1  &+  &5c_2  &=  &-2 
+             \end{linsys}
+          \end{equation*}
+          得到$c_1=-3$与$c_2=2$，所以所给行是
+          \( -3\rho_1+2\rho_2 \)。
+      \end{exparts}  
+     \end{answer}
+  \item 
+    证明：设\( a,b,c,d,e \)是实数
+    且\( a\neq 0 \)，若线性方程
+    \begin{equation*}
+       ax+by=c
+    \end{equation*}
+    与方程
+    \begin{equation*}
+       ax+dy=e
+    \end{equation*}
+    有相同的解集，则它们是同一个方程。
+    若\( a=0 \)呢？
+    \begin{answer}
+      若\( a\neq 0 \)，则第一个方程的解集是
+      下面这个。
+      \begin{equation*}
+        \set{(x,y)\in\Re^2\suchthat 
+             \text{$x=(c-by)/a=(c/a)-(b/a)\cdot y$}}
+        \tag{$*$} 
+      \end{equation*}
+      于是，给定~$y$就能算出相应的~$x$。
+      取$y=0$得到解$(c/a,0)$；由于第二个
+      方程$ax+dy=e$被假定有相同的解集，
+      代入其中得到$a(c/a)+d\cdot 0=e$，所以$c=e$。
+      在($*$)中取$y=1$得到$a((c-b)/a)+d\cdot 1=e$，
+      从而$b=d$。
+      因此它们是同一个方程。
+
+      当\( a=0 \)时，两个方程可以不同却仍
+      有相同的解集，例如
+      \( 0x+3y=6 \)与\( 0x+6y=12 \)。   
+     \end{answer}
+  \item 
+    证明：若\( ad-bc\neq 0 \)，则
+    \begin{equation*}
+      \begin{linsys}{2}
+        ax  &+  &by  &=  &j  \\
+        cx  &+  &dy  &=  &k  
+      \end{linsys}
+    \end{equation*}
+    有唯一解。
+    \begin{answer}
+      我们分三种情形：$a\neq 0$；$a=0$而
+      $c\neq 0$；以及$a=0$与$c=0$同时成立。
+
+      第一种情形，我们假设\( a\neq 0 \)。
+      那么消元
+      \begin{equation*}
+        \grstep{-(c/a)\rho_1+\rho_2}
+        \begin{linsys}{2}
+          ax  &+  &by                  &=  &j \hfill\hbox{} \\
+              &   &(-(cb/a)+d)y  &=  &-(cj/a)+k \hfill  
+         \end{linsys}
+      \end{equation*}
+      表明该方程组有唯一解当且仅当
+      \( -(cb/a)+d\neq 0   \)；记住\( a\neq 0 \)，因
+      此回代给出唯一的\( x \)
+      （顺带指出，\( j \)与\( k \)对“存在唯一解”这一
+      结论没有任何影响，不过若存在唯一解，
+      则它们会影响这个解的值）。
+      但\( -(cb/a)+d = (ad-bc)/a \)，而一个分数等于\( 0 \)
+      当且仅当它的分子等于\( 0 \)。
+      于是，在第一种情形，存在唯一解当且仅当
+      $ad-bc\neq 0$。
+
+      在第二种情形，若\( a=0 \)但\( c\neq 0 \)，则我们对换
+      \begin{equation*}
+        \begin{linsys}{2}
+          cx  &+  &dy  &=  &k  \\
+              &   &by  &=  &j  
+        \end{linsys}
+      \end{equation*}
+      从而得出：该方程组有唯一解当且仅当
+      \( b\neq 0 \)
+      （在回代中我们利用情形假设\( c\neq 0 \)来得到唯一的
+      \( x \)）。
+      但\Dash 在\( a=0 \)而\( c\neq 0 \)时\Dash
+      条件“\( b\neq 0 \)”
+      等价于条件“\( ad-bc\neq 0 \)”。
+      第二种情形到此完成。
+
+      最后，第三种情形，
+      若\( a \)与\( c \)都是\( 0 \)，则方程组
+      \begin{equation*}
+        \begin{linsys}{2}
+          0x  &+  &by  &=  &j  \\
+          0x  &+  &dy  &=  &k  
+        \end{linsys}
+      \end{equation*}
+      可能无解（如果第二个方程不是第一个方程的倍式），
+      也可能有无穷多解（如果第二个方程是第一个方程的倍式，
+      那么对每个满足两个方程的\( y \)，任何数对\( (x,y) \)都行），
+      但它永远不会有唯一解。
+      注意\( a=0 \)与\( c=0 \)给出\( ad-bc=0 \)。  
+    \end{answer}
+  \recommended \item 
+    在方程组
+    \begin{equation*}
+      \begin{linsys}{2}
+         ax  &+  &by  &=  &c  \\
+         dx  &+  &ey  &=  &f  
+      \end{linsys}
+    \end{equation*}
+    中，每个方程描述了\( xy \)平面中的一条直线。
+    用几何推理证明有三种可能：
+    有唯一解，无解，
+    以及有无穷多解。
+    \begin{answer}
+      回忆一下，若两条直线有两个不同的公共点，则
+      它们是同一条直线。
+      这是因为两点确定一条直线，所以这两个点
+      同时确定了这两条直线，
+      因而它们是同一条直线。
+
+      于是，两条直线可以有一个公共点（给出唯一解）、
+      没有公共点（给出无解），
+      或者至少有两个公共点（这使它们成为同一条直线）。  
+    \end{answer}
+  \item \label{ex:ProveGaussMethod}
+    补全\nearbytheorem{th:GaussMethod}的证明。
+    \begin{answer}
+     对于用非零
+     实数$k$乘$\rho_i$的消元操作，我们有：\( (s_1,\ldots,s_n) \)满足
+     方程组
+     \begin{equation*}
+       \begin{linsys}{4}
+         a_{1,1}x_1  &+  &a_{1,2}x_2 &+  &\cdots  &+  &a_{1,n}x_n  &=  &d_1  \\
+                   &   &          &  &        &   &           &\vdotswithin{=}   \\
+        ka_{i,1}x_1  &+  &ka_{i,2}x_2 &+  &\cdots  &+  &ka_{i,n}x_n &=  &kd_i  \\
+                   &   &           &   &        &   &            &\vdotswithin{=}   \\
+         a_{m,1}x_1  &+  &a_{m,2}x_2 &+  &\cdots  &+  &a_{m,n}x_n  &=  &d_m  
+       \end{linsys}
+     \end{equation*}
+     当且仅当
+     % \begin{align*}
+     %    a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n
+     %    &=d_1                                              \\
+     %    &\alignedvdots                                     \\
+     %    \text{and\ } ka_{i,1}s_1+ka_{i,2}s_2+\cdots+ka_{i,n}s_n
+     %    &=kd_i                                              \\
+     %    &\alignedvdots                                      \\
+     %    \text{and\ } a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n
+     %    &=d_m
+     % \end{align*}
+     $a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n=d_1$ 
+     且\ldots{} $ka_{i,1}s_1+ka_{i,2}s_2+\cdots+ka_{i,n}s_n=kd_i$
+     且\ldots{} 
+     $a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n=d_m$，
+     这由“满足”的定义得出。
+     因为\( k\neq 0 \)，上式成立当且仅当
+     % \begin{align*}
+     %    a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n
+     %    &=d_1                                              \\
+     %    &\alignedvdots                                     \\
+     %    \text{and\ } a_{i,1}s_1+a_{i,2}s_2+\cdots+a_{i,n}s_n
+     %    &=d_i                                              \\
+     %    &\alignedvdots                                      \\
+     %    \text{and\ } a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n
+     %    &=d_m
+     % \end{align*}
+     $a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n=d_1$
+     且\ldots{}
+     $a_{i,1}s_1+a_{i,2}s_2+\cdots+a_{i,n}s_n=d_i$
+     且\ldots{}
+     $a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n=d_m$
+     （这只是把第$i$个方程两边直接消去$k$），
+     这说明\( (s_1,\ldots,s_n) \)解方程组
+     \begin{equation*}
+       \begin{linsys}{4}
+         a_{1,1}x_1  &+  &a_{1,2}x_2 &+  &\cdots  &+  &a_{1,n}x_n  &=  &d_1  \\
+                     &   &           &   &        &   &            &\vdotswithin{=}   \\
+         a_{i,1}x_1  &+  &a_{i,2}x_2 &+  &\cdots  &+  &a_{i,n}x_n  &=  &d_i  \\
+                     &   &           &   &        &   &            &\vdotswithin{=}   \\
+         a_{m,1}x_1  &+  &a_{m,2}x_2 &+  &\cdots  &+  &a_{m,n}x_n  &=
+              &d_m  
+         \end{linsys}
+     \end{equation*}
+     即为所需。
+
+     对于组合操作$k\rho_i+\rho_j$，元组
+     \( (s_1,\ldots,s_n) \)满足
+     \begin{equation*}
+       \begin{linsys}{4}
+         a_{1,1}x_1             &+  &\cdots  &+  &a_{1,n}x_n  &=  &d_1\hfill\hbox{} \\
+                                &   &        &   &            &\vdotswithin{=}   \\
+         a_{i,1}x_1             &+  &\cdots  &+  &a_{i,n}x_n  &=  &d_i\hfill\hbox{} \\
+                                &   &        &   &            &\vdotswithin{=}   \\
+         (ka_{i,1}+a_{j,1})x_1  &+  &\cdots  &+  &(ka_{i,n}+a_{j,n})x_n
+               &=  &kd_i+d_j \hfill \\
+                                &   &        &   &            &\vdotswithin{=}   \\
+         a_{m,1}x_1             &+   &\cdots  &+  &a_{m,n}x_n  &=  
+          &d_m\hfill\hbox{} 
+        \end{linsys}
+     \end{equation*}
+     当且仅当
+     $a_{1,1}s_1+\cdots+a_{1,n}s_n=d_1$
+     且\ldots{}
+     $a_{i,1}s_1+\cdots+a_{i,n}s_n=d_i$
+     且\ldots{} 
+     $(ka_{i,1}+a_{j,1})s_1+\cdots+(ka_{i,n}+a_{j,n})s_n=kd_i+d_j$
+     且\ldots{}
+     $a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n=d_m$，
+     同样由“满足”的定义得出。
+     从方程~\( j \)中减去\( k \)倍的方程~\( i \)。
+     （这正是需要\( i\neq j \)的地方；若\( i=j \)，则上面
+     两个\( d_i \)不相等。）
+     前面的复合命题成立当且仅当
+     $a_{1,1}s_1+\cdots+a_{1,n}s_n=d_1$
+     且\ldots{}
+     $a_{i,1}s_1+\cdots+a_{i,n}s_n=d_i$
+     且\ldots{} $
+     (ka_{i,1}+a_{j,1})s_1+\cdots+(ka_{i,n}+a_{j,n})s_n
+         -(ka_{i,1}s_1+\cdots+ka_{i,n}s_n)
+         =kd_i+d_j-kd_i$
+      且\ldots{} $a_{m,1}s_1+\cdots+a_{m,n}s_n=d_m$，
+     消去之后，这说明\( (s_1,\ldots,s_n) \)解方程组
+     \begin{equation*}
+       \begin{linsys}{4}
+         a_{1,1}x_1  &+   &\cdots  &+  &a_{1,n}x_n  &=  &d_1  \\
+                     &    &        &   &            &\vdotswithin{=}   \\
+         a_{i,1}x_1  &+   &\cdots  &+  &a_{i,n}x_n  &=  &d_i  \\
+                     &    &        &   &            &\vdotswithin{=}   \\
+         a_{j,1}x_1  &+  &\cdots  &+  &a_{j,n}x_n  &=  &d_j  \\
+                     &   &        &   &            &\vdotswithin{=}   \\
+         a_{m,1}x_1  &+  &\cdots  &+  &a_{m,n}x_n  &=
+              &d_m\hfill\hbox{}
+       \end{linsys}
+     \end{equation*}  
+     即为所需。
+   \end{answer}
+  \item 
+    存在解集为整个\( \Re^2 \)的
+    两未知数线性方程组吗？
+    \begin{answer}
+      存在，下面这个只有一个方程的方程组：
+      \begin{equation*}
+         0x+0y=0
+      \end{equation*}
+      每个\( (x,y)\in\Re^2 \)都满足它。  
+    \end{answer}
+  \recommended \item 
+    高斯消元法中用到的操作有多余的吗？
+    也就是说，我们能否用其他操作的组合来实现某个操作？
+    \begin{answer}
+      有。
+      下面这串操作对换了行\( i \)与行\( j \)
+      \begin{equation*}
+         \grstep{\rho_i+\rho_j}
+         \repeatedgrstep{-\rho_j+\rho_i}
+         \repeatedgrstep{\rho_i+\rho_j}
+         \repeatedgrstep{-1\rho_i}
+      \end{equation*}  
+      所以在另外两种操作存在的情况下，对换操作是多余的。
+     \end{answer}
+  \item 
+    证明高斯消元法的每种操作都是可逆的。
+    也就是说，证明若两个方程组通过一个行变换相联系
+    $S_1\rightarrow S_2$，则存在一个行变换变回去
+    $S_2\rightarrow S_1$。
+    \begin{answer}
+      行对换$\rho_i\leftrightarrow\rho_j$可以用
+      对换回去$\rho_j\leftrightarrow\rho_i$来逆转。
+      $k\rho_i$这一步是用\( k\neq 0  \)乘
+      某一行的两边，
+      可以用除以~$(1/k)\rho_i$来逆转。
+
+      倍加的情形是非平凡的。
+      操作$k\rho_i+\rho_j$
+      得到如下的第$j$行。
+      \begin{equation*}
+        k\cdot a_{i,1}+a_{j,1}+\cdots+k\cdot a_{i,n}+a_{j,n}=k\cdot d_i+d_j
+      \end{equation*}
+      由于$i\neq j$的限制，第$i$行不变。
+      因为第$i$行不变，操作$-k\rho_i+\rho_j$
+      把第$j$行变回原状。
+
+      （注意$k\rho_i+\rho_j$中\( i=j \)的条件
+       是必需的，否则可能出现
+       \begin{equation*}
+         \begin{linsys}{2}
+           3x  &+  &2y  &=  &7  
+         \end{linsys}
+         \grstep{2\rho_1+\rho_1}
+         \begin{linsys}{2}
+           9x  &+  &6y  &=  &21 
+          \end{linsys}                 
+         \grstep{-2\rho_1+\rho_1}
+         \begin{linsys}{2}
+          -9x  &-  &6y  &=  &-21 
+         \end{linsys}
+       \end{equation*}
+       于是结论不成立。）
+    \end{answer}
+  \puzzle \item  
+    \cite{Anton}
+    一个盒子装着1美分、5美分和10美分的硬币，
+    共十三枚，总价值为\( 83 \)美分。
+    盒子中每种硬币各有多少枚？
+    （这些是美国硬币；
+    1美分硬币值$1$~美分，5美分硬币值$5$~美分，
+    10美分硬币值$10$~美分。）
+    \begin{answer}
+      设\( p \)、\( n \)、\( d \)分别是
+      1美分、5美分和10美分硬币的个数。
+      当变量取实数值时，方程组
+      \begin{equation*}
+         \begin{linsys}{3}
+              p  &+ &n   &+  &d   &=  &13   \\
+              p  &+ &5n  &+  &10d &=  &83    
+         \end{linsys}
+         \grstep{-\rho_1+\rho_2}
+         \begin{linsys}{3}
+              p  &+ &n   &+  &d   &=  &13   \\
+                 &  &4n  &+  &9d  &=  &70    
+          \end{linsys}
+      \end{equation*}
+      的解不止一个；事实上，它有无穷多个解。
+      然而，\( p \)、\( n \)、
+      \( d \)为非负整数的解只有有限多个。
+      逐一检查\( d=0 \)，\ldots，\( d=8 \)可知
+      \( (p,n,d)=(3,4,6) \)
+      是唯一使用自然数的解。  
+    \end{answer}
+  \puzzle \item 
+    \cite{ContestProb1955no38}
+    给定四个正整数。
+    任取其中三个数，求它们的算术平均，
+    并把这个结果加到第四个整数上。
+    这样得到数29、23、21和17。
+    原来的整数之一是：
+    \begin{exparts*}
+      \partsitem 19
+      \partsitem 21
+      \partsitem 23
+      \partsitem 29
+      \partsitem 17
+    \end{exparts*}
+    \begin{answer}
+      求解方程组
+      \begin{equation*}
+        \begin{linsys}{2}
+        (1/3)(a+b+c)  &+  &d  &=  &29  \\
+        (1/3)(b+c+d)  &+  &a  &=  &23  \\
+        (1/3)(c+d+a)  &+  &b  &=  &21  \\
+        (1/3)(d+a+b)  &+  &c  &=  &17
+        \end{linsys}
+      \end{equation*}
+      我们得到$a=12$，$b=9$，$c=3$，$d=21$。
+      因此第二项，21，是正确答案。
+     \end{answer}
+  \puzzle \item  
+      \cite{Monthly35p47}
+      笑一笑这个：\( \mbox{AHAHA}+\mbox{TEHE}=\mbox{TEHAW} \)。
+      它来自把一个简单的加法算式中的每个数字换成代码字母，
+      要求辨认出这些字母并证明解唯一。
+      \begin{answer}
+        \answerasgiven
+        比较这个加法竖式的个位列与百位列可知，
+        十位列必有进位。
+        十位列于是告诉我们\( A<H \)，所以
+        个位列与百位列都不会有进位。
+        五个列于是给出下面五个方程。
+        \begin{align*}
+          A+E  &=  W  \\
+          2H   &=  A+10  \\
+          H    &=  W+1  \\
+          H+T  &=  E+10  \\
+          A+1  &=  T
+        \end{align*}
+        这五个未知数的五个线性方程若联立求解，
+        给出唯一解：\( A=4 \)，\( T=5 \)，\( H=7 \)，
+        \( W=6 \)与\( E=2 \)，于是原来的加法算式
+        是\( 47474+5272=52746 \)。  
+      \end{answer}
+  \puzzle \item 
+     \cite{Wohascum2}
+     有20名成员的Wohascum县委员会
+     最近需要选举一位主席。
+     有三名候选人（$A$、$B$和$C$）；每张选票上
+     要按偏好次序列出这三名
+     候选人，不允许弃权。
+     结果发现，11名成员（多数）偏好$A$胜过$B$
+     （于是其余9名偏好$B$胜过$A$）。
+     类似地，发现12名成员偏好$C$胜过$A$。
+     鉴于这些结果，有人建议$B$退出，以便
+     在$A$与$C$之间进行决选。
+     然而$B$表示抗议，随后又发现14名成员偏好
+     $B$胜过$C$！
+     委员会至今仍未从由此产生的混乱中恢复过来。
+     已知$A$、$B$、$C$的每种可能次序都至少出现在
+     一张选票上，问有多少成员把$B$列为第一选择？
+     \begin{answer}
+       \answerasgiven{} 
+       \textit{其中一些补充材料取自\cite{joriki}。}
+       有八名委员投票给$B$。
+       为说明这一点，我们将利用已知信息来研究有多少投票者
+       选择了$A$、$B$、$C$的每种次序。
+
+       六种偏好次序是$ABC$、$ACB$、$BAC$、$BCA$、$CAB$、
+       $CBA$；假设它们分别获得$a$、$b$、$c$、$d$、$e$、$f$票。
+       我们知道
+       \begin{equation*}
+         \begin{linsys}{3}
+           a  &+  &b  &+  &e  &=  &11  \\
+           d  &+  &e  &+  &f  &=  &12  \\
+           a  &+  &c  &+  &d  &=  &14
+         \end{linsys}
+       \end{equation*}
+       它们分别来自偏好$A$胜过$B$的人数、偏好
+       $C$胜过$A$的人数，以及偏好$B$胜过$C$的人数。
+       因为总共投了20票，
+       所以$a+b+\cdots+f=20$。
+       从两倍的前一个方程中减去上面三个方程之和，
+       得到$b+c+f=3$。
+       我们已规定每种偏好次序至少获得
+       一票，所以这意味着$b=c=f=1$。 
+
+       由上面三个方程，完整解为
+       $a=6$，$b=1$，$c=1$，$d=7$，$e=4$以及~$f=1$，
+       这可以用高斯消元法求出。
+       把$B$列为第一选择的委员人数
+       因此是$c+d=1+7=8$。
+
+       \par\noindent {\em 评注。}
+       即使我们只知道{\em 至少\/}有14名委员偏好$B$胜过$C$，
+       这个问题的答案也会一样。
+
+       委员们的偏好看似悖论的性质
+       （$A$优于$B$，$B$优于$C$，而$C$又
+       优于$A$）是“非传递支配”的一个例子，
+       这种情形在汇总个人选择时很常见。
+     \end{answer}
+  \puzzle \item   
+     \cite{Monthly63p93}
+    “这个由\( n \)个线性方程组成的、含
+     \( n \)个未知数的方程组，”大数学家说，“有一个奇特的
+     性质。”
+
+     “天哪！”可怜的菜鸟说，“是什么？”
+
+     “注意，”大数学家说，“常数项构成
+     等差数列。”
+
+     “你一解释我就全明白了！”可怜的菜鸟说。
+     “你是说像\( 6x+9y=12 \)和\( 15x+18y=21 \)这样？”
+
+     “正是，”大数学家说着，掏出了他的巴松管。
+     “的确，这个方程组有唯一解。
+     你能找出来吗？”
+
+     “天哪！”可怜的菜鸟喊道，“我被难住了。”
+
+     你呢？
+     \begin{answer}
+       \answerasgiven
+       \textit{我们还没有用到“相依”一词；
+       它在这里的意思是高斯
+       消元法表明解不唯一。}
+       若\( n\geq 3 \)，则方程组相依且解不
+       唯一。
+       因此\( n<3 \)。
+       但“方程组”一词意味着\( n>1 \)。
+       因此\( n=2 \)。
+       若方程为
+       \begin{equation*}
+         \begin{linsys}{2}
+              ax  &+ &(a+d)y  &=  &a+2d  \\
+         (a+3d)x  &+ &(a+4d)y &=  &a+5d  
+         \end{linsys}
+       \end{equation*}
+       则\( x=-1 \)，\( y=2 \)。  
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+\subsection{解集的描述}
+具有唯一解的线性方程组，其解集只有一个元素。
+无解的线性方程组，其解集是空集。
+在这两种情形下，解集都很容易描述。
+只有当解集包含许多元素时，描述解集才是一个挑战。
+
+\begin{example}
+这个方程组有很多解，因为化为阶梯形后
+\begin{align*}
+  \begin{linsys}{3}
+    2x  &   &   &+  &z  &=  &3 \\
+     x  &-  &y  &-  &z  &=  &1 \\
+    3x  &-  &y  &   &   &=  &4 
+  \end{linsys}
+  &\grstep[-(3/2)\rho_1 +\rho_3]{-(1/2)\rho_1+\rho_2}
+  \begin{linsys}{3}
+     2x  &   &   &+  &z      &=  &3    \\
+         &   &-y &-  &(3/2)z &=  &-1/2 \\
+         &   &-y &-  &(3/2)z &=  &-1/2 
+   \end{linsys}                                   \\
+  &\grstep{-\rho_2+\rho_3}
+  \begin{linsys}{3}
+     2x  &   &   &+  &z      &=  &3    \\
+         &   &-y &-  &(3/2)z &=  &-1/2 \\
+         &   &   &   &0      &=  &0    
+   \end{linsys}
+\end{align*}
+并非所有变量都是首变量。
+\nearbytheorem{th:GaussMethod}表明，一个$(x,y,z)$
+满足第一个方程组当且仅当它满足第三个方程组。
+于是我们可以将解集
+$\set{(x,y,z)\suchthat\text{$2x+z=3$ 且 $x-y-z=1$ 且 $3x-y=4$}}$
+描述成下面的形式。
+\begin{equation*}
+  \set{(x,y,z)\suchthat\text{$2x+z=3$ 且 $-y-3z/2=-1/2$}}
+  \tag{$*$}
+\end{equation*}
+这个描述更好，因为它用两个方程代替了三个方程，
+但它还不是最优的，
+因为变量之间仍有一些难以理解的相互作用。
+
+为了改进它，用不引领任何方程的变量$z$来描述
+起引领作用的变量$x$和$y$。
+第二个方程给出
+$y=(1/2)-(3/2)z$，
+第一个方程给出
+$x=(3/2)-(1/2)z$。
+于是我们可以把解集描述成下面这个三元组的集合。
+\begin{equation*}
+  \set{((3/2)-(1/2)z,\,(1/2)-(3/2)z,\,z)\suchthat z\in\Re}
+  \tag{$**$}
+\end{equation*}
+\end{example}
+
+与($*$)相比，
+($**$)的优点
+是$z$可以取任何实数。
+这使得判断哪些元组在解集之中的工作
+容易得多。
+例如，取$z=2$就表明$(1/2,-5/2,2)$是一个解。
+
+\begin{definition} \label{df:FreeVars}
+%<*df:FreeVars>
+在一个阶梯形的线性方程组中，不是首变量的变量
+称为
+\definend{自由变量}。\index{echelon form!free variable}\index{free variable}
+%</df:FreeVars>
+\end{definition}
+
+\begin{example}   \label{ex:Parametrize2}
+对一个线性方程组进行消元，结束时可能有不止一个变量是自由的。
+对这个方程组用高斯消元法
+\begin{align*}
+   \begin{linsys}{4}
+               x  &+  &y   &+  &z   &-  &w   &=  &1  \\
+                  &   &y   &-  &z   &+  &w   &=  &-1 \\
+              3x  &   &    &+  &6z  &-  &6w  &=  &6  \\
+                  &   &-y  &+  &z   &-  &w   &=  &1  
+   \end{linsys}
+  &\grstep{-3\rho_1 +\rho_3}
+  \begin{linsys}{4}
+     x  &+  &y   &+  &z   &-  &w   &=  &1  \\
+        &   &y   &-  &z   &+  &w   &=  &-1 \\
+        &   &-3y &+  &3z  &-  &3w  &=  &3  \\
+        &   &-y  &+  &z   &-  &w   &=  &1  
+  \end{linsys}                                      \\
+  &\grstep[\rho_2 +\rho_4]{3\rho_2 +\rho_3}
+  \begin{linsys}{4}
+     x  &+  &y   &+  &z   &-  &w   &=  &1  \\
+        &   &y   &-  &z   &+  &w   &=  &-1 \\
+        &   &    &   &    &   &0   &=  &0  \\
+        &   &    &   &    &   &0   &=  &0  
+   \end{linsys}
+\end{align*}
+留下\( x \)和\( y \)为首变量，而\( z \)和\( w \)都是自由变量。
+为了得到我们更喜欢的描述，我们从底部往上做。
+我们先把首变量$y$用
+$z$和$w$表示，即$y=-1+z-w$。
+再往上看最上面的方程，
+代入$y$得到
+$x+(-1+z-w)+z-w=1$，解出$x$得$x=2-2z+2w$。
+解集
+\begin{equation*}
+   \set{(2-2z+2w,-1+z-w,z,w)\suchthat z,w\in\Re}
+  \tag{$**$}
+\end{equation*}
+把首变量用自由变量表示了出来。
+\end{example}
+
+\begin{example}    \label{ex:Parametrize1}
+首变量的列表可能会跳过某些列。
+经过这样的消元
+\begin{align*}
+  \begin{linsys}{4}
+              2x  &-  &2y  &   &    &   &    &=  &0  \\
+                  &   &    &   &z   &+  &3w  &=  &2  \\
+              3x  &-  &3y  &   &    &   &    &=  &0  \\
+               x  &-  &y   &+  &2z  &+  &6w  &=  &4  
+  \end{linsys}
+  &\grstep[-(1/2)\rho_1+ \rho_4]{-(3/2)\rho_1 +\rho_3}
+  \begin{linsys}{4}
+     2x  &-  &2y  &\spaceforemptycolumn   &    &   &    &=  &0  \\
+         &   &    &   &z   &+  &3w  &=  &2  \\
+         &   &    &   &    &   &0   &=  &0  \\
+         &   &    &   &2z  &+  &6w  &=  &4  
+   \end{linsys}                                    \\
+  &\grstep{-2\rho_2 +\rho_4}
+  \begin{linsys}{4}
+     2x  &-  &2y  &\spaceforemptycolumn   &    &   &    &=  &0  \\
+         &   &    &   &z   &+  &3w  &=  &2  \\
+         &   &    &   &    &   &0   &=  &0  \\
+         &   &    &   &    &   &0   &=  &0  
+   \end{linsys}
+\end{align*}
+$x$和$z$是首变量，而不是$x$和$y$。
+自由变量是$y$和$w$，因此我们可以把解集描述为
+$\set{ (y,y,2-3w,w)\suchthat y,w\in\Re }$。
+例如，\( (1,1,2,0) \)满足该方程组\Dash取
+$y=1$和$w=0$。
+四元组\( (1,0,5,4) \)不是解，
+因为它的第一个分量不等于第二个分量。
+\end{example}
+
+%<*df:Parameter>
+我们用来描述一族解的变量是一个\definend{参数}。\index{parameter}  
+%</df:Parameter>
+我们说前面的例题中的解集
+是用$y$和$w$
+来\definend{参数化\/}\index{parametrized} 
+的。
+
+“参数”和“自由变量”这两个术语的含义并不相同。
+在前面的例题中
+$y$和$w$是自由变量，因为在阶梯形方程组中它们
+不引领任何方程。
+它们之所以是参数，是因为
+我们用它们来描述解的集合。
+假如我们改而
+把第二个方程改写成$w=2/3-(1/3)z$，那么
+自由变量仍然是$y$和$w$，但参数
+将是$y$和$z$。
+
+在本书余下的部分中
+我们将通过把线性方程组化为
+阶梯形、然后用自由变量进行参数化来求解线性方程组。
+
+\begin{example}
+这是另一个有无穷多解的方程组。
+\begin{align*}
+   \begin{linsys}{4}
+               x  &+  &2y  &   &   &   &   &=  &1  \\
+              2x  &   &    &+  &z  &   &   &=  &2  \\
+              3x  &+  &2y  &+  &z  &-  &w  &=  &4  
+   \end{linsys}
+  &\grstep[-3\rho_1 +\rho_3]{-2\rho_1+\rho_2}
+  \begin{linsys}{4}
+     x  &+  &2y  &   &   &   &   &=  &1  \\
+        &   &-4y &+  &z  &   &   &=  &0  \\
+        &   &-4y &+  &z  &-  &w  &=  &1  
+   \end{linsys}                                    \\
+  &\grstep{-\rho_2+\rho_3}
+  \begin{linsys}{4}
+     x  &+  &2y  &   &   &   &   &=  &1  \\
+        &   &-4y &+  &z  &   &   &=  &0  \\
+        &   &    &   &   &   &-w &=  &1  
+   \end{linsys}
+\end{align*}
+首变量是\( x \)、\( y \)和\( w \)。
+变量\( z \)是自由的。
+注意，虽然有无穷多
+解，但$w$的值并不变化，而是恒为$w=-1$。
+为了参数化，把\( w \)用\( z \)写成\( w=-1+0z \)。
+于是\( y=(1/4)z \)。
+把\( y \)代入第一个
+方程得到\( x=1-(1/2)z \)。
+解集是$\set{(1-(1/2)z,(1/4)z,z,-1)\suchthat z\in\Re}$。
+\end{example}
+
+对解集进行参数化表明，带自由变量的方程组
+有无穷多解。
+例如，上面的$z$取遍无穷多个实数值，
+每个值对应一个不同的解。
+
+我们以建立一套简化的记法来结束本小节，
+这套记法用于线性方程组
+及其解集。
+
+\begin{definition}\label{df:matrix}
+%<*df:matrix>
+一个\( \nbym{m}{n} \) \definend{矩阵}\index{matrix}
+是数的矩形阵列，
+有\( m \)~\definend{行}\index{matrix!row}\index{row} 
+和\( n \)~\definend{列}\index{matrix!column}\index{column}。
+矩阵中的每个数都是一个
+\definend{元素}\index{matrix!entry}\index{entry, matrix}。
+%</df:matrix>
+\end{definition}
+
+我们通常用一个大写罗马字母来表示矩阵。
+例如，
+\begin{equation*}
+  A=
+  \begin{mat}[r]
+    1  &2.2  &5  \\
+    3  &4    &-7
+  \end{mat}
+\end{equation*}
+它有$2$~行和$3$~列，因此
+是一个\( \nbym{2}{3} \)矩阵。
+把它读作“二乘三”；
+行的个数总是先说。
+（矩阵围有括号，
+这样当
+两个矩阵相邻时，
+我们能分辨出一个在哪里结束、另一个从哪里开始。）
+我们用对应的小写字母命名矩阵的元素，
+于是上面阵列中第二行第一列的
+元素是\( a_{2,1}=3 \)。
+注意下标的次序很重要：
+$a_{1,2}\neq a_{2,1}$，因为\( a_{1,2}=2.2 \)。
+我们把
+所有\( \nbym{m}{n} \)
+矩阵组成的集合记作\( \matspace_{\nbym{m}{n}} \)。\index{matrices|set of}
+
+我们用矩阵做高斯消元法，其方式与
+我们对方程组所用的方式基本相同：
+矩阵一行的
+\definend{首主元}\index{echelon form!leading entry}%
+\index{leading!entry} %
+是它的第一个非零元素（如果有的话），我们进行行变换来达到
+\definend{矩阵阶梯形}，\index{echelon form!matrix}%
+\index{matrix!echelon form} %
+即下面各行的首主元位于其上方各
+行首主元的右侧。
+我们喜欢矩阵记法，因为它减轻了
+抄写工作的负担，即抄写变量以及
+书写$+$号和$=$号的负担。
+
+\begin{example}
+我们可以将这个线性方程组
+\begin{equation*}
+  \begin{linsys}{3}
+    x  &+  &2y  &   &    &=  &4   \\
+       &   &y   &-  &z   &=  &0   \\
+    x  &   &    &+  &2z  &=  &4   
+  \end{linsys}
+\end{equation*}
+缩写成这个矩阵。
+\begin{equation*}
+    \begin{amat}[r]{3}
+      1  &2  &0  &4  \\
+      0  &1  &-1 &0  \\
+      1  &0  &2  &4
+    \end{amat}
+\end{equation*}
+竖线提醒读者方程组左边的
+系数与右边的常数之间的区别。
+带竖线的矩阵是
+\definend{增广\/}\index{matrix!augmented}\index{augmented matrix}矩阵。
+\begin{equation*}
+    \begin{amat}[r]{3}
+      1  &2  &0  &4  \\
+      0  &1  &-1 &0  \\
+      1  &0  &2  &4
+    \end{amat}
+  \grstep{-\rho_1 +\rho_3}
+  \begin{amat}[r]{3}
+       1  &2  &0  &4  \\
+       0  &1  &-1 &0  \\
+       0  &-2 &2  &0
+     \end{amat}                        
+  \grstep{2\rho_2 +\rho_3}
+  \begin{amat}[r]{3}
+       1  &2  &0  &4  \\
+       0  &1  &-1 &0  \\
+       0  &0  &0  &0
+     \end{amat}
+\end{equation*}
+第二行表示$y-z=0$，第一行表示
+$x+2y=4$，因此解集是
+\( \set{(4-2z,z,z)\suchthat z\in\Re} \)。
+\end{example}
+
+矩阵记法也
+使解集的描述更加清晰。
+\nearbyexample{ex:Parametrize2}的
+$\set{(2-2z+2w,-1+z-w,z,w)\suchthat z,w\in\Re}$ 
+很难读。
+我们将把它改写，使所有常数放在一起，\( z \)的所有系数放在一起，以及\( w \)的所有系数
+放在一起。
+我们把它们竖着写成一列的矩阵。
+\begin{equation*}
+  \set{\colvec[r]{2 \\ -1 \\ 0 \\ 0}
+       +\colvec[r]{-2 \\ 1 \\ 1 \\ 0}\cdot z
+       +\colvec[r]{2 \\ -1 \\ 0 \\ 1}\cdot w
+       \suchthat z,w\in\Re}
+\end{equation*}
+例如，最上面一行说明\( x=2-2z+2w \)，
+第二行说明\( y= -1+z-w \)。
+（下一节给出一个几何解释，它将帮助
+我们想象解集。）
+
+\begin{definition}\label{df:vector}
+%<*df:vector>
+一个
+\definend{列向量}，\index{column!vector}\index{vector!column}
+通常简称\definend{向量}，\index{vector} 
+是只有一列的矩阵。
+只有一行的矩阵是
+\definend{行向量}\index{row!vector}\index{vector!row}。
+向量的元素有时称为
+\definend{分量}\index{component of a vector}\index{vector!component}。
+分量全为零的列向量或行向量是一个
+\definend{零向量}。\index{zero vector}\index{vector!zero}
+%</df:vector>
+\end{definition}
+
+向量是用大写罗马字母表示矩阵这一惯例的一个例外。
+我们使用带上箭头的小写罗马字母或希腊字母：
+\( \vec{a} \)、\( \vec{b} \)、\ldots\, 或
+\( \vec{\alpha} \)、\( \vec{\beta} \)、\ldots\
+（粗体也很常见：
+{\boldmath \( a \)}或{\boldmath \( \alpha \)}）。
+例如，这是一个第三个分量为\( 7 \)的列向量。
+\begin{equation*}
+  \vec{v}=
+  \colvec[r]{ 1  \\  3  \\ 7}
+\end{equation*}
+零向量记作\( \zero \)。
+零向量有很多种\Dash高度为一的零向量、高度为二的零向量，等等\Dash但
+尽管如此，我们仍常说“这个”零向量，
+并期望由上下文可以清楚地知道其大小。
+
+\begin{definition}
+带有未知数\( x_1,\ldots\,,x_n \)的线性方程
+\( a_1x_1+\,\cdots\,+a_nx_n=d \)
+被
+\begin{equation*}
+  \vec{s}=\colvec{s_1 \\ \vdotswithin{s_1} \\ s_n}
+\end{equation*}
+\definend{满足}\index{vector!satisfies an equation}%
+\index{linear equation!satisfied by a vector}，是指
+\( a_1s_1+\,\cdots\,+a_ns_n=d \)。
+若一个向量满足线性方程组中的每一个方程，则称它满足该线性方程组。
+\end{definition}
+
+我们所使用的解集描述方式
+涉及把向量相加，
+以及用实数去乘它们。
+在给出展示这种描述方式的例子之前
+我们首先需要定义这两种运算。
+
+\begin{definition} \label{df:VectorSum}
+%<*df:VectorSum>
+\( \vec{u} \)与\( \vec{v} \)的\definend{向量和}\index{vector!sum}\index{sum!vector}\index{addition of vectors} 
+是由各分量之和组成的向量。
+\begin{equation*}
+  \vec{u}+\vec{v}=
+  \colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}
+   +
+  \colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+   =
+  \colvec{u_1+v_1 \\ \vdotswithin{u_1+v_1} \\ u_n+v_n}
+\end{equation*}
+%</df:VectorSum>
+\end{definition}
+
+注意，要使加法有定义，
+各向量必须有相同个数的元素。
+这种逐元素的加法对任意一对矩阵都适用，而不只是对向量，
+只要它们有相同的行数和
+列数。\index{matrix!sum}\index{sum!matrix}
+
+\begin{definition} \label{df:VectorScalarMultiplication}
+%<*df:VectorScalarMultiplication>
+实数
+\( r \)与向量\( \vec{v} \)的\definend{标量乘法\/}\index{vector!scalar multiple}%
+\index{scalar multiple!vector}是由各倍数组成的向量。
+\begin{equation*}
+  r\cdot\vec{v}=
+  r\cdot\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+  =
+  \colvec{rv_1 \\ \vdotswithin{rv_1} \\ rv_n}
+\end{equation*}
+%</df:VectorScalarMultiplication>
+\end{definition}
+
+与加法运算一样，逐元素的标量乘法
+运算也超出向量的范围而适用于任意
+矩阵。\index{matrix!scalar multiplication}\index{scalar multiplication!matrix}
+
+标量乘法可以写成\( r\cdot\vec{v} \)或
+\( \vec{v}\cdot r \)，有时甚至省略“$\cdot$”符号：~$r\vec{v}$。
+（不要把标量乘法
+称为“标量积”，因为那个名称指的是另一种运算。）
+
+\begin{example}
+\begin{equation*}
+  \colvec[r]{2 \\ 3 \\ 1}
+   +
+  \colvec[r]{3 \\ -1 \\ 4}
+  =
+  \colvec{2+3 \\ 3-1 \\ 1+4}
+   =
+  \colvec[r]{5 \\ 2 \\ 5}
+  \qquad
+  7\cdot\colvec[r]{1 \\ 4 \\ -1 \\ -3}
+  =
+  \colvec[r]{7 \\ 28 \\ -7 \\ -21}
+\end{equation*}
+\end{example}
+
+注意，加法与标量乘法的定义在重合之处是一致的；例如，\( \vec{v} +\vec{v} = 2\vec{v} \)。
+
+有了这些定义，我们就可以用矩阵与向量记法
+既求解方程组又表示解了。
+
+\begin{example} \label{ex:ManyParamsInfManySolsSystem}
+这个方程组
+\begin{equation*}
+   \begin{linsys}{5}
+      2x  &+  &y  &  &  &-  &w  &   &   &=  &4  \\
+          &   &y  &  &  &+  &w  &+  &u  &=  &4  \\
+       x  &   &   &- &z &+  &2w &   &   &=  &0  
+   \end{linsys}
+\end{equation*}
+按如下方式化简。
+\begin{align*}
+  \begin{amat}[r]{5}
+    2  &1  &0  &-1  &0  &4  \\
+    0  &1  &0  &1   &1  &4  \\
+    1  &0  &-1 &2   &0  &0
+  \end{amat}
+  &\grstep{-(1/2)\rho_1+\rho_3}
+  \begin{amat}[r]{5}
+    2  &1     &0  &-1    &0  &4  \\
+    0  &1     &0  &1     &1  &4  \\
+    0  &-1/2  &-1 &5/2   &0  &-2
+  \end{amat}                                 \\
+  &\grstep{(1/2)\rho_2+\rho_3}
+  \begin{amat}[r]{5}
+    2  &1     &0  &-1    &0    &4  \\
+    0  &1     &0  &1     &1    &4  \\
+    0  &0     &-1 &3     &1/2  &0
+  \end{amat}
+\end{align*}
+解集是
+\( \set{(w+(1/2)u,4-w-u,3w+(1/2)u,w,u)\suchthat w,u\in\Re} \)。
+我们把它写成向量形式。
+\begin{equation*}
+  \set{\colvec{x \\ y \\ z \\ w \\ u}=
+       \colvec[r]{0 \\ 4 \\ 0 \\ 0 \\ 0}+
+       \colvec[r]{1 \\ -1 \\ 3 \\ 1 \\ 0}w+
+       \colvec[r]{1/2 \\ -1 \\ 1/2 \\ 0 \\ 1}u
+       \suchthat w,u\in\Re}
+\end{equation*}
+注意向量记法把
+每个参数的系数区分得多么清楚。
+例如，向量形式的第三行清楚地表明，如果\( u \)固定，那么\( z \)增长的速度是\( w \)的三倍。
+同样清楚表明的是，令\( w \)和\( u \)都为零
+得到
+\begin{equation*}
+  \colvec{x \\ y \\ z \\ w \\ u}
+  =\colvec[r]{0 \\ 4 \\ 0 \\ 0 \\ 0}
+\end{equation*}
+是线性方程组的一个特解。
+\end{example}
+
+\begin{example}
+同样地，方程组
+\begin{equation*}
+   \begin{linsys}{3}
+     x  &-  &y  &+  &z  &=  &1  \\
+    3x  &   &   &+  &z  &=  &3  \\
+    5x  &-  &2y &+  &3z &=  &5  
+  \end{linsys}
+\end{equation*}
+化简
+\begin{align*}
+  \begin{amat}[r]{3}
+    1  &-1  &1  &1  \\
+    3  &0   &1  &3  \\
+    5  &-2  &3  &5
+  \end{amat}
+  &\grstep[-5\rho_1+\rho_3]{-3\rho_1+\rho_2}
+  \begin{amat}[r]{3}
+    1  &-1  &1  &1  \\
+    0  &3   &-2 &0  \\
+    0  &3   &-2 &0
+  \end{amat}                                    \\
+  &\grstep{-\rho_2+\rho_3}
+  \begin{amat}[r]{3}
+    1  &-1  &1  &1  \\
+    0  &3   &-2 &0  \\
+    0  &0   &0  &0
+  \end{amat}
+\end{align*}
+后给出一个单参数的解集。
+\begin{equation*}
+  \set{\colvec[r]{1 \\ 0 \\ 0}
+       +\colvec[r]{-1/3 \\ 2/3 \\ 1}z
+       \suchthat z\in\Re}
+\end{equation*}
+与前面的例题中一样，与参数无关的向量
+\begin{equation*}
+   \colvec[r]{1 \\ 0 \\ 0}
+\end{equation*}
+是该方程组的一个特解。
+\end{example}
+
+在练习之前，我们先考虑一下已经完成了什么，
+以及本章余下部分要做什么。
+到目前为止，我们做的是高斯消元法的机械步骤。
+我们还没有停下来考虑过出现的任何问题，
+只是证明了\nearbytheorem{th:GaussMethod}\Dash该定理
+通过表明这个方法给出
+正确的答案而为方法提供了依据。
+
+例如，我们总能像上面那样描述解集吗，
+即用一个特解向量
+加上若干其他向量的不受限制的线性组合？
+我们已经注意到，这样描述的解集
+有无穷多个成员，
+因此回答这个问题
+会告诉我们解集的大小。
+下一小节将表明答案是“肯定的”。
+本章第二节随后
+将利用这个答案来描述解集的几何。
+
+另一些问题来自这样的观察：我们做高斯消元法可以
+不止一种方式（例如，对换行时，我们可能有多行
+可供选择对换）。
+\nearbytheorem{th:GaussMethod}说，无论我们怎么做，都必定得到同一个解集，但是
+如果用两种方式做高斯消元法，
+在每个阶梯形方程组中我们必定得到相同个数的自由变量吗？
+那些必定是同样的变量吗？也就是说，用一种方式求解一个问题得到$y$和$w$为自由变量，而用另一种方式求解却得到$y$和$z$为自由变量，这是不可能的吗？
+本章第三节回答“是的”：
+从任何初始线性方程组出发，
+所有导出的阶梯形版本
+都有相同的自由变量。
+
+因此，到本章结束时，我们不仅会在
+高斯消元法的实践上有扎实的基础，
+也会在理论上
+有扎实的基础。
+我们将确切地知道在一次消元中什么会发生、什么不会发生。
+
+\begin{exercises}
+  \recommended \item  
+    求矩阵的指定元素，
+    （若它有定义）。
+    \begin{equation*}
+      A=\begin{mat}[r]
+        1  &3  &1  \\
+        2  &-1 &4
+      \end{mat}
+    \end{equation*}
+    \begin{exparts*}
+      \partsitem \( a_{2,1} \)
+      \partsitem \( a_{1,2} \)
+      \partsitem \( a_{2,2} \)
+      \partsitem \( a_{3,1} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( 2 \)
+        \partsitem \( 3 \)
+        \partsitem \(-1 \)
+        \partsitem 无定义。
+      \end{exparts*}  
+    \end{answer}
+  \recommended \item 
+    给出每个矩阵的尺寸。
+    \begin{exparts*}
+      \partsitem \(
+        \begin{mat}[r]
+          1  &0  &4  \\
+          2  &1  &5
+        \end{mat}  \)
+      \partsitem \(
+        \begin{mat}[r]
+          1  &1  \\
+         -1  &1  \\
+          3  &-1
+        \end{mat}  \)
+      \partsitem \(
+        \begin{mat}[r]
+          5  &10 \\
+         10  &5
+        \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( \nbym{2}{3} \)
+        \partsitem \( \nbym{3}{2} \)
+        \partsitem \( \nbym{2}{2} \)
+      \end{exparts*}  
+    \end{answer}
+  \recommended \item 
+    进行指定的向量运算（若它有定义）。
+    \begin{exparts*}
+      \partsitem \( \colvec[r]{2 \\ 1 \\ 1}
+               +\colvec[r]{3 \\ 0 \\ 4} \)
+      \partsitem \( 5\colvec[r]{4 \\ -1} \)
+      \partsitem \( \colvec[r]{1 \\ 5 \\ 1}
+               -\colvec[r]{3 \\ 1 \\ 1} \)
+      \partsitem \( 7\colvec[r]{2 \\ 1}
+               +9\colvec[r]{3 \\ 5} \)
+      \partsitem \( \colvec[r]{1 \\ 2}
+               +\colvec[r]{1 \\ 2 \\ 3} \)
+      \partsitem \( 6\colvec[r]{3 \\ 1 \\ 1}
+               -4\colvec[r]{2 \\ 0 \\ 3}
+               +2\colvec[r]{1 \\ 1 \\ 5} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( \colvec[r]{5 \\ 1 \\ 5} \)
+        \partsitem \( \colvec[r]{20 \\ -5} \)
+        \partsitem \( \colvec[r]{-2 \\ 4 \\ 0} \)
+        \partsitem \( \colvec[r]{41 \\ 52} \)
+        \partsitem 无定义。
+        \partsitem \( \colvec[r]{12 \\ 8 \\ 4} \)
+      \end{exparts*}  
+     \end{answer}
+  \recommended \item  \label{exer:SolveInMatrixNotation}
+    用矩阵记法求解每个方程组。
+    用向量表示解。
+    \begin{exparts*}
+      \partsitem \( \begin{linsys}[t]{2}
+                  3x  &+  &6y  &=  &18  \\
+                   x  &+  &2y  &=  &6   
+                   \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{2}
+                   x  &+  &y   &=  &1  \\
+                   x  &-  &y   &=  &-1   
+                    \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{3}
+                   x_1  &   &     &+  &x_3   &=  &4  \\
+                   x_1  &-  &x_2  &+  &2x_3  &=  &5  \\
+                  4x_1  &-  &x_2  &+  &5x_3  &=  &17  
+                   \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{3}
+                   2a   &+  &b    &-  &c     &=  &2  \\
+                   2a   &   &     &+  &c     &=  &3  \\
+                    a   &-  &b    &   &      &=  &0   
+                    \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{4}
+                     x  &+  &2y   &-   &z   &    &    &=  &3  \\
+                    2x  &+  &y    &    &    &+   &w   &=  &4  \\
+                     x  &-  &y    &+   &z   &+   &w   &=  &1  
+                    \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{4}
+                     x  &   &     &+   &z   &+   &w   &=  &4  \\
+                    2x  &+  &y    &    &    &-   &w   &=  &2  \\
+                    3x  &+  &y    &+   &z   &    &    &=  &7  
+                     \end{linsys}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这一消元
+          \begin{equation*}
+            \begin{amat}[r]{2}
+              3  &6  &18 \\
+              1  &2  &6
+            \end{amat}
+            \grstep{(-1/3)\rho_1+\rho_2}
+            \begin{amat}[r]{2}
+              3  &6  &18 \\
+              0  &0  &0
+            \end{amat}
+          \end{equation*}
+          留下\( x \)为首变量而\( y \)为自由变量。
+          取\( y \)为参数，得到\( x=6-2y \)以及这个解
+          集。
+          \begin{equation*}
+            \set{\colvec[r]{6 \\ 0}+\colvec[r]{-2 \\ 1}y
+              \suchthat y\in\Re}
+          \end{equation*}
+        \partsitem 一次消元
+          \begin{equation*}
+            \begin{amat}[r]{2}
+              1  &1  &1  \\
+              1  &-1 &-1
+            \end{amat}
+            \grstep{-\rho_1+\rho_2}
+            \begin{amat}[r]{2}
+              1  &1  &1  \\
+              0  &-2 &-2
+            \end{amat}
+          \end{equation*}
+          给出唯一解\( y=1 \)、\( x=0 \)。
+          解集如下。
+          \begin{equation*}
+            \set{\colvec[r]{0 \\ 1} }
+          \end{equation*}
+        \partsitem 高斯消元法
+          \begin{equation*}
+            \begin{amat}[r]{3}
+              1  &0  &1  &4  \\
+              1  &-1 &2  &5  \\
+              4  &-1 &5  &17
+            \end{amat}
+            \grstep[-4\rho_1+\rho_3]{-\rho_1+\rho_2}
+            \begin{amat}[r]{3}
+              1  &0  &1  &4  \\
+              0  &-1 &1  &1  \\
+              0  &-1 &1  &1
+            \end{amat}     
+            \grstep{-\rho_2+\rho_3}
+            \begin{amat}[r]{3}
+              1  &0  &1  &4  \\
+              0  &-1 &1  &1  \\
+              0  &0  &0  &0
+            \end{amat}
+          \end{equation*}
+          留下\( x_1 \)和\( x_2 \)为首变量，而\( x_3 \)为自由变量。
+          解集如下。
+          \begin{equation*}
+            \set{\colvec[r]{4 \\ -1 \\ 0}+\colvec[r]{-1 \\ 1 \\ 1}x_3
+              \suchthat x_3\in\Re}
+          \end{equation*}
+        \partsitem 这一消元
+          \begin{align*}
+            \begin{amat}[r]{3}
+              2  &1  &-1 &2  \\
+              2  &0  &1  &3  \\
+              1  &-1 &0  &0
+            \end{amat}
+            &\grstep[-(1/2)\rho_1+\rho_3]{-\rho_1+\rho_2}
+            \begin{amat}[r]{3}
+              2  &1    &-1   &2  \\
+              0  &-1   &2    &1  \\
+              0  &-3/2 &1/2  &-1
+            \end{amat}                                          \\
+            &\grstep{(-3/2)\rho_2+\rho_3}
+            \begin{amat}[r]{3}
+              2  &1  &-1   &2  \\
+              0  &-1 &2    &1  \\
+              0  &0  &-5/2 &-5/2
+            \end{amat}
+          \end{align*}
+          表明解集是单元素集。
+          \begin{equation*}
+            \set{\colvec[r]{1 \\ 1 \\ 1}}
+          \end{equation*}
+        \partsitem 这一消元很容易
+          \begin{align*}
+            \begin{amat}[r]{4}
+              1  &2  &-1 &0  &3 \\
+              2  &1  &0  &1  &4 \\
+              1  &-1 &1  &1  &1
+            \end{amat}
+            &\grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \begin{amat}[r]{4}
+              1  &2  &-1 &0  &3  \\
+              0  &-3 &2  &1  &-2 \\
+              0  &-3 &2  &1  &-2
+            \end{amat}                                       \\
+            &\grstep{-\rho_2+\rho_3}
+            \begin{amat}[r]{4}
+              1  &2  &-1 &0  &3  \\
+              0  &-3 &2  &1  &-2 \\
+              0  &0  &0  &0  &0
+            \end{amat}
+          \end{align*}
+          结束时\( x \)和$y$为首变量，而\( z \)和\( w \)为
+          自由变量。
+          解出\( y \)得到\( y=(2+2z+w)/3 \)，代入表明
+          \( x+2(2+2z+w)/3-z=3 \)，于是\( x=(5/3)-(1/3)z-(2/3)w \)，
+          由此得到这个解集。
+          \begin{equation*}
+            \set{\colvec[r]{5/3 \\ 2/3 \\ 0 \\ 0}
+                 +\colvec[r]{-1/3 \\ 2/3 \\ 1 \\ 0}z
+                 +\colvec[r]{-2/3 \\ 1/3 \\ 0 \\ 1}w
+                 \suchthat z,w\in\Re}
+          \end{equation*}
+        \partsitem 消元
+          \begin{align*}
+            \begin{amat}[r]{4}
+              1  &0  &1  &1  &4 \\
+              2  &1  &0  &-1 &2 \\
+              3  &1  &1  &0  &7
+            \end{amat}
+            &\grstep[-3\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \begin{amat}[r]{4}
+              1  &0  &1  &1  &4 \\
+              0  &1  &-2 &-3 &-6\\
+              0  &1  &-2 &-3 &-5
+            \end{amat}                                       \\
+            &\grstep{-\rho_2+\rho_3}
+            \begin{amat}[r]{4}
+              1  &0  &1  &1  &4 \\
+              0  &1  &-2 &-3 &-6\\
+              0  &0  &0  &0  &1
+            \end{amat}
+          \end{align*}
+          表明无解\Dash解集为空。
+      \end{exparts}  
+     \end{answer}
+  \item \label{exer:SlvMatNot}
+    用矩阵记法求解每个方程组。
+    用向量记法给出每个解集。
+    \begin{exparts*}
+      \partsitem \( \begin{linsys}[t]{3}
+                  2x  &+  &y  &-  &z  &=  &1  \\
+                  4x  &-  &y  &   &   &=  &3  
+                \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{4}
+                   x  &   &   &-  &z  &   &   &=  &1  \\
+                      &   &y  &+  &2z &-  &w  &=  &3  \\
+                   x  &+  &2y &+  &3z &-  &w  &=  &7  
+               \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{4}
+                   x  &-  &y  &+  &z  &   &   &=  &0  \\
+                      &   &y  &   &   &+  &w  &=  &0  \\
+                  3x  &-  &2y &+  &3z &+  &w  &=  &0  \\
+                      &   &-y &   &   &-  &w  &=  &0  
+               \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{5}
+                   a  &+  &2b &+  &3c &+  &d  &-  &e  &=  &1  \\
+                  3a  &-  &b  &+  &c  &+  &d  &+  &e  &=  &3  
+               \end{linsys}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+      \partsitem 这一消元
+        \begin{equation*}
+          \begin{amat}[r]{3}
+            2  &1  &-1  &1  \\
+            4  &-1 &0   &3
+          \end{amat}
+          \grstep{-2\rho_1+\rho_2}
+          \begin{amat}[r]{3}
+            2  &1  &-1  &1  \\
+            0  &-3 &2   &1
+          \end{amat}
+        \end{equation*}
+        结束时\( x \)和\( y \)为首变量，而\( z \)为自由变量。
+        解出\( y \)得到\( y=(1-2z)/(-3) \)，然后代入
+        \( 2x+(1-2z)/(-3)-z=1 \)表明\( x=((4/3)+(1/3)z)/2 \)。
+        因此解集如下。
+        \begin{equation*}
+          \set{\colvec[r]{2/3 \\ -1/3 \\ 0}
+               +\colvec[r]{1/6 \\ 2/3 \\ 1}z
+              \suchthat z\in\Re}
+        \end{equation*}
+      \partsitem 这样应用高斯消元法
+        \begin{align*}
+          \begin{amat}[r]{4}
+            1  &0  &-1  &0  &1 \\
+            0  &1  &2   &-1 &3 \\
+            1  &2  &3   &-1 &7
+          \end{amat}
+          &\grstep{-\rho_1+\rho_3}
+          \begin{amat}[r]{4}
+            1  &0  &-1  &0  &1 \\
+            0  &1  &2   &-1 &3 \\
+            0  &2  &4   &-1 &6
+          \end{amat}                                   \\
+          &\grstep{-2\rho_2+\rho_3}
+          \begin{amat}[r]{4}
+            1  &0  &-1  &0  &1 \\
+            0  &1  &2   &-1 &3 \\
+            0  &0  &0   &1  &0
+          \end{amat}
+        \end{align*}
+        留下\( x \)、\( y \)和\( w \)为首变量。
+        解集如下。
+        \begin{equation*}
+          \set{\colvec[r]{1 \\ 3 \\ 0 \\ 0}
+               +\colvec[r]{1 \\ -2 \\ 1 \\ 0}z
+              \suchthat z\in\Re}
+        \end{equation*}
+      \partsitem 这次行化简
+        \begin{align*}
+          \begin{amat}[r]{4}
+            1  &-1 &1   &0  &0 \\
+            0  &1  &0   &1  &0 \\
+            3  &-2 &3   &1  &0 \\
+            0  &-1 &0   &-1 &0
+          \end{amat}
+          &\grstep{-3\rho_1+\rho_3}
+          \begin{amat}[r]{4}
+            1  &-1 &1   &0  &0 \\
+            0  &1  &0   &1  &0 \\
+            0  &1  &0   &1  &0 \\
+            0  &-1 &0   &-1 &0
+          \end{amat}                                       \\
+          &\grstep[\rho_2+\rho_4]{-\rho_2+\rho_3}
+          \begin{amat}[r]{4}
+            1  &-1 &1   &0  &0 \\
+            0  &1  &0   &1  &0 \\
+            0  &0  &0   &0  &0 \\
+            0  &0  &0   &0  &0
+          \end{amat}
+        \end{align*}
+        结束时\( z \)和\( w \)为自由变量。
+        我们得到这个解集。
+        \begin{equation*}
+          \set{\colvec[r]{0 \\ 0 \\ 0 \\ 0}
+               +\colvec[r]{-1 \\ 0 \\ 1 \\ 0}z
+               +\colvec[r]{-1 \\ -1 \\ 0 \\ 1}w
+              \suchthat z,w\in\Re}
+        \end{equation*}
+      \partsitem 按这种方式做高斯消元法
+        \begin{equation*}
+          \begin{amat}[r]{5}
+            1  &2  &3   &1  &-1 &1  \\
+            3  &-1 &1   &1  &1  &3
+          \end{amat}
+          \grstep{-3\rho_1+\rho_2}
+          \begin{amat}[r]{5}
+            1  &2  &3   &1  &-1 &1  \\
+            0  &-7 &-8  &-2 &4  &0
+          \end{amat}
+        \end{equation*}
+        结束时\( c \)、\( d \)和\( e \)为自由变量。
+        解出\( b \)表明\( b=(8c+2d-4e)/(-7) \)，然后 
+        代入
+        \( a+2(8c+2d-4e)/(-7)+3c+1d-1e=1 \)表明
+        \( a=1-(5/7)c-(3/7)d-(1/7)e \)，于是我们得到解集。
+        \begin{equation*}
+          \set{\colvec[r]{1 \\ 0 \\ 0 \\ 0 \\ 0}
+               +\colvec[r]{-5/7 \\ -8/7 \\ 1 \\ 0 \\ 0}c
+               +\colvec[r]{-3/7 \\ -2/7 \\ 0 \\ 1 \\ 0}d
+               +\colvec[r]{-1/7 \\ 4/7 \\ 0 \\ 0 \\ 1}e
+              \suchthat c,d,e\in\Re}
+        \end{equation*}
+    \end{exparts}  
+   \end{answer}
+  \item 
+    用矩阵记法求解每个方程组。
+    用向量表示解集。
+    \begin{exparts*}
+      \partsitem 
+        $\begin{linsys}{3}
+          3x &+ &2y &+ &z &= &1 \\
+          x  &- &y  &+ &z &= &2 \\
+          5x &+ &5y &+ &z &= &0
+        \end{linsys}$
+      \partsitem
+        $\begin{linsys}{4}
+          x  &+ &y  &- &2z &= &0 \\
+          x  &- &y  &  &   &= &-3 \\
+          3x &- &y  &- &2z &= &-6  \\
+             &  &2y &- &2z &= &3  
+        \end{linsys}$
+      \partsitem
+        $\begin{linsys}{5}
+          2x  &- &y  &- &z &+ &w &= &4 \\
+           x  &+ &y  &+ &z &  &  &= &-1 
+        \end{linsys}$
+      \partsitem
+         $\begin{linsys}{3}
+          x  &+ &y  &- &2z &= &0 \\
+          x  &- &y  &  &   &= &-3 \\
+          3x &- &y  &- &2z &= &0    
+        \end{linsys}$ 
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这一消元
+          \begin{align*}
+            \begin{amat}{3}
+              3 &2  &1  &1 \\
+              1 &-1 &1  &2 \\
+              5 &5  &1  &0
+            \end{amat}
+            &\grstep[-(5/3)\rho_1+\rho_3]{-(1/3)\rho_1+\rho_2}
+            \begin{amat}{3}
+              3 &2    &1     &1 \\
+              0 &-5/3 &2/3   &5/3 \\
+              0 &5/3  &-2/3  &-5/3
+            \end{amat}                                     \\
+            &\grstep{\rho_2+\rho_3}
+            \begin{amat}{3}
+              3 &2    &1     &1 \\
+              0 &-5/3 &2/3   &5/3 \\
+              0 &0    &0     &0
+            \end{amat}
+          \end{align*}
+          给出这个解集。
+          \begin{equation*}
+            \set{\colvec{x \\ y \\ z}=\colvec{1 \\ -1 \\ 0}
+                                       +\colvec{-3/5 \\ 2/5 \\ 1}z
+                             \suchthat z\in\Re}
+          \end{equation*}
+        \partsitem
+          消元如下。
+          \begin{align*}
+            \begin{amat}{3}
+              1 &1   &-2 &0 \\
+              1 &-1  &0  &3  \\
+              3 &-1  &-2 &-6 \\
+              0 &2   &-2 &3
+            \end{amat}
+            &\grstep[-3\rho_1+\rho_3]{-\rho_1+\rho_2}
+            \begin{amat}{3}
+              1 &1   &-2 &0 \\
+              0 &-2  &2  &-3  \\
+              0 &-4  &4  &-6 \\
+              0 &2   &-2 &3
+            \end{amat}                                  \\
+            &\grstep[\rho_2+\rho_4]{-2\rho_2+\rho_3}
+            \begin{amat}{3}
+              1 &1   &-2 &0 \\
+              0 &-2  &2  &-3  \\
+              0 &0   &0  &0 \\
+              0 &0   &0  &0
+            \end{amat}
+          \end{align*}
+          解集如下。
+          \begin{equation*}
+            \set{\colvec{-3/2 \\ 3/2 \\ 0}
+                 +\colvec{1 \\ 1 \\ 1}z
+                 \suchthat z\in\Re}
+          \end{equation*}
+      \partsitem
+         高斯消元法
+         \begin{equation*}
+           \begin{amat}{4}
+             2 &-1 &-1 &1 &4 \\
+             1 &1  &1  &0 &-1
+           \end{amat}
+           \grstep{-(1/2)\rho_1+\rho_2}
+           \begin{amat}{4}
+             2 &-1   &-1   &1    &4 \\
+             0 &3/2  &3/2  &-1/2 &-3
+           \end{amat}
+         \end{equation*}
+         给出解集。
+         \begin{equation*}
+           \set{\colvec{1 \\ -2 \\ 0 \\ 0}
+                  +\colvec{0 \\ -1 \\ 1 \\ 0}z
+                   \colvec{-1/3 \\ 1/3 \\ 0 \\ 1}w
+                 \suchthat z,w\in\Re}
+         \end{equation*}
+       \partsitem
+          消元如下。
+          \begin{equation*}
+            \begin{amat}{3}
+              1 &1  &-2 &0  \\
+              1 &-1 &0  &-3 \\
+              3 &-1 &-2 &0
+           \end{amat}
+           \grstep[-3\rho_1+\rho_3]{-\rho_1+\rho_2}
+           \begin{amat}{3}
+             1 &1  &-2 &0  \\
+             0 &-2 &2  &-3 \\
+             0 &-4  &4  &0
+          \end{amat}
+          \grstep{-2\rho_2+\rho_3}
+          \begin{amat}{3}
+            1 &1  &-2 &0  \\
+            0 &-2 &2  &-3 \\
+            0 &0  &0  &6
+          \end{amat}
+        \end{equation*}
+        解集为空集~$\set{}$。
+      \end{exparts}
+    \end{answer}
+  \recommended \item 
+    该向量在此集合中。
+    参数取什么值会产生这个向量？
+    \begin{exparts}
+      \partsitem $\colvec[r]{5 \\ -5}$、
+        $\set{\colvec[r]{1 \\ -1}k\suchthat k\in\Re}$
+      \partsitem $\colvec[r]{-1 \\ 2 \\ 1}$、
+        $\set{\colvec[r]{-2 \\ 1 \\ 0}i
+           +\colvec[r]{3 \\ 0 \\ 1}j\suchthat i,j\in\Re}$
+      \partsitem $\colvec[r]{0 \\ -4 \\ 2}$、
+        $\set{\colvec[r]{1 \\ 1 \\ 0}m
+               +\colvec[r]{2 \\ 0 \\ 1}n\suchthat m,n\in\Re}$
+    \end{exparts}
+    \begin{answer}
+      对每一小题，我们通过考察分量的等式得到一个
+      线性方程组。
+      \begin{exparts}
+       \partsitem $k=5$
+       \partsitem 第二个分量表明$i=2$，第三个
+       分量表明$j=1$。
+       \partsitem $m=-4$，$n=2$
+      \end{exparts} 
+    \end{answer}
+  \item 
+    判断该向量是否在集合中。
+    \begin{exparts}
+      \partsitem $\colvec[r]{3 \\ -1}$、
+        $\set{\colvec[r]{-6 \\ 2}k\suchthat k\in\Re}$
+      \partsitem $\colvec[r]{5 \\ 4}$、
+        $\set{\colvec[r]{5 \\ -4}j\suchthat j\in\Re}$
+      \partsitem $\colvec[r]{2 \\ 1 \\ -1}$、
+        $\set{\colvec[r]{0 \\ 3 \\ -7}
+             +\colvec[r]{1 \\ -1 \\ 3}r\suchthat r\in\Re}$
+      \partsitem $\colvec[r]{1 \\ 0 \\ 1}$、
+        $\set{\colvec[r]{2 \\ 0 \\ 1}j
+            +\colvec[r]{-3 \\ -1 \\ 1}k\suchthat j,k\in\Re}$
+    \end{exparts}
+    \begin{answer}
+      对每一小题，我们通过考察分量的等式得到一个
+      线性方程组。
+      \begin{exparts}
+        \partsitem 是；取$k=-1/2$。
+        \partsitem 否；由方程$5=5\cdot j$和
+            $4=-4\cdot j$组成的方程组无解。
+        \partsitem 是；取$r=2$。
+        \partsitem 否。
+           第二个分量给出$k=0$。
+           于是第三个分量给出$j=1$。
+           但第一个分量对不上。
+      \end{exparts}
+     \end{answer}
+  \item \cite{Cleary}
+    一个有1200英亩土地的农民在考虑种植三种不同的庄稼：
+    玉米、大豆和燕麦。   
+    农民想用全部~$1200$英亩土地。  
+    玉米种子每英亩花费\$$20$，而大豆种子和燕麦种子分别
+    每英亩花费\$$50$和\$$12$。  
+    农民有\$$40\,000$可用于购买种子，并打算
+    把它全部花掉。
+    \begin{exparts}  
+      \item 利用上面的信息建立两个含三个未知数的线性方程
+        并求解它。
+     \item 该方程组的解就是农民可以做的选择。  
+        写出两个合理的解。
+     \item 假设秋天庄稼成熟时，农民
+        每英亩玉米可带来\$$100$的收入，
+        每英亩大豆\$$300$、每英亩燕麦\$$80$。  
+        前一题的两个解中哪一个原本会带来
+        更大的收入？ 
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \item 设$c$为玉米的英亩数，$s$为
+          大豆的英亩数，$a$为燕麦的英亩数。
+          \begin{equation*}
+            \begin{linsys}{3}
+              c   &+   &s   &+   &a   &=   &1200 \\ 
+            20c   &+   &50s &+   &12a &=   &40\,000  
+            \end{linsys}
+            \grstep{-20\rho_1+\rho_2}
+            \begin{linsys}{3}
+              c   &+   &s   &+   &a   &=   &1200 \\ 
+                  &    &30s &-   &8a  &=   &16\,000  
+            \end{linsys}
+          \end{equation*}
+          为描述解集，我们可以用$a$参数化。
+          \begin{equation*}
+            \set{\colvec{c \\ s \\ a}
+                 =\colvec{20\,000/30 \\ 16\,000/30 \\ 0}
+                  +\colvec{-38/30 \\ 8/30 \\ 1}a
+                 \suchthat a\in\Re}
+          \end{equation*}
+        \item 这里有许多可能的答案。 
+          例如我们可以取$a=0$得到$c=20\,000/30\approx 666.66$和
+          $s=16000/30\approx 533.33$。
+          另一个例子是取$a=20\,000/38\approx 526.32$，给出
+          $c=0$和$s=7360/38\approx 193.68$。
+        \item 把前一题的答案代入
+          $100c+300s+80a$。
+      \end{exparts}
+    \end{answer}
+  \item 
+    参数化这个单方程方程组的解集。
+    \begin{equation*}
+      x_1+x_2+\cdots+x_n=0
+    \end{equation*}
+    \begin{answer}
+      这个方程组有一个方程。
+      首变量是\( x_1 \)，其余变量是自由变量。
+      \begin{equation*}
+        \set{\colvec{-1 \\ 1 \\ \vdotswithin{-1} \\ 0}x_2
+             +\cdots+
+             \colvec{-1 \\ 0 \\ \vdotswithin{-1} \\ 1}x_n
+             \suchthat x_2,\ldots,x_n\in\Re}
+      \end{equation*}  
+     \end{answer}
+  \recommended \item 
+    \begin{exparts}
+    \partsitem 对左边应用高斯消元法来求解
+      \begin{equation*}
+        \begin{linsys}{4}
+          x  &+  &2y  &    &    &-   &w   &=   &a   \\
+         2x  &   &    &+   &z   &    &    &=   &b   \\
+          x  &+  &y   &    &    &+   &2w  &=   &c   
+        \end{linsys}
+      \end{equation*}
+      把\( x \)、\( y \)、\( z \)和\( w \)用
+      常数$a$、$b$和$c$表示。
+    \partsitem 用前一题的答案求解这个方程组。
+      \begin{equation*}
+        \begin{linsys}{4}
+          x  &+  &2y  &    &    &-   &w   &=   &3   \\
+         2x  &   &    &+   &z   &    &    &=   &1   \\
+          x  &+  &y   &    &    &+   &2w  &=   &-2
+        \end{linsys}
+      \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这里高斯消元法给出
+          \begin{align*}
+            \begin{amat}{4}
+              1  &2  &0  &-1  &a  \\
+              2  &0  &1  &0   &b  \\
+              1  &1  &0  &2   &c
+            \end{amat}
+            &\grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \begin{amat}{4}
+              1  &2  &0  &-1  &a  \\
+              0  &-4 &1  &2   &-2a+b  \\
+              0  &-1 &0  &3   &-a+c
+            \end{amat}                                  \\
+            &\grstep{-(1/4)\rho_2+\rho_3}
+            \begin{amat}{4}
+              1  &2  &0    &-1  &a  \\
+              0  &-4 &1    &2   &-2a+b  \\
+              0  &0  &-1/4 &5/2 &-(1/2)a-(1/4)b+c
+            \end{amat}
+          \end{align*}
+          留下\( w \)为自由变量。
+          求解：\( z=2a+b-4c+10w \)，
+          且\( -4y=-2a+b-(2a+b-4c+10w)-2w \)于是
+          \( y=a-c+3w \)，并且
+          \( x=a-2(a-c+3w)+w=-a+2c-5w. \)
+          因此解集如下。
+          \begin{equation*}
+             \set{\colvec{-a+2c \\ a-c \\ 2a+b-4c \\ 0}
+                  +\colvec{-5 \\ 3 \\ 10 \\ 1}w
+                  \suchthat w\in\Re}
+          \end{equation*}
+        \partsitem 代入\( a=3 \)、\( b=1 \)和\( c=-2 \)。
+          \begin{equation*}
+             \set{\colvec[r]{-7 \\ 5 \\ 15 \\ 0}
+                  +\colvec[r]{-5 \\ 3 \\ 10 \\ 1}w
+                  \suchthat w\in\Re}
+          \end{equation*}
+      \end{exparts}  
+     \end{answer}
+  \item 
+    在矩阵元素的记法“\( a_{i,j} \)”中，
+    为什么需要逗号？
+    \begin{answer}
+       省略逗号，比如写成\( a_{123} \)，
+       是有歧义的，因为它可能指$a_{1,23}$或$a_{12,3}$。  
+    \end{answer}
+  \recommended \item 
+    给出\( \nbyn{4} \)矩阵，其
+    \( i,j \)元素为
+    \begin{exparts*}
+      \partsitem \( i+j \)；
+      \partsitem \( -1 \)的\( i+j \)次幂。
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \(
+           \begin{mat}[r]
+             2  &3  &4  &5  \\
+             3  &4  &5  &6  \\
+             4  &5  &6  &7  \\
+             5  &6  &7  &8
+           \end{mat} \)
+        \partsitem \(
+           \begin{mat}[r]
+             1  &-1  &1   &-1  \\
+            -1  &1   &-1  &1  \\
+             1  &-1  &1   &-1  \\
+            -1  &1   &-1  &1
+           \end{mat} \)
+      \end{exparts*}  
+    \end{answer}
+  \item  
+    对任意矩阵\( A \)，
+    \( A \)的\definend{转置}\index{transpose}
+    \index{matrix!transpose}
+    记作
+    \( \trans{A} \)，是以\( A \)的行作为列的矩阵。
+    求下面每一个的转置。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                  1  &2  &3  \\
+                  4  &5  &6
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                  2  &-3 \\
+                  1  &1
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                  5  &10 \\
+                 10  &5
+               \end{mat}  \)
+      \partsitem \( \colvec[r]{1 \\ 1 \\ 0} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( \begin{mat}[r]
+                   1  &4  \\
+                   2  &5  \\
+                   3  &6
+                 \end{mat}  \)
+        \partsitem \( \begin{mat}[r]
+                   2  &1  \\
+                  -3  &1
+                 \end{mat}  \)
+        \partsitem \( \begin{mat}[r]
+                   5  &10 \\
+                  10  &5
+                 \end{mat}  \)
+        \partsitem \( \rowvec{1 &1 &0}  \)
+      \end{exparts*}  
+     \end{answer}
+  \recommended \item 
+    \begin{exparts}
+      \partsitem 描述所有满足\( f(1)=2 \)且\( f(-1)=6 \)的
+        函数\( f(x)=ax^2+bx+c \)。
+      \partsitem 描述所有满足\( f(1)=2 \)的
+        函数\( f(x)=ax^2+bx+c \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 代入\( x=1 \)和\( x=-1 \)得到
+          \begin{equation*}
+            \begin{linsys}{3}
+              a  &+  &b   &+  &c  &=  &2  \\
+              a  &-  &b   &+  &c  &=  &6  
+            \end{linsys}
+            \grstep{-\rho_1+\rho_2}
+            \begin{linsys}{3}
+              a  &+  &b   &+  &c  &=  &2  \\
+                 &   &-2b &   &   &=  &4  
+              \end{linsys}
+          \end{equation*}
+          所以函数的集合是
+          \( \set{f(x)=(4-c)x^2-2x+c\suchthat c\in\Re} \)。
+        \partsitem 代入\( x=1 \)得到
+          \begin{equation*}
+            \begin{linsys}{3}
+              a  &+  &b   &+  &c  &=  &2  
+            \end{linsys}
+          \end{equation*}
+          所以函数的集合是
+          \( \set{f(x)=(2-b-c)x^2+bx+c\suchthat b,c\in\Re} \)。
+      \end{exparts}  
+    \end{answer}
+  \item 证明：平面\( \Re^2 \)中任意五个点都位于一条共同的二次曲线上，也就是说，它们都满足某个形如
+    \( ax^2+by^2+cxy+dx+ey+f=0 \)的方程，其中\( a,\,\ldots\,,f \)
+    中有些不为零。
+    \begin{answer}
+      把五对$(x,y)$代入，我们得到一个有
+      五个方程、六个未知数$a$、\ldots、$f$的方程组。
+      由于未知数比方程多，如果方程之间没有不相容，
+      那么就有无穷多解
+      （至少有一个变量最终会成为自由变量）。
+
+      但不相容不可能存在，因为$a=0$、\ldots、$f=0$是
+      一个解（我们只是用这个零解来表明方程组
+      是相容的\Dash前面一段表明
+      存在非零解）。 
+    \end{answer}
+  \item 
+    编出一个四方程/四未知数的方程组，使其具有
+    \begin{exparts}
+      \partsitem 单参数的解集；
+      \partsitem 双参数的解集；
+      \partsitem 三参数的解集。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+      \partsitem 这是一个\Dash第四个方程是多余的
+        但仍然可以。
+        \begin{equation*}
+          \begin{linsys}{4}
+             x  &+  &y  &-  &z  &+  &w  &=  &0  \\
+                &   &y  &-  &z  &   &   &=  &0  \\
+                &   &   &   &2z &+  &2w &=  &0  \\
+                &   &   &   &z  &+  &w  &=  &0
+          \end{linsys}
+        \end{equation*}
+      \partsitem 这是一个。
+        \begin{equation*}
+          \begin{linsys}{4}
+             x  &+  &y  &-  &z  &+  &w  &=  &0  \\
+                &   &   &   &   &   &w  &=  &0  \\
+                &   &   &   &   &   &w  &=  &0  \\
+                &   &   &   &   &   &w  &=  &0
+          \end{linsys}
+        \end{equation*}
+      \partsitem 这是一个。
+        \begin{equation*}
+          \begin{linsys}{4}
+             x  &+  &y  &-  &z  &+  &w  &=  &0  \\
+             x  &+  &y  &-  &z  &+  &w  &=  &0  \\
+             x  &+  &y  &-  &z  &+  &w  &=  &0  \\
+             x  &+  &y  &-  &z  &+  &w  &=  &0 
+          \end{linsys}
+        \end{equation*}
+    \end{exparts}  
+   \end{answer}
+  \puzzle \item 
+    \cite{Shepelev}
+    这个谜题来自俄罗斯网站
+    \texttt{http://www.arbuz.uz/}，它有很多种解法，
+    但我的解法用到线性代数，而且非常朴素。有一颗行星上居住着arbuzoid
+    （从俄语翻译过来即“西瓜人”）。
+    这些生物有三种颜色：红、绿、蓝。
+    有$13$~个红色的
+    arbuzoid、$15$~个蓝色的、$17$~个绿色的。
+    当
+    两只颜色不同的arbuzoid相遇时，它们
+    都变成第三种颜色。
+
+    问题是，有没有可能出现它们
+    全部变成同一种颜色的情况？
+     \begin{answer}
+        \answerasgiven
+        我的解法是把arbuzoid的
+        数量定义为$3$维向量，并把所有可能的
+        基本转变也表示成这样的向量：
+        \begin{center}
+          \begin{tabular}{rr}
+            R: &$13$  \\
+            G: &$15$  \\
+            B: &$17$
+          \end{tabular}
+          \qquad
+          操作：
+          $\colvec[r]{-1 \\ -1 \\ 2}$、
+          $\colvec[r]{-1 \\ 2 \\ -1}$、
+          以及
+          $\colvec[r]{2 \\ -1 \\ -1}$
+        \end{center}
+        现在，只需检查下面某个线性方程组的解
+        是否
+        存在：
+        \begin{equation*}
+          \colvec[r]{13 \\ 15 \\ 17}
+          +x\colvec[r]{-1 \\ -1  \\ 2}
+          +y\colvec[r]{-1 \\ 2 \\ -1}
+          +z\colvec[r]{2 \\ -1 \\ -1}
+          =\colvec[r]{0 \\ 0 \\ 45}
+          \qquad
+          \text{（或 $\colvec[r]{0 \\ 45 \\ 0}$ 或 $\colvec[r]{45 \\ 0 \\ 0}$）}
+        \end{equation*}
+        求解
+        \begin{equation*}
+          \begin{amat}[r]{3}
+           -1  &-1 &2  &-13  \\
+           -1  &2  &-1 &-15  \\
+            2  &-1 &-1 &28
+          \end{amat}
+          \grstep[2\rho_1+\rho_3]{-\rho_1+\rho_2}
+          \repeatedgrstep{\rho_2+\rho_3}
+          \begin{amat}[r]{3}
+           -1  &-1 &2  &-13  \\
+            0  &3  &-3 &-2  \\
+            0  &0  &0  &0
+          \end{amat}
+        \end{equation*}
+        给出$y+2/3=z$，所以如果变换次数$z$是一个整数
+        那么$y$就不是。
+        另外两个方程组给出类似的结论，因此无解。
+     \end{answer}
+  \puzzle \item 
+    \cite{USSROlympiad174}
+    \begin{exparts}
+      \partsitem 求解方程组。
+        \begin{equation*}
+          \begin{linsys}{2}
+            ax  &+  &y  &=  &a^2  \\
+             x  &+  &ay &=  &1
+         \end{linsys}
+        \end{equation*}
+        对哪些$a$值，方程组无解，而对哪些$a$值，方程组有无穷多解？
+      \partsitem 对方程组回答上面的问题。
+        \begin{equation*}
+          \begin{linsys}{2}
+            ax  &+  &y  &=  &a^3  \\    
+             x  &+  &ay &=  &1
+          \end{linsys}
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+       \answerasgiven
+       \begin{exparts}
+        \partsitem 对方程组作形式求解得到
+          \begin{equation*}
+            x=\frac{a^3-1}{a^2-1}  
+            \qquad
+            y=\frac{-a^2+a}{a^2-1}.
+          \end{equation*}
+          如果$a+1\neq 0$且$a-1\neq 0$，那么方程组有唯一的
+          解
+          \begin{equation*}
+            x=\frac{a^2+a+1}{a+1}
+            \qquad
+            y=\frac{-a}{a+1}.
+          \end{equation*}
+          如果$a=-1$，或者$a=+1$，那么这些公式没有意义；在
+          第一种情形，我们得到方程组
+          \begin{equation*}
+            \left\{ 
+            \begin{linsys}{2}
+              -x &+  &y  &=  &1 \\
+               x &-  &y  &=  &1
+            \end{linsys}\right.
+          \end{equation*}
+          这是一个矛盾方程组。
+          在第二种情形，我们有
+          \begin{equation*}
+            \left\{
+            \begin{linsys}{2}
+               x &+  &y  &=  &1 \\
+               x &+  &y  &=  &1
+            \end{linsys}\right.
+          \end{equation*}
+          它有无穷多个解（例如，$x$任取，
+          $y=1-x$）。
+        \partsitem 求解方程组得到
+          \begin{equation*}
+            x=\frac{a^4-1}{a^2-1}
+            \qquad
+            y=\frac{-a^3+a}{a^2-1}.
+          \end{equation*}
+          这里，若$a^2-1\neq 0$，则方程组有唯一解
+          $x=a^2+1$，$y=-a$。
+          对于$a=-1$和$a=1$，我们得到方程组
+          \begin{equation*}
+            \left\{
+            \begin{linsys}{2}
+              -x &+  &y  &=  &-1 \\
+               x &-  &y  &=  &1
+            \end{linsys}\right.
+            \qquad
+            \left\{
+            \begin{linsys}{2}
+               x &+  &y  &=  &1 \\
+               x &+  &y  &=  &1
+            \end{linsys}\right.
+         \end{equation*}
+         两者都有无穷多个解。
+      \end{exparts}
+    \end{answer}
+  \puzzle \item 
+    \cite{MathMag52p48}
+    在空气中，一个表面镀金的球重\( 7588 \)
+    克。
+    已知它可能含有铝、铜、银或铅中的一种或多种金属。
+    在标准条件下依次在水中、苯中、
+    酒精中和甘油中称量时，其重量分别为\( 6588 \)、\( 6688 \)、
+    \( 6778 \)和\( 6328 \)克。
+    如果指定的各种物质的比重取如下数值，那么它含有上述金属各多少（如果有的话）？
+    \begin{center}
+       \begin{tabular}{lrclr}
+         铝  &\( 2.7 \)
+            &\makebox[3em]{\mbox{}\hfill\mbox{}} &酒精 &0.81 \\
+         铜    &\( 8.9 \)  &     &苯   &\( 0.90 \) \\
+         金      &\( 19.3 \) &     &甘油 &\( 1.26 \) \\
+         铅      &\( 11.3 \) &     &水     &\( 1.00 \) \\
+         银    &\( 10.8 \)
+       \end{tabular}
+    \end{center}
+    \begin{answer}
+      \answerasgiven
+      设\( u \)、\( v \)、\( x \)、\( y \)、\( z \)分别为球中所含
+      Al、Cu、Pb、Ag和Au的体积（单位
+      \( {\rm cm}^3 \)），我们假设球不是空心的。
+      由于在水中（比重\( 1.00 \)）的失重
+      为
+      \( 1000 \)克，球的体积为\( 1000\mbox{ cm}^3 \)。
+      于是这些数据（其中一些是多余的，尽管是相容的）只导出
+      \( 2 \)个独立的方程，一个联系体积，另一个联系重量。
+      \begin{equation*}
+        \begin{linsys}{5}
+           u  &+  &v    &+  &x     &+  &y     &+  &z     &=  &1000  \\
+        2.7u  &+  &8.9v &+  &11.3x &+  &10.5y &+  &19.3z &=  &7558
+        \end{linsys}
+      \end{equation*}
+      显然，球必须含有一些铝，以使其平均比重
+      低于其他所有金属的比重。
+      问题的这一部分没有唯一的结果，因为三种金属的量
+      可以任意选取，只要所选取的量
+      不会使任何金属的量为负。
+
+      如果球只含铝和金，那么有
+      \( 294.5\mbox{ cm}^3 \)的金和\( 705.5\mbox{ cm}^3 \)的铝。
+      另一种可能是Cu、Au、Pb和
+      Ag各\( 124.7\mbox{ cm}^3 \)，以及\( 501.2\mbox{ cm}^3  \)的Al。   
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{\texorpdfstring{通解$=$特解$+$齐次解}{通解=特解+齐次解}}
+前一小节中对解集的种种描述都符合同一个模式：
+它们都是一个向量——该方程组的一个特解——
+加上另外一些向量的无限制组合。
+\nearbyexample{ex:ManyParamsInfManySolsSystem} 给出的解集
+例示了这一点。
+\begin{equation*}
+  \set{
+   \underbracket[.7pt]{
+     \colvec[r]{0 \\ 4 \\ 0 \\ 0 \\ 0}}_{\text{\shortstack{\rule{0pt}{2ex}特解}}}+
+   \underbracket[.7pt]{w\colvec[r]{1 \\ -1 \\ 3 \\ 1 \\ 0}+
+       u\colvec[r]{1/2 \\ -1 \\ 1/2 \\ 0 \\ 1}}_{\text{\shortstack{\rule{0pt}{2ex}无限制\\
+                                                                组合}}}
+       \suchthat w,u\in\Re}
+\end{equation*}
+组合之所以是无限制的，是指 $w$ 和 $u$ 可以取任何实数\Dash 没有
+类似“要求满足 $2w-u=0\mspace{1mu}$”这样的条件来限制
+我们可以使用哪些数对 $w,u$。
+
+前面的例题展示了一个符合该模式的无穷解集。
+另外两类解集也同样符合该模式。
+单元素解集符合该模式，是因为它有一个特解，
+而无限制组合那一部分是平凡的。
+也就是说，它不是两个向量的组合，也不是一个向量的组合，
+而是零个向量的组合。
+（按照约定，空向量集的和是零向量。）
+空解集符合该模式，是因为此时没有特解，
+从而不存在这种形式的和。
+
+\begin{theorem} \label{th:GenEqPartPlusHomo}
+%<*th:GenEqPartPlusHomo>
+任一线性方程组的
+解集都有形式
+\begin{equation*}
+   \set{\vec{p}+c_1\vec{\beta}_1+\,\cdots\,+c_k\vec{\beta}_k
+     \suchthat c_1,\,\ldots\,,c_k\in\Re}
+\end{equation*}
+其中 \( \vec{p} \) 是任意一个特解，
+而向量 $\vec{\beta}_1$, \ldots, $\vec{\beta}_k$ 的个数
+等于该方程组经高斯消元后自由变量的个数。
+%</th:GenEqPartPlusHomo>
+\end{theorem}
+
+解的描述分为两部分：
+特解 $\vec{p}$，
+以及诸 $\vec{\beta}$ 的无限制线性组合。
+我们将用与之相应的两个引理来证明该定理。
+
+我们首先关注无限制的组合。
+为此，我们考虑以零向量
+作为特解的方程组，
+这样便能将 $\vec{p}+c_1\vec{\beta}_1+\dots+c_k\vec{\beta}_k$
+缩短为 $c_1\vec{\beta}_1+\dots+c_k\vec{\beta}_k$。
+
+\begin{definition} \label{df:HomogeneousEquation}
+%<*df:HomogeneousEquation>
+如果一个线性方程带有常数零，从而可以写成
+$a_1x_1+a_2x_2+\,\cdots\,+a_nx_n=0$ 的形式，
+则称它是\definend{齐次的}\index{homogeneous equation}%
+\index{linear equation!homogeneous}。
+%</df:HomogeneousEquation>
+\end{definition}
+
+\begin{example}  \label{ex:FirstExHomoSys}
+对任一线性方程组，比如
+\begin{equation*}
+  \begin{linsys}{2}
+    3x  &+  &4y  &=  3  \\
+    2x  &-  &y   &=  1
+  \end{linsys}
+\end{equation*}
+我们将右端设为零，从而得到与之相应的
+一个齐次方程组。
+\begin{equation*}
+  \begin{linsys}{2}
+    3x  &+  &4y  &=  0  \\
+    2x  &-  &y   &=  0
+  \end{linsys}
+\end{equation*}
+把原方程组的化简
+\begin{equation*}
+  \begin{linsys}{2}
+    3x  &+  &4y  &=  3  \\
+    2x  &-  &y   &=  1
+  \end{linsys}
+  \grstep{-(2/3)\rho_1+\rho_2}
+  \begin{linsys}{2}
+    3x  &+  &4y        &=  3  \\
+        &   &-(11/3)y   &=  -1
+   \end{linsys}
+\end{equation*}
+与相应的齐次方程组的化简加以比较。
+\begin{equation*}
+  \begin{linsys}{2}
+    3x  &+  &4y  &=  0  \\
+    2x  &-  &y   &=  0
+  \end{linsys}
+  \grstep{-(2/3)\rho_1+\rho_2}
+  \begin{linsys}{2}
+    3x  &+  &4y        &=  0  \\
+        &   &-(11/3)y   &=  0
+   \end{linsys}
+\end{equation*}
+显然这两个化简的进行方式完全相同。
+于是我们可以通过研究如何化简相应的齐次方程组，
+来代替研究如何化简一个线性方程组。
+\end{example}
+
+研究相应的齐次方程组比研究原方程组
+有一个很大的优点。
+非齐次方程组可能无解。
+但齐次方程组必定相容，因为它总是至少有
+一个解：零向量。
+
+
+\begin{example} \label{ex:HomoZeroOnlySol}
+有些齐次方程组以零向量作为它们唯一的解。
+\begin{equation*}
+   \begin{linsys}{3}
+     3x  &+  &2y  &+  &z  &=  &0  \\
+     6x  &+  &4y  &   &   &=  &0  \\
+         &   &y   &+  &z  &=  &0
+   \end{linsys}
+   \grstep{-2\rho_1 +\rho_2}
+   \begin{linsys}{3}
+      3x  &+  &2y  &+  &z  &=  &0  \\
+          &   &    &   &-2z&=  &0  \\
+          &   &y   &+  &z  &=  &0
+    \end{linsys}
+   \grstep{\rho_2 \leftrightarrow\rho_3}
+   \begin{linsys}{3}
+      3x  &+  &2y  &+  &z  &=  &0  \\
+          &   &y   &+  &z  &=  &0  \\
+          &   &    &   &-2z&=  &0
+    \end{linsys}
+\end{equation*}
+\end{example}
+
+\begin{example} \label{ex:SolnChemProb}
+有些齐次方程组有许多解。
+其中一个就是第一节第一个小节首页的化学问题\index{Chemistry problem}。
+\begin{align*}
+  \begin{linsys}{4}
+              7x  &   &   &-  &7z  &   &   &=  &0  \\
+              8x  &+  &y  &-  &5z  &-  &2w &=  &0  \\
+                  &   &y  &-  &3z  &   &   &=  &0  \\
+                  &   &3y &-  &6z  &-  &w  &=  &0
+  \end{linsys}
+  &\grstep{-(8/7)\rho_1+\rho_2}
+  \begin{linsys}{4}
+                7x &   &   &-  &7z  &   &   &=  &0  \\
+                   &   &y  &+  &3z  &-  &2w &=  &0  \\
+                   &   &y  &-  &3z  &   &   &=  &0  \\
+                   &   &3y &-  &6z  &-  &w  &=  &0
+   \end{linsys}                                        \\
+  &\grstep[-3\rho_2+\rho_4]{-\rho_2+\rho_3}
+  \begin{linsys}{4}
+                7x &   &   &-  &7z  &   &   &=  &0  \\
+                   &   &y  &+  &3z  &-  &2w &=  &0  \\
+                   &   &   &   &-6z &+  &2w &=  &0  \\
+                   &   &   &   &-15z&+  &5w &=  &0
+   \end{linsys}                                        \\
+  &\grstep{-(5/2)\rho_3+\rho_4}
+  \begin{linsys}{4}
+                7x &   &   &-  &7z  &   &   &=  &0  \\
+                   &   &y  &+  &3z  &-  &2w &=  &0  \\
+                   &   &   &   &-6z &+  &2w &=  &0  \\
+                   &   &   &   &    &   &0  &=  &0
+   \end{linsys}
+\end{align*}
+解集
+\begin{equation*}
+  \set{\colvec[r]{1/3 \\ 1 \\ 1/3 \\ 1}w \suchthat w\in\Re}
+\end{equation*}
+除了零向量之外还有许多向量
+（如果把 \( w \) 取为分子的个数，那么只有当 \( w \) 是 $3$ 的非负倍数时，
+解才有意义）。
+\end{example}
+
+\begin{lemma} \label{le:HomoSltnSpanVecs}
+%<*le:HomoSltnSpanVecs>
+对任一齐次线性方程组，存在向量 $\vec{\beta}_1$, \ldots, $\vec{\beta}_k$，
+使得该方程组的解集为
+\begin{equation*}
+  \set{c_1\vec{\beta}_1+\cdots+c_k\vec{\beta}_k \suchthat c_1,\ldots,c_k\in\Re}
+\end{equation*}
+其中 $k$ 是该方程组的阶梯形形式中
+自由变量的个数。
+%</le:HomoSltnSpanVecs>
+\end{lemma}
+
+在证明之前，我们先讨论关于它的几点。
+第一，该证明验证的是：给定一个阶梯形的齐次方程组，
+我们可以用回代把所有首变量
+都用自由变量表示出来。
+要明白为什么这足以建立该引理，我们给出一个例子
+（我们也将借这次逐步演算来说明
+证明中的记号）。
+
+%<*ex:HomoSystemGivesSpanningSet0>
+考虑这个阶梯形的齐次方程组。
+\begin{equation*}
+  \begin{linsys}{5}
+     x  &+  &y   &+  &2z  &+  &u  &+  &v  &=  &0  \\
+        &   &y   &+  &z  &+  &u  &-  &v  &=  &0  \\
+        &   &    &   &   &   &u  &+  &v  &=  &0
+  \end{linsys}
+\end{equation*}
+它有五个变量：$x_1=x$, \ldots{}, $x_5=v$。
+做回代时，我们从最底下的行，即方程~$m=3$ 开始。
+利用它的首项 $a_{m,\ell_m}x_m=a_{3,4}x_4=1\cdot u$，
+我们解出它的首变量 $x_{\ell_3}=x_4=u$
+（记号中的“$\ell$”代表“leading”，即“首”）。
+我们得到 $u=-v$。
+%</ex:HomoSystemGivesSpanningSet0>
+
+现在回代进入迭代阶段。
+%<*ex:HomoSystemGivesSpanningSet1>
+我们将用变量~$t$ 来数当前行位于底部之上多少行，
+于是取 $t=1$，
+考察行 $m-t=3-1=2$。
+来到这一行时，我们已经把行~$3$ 的首变量
+用自由变量表示了出来。
+将 $x_{\ell_3}=x_4=u$ 用它关于
+自由变量的表达式代入，得到 $y+z+(-v)-v=0$。
+然后解出这一行的首变量，得
+$x_{\ell_{m-t}}=x_2=y=-z+2v$。
+
+接下来是位于底部之上 $t=2$ 的那一行，即行 $m-t=1$。
+至此我们已经把行 $3$ 和行~$2$ 的首变量
+用自由变量表示了出来。
+代入 $x_{\ell_3}=u$ 与 $x_{\ell_2}=y$，得到
+$x+(-z+2v)+2z+(-v)+v=0$。
+然后解出首变量关于自由变量的表达式
+$x_{\ell_1}=x=-z-2v$。
+%</ex:HomoSystemGivesSpanningSet2>
+
+%<*ex:HomoSystemGivesSpanningSet3>
+这个例子的要点在于：现在我们已经完成了。
+只要把解写成向量记法
+\begin{equation*}
+  \colvec{x \\ y \\ z \\ u \\ v}
+  =\colvec{-1 \\ -1 \\ 1 \\ 0 \\ 0}z
+   +\colvec{-2 \\ 2 \\ 0 \\ -1 \\ 1}v
+  \qquad \text{其中 $z,v\in\Re$}
+\end{equation*}
+就能看出，引理陈述中的 $\vec{\beta}_1$ 与 $\vec{\beta}_2$
+就是与自由变量 $z$ 和~$v$ 相关联的向量。
+%</ex:HomoSystemGivesSpanningSet3>
+
+关于证明的第二点也可以由那个例子看出。
+回代沿方程组自下而上推进，用来自较低行的结论
+处理下一行。
+这提示了证明策略：数学归纳法。\index{mathematical induction}\index{proof techniques!induction}\index{induction}%
+
+归纳法是一种重要而又不显然的证明技术，本书中
+将会多次出现。
+我们的归纳证明分两步进行：基础步骤
+和归纳步骤。
+在基础步骤中，我们验证该命题对某个最初的情形成立，
+这里即：对阶梯形线性方程组，我们能写出
+最底下方程的首变量关于自由变量的表达式。
+在归纳步骤中，我们必须建立一个蕴含关系，
+即：如果该命题对所有前面的情形都成立，
+那么可以推出该命题对当前情形
+也成立。
+具体到这里，归纳假设是：如果对
+下面的各行我们能把首变量
+用自由变量表示出来，那么对再上面一行
+我们也能把首变量用这些方式表示出来。
+
+这两个步骤合在一起便对所有的行证明了该命题：
+由基础步骤，它对最底下的方程成立，
+而由归纳步骤，它对最底下方程成立这一事实
+表明它对再上面一个方程也成立。
+然后，再用一次
+归纳步骤便推出它对再上面第三个方程成立，
+如此等等。\appendrefs{mathematical induction}%
+
+\begin{proof}
+%<*pf:HomoSltnSpanVecs0>
+用高斯消元法化成阶梯形。
+其中可能出现一些 \( 0=0 \) 方程；我们忽略它们
+（如果
+方程组只由 \( 0=0 \)~方程构成，那么该引理显然成立，
+因为没有首变量）。
+% If there are any variables that appear only with with a coefficient of
+% $0$ then they are free, and will never lead a row, so we will
+% ignore that possibility.
+但因为方程组是齐次的，所以没有矛盾方程。
+
+我们将用归纳法验证
+每个首变量都能用
+自由变量表示出来。
+这将结束证明，因为
+我们可以把自由变量用作参数，
+而诸 $\vec{\beta}$ 就是由那些
+自由变量的系数构成的向量。
+%</pf:HomoSltnSpanVecs0>
+
+%<*pf:HomoSltnSpanVecs1>
+对于基础步骤，考虑最底下的方程，
+\begin{equation*}
+  a_{m,\ell_m}x_{\ell_m}+a_{m,1+\ell_{m}}x_{1+\ell_{m}}+\cdots+a_{m,n}x_n=0
+   % \tag{$*$}
+\end{equation*}
+其中 \( a_{m,\ell_m}\neq 0 \)。
+%</pf:HomoSltnSpanVecs1>
+%<*pf:HomoSltnSpanVecs2>
+这是最底下一行，所以
+首变量之后 % $x_{\ell_{m}+1}$, \ldots{}
+的任何变量
+必定都是自由变量。
+把这些变量移到右端并除以 $a_{m,\ell_m}$
+\begin{equation*}
+  x_{\ell_m}
+  =(-a_{m,1+\ell_{m}}/a_{m,\ell_m})x_{1+\ell_{m}}+\cdots+(-a_{m,n}/a_{m,\ell_m})x_n
+\end{equation*}
+便将首变量用自由变量表示了出来。
+%</pf:HomoSltnSpanVecs2>
+（一个技术性细节：~如果最底下的方程中
+在~$x_{\ell_m}$ 的右侧没有变量，
+那么 \( x_{\ell_m}=0 \)。
+这也满足我们正在验证的命题，因为，
+正如本小节开头所提及的，
+它把 \( x_{\ell_m} \) 写成了
+若干个自由变量的和，具体说是零个自由变量的和，
+这里采用的惯例是：
+平凡的和总计为~$0$。）
+
+%<*pf:HomoSltnSpanVecs3>
+对于归纳步骤，假设对第 \( m \) 个方程，
+以及\text{第 \( (m-1) \) 个}
+方程，等等，直到并包括\mbox{第 \( m-(t-1) \) 个}~方程，
+我们都能
+把该方程的首变量用自由变量表示出来。
+也就是说，
+假设“我们能将一行的首变量
+用自由变量表示出来”这一命题
+对最底下的 $t$~行成立，其中 $1\leq t<m$。
+我们必须验证：由此该命题
+对上面紧邻的那个方程，
+即第 \( (m-t) \) 个方程也成立。
+
+对 \( x_{\ell_m} \), \ldots, \( x_{\ell_{m-(t-1)}} \) 中的每一个，
+代入它关于自由变量的表达式。
+所得结果的首项为
+$a_{m-t,\ell_{m-t}}x_{\ell_{m-t}}$，其中 \( a_{m-t,\ell_{m-t}}\neq 0 \)，
+而左端的其余部分
+是自由变量的组合。
+把自由变量移到
+右端并除以
+\( a_{m-t,\ell_{m-t}} \)，最后就把
+\( x_{\ell_{m-t}} \) 表示成了自由变量的表达式。
+
+基础步骤和归纳步骤都已完成，所以由
+数学归纳法原理，该命题为真。
+%</pf:HomoSltnSpanVecs3>
+\end{proof}
+
+这表明，正如在引理与它的证明之间所讨论的，
+我们可以用自由变量
+来参数化解集。
+我们说向量集
+$\set{c_1\vec{\beta}_1+\cdots+c_k\vec{\beta}_k \suchthat c_1,\ldots,c_k\in\Re}$
+是由集合
+\( \set{\smash{\vec{\beta}_1},\ldots,\smash{\vec{\beta}_k}} \)
+所\definend{生成的}\index{generated by}\index{generated}，
+或者说是~\definend{由它张成的}\index{spanned by}\index{span}。
+
+% The proof mentions a tricky point.
+% We follow the convention that the sum of an empty set of vectors is the
+% zero vector.
+% In particular, we needs this where
+% a homogeneous system has a unique solution because it
+% takes the \( c \)'s to be the free variables
+% and if there is a unique solution then there are no free variables.
+
+为了完成对 \nearbytheorem{th:GenEqPartPlusHomo} 的证明，
+下一个引理考虑解集描述中的
+特解部分。
+
+\begin{lemma}  \label{th:GenEqPartHomo}
+%<*th:GenEqPartHomo>
+对一个线性方程组以及它的任意一个特解 $\vec{p}\/$，
+其解集等于
+% \begin{equation*}
+$
+  \set{\vec{p}+\vec{h} \suchthat \text{ \( \vec{h} \) 满足
+                                相应的齐次方程组}     }$。
+%\end{equation*}
+%</th:GenEqPartHomo>
+\end{lemma}
+
+% So fixing any particular solution gives the above
+% description of the solution set.
+
+\begin{proof}
+我们将证明两个方向的集合包含：
+方程组的任何解都在上述集合中，而且
+上述集合中的任何向量都是该
+方程组的解。\appendrefs{set equality}
+
+%<*pf:GenEqPartHomo0>
+先证第一个方向的包含：如果一个向量满足该方程组，
+那么它在上述集合中。
+设 \( \vec{s} \) 满足该方程组。
+那么 \( \vec{s}-\vec{p} \) 满足相应的
+齐次方程组，因为对每个方程下标 \( i \)，
+\begin{multline*}
+  a_{i,1}(s_1-p_1)+\cdots+a_{i,n}(s_n-p_n) \\
+  =(a_{i,1}s_1+\cdots+a_{i,n}s_n)
+  -(a_{i,1}p_1+\cdots+a_{i,n}p_n)
+  =d_i-d_i
+  =0
+\end{multline*}
+其中 \( p_j \) 与 \( s_j \) 分别是
+\( \vec{p} \) 与 \( \vec{s} \) 的第 \( j \) 个分量。
+把 \( \vec{s}-\vec{p} \) 记作 \( \vec{h} \)，
+便将 \( \vec{s} \) 表成了所需的 \( \vec{p}+\vec{h} \) 形式。
+%</pf:GenEqPartHomo0>
+
+%<*pf:GenEqPartHomo1>
+再证另一个方向的包含：取形如 $\vec{p}+\vec{h}$ 的向量，
+其中 \( \vec{p} \) 满足该方程组，\( \vec{h} \) 满足
+相应的齐次方程组，注意到 $\vec{p}+\vec{h}$
+满足所给的方程组，因为对任一方程下标~$i$，
+\begin{multline*}
+  a_{i,1}(p_1+h_1)+\cdots+a_{i,n}(p_n+h_n)  \\
+  =(a_{i,1}p_1+\cdots+a_{i,n}p_n)
+   +(a_{i,1}h_1+\cdots+a_{i,n}h_n)
+  =d_i+0
+  =d_i
+\end{multline*}
+其中如前所述，\( p_j \) 与 \( h_j \) 分别是
+\( \vec{p} \) 与 \( \vec{h} \) 的第 \( j \) 个分量。
+%</pf:GenEqPartHomo1>
+\end{proof}
+
+这两个引理合起来便证明了 \nearbytheorem{th:GenEqPartPlusHomo}。
+请用这句口诀记住该定理：
+“\( \text{通解} = \text{特解} + \text{齐次解} \)”。
+
+\begin{example} \label{ex:IllusGenEqPartHomo}
+下面这个方程组例示了 \nearbytheorem{th:GenEqPartPlusHomo}。
+\begin{equation*}
+  \begin{linsys}{3}
+    x  &+  &2y  &-  &z  &=  &1  \\
+    2x &+  &4y  &   &   &=  &2  \\
+       &   &y   &-  &3z &=  &0
+  \end{linsys}
+\end{equation*}
+高斯消元法
+\begin{equation*}
+  \grstep{-2\rho_1+\rho_2}
+  \begin{linsys}{3}
+    x  &+  &2y  &-  &z  &=  &1  \\
+       &   &    &   &2z &=  &0  \\
+       &   &y   &-  &3z &=  &0
+  \end{linsys}
+  \grstep{\rho_2\leftrightarrow\rho_3}
+  \begin{linsys}{3}
+      x  &+  &2y  &-  &z  &=  &1  \\
+         &   &y   &-  &3z &=  &0  \\
+         &   &    &   &2z &=  &0
+   \end{linsys}
+\end{equation*}
+表明通解是一个单元素集。
+\begin{equation*}
+  \set{\colvec[r]{1 \\ 0 \\ 0} }
+\end{equation*}
+这个单个的向量显然是一个特解。
+相应的齐次方程组经同样的行变换化简
+\begin{equation*}
+  \begin{linsys}{3}
+    x  &+  &2y  &-  &z  &=  &0  \\
+    2x &+  &4y  &   &   &=  &0  \\
+       &   &y   &-  &3z &=  &0
+  \end{linsys}
+  \grstep{-2\rho_1+\rho_2}
+  \repeatedgrstep{\rho_2\swap\rho_3}
+  \begin{linsys}{3}
+      x  &+  &2y  &-  &z  &=  &0  \\
+         &   &y   &-  &3z &=  &0  \\
+         &   &    &   &2z &=  &0
+   \end{linsys}
+\end{equation*}
+也给出一个单元素集。
+\begin{equation*}
+  \set{\colvec[r]{0 \\ 0 \\ 0} }
+\end{equation*}
+于是，正如本小节开头所讨论的，
+在这种只有一个解的情形，通解就是取特解
+再加上相应的齐次方程组的唯一解。
+\end{example}
+
+\begin{example}
+本小节开头还讨论过，通解集为空的情形
+也符合 $\text{通解}=\text{特解}+\text{齐次解}$ 的模式。
+这个方程组例示了这一点。
+\begin{equation*}
+  \begin{linsys}{4}
+    x  &   &  &+  &z  &+ &w  &=  &-1  \\
+   2x  &-  &y &   &   &+ &w  &=  &3   \\
+    x  &+  &y &+  &3z &+ &2w &=  &1
+  \end{linsys}
+  \grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+  \begin{linsys}{4}
+    x  &   &  &+  &z  &+ &w  &=  &-1  \\
+       &   &-y&-  &2z &- &w  &=  &5   \\
+       &   &y &+  &2z &+ &w  &=  &2
+   \end{linsys}
+\end{equation*}
+它无解，因为最后两个方程
+相互冲突。
+但相应的齐次方程组确实有解，正如所有
+齐次方程组一样。
+\begin{equation*}
+  \begin{linsys}{4}
+    x  &   &  &+  &z  &+ &w  &=  &0   \\
+   2x  &-  &y &   &   &+ &w  &=  &0   \\
+    x  &+  &y &+  &3z &+ &2w &=  &0
+  \end{linsys}
+  \grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+  \grstep{\rho_2+\rho_3}
+  \begin{linsys}{4}
+    x  &   &  &+  &z  &+ &w  &=  &0   \\
+       &   &-y&-  &2z &- &w  &=  &0   \\
+       &   &  &   &   &  &0  &=  &0
+  \end{linsys}
+\end{equation*}
+事实上，这个解集是无穷的。
+\begin{equation*}
+  \set{\colvec[r]{-1 \\ -2 \\ 1 \\ 0}z+\colvec[r]{-1 \\ -1 \\ 0 \\ 1}w
+         \suchthat z,w\in\Re}
+\end{equation*}
+尽管如此，由于原方程组没有特解，它的
+通解集为空\Dash 不存在形如
+$\vec{p}+\vec{h}$ 的向量，因为没有 $\vec{p}\:$。
+\end{example}
+
+\begin{corollary} \label{co:ThreeKindsSolutionSets}
+%<*co:ThreeKindsSolutionSets>
+线性方程组的解集要么为空，要么只有一个元素，
+要么有无穷多个元素。
+%</co:ThreeKindsSolutionSets>
+\end{corollary}
+
+\begin{proof}
+%<*pf:ThreeKindsSolutionSets0>
+这三种情形发生的例子我们都已见过，
+所以只需证明没有其他的可能。
+
+首先注意，一个至少有一个非 \( \zero \) 解 $\vec{v}$ 的齐次方程组
+有无穷多个解。
+这是因为~$\vec{v}$ 的任何标量倍数也满足该齐次
+方程组，而且 $\vec{v}$ 的标量倍数组成的集合中有无穷多个向量：
+如果 $s,t\in\Re$ 不相等，那么 $s\vec{v}\neq t\vec{v}$，
+因为 $s\vec{v}-t\vec{v}=(s-t)\vec{v}$ 非 $\zero$：
+$\vec{v}$ 的任何非 $0$ 分量在经非 $0$ 因子 $s-t$ 倍乘后，
+都会给出非 $0$ 的值。
+%</pf:ThreeKindsSolutionSets0>
+
+%<*pf:ThreeKindsSolutionSets1>
+现在应用 \nearbylemma{th:GenEqPartHomo} 得出：解集
+\begin{equation*}
+  \set{\vec{p}+\vec{h}\suchthat
+    \text{\( \vec{h} \) 满足相应的齐次方程组}}
+\end{equation*}
+要么为空（若不存在特解 \( \vec{p} \)），
+要么只有一个元素（若存在 \( \vec{p} \) 且齐次方程组
+有唯一解 \( \zero \)），要么是无穷的（若存在
+\( \vec{p} \) 且齐次方程组有非 $\zero$ 解，
+从而由上一段可知它有无穷多个解）。
+%</pf:ThreeKindsSolutionSets1>
+\end{proof}
+
+下表概括了影响通解大小的各个因素。
+
+\smallskip
+%<*table:KindsSolutionSets>
+\begin{center} % \small
+\begin{tabular}{r@{}c}
+  &\hspace*{2.5em}\begin{tabular}{c}
+      \textit{齐次方程组的} \\[-.5ex]
+      \textit{解的个数}
+    \end{tabular}                            \\[1.7ex]
+  \begin{tabular}{r@{\hspace*{.5em}}}
+     \ \\[.6ex]
+     \textit{特解} \\[-.55ex]
+     \textit{是否存在}
+  \end{tabular}
+  &\begin{tabular}{r|c@{\hspace*{1em}}c} % \cline{2-3}
+     \multicolumn{1}{c}{\ }
+         &\textit{一个}    &\textit{无穷多个}                    \\
+     \cline{2-3}
+     \textit{有}
+        &\rule{0ex}{16pt}\begin{tabular}{@{}c@{}} 唯一 \\[-.5ex] 解 \end{tabular}
+        &\begin{tabular}{@{}c@{}} 无穷多个 \\[-.5ex] 解 \end{tabular}
+         \\[2ex] % \hline
+     \textit{无}
+        &\begin{tabular}{@{}c@{}} 无 \\[-.5ex] 解 \end{tabular}
+        &\begin{tabular}{@{}c@{}} 无 \\[-.5ex] 解 \end{tabular}
+         \\ % \hline
+   \end{tabular}
+\end{tabular}
+\end{center}
+%</table:KindsSolutionSets>
+\smallskip
+
+表中上方的那一维比较简单。
+对一个线性方程组施行高斯消元法时，
+忽略右端的常数，只关注
+左端的系数，
+那么最终要么每个变量都领头某一行，要么
+我们发现某个变量不领头任何行，也就是说，
+我们发现某个变量是自由变量。
+（我们通过考虑相应的齐次方程组来将
+“忽略右端的常数”形式化。）
+
+一个值得注意的特殊情形是方程个数与未知数个数相同的方程组。
+这样的方程组将有解，且解唯一，
+当且仅当它
+化简为一个每个变量都领头所在行的阶梯形方程组
+（因为变量的个数与行的个数相同），
+而这又当且仅当
+相应的齐次方程组有唯一解。
+
+\begin{definition} \label{df:Nonsingular}
+%<*df:Nonsingular>
+如果一个方阵是某个有唯一解的齐次方程组的系数矩阵，
+则称它是\definend{非奇异的}\index{nonsingular!matrix}
+\index{matrix!nonsingular}。
+否则，即当它是某个有无穷多解的齐次方程组的系数矩阵时，
+称它是\definend{奇异的}\index{singular!matrix}\index{matrix!singular}。
+%</df:Nonsingular>
+\end{definition}
+
+\begin{example}
+下面两个矩阵中，第一个是非奇异的而第二个是奇异的
+\begin{equation*}
+  \begin{mat}[r]
+    1  &2  \\
+    3  &4
+  \end{mat}
+  \qquad
+  \begin{mat}[r]
+    1  &2  \\
+    3  &6
+  \end{mat}
+\end{equation*}
+因为下面两个齐次方程组中第一个有唯一解，
+而第二个有无穷多解。
+\begin{equation*}
+  \begin{linsys}[b]{2}
+    x &+  &2y  &=  &0  \\
+   3x &+  &4y  &=  &0
+  \end{linsys}
+  \qquad
+  \begin{linsys}[b]{2}
+    x &+  &2y  &=  &0  \\
+   3x &+  &6y  &=  &0
+  \end{linsys}
+\end{equation*}
+我们在定义中作出这一区分，是因为方程个数与变量个数相同的方程组
+只有两种表现方式，取决于它的系数矩阵
+是非奇异的还是奇异的。
+当系数矩阵非奇异时，无论右端常数是什么，方程组
+都有唯一解：~例如，高斯消元法表明方程组
+\begin{equation*}
+  \begin{linsys}{2}
+    x  &+  &2y  &=  &a \\
+    3x &+  &4y  &=  &b
+  \end{linsys}
+\end{equation*}
+有唯一解 $x=b-2a$ 和  $y=(3a-b)/2$。
+另一方面，当系数矩阵奇异时，方程组绝不会有唯一解\Dash 它
+要么无解，要么有无穷多解，如下面这两个方程组。
+\begin{equation*}
+  \begin{linsys}[b]{2}
+    x  &+  &2y  &=   &1   \\
+   3x  &+  &6y  &=   &2
+  \end{linsys}
+  \qquad
+  \begin{linsys}[b]{2}
+    x  &+  &2y  &=   &1   \\
+   3x  &+  &6y  &=   &3
+  \end{linsys}
+\end{equation*}
+\end{example}
+
+定义中使用“奇异”一词是因为它的意思是
+“偏离一般的预期”。
+人们常常想当然地以为变量个数与方程个数相同的方程组
+会有唯一解。
+因此，我们可以认为这个词隐含着
+“麻烦的”，或者至少“不理想的”意味。
+（“奇异”一词恰好用来指那些绝不会恰有一个解的方程组，
+这有讽刺意味，但它是标准术语。）
+
+\begin{example}
+来自 \nearbyexample{ex:FirstExHomoSys}、
+\nearbyexample{ex:HomoZeroOnlySol}
+和 \nearbyexample{ex:IllusGenEqPartHomo} 的方程组，
+其相应的齐次方程组都有唯一解。
+因此这些矩阵都是非奇异的。
+\begin{equation*}
+  \begin{mat}[r]
+    3  &4  \\
+    2  &-1
+  \end{mat}
+  \qquad
+  \begin{mat}[r]
+    3  &2   &1  \\
+    6  &-4  &0  \\
+    0  &1   &1
+  \end{mat}
+  \qquad
+  \begin{mat}[r]
+    1  &2  &-1 \\
+    2  &4  &0  \\
+    0  &1  &-3
+  \end{mat}
+\end{equation*}
+而 \nearbyexample{ex:SolnChemProb} 中的化学问题
+是一个有不止一个解的齐次方程组，所以它的矩阵
+是奇异的。
+\begin{equation*}
+  \begin{mat}[r]
+    7  &0  &-7 &0  \\
+    8  &1  &-5 &-2 \\
+    0  &1  &-3 &0  \\
+    0  &3  &-6 &-1
+  \end{mat}
+\end{equation*}
+\end{example}
+
+上面的表格有两个维度。
+我们已经考虑了上面那一个：~只考虑方程组的左端，
+我们就能判断一个给定的线性方程组落入哪一列；
+右端的常数在这件事中不起作用。
+
+表格的另一个维度，
+即判断是否存在特解，就更棘手了。
+考虑这两个左端相同但右端不同的方程组。
+\begin{equation*}
+  \begin{linsys}[b]{2}
+    3x &+ &2y &= &5  \\
+    3x &+ &2y &= &5
+  \end{linsys}
+  \qquad
+  \begin{linsys}[b]{2}
+    3x &+ &2y &= &5  \\
+    3x &+ &2y &= &4
+  \end{linsys}
+\end{equation*}
+第一个有解而第二个没有，所以在这里右端的常数
+决定了方程组是否有解。
+我们可能猜想线性方程组的左端
+决定解的个数，而右端决定是否有解，
+但这个猜测并不正确。
+比较这两个右端相同但左端不同的方程组。
+\begin{equation*}
+  \begin{linsys}[b]{2}
+    3x &+ &2y &= &5  \\
+    4x &+ &2y &= &4
+  \end{linsys}
+  \qquad
+  \begin{linsys}[b]{2}
+    3x &+ &2y &= &5  \\
+    3x &+ &2y &= &4
+  \end{linsys}
+\end{equation*}
+第一个有解而第二个没有。
+因此，仅凭方程组右端的常数
+并不能决定解是否存在。
+确切地说，这取决于左端与
+右端之间的某种相互作用。
+
+为了对这种相互作用有一些直观认识，
+考虑这个方程组，其中一个系数未加指定，
+记为变量~$c$。
+\begin{equation*}
+  \begin{linsys}{3}
+    x  &+  &2y  &+  &3z  &=  &1  \\
+    x  &+  &y   &+  &z   &=  &1  \\
+   cx  &+  &3y  &+  &4z  &=  &0
+  \end{linsys}
+\end{equation*}
+如果 \( c=2 \)，那么该方程组无解，因为左端
+第三行是前两行的和，而右端不是。
+如果 \( c\neq 2 \)，那么该方程组有唯一解（取 \( c=1 \) 试一试）。
+要使方程组有解：如果左端系数矩阵的某一行
+是其他几行的线性组合，
+那么右端该行的常数必须是
+同样那几行的常数的同样组合。
+
+关于这种相互作用的更多直观认识来自对线性组合的研究。
+这将是第二章的重点；在那之前，
+我们要在本章其余部分完成对高斯消元法本身的研究。
+\begin{exercises}
+  \item 求解该方程组。
+    再求解相应的齐次方程组。
+    \begin{equation*}
+      \begin{linsys}{4}
+        x  &+ &y  &- &2z &= &0 \\
+        x  &- &y  &  &   &= &-3 \\
+        3x &- &y  &- &2z &= &-6  \\
+           &  &2y &- &2z &= &3
+      \end{linsys}
+   \end{equation*}
+   \begin{answer}
+     下面的化简求解了该方程组。
+     \begin{align*}
+        \begin{amat}{3}
+          1 &1   &-2 &0 \\
+          1 &-1  &0  &3  \\
+          3 &-1  &-2 &-6 \\
+          0 &2   &-2 &3
+        \end{amat}
+        &\grstep[-3\rho_1+\rho_3]{-\rho_1+\rho_2}
+        \begin{amat}{3}
+          1 &1   &-2 &0 \\
+          0 &-2  &2  &-3  \\
+          0 &-4  &4  &-6 \\
+          0 &2   &-2 &3
+        \end{amat}                                 \\
+        &\grstep[\rho_2+\rho_4]{-2\rho_2+\rho_3}
+        \begin{amat}{3}
+          1 &1   &-2 &0 \\
+          0 &-2  &2  &-3  \\
+          0 &0   &0  &0 \\
+          0 &0   &0  &0
+        \end{amat}
+      \end{align*}
+      解集如下。
+      \begin{equation*}
+        \set{\colvec{-3/2 \\ 3/2 \\ 0}
+             +\colvec{1 \\ 1 \\ 1}z
+             \suchthat z\in\Re}
+      \end{equation*}
+      类似地，我们可以化简相应的齐次方程组
+      \begin{align*}
+        \begin{amat}{3}
+          1 &1   &-2 &0 \\
+          1 &-1  &0  &0  \\
+          3 &-1  &-2 &0 \\
+          0 &2   &-2 &0
+        \end{amat}
+        &\grstep[-3\rho_1+\rho_3]{-\rho_1+\rho_2}
+        \begin{amat}{3}
+          1 &1   &-2 &0 \\
+          0 &-2  &2  &0  \\
+          0 &-4  &4  &0 \\
+          0 &2   &-2 &0
+        \end{amat}                                         \\
+        &\grstep[\rho_2+\rho_4]{-2\rho_2+\rho_3}
+        \begin{amat}{3}
+          1 &1   &-2 &0 \\
+          0 &-2  &2  &0  \\
+          0 &0   &0  &0 \\
+          0 &0   &0  &0
+        \end{amat}
+      \end{align*}
+      得到它的解集。
+      \begin{equation*}
+        \set{
+             \colvec{1 \\ 1 \\ 1}z
+             \suchthat z\in\Re}
+      \end{equation*}
+    \end{answer}
+  \recommended \item
+    求解每个方程组。
+    用向量表示解集。
+    指出一个特解以及齐次方程组的解集。
+    % (These systems also appear in
+    % Exercise~2.\nearbyexercise{exer:SolveInMatrixNotation}.)
+    \begin{exparts*}
+      \partsitem \( \begin{linsys}[t]{2}
+                  3x  &+  &6y  &=  &18  \\
+                   x  &+  &2y  &=  &6
+                    \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{2}
+                   x  &+  &y   &=  &1  \\
+                   x  &-  &y   &=  &-1
+                    \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{3}
+                   x_1  &   &     &+  &x_3   &=  &4  \\
+                   x_1  &-  &x_2  &+  &2x_3  &=  &5  \\
+                  4x_1  &-  &x_2  &+  &5x_3  &=  &17
+                    \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{3}
+                   2a   &+  &b    &-  &c     &=  &2  \\
+                   2a   &   &     &+  &c     &=  &3  \\
+                    a   &-  &b    &   &      &=  &0
+                    \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{4}
+                     x  &+  &2y   &-   &z   &    &    &=  &3  \\
+                    2x  &+  &y    &    &    &+   &w   &=  &4  \\
+                     x  &-  &y    &+   &z   &+   &w   &=  &1
+                    \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{4}
+                     x  &   &     &+   &z   &+   &w   &=  &4  \\
+                    2x  &+  &y    &    &    &-   &w   &=  &2  \\
+                    3x  &+  &y    &+   &z   &    &    &=  &7
+                    \end{linsys}  \)
+    \end{exparts*}
+    \begin{answer}
+      这几题的具体计算参见前一小节的答案。
+
+      \begin{exparts}
+        \partsitem
+          解集如下。
+          \begin{equation*}
+            S=\set{\colvec[r]{6 \\ 0}+\colvec[r]{-2 \\ 1}y
+              \suchthat y\in\Re}
+          \end{equation*}
+          下面是特解以及相应的齐次方程组的解集。
+          \begin{equation*}
+            \colvec[r]{6 \\ 0}
+              \quad\text{与}\quad
+            \set{\colvec[r]{-2 \\ 1}y
+              \suchthat y\in\Re}
+          \end{equation*}
+          \textit{注。}
+          这里可能有两点混淆。
+          首先，上面给出的集合 $S$ 等于这个集合
+          \begin{equation*}
+            T=\set{\colvec[r]{4 \\ 1}+\colvec[r]{-2 \\ 1}y
+              \suchthat y\in\Re}
+          \end{equation*}
+          因为这两个集合含有相同的元素。
+          对于“什么是特解？”这一问题，下面这些都是正确的答案：
+          \begin{equation*}
+            \colvec{6 \\ 0},\quad
+            \colvec{4 \\ 1},\quad
+            \colvec{2 \\ 2},\quad
+            \colvec{1 \\ 2.5}
+          \end{equation*}
+          第二点混淆是，我们在集合中使用的字母无关紧要。
+          这个集合也等于 $S$。
+          \begin{equation*}
+            U=\set{\colvec[r]{6 \\ 0}+\colvec[r]{-2 \\ 1}u
+                   \suchthat u\in\Re}
+          \end{equation*}
+        \partsitem
+          解集如下。
+          \begin{equation*}
+            \set{\colvec[r]{0 \\ 1} }
+          \end{equation*}
+          下面是一个特解，
+          以及相应的齐次方程组的解集。
+          \begin{equation*}
+            \colvec[r]{0 \\ 1}
+              \qquad
+            \set{\colvec[r]{0 \\ 0} }
+          \end{equation*}
+        \partsitem
+          解集是无穷的。
+          \begin{equation*}
+            \set{\colvec[r]{4 \\ -1 \\ 0}+\colvec[r]{-1 \\ 1 \\ 1}x_3
+              \suchthat x_3\in\Re}
+          \end{equation*}
+          下面是一个特解以及相应的齐次方程组的解集。
+          \begin{equation*}
+            \colvec[r]{4 \\ -1 \\ 0}
+              \qquad
+            \set{\colvec[r]{-1 \\ 1 \\ 1}x_3
+              \suchthat x_3\in\Re}
+          \end{equation*}
+        \partsitem
+          解集是单元素集。
+          \begin{equation*}
+            \set{\colvec[r]{1 \\ 1 \\ 1}}
+          \end{equation*}
+          下面是一个特解以及相应的齐次方程组的解集。
+          \begin{equation*}
+            \colvec[r]{1 \\ 1 \\ 1}
+              \qquad
+            \set{\colvec[r]{0 \\ 0 \\ 0}}
+          \end{equation*}
+        \partsitem
+          解集是无穷的。
+          \begin{equation*}
+            \set{\colvec[r]{5/3 \\ 2/3 \\ 0 \\ 0}
+                 +\colvec[r]{-1/3 \\ 2/3 \\ 1 \\ 0}z
+                 +\colvec[r]{-2/3 \\ 1/3 \\ 0 \\ 1}w
+                 \suchthat z,w\in\Re}
+          \end{equation*}
+          下面是一个特解以及相应的齐次方程组的解集。
+          \begin{equation*}
+            \colvec[r]{5/3 \\ 2/3 \\ 0 \\ 0}
+              \qquad
+            \set{\colvec[r]{-1/3 \\ 2/3 \\ 1 \\ 0}z
+                 +\colvec[r]{-2/3 \\ 1/3 \\ 0 \\ 1}w
+                 \suchthat z,w\in\Re}
+          \end{equation*}
+        \partsitem 该方程组的解集为空。
+          因此，不存在特解。
+          相应的齐次方程组的解集如下。
+          \begin{equation*}
+            \set{\colvec[r]{-1 \\ 2 \\ 1 \\ 0}z
+                 +\colvec[r]{-1 \\ 3 \\ 0 \\ 1}w
+                 \suchthat z,w\in\Re}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item
+    求解每个方程组，用向量记法给出解集。
+    指出一个特解以及齐次方程组的解。
+    \begin{exparts*}
+      \partsitem \( \begin{linsys}[t]{3}
+                  2x  &+  &y  &-  &z  &=  &1  \\
+                  4x  &-  &y  &   &   &=  &3
+                  \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{4}
+                   x  &   &   &-  &z  &   &   &=  &1  \\
+                      &   &y  &+  &2z &-  &w  &=  &3  \\
+                   x  &+  &2y &+  &3z &-  &w  &=  &7
+                   \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{4}
+                   x  &-  &y  &+  &z  &   &   &=  &0  \\
+                      &   &y  &   &   &+  &w  &=  &0  \\
+                  3x  &-  &2y &+  &3z &+  &w  &=  &0  \\
+                      &   &-y &   &   &-  &w  &=  &0
+                  \end{linsys}  \)
+      \partsitem \( \begin{linsys}[t]{5}
+                   a  &+  &2b &+  &3c &+  &d  &-  &e  &=  &1  \\
+                  3a  &-  &b  &+  &c  &+  &d  &+  &e  &=  &3
+                  \end{linsys}  \)
+    \end{exparts*}
+    \begin{answer}
+    前一小节的答案给出了行变换。
+    这里的每个答案只列出解集、特解和齐次解。
+    \begin{exparts}
+      \partsitem
+        解集如下。
+        \begin{equation*}
+          \set{\colvec[r]{2/3 \\ -1/3 \\ 0}
+               +\colvec[r]{1/6 \\ 2/3 \\ 1}z
+              \suchthat z\in\Re}
+        \end{equation*}
+        下面是一个特解以及相应的齐次方程组的解集。
+        \begin{equation*}
+          \colvec[r]{2/3 \\ -1/3 \\ 0}
+            \qquad
+        \set{\colvec[r]{1/6 \\ 2/3 \\ 1}z
+            \suchthat z\in\Re}
+        \end{equation*}
+      \partsitem
+        解集是无穷的。
+        \begin{equation*}
+          \set{\colvec[r]{1 \\ 3 \\ 0 \\ 0}
+               +\colvec[r]{1 \\-2 \\ 1 \\ 0}z
+              \suchthat z\in\Re}
+        \end{equation*}
+        下面是
+        一个特解以及相应的齐次方程组的解集。
+        \begin{equation*}
+          \colvec[r]{1 \\ 3 \\ 0 \\ 0}
+            \qquad
+          \set{\colvec[r]{1 \\ -2 \\ 1 \\ 0}z
+              \suchthat z\in\Re}
+        \end{equation*}
+      \partsitem
+        解集如下。
+        \begin{equation*}
+          \set{\colvec[r]{0 \\ 0 \\ 0 \\ 0}
+               +\colvec[r]{-1 \\ 0 \\ 1 \\ 0}z
+               +\colvec[r]{-1 \\ -1 \\ 0 \\ 1}w
+              \suchthat z,w\in\Re}
+        \end{equation*}
+        下面是
+        一个特解以及相应的齐次方程组的解集。
+        \begin{equation*}
+          \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+            \qquad
+          \set{\colvec[r]{-1 \\ 0 \\ 1 \\ 0}z
+               +\colvec[r]{-1 \\ -1 \\ 0 \\ 1}w
+              \suchthat z,w\in\Re}
+        \end{equation*}
+      \partsitem
+        解集如下。
+        \begin{equation*}
+          \set{\colvec[r]{1 \\ 0 \\ 0 \\ 0 \\ 0}
+               +\colvec[r]{-5/7 \\ -8/7 \\ 1 \\ 0 \\ 0}c
+               +\colvec[r]{-3/7 \\ -2/7 \\ 0 \\ 1 \\ 0}d
+               +\colvec[r]{-1/7 \\ 4/7 \\ 0 \\ 0 \\ 1}e
+              \suchthat c,d,e\in\Re}
+        \end{equation*}
+        下面是
+        一个特解以及相应的齐次方程组的解集。
+        \begin{equation*}
+          \colvec[r]{1 \\ 0 \\ 0 \\ 0 \\ 0}
+            \qquad
+          \set{\colvec[r]{-5/7 \\ -8/7 \\ 1 \\ 0 \\ 0}c
+               +\colvec[r]{-3/7 \\ -2/7 \\ 0 \\ 1 \\ 0}d
+               +\colvec[r]{-1/7 \\ 4/7 \\ 0 \\ 0 \\ 1}e
+              \suchthat c,d,e\in\Re}
+        \end{equation*}
+    \end{exparts}
+   \end{answer}
+  \recommended \item
+    对于方程组
+    \begin{equation*}
+      \begin{linsys}{4}
+       2x  &-  &y  &   &    &-  &w  &=  &3  \\
+           &   &y  &+  &z   &+  &2w &=  &2  \\
+        x  &-  &2y &-  &z   &   &   &=  &-1
+      \end{linsys}
+    \end{equation*}
+    下列向量中哪些可以用作某个通解中的特解部分？
+    \begin{exparts*}
+      \partsitem   \( \colvec[r]{0 \\ -3 \\ 5 \\ 0} \)
+      \partsitem   \( \colvec[r]{2 \\ 1 \\ 1 \\ 0} \)
+      \partsitem   \( \colvec[r]{-1 \\ -4 \\ 8 \\ -1} \)
+    \end{exparts*}
+    \begin{answer}
+      直接把它们代入，看它们是否满足全部三个方程。
+      \begin{exparts}
+        \partsitem 否。
+        \partsitem 是。
+        \partsitem 是。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    \nearbylemma{th:GenEqPartHomo} 表明 $\vec{p}$ 可以取任意一个特解。
+    若可能，求出这个方程组的通解
+    \begin{equation*}
+      \begin{linsys}{4}
+        x  &-  &y  &   &    &+  &w  &=  &4  \\
+       2x  &+  &3y &-  &z   &   &   &=  &0  \\
+           &   &y  &+  &z   &+  &w  &=  &4
+      \end{linsys}
+    \end{equation*}
+    使之以给定的向量作为其特解。
+    \begin{exparts*}
+      \partsitem   \( \colvec[r]{0 \\ 0 \\ 0 \\ 4} \)
+      \partsitem   \( \colvec[r]{-5 \\ 1 \\ -7 \\ 10} \)
+      \partsitem   \( \colvec[r]{2 \\ -1 \\ 1 \\ 1} \)
+    \end{exparts*}
+    \begin{answer}
+      对相应的齐次方程组施行高斯消元法
+      \begin{align*}
+        \begin{amat}[r]{4}
+           1  &-1  &0  &1  &0  \\
+           2  &3   &-1 &0  &0  \\
+           0  &1   &1  &1  &0
+        \end{amat}
+        &\grstep{-2\rho_1+\rho_2}
+        \begin{amat}[r]{4}
+           1  &-1  &0  &1  &0  \\
+           0  &5   &-1 &-2 &0  \\
+           0  &1   &1  &1  &0
+        \end{amat}                                \\
+        &\grstep{-(1/5)\rho_2+\rho_3}
+        \begin{amat}[r]{4}
+           1  &-1  &0  &1  &0  \\
+           0  &5   &-1 &-2 &0  \\
+           0  &0   &6/5&7/5&0
+        \end{amat}
+      \end{align*}
+      得到这个解是齐次问题的解。
+      \begin{equation*}
+        \set{\colvec[r]{-5/6 \\ 1/6 \\ -7/6 \\ 1}w\suchthat w\in\Re}
+      \end{equation*}
+      \begin{exparts}
+        \partsitem 该向量确实是一个特解，因此所求的
+          通解如下。
+          \begin{equation*}
+            \set{\colvec[r]{0 \\ 0 \\ 0 \\ 4}+
+                 \colvec[r]{-5/6 \\ 1/6 \\ -7/6 \\ 1}w\suchthat w\in\Re}
+          \end{equation*}
+        \partsitem 该向量是一个特解，因此所求的
+          通解如下。
+          \begin{equation*}
+            \set{\colvec[r]{-5 \\ 1 \\ -7 \\ 10}+
+                 \colvec[r]{-5/6 \\ 1/6 \\ -7/6 \\ 1}w\suchthat w\in\Re}
+          \end{equation*}
+        \partsitem 该向量不是该方程组的解，因为
+          它不满足第三个方程。
+          这样的通解不存在。
+      \end{exparts}
+    \end{answer}
+  \item
+     下面两个中，一个是非奇异的而另一个是奇异的。
+     请指出哪个是哪个？
+     \begin{exparts*}
+       \partsitem $\begin{mat}[r]
+           1  &3   \\
+           4  &-12
+         \end{mat}$
+       \partsitem $\begin{mat}[r]
+           1  &3  \\
+           4  &12
+         \end{mat}$
+     \end{exparts*}
+     \begin{answer}
+       第一个非奇异而第二个奇异。
+       直接用高斯消元法，看阶梯形结果的
+       对角线上每个位置的数是否都非 $0$。
+     \end{answer}
+  \recommended \item
+    奇异还是非奇异？
+    \begin{exparts*}
+      \partsitem \(
+        \begin{mat}[r]
+          1  &2  \\
+          1  &3
+        \end{mat}   \)
+      \partsitem \(
+        \begin{mat}[r]
+          1  &2  \\
+         -3  &-6
+        \end{mat}   \)
+      \partsitem \(
+        \begin{mat}[r]
+          1  &2  &1  \\
+          1  &3  &1
+        \end{mat}   \)
+      \partsitem \(
+        \begin{mat}[r]
+          1  &2  &1  \\
+          1  &1  &3  \\
+          3  &4  &7
+        \end{mat}   \)
+      \partsitem \(
+        \begin{mat}[r]
+          2  &2  &1  \\
+          1  &0  &5  \\
+         -1  &1  &4
+        \end{mat}   \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+      \partsitem 非奇异：
+        \begin{equation*}
+          \grstep{-\rho_1+\rho_2}
+          \begin{mat}[r]
+            1  &2  \\
+            0  &1
+          \end{mat}
+        \end{equation*}
+        最终每行都含有一个首主元。
+      \partsitem 奇异：
+        \begin{equation*}
+          \grstep{3\rho_1+\rho_2}
+          \begin{mat}[r]
+            1  &2  \\
+            0  &0
+          \end{mat}
+        \end{equation*}
+        最终第 \( 2 \) 行没有首主元。
+      \partsitem 都不是。
+        矩阵必须是方阵，这两个词才适用。
+      \partsitem 奇异。
+      \partsitem 非奇异。
+     \end{exparts}
+    \end{answer}
+  \recommended \item
+    给定的向量是否属于由给定的集合生成的集合？
+      \begin{exparts}
+        \partsitem \( \colvec[r]{2 \\ 3}, \)\
+          \( \set{\colvec[r]{1 \\ 4},
+                \colvec[r]{1 \\ 5}} \)
+        \partsitem \( \colvec[r]{-1 \\ 0 \\ 1}, \)\
+          \( \set{\colvec[r]{2 \\ 1 \\ 0},
+                \colvec[r]{1 \\ 0 \\ 1}} \)
+        \partsitem \( \colvec[r]{1 \\ 3 \\ 0}, \)\
+          \( \set{\colvec[r]{1 \\ 0 \\ 4},
+                \colvec[r]{2 \\ 1 \\ 5},
+                \colvec[r]{3 \\ 3 \\ 0},
+                \colvec[r]{4 \\ 2 \\ 1}} \)
+        \partsitem \( \colvec[r]{1 \\ 0 \\ 1 \\ 1}, \)\
+          \( \set{\colvec[r]{2 \\ 1 \\ 0 \\ 1},
+                \colvec[r]{3 \\ 0 \\ 0 \\ 2}} \)
+      \end{exparts}
+      \begin{answer}
+        在每种情形下，我们都要判断该向量是否为集合中那些向量的
+        线性组合。
+        \begin{exparts}
+          \partsitem 是。
+            求解
+            \begin{equation*}
+              c_1\colvec[r]{1 \\ 4}+c_2\colvec[r]{1 \\ 5}=\colvec[r]{2 \\ 3}
+            \end{equation*}
+            结合
+            \begin{equation*}
+              \begin{amat}[r]{2}
+                1  &1  &2  \\
+                4  &5  &3
+              \end{amat}
+              \grstep{-4\rho_1+\rho_2}
+              \begin{amat}[r]{2}
+                1  &1  &2  \\
+                0  &1  &-5
+              \end{amat}
+            \end{equation*}
+            可以得出存在给出该组合的 $c_1$ 和 $c_2$。
+          \partsitem 否。
+            化简
+            \begin{equation*}
+              \begin{amat}[r]{2}
+                2  &1  &-1 \\
+                1  &0  &0  \\
+                0  &1  &1
+              \end{amat}
+              \grstep{-(1/2)\rho_1+\rho_2}
+              \begin{amat}[r]{2}
+                2  &1     &-1 \\
+                0  &-1/2  &1/2  \\
+                0  &1     &1
+              \end{amat}
+              \grstep{2\rho_2+\rho_3}
+              \begin{amat}[r]{2}
+                2  &1     &-1 \\
+                0  &-1/2  &1/2  \\
+                0  &0     &2
+              \end{amat}
+            \end{equation*}
+            表明
+            \begin{equation*}
+              c_1\colvec[r]{2 \\ 1 \\ 0}+c_2\colvec[r]{1 \\ 0 \\ 1}
+                =\colvec[r]{-1 \\ 0 \\ 1}
+            \end{equation*}
+            无解。
+          \partsitem 是。
+            化简
+            \begin{align*}
+              \begin{amat}[r]{4}
+                1  &2  &3  &4  &1  \\
+                0  &1  &3  &2  &3  \\
+                4  &5  &0  &1  &0
+              \end{amat}
+              &\grstep{-4\rho_1+\rho_3}
+              \begin{amat}[r]{4}
+                1  &2  &3  &4  &1  \\
+                0  &1  &3  &2  &3  \\
+                0  &-3 &-12&-15&-4
+              \end{amat}                   \\
+              &\grstep{3\rho_2+\rho_3}
+              \begin{amat}[r]{4}
+                1  &2  &3  &4  &1  \\
+                0  &1  &3  &2  &3  \\
+                0  &0  &-3 &-9 &5
+              \end{amat}
+            \end{align*}
+            表明有无穷多种方式
+            \begin{equation*}
+              \set{\colvec[r]{c_1 \\ c_2 \\ c_3 \\ c_4}=
+                   \colvec[r]{-10 \\ 8 \\ -5/3 \\ 0}+
+                   \colvec[r]{-9 \\ 7 \\ -3 \\ 1}c_4
+                    \suchthat c_4\in\Re}
+            \end{equation*}
+            来写出这个组合。
+            \begin{equation*}
+              \colvec[r]{1 \\ 3 \\ 0}=
+              c_1\colvec[r]{1 \\ 0 \\ 4}+
+              c_2\colvec[r]{2 \\ 1 \\ 5}+
+              c_3\colvec[r]{3 \\ 3 \\ 0}+
+              c_4\colvec[r]{4 \\ 2 \\ 1}
+            \end{equation*}
+          \partsitem 否。
+            看第三个分量。
+        \end{exparts}
+      \end{answer}
+  \item
+     证明：系数矩阵非奇异的任何线性方程组都有解，并且解是唯一的。
+    \begin{answer}
+        由于系数矩阵是非奇异的，高斯消元法
+        结束时得到的阶梯形中每个变量都在某个方程中居于首位。
+        回代给出唯一解。
+
+      （另一种看出解唯一的方法是注意：
+      当系数矩阵非奇异时，由定义，
+      相应的齐次方程组有唯一解。
+      由于通解是一个特解与
+      每个齐次解的和，所以通解
+      至多只有一个元素。）
+     \end{answer}
+  \item
+    在引理
+    \nearbylemma{le:HomoSltnSpanVecs}
+    的证明中，如果没有非 \( 0=0 \) 的方程，会发生什么？
+    \begin{answer}
+      此时解集是整个 \( \Re^n \)，而且我们可以
+      用所要求的形式表示它。
+      \begin{equation*}
+        \set{c_1\colvec[r]{1 \\ 0 \\ \vdotswithin{1} \\ 0}
+             +c_2\colvec[r]{0 \\ 1 \\ \vdotswithin{0} \\ 0}
+             +\cdots
+             +c_n\colvec[r]{0 \\ 0 \\ \vdotswithin{0} \\ 1}
+             \suchthat c_1,\ldots,c_n\in\Re}
+      \end{equation*}
+     \end{answer}
+  \recommended \item
+    证明：若 \( \vec{s} \) 和 \( \vec{t} \)
+    满足某个齐次方程组，则下面这些向量也满足它。
+    \begin{exparts*}
+      \partsitem \( \vec{s}+\vec{t} \)
+      \partsitem \( 3\vec{s} \)
+      \partsitem \( k\vec{s}+m\vec{t} \)，其中 \( k,m\in\Re \)
+    \end{exparts*}
+    这个论证有什么问题：“这三个结果表明，如果齐次
+    方程组有一个解，那么它就有许多个解\Dash 解的
+    任意倍数是另一个解，任意一些解的和也是
+    一个解\Dash 因此不存在恰好有一个解的
+    齐次方程组。”？
+    \begin{answer}
+      设 \( \vec{s},\vec{t}\in\Re^n \)，并把它们写成如下形式。
+      \begin{equation*}
+        \vec{s}=\colvec{s_1 \\ \vdotswithin{s_1} \\ s_n}
+          \qquad
+        \vec{t}=\colvec{t_1 \\ \vdotswithin{t_1} \\ t_n}
+      \end{equation*}
+      再设 \( a_{i,1}x_1+\cdots+a_{i,n}x_n=0 \) 是齐次方程组中的
+      第 \( i \) 个方程。
+      \begin{exparts}
+        \partsitem 验证很容易。
+          \begin{multline*}
+            a_{i,1}(s_1+t_1)+\cdots+a_{i,n}(s_n+t_n)      \\
+            =
+            (a_{i,1}s_1+\cdots+a_{i,n}s_n)
+            +(a_{i,1}t_1+\cdots+a_{i,n}t_n)
+            =
+            0+0
+          \end{multline*}
+        \partsitem 这与前一个类似。
+          \begin{equation*}
+            a_{i,1}(3s_1)+\cdots+a_{i,n}(3s_n)
+            =3(a_{i,1}s_1+\cdots+a_{i,n}s_n)
+            =3\cdot 0=0
+          \end{equation*}
+        \partsitem 这个也不难多少。
+          \begin{multline*}
+            a_{i,1}(ks_1+mt_1)+\cdots+a_{i,n}(ks_n+mt_n)  \\
+            =
+            k(a_{i,1}s_1+\cdots+a_{i,n}s_n)
+            +m(a_{i,1}t_1+\cdots+a_{i,n}t_n)
+            =
+            k\cdot 0+m\cdot 0
+          \end{multline*}
+      \end{exparts}
+     这个论证的错误在于，只涉及
+     零向量的任何线性组合都会得到零向量。
+   \end{answer}
+  \item
+    证明：如果一个系数和常数全为有理数的方程组
+    有解，那么它至少有一个全为有理数的解。
+    它必定有无穷多个解吗？
+    \begin{answer}
+      先看证明。
+
+      若方程组的系数全为有理数，则
+      带回代的高斯消元法将只用到有理数（例如，
+      \( -(m/n)\rho_i+\rho_j \)）。
+      于是，我们可以只用有理数
+      作为每个向量的分量来表示解集。
+      因此，特解全为有理数。
+
+      至于无穷多解的问题，
+      有理向量解有无穷多个，当且仅当
+      相应的齐次方程组有无穷多个
+      实向量解。
+      这是因为把任意参数取成有理数都会产生一个
+      全为有理数的解。
+   \end{answer}
+\end{exercises}
+
+\endinput
+
+
+
+
+\subsection{Comparing Set Descriptions}
+\emph{This subsection is optional.
+Later material will not require the work here.}
+
+A set can be described in many different ways.
+Here are two different descriptions of a single set:
+\begin{equation*}
+  \set{\colvec[r]{1 \\ 2 \\ 3}z\suchthat z\in\Re}
+  \quad\text{and}\quad
+  \set{\colvec[r]{2 \\ 4 \\ 6}w\suchthat w\in\Re}.
+\end{equation*}
+For instance, this set contains 
+\begin{equation*}
+  \colvec[r]{5 \\ 10 \\ 15}
+\end{equation*}
+(take $z=5$ and $w=5/2$) but does not contain
+\begin{equation*}
+  \colvec[r]{4 \\ 8 \\ 11}
+\end{equation*}
+(the first component gives $z=4$ but that clashes with the third component,
+similarly the first component gives $w=4/5$ but the third component 
+gives something different).
+Here is a third description of the same set: 
+\begin{equation*}
+  \set{\colvec[r]{3 \\ 6 \\ 9}+\colvec[r]{-1 \\ -2 \\ -3}y\suchthat y\in\Re}.
+\end{equation*}
+
+We need to decide when two descriptions are describing the same set.
+More pragmatically stated,
+how can a person tell when an answer to a homework question describes
+the same set as the one described in the back of the book?
+
+Sets are equal if and only if they have the same members.
+A common way to show that two sets, $S_1$ and $S_2$, are equal is to show 
+mutual inclusion:\index{sets!mutual inclusion}\index{mutual inclusion}
+any member of $S_1$ is also in $S_2$, and 
+any member of $S_2$ is also in $S_1$.\appendrefs{set equality}
+
+\begin{example}
+To show that 
+\begin{equation*}
+  S_1=
+  \set{\colvec[r]{1 \\ -1 \\ 0}c+\colvec[r]{1 \\ 1 \\ 0}d\suchthat c,d\in\Re}
+\end{equation*}
+equals
+\begin{equation*}
+  S_2=
+  \set{\colvec[r]{4 \\ 1 \\ 0}m+\colvec[r]{-1 \\ -3 \\ 0}n\suchthat m,n\in\Re}
+\end{equation*}
+we show first that $S_1\subseteq S_2$ and then that $S_2\subseteq S_1$. 
+
+For the first half we must check that any vector
+from \( S_1 \) is also in \( S_2 \).
+We first consider two examples to use them as models for the general argument.
+If we make up a member of $S_1$ by trying \( c=1 \) and \( d=1 \),
+then to show that it is in $S_2$ we need \( m \) and $n$ such that
+\begin{equation*}
+  \colvec[r]{4 \\ 1 \\ 0}m
+  +\colvec[r]{-1 \\ -3 \\ 0}n
+  =\colvec[r]{2 \\ 0 \\ 0}
+\end{equation*}
+that is, this relation holds between $m$ and $n$.
+\begin{equation*}
+  \begin{linsys}{2}
+    4m  &-  &n  &=  &2  \\
+    1m  &-  &3n &=  &0  \\
+        &   &0  &=  &0 
+  \end{linsys}  
+\end{equation*}
+Similarly,
+if we try \( c=2 \) and \( d=-1 \), then to show that the resulting
+member of $S_1$ is in $S_2$ we need \( m \) and $n$ such that
+such that 
+\begin{equation*}
+  \colvec[r]{4 \\ 1 \\ 0}m
+  +\colvec[r]{-1 \\ -3 \\ 0}n
+  =\colvec[r]{3 \\ -3 \\ 0}
+\end{equation*}
+that is, this holds.
+\begin{equation*}
+  \begin{linsys}{2}
+    4m  &-  &n  &=  &3  \\
+    1m  &-  &3n &=  &-3 \\
+        &   &0  &=  &0 
+   \end{linsys}
+\end{equation*}
+In the general case,
+to show that any vector from \( S_1 \) is a member of \( S_2 \) we must show
+that for any \( c \) and \( d \) there are appropriate \( m \) and \( n \).
+We follow the pattern of the examples; fix
+\begin{equation*}
+  \colvec{c+d \\ -c+d \\ 0}\in S_1
+\end{equation*}
+and look for \( m \) and \( n \) such that
+\begin{equation*}
+  \colvec[r]{4 \\ 1 \\ 0}m
+  +\colvec[r]{-1 \\ -3 \\ 0}n
+  =\colvec{c+d \\ -c+d \\ 0}
+\end{equation*}
+that is, this is true.
+\begin{equation*}
+  \begin{linsys}{2}
+    4m  &-  &n  &=  &c+d\hfill  \\
+     m  &-  &3n &=  &-c+d\hfill  \\
+        &   &0  &=  &0\hfill  
+  \end{linsys}
+\end{equation*}
+Applying Gauss's Method
+\begin{equation*}
+  \begin{linsys}{2}
+    4m  &-  &n  &=  &c+d\hfill  \\
+     m  &-  &3n &=  &-c+d\hfill  
+  \end{linsys}
+  \grstep{-(1/4)\rho_1+\rho_2}
+  \begin{linsys}{2}
+    4m  &-  &n        &=  &c+d\hfill            \\
+        &   &-(11/4)n &=  &-(5/4)c+(3/4)d\hfill  
+   \end{linsys}
+\end{equation*}
+gives \( n=(5/11)c-(3/11)d \) and \( m=(4/11)c+(2/11)d \).
+This shows that for any choice of $c$ and $d$ there are appropriate 
+$m$ and $n$.
+We conclude any member of $S_1$ is a member of $S_2$ because 
+it can be rewritten in this way:
+\begin{equation*}
+   \colvec{c+d \\ -c+d \\ 0}
+   =\colvec[r]{4 \\ 1 \\ 0}((4/11)c+(2/11)d)+
+   \colvec[r]{-1 \\ -3 \\ 0}((5/11)c-(3/11)d).
+\end{equation*}
+
+For the other inclusion, \( S_2\subseteq S_1 \), we want to do the opposite.
+We want to show that for any choice of $m$ and $n$ there are appropriate
+$c$ and $d$.
+So fix $m$ and $n$ and solve for \( c \) and \( d \):
+\begin{equation*}
+   \begin{linsys}{2}
+     c  &+ &d  &= &4m-n\hfill \\
+    -c  &+ &d  &= &m-3n\hfill 
+   \end{linsys}
+   \grstep{\rho_1+\rho_2}
+   \begin{linsys}{2}
+     c  &+ &d  &= &4m-n\hfill \\
+        &  &2d &= &5m-4n\hfill 
+    \end{linsys}
+\end{equation*}
+shows that \( d=(5/2)m-2n \) and \( c=(3/2)m+n \).
+Thus any vector from \( S_2 \)
+\begin{equation*}
+  \colvec[r]{4 \\ 1 \\ 0}m+\colvec[r]{-1 \\ -3 \\ 0}n
+\end{equation*}
+is also of the right form for \( S_1 \)
+\begin{equation*}
+  \colvec[r]{1 \\ -1 \\ 0}((3/2)m+n)
+    +\colvec[r]{1 \\ 1 \\ 0}((5/2)m-2n).
+\end{equation*}
+\end{example}
+
+\begin{example}
+Of course, sometimes sets are not equal.
+The method of the prior example will help us see the relationship
+between the two sets.
+These 
+\begin{equation*}
+  P=
+  \set{\colvec{x+y \\ 2x \\ y}\suchthat x,y\in\Re}
+  \quad\text{and}\quad
+  R=
+  \set{\colvec{m+p \\ n \\ p}\suchthat m,n,p\in\Re}
+\end{equation*}
+are not equal sets.
+While $P$ is a subset of $R$, it is a proper subset of $R$ because
+$R$ is not a subset of $P$.
+
+To see that, observe first that given a vector from \( P \)
+we can express it in the form for \( R \)\Dash if
+we fix $x$ and $y$, we can solve for appropriate $m$, $n$, and $p$:
+\begin{equation*}
+  \begin{linsys}{3}
+     m  &   &   &+  &p  &=  &x+y\hfill  \\
+        &   &n  &   &   &=  &2x\hfill   \\
+        &   &   &   &p  &=  &y\hfill    
+  \end{linsys}
+\end{equation*}
+shows that we can express any
+\begin{equation*}
+  \vec{v}=
+  \colvec[r]{1 \\ 2 \\ 0}x+
+  \colvec[r]{1 \\ 0 \\ 1}y
+\end{equation*}
+as a member of \( R \) with
+\( m=x \), \( n=2x \), and \( p=y \):
+\begin{equation*}
+  \vec{v}=
+  \colvec[r]{1 \\ 0 \\ 0}x+
+  \colvec[r]{0 \\ 1 \\ 0}2x+
+  \colvec[r]{1 \\ 0 \\ 1}y.
+\end{equation*}
+Thus \( P\subseteq R \).
+
+But, for the other direction, the reduction
+resulting from fixing $m$, $n$, and $p$ and looking for $x$ and $y$
+\begin{align*}
+  \begin{linsys}{2}
+     x  &+  &y  &=  &m+p\hfill  \\
+    2x  &   &   &=  &n\hfill    \\
+        &   &y  &=  &p\hfill    
+  \end{linsys}
+  &\grstep{-2\rho_1+\rho_2}
+  \begin{linsys}{2}
+     x  &+  &y  &=  &m+p\hfill  \\
+        &   &-2y&=  &-2m+n-2p\hfill \\
+        &   &y  &=  &p\hfill    
+   \end{linsys}                                  \\
+  &\grstep{(1/2)\rho_2+\rho_3}
+  \begin{linsys}{2}
+     x  &+  &y  &=  &m+p\hfill  \\
+        &   &-2y&=  &-2m+n-2p\hfill \\
+        &   &0  &=  &m+(1/2)n\hfill 
+    \end{linsys}
+\end{align*}
+shows that the only vectors
+\begin{equation*}
+  \colvec{m+p \\ n \\ p}\in R
+\end{equation*}
+representable in the form
+\begin{equation*}
+  \colvec{x+y \\ 2x \\ y}
+\end{equation*}
+are those where \( 0=m+(1/2)n \).
+For instance,
+\begin{equation*}
+  \colvec[r]{0 \\ 1 \\ 0}
+\end{equation*}
+is in \( R \) but not in \( P \).
+\end{example}
+
+\begin{exercises}
+  \item 
+    Decide if the vector is a member of the set.
+    \begin{exparts}
+      \partsitem $\colvec[r]{2 \\ 3}$, 
+         $\set{\colvec[r]{1 \\ 2}k\suchthat k\in\Re}$
+      \partsitem $\colvec[r]{-3 \\ 3}$, 
+         $\set{\colvec[r]{1 \\ -1}k\suchthat k\in\Re}$
+      \partsitem $\colvec[r]{-3 \\ 3 \\ 4}$, 
+             $\set{\colvec[r]{1 \\ -1 \\ 2}k\suchthat k\in\Re}$
+      \partsitem $\colvec[r]{-3 \\ 3 \\ 4}$, 
+             $\set{\colvec[r]{1 \\ -1 \\ 2}k+\colvec[r]{0 \\ 0 \\ 2}m
+                \suchthat k,m\in\Re}$
+      \partsitem $\colvec[r]{1 \\ 4 \\ 14}$, 
+             $\set{\colvec[r]{2 \\ 2 \\ 5}k+\colvec[r]{-1 \\ 0 \\ 2}m
+                \suchthat k,m\in\Re}$
+      \partsitem $\colvec[r]{1 \\ 4 \\ 6}$, 
+             $\set{\colvec[r]{2 \\ 2 \\ 5}k+\colvec[r]{-1 \\ 0 \\ 2}m
+                \suchthat k,m\in\Re}$
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem No.
+        \partsitem Yes.
+        \partsitem No.
+        \partsitem Yes.
+        \partsitem Yes; use Gauss's Method to get $k=4$ and $m=-3$.
+        \partsitem No; use Gauss's Method to conclude that there is no solution.
+      \end{exparts}
+    \end{answer}
+  \item 
+     Produce two descriptions of this set that are different than this one. 
+     \begin{equation*}
+       \set{\colvec[r]{2 \\ -5}k\suchthat k\in\Re}
+     \end{equation*}
+     \begin{answer}
+       One easy thing to do is to double and triple the vector:
+       \begin{equation*}
+         \set{\colvec[r]{4 \\ -10}k\suchthat k\in\Re}
+         \quad\text{and}\quad
+         \set{\colvec[r]{6 \\ -55}k\suchthat k\in\Re}.
+       \end{equation*}
+      \end{answer}
+  \recommended \item 
+    Show that the three descriptions given at the start of this
+    subsection all describe the same set.
+    \begin{answer}
+      Instead of showing all three equalities, we can show that the first
+      equals the second, and that the second equals the third.
+      Both equalities are easy, using the methods of this subsection.
+    \end{answer}
+  \recommended \item 
+    Show that these sets are equal
+    \begin{equation*}
+      \set{\colvec[r]{1 \\ 4 \\ 1 \\ 1}
+           +\colvec[r]{-1 \\ 0 \\ 1 \\ 0}z\suchthat z\in\Re  }
+      \quad\text{and}\quad
+      \set{\colvec[r]{0 \\ 4 \\ 2 \\ 1}
+           +\colvec[r]{-1 \\ 0 \\ 1 \\ 0}k\suchthat k\in\Re  },
+    \end{equation*}
+    and that both describe the solution set of this system.
+    \begin{equation*}  
+       \begin{linsys}{4}
+         x  &-  &y  &+  &z  &+  &w  &=  &-1  \\
+            &   &y  &   &   &-  &w  &=  &3   \\
+         x  &   &   &+  &z  &+  &2w &=  &4
+       \end{linsys}
+    \end{equation*}
+    \begin{answer}
+      That system reduces like this:
+      \begin{align*}
+         &\grstep{-\rho_1+\rho_2}
+         \begin{linsys}{4}
+           x  &-  &y  &+  &z  &+  &w  &=  &-1  \\
+              &   &y  &   &   &-  &w  &=  &3   \\
+              &   &y  &   &   &+  &w  &=  &5   
+           \end{linsys}                              \\
+         &\grstep{-\rho_2+\rho_3}
+         \begin{linsys}{4}
+           x  &-  &y  &+  &z  &+  &w  &=  &-1  \\
+              &   &y  &   &   &-  &w  &=  &3   \\
+              &   &   &   &   &   &2w &=  &2   
+          \end{linsys}
+      \end{align*}
+      showing that \( w=1 \), \( y=4 \) and \( x=2-z \).   
+    \end{answer}
+  \recommended \item 
+    Decide if the sets are equal.
+    \begin{exparts}
+      \partsitem \( \set{\colvec[r]{1 \\ 2}
+                        +\colvec[r]{0 \\ 3}t
+                     \suchthat t\in\Re} \)
+            and
+            \( \set{\colvec[r]{1 \\ 8}
+                        +\colvec[r]{0 \\ -1}s
+                     \suchthat s\in\Re} \)
+      \partsitem \( \set{\colvec[r]{1 \\ 3 \\ 1}t
+                        +\colvec[r]{2 \\ 1 \\ 5}s
+                     \suchthat t,s\in\Re} \)
+            and
+            \( \set{\colvec[r]{4 \\ 7 \\ 7}m
+                        +\colvec[r]{-4 \\ -2 \\ -10}n
+                     \suchthat m,n\in\Re} \)
+      \partsitem \( \set{\colvec[r]{1 \\ 2}t
+                     \suchthat t\in\Re} \)
+            and
+            \( \set{\colvec[r]{2 \\ 4}m
+                        +\colvec[r]{4 \\ 8}n
+                     \suchthat m,n\in\Re} \)
+      \partsitem \( \set{\colvec[r]{1 \\ 0 \\ 2}s
+                        +\colvec[r]{-1 \\ 1 \\ 0}t
+                     \suchthat s,t\in\Re} \)
+            and
+            \( \set{\colvec[r]{-1 \\ 1 \\ 1}m
+                        +\colvec[r]{0 \\ 1 \\ 3}n
+                     \suchthat m,n\in\Re} \)
+      \partsitem \( \set{\colvec[r]{1 \\ 3 \\ 1}t
+                        +\colvec[r]{2 \\ 4 \\ 6}s
+                     \suchthat t,s\in\Re} \)
+            and
+            \( \set{\colvec[r]{3 \\ 7 \\ 7}t
+                        +\colvec[r]{1 \\ 3 \\ 1}s
+                     \suchthat t,s\in\Re} \)
+    \end{exparts}
+    \begin{answer}
+      For each item, we call the first set \( S_1 \) and the
+      other \( S_2 \).
+     \begin{exparts}
+      \partsitem They are equal.
+
+        To see that \( S_1\subseteq S_2 \), we must show that any
+        element of the
+        first set is in the second, that is, for any vector of the form
+        \begin{equation*}
+          \vec{v}=\colvec[r]{1 \\ 2}
+                  +\colvec[r]{0 \\ 3}t
+        \end{equation*}
+        there is an appropriate \( s \) such that
+        \begin{equation*}
+          \vec{v}=\colvec[r]{1 \\ 8}
+                  +\colvec[r]{0 \\ -1}s.
+        \end{equation*}
+        Restated, given \( t \) we must find \( s \) so that this holds.
+        \begin{equation*}
+          \begin{linsys}{2}
+            1  &+  &0s  &=  &1+0t\hfill  \\
+            8  &-  &1s  &=  &2+3t\hfill  
+          \end{linsys}
+        \end{equation*}
+        That system reduces to
+        \begin{equation*}
+          \begin{linsys}{1}
+            1  &= &1 \hfill \\
+            s  &= &6-3t
+          \end{linsys}
+        \end{equation*}
+        That is,
+        \begin{equation*}
+          \colvec[r]{1 \\ 2}
+          +\colvec[r]{0 \\ 3}t
+          =\colvec[r]{1 \\ 8}
+          +\colvec[r]{0 \\ -1}(6-3t)
+        \end{equation*}
+        and so we can state any vector in the form for \( S_1 \) can 
+        also in the form
+        needed for inclusion in \( S_2 \).
+
+        For \( S_2\subseteq S_1 \), we look for \( t \) so that
+        these equations hold.
+        \begin{equation*}
+          \begin{linsys}{2}
+            1  &+  &0t  &=  &1+0s\hfill  \\
+            2  &+  &3t  &=  &8-1s\hfill  
+          \end{linsys}
+        \end{equation*}
+        Rewrite that as
+        \begin{equation*}
+          \begin{linsys}{1}
+            1 &= &1\hfill   \\
+            t &= &2-(1/3)s
+          \end{linsys}
+        \end{equation*}
+        and so
+        \begin{equation*}
+          \colvec[r]{1 \\ 8}
+          +\colvec[r]{0 \\ -1}s
+          =\colvec[r]{1 \\ 2}
+          +\colvec[r]{0 \\ 3}(2-(1/3)s).
+        \end{equation*}
+      \partsitem These two are equal.
+
+        To show that \( S_1\subseteq S_2 \), we check that for any \( t,s \)
+        we can find an appropriate \( m,n \) so that these hold.
+        \begin{equation*}
+          \begin{linsys}{2}
+           4m  &-  &4n   &=  &1t+2s\hfill  \\
+           7m  &-  &2n   &=  &3t+1s\hfill  \\
+           7m  &-  &10n  &=  &1t+5s\hfill  
+          \end{linsys}
+        \end{equation*}
+        Use Gauss's Method
+        \begin{align*}
+          \begin{amat}{2}
+            4  &-4  &1t+2s  \\
+            7  &-2  &3t+1s  \\
+            7  &-10 &1t+5s
+          \end{amat}
+          &\grstep[(-7/4)\rho_1+\rho_3]{(-7/4)\rho_1+\rho_2}
+          \begin{amat}{2}
+            4  &-4  &1t+2s           \\
+            0  &5   &(5/4)t-(10/4)s  \\
+            0  &-3  &-(3/4)t+(6/4)s
+          \end{amat}                              \\
+          &\grstep{(3/5)\rho_2+\rho_3}
+          \begin{amat}{2}
+            4  &-4  &1t+2s           \\
+            0  &5   &(5/4)t-(10/4)s  \\
+            0  &0   &0
+          \end{amat}
+        \end{align*}
+        to conclude that
+        \begin{equation*}
+          \colvec[r]{1 \\ 3 \\ 1}t
+          +\colvec[r]{2 \\ 1 \\ 5}s
+          =\colvec[r]{4 \\ 7 \\ 7}((1/2)t)
+          +\colvec[r]{-4 \\ -2 \\ -10}((1/4)t-(1/2)s)
+        \end{equation*}
+        and so \( S_1\subseteq S_2 \).
+
+        For \( S_2\subseteq S_1 \), solve
+        \begin{equation*}
+          \begin{linsys}{2}
+           1t  &+  &2s   &=  &4m-4n\hfill  \\
+           3t  &+  &1s   &=  &7m-2n\hfill  \\
+           1t  &+  &5s   &=  &7m-10n\hfill  
+          \end{linsys}
+        \end{equation*}
+        with Gaussian reduction
+        \begin{align*}
+          \begin{amat}{2}
+            1  &2   &4m-4n  \\
+            3  &1   &7m-2n  \\
+            1  &5   &7m-10n
+          \end{amat}
+          &\grstep[-\rho_1+\rho_3]{-3\rho_1+\rho_2}
+          \begin{amat}{2}
+            1  &2   &4m-4n  \\
+            0  &-5  &-5m+10n\\
+            0  &3   &3m-6n
+          \end{amat}                                    \\
+          &\grstep{(3/5)\rho_2+\rho_3}
+          \begin{amat}{2}
+            1  &2   &4m-4n  \\
+            0  &-5  &-5m+10n\\
+            0  &0   &0
+          \end{amat}
+        \end{align*}
+        to get
+        \begin{equation*}
+          \colvec[r]{4 \\ 7 \\ 7}m
+          +\colvec[r]{-4 \\ -2 \\ -10}n
+          =\colvec[r]{1 \\ 3 \\ 1}(2m)
+          +\colvec[r]{2 \\ 1 \\ 5}(m-2n)
+        \end{equation*}
+        and so we can express any member of \( S_2 \) in the form needed for
+        \( S_1 \).
+      \partsitem These sets are equal.
+
+        To prove that \( S_1\subseteq S_2 \), we must be able to solve
+        \begin{equation*}
+          \begin{linsys}{2}
+           2m  &+  &4n  &=  &1t\hfill  \\
+           4m  &+  &8n  &=  &2t\hfill  
+          \end{linsys}
+        \end{equation*}
+        for \( m \) and \( n \) in terms of \( t \).
+        Apply Gaussian  reduction
+        \begin{equation*}
+          \begin{amat}{2}
+            2  &4   &1t  \\
+            4  &8   &2t
+          \end{amat}
+          \onegrstep{-2\rho_1+\rho_2}
+          \begin{amat}{2}
+            2  &4   &1t  \\
+            0  &0   &0
+          \end{amat}
+        \end{equation*}
+        to conclude that
+        any pair \( m,n \) where \( 2m+4n=t \) will do.
+        For instance,
+        \begin{equation*}
+          \colvec[r]{1 \\ 2}t
+          =\colvec[r]{2 \\ 4}((1/2)t)
+          +\colvec[r]{4 \\ 8}(0)
+        \end{equation*}
+        or
+        \begin{equation*}
+          \colvec[r]{1 \\ 2}t
+          =\colvec[r]{2 \\ 4}((-3/2)t)
+          +\colvec[r]{4 \\ 8}(t).
+        \end{equation*}
+        Thus \( S_1\subseteq S_2 \).
+
+        For \( S_2\subseteq S_1 \), we solve
+        \begin{equation*}
+          \begin{linsys}{2}
+           1t  &=  &2m+4n\hfill  \\
+           2t  &=  &4m+8n\hfill  
+          \end{linsys}
+        \end{equation*}
+        with Gauss's Method
+        \begin{equation*}
+          \begin{amat}{1}
+            1  &2m+4n  \\
+            2  &4m+8n
+          \end{amat}
+          \grstep{-2\rho_1+\rho_2}
+          \begin{amat}{1}
+            1  &2m+4n  \\
+            0  &0
+          \end{amat}
+        \end{equation*}
+        to deduce that any vector in \( S_2 \) is also in \( S_1 \).
+        \begin{equation*}
+          \colvec[r]{2 \\ 4}m
+          +\colvec[r]{4 \\ 8}n
+          =\colvec[r]{1 \\ 2}(2m+4n)\in S_1.
+        \end{equation*}
+      \partsitem Neither set is a subset of the other.
+
+        For \( S_1\subseteq S_2 \) to hold we must be able to solve
+        \begin{equation*}
+          \begin{linsys}{2}
+          -1m  &+  &0n   &=  &1s-1t\hfill  \\
+           1m  &+  &1n   &=  &0s+1t\hfill  \\
+           1m  &+  &3n   &=  &2s+0t\hfill  
+          \end{linsys}
+        \end{equation*}
+        for \( m \) and \( n \) in terms of \( t \) and \( s \).
+        Gauss's Method
+        \begin{align*}
+          \begin{amat}{2}
+           -1  &0   &1s-1t  \\
+            1  &1   &0s+1t  \\
+            1  &3   &2s+0t
+          \end{amat}
+          &\grstep[\rho_1+\rho_3]{\rho_1+\rho_2}
+          \begin{amat}{2}
+           -1  &0   &1s-1t  \\
+            0  &1   &1s+0t  \\
+            0  &3   &3s-1t
+          \end{amat}                        \\
+          &\grstep{-3\rho_2+\rho_3}
+          \begin{amat}{2}
+           -1  &0   &1s-1t  \\
+            0  &1   &1s+0t  \\
+            0  &3   &0s-1t
+          \end{amat}
+        \end{align*}
+        shows that we can only find an appropriate pair \( m,n \) when
+        \( t=0 \).
+        That is,
+        \begin{equation*}
+          \colvec[r]{-1 \\ 1 \\ 0}
+        \end{equation*}
+        has no expression of the form
+        \begin{equation*}
+           \colvec[r]{-1 \\ 1 \\ 1}m+\colvec[r]{0 \\ 1 \\ 3}n.
+        \end{equation*}
+
+        Having shown that \( S_1 \) is not a subset of \( S_2 \), we know
+        \( S_1\neq S_2 \) so, strictly speaking, we need not go further.
+        But we shall also show that \( S_2 \) is not a subset of \( S_1 \).
+
+        For \( S_2\subseteq S_1 \) to hold, we must be able to solve
+        \begin{equation*}
+          \begin{linsys}{2}
+           1s  &-  &1t   &=  &-1m+0n\hfill  \\
+           0s  &+  &1t   &=  &1m+1n\hfill  \\
+           2s  &+  &0t   &=  &1m+3n\hfill  
+          \end{linsys}
+        \end{equation*}
+        for \( s \) and \( t \).
+        Apply row reduction
+        \begin{align*}
+          \begin{amat}{2}
+            1  &-1  &-1m+0n  \\
+            0  &1   &1m+1n  \\
+            2  &0   &1m+3n
+          \end{amat}
+          &\grstep{-2\rho_1+\rho_3}
+          \begin{amat}{2}
+            1  &-1  &-1m+0n  \\
+            0  &1   &1m+1n  \\
+            0  &2   &3m+3n
+          \end{amat}                                    \\
+          &\grstep{-2\rho_2+\rho_3}
+          \begin{amat}{2}
+            1  &-1  &-1m+0n  \\
+            0  &1   &1m+1n  \\
+            0  &0   &1m+1n
+          \end{amat}
+        \end{align*}
+        to deduce that the only vectors from \( S_2 \) that are also in
+        \( S_1 \) are of the form
+        \begin{equation*}
+          \colvec[r]{-1 \\ 1 \\ 1}m
+          +\colvec[r]{0 \\ 1 \\ 3}(-m).
+        \end{equation*}
+        For instance,
+        \begin{equation*}
+          \colvec{-1 \\ 1 \\ 1}
+        \end{equation*}
+        is in \( S_2 \) but not in \( S_1 \).
+      \partsitem These sets are equal.
+
+        First we change the parameters:
+        \begin{equation*}
+          S_2=\set{\colvec[r]{3 \\ 7 \\ 7}m
+                   +\colvec[r]{1 \\ 3 \\ 1}n
+                   \suchthat m,n\in\Re}.
+        \end{equation*}
+
+        Now, to show that \( S_1\subseteq S_2 \), we solve
+        \begin{equation*}
+          \begin{linsys}{2}
+           3m  &+  &1n   &=  &1t+2s\hfill  \\
+           7m  &+  &3n   &=  &3t+4s\hfill  \\
+           7m  &+  &1n   &=  &1t+6s\hfill  
+          \end{linsys}
+        \end{equation*}
+        with Gauss's Method
+        \begin{align*}
+          \begin{amat}{2}
+            3  &1   &1t+2s  \\
+            7  &3   &3t+4s  \\
+            7  &1   &1t+6s
+          \end{amat}
+          &\grstep[(-7/3)\rho_1+\rho_3]{(-7/3)\rho_1+\rho_2}
+          \begin{amat}{2}
+            3  &1    &1t+2s  \\
+            0  &2/3  &(2/3)t-(2/3)s  \\
+            0  &-4/3 &(-4/3)t+(4/3)s
+          \end{amat}                                    \\
+          &\grstep{2\rho_2+\rho_3}
+          \begin{amat}{2}
+            3  &1    &1t+2s  \\
+            0  &2/3  &(2/3)t-(2/3)s  \\
+            0  &0    &0
+          \end{amat}
+        \end{align*}
+        to get that
+        \begin{equation*}
+          \colvec[r]{1 \\ 3 \\ 1}t
+          +\colvec[r]{2 \\ 4 \\ 6}s
+          =\colvec[r]{3 \\ 7 \\ 7}(s)
+          +\colvec[r]{1 \\ 3 \\ 1}(t-s)
+        \end{equation*}
+        and so \( S_1\subseteq S_2 \).
+
+        The proof that \( S_2\subseteq S_1 \) involves solving
+        \begin{equation*}
+          \begin{linsys}{2}
+           1t  &+  &2s   &=  &3m+1n\hfill  \\
+           3t  &+  &4s   &=  &7m+3n\hfill  \\
+           1t  &+  &6s   &=  &7m+1n\hfill  
+          \end{linsys}
+        \end{equation*}
+        with Gaussian reduction
+        \begin{align*}
+          \begin{amat}{2}
+            1  &2   &3m+1n  \\
+            3  &4   &7m+3n  \\
+            1  &6   &7m+1n
+          \end{amat}
+          &\grstep[-\rho_1+\rho_3]{-3\rho_1+\rho_2}
+          \begin{amat}{2}
+            1  &2   &3m+1n  \\
+            0  &-2  &-2m    \\
+            0  &4   &4m
+          \end{amat}                                \\
+          &\grstep{2\rho_2+\rho_3}
+          \begin{amat}{2}
+            1  &2   &3m+1n  \\
+            0  &-2  &-2m    \\
+            0  &0   &0
+          \end{amat}
+        \end{align*}
+        to conclude
+        \begin{equation*}
+          \colvec[r]{3 \\ 7 \\ 7}m
+          +\colvec[r]{1 \\ 3 \\ 1}n
+          =\colvec[r]{1 \\ 3 \\ 1}(m+n)
+          +\colvec[r]{2 \\ 4 \\ 6}(m)
+        \end{equation*}
+        and so any vector in \( S_2 \) is also in \( S_1 \).
+    \end{exparts}  
+   \end{answer}
+\end{exercises}

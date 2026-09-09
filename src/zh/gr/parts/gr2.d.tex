@@ -1,0 +1,510 @@
+\begin{exercises}
+  \recommended \item
+    求下列每个向量的长度。
+    \begin{exparts*}
+      \partsitem \( \colvec[r]{3 \\ 1}  \)
+      \partsitem \( \colvec[r]{-1 \\ 2}  \)
+      \partsitem \( \colvec[r]{4 \\ 1 \\ 1}  \)
+      \partsitem \( \colvec[r]{0 \\ 0 \\ 0}  \)
+      \partsitem \( \colvec[r]{1 \\ -1 \\ 1 \\ 0}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( \sqrt{3^2+1^2}=\sqrt{10}  \)
+        \partsitem \( \sqrt{5}  \)
+        \partsitem \( \sqrt{18}  \)
+        \partsitem \( 0  \)
+        \partsitem \( \sqrt{3}  \)
+      \end{exparts*}   
+    \end{answer}
+  \recommended \item 
+    求下列每对向量之间的夹角（若它有定义）。
+    \begin{exparts*}
+       \partsitem
+         \( \colvec[r]{1 \\ 2}, \colvec[r]{1 \\ 4} \)
+       \partsitem
+         \( \colvec[r]{1 \\ 2 \\ 0}, \colvec[r]{0 \\ 4 \\ 1} \)
+       \partsitem
+         \( \colvec[r]{1 \\ 2}, \colvec[r]{1 \\ 4 \\ -1} \)
+    \end{exparts*}
+    \begin{answer}
+       \begin{exparts*}
+         \partsitem \( \arccos(9/\sqrt{85})\approx 0.22\mbox{\ 弧度} \)
+         \partsitem \( \arccos(8/\sqrt{85})\approx 0.52\mbox{\ 弧度} \)
+         \partsitem 无定义。
+      \end{exparts*}      
+     \end{answer}
+  \recommended \item 
+    \cite{Ohanian}
+    在日德兰海战（Battle of Jutland）前的机动过程中，
+    英国战列巡洋舰 \textit{Lion} 号按如下方式移动（单位为海里）：~\( 1.2 \) 海里向北，
+    \( 6.1 \) 海里沿南偏东 \( 38 \) 度方向，
+    \( 4.0 \) 海里沿北偏东 \( 89 \) 度方向，
+    以及 \( 6.5 \) 海里沿北偏东 \( 31 \) 度方向。
+    求起始位置与终止位置之间的距离。
+    （忽略地球曲率。）
+    \begin{answer}
+      我们把每个位移表示为一个向量，舍入到一位
+      小数，因为这就是题目陈述所具有的精度，
+      然后相加得到总位移 
+      （忽略地球曲率）。
+      \begin{equation*}
+        \colvec[r]{0.0 \\ 1.2}
+        +\colvec[r]{3.8 \\ -4.8}
+        +\colvec[r]{4.0 \\ 0.1}
+        +\colvec[r]{3.3 \\ 5.6}
+        =\colvec[r]{11.1 \\ 2.1}
+      \end{equation*}
+      距离为 \( \sqrt{11.1^2+2.1^2}\approx 11.3 \)。  
+    \end{answer}
+  \item 
+    求 \( k \) 使得这两个向量垂直。
+    \begin{equation*}
+       \colvec{k \\ 1}
+       \qquad
+       \colvec[r]{4 \\ 3}
+    \end{equation*}
+    \begin{answer}
+       解 \( (k)(4)+(1)(3)=0 \) 得 \( k=-3/4 \)。  
+    \end{answer}
+  \item 
+    描述 \( \Re^3 \) 中与分量为 $1$、$3$、$-1$
+    的那个向量正交的全体向量组成的集合。
+    % \begin{equation*}
+    %   \colvec[r]{1 \\ 3 \\ -1}
+    % \end{equation*}
+    \begin{answer}
+      我们可以用参数把集合
+      \begin{equation*}
+         \set{\colvec{x \\ y \\ z}\suchthat 1x+3y-1z=0}
+      \end{equation*}
+      描述成这种形式：
+      \begin{equation*}
+         \set{\colvec[r]{-3 \\ 1 \\ 0}y+\colvec[r]{1 \\ 0 \\ 1}z
+               \suchthat y,z\in\Re}
+      \end{equation*}  
+    \end{answer}
+  \recommended \item
+    \begin{exparts}
+      \partsitem  求 \( \Re^2 \) 中单位正方形的对角线与
+        任一条坐标轴之间的夹角。
+      \partsitem  求 \( \Re^3 \) 中单位立方体的对角线与
+        一条坐标轴之间的夹角。
+      \partsitem  求 \( \Re^n \) 中单位立方体的对角线与
+        一条坐标轴之间的夹角。
+      \partsitem  当 \( n \) 趋于 \( \infty \) 时，
+        \( \Re^n \) 中单位立方体的对角线与任一条坐标轴
+        之间的夹角的极限是什么？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 我们可以取 \( x \) 轴。
+          \begin{equation*}
+            \arccos (\frac{(1)(1)+(0)(1)}{\sqrt{1}\sqrt{2}})
+            \approx 0.79~\text{弧度}
+          \end{equation*}
+        \partsitem 同样，取 \( x \) 轴。
+          \begin{equation*}
+            \arccos (\frac{(1)(1)+(0)(1)+(0)(1)}{\sqrt{1}\sqrt{3}})
+            \approx 0.96~\text{弧度}
+          \end{equation*}
+        \partsitem \( x \) 轴前面很管用，这里它同样管用。
+          \begin{equation*}
+            \arccos (\frac{(1)(1)+\cdots+(0)(1)}{\sqrt{1}\sqrt{n}})
+            =\arccos (\frac{1}{\sqrt{n}})
+          \end{equation*}
+        \partsitem 利用上一小题的公式，
+            $\lim_{n\to\infty} \arccos(1/\sqrt{n})
+              =\pi/2\text{\ 弧度}$。
+      \end{exparts}  
+    \end{answer}
+  \item  
+    是否有向量与它自身垂直？
+    \begin{answer}
+      显然，\( u_1u_1+\cdots+u_nu_n \) 为零当且仅当
+      每个 \( u_i \) 都为零。
+      所以只有 \( \zero\in\Re^n \) 与它自身垂直。  
+    \end{answer}
+  \item \label{exer:AlgPropsDotProd}  
+    描述点积的代数性质。
+    \begin{exparts}
+      \partsitem 它对加法是否右分配：
+        \(
+           (\vec{u}+\vec{v})\dotprod\vec{w}
+           =
+           \vec{u}\dotprod\vec{w}+\vec{v}\dotprod\vec{w} \)？
+       \partsitem 它是否左分配（对加法）？
+       \partsitem 它是否可交换？
+       \partsitem 是否可结合？
+       \partsitem 它与标量乘法如何相互作用？
+    \end{exparts}
+    与往常一样，任何断言都必须有恰当的论证来支撑。
+    \begin{answer}
+      在下面每一小题中，假设向量 
+      \( \vec{u},\vec{v},\vec{w}\in\Re^n \) 
+      的分量分别为
+      \( u_1,\ldots,u_n,v_1,\ldots,w_n \)。
+      \begin{exparts}
+        \partsitem 点积对加法右分配。
+           \begin{align*}
+              (\vec{u}+\vec{v})\dotprod\vec{w}
+              &=[\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}
+                +\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}]\dotprod
+                \colvec{w_1 \\ \vdotswithin{w_1} \\ w_n}               \\
+              &=
+              \colvec{u_1+v_1 \\ \vdotswithin{u_1+v_1} \\ u_n+v_n}\dotprod
+                \colvec{w_1 \\ \vdotswithin{w_1} \\ w_n}               \\
+              &=
+              (u_1+v_1)w_1+\cdots+(u_n+v_n)w_n              \\
+              &=
+              (u_1w_1+\cdots+u_nw_n)+(v_1w_1+\cdots+v_nw_n)  \\
+              &=
+              \vec{u}\dotprod\vec{w}+\vec{v}\dotprod\vec{w}
+           \end{align*}
+        \partsitem 点积也左分配：
+          $\vec{w}\dotprod(\vec{u}+\vec{v})=
+              \vec{w}\dotprod\vec{u}+\vec{w}\dotprod\vec{v}$。
+          证明与上一小题完全类似。
+        \partsitem 点积可交换。
+          \begin{equation*}
+            \colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}\dotprod
+              \colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+            =u_1v_1+\cdots+u_nv_n   
+            =v_1u_1+\cdots+v_nu_n   
+            =\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}\dotprod
+              \colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}
+          \end{equation*}
+        \partsitem 由于 \( \vec{u}\dotprod\vec{v} \) 
+          是标量而不是向量，
+          表达式 \( (\vec{u}\dotprod\vec{v})\dotprod\vec{w} \) 没有
+          意义；标量与向量的点积没有定义。
+        \partsitem 这是一个含糊的问题，所以它有多种答案。
+          其中有 
+          (1)~\( k(\vec{u}\dotprod\vec{v})=(k\vec{u})\dotprod\vec{v} \)
+          以及 \( k(\vec{u}\dotprod\vec{v})=\vec{u}\dotprod(k\vec{v}) \)，
+          (2)~\( k(\vec{u}\dotprod\vec{v})\neq (k\vec{u})\dotprod(k\vec{v}) \)
+          （一般而言；容易举出例子），以及
+          (3)~\( \absval{k\vec{v}\,}=\lvert k\rvert\absval{\vec{v}\,} \) 
+          （长度与点积之间的联系在于：
+          长度的平方就是向量
+          与自身的点积）。
+      \end{exparts}   
+    \end{answer}
+  \item \label{exer:EqOfCauchySchwarz} 
+    验证 \nearbycorollary{th:CauchySchwarz}
+    （Cauchy–Schwarz 不等式）中的取等条件。
+    \begin{exparts}
+       \partsitem 证明：若 \( \vec{u} \) 是
+         \( \vec{v} \) 的负标量倍，则 \( \vec{u}\dotprod\vec{v} \) 与
+         \( \vec{v}\dotprod\vec{u} \) 都小于或等于零。
+       \partsitem 证明：\( \absval{\vec{u}\dotprod\vec{v}}=
+                            \absval{\vec{u}\,}\,\absval{\vec{v}\,} \)
+         当且仅当其中一个向量是另一个向量的标量倍。
+    \end{exparts}
+    \begin{answer}
+       \begin{exparts}
+         \partsitem 容易验证：对 \( k\in\Re \) 与
+           \( \vec{x},\vec{y}\in\Re^n \)，
+           \( (k\vec{x})\dotprod\vec{y}=k(\vec{x}\dotprod\vec{y})
+           =\vec{x}\dotprod(k\vec{y}) \)。
+           现在，对 \( k\in\Re \) 与 \( \vec{v},\vec{w}\in\Re^n \)，
+           若 \( \vec{u}=k\vec{v} \)，则
+           \( \vec{u}\dotprod\vec{v}=(k\vec{v})\dotprod\vec{v}
+             =k(\vec{v}\dotprod\vec{v}) \)，
+           它是 \( k \) 乘一个非负
+           实数。
+
+           \( \vec{v}=k\vec{u} \) 的情形类似（实际上，取本段中的
+           \( k \) 为上文 \( k \) 的倒数即知，我们只需担心
+           \( k=0 \) 的情形）。
+         \partsitem 我们先考虑 $\vec{u}\dotprod\vec{v}\geq 0$ 的情形。
+           由三角不等式可知，
+           \( \vec{u}\dotprod\vec{v}=\absval{\vec{u}\,}\,\absval{\vec{v}\,} \)
+           当且仅当其中一个向量是另一个向量的非负标量倍。
+           但这就足够了，因为 
+           本题第一小题表明，
+           在两个向量的点积为正的背景下，
+           下面两个命题 
+           “其中一个向量是
+           另一个向量的标量倍”与“其中一个向量是另一个向量的非负
+           标量倍”
+           等价。
+
+           最后考虑 $\vec{u}\dotprod\vec{v}< 0$ 的情形。
+           由于
+           $0<\absval{\vec{u}\dotprod\vec{v}}=-(\vec{u}\dotprod\vec{v})
+            =(-\vec{u})\dotprod\vec{v}$ 且 
+           $\absval{\vec{u}\,}\,\absval{\vec{v}\,}
+              =\absval{-\vec{u}\,}\,\absval{\vec{v}\,}$，
+           我们有 
+           $0<(-\vec{u})\dotprod\vec{v}=\absval{-\vec{u}\,}\,\absval{\vec{v}\,}$。
+           于是上一段适用，给出：$-\vec{u}$ 与 $\vec{v}$ 这两个向量
+           之一是另一个的标量倍。
+           而这等价于断言 $\vec{u}$ 与 $\vec{v}$ 这两个向量
+           之一是另一个的标量倍， 
+           即为所证。  
+      \end{exparts}  
+    \end{answer}
+  \item 
+    假设 \( \vec{u}\dotprod\vec{v}=\vec{u}\dotprod\vec{w} \)
+    且 \( \vec{u}\neq\vec{0} \)。
+    是否必有 \( \vec{v}=\vec{w} \)？
+    \begin{answer}
+      不必。
+      下面这些向量给出一个例子。
+      \begin{equation*}
+        \vec{u}=\colvec[r]{1 \\ 0}
+        \quad
+        \vec{v}=\colvec[r]{1 \\ 0}
+        \quad
+        \vec{w}=\colvec[r]{1 \\ 1}
+      \end{equation*}  
+    \end{answer}
+  \recommended \item
+    除零向量之外，是否还有
+    长度为零的向量？
+    （若“有”，请举出一个例子。
+    若“没有”，请给出证明。）
+    \begin{answer}
+      我们证明：向量长度为零当且仅当它的
+      所有分量都为零。
+
+      设 \( \vec{u}\in\Re^n \) 的分量为 \( u_1,\ldots,u_n \)。
+      回忆一下：任何实数的平方都大于或等于
+      零，且仅当该实数为零时才取等号。
+      于是
+      \( \absval{\vec{u}\,}^2={u_1}^2+\cdots+{u_n}^2 \) 是若干个
+      大于或等于零的数之和，因而它本身也大于或等于
+      零，且当且仅当每个 \( u_i \) 都为零时取等号。
+      因此 \( \absval{\vec{u}\,}=0 \) 当且仅当
+      \( \vec{u} \) 的所有分量都为零。    
+    \end{answer}
+  \recommended \item 
+    求 \( \Re^2 \) 中连接
+    \( (x_1,y_1) \) 与 \( (x_2,y_2) \) 的线段的中点。
+    再推广到 \( \Re^n \)。
+    \begin{answer}
+      容易验证
+      \begin{equation*}
+        \bigl( \frac{x_1+x_2}{2},\frac{y_1+y_2}{2}  \bigr)
+      \end{equation*}
+      在连接这两点的直线上，并且到两点的距离相等。
+      推广是显然的。  
+    \end{answer}
+  \item 
+    证明：若 \( \vec{v}\neq\zero \)，则
+    \( \vec{v}/\absval{\vec{v}\,} \) 的长度为一。
+    若 \( \vec{v}=\zero \)，情形如何？
+    \begin{answer}
+      设 \( \vec{v}\in\Re^n \) 的分量为 \( v_1,\ldots,v_n \)。
+      若 \( \vec{v}\neq \zero \)，则有下面的计算。
+      \begin{multline*}
+        \sqrt{\left(\frac{v_1}{\sqrt{{v_1}^2+\cdots+{v_n}^2}}\right)^2+
+              \dots+\left(\frac{v_n}{\sqrt{{v_1}^2+\cdots+{v_n}^2}}\right)^2}
+        \\
+        \begin{aligned}
+          &=\sqrt{\left(\frac{{v_1}^2}{{v_1}^2+\cdots+{v_n}^2}\right)+
+              \dots+\left(\frac{{v_n}^2}{{v_1}^2+\cdots+{v_n}^2}\right)}   \\
+          &=1
+        \end{aligned}
+      \end{multline*}
+      若 \( \vec{v}=\zero \)，则 \( \vec{v}/\absval{\vec{v}\,} \) 没有
+      定义。
+    \end{answer}
+  \item 
+     证明：若 \( r\geq 0 \)，则
+     \( r\vec{v} \) 的长度是 \( \vec{v} \) 的
+     \( r \) 倍。
+     若 \( r< 0 \)，情形如何？
+    \begin{answer}
+      对于第一个问题，设 \( \vec{v}\in\Re^n \) 且
+      \( r\geq 0 \)，开方并提取公因子。
+      \begin{equation*}
+        \absval{r\vec{v}\,}
+        =\sqrt{(rv_1)^2+\cdots+(rv_n)^2}     
+        =\sqrt{r^2({v_1}^2+\cdots+{v_n}^2}     
+        =r\absval{\vec{v}\,}
+      \end{equation*}
+      对于第二个问题，结果的长度是 \( r \) 倍，但它
+      指向相反的方向，这体现在
+      \( r\vec{v}+(-r)\vec{v}=\zero \)。  
+    \end{answer}
+  \recommended \item 
+    长度为一的向量 \( \vec{v}\in\Re^n \) 是
+    \definend{单位}\index{vector!unit}向量。
+    证明：两个单位向量的点积的绝对值
+    小于或等于一。
+    “小于”能发生吗？
+    “等于”呢？
+    \begin{answer}
+      设 \( \vec{u},\vec{v}\in\Re^n \) 的长度都是 \( 1 \)。
+      应用 Cauchy–Schwarz：
+      $\absval{\vec{u}\dotprod\vec{v}}
+             \leq\absval{\vec{u}\,}\,\absval{\vec{v}\,}=1$。
+
+      为看到“小于”能发生，在 \( \Re^2 \) 中取
+      \begin{equation*}
+        \vec{u}=\colvec[r]{1 \\ 0}
+        \qquad
+        \vec{v}=\colvec[r]{0 \\ 1}
+      \end{equation*}
+      并注意 \( \vec{u}\dotprod\vec{v}=0 \)。
+      对于“等于”，注意 \( \vec{u}\dotprod\vec{u}=1 \)。  
+    \end{answer}
+  \item 
+    当平面不经过原点时，对
+    箭身位于该平面内的向量作运算，
+    比起平面
+    经过原点时要更为复杂。
+    考虑本小节插图中平面 
+    \begin{equation*}
+      \set{\colvec[r]{2 \\ 0 \\ 0}
+            +\colvec[r]{-0.5 \\ 1 \\ 0} y
+            +\colvec[r]{-0.5 \\ 0 \\ 1} z
+            \suchthat y,z\in\Re}
+    \end{equation*}
+    以及三个以
+    $(2,0,0)$、$(1.5,1,0)$ 与 $(1.5,0,1)$ 为终点的向量。
+    \begin{exparts}
+      \partsitem 重画该图，其中包括一个起点在 $(2,0,0)$ 
+        的、箭身位于平面内的向量，它的长度是图中所示的平面内
+        终点为 $(1.5,1,0)$ 的那个向量的两倍。
+        这个向量的终点不是 $(3,2,0)$；它是多少？
+      \partsitem 重画该图，其中包括平面内的平行四边形 
+        用以显示终点为 $(1.5,0,1)$ 与 $(1.5,1,0)$ 
+        的两个向量之和。
+        这个和的终点（位于对角线上）不是 $(3,1,1)$；它是多少？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 图中所示的向量
+          \begin{center}
+            \includegraphics{gr/mp/ch1.32}
+          \end{center}
+          并不是将
+          \begin{equation*}
+            \colvec[r]{2 \\ 0 \\ 0}
+              +\colvec[r]{-0.5 \\ 1 \\ 0}\cdot 1
+            =\colvec[r]{1.5 \\ 1 \\ 0}
+          \end{equation*}
+          加倍的结果，而是将参数加倍的结果。 
+          \begin{equation*}
+            \colvec[r]{2 \\ 0 \\ 0}
+              +\colvec[r]{-0.5 \\ 1 \\ 0}\cdot 2
+            =\colvec[r]{1 \\ 2 \\ 0}
+          \end{equation*}
+          下面比较长度。 
+          \begin{equation*}
+            \sqrt{1^2+2^2+0^2}
+            =\sqrt{(2\cdot 0.5)^2 + (2\cdot 1)^2+ (2\cdot 0)^2}
+            =\sqrt{2^2\cdot(0.5^2+1^2+0^2)}
+            =2\cdot\sqrt{0.5^2+1^2+0^2}
+          \end{equation*}
+        \partsitem 向量
+          \begin{center}
+            \includegraphics{gr/mp/ch1.19}
+          \end{center}
+          并不是下式相加的结果：
+          \begin{equation*}
+            (\colvec[r]{2 \\ 0 \\ 0}
+              +\colvec[r]{-0.5 \\ 1 \\ 0}\cdot 1)
+            +
+            (\colvec[r]{2 \\ 0 \\ 0}
+              +\colvec[r]{-0.5 \\ 0 \\ 1}\cdot 1)
+          \end{equation*}
+          而是 
+          \begin{equation*}
+            \colvec[r]{2 \\ 0 \\ 0}
+              +\colvec[r]{-0.5 \\ 1 \\ 0}\cdot 1
+              +\colvec[r]{-0.5 \\ 0 \\ 1}\cdot 1
+            =\colvec[r]{1 \\ 1 \\ 1}
+          \end{equation*}
+          后者将参数相加。
+      \end{exparts}
+    \end{answer}
+  \item 
+    证明：线段
+    \( \overline{(a_1,a_2)(b_1,b_2)} \) 与
+    \( \overline{(c_1,c_2)(d_1,d_2)} \)
+    有相同的长度与斜率，若
+    \(  b_1-a_1=d_1-c_1 \) 且 \( b_2-a_2=d_2-c_2 \)。
+    这是“仅当”的吗？
+    \begin{answer}
+      “若”这一半是直接的。
+      若 \( b_1-a_1=d_1-c_1 \) 且 \( b_2-a_2=d_2-c_2 \)，则
+      \begin{equation*}
+        \sqrt{(b_1-a_1)^2+(b_2-a_2)^2}
+        =\sqrt{(d_1-c_1)^2+(d_2-c_2)^2}
+      \end{equation*}
+      所以二者长度相同；斜率同样容易：
+      \begin{equation*}
+        \frac{b_2-a_2}{b_1-a_1}
+        =\frac{d_2-c_2}{d_1-a_1}
+      \end{equation*}
+      （若分母为 \( 0 \)，则二者的斜率都无定义）。
+
+     对于“仅当”，假设
+     两条线段有相同的长度与斜率
+     （斜率无定义的情形是容易的；我们处理两条
+     线段都有斜率 \( m \) 的情形）。
+     另外不失一般性，假设 $a_1<b_1$ 且
+     $c_1<d_1$。
+     第一条线段是
+     \( \overline{(a_1,a_2)(b_1,b_2)}=
+     \set{(x,y)\suchthat y=mx+n_1,\; x\in [a_1..b_1]} \)
+     （$n_1$ 为某个截距）
+     而第二条线段是 \( \overline{(c_1,c_2)(d_1,d_2)}=
+     \set{(x,y)\suchthat y=mx+n_2,\; x\in [c_1..d_1]} \)
+     （$n_2$ 为某个数）。
+     于是这两条线段的长度为
+     \begin{equation*}
+     \sqrt{(b_1-a_1)^2+((mb_1+n_1)-(ma_1+n_1))^2}
+       =\sqrt{(1+m^2)(b_1-a_1)^2}
+     \end{equation*}
+     以及，类似地，\( \sqrt{(1+m^2)(d_1-c_1)^2} \)。
+     因此 \( \absval{b_1-a_1}=\absval{d_1-c_1} \)。
+     于是，由于我们假定了 \( a_1<b_1 \) 与 \( c_1<d_1 \)，故有
+     \( b_1-a_1=d_1-c_1 \)。
+
+     另一个等式类似。   
+   \end{answer}
+  % \item 
+  %   Prove that
+  %   \(
+  %     \absval{\vec{u}+\vec{v}\,}^2+\absval{\vec{u}-\vec{v}\,}^2
+  %     =2\absval{\vec{u}\,}^2+2\absval{\vec{v}\,}^2.
+  %   \)
+  %   \begin{answer}
+  %     Write
+  %     \begin{equation*}
+  %       \vec{u}=\colvec{u_1 \\ \vdotswithin{u_1} \\ u_n}
+  %       \qquad
+  %       \vec{v}=\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+  %     \end{equation*}
+  %     and then this computation works.
+  %     \begin{align*}
+  %       \absval{\vec{u}+\vec{v}\,}^2+\absval{\vec{u}-\vec{v}\,}^2
+  %       &=(u_1+v_1)^2+\cdots+(u_n+v_n)^2   \\
+  %       &\quad +(u_1-v_1)^2+\cdots+(u_n-v_n)^2     \\
+  %       &={u_1}^2+2u_1v_1+{v_1}^2+\cdots+{u_n}^2+2u_nv_n+{v_n}^2       \\
+  %       &\quad +{u_1}^2-2u_1v_1+{v_1}^2+\cdots+{u_n}^2-2u_nv_n+{v_n}^2 \\
+  %       &=2({u_1}^2+\cdots+{u_n}^2)+2({v_1}^2+\cdots+{v_n}^2) \\
+  %       &=2\absval{\vec{u}\,}^2+2\absval{\vec{v}\,}^2
+  %    \end{align*}   
+  %   \end{answer}
+  % \item 
+  %   Show that if \( \vec{x}\dotprod\vec{y}=0 \) for every \( \vec{y} \)
+  %   then \( \vec{x}=\zero \).
+  %   \begin{answer}
+  %     We will prove this demonstrating that the contrapositive
+  %     statement holds:~if \( \vec{x}\neq\zero \) then there
+  %     is a \( \vec{y} \) with \( \vec{x}\dotprod\vec{y}\neq 0 \).
+  %
+  %     Assume that \( \vec{x}\in\Re^n \).
+  %     If \( \vec{x}\neq\zero \) then it has a nonzero component, say the
+  %     \( i \)-th one \( x_i \).
+  %     But the vector \( \vec{y}\in\Re^n \) that is all zeroes except for
+  %     a one in component~$i$ gives
+  %     \( \vec{x}\dotprod\vec{y}=x_i \).  
+  %     (A slicker proof just considers $\vec{x}\dotprod\vec{x}$.)
+  %   \end{answer}

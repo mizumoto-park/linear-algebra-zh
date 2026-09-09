@@ -1,0 +1,403 @@
+% Chapter 1, Section 2 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linalg.html
+%  2001-Jun-09
+\section{线性几何}
+\textit{如果你已经见过向量的基本内容，那么
+本节是一份可选的复习。
+不过，后面的内容会用到这里的材料，
+所以如果这对你不是复习，那么它就不是可选的。}
+
+在第一节中，我们费了些功夫才证明
+解集只有三种类型\Dash 单点集、空集与
+无限集。
+但
+对于含两个方程两个未知元的方程组，从几何上看这一点很容易。
+把每个二元方程画成平面中的一条直线，那么这两条直线
+可能交于唯一一点，
+平行，或者重合为同一条直线。
+%<*diagram:ThreeKindsSolutionSets>
+\begin{center}
+  \begin{minipage}[b]{1.45in}
+    \raisebox{-2pt}[8pt][0pt]{\small \begin{tabular}{@{}l}
+      \small \textit{唯一解}
+    \end{tabular}}
+    \begin{center}
+      \includegraphics{gr/mp/ch1.3} \\[.75ex]
+      \small $\begin{linsys}{2}
+                         3x  &+  &2y  &=  &7   \\
+                         x   &-  &y   &=  &-1
+                       \end{linsys}$
+    \end{center}
+  \end{minipage}
+  \hspace*{0em}
+  \begin{minipage}[b]{1.45in}
+    \raisebox{-2pt}[8pt][0pt]{\small \begin{tabular}{@{}l}
+      \small \textit{无解}
+    \end{tabular}}
+    \begin{center}
+      \includegraphics{gr/mp/ch1.4} \\[.75ex]
+      \small $\begin{linsys}{2}
+                         3x  &+  &2y  &=  &7   \\
+                         3x  &+  &2y  &=  &4
+                       \end{linsys}$
+    \end{center}
+  \end{minipage}
+  \hspace*{0em}
+  \begin{minipage}[b]{1.45in}
+    \raisebox{-2pt}[8pt][0pt]{\small \begin{tabular}[t]{@{}l}
+      \textit{无穷多} \\
+      \textit{个解}
+    \end{tabular}}
+    \begin{center}
+      \includegraphics{gr/mp/ch1.5}         \\[.75ex]
+      \small $ \begin{linsys}{2}
+                         3x  &+  &2y  &=  &7   \\
+                         6x  &+  &4y  &=  &14
+                       \end{linsys}$
+    \end{center}
+  \end{minipage}
+\end{center}
+%</diagram:ThreeKindsSolutionSets>
+这些图形并不是证明前一节诸结论的捷径，因为那些结论
+适用于含任意多个变量的线性方程组。
+但它们确实提供了直观上的认识，是看待那些结论的另一种方式。
+
+本节将建立把我们的结论用几何方式表达所需的工具。
+特别地，虽然二维情形是我们所熟悉的，
+但要推广到含两个以上未知元的方程组，我们将需要一些高维几何。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsectionoptional{空间中的向量}
+“高维几何”听起来很新奇。
+它确实新奇\Dash 有趣而且令人大开眼界。
+但它并不遥远，也并非难以企及。
+
+我们先把一维空间定义为 \( \Re \)。
+为看出这个定义是合理的，
+想象一维空间
+\begin{center}
+  \includegraphics{gr/mp/ch1.6}
+\end{center}
+并选取一点标记为 $0$，另选一点标记为~$1$。
+\begin{center}
+  \includegraphics{gr/mp/ch1.7}
+\end{center}
+现在，有了刻度和方向，我们便与 \( \Re \) 建立了对应。
+例如，要找与 \( +2.17 \) 相配的点，从 \( 0 \) 出发，朝 \( 1 \) 的方向前进，
+走过 \( 2.17 \) 倍的距离即可。
+
+这里把大小与方向结合起来的基本想法，
+是推广到更高维的关键。
+
+$\Re^n$ 中由一个大小和一个方向组成的对象
+称为\definend{向量\/}\index{vector}
+（我们使用与前一节相同的词，因为我们将在下文说明
+如何用列向量来描述这样的对象）。
+我们可以把向量画成有某个长度并指向某个方向的图形。
+\begin{center}
+  \includegraphics{gr/mp/ch1.8}
+\end{center}
+把向量定义为由大小和方向组成时，有一个微妙之处\Dash 下面的这两个
+\begin{center}
+  \includegraphics{gr/mp/ch1.9}
+\end{center}
+是相等的，尽管它们从不同的位置出发。
+它们相等，是因为它们长度相等且方向相同。
+再强调一遍：那些向量不仅相似，它们是相等的。
+
+处于不同位置的东西怎么会相等？
+把向量想成表示一个位移
+（“vector”一词在拉丁语中的意思是“搬运者”或“旅行者”）。
+这两个正方形经历的位移相等，尽管它们从不同的位置出发。
+\begin{center}
+  \includegraphics{gr/mp/ch1.10}
+\end{center}
+当我们想强调向量并不固定于某处这一性质时，
+我们称它们为\definend{自由}\index{vector!free}向量。
+于是，这些自由向量是相等的，
+因为每一个都是向右一、向上二的位移。
+\begin{center}
+  \includegraphics{gr/mp/ch1.12}
+\end{center}
+更一般地，平面中的向量相同当且仅当它们
+第一分量的改变量相同且第二分量的改变量相同：~从
+\( (a_1,a_2) \)
+延伸到 \( (b_1,b_2) \) 的向量等于从
+\( (c_1,c_2) \) 到 \( (d_1,d_2) \) 的向量，当且仅当
+\( b_1-a_1=d_1-c_1 \) 且 \( b_2-a_2=d_2-c_2 \)。
+
+说“那个假若从 \( (a_1,a_2) \) 出发
+就会延伸到 \( (b_1,b_2) \) 的向量”会很不方便。
+我们转而把这个向量描述为
+\begin{equation*}
+  \colvec{b_1-a_1 \\ b_2-a_2}
+\end{equation*}
+这样，上面所示的“向右一、向上二”的箭头
+就表示成这种形式。
+\begin{equation*}
+  \colvec[r]{1 \\ 2}
+\end{equation*}
+我们常把箭头画成从原点出发，并说它处于
+\definend{规范位置}\index{vector!canonical position}
+（或\definend{自然位置}\index{vector!natural position}
+或\definend{标准位置}\index{vector!standard position}）。
+当
+\begin{equation*}
+  \vec{v}=\colvec{v_1 \\ v_2}
+\end{equation*}
+处于规范位置时，它从原点延伸到终点 $(v_1,v_2)$。
+
+我们通常会说“点
+\begin{equation*}
+  \colvec[r]{1 \\ 2}\text{”}
+\end{equation*}
+而不是说那个向量的“规范位置的终点”。
+% That is, we shall find it convienent to blur the distinction between a point
+% in space and the vector that, if it starts at the origin, ends at that
+% point.
+因此，我们把下面两者都称为 \( \Re^2 \)。
+\begin{equation*}
+   \set{(x_1,x_2)\suchthat x_1,x_2\in\Re}
+   \qquad
+   \set{\colvec{x_1 \\ x_2}\suchthat x_1,x_2\in\Re}
+\end{equation*}
+
+在前一节中，我们出于代数上的动机定义了向量与向量运算；
+\begin{equation*}
+   r\cdot\colvec{v_1 \\ v_2}
+   =
+   \colvec{rv_1 \\ rv_2}
+  \qquad
+   \colvec{v_1 \\  v_2}
+   +
+   \colvec{w_1 \\ w_2}
+   =
+   \colvec{v_1+w_1 \\ v_2+w_2}
+\end{equation*}
+现在我们可以从几何上理解这些运算。%
+\index{vector!sum}\index{vector!scalar multiple}\index{sum!vector}
+\index{scalar multiple!vector}
+例如，若 \( \vec{v} \) 表示一个位移，
+则 \( 3\vec{v}\, \) 表示沿同一方向但三倍远的位移，
+而 \( -1\vec{v}\, \) 表示与 \( \vec{v}\, \) 距离相同但方向相反的位移。
+\begin{center}
+  \includegraphics{gr/mp/ch1.13}
+\end{center}
+又，当 \( \vec{v} \) 与 \( \vec{w} \) 表示位移时，
+\( \vec{v}+\vec{w}\/ \) 表示这两个位移的合成。
+\begin{center}
+  \includegraphics{gr/mp/ch1.14}
+\end{center}
+长箭头就是这个合成位移，其含义如下：想象你正
+在轮船的甲板上行走。
+假设在一分钟内，
+船的运动使船相对于海水产生了位移 $\vec{v}$，
+而在同一分钟内，你的行走使你相对于甲板产生了位移 $\vec{w}$。
+那么 $\vec{v}+\vec{w}\/$ 就是
+你相对于海水的位移。
+
+理解向量和的另一种方式是借助
+\definend{平行四边形法则}。\index{parallelogram rule}%
+\index{vector!sum}
+画出由向量 $\vec{v}$ 与 $\vec{w}$ 构成的平行四边形。
+那么和 $\vec{v}+\vec{w}$\index{vector!sum}\index{addition of vectors}
+沿对角线延伸到对角的顶点。
+\begin{center}
+  \includegraphics{gr/mp/ch1.15}
+\end{center}
+
+上面的图形展示了向量及向量运算
+在 \( \Re^2 \) 中的表现。
+我们可以推广到 $\Re^3$，或推广到没有图形可用的更高维空间，
+做法是下述显然的推广：~从
+\( (a_1,\ldots,a_n) \) 出发而到达 \( (b_1,\ldots,b_n) \) 的
+自由向量由这一列表示。
+\begin{equation*}
+  \colvec{b_1-a_1 \\ \vdotswithin{b_1-a_1} \\ b_n-a_n}
+\end{equation*}
+若向量有相同的表示，则它们相等。
+对于点与规范表示终止于该点的那个向量，我们并不过分讲究二者的区分。
+\begin{equation*}
+  \Re^n=
+  \set{\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}\suchthat v_1,\ldots,v_n\in\Re}
+\end{equation*}
+并且，我们按分量做加法与标量乘法。
+
+考虑过点之后，我们接下来考虑直线。\index{line}
+在 $\Re^2$ 中，过 \( (1,2) \) 与 \( (3,1) \) 的直线
+由这个集合中诸向量（的终点）组成。
+% \begin{equation*}
+%    \set{ \colvec[r]{1 \\ 2}+t\colvec[r]{2 \\ -1}\suchthat t\in\Re}
+% \end{equation*}
+% That description expresses this picture.
+\begin{center}
+  \includegraphics{gr/mp/ch1.16}
+\end{center}
+在这个描述中，与参数~\( t \) 相伴的向量
+\begin{equation*}
+  \colvec[r]{2 \\ -1}=\colvec[r]{3 \\ 1}-\colvec[r]{1 \\ 2}
+\end{equation*}
+就是图中画成整条身躯都落在直线上的那一个\Dash 它是这条直线的
+一个\definend{方向向量}\index{vector!direction}%
+\index{direction vector}。
+注意，这条直线上位于 \( x=1 \) 左边的点
+要用 \( t \) 的负值来描述。
+% Note also that this description of lines generalizes the familiar
+% $y=b+mx$ form for lines in the plane.
+
+在 \( \Re^3 \) 中，
+过 \( (1,2,1) \) 与 \( (0,3,2) \) 的直线是这种形式的向量（的终点）组成的集合
+\begin{center}
+  \includegraphics{gr/mp/ch1.17}
+  % \includegraphics{gr/mp/ch1.55}
+\end{center}
+而更高维空间中的直线也以同样的方式处理。
+
+在 $\Re^3$ 中，
+一条直线使用一个参数，因此该直线上的质点
+可以沿一维自由地来回移动。
+一张平面则涉及两个参数。
+例如，过点
+\( (1,0,5) \)、\( (2,1,-3) \) 与 \( (-2,4,0.5) \) 的平面
+由这个集合中诸向量（的终点）组成。
+\begin{equation*}
+  \set{ \colvec[r]{1 \\ 0 \\ 5}
+         +t\colvec[r]{1 \\ 1 \\ -8}
+         +s\colvec[r]{-3 \\ 4 \\ -4.5}
+       \suchthat t,s\in\Re      }
+\end{equation*}
+与各参数相伴的列向量来自这些计算。
+\begin{equation*}
+  \colvec[r]{1 \\ 1 \\ -8}
+  =
+  \colvec[r]{2 \\ 1 \\ -3}
+  -
+  \colvec[r]{1 \\ 0 \\ 5}
+  \qquad
+  \colvec[r]{-3 \\ 4 \\ -4.5}
+  =
+  \colvec[r]{-2 \\ 4 \\ 0.5}
+  -
+  \colvec[r]{1 \\ 0 \\ 5}
+\end{equation*}
+与直线一样，注意我们用负的 $t$、负的 $s$，或两者兼有，
+来描述这个平面中的一些点。
+
+微积分教材常用一个线性方程来描述平面。
+% \newsavebox{\jhscratchbox}
+% \savebox{\jhscratchbox}{\includegraphics{gr/mp/ch1.18}}
+% \newlength{\jhscratchlength}\newlength{\jhscratchheight}
+% \settowidth{\jhscratchlength}{\usebox{\jhscratchbox}}
+\begin{equation*}
+  % \usebox{\jhscratchbox}
+  \vcenteredhbox{\includegraphics{gr/mp/ch1.18}}
+\end{equation*}
+% \begin{equation*}
+%   P=\set{\colvec{x \\ y \\ z}\suchthat 2x+3y-z=4}
+% \end{equation*}
+要从这个描述转到向量描述，
+把它看成只含一个方程的线性方程组并参数化：\( x=2-y/2-z/2 \)。
+\begin{equation*}
+   \vcenteredhbox{\includegraphics{gr/mp/ch1.19}}
+\end{equation*}
+图中以灰色画出的是与 $y$ 和~$z$ 相伴的向量，它们从原点沿 $x$ 轴平移~$2$ 个单位，
+从而整条身躯都落在平面内。
+于是这两个向量的和，即以黑色画出的那个，
+连同平行四边形的其余部分，整条身躯都在平面内。
+% \begin{center}
+%   \makebox[\jhscratchlength][l]{\includegraphics{gr/mp/ch1.20}}
+% \end{center}
+% \begin{equation*}
+%   P=\set{\colvec[r]{2 \\ 0 \\ 0}
+%          +y\cdot\colvec[r]{-1/2 \\ 1 \\ 0}
+%          +z\cdot\colvec[r]{-1/2 \\ 0 \\ 1}\suchthat y,z\in\Re}
+% \end{equation*}
+
+推广一下，形如
+$\set{\vec{p}+t_1\vec{v}_1+t_2\vec{v}_2+\cdots+t_k\vec{v}_k
+             \suchthat t_1,\ldots ,t_k\in\Re}$
+（其中 \( \vec{v}_1,\ldots,\vec{v}_k\in\Re^n \) 且 $k\leq n$）的集合是一个
+\definend{\( k \) 维线性曲面}\index{linear surface}
+（或\definend{\( k \) 平坦集}\index{flat, $k$-flat}）。
+例如，在 $\Re^4$ 中
+\begin{equation*}
+  \set{\colvec[r]{2 \\ \pi \\ 3 \\ -0.5}
+       +t\colvec[r]{1 \\ 0 \\ 0 \\ 0}
+       \suchthat t\in\Re}
+\end{equation*}
+是一条直线，
+\begin{equation*}
+  \set{
+       \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+       +t\colvec[r]{1 \\ 1 \\ 0 \\ -1}
+       +s\colvec[r]{2 \\ 0 \\ 1 \\ 0}
+       \suchthat t,s\in\Re}
+\end{equation*}
+是一张平面，而
+\begin{equation*}
+  \set{
+       \colvec[r]{3 \\ 1 \\ -2 \\ 0.5}
+       +r\colvec[r]{0 \\ 0 \\ 0 \\ -1}
+       +s\colvec[r]{1 \\ 0 \\ 1 \\ 0}
+       +t\colvec[r]{2 \\ 0 \\ 1 \\ 0}
+       \suchthat r,s,t\in\Re}
+\end{equation*}
+是一个三维线性曲面。
+同样，直观的理解是：直线允许沿一个方向的运动，
+平面允许沿两个方向的组合运动，等等。
+当线性曲面的维数比空间的维数小一时，
+即当在 $\Re^n$ 中我们有一个
+$(n-1)$ 平坦集时，
+该曲面称为\definend{超平面}。\index{hyperplane}
+
+对线性曲面的描述在维数方面可能使人产生误解。
+例如，这个
+\begin{equation*}
+  L=\set{
+       \colvec[r]{1 \\ 0 \\ -1 \\ -2}
+       +t\colvec[r]{1 \\ 1 \\ 0 \\ -1}
+       +s\colvec[r]{2 \\ 2 \\ 0 \\ -2}
+       \suchthat t,s\in\Re}
+\end{equation*}
+是一个\definend{退化的}平面，因为它实际上是一条直线，
+这是因为
+这两个向量互为倍数，我们可以省去其中一个。
+\begin{equation*}
+  L=\set{
+       \colvec[r]{1 \\ 0 \\ -1 \\ -2}
+       +r\colvec[r]{1 \\ 1 \\ 0 \\ -1}
+       \suchthat r\in\Re}
+\end{equation*}
+在第二章的“线性无关”一节中，我们将看到向量之间的何种关系
+会使它们生成的线性曲面退化。
+
+现在我们可以
+用几何语言重述前面得到的结论。
+第一，含 \( n \) 个未知元的线性方程组的解集
+是 \( \Re^n \) 中的一个线性曲面。
+具体地说，它是一个 \( k \) 维线性曲面，其中
+\( k \) 是该方程组的某个阶梯形形式中
+自由变量的个数。
+例如，在单个方程的情形，解集是 $\Re^n$ 中的 $n-1$ 维超平面，其中 $n\geq 1$。
+第二，齐次线性方程组的解集
+是过原点的线性曲面。
+最后，我们可以把任一线性方程组的通解集
+看成是其相应的齐次方程组的解集
+从原点偏移一个向量而来，
+这个向量即任一特解。
+
+
+
+

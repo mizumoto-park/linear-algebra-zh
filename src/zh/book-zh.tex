@@ -1,0 +1,73 @@
+% book-zh.tex -- 中文版主文件（平行目录树方案）
+% 编译：在 src/zh/ 目录下执行（或用仓库根目录 `make zh-book`）：
+%   TEXINPUTS="<仓库>/src//:" xelatex -interaction=nonstopmode book-zh.tex
+% 机制：\include{gr/gr1} 先找到 zh/gr/gr1.tex（已翻译），否则经 TEXINPUTS
+% 回退到原书英文 gr/gr1.tex。译文逐章就位，全书逐章中文化。
+%
+% 与 book.tex 的差异仅：加载 zhsetup；其余（封面/索引/参考书目）先走
+% 同名回退，后续按 TRANSLATOR-GUIDE.md 分阶段汉化。
+\documentclass[twoside]{book}
+\usepackage{verbatim}
+\usepackage[single,write]{bookans}
+\usepackage{bookjh}
+\usepackage{zhsetup}
+\usepackage{makeidx}
+
+\includeonly{
+cover/covernew,%
+\ifbool{hardcopybool}{cover/titlepage}{cover/covernew,cover/symlist},
+pref/pref,%
+gr/gr1,gr/gr2,gr/gr3,gr/cas,gr/leontief,gr/ppivot,gr/network,%
+vs/vs1,vs/vs2,vs/vs3,vs/fields,vs/crystal,vs/voting,vs/dimen,%
+map/map1,map/map2,map/map3,map/map4,map/map5,map/map6,%
+  map/lstsqs,map/homogeom,map/magicsqs,map/markov,map/erlang,%
+det/det1,det/det2,det/det3,det/cramer,det/detspeed,det/chio,det/projplane,det/compgraphics,%
+jc/jc1,jc/jc2,jc/jc3,jc/jc4,jc/powers,jc/pops,jc/search,jc/recur,jc/wilber,jc/innerproduct,%
+appen/appen,%
+bib/bib%
+}%
+\usepackage{makeidx}\makeindex
+
+\begin{document}
+\frontmatter
+\pagenumbering{roman}
+\ifbool{hardcopybool}{\include{cover/titlepage}}{\include{cover/covernew}\include{cover/symlist}\clearemptydoublepage}
+\pagestyle{bookfront}
+\setcounter{page}{1}\thispagestyle{empty}\include{pref/pref} %
+\pagestyle{booktoc}\clearemptydoublepage\tableofcontents\bigskip\par\noindent${}^*\!$Starred subsections are optional.\clearemptydoublepage %
+\mainmatter
+\pagenumbering{arabic}
+\pagestyle{bookbody}
+\include{gr/gr1}
+\include{gr/gr2}
+\include{gr/gr3}
+\pagestyle{booktopic}
+  \include{gr/cas} \include{gr/leontief} \include{gr/ppivot} \include{gr/network}\pagestyle{bookbody}
+\include{vs/vs1}
+\include{vs/vs2}
+\include{vs/vs3}
+\pagestyle{booktopic}
+  \include{vs/fields} \include{vs/crystal} \include{vs/voting}  \include{vs/dimen}\pagestyle{bookbody}
+\include{map/map1}
+\include{map/map2}
+\include{map/map3}
+\include{map/map4}
+\include{map/map5}
+\include{map/map6}
+\pagestyle{booktopic}
+  \include{map/lstsqs} \include{map/homogeom} \include{map/magicsqs} \include{map/markov} \include{map/erlang}\pagestyle{bookbody}
+\include{det/det1}
+\include{det/det2}
+\include{det/det3}
+\pagestyle{booktopic}
+  \include{det/cramer} \include{det/detspeed} \include{det/chio}  \include{det/projplane}  \include{det/compgraphics} \pagestyle{bookbody}
+\include{jc/jc1}
+\include{jc/jc2}
+\include{jc/jc3}
+\include{jc/jc4}
+\pagestyle{booktopic}
+  \include{jc/powers} \include{jc/pops} \include{jc/search} \include{jc/recur} \include{jc/wilber} \include{jc/innerproduct} \pagestyle{bookbody}
+\include{appen/appen}
+{\pagestyle{empty}\include{bib/bib}}
+{\printindex}
+\end{document}

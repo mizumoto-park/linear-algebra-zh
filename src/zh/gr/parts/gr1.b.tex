@@ -1,0 +1,1168 @@
+\begin{exercises}
+  \recommended \item 
+    用高斯消元法求出每个方程组的唯一解。
+    \begin{exparts*}
+      \partsitem 
+        $\begin{linsys}[t]{2}
+          2x  &+  &3y  &=  &13  \\
+          x   &-  &y   &=  &-1
+        \end{linsys}$
+      \partsitem 
+        $\begin{linsys}[t]{3}
+          x   &  &  &-  &z  &=  &0  \\
+          3x  &+ &y &   &   &=  &1  \\
+          -x  &+ &y &+  &z  &=  &4
+        \end{linsys}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 高斯消元法
+          \begin{equation*}
+            \grstep{-(1/2)\rho_1+\rho_2}
+            \begin{linsys}{2}
+               2x  &+  &3y      &=  &13  \\
+                   &-  &(5/2)y  &=  &-15/2              
+            \end{linsys}
+          \end{equation*}
+          得到解为$y=3$与$x=2$。
+        \partsitem 这里高斯消元法
+          \begin{equation*}
+            \grstep[\rho_1+\rho_3]{-3\rho_1+\rho_2}
+            \begin{linsys}{3}
+              x   &  &  &-  &z  &=  &0  \\
+                  &  &y &+  &3z &=  &1  \\
+                  &  &y &   &   &=  &4
+            \end{linsys}
+            \grstep{-\rho_2+\rho_3}
+            \begin{linsys}{3}
+              x   &  &  &-  &z    &=  &0  \\
+                  &  &y &+  &3z   &=  &1  \\
+                  &  &  &   &-3z  &=  &3
+            \end{linsys}
+          \end{equation*}
+          给出$x=-1$，$y=4$，$z=-1$。
+      \end{exparts}
+    \end{answer}
+  \item
+    每个方程组都已是阶梯形。
+    对每一个，说明该方程组是唯一解、无解，还是无穷多解。
+    \begin{exparts*}
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+           -3x &+ &2y   &= &0  \\          
+               &  &-2y  &= &0            
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{3}
+             x &+ &y &  &   &= &4  \\          
+               &  &y &- &z  &= &0  \\           
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{3}
+             x &+ &y &  &   &= &4  \\          
+               &  &y &  &-z  &= &0  \\ 
+               &  &  &  &0  &= &0  
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+             x &+ &y    &= &4  \\          
+               &  &0    &= &4            
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{3}
+            3x &+ &6y &+  &z  &= &-0.5  \\          
+               &  &   &   &-z &= &2.5  \\           
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+             x &- &3y    &= &2  \\          
+               &  &0    &= &0            
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+             2x &+ &2y    &= &4  \\
+                &  &y     &= &1 \\          
+                 &  &0    &= &4            
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+              2x &+ &y   &= &0  
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{2}
+              x &- &y    &= &-1  \\
+                &  &0     &= &0 \\          
+                 &  &0    &= &4            
+        \end{linsys}\)
+      \partsitem 
+        \(\begin{linsys}[t]{3}
+              x &+ &y  &- &3z  &= &-1  \\
+                &  &y  &- &z  &= &2  \\
+                &  &  &  &z    &= &0  \\
+                &  &  &  &0   &= &0  
+        \end{linsys}\)
+    \end{exparts*}
+    \begin{answer}
+      如果方程组含有矛盾方程，那么它无解。
+      否则，如果有变量不引领任何一行，那么它有无穷多解。
+      最后一种情形是，既没有矛盾方程，而每个变量又都引领某一行，
+      这时它有唯一解。
+      \begin{exparts}
+        \partsitem 唯一解
+        \partsitem 无穷多解
+        \partsitem 无穷多解
+        \partsitem 无解
+        \partsitem 无穷多解
+        \partsitem 无穷多解
+        \partsitem 无解
+        \partsitem 无穷多解
+        \partsitem 无解
+        \partsitem 唯一解
+      \end{exparts}
+    \end{answer}
+  \recommended \item  
+    用高斯消元法求解每个方程组，
+    或者得出“无穷多解”或“无解”的结论。
+    \begin{exparts*}
+      \partsitem \(
+               \begin{linsys}[t]{2}
+                  2x  &+  &2y  &=  &5  \\
+                   x  &-  &4y  &=  &0  
+               \end{linsys}
+             \)
+      \partsitem \(
+               \begin{linsys}[t]{2}
+                  -x  &+  &y   &=  &1  \\
+                   x  &+  &y   &=  &2  
+               \end{linsys}
+             \) 
+      \partsitem  \(
+               \begin{linsys}[t]{3}
+                   x  &-  &3y  &+  &z  &=  &1  \\
+                   x  &+  &y   &+  &2z &=  &14 
+                \end{linsys}
+             \) 
+      \partsitem  \(
+               \begin{linsys}[t]{2}
+                  -x  &-  &y   &=  &1  \\
+                 -3x  &-  &3y  &=  &2  
+               \end{linsys}
+             \) 
+      \partsitem  \(
+               \begin{linsys}[t]{3}
+                      &   &4y  &+  &z  &=  &20 \\
+                  2x  &-  &2y  &+  &z  &=  &0  \\
+                   x  &   &    &+  &z  &=  &5  \\
+                   x  &+  &y   &-  &z  &=  &10 
+                \end{linsys}
+             \)
+      \partsitem \( \begin{linsys}[t]{4}
+                 2x  &   &   &+  &z  &+  &w  &=  &5  \\
+                     &   &y  &   &   &-  &w  &=  &-1 \\
+                 3x  &   &   &-  &z  &-  &w  &=  &0  \\
+                 4x  &+  &y  &+  &2z &+  &w  &=  &9  
+               \end{linsys}
+            \)
+    \end{exparts*}
+    \begin{answer} 
+      \begin{exparts}
+       \partsitem 高斯消元
+        \begin{equation*}
+          \grstep{-(1/2)\rho_1+\rho_2}
+          \begin{linsys}{2}
+             2x  &+  &2y  &=  &5  \\
+                 &   &-5y &=  &-5/2  
+          \end{linsys}
+        \end{equation*}
+        表明\( y=1/2 \)与\( x=2 \)是唯一解。
+      \partsitem 高斯消元法
+        \begin{equation*}
+          \grstep{\rho_1+\rho_2}
+          \begin{linsys}{2}
+             -x  &+  &y   &=  &1  \\
+                 &   &2y  &=  &3  
+           \end{linsys}
+        \end{equation*}
+        给出\( y=3/2 \)与\( x=1/2 \)这个唯一解。
+      \partsitem 行化简
+        \begin{equation*}
+            \grstep{-\rho_1+\rho_2}
+            \begin{linsys}{3}
+                x  &-  &3y  &+  &z  &=  &1  \\
+                   &   &4y  &+  &z  &=  &13 
+             \end{linsys}
+        \end{equation*}
+        由于变量$z$不是任何一行的首变量，
+        这表明方程组有无穷多解。
+      \partsitem 行化简
+        \begin{equation*}
+          \grstep{-3\rho_1+\rho_2}
+          \begin{linsys}{2}
+             -x  &-  &y   &=  &1  \\
+                 &   &0   &=  &-1 
+           \end{linsys}
+        \end{equation*}
+        表明方程组无解。
+      \partsitem 高斯消元法
+        \begin{align*}
+            \grstep{\rho_1\leftrightarrow\rho_4}
+            \begin{linsys}{3}
+                x  &+  &y   &-  &z  &=  &10 \\
+               2x  &-  &2y  &+  &z  &=  &0  \\
+                x  &   &    &+  &z  &=  &5  \\
+                   &   &4y  &+  &z  &=  &20 
+             \end{linsys}
+            &\grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \begin{linsys}{3}
+                x  &+  &y   &-  &z  &=  &10 \\
+                   &   &-4y &+  &3z &=  &-20\\
+                   &   &-y  &+  &2z &=  &-5 \\
+                   &   &4y  &+  &z  &=  &20 
+             \end{linsys}                                      \\
+            &\grstep[\rho_2+\rho_4]{-(1/4)\rho_2+\rho_3}
+            \begin{linsys}{3}
+                x  &+  &y   &-  &z      &=  &10 \\
+                   &   &-4y &+  &3z     &=  &-20\\
+                   &   &    &   &(5/4)z &=  &0  \\
+                   &   &    &   &4z     &=  &0  
+             \end{linsys}
+        \end{align*}
+        给出唯一解\( (x,y,z)=(5,5,0) \)。
+      \partsitem 这里高斯消元法给出
+         \begin{align*}
+            &\grstep[-2\rho_1+\rho_4]{-(3/2)\rho_1+\rho_3}
+            \begin{linsys}{4}
+               2x  &\spaceforemptycolumn   &   &+  &z       &+  &w       &=  &5  \\
+                   &   &y  &   &        &-  &w       &=  &-1 \\
+                   &   &   &-  &(5/2)z  &-  &(5/2)w  &=  &-15/2  \\
+                   &   &y  &   &        &-  &w       &=  &-1  
+             \end{linsys}                                             \\ 
+            &\grstep{-\rho_2+\rho_4}
+            \begin{linsys}{4}
+               2x  &\spaceforemptycolumn   &   &+  &z       &+  &w       &=  &5  \\
+                   &   &y  &   &        &-  &w       &=  &-1 \\
+                   &   &   &-  &(5/2)z  &-  &(5/2)w  &=  &-15/2  \\
+                   &   &   &   &        &   &0       &=  &0 
+             \end{linsys}
+         \end{align*}
+         这表明方程组有无穷多解。
+      \end{exparts} 
+    \end{answer}
+  \item  
+    求解每个方程组，
+    或者得出“无穷多解”或“无解”的结论。
+    使用高斯消元法。
+    \begin{exparts*}
+      \partsitem \(
+               \begin{linsys}[t]{3}
+                   x  &+  &y   &+  &z   &=  &5  \\
+                   x  &-  &y   &   &    &=  &0  \\
+                      &   &y   &+  &2z  &=  &7  
+               \end{linsys}
+             \)
+      \partsitem \(
+               \begin{linsys}[t]{3}
+                   3x  &  &    &+  &z   &=  &7  \\
+                    x  &-  &y   &+   &3z    &=  &4  \\
+                    x   &+  &2y   &-  &5z  &=  &-1  
+               \end{linsys}
+             \)
+      \partsitem \(
+               \begin{linsys}[t]{3}
+                   x   &+  &3y   &+  &z   &=  &0  \\
+                   -x  &-  &y   &   &    &=  &2  \\
+                   -x   &+  &y   &+  &2z  &=  &8  
+               \end{linsys}
+             \)
+    \end{exparts*}
+    \begin{answer} 
+      \begin{exparts}
+       \partsitem 
+         % sage: M = matrix(RDF, [[1,1,1], [1,-1,0], [0,1,2]])
+         % sage: v = vector(RDF, [5,0,7])
+         % sage: M_prime = M.augment(v)
+         % sage: gauss_method(M_prime)
+         % [ 1.0  1.0  1.0  5.0]
+         % [ 1.0 -1.0  0.0  0.0]
+         % [ 0.0  1.0  2.0  7.0]
+         %  take -1.0 times row 1 plus row 2
+         % [ 1.0  1.0  1.0  5.0]
+         % [ 0.0 -2.0 -1.0 -5.0]
+         % [ 0.0  0.0  1.5  4.5]
+         %  take 0.5 times row 2 plus row 3
+         % [ 1.0  1.0  1.0  5.0]
+         % [ 0.0 -2.0 -1.0 -5.0]
+         % [ 0.0  0.0  1.5  4.5]
+          高斯消元法
+          \begin{align*}
+           \begin{linsys}{3}
+              x  &+  &y   &+  &z   &=  &5  \\
+              x  &-  &y   &   &    &=  &0  \\
+                 &   &y   &+  &2z  &=  &7  
+           \end{linsys}
+           &\grstep{-\rho_1+\rho_2} 
+           \begin{linsys}{3}
+              x  &+  &y   &+  &z   &=  &5  \\
+              0  &   &-2y  &-   &z    &=  &-5  \\
+                 &   &y   &+  &2z  &=  &7  
+           \end{linsys}                                     \\
+           &\grstep{(1/2)\rho_2+\rho_3} 
+           \begin{linsys}{3}
+              x  &+  &y   &+  &z   &=  &5  \\
+              0  &   &-2y  &-   &1    &=  &-5  \\
+                 &   &    &+  &(3/2)z  &=  &7/2  
+           \end{linsys}
+          \end{align*}
+          再经回代得到$x=1$，$y=1$，$z=3$。
+       \partsitem 
+         % sage: M = matrix(QQ, [[3,0,1], [1,-1,3], [1,2,-5]])
+         % sage: v = vector(RDF, [7,4,-1])
+         % sage: v = vector(QQ, [7,4,-1])
+         % sage: M_prime = M.augment(v)
+         % sage: gauss_method(M_prime)
+         % [ 3  0  1  7]
+         % [ 1 -1  3  4]
+         % [ 1  2 -5 -1]
+         %  take -1/3 times row 1 plus row 2
+         %  take -1/3 times row 1 plus row 3
+         % [    3     0     1     7]
+         % [    0    -1   8/3   5/3]
+         % [    0     2 -16/3 -10/3]
+         %  take 2 times row 2 plus row 3
+         % [  3   0   1   7]
+         % [  0  -1 8/3 5/3]
+         % [  0   0   0   0]
+          这里高斯消元法
+          \begin{align*}
+            \begin{linsys}{3}
+                3x  &  &    &+  &z   &=  &7  \\
+                 x  &-  &y   &+   &3z    &=  &4  \\
+                 x   &+  &2y   &-  &5z  &=  &-1  
+            \end{linsys}
+            &\grstep[-(1/3)\rho_1+\rho_3]{-(1/3)\rho_1+\rho_2} 
+            \begin{linsys}{3}
+                3x  &  &    &+  &z        &=  &7  \\
+                    &  &-y   &+ &(8/3)z   &=  &5/3  \\
+                    &  &2y   &- &(16/3)z  &=  &-(10/3)  
+            \end{linsys}                                      \\
+            &\grstep{2\rho_2+\rho_3} 
+            \begin{linsys}{3}
+                3x  &  &    &+  &z        &=  &7  \\
+                    &  &-y   &+ &(8/3)z   &=  &5/3  \\
+                    &  &     &  &0        &=  &0  
+            \end{linsys}
+        \end{align*}
+        发现变量~$z$不引领任何一行。
+        方程组有无穷多解。
+        \partsitem
+          % sage: M = matrix(QQ, [[1,3,1], [-1,-1,0], [-1,1,2]])
+          % sage: v = vector(QQ, [0,2,8])
+          % sage: M_prime = M.augment(v)
+          % sage: gauss_method(M_prime)
+          % [ 1  3  1  0]
+          % [-1 -1  0  2]
+          % [-1  1  2  8]
+          %  take 1 times row 1 plus row 2
+          %  take 1 times row 1 plus row 3
+          % [1 3 1 0]
+          % [0 2 1 2]
+          % [0 4 3 8]
+          %  take -2 times row 2 plus row 3
+          % [1 3 1 0]
+          % [0 2 1 2]
+          % [0 0 1 4]
+          下列步骤
+          \begin{equation*}
+            \begin{linsys}{3}
+               x   &+  &3y   &+  &z   &=  &0  \\
+               -x  &-  &y   &   &    &=  &2  \\
+               -x   &+  &y   &+  &2z  &=  &8  
+            \end{linsys}
+            \grstep[\rho_1+\rho_3]{\rho_1+\rho_2}
+            \begin{linsys}{3}
+               x   &+  &3y   &+  &z   &=  &0  \\
+                   &   &2y   &+  &z   &=  &2  \\
+                   &   &4y   &+  &3z  &=  &8  
+            \end{linsys}
+            \grstep{-2\rho_2+\rho_3}
+            \begin{linsys}{3}
+               x   &+  &3y   &+  &z   &=  &0  \\
+                   &   &2y   &+  &z   &=  &2  \\
+                   &   &     &   &z   &=  &4  
+            \end{linsys}
+          \end{equation*}
+          给出$(x,y,z)=(-1,-1,4)$。
+      \end{exparts} 
+    \end{answer}
+  \recommended \item 
+    我们可以用高斯消元法以外的方法求解线性方程组。
+    中学里常教的一种方法是：从某个方程中解出一个变量，
+    再把所得的表达式代入其他方程。
+    然后重复这一步骤，直到得到只含一个
+    变量的方程。
+    由此我们得到解中的第一个数，再通过
+    回代得到其余的数。
+    这个方法比高斯消元法耗时更长，因为它涉及
+    更多算术运算，而且也更容易出错。
+    为了说明它如何可能导致错误的结论，我们将使用方程组
+    \begin{equation*}
+      \begin{linsys}{2}
+            x  &+  &3y  &=  &1  \\
+            2x  &+  &y   &=  &-3 \\
+            2x  &+  &2y  &=  &0  
+      \end{linsys}
+    \end{equation*}
+    它来自\nearbyexample{ex:MoreEqsThanUnksInconsis}。
+    \begin{exparts}
+      \partsitem 从第一个方程解出$x$，
+        并把该表达式代入第二个方程。
+        求出所得的$y$。
+      \partsitem 再次从第一个方程解出$x$，
+        但这次把该表达式代入第三个方程。
+        求出这个$y$。
+    \end{exparts}
+    使用这个方法的人必须额外采取什么步骤，
+    才能避免错误地得出方程组有解的结论？
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 由$x=1-3y$得到$2(1-3y)+y=-3$，从而$y=1$。
+        \partsitem 由$x=1-3y$得到$2(1-3y)+2y=0$，
+           从而得出$y=1/2$的结论。
+      \end{exparts}
+      使用这个方法的人必须把每个可能的解代回所有方程加以检验。
+    \end{answer}
+  \recommended \item 
+    当\( k \)取哪些值时，这个方程组
+    无解、有无穷多解，或有唯一解？
+    \begin{equation*}
+       \begin{linsys}{2}
+          x  &-  &y  &=  &1  \\
+         3x  &-  &3y &=  &k  
+       \end{linsys}
+    \end{equation*}
+    \begin{answer}
+      作消元
+      \begin{equation*}
+        \grstep{-3\rho_1+\rho_2}
+        \begin{linsys}{2}
+          x  &-  &y  &=  &1\hfill  \\
+             &   &0  &=  &-3+k\hfill  
+        \end{linsys}
+      \end{equation*}
+      由此得出：若\( k\neq 3 \)，则该方程组无解；
+      若\( k=3 \)，则它有无穷多解。
+      它永远不会有唯一解。  
+    \end{answer}
+  \item 
+    这个方程组不是线性的，因为其中出现的是$\sin\alpha$而不是$\alpha$
+    \begin{equation*}
+      \begin{linsys}{3}
+         2\sin\alpha  &-  &\cos\beta  &+  &3\tan\gamma  &=  &3  \\
+         4\sin\alpha  &+  &2\cos\beta &-  &2\tan\gamma  &=  &10  \\
+         6\sin\alpha  &-  &3\cos\beta &+  &\tan\gamma   &=  &9  
+      \end{linsys}
+    \end{equation*}
+    然而我们仍可以应用高斯消元法。
+    请做一做。
+    该方程组有解吗？
+    \begin{answer}
+      令\( x=\sin\alpha \)，\( y=\cos\beta \)，\( z=\tan\gamma \)：
+      \begin{equation*}
+        \begin{linsys}{3}
+           2x  &-  &y  &+  &3z  &=  &3  \\
+           4x  &+  &2y &-  &2z  &=  &10  \\
+           6x  &-  &3y &+  &z   &=  &9  
+        \end{linsys}
+         \grstep[-3\rho_1+\rho_3]{-2\rho_1+\rho_2}
+         \begin{linsys}{3}
+           2x  &-  &y  &+  &3z  &=  &3  \\
+               &   &4y &-  &8z  &=  &4   \\
+               &   &   &   &-8z &=  &0  
+         \end{linsys}
+      \end{equation*}
+      得到\( z=0 \)，\( y=1 \)，\( x=2 \)。
+      注意，没有\( \alpha\in\R \)满足$\sin\alpha=2$。  
+      \end{answer}
+  \recommended \item 
+    常数（各个$b$）必须满足什么条件，
+    才能使下面每个方程组都有解？
+    \textit{提示。}
+    应用高斯消元法，看看右边会发生什么。
+    \begin{exparts*}
+      \partsitem  \(
+        \begin{linsys}[t]{2}
+           x  &-  &3y  &=  &b_1 \\
+          3x  &+  &y   &=  &b_2 \\
+           x  &+  &7y  &=  &b_3 \\
+          2x  &+  &4y  &=  &b_4 
+        \end{linsys}   \)
+      \partsitem \(
+        \begin{linsys}[t]{3}
+           x_1  &+  &2x_2  &+  &3x_3  &=  &b_1  \\
+          2x_1  &+  &5x_2  &+  &3x_3  &=  &b_2  \\
+           x_1  &   &      &+  &8x_3  &=  &b_3  
+        \end{linsys}   \)
+    \end{exparts*}
+    \begin{answer} 
+      \begin{exparts}
+       \partsitem 高斯消元法
+         \begin{equation*}
+           \grstep[-\rho_1+\rho_3 \\ -2\rho_1+\rho_4]{-3\rho_1+\rho_2}
+           \begin{linsys}{2}
+              x  &-  &3y  &=  &b_1\hfill \\
+                 &   &10y &=  &-3b_1+b_2\hfill \\
+                 &   &10y &=  &-b_1+b_3\hfill \\
+                 &   &10y &=  &-2b_1+b_4\hfill 
+            \end{linsys}         
+           \grstep[-\rho_2+\rho_4]{-\rho_2+\rho_3}
+           \begin{linsys}{2}
+              x  &-  &3y  &=  &b_1\hfill \\
+                 &   &10y &=  &-3b_1+b_2\hfill \\
+                 &   &0   &=  &2b_1-b_2+b_3\hfill \\
+                 &   &0   &=  &b_1-b_2+b_4\hfill 
+            \end{linsys}
+         \end{equation*}
+         表明该方程组相容当且仅当
+         \( b_3=-2b_1+b_2 \)与\( b_4=-b_1+b_2 \)同时成立。
+       \partsitem 消元
+         \begin{align*}
+            &\grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \begin{linsys}{3}
+              x_1  &+  &2x_2  &+  &3x_3  &=  &b_1\hfill  \\
+                   &   &x_2   &-  &3x_3  &=  &-2b_1+b_2\hfill  \\
+                   &   &-2x_2 &+  &5x_3  &=  &-b_1+b_3\hfill  
+             \end{linsys}                                          \\
+            &\grstep{2\rho_2+\rho_3}
+            \begin{linsys}{3}
+              x_1  &+  &2x_2  &+  &3x_3  &=  &b_1\hfill  \\
+                   &   &x_2   &-  &3x_3  &=  &-2b_1+b_2\hfill  \\
+                   &   &      &   &-x_3  &=  &-5b_1+2b_2+b_3\hfill  
+             \end{linsys}
+         \end{align*}
+         表明\( b_1 \)、\( b_2 \)与\( b_3 \)各自可以取任何
+         实数\Dash 该方程组总有唯一解。
+      \end{exparts}   
+      \end{answer}
+  \item 
+    判断真假：未知数多于方程个数的方程组
+    至少有一个解。
+    （与往常一样，要断言“真”必须给出证明，
+    而要断言“假”则必须举出反例。）
+    \begin{answer}
+      下面这个未知数多于方程个数的方程组
+      \begin{equation*}
+        \begin{linsys}{3}
+          x  &+  &y  &+  &z  &=  &0  \\
+          x  &+  &y  &+  &z  &=  &1  
+        \end{linsys}
+      \end{equation*}
+      无解。   
+      \end{answer}
+  \item 
+    任何像本小节开头那样的化学\index{Chemistry problem}问题\Dash
+    配平反应的问题\Dash 都必须有无穷多解吗？
+    \begin{answer}
+      是的。
+      例如，同一个反应可以在两个不同的烧瓶中进行，
+      这一事实表明任何一个解的两倍是另一个不同的解
+      （如果物理上确实发生反应，那么至少必须
+      有一个非零解）。
+    \end{answer}
+  \recommended \item 
+    求系数
+    \( a \)、\( b \)、\( c \)，使得\( f(x)=ax^2+bx+c \)的图像
+    经过点\( (1,2) \)、\( (-1,6) \)和\( (2,3) \)。
+    \begin{answer}
+      由\( f(1)=2 \)、\( f(-1)=6 \)以及\( f(2)=3 \)我们得到
+      一个线性方程组。
+      \begin{equation*}
+        \begin{linsys}{3}
+          1a  &+  &1b  &+  &c  &=  &2  \\
+          1a  &-  &1b  &+  &c  &=  &6  \\
+          4a  &+  &2b  &+  &c  &=  &3  
+         \end{linsys}
+      \end{equation*}
+      高斯消元法
+      \begin{equation*}
+         \grstep[-4\rho_1+\rho_3]{-\rho_1+\rho_2}
+         \begin{linsys}{3}
+            a  &+  &b  &+  &c  &=  &2  \\
+               &   &-2b&   &   &=  &4  \\
+               &   &-2b&-  &3c &=  &-5 
+          \end{linsys}               
+         \grstep{-\rho_2+\rho_3}
+         \begin{linsys}{3}
+            a  &+  &b  &+  &c  &=  &2  \\
+               &   &-2b&   &   &=  &4  \\
+               &   &   &   &-3c&=  &-9 
+           \end{linsys}
+      \end{equation*}
+      表明解为\( f(x)=1x^2-2x+3 \)。  
+      \end{answer}
+  \item 在\nearbytheorem{th:GaussMethod}之后我们注意到，
+   用~$0$乘某一行是不允许的，因为这可能改变解集。 
+   举一个解集为~$S_0$的方程组的例子，使得
+   用~$0$乘某一行之后，新方程组的解集为~$S_1$，
+   并且$S_0$是$S_1$的真子集，即$S_0\neq S_1$。
+   再举一个$S_0=S_1$的例子。 
+    \begin{answer}
+      这里$S_0=\set{(1,1)}$
+      \begin{equation*}
+          \begin{linsys}{2}
+             x  &+  &y  &=  &2  \\
+             x  &-  &y  &=  &0
+           \end{linsys}               
+          \grstep{0\rho_2}
+          \begin{linsys}{2}
+             x  &+  &y  &=  &2  \\
+                &   &0  &=  &0
+           \end{linsys}               
+      \end{equation*}
+      而$S_1$是一个真超集，因为它
+      至少包含两个点：$(1,1)$和~$(2,0)$。
+      在这个例子中解集没有改变。  
+      \begin{equation*}
+          \begin{linsys}{2}
+             x  &+  &y  &=  &2  \\
+            2x  &+  &2y &=  &4
+           \end{linsys}               
+          \grstep{0\rho_2}
+          \begin{linsys}{2}
+             x  &+  &y  &=  &2  \\
+                &   &0  &=  &0
+           \end{linsys}               
+      \end{equation*}
+    \end{answer}
+  \item 
+    高斯消元法的工作方式是对方程组中的方程作组合，
+    得到新的方程。
+    \begin{exparts}
+      \partsitem 我们能否通过一系列
+        高斯消元步骤，从这个方程组中的方程导出方程\( 3x-2y=5 \)？
+        \begin{equation*}
+          \begin{linsys}{2}
+             x  &+  &y  &=  &1  \\
+            4x  &-  &y  &=  &6
+          \end{linsys}
+        \end{equation*}
+      \partsitem 我们能否通过一系列
+        高斯消元步骤，从这个方程组中的方程导出方程\( 5x-3y=2 \)？
+        \begin{equation*}
+          \begin{linsys}{2}
+            2x  &+  &2y &=  &5  \\
+            3x  &+  &y  &=  &4
+          \end{linsys}
+        \end{equation*}
+      \partsitem 我们能否通过一系列
+        高斯消元步骤，从该方程组中的方程导出\( 6x-9y+5z=-2 \)？
+        \begin{equation*}
+          \begin{linsys}{3}
+            2x  &+  &y  &-  &z  &=  &4  \\
+            6x  &-  &3y &+  &z  &=  &5
+          \end{linsys}
+        \end{equation*}
+    \end{exparts}
+    \begin{answer} 
+       \begin{exparts} 
+        \partsitem 能。观察可知，所给方程来自
+          \( -\rho_1+\rho_2 \)。
+        \partsitem 不能。
+          数对\( (1,1) \)满足所给方程。
+          然而，这个数对
+          不满足该方程组中的第一个方程。
+        \partsitem 能。
+          要判断所给行是否为\( c_1\rho_1+c_2\rho_2 \)，求解
+          联系$x$、$y$、
+          $z$的系数与常数的方程组：
+          \begin{equation*}
+            \begin{linsys}{2}
+               2c_1  &+  &6c_2  &=  &6  \\
+                c_1  &-  &3c_2  &=  &-9 \\
+               -c_1  &+  &c_2   &=  &5  \\
+               4c_1  &+  &5c_2  &=  &-2 
+             \end{linsys}
+          \end{equation*}
+          得到$c_1=-3$与$c_2=2$，所以所给行是
+          \( -3\rho_1+2\rho_2 \)。
+      \end{exparts}  
+     \end{answer}
+  \item 
+    证明：设\( a,b,c,d,e \)是实数
+    且\( a\neq 0 \)，若线性方程
+    \begin{equation*}
+       ax+by=c
+    \end{equation*}
+    与方程
+    \begin{equation*}
+       ax+dy=e
+    \end{equation*}
+    有相同的解集，则它们是同一个方程。
+    若\( a=0 \)呢？
+    \begin{answer}
+      若\( a\neq 0 \)，则第一个方程的解集是
+      下面这个。
+      \begin{equation*}
+        \set{(x,y)\in\Re^2\suchthat 
+             \text{$x=(c-by)/a=(c/a)-(b/a)\cdot y$}}
+        \tag{$*$} 
+      \end{equation*}
+      于是，给定~$y$就能算出相应的~$x$。
+      取$y=0$得到解$(c/a,0)$；由于第二个
+      方程$ax+dy=e$被假定有相同的解集，
+      代入其中得到$a(c/a)+d\cdot 0=e$，所以$c=e$。
+      在($*$)中取$y=1$得到$a((c-b)/a)+d\cdot 1=e$，
+      从而$b=d$。
+      因此它们是同一个方程。
+
+      当\( a=0 \)时，两个方程可以不同却仍
+      有相同的解集，例如
+      \( 0x+3y=6 \)与\( 0x+6y=12 \)。   
+     \end{answer}
+  \item 
+    证明：若\( ad-bc\neq 0 \)，则
+    \begin{equation*}
+      \begin{linsys}{2}
+        ax  &+  &by  &=  &j  \\
+        cx  &+  &dy  &=  &k  
+      \end{linsys}
+    \end{equation*}
+    有唯一解。
+    \begin{answer}
+      我们分三种情形：$a\neq 0$；$a=0$而
+      $c\neq 0$；以及$a=0$与$c=0$同时成立。
+
+      第一种情形，我们假设\( a\neq 0 \)。
+      那么消元
+      \begin{equation*}
+        \grstep{-(c/a)\rho_1+\rho_2}
+        \begin{linsys}{2}
+          ax  &+  &by                  &=  &j \hfill\hbox{} \\
+              &   &(-(cb/a)+d)y  &=  &-(cj/a)+k \hfill  
+         \end{linsys}
+      \end{equation*}
+      表明该方程组有唯一解当且仅当
+      \( -(cb/a)+d\neq 0   \)；记住\( a\neq 0 \)，因
+      此回代给出唯一的\( x \)
+      （顺带指出，\( j \)与\( k \)对“存在唯一解”这一
+      结论没有任何影响，不过若存在唯一解，
+      则它们会影响这个解的值）。
+      但\( -(cb/a)+d = (ad-bc)/a \)，而一个分数等于\( 0 \)
+      当且仅当它的分子等于\( 0 \)。
+      于是，在第一种情形，存在唯一解当且仅当
+      $ad-bc\neq 0$。
+
+      在第二种情形，若\( a=0 \)但\( c\neq 0 \)，则我们对换
+      \begin{equation*}
+        \begin{linsys}{2}
+          cx  &+  &dy  &=  &k  \\
+              &   &by  &=  &j  
+        \end{linsys}
+      \end{equation*}
+      从而得出：该方程组有唯一解当且仅当
+      \( b\neq 0 \)
+      （在回代中我们利用情形假设\( c\neq 0 \)来得到唯一的
+      \( x \)）。
+      但\Dash 在\( a=0 \)而\( c\neq 0 \)时\Dash
+      条件“\( b\neq 0 \)”
+      等价于条件“\( ad-bc\neq 0 \)”。
+      第二种情形到此完成。
+
+      最后，第三种情形，
+      若\( a \)与\( c \)都是\( 0 \)，则方程组
+      \begin{equation*}
+        \begin{linsys}{2}
+          0x  &+  &by  &=  &j  \\
+          0x  &+  &dy  &=  &k  
+        \end{linsys}
+      \end{equation*}
+      可能无解（如果第二个方程不是第一个方程的倍式），
+      也可能有无穷多解（如果第二个方程是第一个方程的倍式，
+      那么对每个满足两个方程的\( y \)，任何数对\( (x,y) \)都行），
+      但它永远不会有唯一解。
+      注意\( a=0 \)与\( c=0 \)给出\( ad-bc=0 \)。  
+    \end{answer}
+  \recommended \item 
+    在方程组
+    \begin{equation*}
+      \begin{linsys}{2}
+         ax  &+  &by  &=  &c  \\
+         dx  &+  &ey  &=  &f  
+      \end{linsys}
+    \end{equation*}
+    中，每个方程描述了\( xy \)平面中的一条直线。
+    用几何推理证明有三种可能：
+    有唯一解，无解，
+    以及有无穷多解。
+    \begin{answer}
+      回忆一下，若两条直线有两个不同的公共点，则
+      它们是同一条直线。
+      这是因为两点确定一条直线，所以这两个点
+      同时确定了这两条直线，
+      因而它们是同一条直线。
+
+      于是，两条直线可以有一个公共点（给出唯一解）、
+      没有公共点（给出无解），
+      或者至少有两个公共点（这使它们成为同一条直线）。  
+    \end{answer}
+  \item \label{ex:ProveGaussMethod}
+    补全\nearbytheorem{th:GaussMethod}的证明。
+    \begin{answer}
+     对于用非零
+     实数$k$乘$\rho_i$的消元操作，我们有：\( (s_1,\ldots,s_n) \)满足
+     方程组
+     \begin{equation*}
+       \begin{linsys}{4}
+         a_{1,1}x_1  &+  &a_{1,2}x_2 &+  &\cdots  &+  &a_{1,n}x_n  &=  &d_1  \\
+                   &   &          &  &        &   &           &\vdotswithin{=}   \\
+        ka_{i,1}x_1  &+  &ka_{i,2}x_2 &+  &\cdots  &+  &ka_{i,n}x_n &=  &kd_i  \\
+                   &   &           &   &        &   &            &\vdotswithin{=}   \\
+         a_{m,1}x_1  &+  &a_{m,2}x_2 &+  &\cdots  &+  &a_{m,n}x_n  &=  &d_m  
+       \end{linsys}
+     \end{equation*}
+     当且仅当
+     % \begin{align*}
+     %    a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n
+     %    &=d_1                                              \\
+     %    &\alignedvdots                                     \\
+     %    \text{and\ } ka_{i,1}s_1+ka_{i,2}s_2+\cdots+ka_{i,n}s_n
+     %    &=kd_i                                              \\
+     %    &\alignedvdots                                      \\
+     %    \text{and\ } a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n
+     %    &=d_m
+     % \end{align*}
+     $a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n=d_1$ 
+     且\ldots{} $ka_{i,1}s_1+ka_{i,2}s_2+\cdots+ka_{i,n}s_n=kd_i$
+     且\ldots{} 
+     $a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n=d_m$，
+     这由“满足”的定义得出。
+     因为\( k\neq 0 \)，上式成立当且仅当
+     % \begin{align*}
+     %    a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n
+     %    &=d_1                                              \\
+     %    &\alignedvdots                                     \\
+     %    \text{and\ } a_{i,1}s_1+a_{i,2}s_2+\cdots+a_{i,n}s_n
+     %    &=d_i                                              \\
+     %    &\alignedvdots                                      \\
+     %    \text{and\ } a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n
+     %    &=d_m
+     % \end{align*}
+     $a_{1,1}s_1+a_{1,2}s_2+\cdots+a_{1,n}s_n=d_1$
+     且\ldots{}
+     $a_{i,1}s_1+a_{i,2}s_2+\cdots+a_{i,n}s_n=d_i$
+     且\ldots{}
+     $a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n=d_m$
+     （这只是把第$i$个方程两边直接消去$k$），
+     这说明\( (s_1,\ldots,s_n) \)解方程组
+     \begin{equation*}
+       \begin{linsys}{4}
+         a_{1,1}x_1  &+  &a_{1,2}x_2 &+  &\cdots  &+  &a_{1,n}x_n  &=  &d_1  \\
+                     &   &           &   &        &   &            &\vdotswithin{=}   \\
+         a_{i,1}x_1  &+  &a_{i,2}x_2 &+  &\cdots  &+  &a_{i,n}x_n  &=  &d_i  \\
+                     &   &           &   &        &   &            &\vdotswithin{=}   \\
+         a_{m,1}x_1  &+  &a_{m,2}x_2 &+  &\cdots  &+  &a_{m,n}x_n  &=
+              &d_m  
+         \end{linsys}
+     \end{equation*}
+     即为所需。
+
+     对于组合操作$k\rho_i+\rho_j$，元组
+     \( (s_1,\ldots,s_n) \)满足
+     \begin{equation*}
+       \begin{linsys}{4}
+         a_{1,1}x_1             &+  &\cdots  &+  &a_{1,n}x_n  &=  &d_1\hfill\hbox{} \\
+                                &   &        &   &            &\vdotswithin{=}   \\
+         a_{i,1}x_1             &+  &\cdots  &+  &a_{i,n}x_n  &=  &d_i\hfill\hbox{} \\
+                                &   &        &   &            &\vdotswithin{=}   \\
+         (ka_{i,1}+a_{j,1})x_1  &+  &\cdots  &+  &(ka_{i,n}+a_{j,n})x_n
+               &=  &kd_i+d_j \hfill \\
+                                &   &        &   &            &\vdotswithin{=}   \\
+         a_{m,1}x_1             &+   &\cdots  &+  &a_{m,n}x_n  &=  
+          &d_m\hfill\hbox{} 
+        \end{linsys}
+     \end{equation*}
+     当且仅当
+     $a_{1,1}s_1+\cdots+a_{1,n}s_n=d_1$
+     且\ldots{}
+     $a_{i,1}s_1+\cdots+a_{i,n}s_n=d_i$
+     且\ldots{} 
+     $(ka_{i,1}+a_{j,1})s_1+\cdots+(ka_{i,n}+a_{j,n})s_n=kd_i+d_j$
+     且\ldots{}
+     $a_{m,1}s_1+a_{m,2}s_2+\cdots+a_{m,n}s_n=d_m$，
+     同样由“满足”的定义得出。
+     从方程~\( j \)中减去\( k \)倍的方程~\( i \)。
+     （这正是需要\( i\neq j \)的地方；若\( i=j \)，则上面
+     两个\( d_i \)不相等。）
+     前面的复合命题成立当且仅当
+     $a_{1,1}s_1+\cdots+a_{1,n}s_n=d_1$
+     且\ldots{}
+     $a_{i,1}s_1+\cdots+a_{i,n}s_n=d_i$
+     且\ldots{} $
+     (ka_{i,1}+a_{j,1})s_1+\cdots+(ka_{i,n}+a_{j,n})s_n
+         -(ka_{i,1}s_1+\cdots+ka_{i,n}s_n)
+         =kd_i+d_j-kd_i$
+      且\ldots{} $a_{m,1}s_1+\cdots+a_{m,n}s_n=d_m$，
+     消去之后，这说明\( (s_1,\ldots,s_n) \)解方程组
+     \begin{equation*}
+       \begin{linsys}{4}
+         a_{1,1}x_1  &+   &\cdots  &+  &a_{1,n}x_n  &=  &d_1  \\
+                     &    &        &   &            &\vdotswithin{=}   \\
+         a_{i,1}x_1  &+   &\cdots  &+  &a_{i,n}x_n  &=  &d_i  \\
+                     &    &        &   &            &\vdotswithin{=}   \\
+         a_{j,1}x_1  &+  &\cdots  &+  &a_{j,n}x_n  &=  &d_j  \\
+                     &   &        &   &            &\vdotswithin{=}   \\
+         a_{m,1}x_1  &+  &\cdots  &+  &a_{m,n}x_n  &=
+              &d_m\hfill\hbox{}
+       \end{linsys}
+     \end{equation*}  
+     即为所需。
+   \end{answer}
+  \item 
+    存在解集为整个\( \Re^2 \)的
+    两未知数线性方程组吗？
+    \begin{answer}
+      存在，下面这个只有一个方程的方程组：
+      \begin{equation*}
+         0x+0y=0
+      \end{equation*}
+      每个\( (x,y)\in\Re^2 \)都满足它。  
+    \end{answer}
+  \recommended \item 
+    高斯消元法中用到的操作有多余的吗？
+    也就是说，我们能否用其他操作的组合来实现某个操作？
+    \begin{answer}
+      有。
+      下面这串操作对换了行\( i \)与行\( j \)
+      \begin{equation*}
+         \grstep{\rho_i+\rho_j}
+         \repeatedgrstep{-\rho_j+\rho_i}
+         \repeatedgrstep{\rho_i+\rho_j}
+         \repeatedgrstep{-1\rho_i}
+      \end{equation*}  
+      所以在另外两种操作存在的情况下，对换操作是多余的。
+     \end{answer}
+  \item 
+    证明高斯消元法的每种操作都是可逆的。
+    也就是说，证明若两个方程组通过一个行变换相联系
+    $S_1\rightarrow S_2$，则存在一个行变换变回去
+    $S_2\rightarrow S_1$。
+    \begin{answer}
+      行对换$\rho_i\leftrightarrow\rho_j$可以用
+      对换回去$\rho_j\leftrightarrow\rho_i$来逆转。
+      $k\rho_i$这一步是用\( k\neq 0  \)乘
+      某一行的两边，
+      可以用除以~$(1/k)\rho_i$来逆转。
+
+      倍加的情形是非平凡的。
+      操作$k\rho_i+\rho_j$
+      得到如下的第$j$行。
+      \begin{equation*}
+        k\cdot a_{i,1}+a_{j,1}+\cdots+k\cdot a_{i,n}+a_{j,n}=k\cdot d_i+d_j
+      \end{equation*}
+      由于$i\neq j$的限制，第$i$行不变。
+      因为第$i$行不变，操作$-k\rho_i+\rho_j$
+      把第$j$行变回原状。
+
+      （注意$k\rho_i+\rho_j$中\( i=j \)的条件
+       是必需的，否则可能出现
+       \begin{equation*}
+         \begin{linsys}{2}
+           3x  &+  &2y  &=  &7  
+         \end{linsys}
+         \grstep{2\rho_1+\rho_1}
+         \begin{linsys}{2}
+           9x  &+  &6y  &=  &21 
+          \end{linsys}                 
+         \grstep{-2\rho_1+\rho_1}
+         \begin{linsys}{2}
+          -9x  &-  &6y  &=  &-21 
+         \end{linsys}
+       \end{equation*}
+       于是结论不成立。）
+    \end{answer}
+  \puzzle \item  
+    \cite{Anton}
+    一个盒子装着1美分、5美分和10美分的硬币，
+    共十三枚，总价值为\( 83 \)美分。
+    盒子中每种硬币各有多少枚？
+    （这些是美国硬币；
+    1美分硬币值$1$~美分，5美分硬币值$5$~美分，
+    10美分硬币值$10$~美分。）
+    \begin{answer}
+      设\( p \)、\( n \)、\( d \)分别是
+      1美分、5美分和10美分硬币的个数。
+      当变量取实数值时，方程组
+      \begin{equation*}
+         \begin{linsys}{3}
+              p  &+ &n   &+  &d   &=  &13   \\
+              p  &+ &5n  &+  &10d &=  &83    
+         \end{linsys}
+         \grstep{-\rho_1+\rho_2}
+         \begin{linsys}{3}
+              p  &+ &n   &+  &d   &=  &13   \\
+                 &  &4n  &+  &9d  &=  &70    
+          \end{linsys}
+      \end{equation*}
+      的解不止一个；事实上，它有无穷多个解。
+      然而，\( p \)、\( n \)、
+      \( d \)为非负整数的解只有有限多个。
+      逐一检查\( d=0 \)，\ldots，\( d=8 \)可知
+      \( (p,n,d)=(3,4,6) \)
+      是唯一使用自然数的解。  
+    \end{answer}
+  \puzzle \item 
+    \cite{ContestProb1955no38}
+    给定四个正整数。
+    任取其中三个数，求它们的算术平均，
+    并把这个结果加到第四个整数上。
+    这样得到数29、23、21和17。
+    原来的整数之一是：
+    \begin{exparts*}
+      \partsitem 19
+      \partsitem 21
+      \partsitem 23
+      \partsitem 29
+      \partsitem 17
+    \end{exparts*}
+    \begin{answer}
+      求解方程组
+      \begin{equation*}
+        \begin{linsys}{2}
+        (1/3)(a+b+c)  &+  &d  &=  &29  \\
+        (1/3)(b+c+d)  &+  &a  &=  &23  \\
+        (1/3)(c+d+a)  &+  &b  &=  &21  \\
+        (1/3)(d+a+b)  &+  &c  &=  &17
+        \end{linsys}
+      \end{equation*}
+      我们得到$a=12$，$b=9$，$c=3$，$d=21$。
+      因此第二项，21，是正确答案。
+     \end{answer}
+  \puzzle \item  
+      \cite{Monthly35p47}
+      笑一笑这个：\( \mbox{AHAHA}+\mbox{TEHE}=\mbox{TEHAW} \)。
+      它来自把一个简单的加法算式中的每个数字换成代码字母，
+      要求辨认出这些字母并证明解唯一。
+      \begin{answer}
+        \answerasgiven
+        比较这个加法竖式的个位列与百位列可知，
+        十位列必有进位。
+        十位列于是告诉我们\( A<H \)，所以
+        个位列与百位列都不会有进位。
+        五个列于是给出下面五个方程。
+        \begin{align*}
+          A+E  &=  W  \\
+          2H   &=  A+10  \\
+          H    &=  W+1  \\
+          H+T  &=  E+10  \\
+          A+1  &=  T
+        \end{align*}
+        这五个未知数的五个线性方程若联立求解，
+        给出唯一解：\( A=4 \)，\( T=5 \)，\( H=7 \)，
+        \( W=6 \)与\( E=2 \)，于是原来的加法算式
+        是\( 47474+5272=52746 \)。  
+      \end{answer}
+  \puzzle \item 
+     \cite{Wohascum2}
+     有20名成员的Wohascum县委员会
+     最近需要选举一位主席。
+     有三名候选人（$A$、$B$和$C$）；每张选票上
+     要按偏好次序列出这三名
+     候选人，不允许弃权。
+     结果发现，11名成员（多数）偏好$A$胜过$B$
+     （于是其余9名偏好$B$胜过$A$）。
+     类似地，发现12名成员偏好$C$胜过$A$。
+     鉴于这些结果，有人建议$B$退出，以便
+     在$A$与$C$之间进行决选。
+     然而$B$表示抗议，随后又发现14名成员偏好
+     $B$胜过$C$！
+     委员会至今仍未从由此产生的混乱中恢复过来。
+     已知$A$、$B$、$C$的每种可能次序都至少出现在
+     一张选票上，问有多少成员把$B$列为第一选择？
+     \begin{answer}
+       \answerasgiven{} 
+       \textit{其中一些补充材料取自\cite{joriki}。}
+       有八名委员投票给$B$。
+       为说明这一点，我们将利用已知信息来研究有多少投票者
+       选择了$A$、$B$、$C$的每种次序。
+
+       六种偏好次序是$ABC$、$ACB$、$BAC$、$BCA$、$CAB$、
+       $CBA$；假设它们分别获得$a$、$b$、$c$、$d$、$e$、$f$票。
+       我们知道
+       \begin{equation*}
+         \begin{linsys}{3}
+           a  &+  &b  &+  &e  &=  &11  \\
+           d  &+  &e  &+  &f  &=  &12  \\
+           a  &+  &c  &+  &d  &=  &14
+         \end{linsys}
+       \end{equation*}
+       它们分别来自偏好$A$胜过$B$的人数、偏好
+       $C$胜过$A$的人数，以及偏好$B$胜过$C$的人数。
+       因为总共投了20票，
+       所以$a+b+\cdots+f=20$。
+       从两倍的前一个方程中减去上面三个方程之和，
+       得到$b+c+f=3$。
+       我们已规定每种偏好次序至少获得
+       一票，所以这意味着$b=c=f=1$。 
+
+       由上面三个方程，完整解为
+       $a=6$，$b=1$，$c=1$，$d=7$，$e=4$以及~$f=1$，
+       这可以用高斯消元法求出。
+       把$B$列为第一选择的委员人数
+       因此是$c+d=1+7=8$。
+
+       \par\noindent {\em 评注。}
+       即使我们只知道{\em 至少\/}有14名委员偏好$B$胜过$C$，
+       这个问题的答案也会一样。
+
+       委员们的偏好看似悖论的性质
+       （$A$优于$B$，$B$优于$C$，而$C$又
+       优于$A$）是“非传递支配”的一个例子，
+       这种情形在汇总个人选择时很常见。
+     \end{answer}
+  \puzzle \item   
+     \cite{Monthly63p93}
+    “这个由\( n \)个线性方程组成的、含
+     \( n \)个未知数的方程组，”大数学家说，“有一个奇特的
+     性质。”
+
+     “天哪！”可怜的菜鸟说，“是什么？”
+
+     “注意，”大数学家说，“常数项构成
+     等差数列。”
+
+     “你一解释我就全明白了！”可怜的菜鸟说。
+     “你是说像\( 6x+9y=12 \)和\( 15x+18y=21 \)这样？”
+
+     “正是，”大数学家说着，掏出了他的巴松管。
+     “的确，这个方程组有唯一解。
+     你能找出来吗？”
+
+     “天哪！”可怜的菜鸟喊道，“我被难住了。”
+
+     你呢？
+     \begin{answer}
+       \answerasgiven
+       \textit{我们还没有用到“相依”一词；
+       它在这里的意思是高斯
+       消元法表明解不唯一。}
+       若\( n\geq 3 \)，则方程组相依且解不
+       唯一。
+       因此\( n<3 \)。
+       但“方程组”一词意味着\( n>1 \)。
+       因此\( n=2 \)。
+       若方程为
+       \begin{equation*}
+         \begin{linsys}{2}
+              ax  &+ &(a+d)y  &=  &a+2d  \\
+         (a+3d)x  &+ &(a+4d)y &=  &a+5d  
+         \end{linsys}
+       \end{equation*}
+       则\( x=-1 \)，\( y=2 \)。  
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+

@@ -1,0 +1,355 @@
+% Chapter 1, Section 3 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-09
+\section{简化阶梯形}
+在掌握了高斯消元法的操作机制之后，
+我们看到它可以用不止一种方式完成。
+例如，从这个矩阵
+\begin{equation*}
+    \begin{mat}[r]
+       2  &2  \\
+       4  &3
+    \end{mat}
+\end{equation*}
+出发，可以得到下面三个阶梯形矩阵中的任何一个。
+\begin{equation*}
+    \begin{mat}[r]
+       2  &2  \\
+       0  &-1
+    \end{mat}
+    \qquad
+    \begin{mat}[r]
+       1  &1  \\
+       0  &-1
+    \end{mat}
+    \qquad
+    \begin{mat}[r]
+       2  &0  \\
+       0  &-1
+    \end{mat}
+\end{equation*}
+第一个由 $-2\rho_1+\rho_2$ 得到。
+第二个来自先作 $(1/2)\rho_1$，再作 $-4\rho_1+\rho_2$。
+第三个来自
+$-2\rho_1+\rho_2$ 之后接 $2\rho_2+\rho_1$
+（在第一个行倍加操作之后，矩阵已经成阶梯形
+但这一步仍然是合法的行变换）。
+
+在本章第一节中我们曾指出，
+这带来了一些问题。
+一个线性方程组的任意两个阶梯形版本，自由变量的
+个数是否相同？
+若是，
+二者的自由变量是否恰好相同？
+在本节中我们将
+给出一种方法来判断一个线性方程组
+能否由另一个经行变换得到。
+这两个问题的答案都是“是”，
+它们都将由此得出。
+
+
+
+
+
+
+
+
+\subsection{高斯–若尔当消元}%
+% Gaussian elimination coupled with back-substitution
+% solves linear systems but it is not the only method possible.
+下面是高斯消元法的一种推广，它有一些优点。
+
+\begin{example} \label{exm:GJRedReadOffSol}
+为求解
+\begin{equation*}
+  \begin{linsys}{3}
+    x  &+  &y  &-  &2z  &=  &-2  \\
+       &   &y  &+  &3z  &=  &7   \\
+    x  &   &   &-  &z   &=  &-1
+  \end{linsys}
+\end{equation*}
+我们可以像通常那样，先把它化简成阶梯形。
+\begin{equation*}
+  \grstep{-\rho_1+\rho_3}
+    \begin{amat}[r]{3}
+       1  &1  &-2 &-2  \\
+       0  &1  &3  &7   \\
+       0  &-1 &1  &1
+    \end{amat}
+  \grstep{\rho_2+\rho_3}
+    \begin{amat}[r]{3}
+       1  &1  &-2 &-2  \\
+       0  &1  &3  &7   \\
+       0  &0  &4  &8
+    \end{amat}
+\end{equation*}
+我们可以继续进入第二阶段，
+把首主元变成 \( 1 \)
+\begin{equation*}
+    \grstep{(1/4)\rho_3}
+    \begin{amat}[r]{3}
+       1  &1  &-2 &-2  \\
+       0  &1  &3  &7   \\
+       0  &0  &1  &2
+    \end{amat}
+\end{equation*}
+然后再进入第三阶段，利用首主元
+消去每列中所有其余的元素，
+做法是向上倍加。
+\begin{equation*}
+  \grstep[2\rho_3+\rho_1]{-3\rho_3+\rho_2}
+    \begin{amat}[r]{3}
+       1  &1  &0  &2   \\
+       0  &1  &0  &1   \\
+       0  &0  &1  &2
+    \end{amat}
+  \grstep{-\rho_2+\rho_1}
+    \begin{amat}[r]{3}
+       1  &0  &0  &1   \\
+       0  &1  &0  &1   \\
+       0  &0  &1  &2
+    \end{amat}
+\end{equation*}
+答案是 \( x=1 \)、\( y=1 \) 和 \( z=2 \)。
+\end{example}
+%<*Pivoting>
+用一个元素去消去一列中其余的元素，称为关于该元素的
+\definend{主元消去}\index{pivoting}。
+%</Pivoting>
+
+注意，第一阶段中的行倍加操作从左向右进行，
+而第三阶段中的倍加操作则从右向左进行。
+
+\begin{example}  \label{exm:GJRedReadOffSolTwo}
+中间阶段把首主元变成 \( 1 \) 的那些操作
+互不相干，所以我们可以把其中多个合并成单独的一步。
+\begin{align*}
+    \begin{amat}[r]{2}
+       2   &1   &7   \\
+       4   &-2  &6
+    \end{amat}
+  &\grstep{-2\rho_1+\rho_2}
+  \begin{amat}[r]{2}
+       2   &1   &7   \\
+       0   &-4  &-8
+    \end{amat}                                   \\
+  &\grstep[(-1/4)\rho_2]{(1/2)\rho_1}
+  \begin{amat}[r]{2}
+       1   &1/2   &7/2   \\
+       0   &1     &2
+    \end{amat}                                    \\
+  &\grstep{-(1/2)\rho_2+\rho_1}
+  \begin{amat}[r]{2}
+       1   &0   &5/2   \\
+       0   &1   &2
+    \end{amat}
+\end{align*}
+答案是 $x=5/2$ 和 $y=2$。
+\end{example}
+
+%<*GaussJordanReduction>
+高斯消元法的这种推广称为
+\definend{高斯–若尔当方法}\index{Gauss's Method!Gauss-Jordan Method}或
+\definend{高斯–若尔当消元}。\index{linear equation!solution of!Gauss-Jordan}\index{Gauss's Method!Gauss-Jordan}
+%</GaussJordanReduction>
+% It goes past echelon form to a more refined, more specialized,
+% matrix form.
+
+\begin{definition}\label{def:RedEchForm}
+%<*df:RedEchForm>
+一个矩阵或线性方程组称为处于
+\definend{简化阶梯形\/}\index{echelon form!reduced}\index{reduced echelon form}，
+如果除了是阶梯形之外，每个首主元都是~$1$，
+并且是其所在列中唯一的非零元素。
+%</df:RedEchForm>
+\end{definition}
+
+\noindent
+%<*CostRedEchForm>
+用高斯–若尔当消元求解方程组的代价
+是额外的算术运算。
+好处是我们可以直接读出
+解集的描述。
+%</CostRedEchForm>
+
+在任何阶梯形的方程组中，无论是简化阶梯形与否，
+当方程组因存在矛盾方程而解集为空时，我们可以直接读出这一情况。
+当方程组没有矛盾且每个变量都是某行的首变量时，
+我们可以读出方程组的解集只有一个元素。
+而且，当方程组没有矛盾且至少有一个变量是自由变量时，
+我们可以读出方程组的解集有无穷多个元素。
+
+然而，在简化阶梯形中，我们不仅能直接读出解集的
+大小，还能读出它的描述。
+当然，解集为空时描述它毫无困难。
+\nearbyexample{exm:GJRedReadOffSol} 与~\ref{exm:GJRedReadOffSolTwo}
+表明，在解集只有一个元素的情形，这个元素就在常数列中。
+下一个例子演示如何读出无穷解集的参数化。
+
+\begin{example}
+\begin{multline*}
+  \begin{amat}[r]{4}
+     2  &6  &1  &2  &5  \\
+     0  &3  &1  &4  &1  \\
+     0  &3  &1  &2  &5
+  \end{amat}
+  \grstep{-\rho_2+\rho_3}
+  \begin{amat}[r]{4}
+     2  &6  &1  &2  &5  \\
+     0  &3  &1  &4  &1  \\
+     0  &0  &0  &-2 &4
+  \end{amat}                                        \\
+  \grstep[(1/3)\rho_2 \\ -(1/2)\rho_3]{(1/2)\rho_1}
+  \repeatedgrstep[-\rho_3+\rho_1]{-(4/3)\rho_3+\rho_2}
+  \repeatedgrstep{-3\rho_2+\rho_1}
+  \begin{amat}[r]{4}
+     1  &0  &-1/2  &0  &-9/2  \\
+     0  &1  &1/3   &0  &3  \\
+     0  &0  &0     &1  &-2
+  \end{amat}
+\end{multline*}
+作为线性方程组，它就是
+\begin{equation*}
+  \begin{linsys}{4}
+     x_1  &&     &-&1/2x_3  &&   &= &-9/2  \\
+          &&x_2  &+&1/3x_3  &&   &= &3  \\
+          &&     &&        &{}\hspace{.5em}{}&x_4 &= &-2
+  \end{linsys}
+\end{equation*}
+因此解集的一个描述如下。
+\begin{equation*}
+  S=\set{\colvec{x_1 \\ x_2 \\ x_3 \\ x_4}
+                        =\colvec[r]{-9/2 \\ 3 \\ 0 \\ -2}
+                         +\colvec[r]{1/2 \\ -1/3 \\ 1 \\ 0}x_3
+                        \suchthat x_3\in\Re}
+\end{equation*}
+\end{example}
+
+可见，阶梯形并不是方程组的某种唯一最佳形式。
+其他形式，比如简化阶梯形，各有其
+优点和缺点。
+与其把线性方程组（以及相应的矩阵）
+想象成我们对其操作的对象，
+总是朝着阶梯形这个目标推进，不如把它们
+看成相互关联的，
+即可以用行变换从一个得到另一个。
+本小节余下的部分将展开这一想法。
+
+\begin{lemma} \label{le:RowOpsRev}
+%<*lm:RowOpsRev>
+初等行变换都是可逆的。
+%</lm:RowOpsRev>
+\end{lemma}
+
+\begin{proof}
+%<*pf:RowOpsRev>
+对任意矩阵 \( A \)，
+对换两行的效果可以由再把它们对换回去而抵消，
+用非零的 \( k \) 倍乘一行，可以由再用
+$1/k$ 倍乘来撤销，
+而把第 \( i \) 行的倍数加到第 \( j \) 行（$i\neq j$）
+可以由从第 \( j \) 行减去第 \( i \) 行的同样倍数来撤销。
+\begin{equation*}
+      A
+     \grstep{\rho_i\leftrightarrow\rho_j}
+     \repeatedgrstep{\rho_j\leftrightarrow\rho_i}
+      A
+  \qquad
+        A
+     \grstep{k\rho_i}
+     \repeatedgrstep{(1/k)\rho_i}
+      A
+  \qquad
+        A
+     \grstep{k\rho_i+\rho_j}
+     \repeatedgrstep{-k\rho_i+\rho_j}
+      A
+\end{equation*}
+%</pf:RowOpsRev>
+（我们需要 $i\neq j$ 这一条件；
+见 \nearbyexercise{exer:INotJMakesRowOpsRev}。）
+\end{proof}
+
+再说一次，我们正在发展、如今又得到引理支持的观点是：
+“化简为”这一说法有误导性：~当
+\( A\longrightarrow B \) 时，我们不应把 \( B \) 看作
+在~\( A \) 之后，或比~$A$ 更简单。
+相反，我们应当把这两个矩阵看作相互关联的。
+下面是一幅图。
+它把本节开头出现的那些矩阵以及它们的
+简化阶梯形版本画成
+一簇，彼此可互相化简。
+\begin{center}
+  \includegraphics{gr/mp/ch1.28}
+\end{center}
+
+%<*EquivMatrices>
+我们说彼此可互相化简的矩阵，关于行可化简这一关系是等价的。
+下一个结果将利用等价的定义
+为此提供依据。\appendrefs{equivalence relations}
+%</EquivMatrices>
+
+\begin{lemma} \label{lm:ReducesToIsEqRel}
+%<*lm:ReducesToIsEqRel>
+在矩阵之间，“化简为”是一个等价关系。
+%</lm:ReducesToIsEqRel>
+\end{lemma}
+
+\begin{proof}
+%<*pf:ReducesToIsEqRel0>
+我们必须验证以下条件：
+(i)~自反性，即任何矩阵都化简到它自身；
+(ii)~对称性，即若 \( A \) 化简为 \( B \)，
+   则 \( B \) 化简为 \( A \)；
+以及 (iii)~传递性，即若 \( A \) 化简为 \( B \) 且
+      \( B \) 化简为 \( C \)，则 \( A \) 化简为 \( C \)。
+%</pf:ReducesToIsEqRel0>
+
+%<*pf:ReducesToIsEqRel1>
+自反性是容易的；任何矩阵经零步操作即化简到它自身。
+
+由前面的引理，这一关系是对称的\Dash 若
+\( A \) 经某些行变换化简为 \( B \)，
+那么 \( B \) 也可以通过将这些操作反过来而化简为 \( A \)。
+%</pf:ReducesToIsEqRel1>
+
+%<*pf:ReducesToIsEqRel2>
+对于传递性，设 \( A \) 化简为 \( B \)，
+且 \( B \) 化简为 \( C \)。
+把 $A \rightarrow\cdots\rightarrow B$ 的化简步骤
+接上 $B \rightarrow\cdots\rightarrow C$ 的化简步骤，
+就得到从 \( A \) 到 \( C \) 的化简。
+%</pf:ReducesToIsEqRel2>
+\end{proof}
+
+\begin{definition} \label{df:RowEquivalence}
+%<*df:RowEquivalence>
+经初等行变换而可互相化简的两个矩阵是\definend{行等价的}。\index{matrix!row equivalence}%
+\index{row equivalence}\index{equivalence relation!row equivalence}
+%</df:RowEquivalence>
+\end{definition}
+
+%<*RowEquivalanceClasses>
+下面的图把全体矩阵的集合画成一个盒子。
+在这个盒子中，每个矩阵位于一个类中。
+两个矩阵在同一个类中当且仅当它们可互相化简。
+这些类互不相交\Dash 没有矩阵属于两个不同的类。
+我们就这样把矩阵的集合划分成了
+\definend{行等价类}。\appendrefs{partitions and class representatives}\index{partition!row equivalence classes}
+%</RowEquivalanceClasses>
+\begin{center}
+  \includegraphics{gr/mp/ch1.27}
+\end{center}
+\noindent 其中的一个类就是上面画出的、本节开头那些相互关联的矩阵组成的簇
+（它包含所有非奇异的 $\nbyn{2}$ 矩阵）。
+
+下一小节将证明一个矩阵的简化阶梯形是
+唯一的。
+用行等价关系来重新表述，
+我们将证明每个矩阵都
+与一个且仅一个简化阶梯形矩阵行等价。
+用划分的语言来说，我们要证明的是：~每个
+等价类恰含一个且仅一个简化阶梯形矩阵。
+于是每个简化阶梯形矩阵都可以作为它
+所在类的代表元。
+

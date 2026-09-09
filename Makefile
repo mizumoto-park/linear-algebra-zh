@@ -10,27 +10,44 @@
 #   make slides      build the beamer slide decks (long!)
 #   make zh-test     build src/zh/test-zh.pdf (Chinese font/compile test,
 #                    XeLaTeX; fast)
+#   make zh-book     build src/zh/book-zh.pdf (Chinese edition; translated
+#                    chapters fall back to English until translated)
+#   make zh-progress show per-file translation progress
 #   make zh-view     open the Chinese test PDF
 #   make clean       remove ignored build artifacts under src/ (aux files,
 #                    generated figures, book.pdf/jhanswer.pdf; uses
 #                    `git clean -Xd`, so tracked files are never touched)
-#   make clean-zh    remove Chinese test auxiliary files (keep the PDF)
+#   make clean-zh    remove Chinese test build artifacts
 
 SRC      := src
 SRC_ABS  := $(abspath $(SRC))
 LATEX    ?= pdflatex -interaction=nonstopmode
 
-.PHONY: help book answers slides zh-test zh-view clean clean-zh
+# Files to translate (mirror of book.tex \include list, minus bib/bib
+# which stays English in phase 1, plus the cover).
+ZH_FILES := cover/covernew pref/pref \
+	gr/gr1 gr/gr2 gr/gr3 gr/cas gr/leontief gr/ppivot gr/network \
+	vs/vs1 vs/vs2 vs/vs3 vs/fields vs/crystal vs/voting vs/dimen \
+	map/map1 map/map2 map/map3 map/map4 map/map5 map/map6 \
+	map/lstsqs map/homogeom map/magicsqs map/markov map/erlang \
+	det/det1 det/det2 det/det3 det/cramer det/detspeed det/chio \
+	det/projplane det/compgraphics \
+	jc/jc1 jc/jc2 jc/jc3 jc/jc4 jc/powers jc/pops jc/search jc/recur \
+	jc/wilber jc/innerproduct appen/appen
+
+.PHONY: help book answers slides zh-test zh-book zh-progress zh-view clean clean-zh
 
 help:
 	@echo "Linear Algebra -- build workflows"
-	@echo "  make book       English book      -> $(SRC)/book.pdf"
-	@echo "  make answers    answer book       -> $(SRC)/jhanswer.pdf"
-	@echo "  make slides     beamer slide decks (long)"
-	@echo "  make zh-test    Chinese test      -> $(SRC)/zh/test-zh.pdf (XeLaTeX)"
-	@echo "  make zh-view    open the Chinese test PDF"
-	@echo "  make clean      git clean -Xd $(SRC)/  (removes ignored artifacts only)"
-	@echo "  make clean-zh   remove Chinese test aux files"
+	@echo "  make book        English book      -> $(SRC)/book.pdf"
+	@echo "  make answers     answer book       -> $(SRC)/jhanswer.pdf"
+	@echo "  make slides      beamer slide decks (long)"
+	@echo "  make zh-test     Chinese test      -> $(SRC)/zh/test-zh.pdf (XeLaTeX)"
+	@echo "  make zh-book     Chinese edition   -> $(SRC)/zh/book-zh.pdf (XeLaTeX)"
+	@echo "  make zh-progress translation progress checklist"
+	@echo "  make zh-view     open the Chinese test PDF"
+	@echo "  make clean       git clean -Xd $(SRC)/  (removes ignored artifacts only)"
+	@echo "  make clean-zh    remove Chinese test aux files"
 
 book:
 	$(MAKE) -C $(SRC) LATEX="$(LATEX)" book.pdf
@@ -45,6 +62,25 @@ zh-test:
 	cd $(SRC)/zh && TEXINPUTS="$(SRC_ABS)//:" xelatex -interaction=nonstopmode test-zh.tex
 	cd $(SRC)/zh && TEXINPUTS="$(SRC_ABS)//:" xelatex -interaction=nonstopmode test-zh.tex
 	@echo "Built $(SRC)/zh/test-zh.pdf"
+
+zh-book:
+	cd $(SRC)/zh && TEXINPUTS="$(SRC_ABS)//:" xelatex -interaction=nonstopmode book-zh.tex
+	cd $(SRC)/zh && makeindex -s $(SRC_ABS)/sty/book.isty book-zh.idx
+	cd $(SRC)/zh && TEXINPUTS="$(SRC_ABS)//:" xelatex -interaction=nonstopmode book-zh.tex
+	cd $(SRC)/zh && TEXINPUTS="$(SRC_ABS)//:" xelatex -interaction=nonstopmode book-zh.tex
+	@echo "Built $(SRC)/zh/book-zh.pdf"
+
+zh-progress:
+	@total=0; done=0; \
+	for f in $(ZH_FILES); do \
+	  total=$$((total+1)); \
+	  if [ -f "$(SRC)/zh/$$f.tex" ]; then \
+	    done=$$((done+1)); printf "  [x] %s\n" "$$f"; \
+	  else \
+	    printf "  [ ] %s\n" "$$f"; \
+	  fi; \
+	done; \
+	echo "进度: $$done / $$total"
 
 zh-view:
 	open $(SRC)/zh/test-zh.pdf
