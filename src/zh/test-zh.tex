@@ -1,0 +1,117 @@
+% test-zh.tex -- 中文支持编译测试（少量翻译样例）。
+% 编译（在 src/zh/ 目录下）：
+%   TEXINPUTS="<本仓库绝对路径>/src//:" xelatex -interaction=nonstopmode test-zh.tex
+% 内容取自原书第一章 I.1 的开头，仅作字体与宏包兼容性测试。
+\documentclass[twoside]{book}
+\usepackage{verbatim}
+\usepackage[single,write]{bookans}
+\usepackage{bookjh}
+\usepackage{makeidx}
+\usepackage{zhsetup}
+\graphicspath{{../}}
+
+\begin{document}
+\frontmatter
+\pagenumbering{roman}
+\mainmatter
+\pagenumbering{arabic}
+\pagestyle{bookbody}
+
+\chapter{线性方程组}
+\section{求解线性方程组}
+
+线性方程组在科学和数学中都很常见。下面两个取自中学科学的例子
+可以让我们体会这类问题是怎样产生的。
+
+第一个例子来自静力学。假设有三个物体，已知其中一个的质量是 $2$~千克，
+想要求出另外两个未知的质量。用米尺做实验，可以得到下面两个平衡状态。
+\begin{center}
+  \includegraphics{gr/mp/ch1.1}
+  \qquad
+  \includegraphics{gr/mp/ch1.2}
+\end{center}
+要使两边平衡，必须使左边的力矩之和等于右边的力矩之和，
+其中物体的力矩等于它的质量乘以它到支点的距离。
+这样就得到一个含两个方程的线性方程组。
+\begin{align*}
+      40h + 15c &= 100  \\
+            25c &= 50+50h
+\end{align*}
+
+第二个例子来自化学：在受控条件下，甲苯 $\hbox{C}_7\hbox{H}_8$
+与硝酸 $\hbox{H}\hbox{N}\hbox{O}_3$ 反应生成三硝基甲苯
+$\hbox{C}_7\hbox{H}_5\hbox{O}_6\hbox{N}_3$，副产物是水。
+按各种原子的数目在反应前后保持不变，可以列出方程组
+\begin{align*}
+      7x      &= 7z  \\
+      8x +1y  &= 5z+2w  \\
+      1y      &= 3z  \\
+      3y      &= 6z+1w
+\end{align*}
+
+两个例子最终都归结为求解方程组，而且每个方程中未知数都只出现一次幂。
+
+\begin{definition}\label{def:linearsystem}
+线性方程是形如
+\begin{equation*}
+  a_1x_1+a_2x_2+\cdots+a_nx_n=b
+\end{equation*}
+的方程，其中各未知数都是一次的；当 $b=0$ 时称之为\textbf{齐次的}。
+由一个或多个线性方程组成的整体称为\textbf{线性方程组}。
+\end{definition}
+
+\begin{theorem}[高斯消元法]\label{th:gauss}
+对任意线性方程组，都可以通过倍乘、倍加与对换这三种初等行变换
+化为阶梯形，从而求出它的全部解，或者判定它无解。
+\end{theorem}
+\begin{proof}
+按列自左向右消元：先用对换把主元换到合适位置，再用倍乘把主元化为
+$1$，最后用倍加消去该列其余元素。每一种变换都不改变方程组的解集，
+故所得阶梯形方程组与原方程组同解，而阶梯形方程组的解可以直接回代得到。
+\end{proof}
+
+\begin{example}
+用消元法求解
+\begin{equation*}
+\begin{linsys}{3}
+  x &+ &y &  &  &= &3 \\
+    &  &y &- &3z &= &1 \\
+  2x &+ &y &  &  &= &4
+\end{linsys}
+\end{equation*}
+\begin{equation*}
+\grstep[\rho_1\leftrightarrow\rho_3]{-\,2\rho_1+\rho_3}
+\begin{linsys}{3}
+  x &+ &y &  &  &= &3 \\
+    &  &y &- &3z &= &1 \\
+    &- &y &  &  &= &-2
+\end{linsys}
+\grstep[\;]{\rho_2+\rho_3}
+\begin{linsys}{3}
+  x &+ &y &  &  &= &3 \\
+    &  &y &- &3z &= &1 \\
+    &  &  &- &3z &= &-1
+\end{linsys}
+\end{equation*}
+回代得 $z=1/3$，$y=2$，$x=1$。解集为 $\{\,(1,\,2,\,1/3)\,\}$。
+\end{example}
+
+\textbf{加粗宋体}，\textit{斜体位置的楷体}，
+\textsf{黑体（无衬线）}，\texttt{等宽中文}。
+标点与断行测试：，“”‘’（）《》——……；数字混排 $2$~千克、
+$3.14$、英文与中文间距 Linear Algebra 线性代数。
+
+\begin{exercises}
+\recommended \item
+用高斯消元法求解本节开头静力学问题中的方程组
+\begin{align*}
+      40h + 15c &= 100  \\
+            25c &= 50+50h
+\end{align*}
+\begin{answer}
+由第二式得 $c=2+2h$，代入第一式得 $40h+15(2+2h)=100$，
+解得 $h=1$，从而 $c=4$。即两个未知质量分别为 $1$~千克与 $4$~千克。
+\end{answer}
+\end{exercises}
+
+\end{document}

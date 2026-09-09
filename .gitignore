@@ -1,0 +1,44 @@
+# ---- LaTeX auxiliary files ----
+*.aux
+*.log
+*.toc
+*.lof
+*.lot
+*.out
+*.idx
+*.ind
+*.ilg
+*.glo
+*.gls
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+*.dvi
+*.mpx
+*.nav
+*.snm
+*.vrb
+missfont.log
+texput.log
+*.fot
+
+# ---- answer files written by bookans.sty ----
+bookans.tex
+jhansout.tex
+recans.tex
+otherans.tex
+
+# ---- generated figures (sources are .mp / .asy; tracked PDFs unaffected) ----
+src/*/mp/*.[0-9]*
+src/jc/mp/ranknullity.d
+src/det/asy/*.pdf
+src/jc/asy/*.pdf
+
+# ---- final build outputs ----
+src/book.pdf
+src/jhanswer.pdf
+src/cover.pdf
+src/slides/*.zip

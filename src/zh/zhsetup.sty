@@ -1,0 +1,101 @@
+\ProvidesPackage{zhsetup}[2026/09/09 Simplified Chinese setup for _Linear Algebra_]
+% 简体中文排版支持，供线性代数中文版使用。
+% 需要 XeLaTeX 编译，在 bookjh 之后加载。
+% 只负责：字体配置、CJK 断行/标点、常用名称汉化。
+
+\RequirePackage{fontspec}
+\RequirePackage{zhnumber}
+\RequirePackage{xeCJK}
+
+\xeCJKsetup{CJKmath=true, PunctStyle=quanjiao}
+
+% ---------- 字体 ----------
+% 正文宋体：Songti SC (macOS) -> Noto Serif CJK SC -> Fandol (TeX Live 自带)
+\IfFontExistsTF{Songti SC}{%
+  \setCJKmainfont{Songti SC}[BoldFont=* Bold, ItalicFont=* Light, BoldItalicFont=* Black]%
+}{%
+  \IfFontExistsTF{Noto Serif CJK SC}{%
+    \setCJKmainfont{Noto Serif CJK SC}[BoldFont=* Bold]%
+  }{%
+    \setCJKmainfont{FandolSong}[Extension=.otf, UprightFont=*-Regular, BoldFont=*-Bold,
+                                ItalicFont=FandolKai-Regular, BoldItalicFont=FandolKai-Regular]%
+  }%
+}
+
+% 标题黑体（无衬线）：Noto Sans CJK SC -> Heiti SC -> FandolHei
+\IfFontExistsTF{Noto Sans CJK SC}{%
+  \setCJKsansfont{Noto Sans CJK SC}[BoldFont=* Bold]%
+}{%
+  \IfFontExistsTF{Heiti SC}{%
+    \setCJKsansfont{Heiti SC}[BoldFont=* Medium]%
+  }{%
+    \setCJKsansfont{FandolHei}[Extension=.otf, UprightFont=*-Regular, BoldFont=*-Bold]%
+  }%
+}
+
+% 等宽：Noto Sans Mono CJK SC -> FandolFang
+\IfFontExistsTF{Noto Sans Mono CJK SC}{%
+  \setCJKmonofont{Noto Sans Mono CJK SC}%
+}{%
+  \setCJKmonofont{FandolFang}[Extension=.otf, UprightFont=*-Regular]%
+}
+
+% 楷体（用于斜体的中文习惯替代）：Kaiti SC -> FandolKai
+\IfFontExistsTF{Kaiti SC}{%
+  \setCJKfamilyfont{zhkai}{Kaiti SC}%
+}{%
+  \setCJKfamilyfont{zhkai}{FandolKai}[Extension=.otf, UprightFont=*-Regular]%
+}
+\NewDocumentCommand{\kaishu}{}{\CJKfamily{zhkai}}
+
+% ---------- 名称汉化 ----------
+% answers.sty 的 \Writetofile/\protected@iwrite 有两个与 CJK 不兼容之处：
+% (1) \@bsphack/\@esphack 包裹在写入参数含中文时模式失配，报 "Bad space factor"；
+% (2) \protected@iwrite 尾部的 \nobreak 会被当作文字排出到正文中。
+% 这里给出等效的纯文件写入版本（中文版专用修正）。
+\makeatletter
+\renewcommand{\Writetofile}[2]{%
+   \Iffileundefined{#1}{}{%
+      \Ifopen{#1}{%
+         {\let\protect\string
+          \Ifanswerfiles{%
+             \begingroup
+               \let\thepage\relax
+               \let\protect\@unexpandable@protect
+               \edef\reserved@a{\immediate\write\@nameuse{#1@file}{#2}}%
+               \reserved@a
+             \endgroup}%
+          {}}%
+      }{}}%
+}
+\makeatother
+
+% thmtools 把英文原名烘焙在 \thmt@original@<env> 中，用 patchcmd 改名。
+\RequirePackage{etoolbox}
+\makeatletter
+\patchcmd{\thmt@original@theorem}{{Theorem}}{{定理}}{}{}
+\patchcmd{\thmt@original@definition}{{Definition}}{{定义}}{}{}
+\patchcmd{\thmt@original@lemma}{{Lemma}}{{引理}}{}{}
+\patchcmd{\thmt@original@corollary}{{Corollary}}{{推论}}{}{}
+\patchcmd{\thmt@original@example}{{Example}}{{例题}}{}{}
+\patchcmd{\thmt@original@exercise}{{Exercise}}{{练习}}{}{}
+\patchcmd{\thmt@original@remark}{{Remark}}{{注}}{}{}
+\patchcmd{\thmt@original@proof}{{Proof}}{{证明}}{}{}
+\makeatother
+\renewcommand{\proofname}{证明}
+
+% pbsi（BrushScript）只有 pfa 格式，xdvipdfmx 不支持，且无中文字形。
+% 中文版的装饰字体（章首"第X章"、Topic 等）改用无衬线粗体。
+\renewcommand{\fancyfont}[1]{{\sffamily\bfseries #1}}
+
+% 章节编号与页眉：第一章、第二章……
+% 注意：不能用 \zhnumber{\value{...}}，zhnumber 解析 \value 得 0；
+% 仿照 engnum.sty 用 \ifcase 展开。
+\renewcommand{\Englishnumber}[1]{%
+  \ifcase#1零\or 一\or 二\or 三\or 四\or 五\or 六\or 七\or 八\or 九\or 十\or
+       十一\or 十二\or 十三\or 十四\or 十五\or 十六\or 十七\or 十八\or 十九\or 二十\else
+       \number#1\fi}
+\renewcommand{\chaptermark}[1]{\markboth{第~\Englishnumber{\value{chapter}}~章\quad #1}{}}
+
+% 习题标题（bookans.sty 中硬编码为 Exercises）
+\patchcmd{\exercises}{\textbf{Exercises}}{\textbf{练习}}{}{}
