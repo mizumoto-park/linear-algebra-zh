@@ -1,0 +1,603 @@
+        \begin{linsys}{3}
+                    9b_1 &+ &6b_2      &+ &2b_3      &= &0 \\
+                         &  &3b_2      &- &8b_3      &= &0 \\
+                     b_1 &  &          &+ &2b_3     &= &0 
+        \end{linsys}
+        \grstep{-(1/9)\rho_1+\rho_3}\quad
+        \grstep{(2/9)\rho_2+\rho_3}\quad
+        \begin{linsys}{3}
+                     9b_1 &+ &6b_2      &+ &2b_3      &= &0 \\
+                         &  &3b_2       &- &8b_3      &= &0  
+        \end{linsys}
+      \end{equation*}
+      特征子空间与一个特征向量如下。
+           \begin{equation*}
+             V_{-4}
+             =\set{\colvec{2\cdot b_3  \\ 
+                           (8/3)\cdot b_3    \\ 
+                           b_3}
+                    \suchthat b_3\in\C}
+             \qquad
+             \colvec{2  \\ 
+                     8/3  \\ 
+                      1}
+           \end{equation*}
+
+      同样，代入 $x=\lambda_2=3$ 得
+      \begin{equation*}
+        \begin{linsys}{3}
+                    2b_1 &+ &6\cdot b_2      &+ &2\cdot b_3      &= &0 \\
+                         &  &-4\cdot b_2      &- &8\cdot b_3      &= &0 \\
+                     b_1 &  &                &- & 5\cdot b_3     &= &0 
+        \end{linsys}
+        \grstep{-(1/2)\rho_1+\rho_3}
+        \repeatedgrstep{-(3/4)\rho_2+\rho_3}
+        \begin{linsys}{3}
+                     2b_1 &+ &6\cdot b_2      &+ &2\cdot b_3      &= &0 \\
+                         &  &-4\cdot b_2       &- &8\cdot b_3      &= &0  
+        \end{linsys}
+      \end{equation*}
+      特征子空间与特征向量如下。
+           \begin{equation*}
+             V_{3}
+             =\set{\colvec{5\cdot b_3  \\ 
+                           -2\cdot b_3    \\ 
+                           b_3}
+                    \suchthat b_3\in\C}
+             \qquad
+             \colvec[r]{5  \\ 
+                     -2  \\ 
+                       1}
+           \end{equation*}
+    \end{answer}
+   \item 
+     求这个映射 \( \map{t}{\matspace_2}{\matspace_2} \) 的特征值与特征向量。
+     \begin{equation*}
+         \begin{mat}
+            a  &b  \\
+            c  &d
+         \end{mat}
+       \mapsto
+         \begin{mat}
+           2c    &a+c  \\
+           b-2c  &d
+         \end{mat}
+     \end{equation*}
+     \begin{answer}
+        $\lambda=1,
+          \begin{mat}
+                   0  &0  \\
+                   0  &1
+          \end{mat} \text{ 和 }
+          \begin{mat}[r]
+                   2  &3  \\
+                   1  &0
+          \end{mat}$,           
+          $\lambda=-2,
+          \begin{mat}[r]
+                  -1  &0  \\
+                   1  &0
+          \end{mat}$,
+          $\lambda=-1,
+          \begin{mat}[r]
+                  -2  &1  \\
+                   1  &0
+          \end{mat}$  
+       \end{answer}
+   \recommended \item 
+     求微分算子
+     \( \map{d/dx}{\polyspace_3}{\polyspace_3} \)
+     的特征值及相应的特征向量。
+     \begin{answer}
+       取自然基 $B=\sequence{1,x,x^2,x^3}$。
+       该映射的作用为 $1\mapsto 0$，$x\mapsto 1$，$x^2\mapsto 2x$，
+       $x^3\mapsto 3x^2$，其表示容易计算。
+       \begin{equation*}
+         T=\rep{d/dx}{B,B}=
+         \begin{mat}[r]
+           0  &1  &0  &0  \\
+           0  &0  &2  &0  \\
+           0  &0  &0  &3  \\
+           0  &0  &0  &0
+         \end{mat}_{B,B}
+       \end{equation*}
+       我们用如下计算求特征值。
+       \begin{equation*}
+         0=\deter{T-xI}=
+         \begin{vmatrix}
+           -x &1  &0  &0  \\
+           0  &-x &2  &0  \\
+           0  &0  &-x &3  \\
+           0  &0  &0  &-x          
+         \end{vmatrix}
+         =x^4
+       \end{equation*}
+       因此该映射只有唯一特征值 $\lambda=0$。
+       为求相应的特征向量，我们求解
+       \begin{equation*}
+         \begin{mat}[r]
+           0  &1  &0  &0  \\
+           0  &0  &2  &0  \\
+           0  &0  &0  &3  \\
+           0  &0  &0  &0
+         \end{mat}_{B,B}
+         \colvec{b_1 \\ b_2 \\ b_3 \\ b_4}_B
+         =0\cdot\colvec{b_1 \\ b_2 \\ b_3 \\ b_4}_B
+         \qquad\Longrightarrow\qquad
+         \text{$b_2=0$, $b_3=0$, $b_4=0$}          
+       \end{equation*}
+       由此得到这个特征子空间。
+       \begin{equation*}
+         \set{\colvec{b_1 \\ 0 \\ 0 \\ 0}_B
+               \suchthat b_1\in\C}
+         =\set{b_1+0\cdot x+0\cdot x^2+0\cdot x^3
+               \suchthat b_1\in\C}
+         =\set{b_1
+               \suchthat b_1\in\C}
+       \end{equation*}
+      \end{answer}
+   \item 证明：
+     三角矩阵（上三角或下三角）的特征值
+     就是对角线上的元素。
+     \begin{answer}
+       三角矩阵 $T-xI$ 的行列式是沿对角线取的乘积，
+       因此它可以分解为诸项 $t_{i,i}-x$ 的乘积。
+     \end{answer}
+   \recommended \item 这个矩阵有互不相同的
+     特征值。
+     \begin{equation*}
+      \begin{mat}
+       1  &2  &1 \\
+       6  &-1 &0 \\
+       -1 &-2 &-1
+      \end{mat}
+     \end{equation*}
+     \begin{exparts}
+       \partsitem 将其对角化。
+       \partsitem 找一个基，使得该矩阵在此基下具有那个
+         对角表示。
+       \partsitem 画出图示。
+          求出实现基变换的矩阵 $P$ 与 $P^{-1}$。
+     \end{exparts}
+     \begin{answer}
+      \begin{exparts}
+       \partsitem 
+       计算特征值，得 $\lambda_1=3$，$\lambda_2=0$，
+       $\lambda_3=-4$。
+       于是该矩阵的对角化如下。
+       \begin{equation*}
+         \begin{mat}
+           3 &0 &0 \\
+           0 &0 &0 \\
+           0 &0 &-4
+         \end{mat}
+       \end{equation*}
+      \partsitem
+       对每个特征值求一个与之相伴的特征向量，并用它们
+       构成一个基。
+
+       对 $\lambda_1=3$，我们求解这个方程组。
+       \begin{equation*}
+         \begin{mat}
+           1-3  &2    &1 \\
+           6    &-1-3 &0 \\
+          -1    &-2   &-1-3
+         \end{mat}
+         \colvec{x \\ y \\ z}
+         =\colvec{0 \\ 0 \\ 0}
+       \end{equation*}
+       用高斯消元法即可。
+       % sage: M = matrix(QQ, [[-2,2,1,0], [6,-4,0,0], [-1,-2,-4,0]])
+       % sage: gauss_method(M)
+       % [-2  2  1  0]
+       % [ 6 -4  0  0]
+       % [-1 -2 -4  0]
+       % take 3 times row 1 plus row 2
+       % take -1/2 times row 1 plus row 3
+       % [  -2    2    1    0]
+       % [   0    2    3    0]
+       % [   0   -3 -9/2    0]
+      % take 3/2 times row 2 plus row 3
+      % [-2  2  1  0]
+      % [ 0  2  3  0]
+      % [ 0  0  0  0]
+      \begin{equation*}
+        \begin{amat}{3}
+          -2 &2  &1  &0  \\
+           6 &-4 &0  &0  \\
+          -1 &-2 &-4 &0
+        \end{amat}
+        \grstep[-(1/2)\rho_1+\rho_3]{3\rho_1+\rho_2}
+        \grstep{(3/2)\rho_1+\rho_3}
+        \begin{amat}{3}
+          -2 &2 &1   &0  \\
+           0 &2 &3   &0  \\
+           0 &0 &0   &0
+        \end{amat}
+      \end{equation*}
+      参数化即得解空间。
+      \begin{equation*}
+        S_1=\set{\colvec{-1 \\ -3/2 \\ 1}\cdot z \suchthat z\in\C}
+      \end{equation*}
+
+      这是 $\lambda_2=0$ 的方程组。
+      \begin{equation*}
+        \begin{mat}
+          1    &2    &1 \\
+          6    &-1 &0 \\
+         -1    &-2   &-1
+        \end{mat}
+        \colvec{x \\ y \\ z}
+        =\colvec{0 \\ 0 \\ 0}
+      \end{equation*}
+      高斯消元法
+      % sage: M = matrix(QQ, [[1,2,1,0], [6,-1,0,0], [-1,-2,-1,0]])
+      % sage: gauss_method(M)
+      % [ 1  2  1  0]
+      % [ 6 -1  0  0]
+      % [-1 -2 -1  0]
+      % take -6 times row 1 plus row 2
+      % take 1 times row 1 plus row 3
+      % [  1   2   1   0]
+      % [  0 -13  -6   0]
+      % [  0   0   0   0]
+      \begin{equation*}
+        \begin{amat}{3}
+           1 &2  &1  &0  \\
+           6 &-1 &0  &0  \\
+          -1 &-2 &-1 &0
+        \end{amat}
+        \grstep[\rho_1+\rho_3]{-6\rho_1+\rho_2}
+        \begin{amat}{3}
+           1 &2 &1   &0  \\
+           0 &-13 &-6   &0  \\
+           0 &0 &0   &0
+        \end{amat}
+      \end{equation*}
+      再加参数化即得解空间。
+      \begin{equation*}
+        S_2=\set{\colvec{-1/13 \\ -6/13 \\ 1}\cdot z \suchthat z\in\C}
+      \end{equation*}
+
+      $\lambda_3=-4$ 的方程组做法相同。
+      \begin{equation*}
+        \begin{mat}
+          1-(-4)    &2    &1 \\
+          6    &-1-(-4) &0 \\
+         -1    &-2   &-1-(-4)
+        \end{mat}
+        \colvec{x \\ y \\ z}
+        =\colvec{0 \\ 0 \\ 0}
+      \end{equation*}
+      高斯消元法
+      % sage: M = matrix(QQ, [[5,2,1,0], [6,3,0,0], [-1,-2,3,0]])
+      % sage: gauss_method(M)
+      % [ 5  2  1  0]
+      % [ 6  3  0  0]
+      % [-1 -2  3  0]
+      % take -6/5 times row 1 plus row 2
+      % take 1/5 times row 1 plus row 3
+      % [   5    2    1    0]
+      % [   0  3/5 -6/5    0]
+      % [   0 -8/5 16/5    0]
+      % take 8/3 times row 2 plus row 3
+      % [   5    2    1    0]
+      % [   0  3/5 -6/5    0]
+      % [   0    0    0    0]
+      \begin{equation*}
+        \begin{amat}{3}
+           5 &2  &1  &0  \\
+           6 &3 &0  &0  \\
+          -1 &-2 &3 &0
+        \end{amat}
+        \grstep[(1/5)\rho_1+\rho_3]{-(6/5)\rho_1+\rho_2}
+        \grstep{(8/3)\rho_2+\rho_3}
+        \begin{amat}{3}
+           5 &2 &1   &0  \\
+           0 &3/5 &-6/5   &0  \\
+           0 &0 &0   &0
+        \end{amat}
+      \end{equation*}
+      参数化后得到
+      \begin{equation*}
+        S_3=\set{\colvec{-1 \\ 2 \\ 1}\cdot z \suchthat z\in\C}
+      \end{equation*}
+
+      于是，当该矩阵表示同一个变换、但关于下面这个 $D$
+      取 $D,D$ 为基时，它就具有那个对角形状。
+      \begin{equation*}
+        D=\sequence{\colvec{-1 \\ -3/2 \\ 1},
+                    \colvec{-1/13 \\ -6/13 \\ 1},
+                    \colvec{-1 \\ 2 \\ 1}}
+      \end{equation*}
+     \partsitem
+     % sage: M = matrix(QQ, [[1,2,1], [6,-1,0], [-1,-2,-1]])
+     % sage: M.eigenvalues()
+     % [3, 0, -4]
+     % sage: P = matrix(QQ, [[-1,-1/13,-1], [-3/2,-6/13,2], [1,1,1]])
+     % sage: P.inverse()*M*P
+     % [ 3  0  0]
+     % [ 0  0  0]
+     % [ 0  0 -4]
+     % sage: P.inverse()
+     % [-16/21   -2/7  -4/21]
+     % [ 13/12      0  13/12]
+     % [ -9/28    2/7   3/28]
+       将该矩阵记为~$T$。
+       取定义域空间与陪域空间为 $\Re^3$，
+       并取矩阵为 $T=\rep{t}{\stdbasis_3,\stdbasis_3}$，
+       便得到下图。
+       \begin{equation*}
+       \begin{CD}
+          \C^3_{\wrt{\stdbasis_3}}            @>t>T>      \C^3_{\wrt{\stdbasis_3}}       \\
+          @V{\scriptstyle\identity} VV           @V{\scriptstyle\identity} VV \\
+          \C^3_{\wrt{B}}             @>t>D>  \C^3_{\wrt{B}}
+       \end{CD}
+       \end{equation*}
+       从图中可读出 $D=P^{-1}MP$，其中
+       $P=\rep{\identity}{\stdbasis_3,B}$。
+       用~$E_3$ 表示 $B$ 中的每个向量很容易，
+       因为关于标准基，每个向量的表示就是它自身。
+       \begin{multline*}
+         \rep{\colvec{-1 \\ -3/2 \\ 1}}{\stdbasis_3}=\colvec{-1 \\ -3/2 \\ 1}
+         \quad
+         \rep{\colvec{-1/13 \\ -6/13 \\ 1}}{\stdbasis_3}=\colvec{-1/13 \\ -6/13 \\ 1}
+         \\
+         \rep{\colvec{-1 \\ 2 \\ 1}}{\stdbasis_3}=\colvec{-1 \\ 2 \\ 1}
+       \end{multline*}
+       于是该矩阵就是把这三个基向量依次并排放置。
+       \begin{equation*}
+         P=
+         \begin{mat}
+           -1   &-1/13 &-1 \\
+           -3/2 &-6/13 &2  \\
+           1    &1     &1
+         \end{mat}
+        \quad\text{于是有}\quad
+        P^{-1}
+        \begin{mat}
+          -16/21 &-2/7 &-4/21 \\
+          13/12  &0    &13/12 \\
+          -9/28  &2/7  &3/28
+        \end{mat}
+       \end{equation*}
+
+
+
+
+
+     \end{exparts}
+    \end{answer}
+  \recommended \item 
+    求 $\nbyn{2}$ 矩阵的特征多项式的公式。
+    \begin{answer}
+      只需展开 $T-xI$ 的行列式。
+      \begin{equation*}
+        \begin{vmatrix}
+          a-x  &c  \\
+          b    &d-x
+        \end{vmatrix}
+        =(a-x)(d-x)-bc
+        =x^2+(-a-d)\cdot x +(ad-bc)
+      \end{equation*}
+    \end{answer}
+  \item \label{exer:CharPolyTransWellDefed}
+    证明：
+    变换的特征多项式是良定义的。
+    \begin{answer}
+      该变换的任意两个表示都是相似的，
+      而相似矩阵具有相同的特征多项式。
+    \end{answer}
+  \item 证明或反驳：若一个矩阵的所有特征值都是 $0$，
+    则它必为零矩阵。
+    \begin{answer}
+      这不成立。
+      这个矩阵的所有特征值都是 $0$。
+      \begin{equation*}
+        \begin{mat}[r]
+          0  &1  \\
+          0  &0
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+  \recommended \item 
+    \begin{exparts}
+      \partsitem 证明：任意非平凡向量空间中的任意非 \( \zero \) 向量
+        都可以作为一个特征向量。
+        也就是说，给定非平凡 \( V \) 中的 \( \vec{v}\neq\zero \)，
+        证明存在变换 \( \map{t}{V}{V} \)，它具有标量
+        特征值 \( \lambda\in\Re \)，使得 \( \vec{v}\in V_{\lambda} \)。
+      \partsitem 如果给定的是标量 \( \lambda \) 呢？
+        任意非平凡向量空间中的任意非 \( \zero \) 成员，
+        都能作为与 \( \lambda \) 相伴的特征向量吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 取 \( \lambda=1 \) 与恒等映射即可。
+        \partsitem 可以，使用把所有向量都乘以
+          标量 \( \lambda \) 的那个变换。
+      \end{exparts}  
+     \end{answer}
+  \recommended \item 
+    设 \( \map{t}{V}{V} \) 且 \( T=\rep{t}{B,B} \)。
+    证明：\( T \) 的与 \( \lambda \) 相伴的特征向量，
+    就是由 \( T-\lambda I \) 所表示的映射（关于同样的基）
+    的核中的非 \( \zero \) 向量。
+    \begin{answer}
+      若 $t(\vec{v})=\lambda\cdot\vec{v}$，则在映射 $t-\lambda\cdot\identity$
+      下 $\vec{v}\mapsto\zero$。
+    \end{answer}
+  \item 
+    证明：若 $a,\ldots,\,d$ 全为整数且 \( a+b=c+d \)，则
+    \begin{equation*}
+      \begin{mat}
+         a  &b  \\
+         c  &d
+      \end{mat}
+    \end{equation*}
+    具有整数特征值，即 \( a+b \) 与 \( a-c \)。
+    \begin{answer}
+      特征方程
+      \begin{equation*}
+        0=
+        \begin{vmatrix}
+          a-x  &b  \\
+          c    &d-x 
+        \end{vmatrix}
+        =(a-x)(d-x)-bc
+      \end{equation*}
+      化简为 $x^2+(-a-d)\cdot x + (ad-bc)$。
+      验证 $x=a+b$ 与 $x=a-c$ 满足该方程
+      （在 $a+b=c+d$ 的条件下）是容易的。
+    \end{answer}
+  \recommended \item
+    证明：若 \( T \) 非奇异且具有特征值
+    \( \lambda_1,\dots,\lambda_n \)，则 \( T^{-1} \) 具有特征值
+    \( 1/\lambda_1,\dots,1/\lambda_n \)。
+    逆命题成立吗？
+    \begin{answer}
+      考虑特征子空间 $V_{\lambda}$。
+      任意 $\vec{w}\in V_{\lambda}$ 都是某个 $\vec{v}\in V_{\lambda}$
+      的像 $\vec{w}=\lambda\cdot\vec{v}$
+      （即 $\vec{v}=(1/\lambda)\cdot\vec{w}$）。
+      于是，在 $V_{\lambda}$（它是一个非平凡子空间）上
+      $t^{-1}$ 的作用为
+      $t^{-1}(\vec{w})=\vec{v}=(1/\lambda)\cdot\vec{w}$，
+      因此 $1/\lambda$ 是 $t^{-1}$ 的特征值。
+    \end{answer}
+  \recommended \item
+    设 \( T \) 是 \( \nbyn{n} \) 的且 \( c,d \) 为标量。
+    \begin{exparts}
+      \partsitem 证明：若 \( T \) 具有特征值
+        \( \lambda \) 及相伴的
+        特征向量 \( \vec{v} \)，则 \( \vec{v} \) 是
+        \( cT+dI \) 的与特征值 \( c\lambda+d \) 相伴的特征向量。
+      \partsitem 证明：若 \( T \) 可对角化，则
+        \( cT+dI \) 也可对角化。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 我们有
+          $(cT+dI)\vec{v}=cT\vec{v}+dI\vec{v}=c\lambda\vec{v}+d\vec{v}
+               =(c\lambda+d)\cdot \vec{v}$。
+        \partsitem 设 $S=PTP^{-1}$ 是对角的。
+          则 $P(cT+dI)P^{-1}=P(cT)P^{-1}+P(dI)P^{-1}
+                 =cPTP^{-1}+dI=cS+dI$ 也是对角的。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    证明：\( \lambda \) 是 \( T \) 的特征值当且仅当
+    \( T-\lambda I \) 所表示的映射不是同构。
+    \begin{answer}
+      标量 $\lambda$ 是特征值当且仅当变换
+      $t-\lambda \identity$ 是奇异的。
+      变换是奇异的当且仅当它不是同构
+      （也就是说，变换是同构当且仅当它是
+      非奇异的）。
+    \end{answer}
+  \item \cite{Strang} 
+    \begin{exparts}
+      \partsitem 证明：若 \( \lambda \) 是 \( A \) 的特征值，
+         则 \( \lambda^k \) 是 \( A^k \) 的特征值。
+      \partsitem 下面这个把上述结论加以推广的证明有什么问题？
+         “若 \( \lambda \) 是 \( A \) 的特征值且 \( \mu \) 是
+         \( B \) 的特征值，则 \( \lambda\mu \) 是
+         \( AB \) 的特征值。因为若 \( A\vec{x}=\lambda\vec{x} \)
+         且 \( B\vec{x}=\mu\vec{x} \)，则
+         \( AB\vec{x}=A\mu\vec{x}=\mu A\vec{x}=\mu\lambda\vec{x} \)”？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 当特征值 $\lambda$ 与特征向量 $\vec{x}$ 相伴时，
+          $A^k\vec{x}=A\cdots A\vec{x}=A^{k-1}\lambda\vec{x}
+            =\lambda A^{k-1}\vec{x}=\cdots=\lambda^k\vec{x}$。
+          （完整的细节需要对 $k$ 作归纳。）
+        \partsitem 与 $\lambda$ 相伴的特征向量
+          未必是与 $\mu$ 相伴的特征向量。
+      \end{exparts}
+    \end{answer}
+  \item 
+    相互矩阵等价的矩阵具有相同的特征值吗？
+    \begin{answer}
+      没有。
+      这是两个同尺寸、同秩但特征值不同的矩阵。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &0  \\
+          0  &1
+        \end{mat}
+        \qquad
+        \begin{mat}[r]
+          1  &0  \\
+          0  &2
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+  \item 
+    证明：元素为实数且行数为奇数的方阵
+    至少有一个实特征值。
+    \begin{answer}
+      特征多项式具有奇数次幂，因此
+      至少有一个实根。
+    \end{answer}
+  \item 
+    对角化。
+    \begin{equation*}
+       \begin{mat}[r]
+         -1  &2  &2  \\
+          2  &2  &2  \\
+         -3  &-6 &-6
+       \end{mat}
+    \end{equation*}
+    \begin{answer}
+      特征多项式 $x^3+5x^2+6x$ 有互不相同的根
+      \( \lambda_1=0 \)、\( \lambda_2=-2 \)、\( \lambda_3=-3 \)。
+      于是该矩阵可以对角化成这个形状。
+      \begin{equation*}
+         \begin{mat}[r]
+            0  &0  &0  \\
+            0  &-2 &0  \\
+            0  &0  &-3
+         \end{mat}
+      \end{equation*}    
+    \end{answer}
+  \item 
+    设 \( P \) 是非奇异的 \( \nbyn{n} \) 矩阵。
+    证明：
+    把 \( T\mapsto PTP^{-1} \) 的
+    \definend{相似变换}\index{similarity transformation}
+    映射 \( \map{t_P}{\matspace_{\nbyn{n}}}{\matspace_{\nbyn{n}}} \)
+    是同构。
+    \begin{answer}
+      我们必须证明它是单射且满射，并且它保持
+      矩阵加法与标量乘法运算。
+
+      为证它是单射，设 $t_P(T)=t_P(S)$，
+      即设 $PTP^{-1}=PSP^{-1}$，注意两边
+      左乘 $P^{-1}$、右乘 $P$ 便得
+      $T=S$。
+      为证它是满射，考虑 $S\in\matspace_{\nbyn{n}}$，并观察
+      $S=t_P(P^{-1}SP)$。
+
+      映射 $t_P$ 保持矩阵加法，因为
+      $t_P(T+S)=P(T+S)P^{-1}=(PT+PS)P^{-1}=PTP^{-1}+PSP^{-1}=t_P(T+S)$
+      可由我们已见过的矩阵乘法与加法的性质
+      得到。
+      标量乘法是
+      类似的：~$t_P(cT)=P(c\cdot T)P^{-1}=c\cdot (PTP^{-1})=c\cdot t_P(T)$。
+    \end{answer}
+  \puzzle \item 
+    \cite{MathMag67p232}
+    证明：若 \( A \) 是 \( n \) 阶方阵且每行（每列）之和均为 \( c \)，
+    则 \( c \) 是 \( A \) 的一个特征根。
+    （“特征根”是特征值的同义词。）\index{characteristic!root}\index{root!characteristic}
+    \begin{answer}
+      \answerasgiven %
+      若把 \( A \) 的特征函数中的变元取为
+      \( c \)，把前 \( (n-1) \) 行（列）加到
+      第 \( n \) 行（列）上，就得到一个第 \( n \) 行
+      （列）全为零的行列式。
+      因此 \( c \) 是 \( A \) 的一个特征根。  
+    \end{answer}
+\index{similarity|)}
+\end{exercises}

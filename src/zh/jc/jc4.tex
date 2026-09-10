@@ -1,0 +1,4589 @@
+% Chapter 4, Section 4 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\section{Jordan 形式}
+\index{Jordan form|(}
+\noindent\textit{本节要用到三个选读小节中的内容：~子空间的组合、行列式的存在性
+以及 Laplace 展开。}
+
+本章开头我们回顾了每个线性映射 $\map{h}{V}{W}$ 都可以
+关于某些基 $B\subset V$ 与 $D\subset W$
+用一个部分单位矩阵来表示。
+换一种说法，部分单位矩阵形式是矩阵等价的
+一种规范形式。
+本章考虑陪域等于定义域的情形，于是我们自然会问，
+当两个基相等时，即有 $\rep{t}{B,B}$ 时，
+能做到什么。
+简言之，我们想要矩阵相似的规范形式。
+
+我们已经指出，在 $B,B$ 的情形下
+部分单位矩阵并非总能得到。
+于是我们把所关心的矩阵形式
+推广到其自然的一般化，即对角矩阵，
+并证明了当特征值互不相同时，
+变换或方阵可以对角化。
+但我们也给出过一个方阵的例子，
+因为它是幂零的，故不能对角化，
+所以对角形式不足以充当矩阵相似的规范形式。
+
+上一小节对那个例子作了深入展开，
+得到了幂零矩阵的规范形式，即非零元都位于次对角线上的矩阵。
+
+本节将完成我们的计划：证明对任意线性变换都
+存在一个基~\( B \)，
+使得矩阵表示 $\rep{t}{B,B}$ 是一个对角矩阵
+与一个幂零矩阵的和。
+这就是 Jordan 标准形。
+
+
+
+
+
+
+
+
+
+\subsectionoptional{映射与矩阵的多项式}\index{polynomial!of map, matrix}
+回顾一下，方阵的集合~\( \matspace_{\nbyn{n}} \)
+在按元素的加法与标量乘法下是一个向量空间，并且
+%the unit matrices\Dash all entries are zero except
+%for a single entry, which is one\Dash form a basis, so 
+这个空间的维数是 \( n^2 \)。
+于是对任意 \( \nbyn{n} \) 矩阵 $T$，
+含 \( n^2+1 \) 个成员的集合 \( \set{I,T,T^2,\dots,T^{n^2} } \) 线性相关，
+因此存在标量 \( c_0,\dots,c_{n^2} \)，
+不全为零，使得
+\begin{equation*}
+  c_{n^2}T^{n^2}+\dots+c_1T+c_0I
+\end{equation*}
+是零矩阵。
+因此每个变换都有一种广义的幂零性\Dash 方阵的幂
+不可能无限攀升而不出现某种重复。
+
+\begin{definition}
+设 \( t \) 是向量空间~\( V \) 上的线性变换。
+若 \( f(x)=c_nx^n+\dots+c_1x+c_0 \) 是一个多项式，
+则 \( f(t) \) 是~\( V \) 上的变换
+\( c_nt^n+\dots+c_1t+c_0(\identity) \)。
+同样地，若 \( T \) 是方阵，
+则
+\( f(T) \) 是矩阵 \( c_nT^n+\dots+c_1T+c_0I \)。
+\end{definition}
+
+\noindent 矩阵的多项式表示映射的多项式：~若
+\( T=\rep{t}{B,B} \) 则 \( f(T)=\rep{f(t)}{B,B} \)。
+这是因为 \( T^j=\rep{t^j}{B,B} \)，
+以及 \( cT=\rep{ct}{B,B} \)，且 \( T_1+T_2 =\rep{t_1+t_2}{B,B} \)。
+
+\begin{remark}
+矩阵多项式的写法，我们将与映射多项式的写法略有不同。
+例如，若 \( f(x)=x-3 \)，则
+我们会写出单位矩阵，如~\( f(T)=T-3I \)，
+但不写出恒等映射，如~\( f(t)=t-3 \)。
+\end{remark}
+
+\begin{example}  \label{ex:PolySendRotMatToZ}
+将平面向量逆时针旋转 \( \pi/3 \)~弧度，
+用标准基表示为
+\begin{equation*}
+  T=
+  \begin{mat}[r]
+      \cos(\pi/3)  &-\sin(\pi/3)  \\
+      \sin(\pi/3)   &\cos(\pi/3)
+   \end{mat}
+   =
+   \begin{mat}[r]
+      1/2        &-\sqrt{3}/2  \\
+      \sqrt{3}/2  &1/2
+   \end{mat}
+\end{equation*}
+验证 \( T^2-T+I=Z \) 是例行的。
+（从几何上看，\( T^2 \) 旋转了 \( 2\pi/3\)。
+在标准基向量~\( \vec{e}_1 \) 上，
+$T^2-T$ 的作用是给出角为
+\( 2\pi/3\) 的单位向量与角为 \( \pi/3\) 的单位向量之差，
+即 \( \binom{-1}{0} \)。
+在 \( \vec{e}_2 \) 上它给出 \( \binom{0}{-1} \)。
+所以 \( T^2-T=-I \)。）
+\end{example}
+
+空间 $\matspace_{\nbyn{2}}$ 的维数是四，所以我们知道对任意
+\( \nbyn{2} \) 矩阵~\( T \)，存在四次多项式
+\( f  \) 使得 \( f(T)=Z \)。
+但在前面的例题中我们展示了一个二次的多项式就够用了。
+因此虽然次数~$n^2$ 总是够用，但在某些情形
+次数更低的多项式就足够了。
+
+\begin{definition}
+变换 \( t \)\index{transformation!minimal polynomial}
+或方阵 \( T \)\index{matrix!minimal polynomial} 的
+\definend{极小多项式}\index{polynomial!minimal}%
+\index{minimal polynomial}
+\( m(x) \) 是次数最低且首项系数为~\( 1 \)
+的非零多项式，
+它使得 \( m(t) \) 是零映射或 \( m(T) \) 是零矩阵。
+\end{definition}
+
+\noindent 极小多项式不能是常值多项式，因为
+对首项系数有限制。
+所以极小多项式的
+次数至少为一。
+零矩阵的极小多项式是 $p(x)=x$，而
+单位矩阵的极小多项式是 $\hat{p}(x)=x-1$。
+
+\begin{lemma}
+任何变换或方阵都有唯一的极小多项式。  
+\end{lemma}
+
+\begin{proof}
+先证存在性。
+由前面的观察，
+次数~$n^2$ 就够用，故至少有一个
+非零多项式 $p(x)=c_kx^k+\cdots+c_0$
+将该映射或矩阵变为零。
+在所有这样的多项式中
+取一个次数最小的。
+再用其首项系数~$c_k$ 除这个多项式，得到首项为~$1$ 的多项式。
+因此任何映射或矩阵至少有一个极小多项式。
+
+下面证唯一性。
+假设
+\( m(x) \) 与 \( \hat{m}(x) \) 都将该映射或矩阵变为零，
+二者都是
+次数最小的，从而次数相等，
+且首项都是~$1$。
+考虑差 \( m(x)-\hat{m}(x) \)。
+若它不是零多项式，则它有非零的首项系数。
+用这个首项系数
+去除整个多项式，将得到一个多项式，它
+把该映射或矩阵变为零，有首项
+系数~\( 1\)，且次数比
+$m$ 与 $\hat{m}$ 都低
+（因为相减时首项的 \( 1\) 相消）。
+这会与 $m$ 和 $\hat{m}$ 的次数
+的最小性矛盾。
+于是 \( m(x)-\hat{m}(x) \) 是零多项式，
+即二者相等。
+\end{proof}
+
+\begin{example}  \label{ex:MinPolyForRotMat}
+计算\nearbyexample{ex:PolySendRotMatToZ} 中矩阵的
+极小多项式的一种方法，是求出 $T$ 的幂
+直到 $n^2=4$。
+\begin{equation*}
+    T^2=
+    \begin{mat}[r]
+       -1/2         &-\sqrt{3}/2  \\
+       \sqrt{3}/2   &-1/2
+    \end{mat} 
+    \quad
+    T^3=
+    \begin{mat}[r]
+       -1    &0           \\
+        0    &-1
+    \end{mat}
+    \quad
+    T^4=
+    \begin{mat}[r]
+       -1/2         &\sqrt{3}/2  \\
+       -\sqrt{3}/2  &-1/2
+    \end{mat}
+\end{equation*}
+令 \( c_4T^4+c_3T^3+c_2T^2+c_1T+c_0I \) 等于零矩阵。
+\begin{equation*}
+  \begin{linsys}{5}
+      -(1/2)c_4  
+          &-  &c_3           
+          &- &(1/2)c_2
+          &+ &(1/2)c_1  
+          &+  &c_0  &=  &0      \\
+      (\sqrt{3}/2)c_4  
+          &  &   
+          &- &(\sqrt{3}/2)c_2
+          &- &(\sqrt{3}/2)c_1  
+          &   &     &=  &0        \\
+      -(\sqrt{3}/2)c_4  
+          &   &    
+          &+ &(\sqrt{3}/2)c_2
+          &+ &(\sqrt{3}/2)c_1  
+         &   &            &=  &0      \\
+      -(1/2)c_4  
+          &-  &c_3             
+          &- &(1/2)c_2
+          &+ &(1/2)c_1  
+          &+  &c_0  &=  &0
+    \end{linsys}
+\end{equation*}
+用高斯消元法。
+\begin{equation*}
+  \begin{linsys}{5}
+      -(1/2)c_4  
+          &- &c_3             
+          &- &(1/2)c_2
+          &+ &(1/2)c_1  
+          &+  &c_0  &=  &0      \\
+          &  &-(\sqrt{3})c_3 
+          &- &\sqrt{3}c_2
+          &  &    
+          &+ &\sqrt{3}c_0 &=  &0
+    \end{linsys} 
+\end{equation*}
+着眼于使多项式的次数尽可能
+小，注意
+令 \( c_4 \)、\( c_3 \) 与 \( c_2 \) 为零会迫使 \( c_1 \) 与
+\( c_0 \) 也得出为零，
+所以这些方程不允许一次的极小多项式。
+于是改为令 \( c_4 \) 与 \( c_3 \) 为零。
+方程组
+\begin{equation*}
+  \begin{linsys}{3}           
+          -(1/2)c_2
+          &+ &(1/2)c_1  
+          &+  &c_0  &=  &0      \\
+          -\sqrt{3}c_2
+          &  &    
+          &+ &\sqrt{3}c_0 &=  &0
+    \end{linsys} 
+\end{equation*}
+的解集为 \( c_1=-c_0 \) 与 \( c_2=c_0 \)。
+取首项系数为~\( c_2=1 \)
+得到极小多项式 $x^2-x+1$。
+\end{example}
+
+% Using the method of that example to find the minimal polynomial of a
+% \( \nbyn{3} \) matrix 
+% would mean doing Gaussian reduction on
+% a system with nine equations in ten unknowns.
+那个计算很笨拙。
+我们将给出另一种方法。
+% To begin, note that we can break a polynomial of a map or a matrix into
+% its components.
+% (For this lemma, recall that we are using complex numbers in this chapter
+% so all polynomials break completely into linear factors.)
+
+\begin{lemma} \label{le:PolyMapsFactor}
+假设多项式 \( f(x)=c_nx^n+\dots+c_1x+c_0 \) 可以因式分解为
+\( k(x-\lambda_1)^{q_1}\cdots(x-\lambda_z)^{q_z} \)。
+若 \( t \) 是线性变换，则下面两个是相等的映射。
+\begin{equation*}
+  c_nt^n+\dots+c_1t+c_0
+  =
+  k\cdot\composed{\composed{(t-\lambda_1)^{q_1}}{\cdots}}{
+      (t-\lambda_z)^{q_z}} 
+\end{equation*}
+因此，若 \( T \) 是方阵，则 \( f(T) \) 与
+\( k\cdot(T-\lambda_1I)^{q_1}\cdots(T-\lambda_z I)^{q_z} \) 
+是相等的矩阵。
+\end{lemma}
+
+\begin{proof}
+我们对多项式的次数用归纳法。
+多项式次数为~零与次数为~一的情形是显然的。
+完整的归纳论证是\nearbyexercise{exer:PolyMapsFactor}，
+但我们将以次数~二的情形给出其大意。
+
+二次多项式可以分解成两个
+一次项 \( f(x)=k(x-\lambda_1)\cdot(x-\lambda_2)
+                    =k(x^2+(-\lambda_1-\lambda_2)x+\lambda_1\lambda_2) \)。
+% (the roots $\lambda_1$ and $\lambda_2$ could be equal).
+代入 \( t \) 
+——无论是分解后的还是未分解的形式——得到的都是同一个映射。
+\begin{align*}
+   \bigl(k\cdot\composed{(t-\lambda_1)}{(t-\lambda_2)}\bigr)\>(\vec{v})
+   &=\bigl(k\cdot(t-\lambda_1)\bigr)\,(t(\vec{v})-\lambda_2\vec{v})    \\
+   &=k\cdot\bigl(t(t(\vec{v}))-t(\lambda_2\vec{v})
+      -\lambda_1 t(\vec{v})+\lambda_1\lambda_2\vec{v}\bigr)    \\
+   &=k\cdot \bigl(\composed{t}{t}\,(\vec{v})-(\lambda_1+\lambda_2)t(\vec{v})
+          +\lambda_1\lambda_2\vec{v}\bigr)                    \\
+   &=k\cdot(t^2-(\lambda_1+\lambda_2)t+\lambda_1\lambda_2)\>(\vec{v})
+\end{align*}
+第三个等号利用 \( t \) 的线性性把 $\lambda_2$ 从
+第二项中提出来。
+\end{proof}
+
+% In particular, if a minimal polynomial for a transformation $t$ 
+% factors as
+% $m(x)=(x-\lambda_1)^{q_1}\cdots (x-\lambda_z)^{q_z}$
+% then 
+% \( m(t)=\composed{\composed{(t-\lambda_1)^{q_1}}{\cdots}}{
+%       (t-\lambda_z)^{q_z}} \) 
+% is the zero map. 
+% Since \( m(t) \) sends every vector to zero, at least
+% one of the maps \( t-\lambda_i \)  sends some
+% nonzero vectors to zero.
+% Exactly the same holds in the matrix case\Dash if $m$ is minimal for $T$ then
+% \( m(T)=(T-\lambda_1I)^{q_1}\cdots (T-\lambda_z I)^{q_z} \)
+% is the zero matrix and at least one of the matrices $T-\lambda_iI$
+% sends some nonzero vectors to zero. 
+% That is, in both cases at least some of the \( \lambda_i \) are eigenvalues.
+% (\nearbyexercise{exer:SomeRootsMinPolyAreEigs} expands on this.)
+
+下一个结论是：
+极小多项式的每个根都是一个特征值，
+且每个特征值都是极小多项式的根。
+（也就是说，该结论说的是 `$1\leq q_i$' 而不只是
+`$0\leq q_i$'。）
+为此，回顾求特征值时
+我们求解 $\deter{T-xI}=0$，
+这个行列式给出一个关于 $x$ 的多项式，
+即特征多项式，
+它的根就是特征值。
+
+\begin{theorem}[Cayley-Hamilton]
+\label{th:CayHam}
+\index{Cayley-Hamilton theorem}
+\hspace*{0em plus2em}
+若变换或方阵的特征多项式
+分解为
+\begin{equation*}
+  k\cdot (x-\lambda_1)^{p_1}(x-\lambda_2)^{p_2}\cdots(x-\lambda_z)^{p_z}
+\end{equation*}
+则其极小多项式分解为
+\begin{equation*}
+  (x-\lambda_1)^{q_1}(x-\lambda_2)^{q_2}\cdots(x-\lambda_z)^{q_z}
+\end{equation*}
+其中对 \( 1 \) 到 \( z \) 之间的每个 \( i \) 有 \( 1\leq q_i \leq p_i \)。
+\end{theorem}
+
+\noindent 证明占接下来的三个引理。
+我们将用矩阵的术语来叙述它们，
+因为这个版本更方便
+第一个证明，但它们同样
+适用于映射。
+
+第一个结论是关键。
+为证明它，注意我们可以把
+一个元素为多项式的矩阵看成
+系数为矩阵的多项式。
+\begin{equation*}
+   \begin{mat}
+     2x^2+3x-1  &x^2+2    \\
+     3x^2+4x+1  &4x^2+x+1
+   \end{mat}
+ = \begin{mat}[r]
+    2  &1  \\
+    3  &4
+  \end{mat}x^2
+ + \begin{mat}[r]
+    3  &0  \\
+    4  &1
+  \end{mat}x
+ + \begin{mat}[r]
+   -1  &2  \\
+    1  &1
+  \end{mat}
+\end{equation*}
+
+\begin{lemma}   \label{le:MatSatItsCharPoly}
+若 \( T \) 是特征多项式为 \( c(x) \) 的方阵，
+则 \( c(T) \) 是零矩阵。
+\end{lemma}
+
+\begin{proof}
+设 \( C \) 为 \( T-xI \)，
+它的行列式即特征多项式
+\( c(x)=c_nx^n+\dots+c_1x+c_0 \)。
+\begin{equation*}
+  C=\begin{mat}
+    t_{1,1}-x        &t_{1,2}   &\ldots        \\
+    t_{2,1}          &t_{2,2}-x               \\
+    \vdots           &          &\ddots       \\
+                     &          &       &t_{n,n}-x
+  \end{mat}
+\end{equation*}
+回顾定理~Four.III.\ref{th:MatTimesAdjEqDiagDets}：
+矩阵与其伴随矩阵的乘积等于
+矩阵的行列式乘以单位矩阵。
+\begin{equation*}
+  c(x)\cdot I
+  =\adj (C)C
+  =\adj (C)(T-xI)
+  =\adj (C)T- \adj(C)\cdot x
+\tag*{($*$)}
+\end{equation*}
+~($*$) 的左边是
+$c_nIx^n+c_{n-1}Ix^{n-1}+\cdots+c_1Ix+c_0I$。
+对于右边，
+\( \adj (C) \) 的元素是多项式，每个的次数
+至多是 \( n-1 \)，因为矩阵的子式去掉了一行与一列。
+正如证明之前所提示的，把它改写成一个
+系数为矩阵的多项式：
+\( \adj (C)=C_{n-1}x^{n-1}+\cdots+C_1x+C_0 \)，
+其中每个 \( C_i \) 是标量组成的矩阵。
+现在~($*$) 的右边是
+\begin{equation*}
+  [(C_{n-1}T)x^{n-1}+\cdots+(C_1T)x+C_0T]  
+   -[C_{n-1}x^n+C_{n-2}x^{n-1}+\cdots+C_0x]
+\end{equation*}
+比较 ($*$) 左右两边
+\( x^n \)、$x^{n-1}$ 等的
+系数。
+\begin{align*}
+  c_nI
+  &=-C_{n-1}    \\
+  c_{n-1}I
+  &=-C_{n-2}+C_{n-1}T    \\
+  &\vdotswithin{=}             \\
+  c_{1}I
+  &=-C_{0}+C_{1}T    \\
+  c_{0}I
+  &=C_{0}T
+\end{align*}
+将第一个等式的两边从右边乘以 \( T^n \)，
+第二个等式的两边乘以 \( T^{n-1} \)，等等。
+\begin{align*}
+  c_nT^n
+  &=-C_{n-1}T^n    \\
+  c_{n-1}T^{n-1}
+  &=-C_{n-2}T^{n-1}+C_{n-1}T^n    \\
+  &\vdotswithin{=}             \\
+  c_{1}T
+  &=-C_{0}T+C_{1}T^2    \\
+  c_{0}I
+  &=C_{0}T
+\end{align*}
+相加。
+左边是
+\( c_nT^n+c_{n-1}T^{n-1}+\cdots+c_0I \)。
+右边是叠缩的；
+例如，第一行的 $-C_{n-1}T^n$ 与第二行的
+一半 $C_{n-1}T^n$ 相消。
+右边总共是零矩阵。
+\end{proof}
+
+我们说矩阵或映射
+\definend{满足}\index{characteristic!polynomial!satisfied by} 
+其特征多项式，指的就是那个结论。
+
+\begin{lemma} \label{le:tSatisImpMinPolyDivides}
+任何被 \( T \) 满足的多项式都可被
+\( T \) 的极小多项式整除。
+也就是说，对多项式 \( f(x) \)，若 \( f(T) \) 是零矩阵，
+则 \( f(x) \) 可被 \( T \) 的极小多项式整除。
+\end{lemma}
+
+\begin{proof}
+设 \( m(x) \) 是 \( T \) 的极小多项式。
+多项式的带余除法定理给出
+\( f(x)=q(x)\cdot m(x)+r(x) \)，
+其中 \( r \) 的次数严格小于 \( m \) 的次数。
+因为 $T$ 满足 $f$ 与 $m$，把 $T$ 代入那个等式得到
+\( r(T) \) 是零矩阵。
+除非 \( r \)
+是零多项式，否则这与 \( m \) 的极小性矛盾。
+\end{proof}
+
+把前面两个引理合起来，可知极小多项式
+整除特征多项式。
+于是
+极小多项式的任意根也是特征
+多项式的根。
+
+于是到目前为止我们有：若极小多项式分解为
+\( m(x)=(x-\lambda_1)^{q_1}\cdots(x-\lambda_i)^{q_i} \)，则
+特征多项式也有根 \( \lambda_1\), \ldots, 
+\( \lambda_i \)。
+但就我们至今所建立的而言，
+特征多项式可能还有别的根：
+\( c(x)=(x-\lambda_1)^{p_1}\cdots(x-\lambda_i)^{p_i}
+     (x-\lambda_{i+1})^{p_{i+1}}\cdots(x-\lambda_z)^{p_z} \)，其中
+对 \( 1\leq j \leq i \) 有 \( 1\leq q_j\leq p_j \)。
+我们通过证明特征多项式没有另外的根来
+完成 Cayley-Hamilton 定理的证明，于是
+不存在 $\lambda_{i+1}$、$\lambda_{i+2}$ 等。
+
+\begin{lemma}
+方阵的特征多项式的每个一次因式
+也是极小多项式的一次因式。
+\end{lemma}
+
+\begin{proof}
+设 \( T \) 是极小多项式 \( m(x) \)
+次数为~\( n \) 的方阵，
+并假设 \( x-\lambda \) 是 \( T \) 的特征多项式的一个因式，
+从而 \( \lambda \) 是 \( T \) 的一个特征值。
+我们将证明 $m(\lambda)=0$，即 $x-\lambda$ 是 $m$ 的因式。
+
+假设 $\lambda$ 与特征向量~$\vec{v}$ 相联系，
+考虑幂 $T^2(\vec{v})$, \ldots, \( T^n(\vec{v}) \)。
+我们有
+$T^2(\vec{v})
+=T\cdot\lambda\vec{v}=\lambda\cdot T\vec{v}=\lambda^2\vec{v}$。
+所有的幂都是如此：
+对 \( 1\leq i \leq n \) 有 $T^i\vec{v}=\lambda^i\vec{v}\,$。
+于是
+对任意多项式函数 \( p(x) \)，把矩阵 \( p(T) \)
+作用到 \( \vec{v} \) 上等于用标量
+\( p(\lambda) \) 乘 \( \vec{v} \) 的结果。
+\begin{multline*}
+  p(T)\,\vec{v}
+  =(c_kT^k+\dots+c_1T+c_0I)\,\vec{v}
+  =c_kT^k\vec{v}+\dots+c_1T\vec{v}+c_0\vec{v}  \\
+  =c_k\lambda^k\vec{v}+\dots+c_1\lambda\vec{v}+c_0\vec{v}
+  =p(\lambda)\cdot\vec{v}
+\end{multline*}
+由于 \( m(T) \) 是零矩阵，
+故 \( \zero=m(T)(\vec{v})=m(\lambda)\cdot\vec{v} \)，
+从而 \( m(\lambda)=0 \)，因为 \( \vec{v}\neq\zero \)
+（它是特征向量）。
+\end{proof}
+
+Cayley-Hamilton 定理的证明到此结束。
+
+\begin{example} \label{ex:MinPolyUsingCH}
+我们可以用 Cayley-Hamilton 定理来求
+这个矩阵的极小多项式。
+\begin{equation*}
+   T=
+   \begin{mat}[r]
+      2  &0  &0  &1  \\
+      1  &2  &0  &2  \\
+      0  &0  &2  &-1 \\
+      0  &0  &0  &1
+   \end{mat}
+\end{equation*}
+先用通常的行列式 $\deter{T-xI}$ 求出它的特征多项式 \( c(x)=(x-1)(x-2)^3 \)。
+有了它，Cayley-Hamilton 定理就说
+\( T \) 的极小多项式是
+\( (x-1)(x-2) \)、
+\( (x-1)(x-2)^2 \) 或
+\( (x-1)(x-2)^3 \) 之一。
+只需计算
+\begin{equation*}
+   (T-1I)(T-2I)=\!
+   \begin{mat}[r]
+      1  &0  &0  &1  \\
+      1  &1  &0  &2  \\
+      0  &0  &1  &-1 \\
+      0  &0  &0  &0
+   \end{mat}
+   \begin{mat}[r]
+      0  &0  &0  &1  \\
+      1  &0  &0  &2  \\
+      0  &0  &0  &-1 \\
+      0  &0  &0  &-1
+   \end{mat}
+   =
+   \begin{mat}[r]
+      0  &0  &0  &0  \\
+      1  &0  &0  &1  \\
+      0  &0  &0  &0  \\
+      0  &0  &0  &0
+   \end{mat}
+\end{equation*}
+与
+\begin{equation*}
+   (T-1I)(T-2I)^2=
+   \begin{mat}[r]
+      0  &0  &0  &0  \\
+      1  &0  &0  &1  \\
+      0  &0  &0  &0  \\
+      0  &0  &0  &0
+   \end{mat}
+   \begin{mat}[r]
+      0  &0  &0  &1  \\
+      1  &0  &0  &2  \\
+      0  &0  &0  &-1 \\
+      0  &0  &0  &-1
+   \end{mat}
+   =
+   \begin{mat}[r]
+      0  &0  &0  &0  \\
+      0  &0  &0  &0  \\
+      0  &0  &0  &0  \\
+      0  &0  &0  &0
+   \end{mat}
+\end{equation*}
+于是 \( m(x)=(x-1)(x-2)^2 \)。
+\end{example}
+
+
+% ==================================
+\begin{exercises}
+  \recommended \item 
+    若一个矩阵具有给定的特征多项式，则其极小多项式有哪些可能？
+    \begin{exparts*}
+      \partsitem $(x-3)^4$
+      \partsitem $(x+1)^3(x-4)$
+      \partsitem $(x-2)^2(x-5)^2$
+      \partsitem  \( (x+3)^2(x-1)(x-2)^2 \)
+    \end{exparts*}
+    每种可能的次数是多少？
+    \begin{answer} 
+      Cayley-Hamilton 定理\nearbytheorem{th:CayHam}指出，
+      极小多项式必须含有与特征多项式相同的线性因子，
+      尽管次数可以更低，但不能是零次。
+      \begin{exparts}
+        \partsitem 可能的是
+          $m_1(x)=x-3$，$m_2(x)=(x-3)^2$，$m_3(x)=(x-3)^3$
+          以及 $m_4(x)=(x-3)^4$。
+          第一个是一次多项式，第二个是二次的，
+          第三个是三次的，第四个是四次的。
+        \partsitem 可能的是 $m_1(x)=(x+1)(x-4)$、
+          $m_2(x)=(x+1)^2(x-4)$ 以及 $m_3(x)=(x+1)^3(x-4)$。
+          第一个是二次多项式，即次数为二。
+          第二个次数为三，第三个次数为四。
+        \partsitem 我们有 $m_1(x)=(x-2)(x-5)$、$m_2(x)=(x-2)^2(x-5)$、
+          $m_3(x)=(x-2)(x-5)^2$ 以及 $m_4(x)=(x-2)^2(x-5)^2$。
+          它们分别是二次、三次、三次与四次多项式。
+        \partsitem 可能的是 \( m_1(x)=(x+3)(x-1)(x-2) \)、
+          \( m_2(x)=(x+3)^2(x-1)(x-2) \)、
+          \( m_3(x)=(x+3)(x-1)(x-2)^2 \)
+          以及 \( m_4(x)=(x+3)^2(x-1)(x-2)^2 \)。
+          $m_1$ 的次数是三，$m_2$ 的次数是四，
+          $m_3$ 的次数是四，$m_4$ 的次数是五。
+      \end{exparts}
+    \end{answer}
+  \item 对于下面这个矩阵
+    \begin{equation*}
+      \begin{mat}
+        0 &1 &0 &1 \\
+        1 &0 &1 &0 \\
+        0 &1 &0 &1 \\
+        1 &0 &1 &0 \\
+      \end{mat}
+    \end{equation*}
+    求其特征多项式与极小多项式。
+    \begin{answer}
+    特征多项式
+    \begin{equation*}
+      \deter{T-xI}=
+      \begin{vmat}
+        -x &1  &0  &1 \\
+         1 &-x &1  &0 \\
+         0 &1  &-x &1 \\
+         1 &0  &1  &-x \\
+      \end{vmat}
+    \end{equation*}
+    是 $x^2(x^2-4)$。
+
+    由 Cayley-Hamilton 定理，特征多项式的所有互不相同的根
+    也都是极小多项式的根，所以极小多项式的根为 $0$、$2$ 以及~$-2$。
+    因此极小多项式要么是 $x(x^2-4)$，要么是 $x^2(x^2-4)$。
+    
+    求极小多项式的一种办法是，把矩阵代入这两个表达式试算，
+    直到得到零矩阵为止。
+    \begin{equation*}
+      T(T^2-4I)=
+      \begin{mat}
+        0 &1 &0 &1 \\
+        1 &0 &1 &0 \\
+        0 &1 &0 &1 \\
+        1 &0 &1 &0 \\
+      \end{mat}
+      \begin{mat}
+        -2 &0  &1  &0 \\
+        0  &-2 &0  &2 \\
+        2  &0  &-2 &0 \\
+        0  &2  &0  &-2 \\
+      \end{mat}
+      =
+      \begin{mat}
+        0 &0 &0 &0 \\
+        0 &0 &0 &0 \\
+        0 &0 &0 &0 \\
+        0 &0 &0 &0 \\
+      \end{mat}
+    \end{equation*}
+    所以极小多项式是 $x(x^2-4)$。
+    \end{answer}
+   \item 
+     求此矩阵的极小多项式。
+     \begin{equation*}
+        \begin{mat}[r]
+           0  &1  &0  \\
+           0  &0  &1  \\
+           1  &0  &0
+        \end{mat}
+     \end{equation*}
+     \begin{answer}
+       它的特征多项式有复根。
+       \begin{equation*}
+          \begin{vmat}
+                   -x  &1  &0  \\
+                    0  &-x &1  \\
+                    1  &0  &-x
+          \end{vmat}
+          =(1-x)\cdot (x-(-\frac{1}{2}+\frac{\sqrt{3}}{2}i))
+                \cdot (x-(-\frac{1}{2}-\frac{\sqrt{3}}{2}i))
+       \end{equation*}
+       由于根互不相同，特征多项式就等于极小多项式。
+     \end{answer}
+  \recommended \item 
+    求每个矩阵的极小多项式。
+    \begin{exparts*}
+       \partsitem \( \begin{mat}[r]
+                   3  &0  &0  \\
+                   1  &3  &0  \\
+                   0  &0  &4
+                \end{mat} \)
+       \partsitem \( \begin{mat}[r]
+                   3  &0  &0  \\
+                   1  &3  &0  \\
+                   0  &0  &3
+                \end{mat} \)
+       \partsitem \( \begin{mat}[r]
+                   3  &0  &0  \\
+                   1  &3  &0  \\
+                   0  &1  &3
+                \end{mat} \)
+       \partsitem \( \begin{mat}[r]
+                   2  &0  &1  \\
+                   0  &6  &2  \\
+                   0  &0  &2
+                \end{mat} \)
+       \partsitem \( \begin{mat}[r]
+                   2  &2  &1  \\
+                   0  &6  &2  \\
+                   0  &0  &2
+                \end{mat} \)
+       \partsitem \( \begin{mat}[r]
+                   -1 &4  &0  &0  &0  \\
+                    0 &3  &0  &0  &0  \\
+                    0 &-4 &-1 &0  &0  \\
+                    3 &-9 &-4 &2  &-1 \\
+                    1 &5  &4  &1  &4
+                \end{mat} \)
+    \end{exparts*}
+    \begin{answer}
+      每种情形我们都将使用\nearbyexample{ex:MinPolyUsingCH}的方法。
+      \begin{exparts}
+       \partsitem 因为 $T$ 是三角矩阵，所以 $T-xI$ 也是三角矩阵
+         \begin{equation*}
+           T-xI=
+           \begin{mat}
+             3-x  &0    &0   \\
+             1    &3-x  &0   \\
+             0    &0    &4-x
+           \end{mat}
+         \end{equation*}
+         特征多项式容易算出 $c(x)=\deter{T-xI}=(3-x)^2(4-x)=-1\cdot (x-3)^2(x-4)$。
+         极小多项式只有两种可能，
+         $m_1(x)=(x-3)(x-4)$ 与 $m_2(x)=(x-3)^2(x-4)$。
+         （注意特征多项式带有负号，而极小多项式没有，
+         因为它必须首项系数为一。）
+         由于 $m_1(T)$ 不是零矩阵
+         \begin{equation*}
+           (T-3I)(T-4I)
+           =
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &0  &1
+           \end{mat}
+           \begin{mat}[r]
+             -1  &0  &0  \\
+              1  &-1 &0  \\
+              0  &0  &0
+           \end{mat}
+           =
+           \begin{mat}[r]
+             0  &0  &0  \\
+            -1  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+         \end{equation*}
+         所以极小多项式是 $m(x)=m_2(x)$。
+         \begin{multline*}
+           (T-3I)^2(T-4I)
+           =(T-3I)\cdot\bigl((T-3I)(T-4I)\bigr)              \\
+           =
+           \begin{mat}
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &0  &1
+           \end{mat}
+           \begin{mat}[r]
+              0  &0  &0  \\
+             -1  &0  &0  \\
+              0  &0  &0
+           \end{mat}
+           =
+           \begin{mat}[r]
+             0  &0  &0  \\
+             0  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+         \end{multline*}
+       \partsitem 与前一（小）题一样，矩阵是三角矩阵这一事实
+        使得特征多项式的计算很容易。
+         \begin{equation*}
+           c(x)=\deter{T-xI}
+               =
+               \begin{vmat}
+                 3-x  &0   &0   \\
+                 1    &3-x &0   \\
+                 0    &0   &3-x
+               \end{vmat}
+               =(3-x)^3=-1\cdot (x-3)^3
+         \end{equation*}
+         极小多项式有三种可能：
+         $m_1(x)=(x-3)$、$m_2(x)=(x-3)^2$ 以及 $m_3(x)=(x-3)^3$。
+         我们通过计算 $m_1(T)$
+         \begin{equation*}
+           T-3I=
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+         \end{equation*}
+         与 $m_2(T)$ 来解决这个问题。
+         \begin{equation*}
+           (T-3I)^2=
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+           =          
+           \begin{mat}[r]
+             0  &0  &0  \\
+             0  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+         \end{equation*}
+         因为 $m_2(T)$ 是零矩阵，所以 $m_2(x)$ 就是极小多项式。
+       \partsitem 同样，该矩阵是三角矩阵。
+         \begin{equation*}
+           c(x)=\deter{T-xI}
+               =
+               \begin{vmat}
+                 3-x  &0   &0   \\
+                 1    &3-x &0   \\
+                 0    &1   &3-x
+               \end{vmat}
+               =(3-x)^3=-1\cdot (x-3)^3
+         \end{equation*}
+         同样，极小多项式有三种可能：
+         $m_1(x)=(x-3)$、$m_2(x)=(x-3)^2$ 以及 $m_3(x)=(x-3)^3$。
+         我们计算 $m_1(T)$
+         \begin{equation*}
+           T-3I=
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &1  &0
+           \end{mat}
+         \end{equation*}
+         与 $m_2(T)$
+         \begin{equation*}
+           (T-3I)^2=
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &1  &0
+           \end{mat}
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &1  &0
+           \end{mat}
+           =          
+           \begin{mat}[r]
+             0  &0  &0  \\
+             0  &0  &0  \\
+             1  &0  &0
+           \end{mat}
+         \end{equation*}
+         与 $m_3(T)$。
+         \begin{equation*}
+           (T-3I)^3
+           =(T-3I)^2(T-3I)
+           =
+           \begin{mat}[r]
+             0  &0  &0  \\
+             0  &0  &0  \\
+             1  &0  &0
+           \end{mat}
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &1  &0
+           \end{mat}
+           =          
+           \begin{mat}[r]
+             0  &0  &0  \\
+             0  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+         \end{equation*}
+         因此，极小多项式是 $m(x)=m_3(x)=(x-3)^3$。
+       \partsitem 这一情形也是三角矩阵，这里是上三角矩阵。
+          \begin{equation*}
+            c(x)=\deter{T-xI}=
+            \begin{vmat}
+              2-x  &0   &1     \\
+              0    &6-x &2     \\
+              0    &0   &2-x
+            \end{vmat}
+            =(2-x)^2(6-x)=-(x-2)^2(x-6)
+          \end{equation*}
+          极小多项式有两种可能，
+          $m_1(x)=(x-2)(x-6)$ 与 $m_2(x)=(x-2)^2(x-6)$。
+          计算表明极小多项式不是 $m_1(x)$。
+          \begin{equation*}
+            (T-2I)(T-6I)=
+            \begin{mat}[r]
+              0  &0  &1  \\
+              0  &4  &2  \\
+              0  &0  &0  
+            \end{mat}
+            \begin{mat}[r]
+              -4  &0  &1  \\
+               0  &0  &2  \\
+               0  &0  &-4
+            \end{mat}
+            =
+            \begin{mat}[r]
+              0  &0  &-4  \\
+              0  &0  &0   \\
+              0  &0  &0
+            \end{mat}
+          \end{equation*}
+          因此必有 $m(x)=m_2(x)=(x-2)^2(x-6)$。 
+          下面给出验证。
+          \begin{multline*}
+            (T-2I)^2(T-6I)=(T-2I)\cdot\bigl((T-2I)(T-6I)\bigr)             \\
+            =
+            \begin{mat}[r]
+              0  &0  &1  \\
+              0  &4  &2  \\
+              0  &0  &0  
+            \end{mat}
+            \begin{mat}[r]
+               0  &0  &-4   \\
+               0  &0  &0   \\
+               0  &0  &0
+            \end{mat}
+            =
+            \begin{mat}[r]
+              0  &0  &0  \\
+              0  &0  &0   \\
+              0  &0  &0
+            \end{mat}
+          \end{multline*}
+       \partsitem 特征多项式是 
+          \begin{equation*}
+            c(x)=\deter{T-xI}=
+            \begin{vmat}
+              2-x  &2   &1     \\
+              0    &6-x &2     \\
+              0    &0   &2-x
+            \end{vmat}
+            =(2-x)^2(6-x)=-(x-2)^2(x-6)
+          \end{equation*}
+          极小多项式有两种可能，
+          $m_1(x)=(x-2)(x-6)$ 与 $m_2(x)=(x-2)^2(x-6)$。
+          检验第一个
+          \begin{equation*}
+            (T-2I)(T-6I)=
+            \begin{mat}[r]
+              0  &2  &1  \\
+              0  &4  &2  \\
+              0  &0  &0  
+            \end{mat}
+            \begin{mat}[r]
+              -4  &2  &1  \\
+               0  &0  &2  \\
+               0  &0  &-4
+            \end{mat}
+            =
+            \begin{mat}[r]
+              0  &0  &0  \\
+              0  &0  &0   \\
+              0  &0  &0
+            \end{mat}
+          \end{equation*}
+          这表明极小多项式是
+          $m(x)=m_1(x)=(x-2)(x-6)$。
+       \partsitem 特征多项式如下。
+          \begin{equation*}
+            c(x)=\deter{T-xI}=
+            \begin{vmat} 
+               -1-x &4    &0    &0    &0    \\
+                0   &3-x  &0    &0    &0    \\
+                0   &-4   &-1-x &0    &0    \\
+                3   &-9   &-4   &2-x  &-1   \\
+                1   &5    &4    &1    &4-x
+            \end{vmat}     
+            =(x-3)^3(x+1)^2
+          \end{equation*}
+          下面是极小多项式的各种可能，按次数升序列出：
+          $m_1(x)=(x-3)(x+1)$，$m_1(x)=(x-3)^2(x+1)$，$m_1(x)=(x-3)(x+1)^2$， 
+          $m_1(x)=(x-3)^3(x+1)$，$m_1(x)=(x-3)^2(x+1)^2$， 
+          以及 $m_1(x)=(x-3)^3(x+1)^2$。 
+          第一个行不通
+          \begin{align*}
+            (T-3I)(T+1I)
+            &=
+            \begin{mat}[r] 
+               -4   &4    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &-4   &-4   &0    &0    \\
+                3   &-9   &-4   &-1   &-1   \\
+                1   &5    &4    &1    &1  
+            \end{mat}     
+            \begin{mat}[r] 
+                0   &4    &0    &0    &0    \\
+                0   &4    &0    &0    &0    \\
+                0   &-4   &0    &0    &0    \\
+                3   &-9   &-4   &3    &-1   \\
+                1   &5    &4    &1    &5  
+            \end{mat}                           \\     
+            &=
+            \begin{mat}[r] 
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+               -4   &-4   &0    &-4   &-4   \\
+                4   &4    &0    &4    &4  
+            \end{mat}           
+          \end{align*}
+          而第二个则行得通。
+          \begin{multline*}
+            (T-3I)^2(T+1I)=(T-3I)\bigl((T-3I)(T+1I)\bigr) \\
+            \begin{aligned}
+            &=
+            \begin{mat}[r] 
+               -4   &4    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &-4   &-4   &0    &0    \\
+                3   &-9   &-4   &-1   &-1   \\
+                1   &5    &4    &1    &1  
+            \end{mat}     
+            \begin{mat}[r] 
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+               -4   &-4   &0    &-4   &-4   \\
+                4   &4    &0    &4    &4  
+            \end{mat}                          \\          
+            &=
+            \begin{mat}[r] 
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0  
+            \end{mat}  
+            \end{aligned}         
+          \end{multline*}
+          极小多项式是 \( m(x)=(x-3)^2(x+1) \)。
+       \end{exparts} 
+     \end{answer}
+  \recommended \item 
+     在 \( \polyspace_n \) 上，求导算子 $d/dx$ 的极小多项式是什么？
+     \begin{answer}
+       我们知道 $\polyspace_n$ 是一个维数为 $n+1$ 的空间，
+       并且求导算子是幂零指数为~$n+1$ 的幂零算子
+       （例如取 $n=3$， 
+       $\polyspace_3=\set{c_3x^3+c_2x^2+c_1x+c_0\suchthat c_3,\ldots,c_0\in\C}$，
+       而三次多项式的四阶导数是零多项式）。  
+       用幂零变换的标准 
+       形式来表示这个算子。
+       \begin{equation*}
+         \begin{mat}
+           0  &0  &0  &\ldots &  &0  \\
+           1  &0  &0  &       &  &0  \\
+           0  &1  &0  &       &  &   \\
+              &   &\ddots            \\
+           0  &0  &0  &       &1 &0 
+         \end{mat}
+       \end{equation*}
+       这是一个 $\nbyn{(n+1)}$ 矩阵，其特征多项式容易算出，
+       为 $c(x)=x^{n+1}$。
+       （\textit{注：}这个矩阵是 $\rep{d/dx}{B,B}$，其中
+        $B=\sequence{x^n,nx^{n-1},n(n-1)x^{n-2},\ldots,n!}$。）
+       为像\nearbyexample{ex:MinPolyUsingCH}那样求出极小多项式，
+       我们考虑 $T-0I=T$ 的各次幂。
+       但是，当然，$T$ 的第一次变成零矩阵的幂 
+       是 $n+1$ 次幂。
+       所以极小多项式也是 \( x^{n+1} \)。
+     \end{answer}
+  \recommended \item 
+    求如下形式矩阵的极小多项式
+    \begin{equation*}
+      \begin{mat}
+        \lambda  &0        &0          &\ldots  &        &0  \\
+        1        &\lambda  &0          &        &        &0  \\
+        0        &1        &\lambda                          \\
+                 &         &           &\ddots                \\
+                 &         &           &        &\lambda &0   \\
+        0        &0        &\ldots     &        &1       &\lambda
+      \end{mat}
+    \end{equation*}
+    其中标量 $\lambda$ 是固定的（即不是一个变量）。
+    \begin{answer}
+      记该矩阵为 $T$，并设它是 \( \nbyn{n} \) 的。
+      由于 $T$ 是三角矩阵，从而 $T-xI$ 也是三角矩阵，
+      所以特征多项式是 $c(x)=(x-\lambda)^n$。
+      为看出极小多项式与此相同，考虑
+      $T-\lambda I$。
+      \begin{equation*}
+        \begin{mat}
+          0        &0        &0          &\ldots  &0  \\
+          1        &0        &0          &\ldots  &0  \\
+          0        &1        &0                       \\
+                   &         &\ddots                  \\
+          0        &0        &\ldots     &1       &0      
+        \end{mat}
+      \end{equation*}
+      将它识别为一个幂零指数为~$n$ 的变换的标准形；
+      $(T-\lambda I)^j$ 第一次变为零是在 $j$ 等于 $n$ 时。
+    \end{answer}
+  \item 
+    把 \( \polyspace_n \) 中的 \( p(x) \) 映到 \( p(x+1) \) 的
+    变换，其极小多项式是什么？
+    \begin{answer}
+      $n=3$ 的情形提供了一个提示。
+      $\polyspace_3$ 的一个自然基是  
+      $B=\sequence{1,x,x^2,x^3}$。
+      该变换的作用是
+      \begin{equation*}
+        1\mapsto 1
+        \quad
+        x\mapsto x+1
+        \quad
+        x^2\mapsto x^2+2x+1
+        \quad
+        x^3\mapsto x^3+3x^2+3x+1
+      \end{equation*}
+      所以表示 $\rep{t}{B,B}$ 是这个上三角矩阵。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &1  &1  &1  \\
+          0  &1  &2  &3  \\
+          0  &0  &1  &3  \\
+          0  &0  &0  &1
+        \end{mat}
+      \end{equation*}
+      由于它是三角矩阵，显然特征多项式是
+      $c(x)=(x-1)^4$。
+      至于极小多项式，候选者是 $m_1(x)=(x-1)$、
+      \begin{equation*}
+        T-1I=
+        \begin{mat}[r]
+          0  &1  &1  &1  \\
+          0  &0  &2  &3  \\
+          0  &0  &0  &3  \\
+          0  &0  &0  &0
+        \end{mat}
+      \end{equation*}
+      $m_2(x)=(x-1)^2$、 
+      \begin{equation*}
+        (T-1I)^2=
+        \begin{mat}[r]
+          0  &0  &2  &6  \\
+          0  &0  &0  &6  \\
+          0  &0  &0  &0  \\
+          0  &0  &0  &0
+        \end{mat}
+      \end{equation*}
+      $m_3(x)=(x-1)^3$、
+      \begin{equation*}
+        (T-1I)^3=
+        \begin{mat}[r]
+          0  &0  &0  &6  \\
+          0  &0  &0  &0  \\
+          0  &0  &0  &0  \\
+          0  &0  &0  &0
+        \end{mat}
+      \end{equation*}
+      以及 $m_4(x)=(x-1)^4$。
+      由于 $m_1$、$m_2$ 和 $m_3$ 都不对，所以 $m_4$ 必定是对的，
+      这也容易验证。
+      
+      在一般的 $n$ 的情形，表示是一个对角线上全为 $1$ 的
+      上三角矩阵。
+      于是特征多项式是 $c(x)=(x-1)^{n+1}$。
+      验证极小多项式等于特征多项式的一种办法是
+      给出类似这样的论证：
+      若上三角矩阵的对角线上有非零元素，就称它为 $0$-上三角的；
+      若对角线上只有零而对角线上方紧邻处有非零元素，
+      就称它为 $1$-上三角的，等等。
+      正如上面的例子所说明的，用归纳论证可以证明：
+      当 $T$ 只有非负元素时，
+      $T^j$ 是 $j$-上三角的。
+      % We leave that argument to the reader.
+    \end{answer}
+   \item 
+     把 \( \map{\pi}{\C^3}{\C^3} \) 投影到前两个分量的
+     映射，其极小多项式是什么？
+      \begin{answer}
+        该映射复合两次与复合一次相同：~$\composed{\pi}{\pi}=\pi$，
+        即 $\pi^2=\pi$，所以极小多项式的次数
+        至多是二，因为 \( m(x)=x^2-x \) 就行得通。
+        没有一次多项式行得通这一事实，来自把映射作用到
+        $c_1\cdot \pi+c_0\cdot \identity=z$（其中 $z$ 是零映射）
+        的左右两边于下面这两个向量。
+        \begin{equation*}
+          \colvec[r]{0 \\ 0 \\ 1}
+          \qquad
+          \colvec[r]{1 \\ 0 \\ 0}
+        \end{equation*}
+        于是极小多项式是 $m$。
+      \end{answer}
+   \item 
+     求一个极小多项式为 \( x^2 \) 的
+     \( \nbyn{3} \) 矩阵。
+      \begin{answer}
+         这是一个答案。
+         \begin{equation*}
+             \begin{mat}[r]
+               0  &0  &0  \\
+               1  &0  &0  \\
+               0  &0  &0
+             \end{mat}
+         \end{equation*} 
+       \end{answer}
+  \item 
+     \nearbylemma{le:MatSatItsCharPoly} 的下述声称的证明
+     有什么问题：
+      ``若 \( c(x)=\deter{T-xI} \) 则 \( c(T)=\deter{T-TI}=0 \,\)''\,？
+     \cite{Cullen}
+      \begin{answer}
+        这里的 \( x \) 必须是标量，而不是矩阵。
+      \end{answer}
+  \item 
+    通过直接计算，对 \( \nbyn{2} \)
+    矩阵验证 \nearbylemma{le:MatSatItsCharPoly}。
+    \begin{answer}
+      矩阵
+      \begin{equation*}
+         T=\begin{mat}
+              a  &b  \\
+              c  &d
+           \end{mat}
+      \end{equation*}
+      的特征多项式是 \( (a-x)(d-x)-bc=x^2-(a+d)x+(ad-bc) \)。
+      代入
+      \begin{multline*}
+         \begin{mat}
+              a  &b  \\
+              c  &d
+         \end{mat}^2
+         -
+         (a+d)\begin{mat}
+            a  &b  \\
+            c  &d
+         \end{mat}
+         +
+         (ad-bc)\begin{mat}[r]
+            1  &0  \\
+            0  &1
+         \end{mat}                            \\
+         =                     
+         \begin{mat}
+            a^2+bc  &ab+bd  \\
+            ac+cd   &bc+d^2
+         \end{mat}
+         -
+         \begin{mat}
+            a^2+ad  &ab+bd   \\
+            ac+cd   &ad+d^2
+         \end{mat}
+         +
+         \begin{mat}
+            ad-bc  &0      \\
+            0      &ad-bc
+         \end{mat}
+      \end{multline*}
+      然后只需逐项核对每个元素的和，看结果是不是零矩阵。
+    \end{answer}
+  \recommended \item
+    证明一个 \( \nbyn{n} \) 矩阵的极小多项式的次数
+    至多是 \( n \)（而不是人们从小节开头可能猜到的 \( n^2 \)）。
+    验证这个最大值 \( n \) 可以取到。
+    \begin{answer}
+      由 Cayley-Hamilton 定理，极小多项式的次数
+      小于或等于特征多项式的次数，
+      即 \( n \)。
+      \nearbyexample{ex:MinPolyForRotMat} 表明 \( n \) 可以取到。
+    \end{answer}
+   \recommended \item 
+     证明：在非平凡向量空间上，一个线性变换是 
+     幂零的当且仅当它仅有的特征值是零。
+     \begin{answer}
+       设该线性变换为 $\map{t}{V}{V}$。
+       若 $t$ 是幂零的，则存在 $n$ 使得 $t^n$ 是零映射，
+       于是 $t$ 满足多项式 $p(x)=x^n=(x-0)^n$。
+       由 \nearbylemma{le:tSatisImpMinPolyDivides}，$t$ 的极小多项式 
+       整除 $p$，所以极小多项式的根只有零。
+       由 Cayley-Hamilton 定理，即 \nearbytheorem{th:CayHam}，
+       特征多项式的根也只有零。
+       于是 $t$ 仅有的特征值是零。
+
+       反之，若 \( n \) 维空间上的变换 \( t \) 只有零这一个特征值， 
+       则它的特征多项式是 \( x^n \)。 
+       Cayley-Hamilton 定理说映射满足其特征多项式，
+       所以 \( t^n \) 是零映射。
+       于是 $t$ 是幂零的。
+     \end{answer}
+   \item 
+       零映射或零矩阵的极小多项式是什么？
+       恒等映射或单位矩阵的极小多项式又是什么？
+       \begin{answer}
+         极小多项式必须首项系数为 $1$， 
+         因此若一个映射或矩阵的极小多项式 
+         是零次多项式，则它将是 $m(x)=1$。
+         但恒等映射或单位矩阵等于零映射或零矩阵，
+         仅在平凡向量空间上才如此。
+
+         所以在非平凡的情形，极小多项式的次数
+         至少是一。
+         零映射或零矩阵的极小多项式是 \( m(x)=x \)，而
+         恒等映射或单位矩阵的极小多项式是 \( m(x)=x-1 \)。 
+       \end{answer}
+   \recommended \item 
+     对角矩阵的极小多项式是什么？
+     \begin{answer}
+       对于对角矩阵
+       \begin{equation*}
+          T=
+          \begin{mat}
+             t_{1,1}   &0        \\
+             0         &t_{2,2}  \\
+                       &        &\ddots  \\
+                       &        &      &t_{n,n}
+          \end{mat}
+       \end{equation*}
+       特征多项式是 
+       $(t_{1,1}-x)(t_{2,2}-x)\cdots (t_{n,n}-x)$。     
+       当然，其中一些因子可能重复，例如矩阵可能
+       有 $t_{1,1}=t_{2,2}$。
+       例如，
+       \begin{equation*}
+          D=
+          \begin{mat}[r]
+             3 &0 &0  \\
+             0 &3 &0  \\
+             0 &0 &1
+          \end{mat}
+       \end{equation*}
+       的特征多项式是 \( (3-x)^2(1-x)=-1\cdot (x-3)^2(x-1) \)。 
+
+       要构造极小多项式， 
+       取各项 \( x-t_{i,i} \)，去掉重复项， 
+       然后把它们乘起来。
+       例如，$D$ 的极小多项式
+       是 \( (x-3)(x-1) \)。
+       为验证这一点，首先注意 \nearbytheorem{th:CayHam}， 
+       即 Cayley-Hamilton 定理，要求特征多项式中的每个线性因子
+       在极小多项式中至少出现一次。
+       检验另一个方向\Dash 即在对角矩阵的情形， 
+       每个线性因子至多出现一次\Dash 的一个办法是
+       使用矩阵论证。
+       对角矩阵从左边相乘时按
+       对角元进行倍乘。
+       而在乘积 $(T-t_{1,1}I)\cdots\hbox{}$ 中，即便没有任何重复
+       因子，每一行也至少在其中一个因子中为零。 
+
+       例如，在乘积 
+       \begin{equation*}
+         (D-3I)(D-1I)=(D-3I)(D-1I)I=
+         \begin{mat}[r]
+           0  &0  &0  \\
+           0  &0  &0  \\
+           0  &0  &-2        
+         \end{mat}
+         \begin{mat}[r]
+           2  &0  &0  \\
+           0  &2  &0  \\
+           0  &0  &0
+         \end{mat}
+         \begin{mat}[r]
+           1  &0  &0  \\
+           0  &1  &0  \\
+           0  &0  &1
+         \end{mat}
+       \end{equation*}
+       中，因为第一个矩阵 $D-3I$ 的第一行与第二行为零，
+       所以整个乘积的第一行与第二行都是零。
+       又因为中间那个矩阵 $D-1I$ 的第三行为零，
+       所以整个乘积的第三行是零。
+    \end{answer}
+  \recommended \item 
+    \definend{投影}\index{projection}%
+    \index{transformation!projection} 
+    是指满足 \( t^2=t \) 的任一变换 \( t \)。
+    （例如，考虑平面 $\Re^2$ 上把每个向量投影到其第一个分量的变换。
+    若投影两次，则结果与只投影一次相同。）
+    投影的极小多项式是什么？
+    \begin{answer}
+      本小节开头指出，线性变换的幂不可能永远攀升而没有
+      ``重复''，也就是说，对某个幂~$n$ 存在线性关系
+      $c_n\cdot t^n+\dots+c_1\cdot t+c_0\cdot \identity=z$，其中 $z$ 是
+      零变换。
+      投影的定义是，对这样的映射，
+      有一个线性关系是二次的：$t^2-t=z$。
+      为完成讨论，我们只需考虑这个关系是否可能不是极小的，
+      即是否存在极小多项式为常数或一次的投影？
+
+      若极小多项式是常数，则该映射必须满足
+      $c_0\cdot\identity=z$，其中 $c_0=1$，因为极小多项式的
+      首项系数是 $1$。
+      这只在平凡空间上被零变换满足。
+      这是一个投影，但不是令人感兴趣的投影。
+
+      若一个变换的极小多项式是一次
+      的，则给出 $c_1\cdot t+c_0\cdot\identity=z$，其中 $c_1=1$。
+      这个方程给出 $t=-c_0\cdot \identity$。
+      再结合要求 $t^2=t$，得
+      $t^2=(-c_0)^2\cdot\identity=-c_0\cdot\identity$，由此得
+      $c_0=0$ 且 $t$ 是零变换，或者 $c_0=1$ 且
+      $t$ 是恒等变换。       
+
+      于是，除投影是零映射或恒等映射的情形外，
+      极小多项式是 $m(x)=x^2-x$。 
+    \end{answer}
+  \item \label{exer:SomeRootsMinPolyAreEigs}
+    \textit{本题的前两（小）题是复习。}
+    \begin{exparts}
+      \partsitem 证明单射映射的复合是单射。
+      \partsitem 证明：若线性映射不是单射，则
+        定义域中至少有一个非零向量被映到
+        陪域中的零向量。
+      \partsitem 验证下面摘录的、位于 \nearbytheorem{th:CayHam}
+        之前的论断。
+         \begin{quotation}
+           \noindent \ldots{} 
+           若变换 $t$ 的极小多项式 $m(x)$ 
+           分解为
+           $m(x)=(x-\lambda_1)^{q_1}\cdots (x-\lambda_z)^{q_z}$
+           则 
+           \( m(t)=\composed{\composed{(t-\lambda_1)^{q_1}}{\cdots}}{
+                                                        (t-\lambda_z)^{q_z}} \) 
+          是零映射。 
+          由于 \( m(t) \) 把每个向量都映为零，所以在映射 \( t-\lambda_i \) 
+          中至少有一个把某些
+          非零向量映为零。  \ldots{}
+          也就是说，\ldots{} 
+          至少某些 \( \lambda_i \) 是特征值。
+        \end{quotation}
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+       \partsitem \textit{这是一般函数的性质，
+          而不仅是线性函数的性质。}
+          设 $f$ 和 $g$ 是单射函数，且
+          $\composed{f}{g}$ 有定义。
+          设 $\composed{f}{g}(x_1)=\composed{f}{g}(x_2)$，则
+          $f(g(x_1))=f(g(x_2))$。
+          由于 $f$ 是单射的，这蕴含 $g(x_1)=g(x_2)$。
+          又因 $g$ 也是单射的，这进而蕴含
+          $x_1=x_2$。
+          于是，总之，$\composed{f}{g}(x_1)=\composed{f}{g}(x_2)$
+          蕴含 $x_1=x_2$，所以 $\composed{f}{g}$ 是单射。
+        \partsitem 若线性映射 $h$ 
+          不是单射，则存在不相等的
+          向量 $\vec{v}_1$、$\vec{v}_2$ 被映到相同的值
+          $h(\vec{v}_1)=h(\vec{v}_2)$。
+          由于 $h$ 是线性的，我们有
+          $\zero=h(\vec{v}_1)-h(\vec{v}_2)=h(\vec{v}_1-\vec{v}_2)$，
+          于是 $\vec{v}_1-\vec{v}_2$ 是定义域中一个非零向量，
+          $h$ 把它映到陪域的零向量  
+          （$\vec{v}_1-\vec{v}_2$
+          不等于定义域的零向量，因为 $\vec{v}_1$
+          不等于 $\vec{v}_2$）。
+        \partsitem 极小多项式 
+          $m(t)$ 把定义域中的每个向量都映到 
+          零，所以它不是单射（在平凡空间中除外，这里 
+          不予考虑）。
+          由本题的第一（小）题， 
+          由于复合 $m(t)$ 不是单射，
+          所以分量 $t-\lambda_i$ 中至少有一个不是单射。
+          由第二（小）题，$t-\lambda_i$ 有一个非平凡的零空间。
+          因为 $(t-\lambda_i)(\vec{v})=\zero$ 成立当且仅当
+          $t(\vec{v})=\lambda_i\cdot\vec{v}$，前一句话给出：
+          $\lambda_i$ 是特征值（回忆特征值的
+          定义要求该关系至少对一个
+          非零 $\vec{v}$ 成立）。
+      \end{exparts}
+    \end{answer}
+  \item 
+    对或错：~对于 \( n \) 维空间上的变换，若极小多项式的次数为 \( n \)， 
+    则该映射可对角化。
+    \begin{answer}
+      这是错的。
+      不可对角化变换的自然例子在这里适用。
+      考虑 $\C^2$ 上关于标准基由这个矩阵
+      表示的变换。
+      \begin{equation*}
+        N=
+        \begin{mat}[r]
+          0  &1  \\
+          0  &0
+        \end{mat}
+      \end{equation*}
+      特征多项式是 $c(x)=x^2$。 
+      于是极小多项式要么是 $m_1(x)=x$，要么是 $m_2(x)=x^2$。
+      第一个不对，因为 $N-0\cdot I$ 不是零矩阵；
+      于是在这个例子中极小多项式的次数等于 
+      底空间的维数，而且如前所述，
+      我们知道这个矩阵不可对角化，因为它是幂零的。 
+    \end{answer}
+   \item 
+     设 $f(x)$ 是一个多项式。
+     证明：若 $A$ 与 $B$ 是相似的矩阵，则 $f(A)$ 与 
+     $f(B)$ 相似。
+     \begin{exparts}
+       \partsitem 进而证明相似的矩阵有相同的特征
+         多项式。
+       \partsitem 证明相似的矩阵有相同的极小多项式。
+       \partsitem 判断它们是否相似。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &3  \\
+              2  &3
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              4  &-1 \\
+              1  &1
+            \end{mat}
+          \end{equation*}
+     \end{exparts}
+     \begin{answer}
+       设 \( A \) 与 \( B \) 相似，即 $A=PBP^{-1}$。
+       由这样的事实： 
+       \begin{multline*}
+           A^n=(PBP^{-1})^n=(PBP^{-1})(PBP^{-1})\cdots(PBP^{-1})   \\
+                           =PB(P^{-1}P)B(P^{-1}P)\cdots (P^{-1}P)BP^{-1}
+                           =PB^nP^{-1}
+       \end{multline*}
+       以及 $c\cdot A=c\cdot(PBP^{-1})=P(c\cdot B)P^{-1}$，
+       即得所需的事实：对任意多项式函数 $f$，我们有 
+       \( f(A)=P\,f(B)\,P^{-1} \)。
+       例如，若 $f(x)=x^2+2x+3$，则
+       \begin{multline*}
+         A^2+2A+3I=(PBP^{-1})^2+2\cdot PBP^{-1}+3\cdot I           \\
+                  =(PBP^{-1})(PBP^{-1})+P(2B)P^{-1}+3\cdot PP^{-1}
+                  =P(B^2+2B+3I)P^{-1}
+       \end{multline*}
+       这表明 $f(A)$ 与 $f(B)$ 相似。
+       \begin{exparts}
+         \partsitem 取 $f$ 为一次多项式，我们得到
+           $A-xI$ 与 $B-xI$ 相似。
+           相似矩阵有相等的行列式（因为 
+           $\deter{A}=\deter{PBP^{-1}}
+               =\deter{P}\cdot\deter{B}\cdot\deter{P^{-1}}
+               =1\cdot\deter{B}\cdot 1=\deter{B}$）。
+           于是特征多项式相等。 
+         \partsitem 
+           由于 \( P \) 与 \( P^{-1} \) 可逆，\( f(A) \) 是
+           零矩阵当且仅当 \( f(B) \) 是零矩阵。
+         \partsitem 它们不可能相似，因为它们没有相同的
+           特征多项式。
+           第一个的特征多项式是 
+           $x^2-4x-3$，而第二个的
+           特征多项式是 $x^2-5x+5$。
+       \end{exparts}  
+     \end{answer}
+   \item 
+    \begin{exparts}
+     \partsitem 证明一个矩阵可逆当且仅当 
+       其极小多项式中的常数项
+       不是 $0$。
+     \partsitem 证明：若方阵 \( T \) 不可逆     
+       则存在
+       非零矩阵 \( S \)，使得 \( ST \) 与 \( TS \) 都等于
+       零矩阵。
+     \end{exparts}
+     \begin{answer}
+      设 \( m(x)=x^n+m_{n-1}x^{n-1}+\dots+m_1x+m_0 \)
+      是 \( T \) 的极小多项式。
+      \begin{exparts}
+       \partsitem 
+         对于「若」的论证， 
+         由于 \( T^n+\dots+m_1T+m_0I \) 是零矩阵，我们
+         得到 \( I=(T^n+\dots+m_1T)/(-m_0)=
+         T\cdot (T^{n-1}+\dots+m_1I)/(-m_0) \)，所以 
+         矩阵 $(-1/m_0)\cdot (T^{n-1}+\dots+m_1I)$ 是 $T$ 的逆。
+         对于「仅当」，设 \( m_0=0 \) 
+         （我们把 \( n=1 \) 的情形搁置一旁，但它是容易的），
+         于是
+         \( T^n+\dots+m_1T=(T^{n-1}+\dots+m_1I)T \) 是零矩阵。
+         注意 \( T^{n-1}+\dots+m_1I \) 不是零矩阵，因为
+         极小多项式的次数是 \( n \)。
+         若 \( T^{-1} \) 存在，则把
+         \( (T^{n-1}+\dots+m_1I)T \) 与零矩阵从右边
+         乘以 $T^{-1}$ 就得出矛盾。
+       \partsitem 若 \( T \) 不可逆，则其
+         极小多项式中的常数项为零。
+         于是，
+         \begin{equation*}
+            T^n+\dots+m_1T=(T^{n-1}+\dots+m_1I)T=T(T^{n-1}+\dots+m_1I)
+         \end{equation*}
+         是零矩阵。
+       \end{exparts} 
+     \end{answer}
+   \recommended \item \label{exer:PolyMapsFactor}
+      \begin{exparts}
+        \partsitem 完成 \nearbylemma{le:PolyMapsFactor} 的证明。
+        \partsitem 举一个例子，说明当 $t$ 不是线性时
+          该结论不成立。
+      \end{exparts}
+      \begin{answer}
+        \begin{exparts}
+          \partsitem
+            对于归纳步骤，设 \nearbylemma{le:PolyMapsFactor}
+            对次数为 \( i,\ldots,k-1 \) 的多项式
+            成立，并考虑次数为 \( k \) 的多项式 \( f(x) \)。 
+            把 $f(x)$ 分解为 $f(x)=k(x-\lambda_1)^{q_1}\cdots(x-\lambda_z)^{q_z}$，
+            并设
+            \( k(x-\lambda_1)^{q_1-1}\cdots(x-\lambda_z)^{q_z} \)
+            为 \( c_{n-1}x^{n-1}+\cdots+c_1x+c_0 \)。
+            代入：
+            \begin{align*}
+               k\composed{\composed{(t-\lambda_1)^{q_1}}{\cdots}}{
+                                            (t-\lambda_z)^{q_z}}(\vec{v})
+               &=
+               \composed{(t-\lambda_1)}{
+                  \composed{\composed{(t-\lambda_1)^{q_1}}{\cdots}}{
+                  (t-\lambda_z)^{q_z}} }
+                          (\vec{v})    \\
+               &=
+               (t-\lambda_1)\,(c_{n-1}t^{n-1}(\vec{v})+\cdots+c_0\vec{v}) \\
+               &=
+               f(t)(\vec{v})
+            \end{align*}
+           （第二个等号来自归纳假设， 
+           第三个等号来自 \( t \) 的线性）。
+         \partsitem 一个例子是考虑平方映射
+            $\map{s}{\Re}{\Re}$，由 $s(x)=x^2$ 给出。
+            它是非线性的。
+            多项式 $f(t)=t^2-1$ 定义的作用 
+            把 $s$ 变成 $f(s)=s^2-1$，即这个映射。
+            \begin{equation*} 
+              x\mapsunder{s^2-1} \composed{s}{s}(x)-1=x^4-1
+            \end{equation*}
+            注意这个映射不同于映射
+            $\composed{(s-1)}{(s+1)}$；例如，第一个映射把
+            $x=5$ 变为 $624$，而第二个把 $x=5$ 变为 $675$。
+       \end{exparts} 
+     \end{answer}
+%  \item
+%    Give an example of two \( \nbyn{4} \) matrices that have the 
+%    same characteristic polynomial and the same minimal polynomial but
+%    nonetheless are not similar.
+%    \begin{answer}
+%      These two have the same characteristic polynomial,
+%      $c_S(x)=c_T(x)=(x-2)^4$.
+%      \begin{equation*}
+%        S=
+%        \begin{mat}[r]
+%          2  &0  &0  &0  \\
+%          1  &2  &0  &0  \\
+%          0  &0  &2  &0  \\
+%          0  &0  &0  &2
+%        \end{mat}
+%        \qquad
+%        T=
+%        \begin{mat}[r]
+%          2  &0  &0  &0  \\
+%          1  &2  &0  &0  \\
+%          0  &0  &2  &0  \\
+%          0  &0  &1  &2
+%        \end{mat}
+%      \end{equation*}
+%      For each of the two
+%      the candidates for the minimal polynomial are 
+%      $m_1(x)=(x-2)$, $m_2(x)=(x-2)^2$, $m_3(x)=(x-2)^3$, and 
+%      $m_4(x)=(x-2)^4$.
+%      We have 
+%      \begin{equation*}
+%        S-2I=
+%        \begin{mat}[r]
+%          0  &0  &0  &0  \\
+%          1  &0  &0  &0  \\
+%          0  &0  &0  &0  \\
+%          0  &0  &0  &0
+%        \end{mat}
+%        \qquad
+%        T-2I=
+%        \begin{mat}[r]
+%          0  &0  &0  &0  \\
+%          1  &0  &0  &0  \\
+%          0  &0  &0  &0  \\
+%          0  &0  &1  &0
+%        \end{mat}
+%      \end{equation*}
+%      and
+%      \begin{equation*}
+%        (S-2I)^2=
+%        \begin{mat}[r]
+%          0  &0  &0  &0  \\
+%          0  &0  &0  &0  \\
+%          0  &0  &0  &0  \\
+%          0  &0  &0  &0
+%        \end{mat}
+%        =
+%        (T-2I)^2
+%      \end{equation*}
+%      and so the minimal polynomial for each is $m_2$.
+%    \end{answer}
+  \item
+    任何变换或方阵都有极小多项式。
+    逆命题成立吗？
+    \begin{answer}
+      成立。
+      按最后一列展开可以检验
+      \( x^n+m_{n-1}x^{n-1}+\dots+m_1x+m_0 \) 是下面这个行列式的
+      正值或负值。
+      \begin{equation*}
+         \begin{mat}
+            -x  &0  &0  &      &    &m_0    \\
+             0  &1-x&0  &      &    &m_1    \\
+             0  &0  &1-x&      &    &m_2    \\
+                &   &   &\ddots             \\
+                &   &   &      &1-x &m_{n-1}
+         \end{mat}
+      \end{equation*} 
+     \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+\subsectionoptional{Jordan 标准形}
+我们要寻找的是矩阵相似之下的一个标准形。本小节通过从幂零矩阵各相似类的标准形推进到全体相似类的标准形，来完成这一工作。
+
+\begin{lemma} \label{le:NilIffOnlyEigenZero}
+非平凡向量空间上的线性变换是幂零的，当且仅当它仅有的特征值为零。
+\end{lemma}
+
+\begin{proof}
+若非平凡向量空间上的线性变换 $t$ 是幂零的，则存在 $n$ 使得 $t^n$ 是零映射，从而 $t$ 满足多项式 $p(x)=x^n=(x-0)^n$。由 \nearbylemma{le:tSatisImpMinPolyDivides}，$t$ 的极小多项式整除 $p$，故该极小多项式仅有的根是零。再由 Cayley-Hamilton 定理，\nearbytheorem{th:CayHam}，特征多项式仅有的根是零。于是 $t$ 仅有的特征值为零。
+
+反之，若 \( n \) 维空间上的变换 \( t \) 仅有的特征值是零，则它的特征多项式是 \( x^n \)。\nearbylemma{le:MatSatItsCharPoly} 指出映射满足其特征多项式，故 \( t^n \) 是零映射。于是 $t$ 是幂零的。
+\end{proof}
+
+\noindent 该引理的陈述中出现“非平凡向量空间”，是因为在平凡空间 $\set{\zero}$ 上唯一的变换是零映射，而它没有相关的非零特征向量，因此没有特征值。
+
+\begin{corollary} \label{cor:tMinLambdaNilpotent}
+变换 $t-\lambda$ 是幂零的，当且仅当 $t$ 仅有的特征值是 $\lambda$。
+\end{corollary}
+
+\begin{proof}
+变换 \( t-\lambda \) 是幂零的，当且仅当 $t-\lambda$ 仅有的特征值是 \( 0 \)。这当且仅当 $t$ 仅有的特征值是 $\lambda$ 时才成立，因为 \( t(\vec{v})=\lambda\vec{v} \,\) 当且仅当 \( (t-\lambda)\,(\vec{v})=0\cdot\vec{v} \)。
+\end{proof}
+
+\begin{lemma}   \label{le:SimRespAddScalar}
+若矩阵 \( T-\lambda I \) 与 \( N \) 相似，则 \( T \) 与 \( N+\lambda I \) 也相似，且经由相同的换基矩阵。
+\end{lemma}
+
+\begin{proof}
+由 \( N=P(T-\lambda I)P^{-1}=PTP^{-1}-P(\lambda I)P^{-1} \)，我们得到 $N=PTP^{-1}-PP^{-1}(\lambda I)$，因为对角矩阵 \( \lambda I \) 与任何矩阵交换。于是 \( N=PTP^{-1}-\lambda I \)，从而 \( N+\lambda I=PTP^{-1} \)。
+\end{proof}
+对于幂零矩阵的情形，也就是仅有一个特征值为零的矩阵的情形，我们已经有其标准形。由推论~III.\ref{cor:NilpotentMatCanonForm}，每个这样的矩阵都相似于一个除了由次对角线上的~1 构成的块以外全为零的矩阵。
+% (To make this representation unique we can fix some arrangement of
+% the blocks, perhaps from longest to shortest.)
+前面的结论使我们能把它推广到仅有一个特征值~$\lambda$ 的所有矩阵。在新形式中，除了由次对角线上的~1 构成的块以外，对角线上的所有元素都是~$\lambda$。
+（见下文的 \nearbydefinition{def:JordanBlock}。）
+
+\begin{example}   \label{ex:SingJordBlock}
+矩阵
+\begin{equation*}
+  T=\begin{mat}[r]
+      2  &-1  \\
+      1  &4
+    \end{mat}
+\end{equation*}
+的特征多项式是 \( (x-3)^2 \)，因此 \( T \) 仅有一个特征值 \( 3 \)。
+% We can find a matrix similar to $T$ that is simple in
+% the way that our canonical form for nilpotent matrices is simple.
+% The form is described in \nearbydefinition{def:JordanBlock} below but
+% as a preview here the new matrix.
+% \begin{equation*}
+%   \begin{mat}[r]
+%       3  &0  \\
+%       1  &3
+%     \end{mat}
+% \end{equation*}
+
+由于 $3$ 是仅有的特征值，$T-3I$ 仅有的特征值是 \( 0 \)，从而是幂零的。为求~$T$ 的标准形，先按前一小节的做法为 $T-3I$ 求出一个链基：计算该矩阵的各次幂，并求出这些幂的零空间。
+\begin{center}
+  \begin{tabular}{c|cc}
+    \multicolumn{1}{c}{\textit{幂次} \( p \)}  &\( (T-3I)^p \)  &\( \nullspace{(T-3I)^p}  \)   \\
+    \hline
+    \( 1 \)
+    &\(
+       \matrixvenlarge{\begin{mat}[r]
+         -1  &-1 \\
+         1   &1   \\
+       \end{mat}}  \)
+    &\( \set{\matrixvenlarge{\colvec{-y \\ y}}\suchthat
+                               y\in\C}  \)   \\
+    \( 2 \)
+    &\(
+       \matrixvenlarge{\begin{mat}[r]
+         0  &0  \\
+         0  &0   \\
+       \end{mat}}  \)
+    &\( \set{\matrixvenlarge{\colvec{x \\ y}}\suchthat
+                               x,y\in\C}  \)   \\
+  \end{tabular}
+\end{center}
+$t-3$ 的零空间维数为一，$(t-3)^2$ 的零空间维数为二。因此，下面就是标准表示矩阵，以及 $t-3$ 相应的链基~$B$ 的形式。
+\begin{equation*}
+  \rep{t-3}{B,B}
+  =N=
+  \begin{mat}[r]
+      0  &0   \\
+      1  &0
+  \end{mat}
+  \qquad
+  \begin{array}{r}
+    \vec{\beta}_1\xmapsto{t-3}\vec{\beta}_2\xmapsto{t-3}\zero  \\
+  \end{array}
+\end{equation*}
+求这样一个基的方法是：先取一个被 $t-3$ 映到~$\zero$ 的 $\vec{\beta}_2$（也就是从表中给出的零空间 $\nullspace{t-3}$ 中取一个元素）。再选取一个被 $(t-3)^2$ 映到~$\zero$ 的 $\vec{\beta}_1$。这一选取除了要求属于零空间以外，唯一的限制是 $\vec{\beta}_1$ 与 $\vec{\beta}_2$ 必须构成线性无关集。下面是一种可能的取法。
+\begin{equation*}
+  \vec{\beta}_1=\colvec[r]{1 \\ 1}
+  \quad
+  \vec{\beta}_2=\colvec[r]{-2 \\ 2}
+\end{equation*}
+由此，\nearbylemma{le:SimRespAddScalar} 表明 \( T \) 相似于这个矩阵。
+\begin{equation*}
+  \rep{t}{B,B}=
+  N+3I=
+  \begin{mat}[r]
+     3  &0  \\
+     1  &3
+  \end{mat}
+\end{equation*}
+
+我们可以把相似计算明确地展示出来。取 $T$ 为变换 $\map{t}{\C^2}{\C^2}$ 相对于标准基的表示矩阵（本章余下部分都将如此）。
+% Recall how to find the change of
+% basis matrices $P$ and $P^{-1}$ to express \( N \) as \( P(T-3I)P^{-1} \).
+相似示意图
+\begin{equation*}
+  \begin{CD}
+    \C^2_{\wrt{\stdbasis_2}}      @>t-3>T-3I>      \C^2_{\wrt{\stdbasis_2}}     \\
+    @V\scriptstyle\identity V\scriptstyle PV
+                                 @V\scriptstyle\identity V\scriptstyle PV \\
+    \C^2_{\wrt{B}}                 @>t-3>N>         \C^2_{\wrt{B}}
+  \end{CD}
+\end{equation*}
+说明从左下角走到左上角要乘以
+\begin{equation*}
+  P^{-1}=\bigl(\rep{\identity}{\stdbasis_2,B}\bigr)^{-1}
+    =\rep{\identity}{B,\stdbasis_2}
+    =\begin{mat}[r]
+        1  &-2  \\
+        1  &2
+     \end{mat}
+\end{equation*}
+而从右上角走到右下角则要乘以这个矩阵。
+\begin{equation*}
+  P=\begin{mat}[r]
+      1  &-2  \\
+      1  &2
+     \end{mat}^{-1}\!\!
+   =\begin{mat}[r]
+      1/2  &1/2  \\
+      -1/4 &1/4
+   \end{mat}
+\end{equation*}
+于是这个等式展示了相似性。
+\begin{equation*}
+  \begin{mat}[r]
+      1/2  &1/2  \\
+      -1/4 &1/4
+   \end{mat}
+   \begin{mat}[r]
+      2  &-1  \\
+      1  &4
+    \end{mat}
+    \begin{mat}[r]
+        1  &-2  \\
+        1  &2
+     \end{mat}
+  =
+  \begin{mat}[r]
+     3  &0  \\
+     1  &3
+  \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{example}  \label{ex:FullNilpotentCase}
+矩阵
+\begin{equation*}
+  T=
+  \begin{mat}[r]
+    4  &1  &0  &-1  \\
+    0  &3  &0  &1   \\
+    0  &0  &4  &0   \\
+    1  &0  &0  &5
+   \end{mat}
+\end{equation*}
+的特征多项式是 \( (x-4)^4 \)，
+因此仅有一个特征值~$4$。
+\begin{center}
+  \begin{tabular}{c|cc}
+    \multicolumn{1}{c}{\textit{幂次} \( p \)}  &\( (T-4I)^p \)  &\( \nullspace{(T-4I)^p}  \)   \\
+    \hline
+    \( 1 \)
+    &\(
+       \matrixvenlarge{\begin{mat}[r]
+         0  &1  &0  &-1  \\
+         0  &-1 &0  &1   \\
+         0  &0  &0  &0   \\
+         1  &0  &0  &1
+       \end{mat}}  \)
+    &\( \set{\matrixvenlarge{\colvec{-w \\ w \\ z \\ w}}\suchthat
+                               z,w\in\C}  \)   \\
+    \( 2 \)
+    &\(
+       \matrixvenlarge{\begin{mat}[r]
+         -1  &-1 &0  &0  \\
+          1  &1  &0  &0   \\
+          0  &0  &0  &0   \\
+          1  &1  &0  &0
+       \end{mat}}  \)
+    &\( \set{\matrixvenlarge{\colvec{-y \\ y \\ z \\ w}}\suchthat
+                               y,z,w\in\C}  \)   \\
+    \( 3 \)
+    &\(
+       \matrixvenlarge{\begin{mat}[r]
+          0  &0   &0  &0  \\
+          0  &0  &0  &0   \\
+          0  &0  &0  &0   \\
+          0  &0  &0  &0   \\
+       \end{mat}}  \)
+    &\( \set{\matrixvenlarge{\colvec{x \\ y \\ z \\ w}}\suchthat
+                               x,y,z,w\in\C}  \)   \\
+  \end{tabular}
+% sage: T=matrix(QQ, [[4,1,0,-1], [0,3,0,1], [0,0,4,0], [1,0,0,5]])
+% sage: S=T-4*identity_matrix(4)
+% sage: S^2
+% [-1 -1  0  0]
+% [ 1  1  0  0]
+% [ 0  0  0  0]
+% [ 1  1  0  0]
+% sage: S^3
+% [0 0 0 0]
+% [0 0 0 0]
+% [0 0 0 0]
+% [0 0 0 0]
+% sage: S
+% [ 0  1  0 -1]
+% [ 0 -1  0  1]
+% [ 0  0  0  0]
+% [ 1  0  0  1]
+% sage: S*vector(QQ, [-1,1, 0, 1])
+% (0, 0, 0, 0)
+\end{center}
+$t-4$ 的零空间维数为二，$(t-4)^2$
+的零空间维数为三，而 $(t-4)^3$ 的零空间维数为四。
+由此得到 $t-4$ 的标准形。
+\begin{equation*}
+  N=\rep{t-4}{B,B}=
+  \begin{mat}[r]
+    0  &0  &0  &0   \\
+    1  &0  &0  &0   \\
+    0  &1  &0  &0   \\
+    0  &0  &0  &0
+   \end{mat}
+   \qquad
+  \begin{array}{r}
+    \vec{\beta}_{1}\xmapsto{t-4}\vec{\beta}_{2}
+       \xmapsto{t-4}\vec{\beta}_{3}\xmapsto{t-4}\zero \\
+   \vec{\beta}_{4}\xmapsto{t-4}\zero \\
+  \end{array}
+\end{equation*}
+为构造这样一个基，选取被~$t-4$ 映到~$\zero$
+的 $\vec{\beta}_3$ 和~$\vec{\beta}_4$。
+再选取一个被~$(t-4)^2$ 映到~$\zero$ 的~$\vec{\beta}_2$，
+以及一个被~$(t-4)^3$ 映到~$\zero$ 的 $\vec{\beta}_1$。
+\begin{equation*}
+  \vec{\beta}_1=\colvec{1 \\ 0 \\ 0 \\ 0}
+  \quad
+  \vec{\beta}_2=\colvec{-1 \\ 1 \\ 0 \\ 0}
+  \quad
+  \vec{\beta}_3=\colvec{-1 \\ 1 \\ 0 \\ 1}
+  \quad
+  \vec{\beta}_4=\colvec{0 \\ 0 \\ 1 \\ 0}
+\end{equation*}
+注意，选取这四个向量时避免了任何线性相关。
+这就是与~$T$ 相似的标准形矩阵。
+\begin{equation*}
+  \rep{t}{B,B}
+  =N+4I=
+  \begin{mat}[r]
+    4  &0  &0  &0   \\
+    1  &4  &0  &0   \\
+    0  &1  &4  &0   \\
+    0  &0  &0  &4
+   \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{definition}  \label{def:JordanBlock}
+\definend{Jordan 块}\index{Jordan block}
+是一个方阵，或者矩阵内部的一个方形元素块，
+它除以下情形外全为零：存在一个数 $\lambda\in\C$，
+使得每个对角元都是 $\lambda$，
+且每个次对角线上的元素都是~$1$。
+（若该块是 $\nbyn{1}$ 的，则它没有次对角线上的~1。）
+\end{definition}
+
+相应基中的这些链称为
+\definend{Jordan 链}\index{Jordan string}\index{basis!Jordan string}
+或 \definend{Jordan 链}。\index{Jordan chain}\index{basis!Jordan chain}
+
+上面的例子说明，对于仅有一个特征值的矩阵，
+Jordan 块矩阵是各相似类的标准形代表元。
+我们可以把这种矩阵形式变得唯一，做法是安排基元素的次序，
+使得由次对角线上的 1 构成的块按从左到右由长到短排列。
+
+\begin{example}
+仅有的特征值为 \( 1/2 \) 的 \( \nbyn{3} \) 矩阵分成
+三个相似类。
+这三个类具有如下标准形代表元。
+\begin{equation*}
+  \begin{mat}[r]
+     1/2  &0    &0  \\
+     0    &1/2  &0  \\
+     0    &0    &1/2
+   \end{mat}
+   \qquad
+   \begin{mat}[r]
+     1/2  &0    &0  \\
+     1    &1/2  &0  \\
+     0    &0    &1/2
+   \end{mat}
+   \qquad
+   \begin{mat}[r]
+     1/2  &0    &0  \\
+     1    &1/2  &0  \\
+     0    &1    &1/2
+   \end{mat}
+\end{equation*}
+特别地，矩阵
+\begin{equation*}
+   \begin{mat}[r]
+     1/2  &0    &0    \\
+     0    &1/2  &0    \\
+     0    &1    &1/2
+   \end{mat}
+\end{equation*}
+属于由中间那个矩阵代表的相似类，这是由
+次对角线上的 1 构成的块的排列约定所致。
+\end{example}
+
+现在我们已准备好完成本章的计划。
+首先回顾一下到目前为止我们关于
+变换 $\map{t}{\C^n}{\C^n}$ 的所得。
+
+可对角化的情形是指
+$t$ 有~$n$ 个互不相同的特征值
+$\lambda_1$, \ldots, $\lambda_n$，也就是特征值的个数
+等于空间的维数的情形。
+此时有一组基
+$\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_n}$，其中
+$\vec{\beta}_i$ 是与特征值~$\lambda_i$ 相伴的特征向量。
+下例中
+$n=3$，三个特征值为 $\lambda_1=1$、$\lambda_2=3$
+和 $\lambda_3=-1$。
+图中给出了标准形代表矩阵及相应的基。
+\begin{equation*}
+  T_1=\begin{mat}
+    1  &0  &0  \\
+    0  &3  &0  \\
+    0  &0  &-1
+  \end{mat}
+  \qquad
+    \begin{array}{r}
+    \vec{\beta}_1\mapsunder{t-1}\zero  \\
+    \vec{\beta}_2\mapsunder{t-3}\zero  \\
+    \vec{\beta}_3\mapsunder{t+1}\zero
+    \end{array}
+\end{equation*}
+对角化的一个例子是
+Five.II.\ref{ex:SummaryOfDiagonalizable}。
+
+$t$ 仅有一个特征值的情形则利用幂零性的结果，
+得到由构成不相交链的
+相伴特征向量组成的基。
+本例有 $n=10$，唯一的特征值~$\lambda=2$，
+以及五个 Jordan 块。
+\begin{equation*}
+  T_2=\begin{mat}
+    2  &0  &0  &0 &0 &0 &0 &0 &0 &0 \\
+    1  &2  &0  &0 &0 &0 &0 &0 &0 &0 \\
+    0  &1  &2  &0 &0 &0 &0 &0 &0 &0 \\
+    0  &0  &0  &2 &0 &0 &0 &0 &0 &0 \\
+    0  &0  &0  &1 &2 &0 &0 &0 &0 &0 \\
+    0  &0  &0  &0 &1 &2 &0 &0 &0 &0 \\
+    0  &0  &0  &0 &0 &0 &2 &0 &0 &0 \\
+    0  &0  &0  &0 &0 &0 &1 &2 &0 &0 \\
+    0  &0  &0  &0 &0 &0 &0 &0 &2 &0 \\
+    0  &0  &0  &0 &0 &0 &0 &0 &0 &2 \\
+  \end{mat}
+  \qquad
+  {\renewcommand{\arraystretch}{1.75}
+    \begin{array}{r}
+    \vec{\beta}_1\mapsunder{t-2}\vec{\beta}_2\mapsunder{t-2}\vec{\beta}_3\mapsunder{t-2}\zero  \\
+    \vec{\beta}_4\mapsunder{t-2}\vec{\beta}_5\mapsunder{t-2}\vec{\beta}_6\mapsunder{t-2}\zero  \\
+    \vec{\beta}_7\mapsunder{t-2}\vec{\beta}_8\mapsunder{t-2}\zero  \\
+    \vec{\beta}_9\mapsunder{t-2}\zero  \\
+    \vec{\beta}_{10}\mapsunder{t-2}\zero
+    \end{array}}
+\end{equation*}
+我们已在 \nearbyexample{ex:FullNilpotentCase}
+看到一个完整的例子。
+
+下面的 \nearbytheorem{th:JordanForm} 把这两种情形
+推广到任意变换
+$\map{t}{\C^n}{\C^n}$。
+其标准形由
+含有各特征值的 Jordan 块组成。
+下图展示了这样一个 $n=6$ 的矩阵，特征值为 $3$、$2$
+和~$-1$
+（含完整计算的例子在该定理之后）。
+\begin{equation*}
+  T_3=\begin{mat}
+    3  &0  &0  &0 &0 &0 \\
+    1  &3  &0  &0 &0 &0  \\
+    0  &0  &3  &0 &0 &0  \\
+    0  &0  &0  &2 &0 &0  \\
+    0  &0  &0  &1 &2 &0  \\
+    0  &0  &0  &0 &0 &-1  \\
+  \end{mat}
+  \qquad
+  {\renewcommand{\arraystretch}{1.5}
+    \begin{array}{r}
+    \vec{\beta}_1\mapsunder{t-3}\vec{\beta}_2\mapsunder{t-3}\zero  \\
+    \vec{\beta}_3\mapsunder{t-3}\zero  \\
+    \vec{\beta}_4\mapsunder{t-2}\vec{\beta}_5\mapsunder{t-2}\zero  \\
+    \vec{\beta}_6\mapsunder{t+1}\zero  \\
+    \end{array}}
+\end{equation*}
+它有四个块，其中两个
+与特征值~$3$ 相伴，\( 2 \) 和~\( -1 \) 各有一个。
+
+
+\begin{theorem}  \label{th:JordanForm}
+\index{similar!canonical form}%
+\index{canonical form!for similarity}\index{transformation!Jordan form for}
+任何变换 $\map{t}{\C^n}{\C^n}$ 都可以表示成
+\definend{Jordan 形式},\index{Jordan form!represents similarity classes}\index{Jordan form!definition}
+其中每个 $J_{\lambda}$ 都是 Jordan 块。\index{Jordan block}
+\begin{equation*}
+  \begin{mat}
+    J_{\lambda_1}  &            &\text{\textit{--zeroes--}}                 \\
+               &J_{\lambda_2}                                              \\
+               &     &\ddots                                     \\
+             %    &     &                           &J_{\lambda_{k-1}} &     \\
+               &     &\text{\textit{--zeroes--}} &            &J_{\lambda_{k}}
+  \end{mat}
+\end{equation*}
+换言之，任何 $\nbyn{n}$ 矩阵都相似于这种形式的某个矩阵。
+\end{theorem}
+
+在前面的例子中，若把
+$t-3$ 作用于该基，则它会把两个元素
+$\vec{\beta}_2$ 和~$\vec{\beta}_3$ 送到~$\zero$。
+这提示我们可以用归纳法来做证明，
+因为值域空间~$\rangespace{t-3}$ 的维数
+小于起始空间的维数。
+
+\begin{proof}
+% This proof is closely related to that of
+% Five.III.\ref{th:NilMapHasStrBas}, that any nilpotent transformation
+% has a basis of disjoint $t$-strings.
+%
+我们对~$n$ 作归纳。
+$n=1$ 的基础情形是平凡的，因为任何 $\nbyn{1}$ 矩阵已经是 Jordan 形式。
+归纳步骤假设
+$\C^1$, \ldots, $\C^{n-1}$ 上的每个变换都有 Jordan 形式
+表示，
+并取定 $\map{t}{\C^n}{\C^n}$。
+
+任何变换都至少有一个特征值~$\lambda_1$，因为
+它有极小多项式，而
+该多项式在复数域上至少有一个根。
+该特征值有非零的
+特征向量~$\vec{v}$，使得 $(t-\lambda_1)(\vec{v})=\zero$。
+% and so the null space of $t-\lambda_1$ is nontrivial.
+于是 $\nullspace{t-\lambda_1}$ 的维数，即该映射的零度，
+大于零。
+由于秩加零度等于定义域的维数，
+$t-\lambda_1$ 的秩
+严格小于~$n$。
+记 $W$ 为值域空间 $\rangespace{t-\lambda_1}$，记
+$r$ 为秩，即其维数。
+
+若
+$\vec{w}\in W=\rangespace{t-\lambda_1}$，则 $\vec{w}\in\C^n$，于是
+$(t-\lambda_1)(\vec{w})\in\rangespace{t-\lambda_1}$。
+因此，$t-\lambda_1$ 在~$W$ 上的限制诱导出~$W$ 上的一个变换，
+我们仍把它记为 $t-\lambda_1$。
+~$W$ 的维数小于~$n$，
+所以归纳假设适用，
+我们得到~$W$ 的一组由不相交链构成的基，
+这些链与 $t-\lambda_1$ 在~$W$ 上
+的特征值相伴。
+对于~$t-\lambda_1$ 的任一特征值 $\lambda$，
+基元素在该变换下的像是
+$(t-\lambda_1)-\lambda=t-(\lambda_1-\lambda)$，
+我们将把它写作 $t-\lambda_s$。
+下面的示意图给出了 $t-\lambda_1$ 的一些链，也就是
+$\lambda=0$ 的情形；
+若不存在这样的链，论证仍然有效。
+\begin{equation*}
+\begin{strings}{*{10}{l}}
+  \vec{w}_{1,n_1} &\xmapsto{t-\lambda_1} &\cdots
+     &\xmapsto{t-\lambda_1} &\vec{w}_{1,1} &\xmapsto{t-\lambda_1} &\zero \\
+     \vdotswithin{\xmapsto{t-\lambda_1}}                   \\
+  \vec{w}_{q,n_q} &\xmapsto{t-\lambda_1} &\cdots
+     &\xmapsto{t-\lambda_1} &\vec{w}_{q,1} &\xmapsto{t-\lambda_1} &\zero \\
+  \vec{w}_{q+1,n_{q+1}} &\xmapsto{t-\lambda_2} &\cdots
+     &\xmapsto{t-\lambda_2} &\vec{w}_{q+1,1} &\xmapsto{t-\lambda_2} &\zero \\
+     \vdotswithin{\xmapsto{t-\lambda_1}}                              \\
+  \vec{w}_{k,n_k} &\xmapsto{t-\lambda_i} &\cdots
+     &\xmapsto{t-\lambda_i} &\vec{w}_{k,1} &\xmapsto{t-\lambda_i} &\zero \\
+\end{strings}
+\end{equation*}
+这些链的长度可以不同；
+例如，也许 $n_1\neq n_k$。
+
+最右边的非 $\zero$ 向量
+$\vec{w}_{1,1}$、\ldots、
+$\vec{w}_{k,1}$
+属于相应
+映射的零空间，~$(t-\lambda_1)(\vec{w}_{1,1})=\zero$、\ldots、
+$(t-\lambda_i)(\vec{w}_{k,1})=\zero$。
+因此，与 $t-\lambda_1$ 相伴的链的个数，
+即上图中的 $q$，
+等于 $W\cap\nullspace{t-\lambda_1}$ 的维数。
+
+上面的链基是针对空间 $W=\rangespace{t-\lambda_1}$ 的。
+我们现在把它扩充为整个~$\C^n$ 的基。
+首先，由于
+向量 $\vec{w}_{1,n_1}$、\ldots、~$\vec{w}_{q,n_q}$
+中的每一个都是~$\rangespace{t-\lambda_1}$ 的元素，每一个都是来自~$\C^n$ 的
+某个向量的像。
+给每条链前面添加这样一个向量，
+\( \vec{x}_1 \)、\ldots、\( \vec{x}_q \)，
+如下所示。
+其次，$W\cap\nullspace{t-\lambda_1}$ 的维数是~$q$，
+而~$W$ 的维数是~$r$，
+所以按账目计算，需要有一个维数为 $r-q$ 的子空间
+$Y\subseteq\nullspace{t-\lambda_1}$，
+它与 $W$ 的交是~$\set{\zero}$。
+于是，
+取 $r-q$ 个线性无关的
+向量 $\vec{y}_1$、\ldots、$\vec{y}_{r-q}\in\nullspace{t-\lambda_1}$
+并把它们并入各链的名单之中，同样如下所示。
+\begin{equation*}
+\begin{strings}{*{10}{c}}
+  \vec{x}_1  &\xmapsto{t-\lambda_1}
+     &\vec{w}_{1,n_1} &\xmapsto{t-\lambda_1} &\cdots
+     &\xmapsto{t-\lambda_1} &\vec{w}_{1,1} &\xmapsto{t-\lambda_1} &\zero \\
+     \vdotswithin{\xmapsto{t-\lambda_1}}                   \\
+  \vec{x}_q  &\xmapsto{t-\lambda_1}
+     &\vec{w}_{q,n_q} &\xmapsto{t-\lambda_1} &\cdots
+     &\xmapsto{t-\lambda_1} &\vec{w}_{q,1} &\xmapsto{t-\lambda_1} &\zero \\
+  &&\vec{w}_{q+1,n_{q+1}} &\xmapsto{t-\lambda_2} &\cdots
+     &\xmapsto{t-\lambda_2} &\vec{w}_{q+1,1} &\xmapsto{t-\lambda_2} &\zero \\
+     &&\vdotswithin{\xmapsto{t-\lambda_1}}                              \\
+  &&\vec{w}_{k,n_k} &\xmapsto{t-\lambda_i} &\cdots
+     &\xmapsto{t-\lambda_i} &\vec{w}_{k,1} &\xmapsto{t-\lambda_i} &\zero \\
+     &&&&&&\vec{y}_1  &\xmapsto{t-\lambda_1} &\zero \\
+     &&&&&&\vdotswithin{\xmapsto{t-\lambda_1}}                              \\
+     &&&&&&\vec{y}_{r-q}  &\xmapsto{t-\lambda_1} &\zero \\
+\end{strings}
+\end{equation*}
+我们将证明这就是所想要的~$\C^n$ 的基。
+
+由于按账目计算，该集合中向量的个数等于空间的维数，
+所以只要验证其元素线性无关，我们就完成了。
+假设下式等于~$\zero$。
+\begin{equation*}
+  a_1\vec{x}_1+\cdots+a_q\vec{x}_q
+    +b_{1,n_1}\vec{w}_{1,n_1}+\cdots+b_{k,1}\vec{w}_{k,1}
+    +c_1\vec{y}_1+\cdots+c_{r-q}\vec{y}_{r-q}
+  \tag{$*$}
+\end{equation*}
+我们首先证明，由此可推出所有的 $a$ 都为零。
+把 $t-\lambda_1$ 作用于~($*$)。
+向量 $\vec{y}_1$、\ldots、$\vec{y}_{r-q}$
+被送到~$\zero$。
+每个向量 $\vec{x}_i$ 都被送到
+$\vec{w}_{i,n_i}$。
+至于各个 $\vec{w}$，它们具有如下性质：对某个~$\lambda_k$，
+$(t-\lambda_k)\,\vec{w}_{i,j}=\vec{w}_{i,j-1}$。
+记 $\hat{\lambda}$ 为 $\lambda_1-\lambda_k$，便得到
+\begin{equation*}
+  (t-\lambda_1)(\vec{w}_{i,j})
+    =(t-(\lambda_1-\hat{\lambda})+\hat{\lambda})(\vec{w}_{i,j})
+    =\vec{w}_{i,j-1}+\hat{\lambda}\cdot\vec{w}_{i,j}
+  \tag{$**$}
+\end{equation*}
+于是，把 $t-\lambda_1$ 作用于~($*$) 之后最终得到的是 $\vec{w}$ 的一个
+线性组合。
+这些向量线性无关，因为
+它们构成~$W$ 的基，所以在这个线性组合中
+系数是~$0$。
+要完成 $a_i=0$（$i=1,\ldots,q$）为零的证明，
+只需验证：在把 $t-\lambda_1$ 作用于~($*$) 之后，
+$\vec{w}_{i,n_i}$ 的系数是 $a_i$。
+而这确实成立，因为对 $i=1,\ldots,q$，
+方程~($**$) 中 $\hat{\lambda}=0$，
+所以 $\vec{w}_{i,n_i}$ 仅是 $x_{i}$ 的像。
+% Thus $a_1$, \ldots, $a_q$ are zero.
+
+各 $a$ 等于零之后，~($*$) 剩下的部分就是
+\begin{equation*}
+  \zero
+  =
+    b_{1,n_1}\vec{w}_{1,n_1}+\cdots+b_{k,1}\vec{w}_{k,1}
+    +c_1\vec{y}_1+\cdots+c_{r-q}\vec{y}_{r-q}
+\end{equation*}
+改写为 $-(b_{1,n_1}\vec{w}_{1,n_1}+\cdots+b_{k,1}\vec{w}_{k,1})=
+    c_1\vec{y}_1+\cdots+c_{r-q}\vec{y}_{r-q}$。
+各 $\vec{w}$ 来自~$W$，而各 $\vec{y}$ 来自~$Y$，且
+这两个空间只有平凡的交。
+因此 $b_{1,n_1}\vec{w}_{1,n_1}+\cdots+b_{k,1}\vec{w}_{k,1}=\zero$，
+且 $c_1\vec{y}_1+\cdots+c_{r-q}\vec{y}_{r-q}=\zero$，
+从而各 $b$ 与各 $c$ 全都为零。
+\end{proof}
+
+
+
+
+
+% Recall that Lemma~III.\ref{le:RangeAndNullChains} shows that for any
+% transformation~$t$ on an $n$~dimensional space
+% the range spaces of iterates are stable
+% \begin{equation*}
+%   \rangespace{t^n}=\rangespace{t^{n+1}}=\cdots=\genrangespace{t}
+% \end{equation*}
+% as are the null spaces.
+% \begin{equation*}
+%   \nullspace{t^n}=\nullspace{t^{n+1}}=\cdots=\gennullspace{t}
+% \end{equation*}
+% Thus,
+% the generalized null space $\gennullspace{t}$ and the generalized range space
+% $\genrangespace{t}$ are $t$~invariant.
+% % For the generalized null space, if $\vec{v}\in\gennullspace{t}$ then
+% % $t^n(\vec{v})=\zero$ where $n$ is the dimension of the underlying space
+% % and so $t(\vec{v})\in\gennullspace{t}$ because
+% % $t^n(\,t(\vec{v})\,)$ is zero also.
+% % For the generalized rangespace, if $\vec{v}\in\genrangespace{t}$ then
+% % $\vec{v}=t^n(\vec{w})$ for some $\vec{w}$ and then
+% % $t(\vec{v})=t^{n+1}(\vec{w})=t^n(\,t(\vec{w})\,)$
+% % shows that $t(\vec{v})$ is also a member of $\genrangespace{t}$.
+% Also,
+% $\gennullspace{t-\lambda_i}$ and $\genrangespace{t-\lambda_i}$
+% are $t-\lambda_i$~invariant.
+
+% The action of the transformation $t-\lambda_i$ on $\gennullspace{t-\lambda_i}$
+% is especially easy to understand.
+% Observe that any transformation~$t$ is nilpotent on $\gennullspace{t}$, 
+% because if $\vec{v}\in\gennullspace{t}$ then 
+% by definition $t^n(\vec{v})=\zero$. 
+% Thus $t-\lambda_i$ is nilpotent on 
+% $\gennullspace{t-\lambda_i}$.
+
+% % Thus, the generalized null space $\gennullspace{t-\lambda_i}$ is a part of
+% % the space on which the action of $t-\lambda_i$ is easy to understand.
+
+% We shall take three steps to prove this section's major result. 
+% The next result is the first.
+% % It establishes that if $j=neq i$ then \( t-\lambda_j \) leaves
+% % \( t-\lambda_i \)'s part unchanged.
+
+% \begin{lemma} \label{le:tInvIfftMinLambdaInv}
+% A subspace is \( t \) invariant if and only if 
+% it is \( t-\lambda \) invariant for all scalars \( \lambda \).
+% In particular, 
+% if \( \lambda_i \) is an eigenvalue of  a linear transformation
+% \( t \) then for any other eigenvalue $\lambda_j$
+% the spaces \( \gennullspace{t-\lambda_i} \) 
+% and \( \genrangespace{t-\lambda_i} \)
+% are \( t-\lambda_j \) invariant.
+% \end{lemma}
+
+% \begin{proof}
+% For the first sentence we check the two implications separately.
+% The `if' half is easy: if the subspace is $t-\lambda$ invariant for 
+% all scalars $\lambda$ then using $\lambda=0$ shows that it is $t$ invariant.
+% For `only if' suppose that the subspace is $t$ invariant,
+% so that if $\vec{m}\in M$ then $t(\vec{m})\in M$, and let $\lambda$ be 
+% a scalar.
+% The subspace $M$ is closed under linear combinations and so if 
+% $t(\vec{m})\in M$ then $t(\vec{m})-\lambda\vec{m}\in M$.
+% Thus if $\vec{m}\in M$ then $(t-\lambda)\,(\vec{m})\in M$.
+
+% The lemma's second sentence follows from its first.
+% The
+% two spaces are $t-\lambda_i$~invariant so they are \( t \)~invariant.
+% Apply the first sentence again to
+% conclude that they are also \( t-\lambda_j \) invariant.
+% \end{proof}
+
+% The second step of the three that we will take to prove this
+% section's major result makes use of an additional property of 
+% \( \gennullspace{t-\lambda_i} \) and
+% \( \genrangespace{t-\lambda_i} \), that they are complementary.
+% Recall that if a space is the direct sum of two others 
+% \( V=\mathscr{N}\directsum \mathscr{R} \) 
+% then any vector \( \vec{v} \) in the space breaks into
+% two parts \( \vec{v}=\vec{n}+\vec{r} \) where \( \vec{n}\in \mathscr{N} \) and
+% \( \vec{r}\in \mathscr{R} \), and recall also 
+% that if \( B_{\mathscr{N}} \) and \( B_{\mathscr{R}} \) are bases for
+% \( \mathscr{N} \) and \( \mathscr{R} \) then the concatenation
+% \( \cat{B_{\mathscr{N}}}{B_{\mathscr{R}}} \) is linearly independent.
+% The next result says that for any subspaces
+% \( \mathscr{N} \) and \( \mathscr{R} \) that are complementary 
+% as well as \( t \)~invariant,
+% the action
+% of \( t \) on \( \vec{v} \) breaks into the actions of
+% \( t \) on \( \vec{n} \) and on \( \vec{r} \).
+
+% \begin{lemma} \label{le:InvCompSubspSplitTrans}
+% Let \( \map{t}{V}{V} \) be a transformation and let \( \mathscr{N} \) and 
+% \( \mathscr{R} \) be
+% \( t \) invariant complementary subspaces of \( V \).
+% Then we can represent \( t \) by a matrix with
+% blocks of square submatrices $T_1$ and $T_2$
+% \begin{equation*} \renewcommand{\arraystretch}{1.2}
+%   \begin{pmat}{c|c}
+%       T_1   &Z_2  \\  \cline{1-2}
+%       Z_1 &T_2
+%    \end{pmat}
+%    \begin{array}{@{}l}
+%      \} \text{\ $\dim(\mathscr{N})$-many rows}  \\
+%      \} \text{\ $\dim(\mathscr{R})$-many rows}
+%    \end{array}
+% \end{equation*}
+% where \( Z_1 \) and \( Z_2 \) are blocks of zeroes.
+% \end{lemma}
+
+% \begin{proof}
+% Since the two subspaces are complementary, the concatenation of a basis
+% for \( \mathscr{N} \) with a basis for \( \mathscr{R} \) makes a basis
+% \( B=\sequence{\vec{\nu}_1,\dots,\vec{\nu}_p,
+%         \vec{\mu}_1,\ldots,\vec{\mu}_q}  \)
+% for \( V \).
+% We shall show that the matrix
+% \begin{equation*}
+%   \rep{t}{B,B}=
+%   \begin{pmat}{c@{\hspace*{1em}}c@{\hspace*{1em}}c}
+%      \vdots                   &        &\vdots     \\
+%      \rep{t(\vec{\nu}_1)}{B}  &\cdots  &\rep{t(\vec{\mu}_q)}{B}  \\
+%      \vdots                   &        &\vdots     \\
+%   \end{pmat}
+% \end{equation*}
+% has the desired form.
+
+% Any vector \( \vec{v}\in V \) is a member of \( \mathscr{N} \) 
+% if and only if when it is represented with respect to \( B \)
+% the final \( q \)
+% coefficients are zero.
+% As \( \mathscr{N} \) is \( t \)~invariant, each of the vectors
+% \( \rep{t(\vec{\nu}_1)}{B} \),
+% \ldots, \( \rep{t(\vec{\nu}_p)}{B} \) has this form.
+% Hence the lower left of \( \rep{t}{B,B} \) is all zeroes.
+% The argument for the upper right is similar.
+% \end{proof}
+
+% To see that we have decomposed \( t \) into its action on the parts, 
+% let $B_{\mathscr{N}}=\sequence{\vec{\nu}_1,\dots,\vec{\nu}_p}$ and 
+% $B_{\mathscr{R}}=\sequence{\vec{\mu}_1,\ldots,\vec{\mu}_q}$.
+% The restrictions of \( t \) to the subspaces \( \mathscr{N} \) 
+% and~\( \mathscr{R} \) 
+% are represented
+% with respect to the bases $B_{\mathscr{N}},B_{\mathscr{N}}$
+% and $B_{\mathscr{R}},B_{\mathscr{R}}$
+% by the matrices \( T_1 \) and \( T_2 \).
+% So with subspaces that are invariant and complementary 
+% we can split the problem of examining
+% a linear transformation into two lower-dimensional subproblems.
+% The next result illustrates this decomposition into blocks.
+
+% \begin{lemma} \label{le:DetIsProdOfSubDets}
+% If $T$ is a matrix with square submatrices $T_1$ and $T_2$
+% \begin{equation*} \renewcommand{\arraystretch}{1.2}
+%   T=
+%   \begin{pmat}{c|c}
+%       T_1   &Z_2  \\  \cline{1-2}
+%       Z_1   &T_2
+%    \end{pmat}
+% \end{equation*}
+% where the \( Z \)'s are blocks of zeroes,
+% then \( \deter{T}=\deter{T_1}\cdot\deter{T_2} \).
+% \end{lemma}
+
+% \begin{proof}
+% Suppose that \( T \) is \( \nbyn{n} \),
+% that \( T_1 \) is \( \nbyn{p} \),
+% and that \( T_2 \) is \( \nbyn{q} \).
+% In the permutation formula for the determinant
+% \begin{equation*}
+%   \deter{T}=
+%   \sum_{\text{\scriptsize permutations\ }\phi}
+%           t_{1,\phi(1)}t_{2,\phi(2)}\cdots t_{n,\phi(n)}\sgn(\phi)
+% \end{equation*}
+% each term comes from a rearrangement of the column numbers
+% \( 1,\dots,n \) into a new order \( \phi(1),\dots,\phi(n) \).
+% The upper right block $Z_2$ is all zeroes, so if a
+% \( \phi \) has at least one of \( p+1,\dots,n \) among its first
+% \( p \) column numbers \( \phi(1),\dots,\phi(p) \) then the term arising
+% from \( \phi \) does not contribute to the sum because it is zero,
+% e.g., if \( \phi(1)=n \) then
+% \( t_{1,\phi(1)}t_{2,\phi(2)}\dots t_{n,\phi(n)}
+%    =0\cdot t_{2,\phi(2)}\dots t_{n,\phi(n)}=0 \).
+
+% So the above formula reduces to a sum over all permutations with 
+% two halves:~any contributing $\phi$ is the composition of a $\phi_1$ that
+% rearranges only \( 1,\dots,p \) 
+% and a $\phi_2$ that rearranges only \( p+1,\dots,p+q \).
+% Now, the distributive law 
+% and the fact that the signum of a composition is the product
+% of the signums gives that this
+% \begin{multline*}
+%    \deter{T_1}\cdot\deter{T_2}=
+%    \bigg(\sum_{\begin{subarray}{c}
+%                 \text{\scriptsize perms\ }\phi_1 \\
+%                 \text{\scriptsize of\ } 1,\dots,p
+%                \end{subarray}}
+%        \!\!\! t_{1,\phi_1(1)}\cdots t_{p,\phi_1(p)}\sgn(\phi_1) \bigg)  \\
+%    \cdot
+%    \bigg(\sum_{\begin{subarray}{c}
+%                 \text{\scriptsize perms\ }\phi_2 \\
+%                 \text{\scriptsize of\ } p+1,\dots,p+q
+%                \end{subarray}}
+%        \!\!\! t_{p+1,\phi_2(p+1)}\cdots t_{p+q,\phi_2(p+q)}\sgn(\phi_2) 
+%         \bigg)
+% \end{multline*}
+% equals
+%   $\deter{T}=
+%   \sum_{\text{\scriptsize contributing\ }\phi}
+%           t_{1,\phi(1)}t_{2,\phi(2)}\cdots t_{n,\phi(n)}\sgn(\phi)$.
+% \end{proof}
+
+% \begin{example}
+% \begin{equation*}
+%     \begin{vmat}[r]
+%        2  &0  &0  &0  \\
+%        1  &2  &0  &0  \\
+%        0  &0  &3  &0  \\
+%        0  &0  &0  &3
+%     \end{vmat}
+%    =\begin{vmat}[r]
+%        2  &0  \\
+%        1  &2
+%     \end{vmat}
+%     \cdot
+%     \begin{vmat}[r]
+%        3  &0  \\
+%        0  &3
+%     \end{vmat}
+%    =36
+% \end{equation*}
+% \end{example}
+
+% From \nearbylemma{le:DetIsProdOfSubDets} we conclude that
+% if two subspaces 
+% are complementary and \( t \)~invariant then
+% \( t \) is one-to-one if and only if its 
+% restriction %\appendrefs{restrictions}
+% to each subspace is nonsingular.
+
+% Now for the promised third, and final, step to the main result.
+
+% \begin{lemma}
+% If a linear transformation \( \map{t}{V}{V} \) has the 
+% characteristic polynomial
+% \( (x-\lambda_1)^{p_1}\dots(x-\lambda_k)^{p_k} \) then
+% (1)~\( V=\gennullspace{t-\lambda_1}\directsum\cdots
+%              \directsum\gennullspace{t-\lambda_k} \) 
+% and
+% (2)~\( \dim(\gennullspace{t-\lambda_i})=p_i  \).
+% \end{lemma}
+
+% \begin{proof}
+% This argument consists of proving
+% two preliminary claims, followed by proofs of clauses~(1) and~(2).
+
+% The first claim is that
+% \( \gennullspace{t-\lambda_i}\intersection\gennullspace{t-\lambda_j}=\set{\zero} \)
+% when \( i\neq j \).
+% By \nearbylemma{le:tInvIfftMinLambdaInv}
+% both \( \gennullspace{t-\lambda_i} \) and 
+% \( \gennullspace{t-\lambda_j} \) are \( t \)~invariant.
+% The intersection of \( t \) invariant subspaces is \( t \)
+% invariant and so the restriction of \( t \) to
+% \( \gennullspace{t-\lambda_i}\intersection\gennullspace{t-\lambda_j} \)
+% is a linear transformation.
+% Now,
+% $t-\lambda_i$ is nilpotent on \( \gennullspace{t-\lambda_i} \)
+% and  
+% $t-\lambda_j$ is nilpotent on \( \gennullspace{t-\lambda_j} \),
+% so both \( t-\lambda_i \) and \( t-\lambda_j \) are 
+% nilpotent on the intersection.
+% Therefore by \nearbylemma{le:NilIffOnlyEigenZero} and the observation
+% following it, if \( t \) has any eigenvalues on the intersection 
+% then the ``only'' eigenvalue is both
+% \( \lambda_i \) and \( \lambda_j \).
+% This cannot be, so the restriction has no eigenvalues:
+% \( \gennullspace{t-\lambda_i}\intersection\gennullspace{t-\lambda_j} \)
+% is the trivial space
+% (\nearbylemma{le:MapNonTrivSpHasEigen} shows that 
+% the only transformation that is without any eigenvalues is 
+% the transformation on the trivial space).
+
+% The second claim is that  when \( i\neq j \) then
+% \( \gennullspace{t-\lambda_i} \subseteq \genrangespace{t-\lambda_j} \).
+% To verify it we will show that \( t-\lambda_j \) is one-to-one on
+% \( \gennullspace{t-\lambda_i} \).
+% This will imply, 
+% since \( \gennullspace{t-\lambda_i} \) is \( t-\lambda_j \) invariant
+% by \nearbylemma{le:tInvIfftMinLambdaInv},
+% that the map \( t-\lambda_j \) is an automorphism of the subspace
+% \( \gennullspace{t-\lambda_i} \),
+% and therefore that 
+% \( \gennullspace{t-\lambda_i} \)  is a subset of each
+% \( \rangespace{t-\lambda_j} \), \( \rangespace{(t-\lambda_j)^2} \), etc.
+% To verify that the map is one-to-one,
+% suppose that \( \vec{v}\in\gennullspace{t-\lambda_i} \) is in the 
+% null space of \( t-\lambda_j \), aiming to show that \( \vec{v}=\zero \).
+% Consider the map 
+% \( [(t-\lambda_i)-(t-\lambda_j)]^n \).
+% On the one hand, the only
+% vector that \( (t-\lambda_i)-(t-\lambda_j)=\lambda_i-\lambda_j \) maps to 
+% zero is the zero vector itself.
+% On the other hand, as in the proof of 
+% \nearbylemma{le:PolyMapsFactor}
+% the binomial expansion gives this.
+% \begin{equation*}
+%   (t-\lambda_i)^n(\vec{v})
+%     +\binom{n}{1}(t-\lambda_i)^{n-1}(t-\lambda_j)^1(\vec{v})
+%     +\binom{n}{2}(t-\lambda_i)^{n-2}(t-\lambda_j)^2(\vec{v})
+%     +\cdots 
+% \end{equation*}
+% The first term is the zero vector 
+% because \( \vec{v}\in\gennullspace{t-\lambda_i} \).
+% The remaining terms are the zero vector because
+% \( \vec{v} \) is in the null space of \( t-\lambda_j \).
+% Therefore \( \vec{v}=\zero \). 
+
+% With those two preliminary claims done 
+% we can prove clause~(1), that the space is the direct sum of the
+% generalized null spaces.
+% By Corollary~III.\ref{GenRngNullDirSumToSp} the space is the direct sum
+% \( V=\gennullspace{t-\lambda_1}\directsum\genrangespace{t-\lambda_1} \).
+% By the second claim
+% \( \gennullspace{t-\lambda_2}\subseteq\genrangespace{t-\lambda_1} \)
+% and so we can get a basis for \( \genrangespace{t-\lambda_1} \) by
+% starting with a basis for \( \gennullspace{t-\lambda_2} \) and adding
+% extra basis elements taken from
+% \( \genrangespace{t-\lambda_1}\intersection\genrangespace{t-\lambda_2} \). 
+% Thus \( V=\gennullspace{t-\lambda_1}\directsum\gennullspace{t-\lambda_2}
+%           \directsum 
+%        (\genrangespace{t-\lambda_1}\intersection\genrangespace{t-\lambda_2}) \).
+% Continuing in this way we get this.
+% \begin{equation*}
+%   V=\gennullspace{t-\lambda_1}\directsum\cdots\directsum\gennullspace{t-\lambda_k}
+%           \directsum 
+%        (\genrangespace{t-\lambda_1}\intersection\cdots\intersection\genrangespace{t-\lambda_k})
+% \end{equation*}
+% The first claim above shows that the final space is trivial. 
+
+% We finish by verifying clause~(2).
+% Decompose \( V \) as 
+% \( \gennullspace{t-\lambda_i}\directsum\genrangespace{t-\lambda_i} \)
+% %with basis $B=\cat{B_{\mathscr{N}}}{B_{\mathscr{R}}}$
+% and apply \nearbylemma{le:InvCompSubspSplitTrans}.
+% \begin{equation*}   \renewcommand{\arraystretch}{1.2}
+%   T=
+% %  \rep{t}{B,B}=
+%   \begin{pmat}{c|c}
+%       T_1   &Z_2  \\  \cline{1-2}
+%       Z_1   &T_2
+%    \end{pmat}
+%    \begin{array}{@{}l}
+%      \} \text{\ $\dim(\,\gennullspace{t-\lambda_i}\,)$-many rows}  \\
+%      \} \text{\ $\dim(\,\genrangespace{t-\lambda_i}\,)$-many rows}
+%    \end{array}
+% \end{equation*}
+% \nearbylemma{le:DetIsProdOfSubDets} says that
+% \( \deter{T-xI}=\deter{T_1-xI}\cdot\deter{T_2-xI} \).
+% By the uniqueness clause of the Fundamental Theorem of Algebra, 
+% Theorem~I.\ref{th:FundThmAlg},
+% the determinants of the blocks have the same factors as the
+% characteristic polynomial
+% \( \deter{T_1-xI}=(x-\lambda_1)^{q_1}\cdots(x-\lambda_z)^{q_k} \)
+% and
+% \( \deter{T_2-xI}=(x-\lambda_1)^{r_1}\cdots(x-\lambda_z)^{r_k} \),
+% where
+% \( q_1+r_1=p_1 \), \dots, \( q_k+r_k=p_k \).
+% We will finish by establishing that (i)~$q_j=0$ for all $j\neq i$,
+% and (ii)~$q_i=p_i$.
+% Together these prove clause~(2) because they show that the degree of 
+% the polynomial $\deter{T_1-xI}$ is $q_i$ and
+% the degree of that polynomial equals 
+% the dimension of the
+% generalized null space $\gennullspace{t-\lambda_i}$. 
+
+% For (i),
+% because the restriction of \( t-\lambda_i \) to \( \gennullspace{t-\lambda_i} \)
+% is nilpotent on that space,
+% $t$'s only eigenvalue on that space is \( \lambda_i \),
+% by \nearbylemma{cor:tMinLambdaNilpotent}.
+% So $q_j=0$ for $j\neq i$.
+
+% For (ii),
+% consider the restriction of \( t \) to \( \genrangespace{t-\lambda_i} \).
+% By Lemma~III.\ref{lem:RestONeToOne}, the map
+% \( t-\lambda_i \) is one-to-one on
+% \( \genrangespace{t-\lambda_i} \) and so \( \lambda_i \) is not an
+% eigenvalue of \( t \) on that subspace.
+% Therefore \( x-\lambda_i \) is not a factor of \( \deter{T_2-xI} \),
+% so $r_i=0$, and so \( q_i=p_i \).
+% \end{proof}
+
+% Recall the goal of this chapter, to give a canonical form for matrix similarity.
+% That result is next.
+% It 
+% translates the above steps into matrix terms.
+
+% \begin{theorem}
+% \index{Jordan form!represents similarity classes}\index{similar!canonical form}
+% \index{canonical form!for similarity}\index{transformation!Jordan form for}
+% Any square matrix is similar to one in \definend{Jordan form}
+% \begin{equation*}
+%   \begin{mat}
+%     J_{\lambda_1}  &            &\text{\textit{--zeroes--}}                 \\
+%                &J_{\lambda_2}                                              \\
+%                &     &\ddots                                     \\
+%                 &     &                           &J_{\lambda_{k-1}} &     \\
+%                &     &\text{\textit{--zeroes--}} &            &J_{\lambda_{k}}
+%   \end{mat}
+% \end{equation*}
+% where each \( J_{\lambda} \) is the Jordan block associated with an
+% eigenvalue $\lambda$ of the original matrix (that is, each \( J_{\lambda} \)
+% is all zeroes except for
+% \( \lambda \)'s down the diagonal and some subdiagonal ones).
+% \end{theorem}
+
+% \begin{proof}
+% Given an \( \nbyn{n} \) matrix \( T \), consider the linear map
+% \( \map{t}{\C^n}{\C^n} \) that it represents
+% with respect to the standard bases.
+% Use the prior lemma to write
+% \( \C^n=\gennullspace{t-\lambda_1}\directsum\cdots
+%         \directsum\gennullspace{t-\lambda_k} \)
+% where \( \lambda_1 \), \ldots, \(\lambda_k \) are the eigenvalues of \( t \).
+% Because each \( \gennullspace{t-\lambda_i} \)  is \( t \) invariant,
+% \nearbylemma{le:InvCompSubspSplitTrans} and the prior lemma show
+% that \( t \) is represented by a matrix that is all zeroes except for square
+% blocks along the diagonal.
+% To make those blocks into Jordan blocks, pick each \( B_{\lambda_i} \)
+% to be a string basis for the action of \( t-\lambda_i \) on
+% \( \gennullspace{t-\lambda_i} \). 
+% \end{proof}
+
+% \begin{corollary}
+% Every square matrix is similar to the sum of a diagonal matrix and a nilpotent
+% matrix.
+% \end{corollary}
+
+\begin{remark}
+严格地说，要作为矩阵相似\index{representative!of similarity classes}
+的标准形，Jordan 形式必须是唯一的。
+也就是说，对任意方阵，应当有且仅有一个与它相似的矩阵处于
+Jordan 形式。
+我们可以让定理中的形式唯一化：
+将各个 Jordan 块按特征值的某个指定顺序排列，
+然后再将副对角线上的 1 构成的块从最长到最短排列。
+在下面的例子中，我们不讨论这一点。
+\end{remark}
+
+% As in the nilpotent cases earlier in this section,
+% to find the structure of the basis 
+% associated with~$T_3$ we apply
+% the maps $t-3$ and~$(t-3)^2$, the maps $t-2$ and~$(t-2)^2$, and 
+% the map~$t+1$.
+% For instance,
+% the basis has a total of three elements that are mapped to~$\zero$
+% when we apply $t-3$ twice.
+% It has two elements
+% that are sent to~$\zero$ on two applications of~$t-2$.
+% And it has one element sent to~$\zero$ by~$t+1$.
+% That is, to find the elements of this basis we want to
+% iterate the maps, so we look in  
+% the generalized null spaces $\gennullspace{t-3}$, $\gennullspace{t-2}$,
+% and~$\gennullspace{t+1}$.
+
+接下来的例子都从一个矩阵出发，
+算出与之相似的一个 Jordan 形式矩阵。
+在此之前，我们再说明一点。
+例如，在下面的第一个例子中我们将求出特征值为 $2$
+与~$6$。
+为挑选与~\( 2\) 相关的基元素，我们要求出
+$t-2$、\( (t-2)^2 \) 与~\( (t-2)^3\) 的零空间。
+也就是说，为找出这个例子的基中的元素，我们要在广义零空间
+$\gennullspace{t-2}$ 与~$\gennullspace{t-6}$ 中寻找。
+但我们必须确保对每个映射的计算不会影响对另一个的计算。
+
+% So before those examples, 
+% suppose that $\map{t}{\C^n}{\C^n}$ is a transformation and 
+% that $\lambda\in\C$ is an eigenvalue.
+% Note that the generalized null space~$\gennullspace{t-\lambda}$ 
+% and range space~$\genrangespace{t-\lambda}$ are $t-\lambda$
+% invariant spaces.
+% For the generalized null space, 
+% if $\vec{v}\in\gennullspace{t-\lambda}$ then 
+% $(t-\lambda)^n(\vec{v})=\zero$ and it follows that
+% $(t-\lambda)^n(\,(t-\lambda)(\vec{v})\,)=(t-\lambda)^{n+1}(\vec{v})=\zero$ 
+% also. 
+% As to the generalized range space,
+% Lemma Five.III.\ref{le:RangeAndNullChains} and its proof show that
+% $\genrangespace{t-\lambda}
+%   =\rangespace{(t-\lambda)^n}
+%   =\rangespace{(t-\lambda)^{n+1}}$ 
+% and so $\vec{v}\in\genrangespace{t-\lambda}$ implies that
+% $(t-\lambda)(\vec{v})\in\genrangespace{t-\lambda}$ also.
+
+% Before the theorem, we first will show that applying $t-\lambda$ 
+% won't do something awkward to the basis elements not in 
+% $\gennullspace{t-\lambda}$.
+% For instance, in the prior example we want that applying
+% $t-3$ won't do something awkward to~$\vec{\beta}_4$, 
+% $\vec{\beta}_5$, and~$\vec{\beta}_6$. 
+% Here, awkward means that
+% where \( \map{t}{V}{V} \) is a linear transformation,
+% the restriction\appendrefs{restrictions of functions}\spacefactor=1000  %
+% of \( t \) to a subspace \( M\subseteq V \) 
+% need not be a linear transformation on \( M \):~there
+% may be an \( \vec{m}\in M \)
+% with \( t(\vec{m})\not\in M \). 
+% An example is where $t$ is the transformation 
+% that rotates the plane by
+% a quarter turn and $M$ is the $x=y$ line; the vector $\binom{1}{1}$
+% is rotated away from the subspace.
+% We next show this does not happen in the special case of 
+% eigenvalues;~if $j\neq i$ then 
+% application of \( t-\lambda_j \) leaves 
+% \( t-\lambda_i \)'s part unchanged.
+
+\begin{definition} \label{def:invariant}
+设 \( \map{t}{V}{V} \) 是一个变换。
+若子空间 \( M\subseteq V \) 满足：只要 \( \vec{m}\in M \) 就有
+\( t(\vec{m})\in M \)（简记为 \( t(M)\subseteq M \)），
+则称它是 \definend{$t$ 不变的}%
+\index{invariant subspace}\index{subspace!invariant}
+\end{definition}
+
+\begin{lemma} \label{le:tInvIfftMinLambdaInv}
+子空间是 \( t \) 不变的当且仅当
+它对任意标量 \( \lambda \) 都是 \( t-\lambda \) 不变的。
+特别地，
+若 \( \lambda_i,\lambda_j\in\C \) 是
+\( t \) 的两个不相等的特征值，则
+空间 \( \gennullspace{t-\lambda_i} \)
+与 \( \genrangespace{t-\lambda_i} \)
+都是 \( t-\lambda_j \) 不变的。
+\end{lemma}
+
+\begin{proof}
+第一句中从右到左的方向是平凡的：~若子空间对
+所有标量 $\lambda$ 都是 $t-\lambda$ 不变的，
+则取 $\lambda=0$
+即知它是 $t$ 不变的。
+对于另一个方向，设子空间是 $t$~不变的，
+即若 $\vec{m}\in M$ 则 $t(\vec{m})\in M$，并设 $\lambda$ 为
+一个标量。
+子空间 $M$ 对线性组合封闭，因此若
+$t(\vec{m})\in M$ 则 $t(\vec{m})-\lambda\vec{m}\in M$。
+于是若 $\vec{m}\in M$ 则 $(t-\lambda)\,(\vec{m})\in M$。
+
+第二句由第一句得到。
+这两个空间是 $t-\lambda_i$~不变的，所以它们是 \( t \)~不变的。
+再用一次第一句就得到
+它们也是 \( t-\lambda_j \) 不变的。
+\end{proof}
+
+\begin{example} \label{ex:FirstJordForm}
+矩阵
+\begin{equation*}
+   T=
+   \begin{mat}[r]
+     2  &0  &1  \\
+     0  &6  &2  \\
+     0  &0  &2
+   \end{mat}
+\end{equation*}
+的特征多项式为 \( (x-2)^2(x-6) \)。
+\begin{equation*}
+   |T-xI|=
+   \begin{vmat}
+     2-x  &0    &1  \\
+     0    &6-x  &2  \\
+     0    &0    &2-x
+   \end{vmat}
+   =(x-2)^2(x-6)
+\end{equation*}
+我们先处理特征值~$2$。
+计算 $T-2I$ 的幂以及相应的零空间与零度
+都是常规计算。
+（回忆我们的约定：$T$ 表示关于标准基的
+映射 $\map{t}{\C^3}{\C^3}$。）
+\begin{center}
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{r|ccc} 
+    \multicolumn{1}{c}{\( p \)}  
+         &\( (T-2I)^p \) &\( \nullspace{(t-2)^p}  \) 
+         &\textit{零度}                                            \\  
+    \hline
+    \( 1 \)
+    &\matrixvenlarge{\begin{mat}[r]
+          0  &0  &1  \\
+          0  &4  &2  \\
+          0  &0  &0
+        \end{mat}}
+    &\( \set{\matrixvenlarge{\colvec{x \\ 0 \\ 0}}
+         \suchthat x\in\C}  \)  
+    &$1$                                                   \\
+    \( 2 \)
+    &\matrixvenlarge{\begin{mat}[r]
+          0  &0  &0  \\
+          0  &16 &8  \\
+          0  &0  &0
+        \end{mat}}
+    &\( \set{\matrixvenlarge{\colvec{x \\ -z/2 \\  z}}
+               \suchthat x,z\in\C}  \) 
+    &$2$                                                   \\
+    \( 3 \)
+    &\matrixvenlarge{\begin{mat}[r]
+          0  &0  &0  \\
+          0  &64 &32 \\
+          0  &0  &0
+        \end{mat}}
+    &\textit{--同上--}
+    &\textit{--同上--}
+  \end{tabular}
+\end{center}
+所以广义零空间 $\gennullspace{t-2}$ 的维数为二。
+我们知道 $t-2$ 在这个子空间上的限制是幂零的。
+由零度的增长方式可知，$t-2$ 在某个链基上的作用是
+$\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\zero$。
+于是我们可以把这个限制表示成标准形
+\begin{equation*}
+  N_2=
+  \begin{mat}[r]
+    0  &0  \\
+    1  &0  
+  \end{mat}
+  =\rep{t-2}{B,B}
+  \qquad
+   B_2=\sequence{\colvec[r]{1 \\ 1 \\ -2},
+                 \colvec[r]{-2 \\ 0 \\ 0}}  
+\end{equation*}
+（也可以选取别的基）。
+因此，$t$ 在 $\gennullspace{t-2}$ 上的限制的作用
+就由这个 Jordan 块表示。
+\begin{equation*}
+  J_2=N_2+2I=\rep{t}{B_2,B_2}=
+  \begin{mat}[r]
+    2  &0  \\
+    1  &2
+  \end{mat}
+\end{equation*}
+
+第二个特征值是 $6$。
+对它的计算比较容易。
+因为 $x-6$ 在特征多项式中的幂是一次的，
+所以 $t-6$ 在 $\gennullspace{t-6}$ 上的限制
+必是幂零的，幂零指数为一
+（它不可能有小于一的指数，又因为 $x-6$ 是特征多项式中
+指数为一的因子，它也不可能有大于一的指数）。
+它在链基上的作用必是 $\vec{\beta}_3\mapsto\zero$，并且
+由于它是零映射，其标准形 $N_6$
+是 $\nbyn{1}$ 零矩阵。
+因此，$t$ 在 $\gennullspace{t-6}$ 上作用的
+标准形 $J_6$ 是单个元素为 $6$ 的
+$\nbyn{1}$ Jordan 块
+矩阵。
+至于基，我们可以取广义零空间中任意一个非零向量。
+\begin{equation*}
+   B_6=\sequence{\colvec[r]{0 \\ 1 \\ 0}}
+\end{equation*}
+
+把这两部分合在一起就得到，
+\( T \) 的 Jordan 形式是
+\begin{equation*}
+   \rep{t}{B,B}=
+   \begin{mat}[r]
+      2  &0  &0  \\
+      1  &2  &0  \\
+      0  &0  &6
+   \end{mat}
+\end{equation*}
+其中 \( B \) 是 $B_2$ 与 $B_6$ 的连接。
+（如果我们想谨慎地得到唯一的 Jordan 形式，那么
+比如我们可以重排基元素，让特征值
+按降序排列。
+不过，升序排列也可以。）
+\end{example}
+
+\begin{example}  \label{SecJordanForm}
+这个矩阵
+与前一个例子有相同的特征多项式
+\( (x-2)^2(x-6) \)。
+\begin{equation*}
+   T=
+   \begin{mat}[r]
+     2  &2  &1  \\
+     0  &6  &2  \\
+     0  &0  &2
+   \end{mat}
+\end{equation*}
+但这里
+$t-2$ 的作用在仅应用一次之后就稳定了\Dash 即
+$t-2$ 在 $\gennullspace{t-2}$ 上的限制是幂零指数为一的幂零映射。
+\begin{center}
+  % \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{r|ccc}
+    \multicolumn{1}{c}{\( p \)}  &\( (T-2I)^p \)  &\( \nullspace{(t-2)^p}  \)  
+       &\textit{零度} \\                                     \hline
+   \( 1 \)
+   &\matrixvenlarge{\begin{mat}[r]
+         0  &2  &1  \\
+         0  &4  &2  \\
+         0  &0  &0
+       \end{mat}}
+   &\( \set{\matrixvenlarge{\colvec{x \\ (-1/2)z \\ z}}\suchthat x,z\in\C}  \) 
+   &$2$                                                     \\
+   \( 2 \)
+   &\matrixvenlarge{\begin{mat}[r]
+         0  &8  &4 \\
+         0  &16 &8 \\
+         0  &0  &0
+       \end{mat}}
+   &\textit{--同上--}
+   &\textit{--同上--}
+ \end{tabular}
+\end{center}
+所以 $t-2$ 在广义零空间上的限制在某个链基上
+通过两条链起作用：$\vec{\beta}_1\mapsto\zero$ 
+以及 $\vec{\beta}_2\mapsto\zero$。
+我们有这个与特征值~$2$ 相关联的 Jordan 块。
+\begin{equation*}
+  J_2=
+  \begin{mat}[r]
+    2  &0  \\
+    0  &2  
+  \end{mat}
+\end{equation*}
+
+这样，与前一个例子的对比在于：虽然
+特征多项式告诉我们要考察
+$t-2$ 在其广义零空间上的作用，
+但特征多项式并没有完全描述 $t-2$ 的作用。
+我们必须做一些计算才能发现
+极小多项式是 \( (x-2)(x-6) \)。
+
+对于特征值 $6$，前一个例子中对第二个特征值的论证
+在这里同样适用：~因为 $x-6$ 在
+特征多项式中的幂是一次的，
+所以 $t-6$ 在 $\gennullspace{t-6}$ 上的限制
+必是幂零指数为一的幂零映射。
+或者，我们也可以直接算出来。
+\begin{center}
+  \begin{tabular}{r|ccc}
+    \multicolumn{1}{c}{\( p \)}  &\( (T-6I)^p \)  &\( \nullspace{(t-6)^p}  \)  
+       &\textit{零度} \\                                     \hline
+   \( 1 \)
+   &\matrixvenlarge{\begin{mat}[r]
+        -4  &2  &1  \\
+         0  &0  &2  \\
+         0  &0  &-4
+       \end{mat}}
+   &\( \set{\matrixvenlarge{\colvec{x \\ 2x \\ 0}}\suchthat x\in\C}  \) 
+   &$1$                                                     \\
+   \( 2 \)
+   &\matrixvenlarge{\begin{mat}[r]
+        16  &-8 &-4 \\
+         0  &0  &-8 \\
+         0  &0  &16
+       \end{mat}}
+   &\textit{--同上--}
+   &\textit{--同上--}
+ \end{tabular}
+\end{center}
+无论哪种方式，在 $\gennullspace{t-6}$ 上，限制 $t-6$ 的
+标准形 $N_6$ 都是 $\nbyn{1}$ 零矩阵。
+Jordan 块 $J_6$ 是元素为 $6$ 的 $\nbyn{1}$ 矩阵。
+ 
+因此，$T$ 的 Jordan 形式是一个对角矩阵，所以~\( t \) 是一个
+可对角化的变换。
+\begin{equation*}
+  \rep{t}{B,B}=
+  \begin{mat}[r]
+    2  &0  &0  \\
+    0  &2  &0  \\
+    0  &0  &6
+  \end{mat}
+  \qquad
+  B=\cat{B_2}{B_6}
+   =\sequence{\colvec[r]{1 \\ 0 \\ 0},
+              \colvec[r]{0 \\ 1 \\ -2},
+              \colvec[r]{1 \\ 2 \\ 0}}
+\end{equation*}
+在这三个基向量中，前两个来自
+$t-2$ 的零空间，第三个来自~$t-6$ 的零空间。
+\end{example}
+
+\begin{example} \label{ThirdJordanForm}
+对
+\begin{equation*}
+   T=
+   \begin{mat}[r]
+     -1  &4  &0  &0  &0  \\
+      0  &3  &0  &0  &0  \\
+      0  &-4 &-1 &0  &0  \\
+      3  &-9 &-4 &2  &-1 \\
+      1  &5  &4  &1  &4
+   \end{mat}
+\end{equation*}
+做一些计算可知，
+其特征多项式
+是 \( (x-3)^3(x+1)^2 \)。
+这张表
+\begin{center}
+  % \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{@{}r|c@{}c@{}c@{}}
+    \multicolumn{1}{c}{\( p \)}  
+            &\( (T-3I)^p \)  &\( \nullspace{(t-3)^p}  \)
+             &\textit{零度}   
+    \\  \hline
+    \( 1 \)
+    &\matrixvenlarge{\begin{mat}[r]
+         -4  &4  &0  &0  &0  \\
+          0  &0  &0  &0  &0  \\
+          0  &-4 &-4 &0  &0  \\
+          3  &-9 &-4 &-1 &-1 \\
+          1  &5  &4  &1  &1
+       \end{mat}}
+    &\( \set{\matrixvenlarge{\colvec{-(u+v)/2 \\
+                     -(u+v)/2 \\
+                      (u+v)/2 \\
+                       u      \\
+                       v}}\suchthat u,v\in\C}  \) 
+    &$2$                                            \\
+    \( 2 \)
+    &\matrixvenlarge{\begin{mat}[r]
+         16  &-16&0  &0  &0  \\
+          0  &0  &0  &0  &0  \\
+          0  &16 &16 &0  &0  \\
+        -16  &32 &16 &0  &0  \\
+          0  &-16&-16&0  &0
+       \end{mat}}
+    &\( \set{\matrixvenlarge{\colvec{ -z      \\
+                      -z      \\
+                       z      \\
+                       u      \\
+                       v}}\suchthat z,u,v\in\C}  \) 
+    &$3$                                              \\
+    \( 3 \)
+    &\matrixvenlarge{\begin{mat}[r]
+        -64  &64   &0   &0   &0  \\
+          0  &0    &0   &0   &0  \\
+          0  &-64  &-64 &0   &0  \\
+         64  &-128 &-64 &0   &0  \\
+          0  &64   &64  &0   &0
+       \end{mat}}
+    &\textit{--同上--}
+    &\textit{--同上--}
+  \end{tabular}
+\end{center}
+这表明 $t-3$ 在 $\gennullspace{t-3}$ 上的限制在某个
+链基上通过两条链起作用：
+$\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\zero$
+以及
+$\vec{\beta}_3\mapsto\zero$。
+
+对另一个特征值做类似的计算
+\begin{center}
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{r|ccc}
+    \multicolumn{1}{c}{\( p \)}  
+         &\( (T+1I)^p \)  &\( \nullspace{(t+1)^p}  \) 
+         &\textit{零度}  \\  
+    \hline
+    \( 1 \)
+    &\matrixvenlarge{\begin{mat}[r]
+          0  &4  &0  &0  &0  \\
+          0  &4  &0  &0  &0  \\
+          0  &-4 &0  &0  &0  \\
+          3  &-9 &-4 &3  &-1 \\
+          1  &5  &4  &1  &5
+       \end{mat}}
+    &\( \set{\matrixvenlarge{\colvec{-(u+v)   \\
+                       0      \\
+                      -v      \\
+                       u      \\
+                       v}}\suchthat u,v\in\C}  \)  
+    &$2$                                              \\
+    \( 2 \)
+    &\matrixvenlarge{\begin{mat}[r]
+          0  &16 &0  &0  &0  \\
+          0  &16 &0  &0  &0  \\
+          0  &-16&0  &0  &0  \\
+          8  &-40&-16&8  &-8 \\
+          8  &24 &16 &8  &24
+       \end{mat}}
+    &\textit{--同上--}
+    &\textit{--同上--}
+  \end{tabular}
+\end{center}
+得到 $t+1$ 在其广义零空间上的限制
+在某个链基上通过两条单独的链起作用：
+$\vec{\beta}_4\mapsto\zero$ 与 $\vec{\beta}_5\mapsto\zero$。
+
+因此
+\( T \) 相似于这个 Jordan 形式矩阵。
+\begin{equation*}
+   \begin{mat}[r]
+     -1  &0  &0  &0  &0  \\
+      0  &-1 &0  &0  &0  \\    
+      0  &0  &3  &0  &0  \\
+      0  &0  &1  &3  &0  \\
+      0  &0  &0  &0  &3  
+   \end{mat}
+\end{equation*}
+\end{example}
+
+
+
+
+
+\begin{exercises}
+  \item 
+    对\nearbyexample{ex:SingJordBlock}做检验。
+    \begin{answer}
+      我们必须检验
+      \begin{equation*}
+         \begin{mat}[r]
+           3  &0  \\
+           1  &3
+         \end{mat}
+         =
+         N+3I=PTP^{-1}
+         =
+         \begin{mat}[r]
+           1/2  &1/2  \\
+          -1/4 &1/4
+         \end{mat}
+         \begin{mat}[r]
+           2  &-1  \\
+           1  &4
+         \end{mat}
+         \begin{mat}[r]
+           1  &-2  \\
+           1  &2
+         \end{mat}
+      \end{equation*}
+      这个计算很容易。
+    \end{answer}
+  \item 
+    每个矩阵都是 Jordan 形式。
+    写出它的特征多项式与极小多项式。
+    \begin{exparts*}
+      \partsitem 
+        $\begin{mat}[r]
+           3  &0  \\
+           1  &3        
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           -1  &0  \\
+            0  &-1 
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           2  &0  &0  \\
+           1  &2  &0  \\
+           0  &0  &-1/2
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           3  &0  &0  \\
+           1  &3  &0  \\
+           0  &1  &3  \\ 
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           3  &0  &0  &0  \\
+           1  &3  &0  &0  \\
+           0  &0  &3  &0  \\
+           0  &0  &1  &3 
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           4  &0  &0  &0  \\
+           1  &4  &0  &0  \\
+           0  &0  &-4 &0  \\
+           0  &0  &1  &-4
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           5  &0  &0  \\
+           0  &2  &0  \\
+           0  &0  &3  
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           5  &0  &0  &0  \\
+           0  &2  &0  &0  \\
+           0  &0  &2  &0  \\
+           0  &0  &0  &3 
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           5  &0  &0  &0  \\
+           0  &2  &0  &0  \\
+           0  &1  &2  &0  \\
+           0  &0  &0  &3 
+         \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 特征多项式为 $c(x)=(x-3)^2$，
+          极小多项式与之相同。
+        \partsitem 特征多项式为 $c(x)=(x+1)^2$。
+          极小多项式为 $m(x)=x+1$。
+        \partsitem 特征多项式为 
+          $c(x)=(x+(1/2))(x-2)^2$，
+          极小多项式与之相同。
+        \partsitem 特征多项式为 $c(x)=(x-3)^3$
+          极小多项式与之相同。
+        \partsitem 特征多项式为 $c(x)=(x-3)^4$。
+          极小多项式为 $m(x)=(x-3)^2$。
+        \partsitem 特征多项式为 $c(x)=(x+4)^2(x-4)^2$，
+          极小多项式与之相同。
+        \partsitem 特征多项式为 
+          $c(x)=(x-2)^2(x-3)(x-5)$，
+          极小多项式为 $m(x)=(x-2)(x-3)(x-5)$。
+        \partsitem 特征多项式为 
+          $c(x)=(x-2)^2(x-3)(x-5)$，
+          极小多项式与之相同。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    由所给数据求出 Jordan 形式。
+    \begin{exparts}
+       \partsitem 矩阵 
+         \( T \) 是 \( \nbyn{5} \) 的，仅有特征值 $3$。
+         各次幂的零度为：
+         \( T-3I \) 的零度为二，\( (T-3I)^2 \) 的零度为三，
+         \( (T-3I)^3 \) 的零度为四，而 \( (T-3I)^4 \) 的零度
+         为五。
+       \partsitem 矩阵 \( S \) 是 \( \nbyn{5} \) 的，有两个特征值。
+         对特征值 $2$，零度为：
+         \( S-2I \) 的零度为二，而 \( (S-2I)^2 \) 的零度为四。
+         对特征值 $-1$，零度为：
+         \( S+1I \) 的零度为一。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 变换 $t-3$ 是幂零的
+          （即 $\gennullspace{t-3}$ 是整个空间），
+          它通过两条链作用在一个链基上：
+          $\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\vec{\beta}_3
+            \mapsto\vec{\beta}_4\mapsto\zero$
+          以及 $\vec{\beta}_5\mapsto\zero$。
+          因此，$t-3$ 可以用这个标准形来表示。
+          \begin{equation*}
+            N_3=
+            \begin{mat}[r]
+               0  &0  &0  &0  &0  \\
+               1  &0  &0  &0  &0  \\
+               0  &1  &0  &0  &0  \\
+               0  &0  &1  &0  &0  \\
+               0  &0  &0  &0  &0
+             \end{mat}
+          \end{equation*}
+          从而 $T$ 相似于这个标准形矩阵。
+          \begin{equation*}
+           J_3=N_3+3I=
+           \begin{mat}[r]
+               3  &0  &0  &0  &0  \\
+               1  &3  &0  &0  &0  \\
+               0  &1  &3  &0  &0  \\
+               0  &0  &1  &3  &0  \\
+               0  &0  &0  &0  &3
+             \end{mat}
+          \end{equation*} 
+         \partsitem 变换 $s+1$ 在子空间 $\gennullspace{s+1}$ 上的限制
+          是幂零的，它在链基上的作用为 $\vec{\beta}_1\mapsto\zero$。  
+          变换 $s-2$ 在子空间 $\gennullspace{s-2}$ 上的限制
+          是幂零的，它在链基上的作用为 $\vec{\beta}_2\mapsto\vec{\beta}_3\mapsto\zero$
+          与 $\vec{\beta}_4\mapsto\vec{\beta}_5\mapsto\zero$。        
+          因此 Jordan 形式如下。
+          \begin{equation*}
+            \begin{mat}[r]
+              -1  &0  &0  &0  &0  \\
+               0  &2  &0  &0  &0  \\
+               0  &1  &2  &0  &0  \\
+               0  &0  &0  &2  &0  \\
+               0  &0  &0  &1  &2
+             \end{mat} 
+          \end{equation*}
+      \end{exparts}  
+    \end{answer}
+  \item 
+    为每个例题求出换基矩阵。 
+    \begin{exparts*}
+      \partsitem \nearbyexample{ex:FirstJordForm}
+      \partsitem \nearbyexample{SecJordanForm}
+      \partsitem \nearbyexample{ThirdJordanForm}
+    \end{exparts*}
+    \begin{answer}
+      对每一小题，由于基的取法有很多种，所以还可以有许多别的答案。
+      当然，检验一个答案是否给出 Jordan 形式的 $PTP^{-1}$
+      的计算才是正确与否的裁判。
+      \begin{exparts}
+        \partsitem 下面是箭头图。
+          \begin{equation*}
+            \begin{CD}
+              \C^3_{\wrt{\stdbasis_3}}      @>t>T>    \C^3_{\wrt{\stdbasis_3}}   \\
+                @V\scriptstyle\identity V\scriptstyle PV  
+                                    @V\scriptstyle\identity V\scriptstyle PV \\
+              \C^3_{\wrt{B}}                 @>t>J>         \C^3_{\wrt{B}}
+            \end{CD}
+          \end{equation*}
+          从左下角移动到左上角的矩阵是这个。 
+          \begin{equation*}
+            P^{-1}=\bigl(\rep{\identity}{\stdbasis_3,B}\bigr)^{-1}
+                  =\rep{\identity}{B,\stdbasis_3}   
+                  =\begin{mat}[r]
+                     1  &-2   &0 \\
+                     1  &0   &1 \\
+                    -2  &0   &0
+                   \end{mat}
+          \end{equation*}
+          从右上角移动到右下角的矩阵 $P$ 是 $P^{-1}$ 的逆。
+        \partsitem 我们需要这个矩阵及其逆。
+          \begin{equation*}
+            P^{-1}=
+            \begin{mat}[r]
+              1  &0  &3  \\
+              0  &1  &4  \\
+              0  &-2 &0
+            \end{mat}
+          \end{equation*}
+        \partsitem 将这些广义零空间的基拼接起来，
+          就可以作为整个空间的基。
+          \begin{equation*}
+             B_{-1}=\sequence{\colvec[r]{-1\\ 0 \\  0 \\ 1 \\ 0},
+                 \colvec[r]{-1\\ 0 \\ -1 \\ 0 \\ 1}}
+            \qquad
+             B_3=\sequence{\colvec[r]{1 \\ 1 \\ -1 \\ 0 \\ 0},
+                 \colvec[r]{0 \\ 0 \\  0 \\-2 \\ 2},
+                 \colvec[r]{-1\\-1 \\  1 \\ 2 \\ 0}}
+          \end{equation*}
+          换基矩阵是这一个矩阵及其逆。
+          \begin{equation*}
+            P^{-1}=
+            \begin{mat}[r]
+              -1  &-1  &1  &0  &-1  \\
+              0   &0   &1  &0  &-1  \\
+              0   &-1  &-1 &0  &1   \\
+              1   &0   &0  &-2 &2   \\
+              0   &1   &0  &2  &0   \\
+            \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item 
+    求每个矩阵的 Jordan 形式与一个 Jordan 基。
+    \begin{exparts*}
+      \partsitem 
+        \(
+        \begin{mat}[r]
+          -10  &4  \\
+          -25  &10
+        \end{mat} \)
+      \partsitem 
+        \(
+        \begin{mat}[r]
+           5   &-4 \\
+           9   &-7
+        \end{mat} \)
+      \partsitem 
+        \(
+        \begin{mat}[r]
+           4   &0    &0  \\
+           2   &1    &3  \\
+           5   &0    &4
+        \end{mat} \)
+      \partsitem 
+        \(
+        \begin{mat}[r]
+           5   &4    &3  \\
+          -1   &0    &-3 \\
+           1   &-2   &1
+        \end{mat} \)
+      \partsitem
+        \(
+        \begin{mat}[r]
+           9   &7    &3  \\
+          -9   &-7   &-4 \\
+           4   &4    &4
+        \end{mat} \)
+      \partsitem 
+        \(
+        \begin{mat}[r]
+           2   &2    &-1 \\
+          -1   &-1   &1  \\
+          -1   &-2   &2
+        \end{mat} \)
+      \partsitem 
+        \(
+        \begin{mat}[r]
+           7   &1    &2   &2 \\
+           1   &4    &-1  &-1\\
+          -2   &1    &5   &-1\\
+           1   &1    &2   &8
+        \end{mat} \)
+    \end{exparts*}
+    \begin{answer}
+      一般的做法是将特征多项式 
+      $c(x)=(x-\lambda_1)^{p_1}(x-\lambda_2)^{p_2}\cdots $ 
+      因式分解，得到特征值 $\lambda_1$、$\lambda_2$ 等。 
+      然后，对每个 $\lambda_i$ 我们求一个
+      链基，它是变换 $t-\lambda_i$
+      限制在 $\gennullspace{t-\lambda_i}$ 上时的作用的链基：
+      计算矩阵 $T-\lambda_iI$ 的各次幂并求出
+      相应的零空间，直到这些零空间稳定下来
+      （不再变化）为止，此时我们就得到了广义零空间。
+      这些零空间的维数（零度）告诉我们
+      $t-\lambda_i$ 在广义零空间的某个链基上的作用，
+      于是我们可以写出次对角线上 $1$ 的分布模式，
+      得到 $N_{\lambda_i}$。
+      由此矩阵，与 $\lambda_i$ 相关联的 Jordan 块
+      $J_{\lambda_i}$ 立即可得：$J_{\lambda_i}=N_{\lambda_i}+\lambda_iI$。
+      最后，在对每个特征值都这样做之后，
+      我们把它们拼成标准形。
+      \begin{exparts}
+        \partsitem 这个矩阵的特征多项式
+           是 $c(x)=(-10-x)(10-x)+100=x^2$， 
+           所以它只有唯一的特征值 $\lambda=0$。
+           \begin{center}
+             \renewcommand{\arraystretch}{1.25}
+             \begin{tabular}{r|ccc}
+                \multicolumn{1}{c}{\textit{幂}~$p$} 
+                    &$(T+0\cdot I)^p$ &$\nullspace{(t-0)^p}$
+                    &\textit{零度}                   \\ 
+                \hline
+                $1$  
+                &\matrixvenlarge{\begin{mat}[r]
+                  -10  &4  \\ 
+                  -25  &10
+                \end{mat}}
+                &$\set{\matrixvenlarge{\colvec{2y/5 \\ y}}
+                                     \suchthat
+                                     y\in\C}$
+                &$1$                                       \\
+                $2$  
+                &\matrixvenlarge{\begin{mat}[r]
+                    0  &0  \\ 
+                    0  &0
+                \end{mat}}
+                &$\C^2$
+                &$2$
+             \end{tabular}
+           \end{center}
+           （因此，这个变换是幂零的：
+           $\gennullspace{t-0}$ 是整个空间）。
+           由这些零度我们知道 $t$ 在某个链基上的作用是
+           $\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\zero$。
+           这是 $t-0$ 在 $\gennullspace{t-0}=\C^2$ 上的作用的
+           标准形矩阵
+           \begin{equation*}
+             N_0=
+             \begin{mat}[r]
+               0  &0  \\
+               1  &0
+            \end{mat}
+           \end{equation*}
+           而这就是该矩阵的 Jordan 形式。
+           \begin{equation*}
+             J_0=N_0+0\cdot I=
+             \begin{mat}[r]
+               0  &0  \\
+               1  &0
+            \end{mat}
+           \end{equation*}
+           注意，若一个矩阵是幂零的，则它的标准形
+           等于它的 Jordan 形式。
+
+           我们可以用前一小节的方法找到这样一个链基。
+           \begin{equation*}
+                 B=\sequence{\colvec[r]{1 \\ 0},
+                             \colvec[r]{-10 \\ -25}}
+           \end{equation*}
+           我们取第一个基向量使得它在 $t^2$ 的零空间中，
+           但不在 $t$ 的零空间中。
+           第二个基向量是第一个基向量在 $t$ 下的像。
+        \partsitem 这个矩阵的特征多项式
+           是 \( c(x)=(x+1)^2 \)，所以它是单特征值矩阵。
+           （即 $t+1$ 的广义零空间是整个空间。） 
+           我们有
+           \begin{equation*}
+             \nullspace{t+1}=\set{\colvec{2y/3 \\ y}\suchthat
+                                     y\in\C} 
+             \qquad
+             \nullspace{(t+1)^2}=\C^2 
+           \end{equation*}
+           于是 $t+1$ 在某个相应的链基上的作用是
+           $\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\zero$。
+           因此， 
+           \begin{equation*}
+             N_{-1}
+             =
+             \begin{mat}[r]
+                0  &0  \\
+                1  &0 
+             \end{mat}
+           \end{equation*}
+           $T$ 的 Jordan 形式是
+           \begin{equation*}
+             J_{-1}=N_{-1}+-1\cdot I
+             =
+             \begin{mat}[r]
+               -1  &0  \\
+                1  &-1
+             \end{mat}
+           \end{equation*}
+           而从上面的零空间中取向量就得到
+           这个链基（也可以有别的取法）。
+           \begin{equation*}
+             B=\sequence{\colvec[r]{1 \\ 0},
+                         \colvec[r]{6 \\ 9}}
+           \end{equation*}
+        \partsitem 特征多项式
+            \( c(x)=(1-x)(4-x)^2=-1\cdot (x-1)(x-4)^2 \) 有两个根，
+            它们就是特征值 $\lambda_1=1$ 与 $\lambda_2=4$。
+
+            我们分别处理这两个特征值。
+            对 $\lambda_1$，计算 $T-1I$ 的各次幂
+            得到
+            \begin{equation*}
+              \nullspace{t-1}=\set{\colvec{0 \\ y \\ 0}
+                                      \suchthat y\in\C}
+            \end{equation*}
+            而 $(t-1)^2$ 的零空间与之相同。
+            于是这个集合就是广义零空间 
+            $\gennullspace{t-1}$。
+            这些零度表明 $t-1$ 限制在广义零空间上后
+            在某个链基上的作用
+            是 $\vec{\beta}_1\mapsto\zero$。
+
+            对 $\lambda_2=4$ 作类似的计算，得到这些零空间。
+            \begin{equation*}
+              \nullspace{t-4}=\set{\colvec{0 \\ z \\ z}
+                                      \suchthat z\in\C}
+              \qquad
+              \nullspace{(t-4)^2}=\set{\colvec{z-y \\ y \\ z}
+                                          \suchthat y,z\in\C}
+            \end{equation*}
+            （$(t-4)^3$ 的零空间与之相同，这也必然如此，因为
+            特征多项式中与 $\lambda_2=4$ 相关联的项的
+            幂是二，所以
+            $t-2$ 限制在广义零空间 $\gennullspace{t-2}$ 上
+            是幂零的且指数至多为二\Dash 零空间至多经过
+            两次 $t-2$ 的作用就稳定下来。）
+            零度上升的模式告诉我们
+             $t-4$ 在 $\gennullspace{t-4}$ 的某个相应链基上的作用
+            是
+            $\vec{\beta}_2\mapsto\vec{\beta}_3\mapsto\zero$。
+
+            把这两个特征值的信息
+            合在一起，就得到变换 $t$ 的 Jordan 形式。
+            \begin{equation*}
+              \begin{mat}[r]
+                1  &0  &0  \\
+                0  &4  &0  \\
+                0  &1  &4
+              \end{mat}
+            \end{equation*}
+            我们可以取零空间中的元素来得到一个合适的基。
+            \begin{equation*}
+              B=\cat{B_{1}}{B_4}=
+               \sequence{\colvec[r]{0 \\ 1 \\ 0},
+                          \colvec[r]{1 \\ 0 \\ 1},
+                          \colvec[r]{0 \\ 5 \\ 5}}
+            \end{equation*}
+        \partsitem 特征多项式是
+            \( c(x)=(-2-x)(4-x)^2=-1\cdot (x+2)(x-4)^2 \)。
+
+            对特征值 $\lambda_{-2}$
+            （这里的下标是 \( -2\)），计算
+            $T+2I$ 的各次幂得到这个。
+            \begin{equation*}
+              \nullspace{t+2}=\set{\colvec{z \\ z \\ z}
+                                      \suchthat z\in\C}
+            \end{equation*}
+            $(t+2)^2$ 的零空间与之相同，所以 
+            这就是广义零空间 $\gennullspace{t+2}$。
+            于是 $t+2$ 限制在 
+            $\gennullspace{t+2}$ 上后，在某个相应的
+            链基上的作用是 $\vec{\beta}_1\mapsto\zero$。
+
+            对 $\lambda_2=4$，
+            计算 $T-4I$ 的各次幂得到
+            \begin{equation*}
+              \nullspace{t-4}=\set{\colvec{z \\ -z \\ z}
+                                      \suchthat z\in\C} 
+              \qquad
+              \nullspace{(t-4)^2}=\set{\colvec{x \\ -z \\ z}
+                                           \suchthat x,z\in\C}
+            \end{equation*}
+            于是 $t-4$ 在 $\gennullspace{t-4}$ 的某个
+            链基上的作用是
+            $\vec{\beta}_2\mapsto\vec{\beta}_3\mapsto\zero$。
+
+            因此 Jordan 形式为  
+            \begin{equation*}
+              \begin{mat}[r]
+                -2  &0  &0  \\
+                 0  &4  &0  \\
+                 0  &1  &4
+              \end{mat}
+            \end{equation*}
+            而一个合适的基如下。
+            \begin{equation*}
+              B=\cat{B_{-2}}{B_4}=
+                \sequence{\colvec[r]{1 \\ 1 \\ 1},
+                          \colvec[r]{0 \\ -1 \\ 1},
+                          \colvec[r]{-1 \\ 1 \\ -1}}
+            \end{equation*}
+        \partsitem 该矩阵的特征多项式
+            为 \( c(x)=(2-x)^3=-1\cdot (x-2)^3 \)。
+            这个矩阵只有一个特征值 $\lambda=2$。
+            通过求 $T-2I$ 的各次幂可得
+            \begin{equation*}
+              \nullspace{t-2}=\set{\colvec{-y \\ y \\ 0}
+                                      \suchthat y\in\C} 
+              \qquad
+              \nullspace{(t-2)^2}=\set{\colvec{-y-(1/2)z \\ y \\ z}
+                                          \suchthat y,z\in\C}
+            \end{equation*}
+            以及
+            \begin{equation*} 
+              \nullspace{(t-2)^3}=\C^3
+            \end{equation*}
+            所以
+            $t-2$ 在一个相伴的
+            链基上的作用是
+            $\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto
+                   \vec{\beta}_3\mapsto\zero$。
+            Jordan 形式为
+            \begin{equation*}
+                  \begin{mat}[r]
+                    2  &0  &0  \\
+                    1  &2  &0  \\
+                    0  &1  &2
+                  \end{mat}
+            \end{equation*}
+            而一个可选的基如下。
+            \begin{equation*}
+              B=\sequence{\colvec[r]{0 \\ 1 \\ 0},
+                          \colvec[r]{7 \\ -9 \\ 4},
+                          \colvec[r]{-2 \\ 2 \\ 0}}
+            \end{equation*}
+        \partsitem 特征多项式
+            \( c(x)=(1-x)^3=-(x-1)^3 \) 只有一个单根，
+            因此该矩阵只有一个特征值 $\lambda=1$。
+            求 $T-1I$ 的各次幂
+            并计算零空间
+            \begin{equation*}
+               \nullspace{t-1}=\set{\colvec{-2y+z \\ y \\ z}
+                                      \suchthat y,z\in\C} 
+               \qquad
+               \nullspace{(t-1)^2}=\C^3 
+            \end{equation*}
+            可知幂零映射 $t-1$ 在一个链基上
+            的作用是
+            $\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\zero$ 与
+            $\vec{\beta}_3\mapsto\zero$。
+            因此 Jordan 形式为
+            \begin{equation*}
+                  J=
+                  \begin{mat}[r]
+                    1  &0  &0  \\
+                    1  &1  &0  \\
+                    0  &0  &1
+                  \end{mat}
+            \end{equation*}
+            而一个合适的基（与 $t-1$ 相伴的
+            链基）如下。
+            \begin{equation*}
+              B=\sequence{\colvec[r]{0 \\ 1 \\ 0},
+                          \colvec[r]{2 \\ -2 \\ -2},
+                          \colvec[r]{1 \\ 0 \\ 1}}
+            \end{equation*}
+        \partsitem 特征多项式用手算
+            有点大，但尚可应付：
+            \( c(x)=x^4-24x^3+216x^2-864x+1296=(x-6)^4 \)。
+            这是单特征值映射，所以
+            变换 $t-6$ 是幂零的。
+            零空间
+            \begin{equation*}
+               \nullspace{t-6}=\set{\colvec{-z-w \\ -z-w \\ z \\ w}
+                                      \suchthat z,w\in\C} 
+               \qquad
+               \nullspace{(t-6)^2}=\set{\colvec{x \\ -z-w \\ z \\ w}
+                                      \suchthat x,z,w\in\C} 
+            \end{equation*}
+            以及
+            \begin{equation*}
+               \nullspace{(t-6)^3}=\C^4 
+            \end{equation*}
+            连同各零度一起表明
+            $t-6$ 在一个链基上的作用是
+            $\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto
+                   \vec{\beta}_3\mapsto\zero$ 与
+            $\vec{\beta}_4\mapsto\zero$。
+            Jordan 形式为
+            \begin{equation*}
+              \begin{mat}[r]
+                6  &0  &0  &0  \\
+                1  &6  &0  &0  \\
+                0  &1  &6  &0  \\
+                0  &0  &0  &6  \\
+              \end{mat}
+            \end{equation*}
+            而找一个合适的链基是例行的操作。
+            \begin{equation*}
+              B=\sequence{\colvec[r]{0 \\ 0 \\ 0 \\ 1},
+                          \colvec[r]{2 \\ -1 \\ -1 \\ 2},
+                          \colvec[r]{3 \\ 3 \\ -6 \\ 3},
+                          \colvec[r]{-1 \\ -1 \\ 1 \\ 0}}
+            \end{equation*}
+      \end{exparts}  
+    \end{answer}
+  \recommended \item
+    求特征多项式为 \( (x-1)^2(x+2)^2  \) 的
+    变换的所有可能的 Jordan 形式。
+    \begin{answer}
+      有两个特征值，$\lambda_1=-2$ 与 $\lambda_2=1$。
+      $t+2$ 限制在
+      $\gennullspace{t+2}$ 上，在一个相伴的
+      链基上可能有下面两种作用。
+      \begin{equation*}
+        \vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\zero
+        \qquad
+        \begin{array}[t]{l}
+          \vec{\beta}_1\mapsto\zero  \\
+          \vec{\beta}_2\mapsto\zero 
+        \end{array}
+      \end{equation*}
+      $t-1$ 限制在
+      $\gennullspace{t-1}$ 上，在一个相伴的
+      链基上可能有下面两种作用。
+      \begin{equation*}
+        \vec{\beta}_3\mapsto\vec{\beta}_4\mapsto\zero
+        \qquad
+        \begin{array}[t]{l}
+          \vec{\beta}_3\mapsto\zero  \\
+          \vec{\beta}_4\mapsto\zero 
+        \end{array}
+      \end{equation*}
+      合起来共有四种可能的 Jordan 形式：
+      两个都取第一种作用，第二种与第一种，第一种与第二种，
+      以及两个都取第二种作用。
+      \begin{equation*}
+        \begin{mat}[r]
+          -2  &0  &0  &0  \\
+           1  &-2 &0  &0  \\
+           0  &0  &1  &0  \\
+           0  &0  &1  &1
+        \end{mat}
+        \quad
+        \begin{mat}[r]
+          -2  &0  &0  &0  \\
+           0  &-2 &0  &0  \\
+           0  &0  &1  &0  \\
+           0  &0  &1  &1
+        \end{mat}
+        \quad
+        \begin{mat}[r]
+          -2  &0  &0  &0  \\
+           1  &-2 &0  &0  \\
+           0  &0  &1  &0  \\
+           0  &0  &0  &1
+        \end{mat}
+        \quad
+        \begin{mat}[r]
+          -2  &0  &0  &0  \\
+           0  &-2 &0  &0  \\
+           0  &0  &1  &0  \\
+           0  &0  &0  &1
+        \end{mat}
+     \end{equation*}  
+    \end{answer}
+  \item 
+    求特征多项式为 \( (x-1)^3(x+2) \) 的
+    变换的所有可能的 Jordan 形式。
+    \begin{answer}
+     $t+2$ 限制在
+     $\gennullspace{t+2}$ 上只能有作用
+     $\vec{\beta}_1\mapsto\zero$。
+     $t-1$ 限制在 $\gennullspace{t-1}$ 上，在一个相伴的链基上可能有
+     下面三种作用中的任意一种。
+     \begin{equation*}
+        \vec{\beta}_2\mapsto\vec{\beta}_3\mapsto\vec{\beta}_4\mapsto\zero
+        \qquad
+        \begin{array}[t]{l}
+          \vec{\beta}_2\mapsto\vec{\beta}_3\mapsto\zero  \\
+          \vec{\beta}_4\mapsto\zero 
+        \end{array}
+        \qquad
+        \begin{array}[t]{l}
+          \vec{\beta}_2\mapsto\zero  \\
+          \vec{\beta}_3\mapsto\zero  \\
+          \vec{\beta}_4\mapsto\zero 
+        \end{array}
+     \end{equation*}
+     合起来共有三种可能的 Jordan 形式：
+     由 $t-1$ 的第一种作用（连同 $t+2$ 唯一的
+     作用）产生的形式、由第二种作用产生的形式，
+     以及由第三种作用产生的形式。
+     \begin{equation*}
+       \begin{mat}[r]
+         -2  &0  &0  &0  \\
+          0  &1  &0  &0  \\
+          0  &1  &1  &0  \\
+          0  &0  &1  &1
+       \end{mat}
+       \quad
+       \begin{mat}[r]
+         -2  &0  &0  &0  \\
+          0  &1  &0  &0  \\
+          0  &1  &1  &0  \\
+          0  &0  &0  &1
+       \end{mat}
+       \quad
+       \begin{mat}[r]
+         -2  &0  &0  &0  \\
+          0  &1  &0  &0  \\
+          0  &0  &1  &0  \\
+          0  &0  &0  &1
+       \end{mat}
+     \end{equation*}
+    \end{answer}
+  \recommended \item
+    求特征多项式为 \( (x-2)^3(x+1) \)、极小多项式为
+    \( (x-2)^2(x+1) \) 的变换的所有可能的 Jordan 形式。
+    \begin{answer}
+      $t+1$ 在 $\gennullspace{t+1}$ 的一个链基上的作用
+      必为 $\vec{\beta}_1\mapsto\zero$。 
+      由于极小多项式中 \( x-2 \) 的幂次，$t-2$ 的一个链基
+      长度为二，因此
+      \( t-2 \) 在 \( \gennullspace{t-2} \) 上的作用
+      必须具有如下形式。
+      \begin{equation*}
+        \begin{array}[t]{l}
+          \vec{\beta}_2\mapsto\vec{\beta}_3\mapsto\zero  \\
+          \vec{\beta}_4\mapsto\zero 
+        \end{array}        
+      \end{equation*}
+      因此只可能有一种 Jordan 形式。
+      \begin{equation*}
+          \begin{mat}[r]
+            -1  &0  &0  &0  \\
+             0  &2  &0  &0  \\
+             0  &1  &2  &0  \\
+             0  &0  &0  &2
+          \end{mat}
+       \end{equation*}
+      \end{answer}
+  \item 
+    求特征多项式为 \( (x-2)^4(x+1) \)、极小多项式为
+    \( (x-2)^2(x+1) \) 的变换的所有可能的 Jordan 形式。
+    \begin{answer}
+      有两种可能的 Jordan 形式。
+      $t+1$ 在 $\gennullspace{t+1}$ 的一个链基上的作用
+      必为 $\vec{\beta}_1\mapsto\zero$。
+      对于 $t-2$ 在
+      $\gennullspace{t-2}$ 的一个链基上的作用，在这个特征
+      多项式与极小多项式之下有两种可能的情形。
+      \begin{equation*}
+        \begin{array}[t]{l}
+          \vec{\beta}_2\mapsto\vec{\beta}_3\mapsto\zero  \\
+          \vec{\beta}_4\mapsto\vec{\beta}_5\mapsto\zero  
+        \end{array}        
+        \qquad
+        \begin{array}[t]{l}
+          \vec{\beta}_2\mapsto\vec{\beta}_3\mapsto\zero  \\
+          \vec{\beta}_4\mapsto\zero                      \\
+          \vec{\beta}_5\mapsto\zero                      
+        \end{array}        
+      \end{equation*}
+      由此得到的 Jordan 形式矩阵如下。 
+      \begin{equation*}
+        \begin{mat}[r]
+          -1  &0  &0  &0  &0  \\
+           0  &2  &0  &0  &0  \\
+           0  &1  &2  &0  &0  \\
+           0  &0  &0  &2  &0  \\
+           0  &0  &0  &1  &2
+        \end{mat}
+        \qquad
+        \begin{mat}[r]
+          -1  &0  &0  &0  &0  \\
+           0  &2  &0  &0  &0  \\
+           0  &1  &2  &0  &0  \\
+           0  &0  &0  &2  &0  \\
+           0  &0  &0  &0  &2
+        \end{mat}
+     \end{equation*}  
+    \end{answer}
+  \recommended \item 将它们对角化。
+    \begin{exparts*}
+       \partsitem \( \begin{mat}[r]
+                  1  &1  \\
+                  0  &0
+                \end{mat}  \)
+       \partsitem \( \begin{mat}[r]
+                  0  &1  \\
+                  1  &0
+                \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 特征多项式为 \( c(x)=x(x-1) \)。
+          对于 $\lambda_1=0$，有
+          \begin{equation*}
+            \nullspace{t-0}=\set{\colvec{-y \\ y}
+                                 \suchthat y\in\C }  
+          \end{equation*} 
+          （当然，$t^2$ 的零空间与之相同）。
+          对于 $\lambda_2=1$，
+          \begin{equation*}
+            \nullspace{t-1}=\set{\colvec{x \\ 0}
+                                     \suchthat x\in\C }  
+          \end{equation*}
+          （而 $(t-1)^2$ 的零空间与之相同）。
+          我们可以取这个基
+          \begin{equation*}
+            B=\sequence{\colvec[r]{1 \\ -1},\colvec[r]{1 \\ 0}}
+          \end{equation*}
+          来得到对角化。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &1  \\
+             -1  &0
+            \end{mat}^{-1}
+            \begin{mat}[r]
+              1  &1  \\
+              0  &0
+            \end{mat}
+            \begin{mat}[r]
+              1  &1  \\
+             -1  &0
+            \end{mat}
+            =
+            \begin{mat}[r]
+              0  &0  \\
+              0  &1
+            \end{mat}
+          \end{equation*}
+        \partsitem 特征多项式为
+          \( c(x)=x^2-1=(x+1)(x-1) \)。
+          对于 $\lambda_1=-1$，
+          \begin{equation*}
+            \nullspace{t+1}=\set{\colvec{-y \\ y}
+                                    \suchthat y\in\C } 
+          \end{equation*}
+          且 $(t+1)^2$ 的零空间与之相同。
+          对于 $\lambda_2=1$，
+          \begin{equation*}
+            \nullspace{t-1}=\set{\colvec{y \\ y}
+                                    \suchthat y\in\C } 
+          \end{equation*}
+          且 $(t-1)^2$ 的零空间与之相同。
+          我们可以取这个基
+          \begin{equation*}
+            B=\sequence{\colvec[r]{1 \\ -1},\colvec[r]{1 \\ 1}}
+          \end{equation*}
+          来得到一个对角化。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &1  \\
+              1  &-1
+            \end{mat}^{-1}
+            \begin{mat}[r]
+              0  &1  \\
+              1  &0
+            \end{mat}
+            \begin{mat}[r]
+              1   &1  \\
+              -1  &1
+            \end{mat}
+            =
+            \begin{mat}[r]
+              -1  &0  \\
+              0   &1
+            \end{mat}
+          \end{equation*}
+      \end{exparts}  
+     \end{answer}
+  \recommended \item 
+    求表示 \( \polyspace_3 \) 上微分算子的
+    Jordan 矩阵。
+    \begin{answer}
+      变换 $\map{d/dx}{\polyspace_3}{\polyspace_3}$
+      是幂零的。
+      它在基 \( B=\sequence{x^3,3x^2,6x,6} \) 上的作用
+      是 $x^3\mapsto 3x^2\mapsto 6x\mapsto 6\mapsto 0$。
+      它的 Jordan 形式就是它作为幂零矩阵的标准形。
+      \begin{equation*}
+         J=
+         \begin{mat}[r]
+           0  &0  &0  &0  \\
+           1  &0  &0  &0  \\
+           0  &1  &0  &0  \\
+           0  &0  &1  &0
+         \end{mat}
+      \end{equation*}
+    \end{answer}
+   \recommended \item 
+      判断这两个矩阵是否相似。
+      \begin{equation*}
+         \begin{mat}[r]
+            1  &-1 \\
+            4  &-3 \\
+         \end{mat}
+         \qquad
+         \begin{mat}[r]
+           -1  &0  \\
+            1  &-1 \\
+         \end{mat}
+      \end{equation*}
+      \begin{answer}
+        相似。
+        两者都具有特征多项式 $(x+1)^2$。
+        计算 $T_1+1\cdot I$ 与
+        $T_2+1\cdot I$ 的各次幂得到下面两个。
+        \begin{equation*}
+          \nullspace{t_1+1}=\set{\colvec{y/2 \\ y} \suchthat y\in\C}
+          \qquad
+          \nullspace{t_2+1}=\set{\colvec{0 \\ y} \suchthat y\in\C}
+        \end{equation*}
+        （当然，对每一个来说，其平方的零空间
+        都是整个空间。）
+        零度的增长方式表明每一个都
+        相似于这个 Jordan 形式矩阵
+        \begin{equation*}
+           \begin{mat}[r]
+             -1  &0  \\
+              1  &-1 \\
+           \end{mat}
+        \end{equation*}
+        因而它们彼此相似。  
+      \end{answer}
+  \item 
+     求这个矩阵的 Jordan 形式。
+     \begin{equation*}
+        \begin{mat}[r]
+           0  &-1  \\
+           1  &0
+        \end{mat}
+     \end{equation*}
+     同时给出一个 Jordan 基。
+     \begin{answer}
+       它的特征多项式是
+       \( c(x)=x^2+1 \)，它有复根
+       \( x^2+1=(x+i)(x-i) \)。
+       因为根互不相同，
+       所以该矩阵可对角化，其 Jordan 形式就是那个
+       对角矩阵。 
+       \begin{equation*}
+         \begin{mat}[r]
+           -i  &0  \\
+            0  &i
+         \end{mat}
+       \end{equation*}  
+       为了找一个相伴的基，我们计算零空间。
+       \begin{equation*}
+         \nullspace{t+i}=\set{\colvec{-iy \\ y}
+                                        \suchthat y\in\C} 
+         \qquad
+         \nullspace{t-i}=\set{\colvec{iy \\ y}
+                                        \suchthat y\in\C} 
+       \end{equation*}
+       例如，
+       \begin{equation*}
+         T+i\cdot I=
+         \begin{mat}[r]
+           i  &-1  \\
+           1  &i
+         \end{mat}
+       \end{equation*}
+       于是通过求解这个线性方程组，
+       我们得到 $t+i$ 的零空间的描述。
+       \begin{equation*}
+         \begin{linsys}{2}
+           ix  &-  &y  &=  &0  \\
+            x  &+  &iy &=  &0
+         \end{linsys}
+         \grstep{i\rho_1+\rho_2}
+         \begin{linsys}{2}
+           ix  &-  &y  &=  &0  \\
+               &   &0  &=  &0
+         \end{linsys}
+       \end{equation*}
+       （要把关系式 $ix=y$ 改写为用自由变量 $y$ 表示首变量 $x$
+       的形式，可以将两
+       边乘以 $-i$。）
+
+       结果，其中一个这样的基如下。
+       \begin{equation*}
+         B=\sequence{\colvec[r]{-i \\ 1},
+                     \colvec[r]{i \\ 1}}
+       \end{equation*}  
+     \end{answer}
+  \item 
+    对于仅有的特征值为 \( -3 \) 与 \( 4 \) 的
+    \( \nbyn{3} \) 矩阵，有多少个相似类？
+    \begin{answer}
+     我们可以通过数可能的规范代表元，也就是数可能的
+     Jordan 形式矩阵，来数出可能的类的个数。
+     特征多项式必定是 $c_1(x)=(x+3)^2(x-4)$
+     或者 $c_2(x)=(x+3)(x-4)^2$。
+     在 $c_1$ 的情形，$t+3$ 在 $\gennullspace{t+3}$ 的一个链基上
+     有两种可能的作用。
+     \begin{equation*}
+       \vec{\beta}_1\mapsto\vec{\beta}_2\mapsto \zero
+       \qquad
+       \begin{array}[t]{l}
+         \vec{\beta}_1\mapsto\zero \\
+         \vec{\beta}_2\mapsto\zero 
+       \end{array}
+     \end{equation*}
+     有两个相伴的 Jordan 形式矩阵。
+     \begin{equation*}
+        \begin{mat}[r]
+          -3  &0  &0  \\
+           1  &-3 &0  \\
+           0  &0  &4
+        \end{mat}
+        \qquad
+        \begin{mat}[r]
+          -3  &0  &0  \\
+           0  &-3 &0  \\
+           0  &0  &4
+        \end{mat}
+      \end{equation*}
+      类似地，也有两个可能由 $c_2$ 产生的
+      Jordan 形式矩阵。
+      \begin{equation*}
+        \begin{mat}[r]
+          -3  &0  &0  \\
+           0  &4  &0  \\
+           0  &1  &4
+        \end{mat}
+        \qquad
+        \begin{mat}[r]
+          -3  &0  &0  \\
+           0  &4  &0  \\
+           0  &0  &4
+        \end{mat}
+     \end{equation*}  
+     所以总共有四种可能的 Jordan 形式。
+    \end{answer}
+  \recommended \item
+    证明：一个矩阵可对角化当且仅当它的极小
+    多项式只有一次因式。
+    \begin{answer}
+       Jordan 形式是唯一的。
+       对角矩阵本身就是 Jordan 形式。
+       因此可对角化矩阵的 Jordan 形式就是它的对角化。
+       若极小多项式有幂次高于一次的因式，
+       则 Jordan 形式在次对角线上有 \( 1 \)，从而
+       不是对角的。  
+     \end{answer}
+  \item 
+     给出一个向量空间上的线性变换的例子，它没有非平凡的
+     不变子空间。
+     \begin{answer}
+       一个例子是 \( \C \) 上把 \( x \) 映到 \( -x \) 的
+        变换。  
+      \end{answer}
+  \item 
+     证明：一个子空间是 \( t-\lambda_1 \) 不变的当且仅当
+     它是 \( t-\lambda_2 \) 不变的。
+     \begin{answer}
+       两次应用 \nearbylemma{le:tInvIfftMinLambdaInv}；
+       该子空间是 $t-\lambda_1$~不变的当且仅当它是
+       $t$~不变的，而这又当且仅当它是
+       $t-\lambda_2$~不变的。  
+     \end{answer}
+  \item 
+     证明或否定：两个 \( \nbyn{n} \) 矩阵
+     相似当且仅当它们有相同的特征多项式与
+     极小多项式。
+     \begin{answer}
+       不成立；这两个 $\nbyn{4}$ 矩阵都有 $c(x)=(x-3)^4$
+       与 $m(x)=(x-3)^2$。
+       \begin{equation*}
+          \begin{mat}[r]
+             3  &0  &0  &0  \\
+             1  &3  &0  &0  \\
+             0  &0  &3  &0  \\
+             0  &0  &1  &3
+          \end{mat}
+          \quad
+          \begin{mat}[r]
+             3  &0  &0  &0  \\
+             1  &3  &0  &0  \\
+             0  &0  &3  &0  \\
+             0  &0  &0  &3
+          \end{mat}
+       \end{equation*} 
+     \end{answer}
+  \item 
+    方阵的\definend{迹}\index{trace}\index{matrix!trace} 
+    是其对角元之和。
+    \begin{exparts}
+       \partsitem 求出
+         $\nbyn{2}$ 矩阵的特征多项式的公式。
+       \partsitem 证明
+         迹在相似下不变，从而我们可以有意义地
+         谈论「映射的迹」。\index{linear map!trace}
+         （\textit{提示：} 参见前面的题。）
+       \partsitem 迹在矩阵等价下不变吗？
+       \partsitem 证明映射的迹是其特征值之和
+         （计入重数）。
+       \partsitem 证明幂零映射的迹为零。
+         逆命题成立吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 特征多项式如下。 
+           \begin{equation*}
+             \begin{vmat}
+               a-x  &b  \\
+               c  &d-x
+             \end{vmat}
+             =(a-x)(d-x)-bc=ad-(a+d)x+x^2-bc
+             =x^2-(a+d)x+(ad-bc)
+           \end{equation*}
+           注意行列式作为常数项出现。
+         \partsitem 回忆特征多项式
+            \( \deter{T-xI} \) 在相似下不变。
+            利用置换展开公式证明迹
+            是 \( x^{n-1} \) 的系数的相反数。
+         \partsitem 不，存在矩阵 $T$ 与 $S$，它们
+            等价 $S=PTQ$（对某个非奇异的 $P$ 与 $Q$），
+            但迹不同。
+            一个简单的例子如下。
+            \begin{equation*}
+               PTQ=
+               \begin{mat}[r]
+                  2  &0  \\
+                  0  &1
+               \end{mat}
+               \begin{mat}[r]
+                  1  &0  \\
+                  0  &1
+               \end{mat}
+               \begin{mat}[r]
+                  1  &0  \\
+                  0  &1
+               \end{mat}
+               =
+               \begin{mat}[r]
+                  2  &0  \\
+                  0  &1
+               \end{mat}
+            \end{equation*}
+            用 $\nbyn{1}$ 矩阵甚至能得到更简单的例子。
+         \partsitem 把矩阵化成 Jordan 形式。
+            由第一小题，迹不变。
+         \partsitem 第一部分容易；用第三小题。
+            逆命题不成立：~这个矩阵
+            \begin{equation*}
+               \begin{mat}[r]
+                  1  &0  \\
+                  0  &-1
+               \end{mat}
+            \end{equation*}
+            迹为零但不是幂零的。
+       \end{exparts}  
+     \end{answer}
+  \item 
+    用 \nearbydefinition{def:invariant} 来检查一个子空间
+    是否 $t$~不变时，我们似乎不得不检查（非平凡）子空间中无穷多个
+    向量，看它们是否满足条件。
+    证明：一个子空间是 \( t \)~不变的当且仅当其部分基具有如下性质：对其中所有元素，
+    $t(\vec{\beta})$ 都在
+    该子空间中。
+    \begin{answer}
+      设 \( B_M \) 是某个
+      向量空间的子空间 \( M \) 的一个基。
+      一个方向的蕴含是显然的；若 \( M \) 是 \( t \) 不变的，则
+      特别地，若 \( \vec{m}\in B_M \)，那么 \( t(\vec{m})\in M \)。
+      对于另一个方向，设
+      \( B_M=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_q} \)，注意
+      \( t(\vec{m})=t(m_1\vec{\beta}_1+\dots+m_q\vec{\beta}_q)
+                   =m_1t(\vec{\beta}_1)+\dots+m_qt(\vec{\beta}_q) \)
+      在 \( M \) 中，因为任何子空间对线性
+      组合封闭。 
+    \end{answer}
+  \recommended \item 
+    \( t \) 不变性对交运算保持吗？
+    对并呢？
+    对补集呢？
+    对子空间的和呢？
+    \begin{answer}
+      是的，$t$ 不变子空间的交
+      是 $t$~不变的。
+      设 \( M \) 与 \( N \) 都是 \( t \) 不变的。
+      若 \( \vec{v}\in M\intersection N \)，则 \( t(\vec{v})\in M \) 
+      由 \( M \) 的不变性有 \( t(\vec{v})\in M \)，由
+      \( N \) 的不变性有 \( t(\vec{v})\in N \)。
+
+      当然，两个子空间的并未必是子空间
+      （记住 $x$ 轴\hbox{} 与 $y$ 轴是平面
+      $\Re^2$ 的子空间，但两轴的并对向量加法不封闭；
+      例如它不包含
+      $\vec{e}_1+\vec{e}_2$。）
+      然而，不变子集的并是不变子集；若
+      \( \vec{v}\in M\union N \)，则 \( \vec{v}\in M \) 或 \( \vec{v}\in N \)，
+      于是 \( t(\vec{v})\in M \) 或 \( t(\vec{v})\in N \)。
+
+      不，不变子空间的补未必是不变的。
+      考虑零变换之下 \( \C^2 \) 的子空间
+      \begin{equation*}
+        \set{\colvec{x \\ 0}\suchthat x\in\C}
+      \end{equation*}
+      。
+
+      是的，两个不变子空间的和是不变的。
+      验证很容易。  
+    \end{answer}
+  \item  \label{exer:OrderC}
+     若某些特征值是复数，给出排列
+     Jordan 块的一种方式。
+     也就是说，为复数建议一种合理的顺序。
+     \begin{answer}
+       一种这样的顺序是\definend{字典序}。
+       先按实部排序，再按 \( i \) 的系数排序。
+       例如，\( 3+2i<4+1i \) 但 \( 4+1i<4+2i \)。  
+     \end{answer}
+  \item
+    设 \( \polyspace_j(\Re) \) 是实数域上
+    次数 \( j \) 的多项式构成的向量空间。
+    证明：若 \( j\le k \)，则 \( \polyspace_j(\Re) \) 是
+    \( \polyspace_k(\Re) \) 在微分算子下的不变子空间。
+    在 \( \polyspace_7(\Re) \) 中，\( \polyspace_0(\Re) \)、
+    \ldots、\( \polyspace_6(\Re) \) 中有哪一个有不变的补吗？
+    \begin{answer}
+     前一半容易\Dash 任何实系数多项式的导数是次数更低的
+      实系数多项式。
+      后一半的答案是「没有」；\( \polyspace_j(\Re) \) 的任何补
+      必须包含一个次数为 \( j+1 \) 的多项式，
+      而该多项式的导数在 \( \polyspace_j(\Re)\) 中。  
+     \end{answer}
+  \item
+    在 \( \polyspace_n(\Re) \)（实数域上
+    次数 \( n \) 的多项式构成的向量空间）中，
+    \begin{equation*}
+      \mathcal{E}=
+      \set{p(x)\in\polyspace_n(\Re)\suchthat p(-x)=p(x) \text{\ 对所有\ }x}
+    \end{equation*}
+    与
+    \begin{equation*}
+      \mathcal{O}=
+      \set{p(x)\in\polyspace_n(\Re)\suchthat p(-x)=-p(x) \text{\ 对所有\ }x}
+    \end{equation*}
+    分别是\definend{偶多项式}\index{even polynomials}\index{polynomial!even} 
+    与\definend{奇多项式}\index{even polynomials}\index{polynomial!even}
+     ；\( p(x)=x^2 \) 是
+    偶的而 \( p(x)=x^3 \) 是奇的。
+    证明它们是子空间。
+    它们互补吗？
+    它们在微分变换下不变吗？
+    \begin{answer}
+      对于前一半，证明每一个都是子空间，然后观察
+      到任何多项式都可以唯一地
+      写成偶次项与奇次项之和（零
+      多项式两者都是）。
+      后一半的答案是「不」：\( x^2 \) 是偶的，而
+      \( 2x \) 是奇的。  
+     \end{answer}
+  % Lemma gone when moved to new JF presentation
+  % \item 
+  %   \nearbylemma{le:InvCompSubspSplitTrans} says that if \( M \) and
+  %   \( N \) are
+  %   invariant complements then \( t \) has a representation in the given
+  %   block form (with respect to the same ending as starting basis, of course).
+  %   Does the implication reverse?
+  %   \begin{answer}
+  %     Yes.
+  %     If \( \rep{t}{B,B} \) has the given block form, take \( B_M \) to
+  %     be the first \( j \) vectors of \( B \), where \( J \) is the
+  %     \( \nbyn{j} \) upper left submatrix.
+  %     Take \( B_N \) to be the remaining \( k \) vectors in \( B \).
+  %     Let \( M \) and \( N \) be the spans of \( B_M \) and \( B_N \).
+  %     Clearly \( M \) and \( N \) are complementary.
+  %     To see \( M \) is invariant (\( N \) works the same way), represent
+  %     any \( \vec{m}\in M \) with respect to \( B \), note the last
+  %     \( k \) components are zeroes, and multiply by the given block
+  %     matrix.
+  %     The final \( k \) components of the result are zeroes, so that
+  %     result is again in \( M \). 
+  %    \end{answer}
+   \item 
+     若矩阵 \( S \) 满足 \( S^2=T \)，
+     则称 \( S \) 是 \( T \) 的\definend{平方根}\index{square root}。
+     证明任何非奇异矩阵都有平方根。
+     \begin{answer}
+         把矩阵化成 Jordan 形式。
+         由非奇异性，对角线上没有零特征值。
+         仿照这个例子：
+          \begin{equation*}
+             \begin{mat}[r]
+                9  &0  &0 \\
+                1  &9  &0 \\
+                0  &0  &4
+             \end{mat}
+             =
+             \begin{mat}[r]
+                3  &0  &0 \\
+               1/6 &3  &0 \\
+                0  &0  &2
+             \end{mat}^2
+          \end{equation*}
+         来构造一个平方根。
+         证明它在相似下仍然成立：若 \( S^2=T \)，则
+         \( (PSP^{-1})(PSP^{-1})=PTP^{-1} \)。 
+    \end{answer}
+\index{Jordan form|)}
+\end{exercises}

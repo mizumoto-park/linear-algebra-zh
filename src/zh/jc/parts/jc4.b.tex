@@ -1,0 +1,1160 @@
+\begin{exercises}
+  \recommended \item 
+    若一个矩阵具有给定的特征多项式，则其极小多项式有哪些可能？
+    \begin{exparts*}
+      \partsitem $(x-3)^4$
+      \partsitem $(x+1)^3(x-4)$
+      \partsitem $(x-2)^2(x-5)^2$
+      \partsitem  \( (x+3)^2(x-1)(x-2)^2 \)
+    \end{exparts*}
+    每种可能的次数是多少？
+    \begin{answer} 
+      Cayley-Hamilton 定理\nearbytheorem{th:CayHam}指出，
+      极小多项式必须含有与特征多项式相同的线性因子，
+      尽管次数可以更低，但不能是零次。
+      \begin{exparts}
+        \partsitem 可能的是
+          $m_1(x)=x-3$，$m_2(x)=(x-3)^2$，$m_3(x)=(x-3)^3$
+          以及 $m_4(x)=(x-3)^4$。
+          第一个是一次多项式，第二个是二次的，
+          第三个是三次的，第四个是四次的。
+        \partsitem 可能的是 $m_1(x)=(x+1)(x-4)$、
+          $m_2(x)=(x+1)^2(x-4)$ 以及 $m_3(x)=(x+1)^3(x-4)$。
+          第一个是二次多项式，即次数为二。
+          第二个次数为三，第三个次数为四。
+        \partsitem 我们有 $m_1(x)=(x-2)(x-5)$、$m_2(x)=(x-2)^2(x-5)$、
+          $m_3(x)=(x-2)(x-5)^2$ 以及 $m_4(x)=(x-2)^2(x-5)^2$。
+          它们分别是二次、三次、三次与四次多项式。
+        \partsitem 可能的是 \( m_1(x)=(x+3)(x-1)(x-2) \)、
+          \( m_2(x)=(x+3)^2(x-1)(x-2) \)、
+          \( m_3(x)=(x+3)(x-1)(x-2)^2 \)
+          以及 \( m_4(x)=(x+3)^2(x-1)(x-2)^2 \)。
+          $m_1$ 的次数是三，$m_2$ 的次数是四，
+          $m_3$ 的次数是四，$m_4$ 的次数是五。
+      \end{exparts}
+    \end{answer}
+  \item 对于下面这个矩阵
+    \begin{equation*}
+      \begin{mat}
+        0 &1 &0 &1 \\
+        1 &0 &1 &0 \\
+        0 &1 &0 &1 \\
+        1 &0 &1 &0 \\
+      \end{mat}
+    \end{equation*}
+    求其特征多项式与极小多项式。
+    \begin{answer}
+    特征多项式
+    \begin{equation*}
+      \deter{T-xI}=
+      \begin{vmat}
+        -x &1  &0  &1 \\
+         1 &-x &1  &0 \\
+         0 &1  &-x &1 \\
+         1 &0  &1  &-x \\
+      \end{vmat}
+    \end{equation*}
+    是 $x^2(x^2-4)$。
+
+    由 Cayley-Hamilton 定理，特征多项式的所有互不相同的根
+    也都是极小多项式的根，所以极小多项式的根为 $0$、$2$ 以及~$-2$。
+    因此极小多项式要么是 $x(x^2-4)$，要么是 $x^2(x^2-4)$。
+    
+    求极小多项式的一种办法是，把矩阵代入这两个表达式试算，
+    直到得到零矩阵为止。
+    \begin{equation*}
+      T(T^2-4I)=
+      \begin{mat}
+        0 &1 &0 &1 \\
+        1 &0 &1 &0 \\
+        0 &1 &0 &1 \\
+        1 &0 &1 &0 \\
+      \end{mat}
+      \begin{mat}
+        -2 &0  &1  &0 \\
+        0  &-2 &0  &2 \\
+        2  &0  &-2 &0 \\
+        0  &2  &0  &-2 \\
+      \end{mat}
+      =
+      \begin{mat}
+        0 &0 &0 &0 \\
+        0 &0 &0 &0 \\
+        0 &0 &0 &0 \\
+        0 &0 &0 &0 \\
+      \end{mat}
+    \end{equation*}
+    所以极小多项式是 $x(x^2-4)$。
+    \end{answer}
+   \item 
+     求此矩阵的极小多项式。
+     \begin{equation*}
+        \begin{mat}[r]
+           0  &1  &0  \\
+           0  &0  &1  \\
+           1  &0  &0
+        \end{mat}
+     \end{equation*}
+     \begin{answer}
+       它的特征多项式有复根。
+       \begin{equation*}
+          \begin{vmat}
+                   -x  &1  &0  \\
+                    0  &-x &1  \\
+                    1  &0  &-x
+          \end{vmat}
+          =(1-x)\cdot (x-(-\frac{1}{2}+\frac{\sqrt{3}}{2}i))
+                \cdot (x-(-\frac{1}{2}-\frac{\sqrt{3}}{2}i))
+       \end{equation*}
+       由于根互不相同，特征多项式就等于极小多项式。
+     \end{answer}
+  \recommended \item 
+    求每个矩阵的极小多项式。
+    \begin{exparts*}
+       \partsitem \( \begin{mat}[r]
+                   3  &0  &0  \\
+                   1  &3  &0  \\
+                   0  &0  &4
+                \end{mat} \)
+       \partsitem \( \begin{mat}[r]
+                   3  &0  &0  \\
+                   1  &3  &0  \\
+                   0  &0  &3
+                \end{mat} \)
+       \partsitem \( \begin{mat}[r]
+                   3  &0  &0  \\
+                   1  &3  &0  \\
+                   0  &1  &3
+                \end{mat} \)
+       \partsitem \( \begin{mat}[r]
+                   2  &0  &1  \\
+                   0  &6  &2  \\
+                   0  &0  &2
+                \end{mat} \)
+       \partsitem \( \begin{mat}[r]
+                   2  &2  &1  \\
+                   0  &6  &2  \\
+                   0  &0  &2
+                \end{mat} \)
+       \partsitem \( \begin{mat}[r]
+                   -1 &4  &0  &0  &0  \\
+                    0 &3  &0  &0  &0  \\
+                    0 &-4 &-1 &0  &0  \\
+                    3 &-9 &-4 &2  &-1 \\
+                    1 &5  &4  &1  &4
+                \end{mat} \)
+    \end{exparts*}
+    \begin{answer}
+      每种情形我们都将使用\nearbyexample{ex:MinPolyUsingCH}的方法。
+      \begin{exparts}
+       \partsitem 因为 $T$ 是三角矩阵，所以 $T-xI$ 也是三角矩阵
+         \begin{equation*}
+           T-xI=
+           \begin{mat}
+             3-x  &0    &0   \\
+             1    &3-x  &0   \\
+             0    &0    &4-x
+           \end{mat}
+         \end{equation*}
+         特征多项式容易算出 $c(x)=\deter{T-xI}=(3-x)^2(4-x)=-1\cdot (x-3)^2(x-4)$。
+         极小多项式只有两种可能，
+         $m_1(x)=(x-3)(x-4)$ 与 $m_2(x)=(x-3)^2(x-4)$。
+         （注意特征多项式带有负号，而极小多项式没有，
+         因为它必须首项系数为一。）
+         由于 $m_1(T)$ 不是零矩阵
+         \begin{equation*}
+           (T-3I)(T-4I)
+           =
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &0  &1
+           \end{mat}
+           \begin{mat}[r]
+             -1  &0  &0  \\
+              1  &-1 &0  \\
+              0  &0  &0
+           \end{mat}
+           =
+           \begin{mat}[r]
+             0  &0  &0  \\
+            -1  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+         \end{equation*}
+         所以极小多项式是 $m(x)=m_2(x)$。
+         \begin{multline*}
+           (T-3I)^2(T-4I)
+           =(T-3I)\cdot\bigl((T-3I)(T-4I)\bigr)              \\
+           =
+           \begin{mat}
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &0  &1
+           \end{mat}
+           \begin{mat}[r]
+              0  &0  &0  \\
+             -1  &0  &0  \\
+              0  &0  &0
+           \end{mat}
+           =
+           \begin{mat}[r]
+             0  &0  &0  \\
+             0  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+         \end{multline*}
+       \partsitem 与前一（小）题一样，矩阵是三角矩阵这一事实
+        使得特征多项式的计算很容易。
+         \begin{equation*}
+           c(x)=\deter{T-xI}
+               =
+               \begin{vmat}
+                 3-x  &0   &0   \\
+                 1    &3-x &0   \\
+                 0    &0   &3-x
+               \end{vmat}
+               =(3-x)^3=-1\cdot (x-3)^3
+         \end{equation*}
+         极小多项式有三种可能：
+         $m_1(x)=(x-3)$、$m_2(x)=(x-3)^2$ 以及 $m_3(x)=(x-3)^3$。
+         我们通过计算 $m_1(T)$
+         \begin{equation*}
+           T-3I=
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+         \end{equation*}
+         与 $m_2(T)$ 来解决这个问题。
+         \begin{equation*}
+           (T-3I)^2=
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+           =          
+           \begin{mat}[r]
+             0  &0  &0  \\
+             0  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+         \end{equation*}
+         因为 $m_2(T)$ 是零矩阵，所以 $m_2(x)$ 就是极小多项式。
+       \partsitem 同样，该矩阵是三角矩阵。
+         \begin{equation*}
+           c(x)=\deter{T-xI}
+               =
+               \begin{vmat}
+                 3-x  &0   &0   \\
+                 1    &3-x &0   \\
+                 0    &1   &3-x
+               \end{vmat}
+               =(3-x)^3=-1\cdot (x-3)^3
+         \end{equation*}
+         同样，极小多项式有三种可能：
+         $m_1(x)=(x-3)$、$m_2(x)=(x-3)^2$ 以及 $m_3(x)=(x-3)^3$。
+         我们计算 $m_1(T)$
+         \begin{equation*}
+           T-3I=
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &1  &0
+           \end{mat}
+         \end{equation*}
+         与 $m_2(T)$
+         \begin{equation*}
+           (T-3I)^2=
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &1  &0
+           \end{mat}
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &1  &0
+           \end{mat}
+           =          
+           \begin{mat}[r]
+             0  &0  &0  \\
+             0  &0  &0  \\
+             1  &0  &0
+           \end{mat}
+         \end{equation*}
+         与 $m_3(T)$。
+         \begin{equation*}
+           (T-3I)^3
+           =(T-3I)^2(T-3I)
+           =
+           \begin{mat}[r]
+             0  &0  &0  \\
+             0  &0  &0  \\
+             1  &0  &0
+           \end{mat}
+           \begin{mat}[r]
+             0  &0  &0  \\
+             1  &0  &0  \\
+             0  &1  &0
+           \end{mat}
+           =          
+           \begin{mat}[r]
+             0  &0  &0  \\
+             0  &0  &0  \\
+             0  &0  &0
+           \end{mat}
+         \end{equation*}
+         因此，极小多项式是 $m(x)=m_3(x)=(x-3)^3$。
+       \partsitem 这一情形也是三角矩阵，这里是上三角矩阵。
+          \begin{equation*}
+            c(x)=\deter{T-xI}=
+            \begin{vmat}
+              2-x  &0   &1     \\
+              0    &6-x &2     \\
+              0    &0   &2-x
+            \end{vmat}
+            =(2-x)^2(6-x)=-(x-2)^2(x-6)
+          \end{equation*}
+          极小多项式有两种可能，
+          $m_1(x)=(x-2)(x-6)$ 与 $m_2(x)=(x-2)^2(x-6)$。
+          计算表明极小多项式不是 $m_1(x)$。
+          \begin{equation*}
+            (T-2I)(T-6I)=
+            \begin{mat}[r]
+              0  &0  &1  \\
+              0  &4  &2  \\
+              0  &0  &0  
+            \end{mat}
+            \begin{mat}[r]
+              -4  &0  &1  \\
+               0  &0  &2  \\
+               0  &0  &-4
+            \end{mat}
+            =
+            \begin{mat}[r]
+              0  &0  &-4  \\
+              0  &0  &0   \\
+              0  &0  &0
+            \end{mat}
+          \end{equation*}
+          因此必有 $m(x)=m_2(x)=(x-2)^2(x-6)$。 
+          下面给出验证。
+          \begin{multline*}
+            (T-2I)^2(T-6I)=(T-2I)\cdot\bigl((T-2I)(T-6I)\bigr)             \\
+            =
+            \begin{mat}[r]
+              0  &0  &1  \\
+              0  &4  &2  \\
+              0  &0  &0  
+            \end{mat}
+            \begin{mat}[r]
+               0  &0  &-4   \\
+               0  &0  &0   \\
+               0  &0  &0
+            \end{mat}
+            =
+            \begin{mat}[r]
+              0  &0  &0  \\
+              0  &0  &0   \\
+              0  &0  &0
+            \end{mat}
+          \end{multline*}
+       \partsitem 特征多项式是 
+          \begin{equation*}
+            c(x)=\deter{T-xI}=
+            \begin{vmat}
+              2-x  &2   &1     \\
+              0    &6-x &2     \\
+              0    &0   &2-x
+            \end{vmat}
+            =(2-x)^2(6-x)=-(x-2)^2(x-6)
+          \end{equation*}
+          极小多项式有两种可能，
+          $m_1(x)=(x-2)(x-6)$ 与 $m_2(x)=(x-2)^2(x-6)$。
+          检验第一个
+          \begin{equation*}
+            (T-2I)(T-6I)=
+            \begin{mat}[r]
+              0  &2  &1  \\
+              0  &4  &2  \\
+              0  &0  &0  
+            \end{mat}
+            \begin{mat}[r]
+              -4  &2  &1  \\
+               0  &0  &2  \\
+               0  &0  &-4
+            \end{mat}
+            =
+            \begin{mat}[r]
+              0  &0  &0  \\
+              0  &0  &0   \\
+              0  &0  &0
+            \end{mat}
+          \end{equation*}
+          这表明极小多项式是
+          $m(x)=m_1(x)=(x-2)(x-6)$。
+       \partsitem 特征多项式如下。
+          \begin{equation*}
+            c(x)=\deter{T-xI}=
+            \begin{vmat} 
+               -1-x &4    &0    &0    &0    \\
+                0   &3-x  &0    &0    &0    \\
+                0   &-4   &-1-x &0    &0    \\
+                3   &-9   &-4   &2-x  &-1   \\
+                1   &5    &4    &1    &4-x
+            \end{vmat}     
+            =(x-3)^3(x+1)^2
+          \end{equation*}
+          下面是极小多项式的各种可能，按次数升序列出：
+          $m_1(x)=(x-3)(x+1)$，$m_1(x)=(x-3)^2(x+1)$，$m_1(x)=(x-3)(x+1)^2$， 
+          $m_1(x)=(x-3)^3(x+1)$，$m_1(x)=(x-3)^2(x+1)^2$， 
+          以及 $m_1(x)=(x-3)^3(x+1)^2$。 
+          第一个行不通
+          \begin{align*}
+            (T-3I)(T+1I)
+            &=
+            \begin{mat}[r] 
+               -4   &4    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &-4   &-4   &0    &0    \\
+                3   &-9   &-4   &-1   &-1   \\
+                1   &5    &4    &1    &1  
+            \end{mat}     
+            \begin{mat}[r] 
+                0   &4    &0    &0    &0    \\
+                0   &4    &0    &0    &0    \\
+                0   &-4   &0    &0    &0    \\
+                3   &-9   &-4   &3    &-1   \\
+                1   &5    &4    &1    &5  
+            \end{mat}                           \\     
+            &=
+            \begin{mat}[r] 
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+               -4   &-4   &0    &-4   &-4   \\
+                4   &4    &0    &4    &4  
+            \end{mat}           
+          \end{align*}
+          而第二个则行得通。
+          \begin{multline*}
+            (T-3I)^2(T+1I)=(T-3I)\bigl((T-3I)(T+1I)\bigr) \\
+            \begin{aligned}
+            &=
+            \begin{mat}[r] 
+               -4   &4    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &-4   &-4   &0    &0    \\
+                3   &-9   &-4   &-1   &-1   \\
+                1   &5    &4    &1    &1  
+            \end{mat}     
+            \begin{mat}[r] 
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+               -4   &-4   &0    &-4   &-4   \\
+                4   &4    &0    &4    &4  
+            \end{mat}                          \\          
+            &=
+            \begin{mat}[r] 
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0    \\
+                0   &0    &0    &0    &0  
+            \end{mat}  
+            \end{aligned}         
+          \end{multline*}
+          极小多项式是 \( m(x)=(x-3)^2(x+1) \)。
+       \end{exparts} 
+     \end{answer}
+  \recommended \item 
+     在 \( \polyspace_n \) 上，求导算子 $d/dx$ 的极小多项式是什么？
+     \begin{answer}
+       我们知道 $\polyspace_n$ 是一个维数为 $n+1$ 的空间，
+       并且求导算子是幂零指数为~$n+1$ 的幂零算子
+       （例如取 $n=3$， 
+       $\polyspace_3=\set{c_3x^3+c_2x^2+c_1x+c_0\suchthat c_3,\ldots,c_0\in\C}$，
+       而三次多项式的四阶导数是零多项式）。  
+       用幂零变换的标准 
+       形式来表示这个算子。
+       \begin{equation*}
+         \begin{mat}
+           0  &0  &0  &\ldots &  &0  \\
+           1  &0  &0  &       &  &0  \\
+           0  &1  &0  &       &  &   \\
+              &   &\ddots            \\
+           0  &0  &0  &       &1 &0 
+         \end{mat}
+       \end{equation*}
+       这是一个 $\nbyn{(n+1)}$ 矩阵，其特征多项式容易算出，
+       为 $c(x)=x^{n+1}$。
+       （\textit{注：}这个矩阵是 $\rep{d/dx}{B,B}$，其中
+        $B=\sequence{x^n,nx^{n-1},n(n-1)x^{n-2},\ldots,n!}$。）
+       为像\nearbyexample{ex:MinPolyUsingCH}那样求出极小多项式，
+       我们考虑 $T-0I=T$ 的各次幂。
+       但是，当然，$T$ 的第一次变成零矩阵的幂 
+       是 $n+1$ 次幂。
+       所以极小多项式也是 \( x^{n+1} \)。
+     \end{answer}
+  \recommended \item 
+    求如下形式矩阵的极小多项式
+    \begin{equation*}
+      \begin{mat}
+        \lambda  &0        &0          &\ldots  &        &0  \\
+        1        &\lambda  &0          &        &        &0  \\
+        0        &1        &\lambda                          \\
+                 &         &           &\ddots                \\
+                 &         &           &        &\lambda &0   \\
+        0        &0        &\ldots     &        &1       &\lambda
+      \end{mat}
+    \end{equation*}
+    其中标量 $\lambda$ 是固定的（即不是一个变量）。
+    \begin{answer}
+      记该矩阵为 $T$，并设它是 \( \nbyn{n} \) 的。
+      由于 $T$ 是三角矩阵，从而 $T-xI$ 也是三角矩阵，
+      所以特征多项式是 $c(x)=(x-\lambda)^n$。
+      为看出极小多项式与此相同，考虑
+      $T-\lambda I$。
+      \begin{equation*}
+        \begin{mat}
+          0        &0        &0          &\ldots  &0  \\
+          1        &0        &0          &\ldots  &0  \\
+          0        &1        &0                       \\
+                   &         &\ddots                  \\
+          0        &0        &\ldots     &1       &0      
+        \end{mat}
+      \end{equation*}
+      将它识别为一个幂零指数为~$n$ 的变换的标准形；
+      $(T-\lambda I)^j$ 第一次变为零是在 $j$ 等于 $n$ 时。
+    \end{answer}
+  \item 
+    把 \( \polyspace_n \) 中的 \( p(x) \) 映到 \( p(x+1) \) 的
+    变换，其极小多项式是什么？
+    \begin{answer}
+      $n=3$ 的情形提供了一个提示。
+      $\polyspace_3$ 的一个自然基是  
+      $B=\sequence{1,x,x^2,x^3}$。
+      该变换的作用是
+      \begin{equation*}
+        1\mapsto 1
+        \quad
+        x\mapsto x+1
+        \quad
+        x^2\mapsto x^2+2x+1
+        \quad
+        x^3\mapsto x^3+3x^2+3x+1
+      \end{equation*}
+      所以表示 $\rep{t}{B,B}$ 是这个上三角矩阵。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &1  &1  &1  \\
+          0  &1  &2  &3  \\
+          0  &0  &1  &3  \\
+          0  &0  &0  &1
+        \end{mat}
+      \end{equation*}
+      由于它是三角矩阵，显然特征多项式是
+      $c(x)=(x-1)^4$。
+      至于极小多项式，候选者是 $m_1(x)=(x-1)$、
+      \begin{equation*}
+        T-1I=
+        \begin{mat}[r]
+          0  &1  &1  &1  \\
+          0  &0  &2  &3  \\
+          0  &0  &0  &3  \\
+          0  &0  &0  &0
+        \end{mat}
+      \end{equation*}
+      $m_2(x)=(x-1)^2$、 
+      \begin{equation*}
+        (T-1I)^2=
+        \begin{mat}[r]
+          0  &0  &2  &6  \\
+          0  &0  &0  &6  \\
+          0  &0  &0  &0  \\
+          0  &0  &0  &0
+        \end{mat}
+      \end{equation*}
+      $m_3(x)=(x-1)^3$、
+      \begin{equation*}
+        (T-1I)^3=
+        \begin{mat}[r]
+          0  &0  &0  &6  \\
+          0  &0  &0  &0  \\
+          0  &0  &0  &0  \\
+          0  &0  &0  &0
+        \end{mat}
+      \end{equation*}
+      以及 $m_4(x)=(x-1)^4$。
+      由于 $m_1$、$m_2$ 和 $m_3$ 都不对，所以 $m_4$ 必定是对的，
+      这也容易验证。
+      
+      在一般的 $n$ 的情形，表示是一个对角线上全为 $1$ 的
+      上三角矩阵。
+      于是特征多项式是 $c(x)=(x-1)^{n+1}$。
+      验证极小多项式等于特征多项式的一种办法是
+      给出类似这样的论证：
+      若上三角矩阵的对角线上有非零元素，就称它为 $0$-上三角的；
+      若对角线上只有零而对角线上方紧邻处有非零元素，
+      就称它为 $1$-上三角的，等等。
+      正如上面的例子所说明的，用归纳论证可以证明：
+      当 $T$ 只有非负元素时，
+      $T^j$ 是 $j$-上三角的。
+      % We leave that argument to the reader.
+    \end{answer}
+   \item 
+     把 \( \map{\pi}{\C^3}{\C^3} \) 投影到前两个分量的
+     映射，其极小多项式是什么？
+      \begin{answer}
+        该映射复合两次与复合一次相同：~$\composed{\pi}{\pi}=\pi$，
+        即 $\pi^2=\pi$，所以极小多项式的次数
+        至多是二，因为 \( m(x)=x^2-x \) 就行得通。
+        没有一次多项式行得通这一事实，来自把映射作用到
+        $c_1\cdot \pi+c_0\cdot \identity=z$（其中 $z$ 是零映射）
+        的左右两边于下面这两个向量。
+        \begin{equation*}
+          \colvec[r]{0 \\ 0 \\ 1}
+          \qquad
+          \colvec[r]{1 \\ 0 \\ 0}
+        \end{equation*}
+        于是极小多项式是 $m$。
+      \end{answer}
+   \item 
+     求一个极小多项式为 \( x^2 \) 的
+     \( \nbyn{3} \) 矩阵。
+      \begin{answer}
+         这是一个答案。
+         \begin{equation*}
+             \begin{mat}[r]
+               0  &0  &0  \\
+               1  &0  &0  \\
+               0  &0  &0
+             \end{mat}
+         \end{equation*} 
+       \end{answer}
+  \item 
+     \nearbylemma{le:MatSatItsCharPoly} 的下述声称的证明
+     有什么问题：
+      ``若 \( c(x)=\deter{T-xI} \) 则 \( c(T)=\deter{T-TI}=0 \,\)''\,？
+     \cite{Cullen}
+      \begin{answer}
+        这里的 \( x \) 必须是标量，而不是矩阵。
+      \end{answer}
+  \item 
+    通过直接计算，对 \( \nbyn{2} \)
+    矩阵验证 \nearbylemma{le:MatSatItsCharPoly}。
+    \begin{answer}
+      矩阵
+      \begin{equation*}
+         T=\begin{mat}
+              a  &b  \\
+              c  &d
+           \end{mat}
+      \end{equation*}
+      的特征多项式是 \( (a-x)(d-x)-bc=x^2-(a+d)x+(ad-bc) \)。
+      代入
+      \begin{multline*}
+         \begin{mat}
+              a  &b  \\
+              c  &d
+         \end{mat}^2
+         -
+         (a+d)\begin{mat}
+            a  &b  \\
+            c  &d
+         \end{mat}
+         +
+         (ad-bc)\begin{mat}[r]
+            1  &0  \\
+            0  &1
+         \end{mat}                            \\
+         =                     
+         \begin{mat}
+            a^2+bc  &ab+bd  \\
+            ac+cd   &bc+d^2
+         \end{mat}
+         -
+         \begin{mat}
+            a^2+ad  &ab+bd   \\
+            ac+cd   &ad+d^2
+         \end{mat}
+         +
+         \begin{mat}
+            ad-bc  &0      \\
+            0      &ad-bc
+         \end{mat}
+      \end{multline*}
+      然后只需逐项核对每个元素的和，看结果是不是零矩阵。
+    \end{answer}
+  \recommended \item
+    证明一个 \( \nbyn{n} \) 矩阵的极小多项式的次数
+    至多是 \( n \)（而不是人们从小节开头可能猜到的 \( n^2 \)）。
+    验证这个最大值 \( n \) 可以取到。
+    \begin{answer}
+      由 Cayley-Hamilton 定理，极小多项式的次数
+      小于或等于特征多项式的次数，
+      即 \( n \)。
+      \nearbyexample{ex:MinPolyForRotMat} 表明 \( n \) 可以取到。
+    \end{answer}
+   \recommended \item 
+     证明：在非平凡向量空间上，一个线性变换是 
+     幂零的当且仅当它仅有的特征值是零。
+     \begin{answer}
+       设该线性变换为 $\map{t}{V}{V}$。
+       若 $t$ 是幂零的，则存在 $n$ 使得 $t^n$ 是零映射，
+       于是 $t$ 满足多项式 $p(x)=x^n=(x-0)^n$。
+       由 \nearbylemma{le:tSatisImpMinPolyDivides}，$t$ 的极小多项式 
+       整除 $p$，所以极小多项式的根只有零。
+       由 Cayley-Hamilton 定理，即 \nearbytheorem{th:CayHam}，
+       特征多项式的根也只有零。
+       于是 $t$ 仅有的特征值是零。
+
+       反之，若 \( n \) 维空间上的变换 \( t \) 只有零这一个特征值， 
+       则它的特征多项式是 \( x^n \)。 
+       Cayley-Hamilton 定理说映射满足其特征多项式，
+       所以 \( t^n \) 是零映射。
+       于是 $t$ 是幂零的。
+     \end{answer}
+   \item 
+       零映射或零矩阵的极小多项式是什么？
+       恒等映射或单位矩阵的极小多项式又是什么？
+       \begin{answer}
+         极小多项式必须首项系数为 $1$， 
+         因此若一个映射或矩阵的极小多项式 
+         是零次多项式，则它将是 $m(x)=1$。
+         但恒等映射或单位矩阵等于零映射或零矩阵，
+         仅在平凡向量空间上才如此。
+
+         所以在非平凡的情形，极小多项式的次数
+         至少是一。
+         零映射或零矩阵的极小多项式是 \( m(x)=x \)，而
+         恒等映射或单位矩阵的极小多项式是 \( m(x)=x-1 \)。 
+       \end{answer}
+   \recommended \item 
+     对角矩阵的极小多项式是什么？
+     \begin{answer}
+       对于对角矩阵
+       \begin{equation*}
+          T=
+          \begin{mat}
+             t_{1,1}   &0        \\
+             0         &t_{2,2}  \\
+                       &        &\ddots  \\
+                       &        &      &t_{n,n}
+          \end{mat}
+       \end{equation*}
+       特征多项式是 
+       $(t_{1,1}-x)(t_{2,2}-x)\cdots (t_{n,n}-x)$。     
+       当然，其中一些因子可能重复，例如矩阵可能
+       有 $t_{1,1}=t_{2,2}$。
+       例如，
+       \begin{equation*}
+          D=
+          \begin{mat}[r]
+             3 &0 &0  \\
+             0 &3 &0  \\
+             0 &0 &1
+          \end{mat}
+       \end{equation*}
+       的特征多项式是 \( (3-x)^2(1-x)=-1\cdot (x-3)^2(x-1) \)。 
+
+       要构造极小多项式， 
+       取各项 \( x-t_{i,i} \)，去掉重复项， 
+       然后把它们乘起来。
+       例如，$D$ 的极小多项式
+       是 \( (x-3)(x-1) \)。
+       为验证这一点，首先注意 \nearbytheorem{th:CayHam}， 
+       即 Cayley-Hamilton 定理，要求特征多项式中的每个线性因子
+       在极小多项式中至少出现一次。
+       检验另一个方向\Dash 即在对角矩阵的情形， 
+       每个线性因子至多出现一次\Dash 的一个办法是
+       使用矩阵论证。
+       对角矩阵从左边相乘时按
+       对角元进行倍乘。
+       而在乘积 $(T-t_{1,1}I)\cdots\hbox{}$ 中，即便没有任何重复
+       因子，每一行也至少在其中一个因子中为零。 
+
+       例如，在乘积 
+       \begin{equation*}
+         (D-3I)(D-1I)=(D-3I)(D-1I)I=
+         \begin{mat}[r]
+           0  &0  &0  \\
+           0  &0  &0  \\
+           0  &0  &-2        
+         \end{mat}
+         \begin{mat}[r]
+           2  &0  &0  \\
+           0  &2  &0  \\
+           0  &0  &0
+         \end{mat}
+         \begin{mat}[r]
+           1  &0  &0  \\
+           0  &1  &0  \\
+           0  &0  &1
+         \end{mat}
+       \end{equation*}
+       中，因为第一个矩阵 $D-3I$ 的第一行与第二行为零，
+       所以整个乘积的第一行与第二行都是零。
+       又因为中间那个矩阵 $D-1I$ 的第三行为零，
+       所以整个乘积的第三行是零。
+    \end{answer}
+  \recommended \item 
+    \definend{投影}\index{projection}%
+    \index{transformation!projection} 
+    是指满足 \( t^2=t \) 的任一变换 \( t \)。
+    （例如，考虑平面 $\Re^2$ 上把每个向量投影到其第一个分量的变换。
+    若投影两次，则结果与只投影一次相同。）
+    投影的极小多项式是什么？
+    \begin{answer}
+      本小节开头指出，线性变换的幂不可能永远攀升而没有
+      ``重复''，也就是说，对某个幂~$n$ 存在线性关系
+      $c_n\cdot t^n+\dots+c_1\cdot t+c_0\cdot \identity=z$，其中 $z$ 是
+      零变换。
+      投影的定义是，对这样的映射，
+      有一个线性关系是二次的：$t^2-t=z$。
+      为完成讨论，我们只需考虑这个关系是否可能不是极小的，
+      即是否存在极小多项式为常数或一次的投影？
+
+      若极小多项式是常数，则该映射必须满足
+      $c_0\cdot\identity=z$，其中 $c_0=1$，因为极小多项式的
+      首项系数是 $1$。
+      这只在平凡空间上被零变换满足。
+      这是一个投影，但不是令人感兴趣的投影。
+
+      若一个变换的极小多项式是一次
+      的，则给出 $c_1\cdot t+c_0\cdot\identity=z$，其中 $c_1=1$。
+      这个方程给出 $t=-c_0\cdot \identity$。
+      再结合要求 $t^2=t$，得
+      $t^2=(-c_0)^2\cdot\identity=-c_0\cdot\identity$，由此得
+      $c_0=0$ 且 $t$ 是零变换，或者 $c_0=1$ 且
+      $t$ 是恒等变换。       
+
+      于是，除投影是零映射或恒等映射的情形外，
+      极小多项式是 $m(x)=x^2-x$。 
+    \end{answer}
+  \item \label{exer:SomeRootsMinPolyAreEigs}
+    \textit{本题的前两（小）题是复习。}
+    \begin{exparts}
+      \partsitem 证明单射映射的复合是单射。
+      \partsitem 证明：若线性映射不是单射，则
+        定义域中至少有一个非零向量被映到
+        陪域中的零向量。
+      \partsitem 验证下面摘录的、位于 \nearbytheorem{th:CayHam}
+        之前的论断。
+         \begin{quotation}
+           \noindent \ldots{} 
+           若变换 $t$ 的极小多项式 $m(x)$ 
+           分解为
+           $m(x)=(x-\lambda_1)^{q_1}\cdots (x-\lambda_z)^{q_z}$
+           则 
+           \( m(t)=\composed{\composed{(t-\lambda_1)^{q_1}}{\cdots}}{
+                                                        (t-\lambda_z)^{q_z}} \) 
+          是零映射。 
+          由于 \( m(t) \) 把每个向量都映为零，所以在映射 \( t-\lambda_i \) 
+          中至少有一个把某些
+          非零向量映为零。  \ldots{}
+          也就是说，\ldots{} 
+          至少某些 \( \lambda_i \) 是特征值。
+        \end{quotation}
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+       \partsitem \textit{这是一般函数的性质，
+          而不仅是线性函数的性质。}
+          设 $f$ 和 $g$ 是单射函数，且
+          $\composed{f}{g}$ 有定义。
+          设 $\composed{f}{g}(x_1)=\composed{f}{g}(x_2)$，则
+          $f(g(x_1))=f(g(x_2))$。
+          由于 $f$ 是单射的，这蕴含 $g(x_1)=g(x_2)$。
+          又因 $g$ 也是单射的，这进而蕴含
+          $x_1=x_2$。
+          于是，总之，$\composed{f}{g}(x_1)=\composed{f}{g}(x_2)$
+          蕴含 $x_1=x_2$，所以 $\composed{f}{g}$ 是单射。
+        \partsitem 若线性映射 $h$ 
+          不是单射，则存在不相等的
+          向量 $\vec{v}_1$、$\vec{v}_2$ 被映到相同的值
+          $h(\vec{v}_1)=h(\vec{v}_2)$。
+          由于 $h$ 是线性的，我们有
+          $\zero=h(\vec{v}_1)-h(\vec{v}_2)=h(\vec{v}_1-\vec{v}_2)$，
+          于是 $\vec{v}_1-\vec{v}_2$ 是定义域中一个非零向量，
+          $h$ 把它映到陪域的零向量  
+          （$\vec{v}_1-\vec{v}_2$
+          不等于定义域的零向量，因为 $\vec{v}_1$
+          不等于 $\vec{v}_2$）。
+        \partsitem 极小多项式 
+          $m(t)$ 把定义域中的每个向量都映到 
+          零，所以它不是单射（在平凡空间中除外，这里 
+          不予考虑）。
+          由本题的第一（小）题， 
+          由于复合 $m(t)$ 不是单射，
+          所以分量 $t-\lambda_i$ 中至少有一个不是单射。
+          由第二（小）题，$t-\lambda_i$ 有一个非平凡的零空间。
+          因为 $(t-\lambda_i)(\vec{v})=\zero$ 成立当且仅当
+          $t(\vec{v})=\lambda_i\cdot\vec{v}$，前一句话给出：
+          $\lambda_i$ 是特征值（回忆特征值的
+          定义要求该关系至少对一个
+          非零 $\vec{v}$ 成立）。
+      \end{exparts}
+    \end{answer}
+  \item 
+    对或错：~对于 \( n \) 维空间上的变换，若极小多项式的次数为 \( n \)， 
+    则该映射可对角化。
+    \begin{answer}
+      这是错的。
+      不可对角化变换的自然例子在这里适用。
+      考虑 $\C^2$ 上关于标准基由这个矩阵
+      表示的变换。
+      \begin{equation*}
+        N=
+        \begin{mat}[r]
+          0  &1  \\
+          0  &0
+        \end{mat}
+      \end{equation*}
+      特征多项式是 $c(x)=x^2$。 
+      于是极小多项式要么是 $m_1(x)=x$，要么是 $m_2(x)=x^2$。
+      第一个不对，因为 $N-0\cdot I$ 不是零矩阵；
+      于是在这个例子中极小多项式的次数等于 
+      底空间的维数，而且如前所述，
+      我们知道这个矩阵不可对角化，因为它是幂零的。 
+    \end{answer}
+   \item 
+     设 $f(x)$ 是一个多项式。
+     证明：若 $A$ 与 $B$ 是相似的矩阵，则 $f(A)$ 与 
+     $f(B)$ 相似。
+     \begin{exparts}
+       \partsitem 进而证明相似的矩阵有相同的特征
+         多项式。
+       \partsitem 证明相似的矩阵有相同的极小多项式。
+       \partsitem 判断它们是否相似。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &3  \\
+              2  &3
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              4  &-1 \\
+              1  &1
+            \end{mat}
+          \end{equation*}
+     \end{exparts}
+     \begin{answer}
+       设 \( A \) 与 \( B \) 相似，即 $A=PBP^{-1}$。
+       由这样的事实： 
+       \begin{multline*}
+           A^n=(PBP^{-1})^n=(PBP^{-1})(PBP^{-1})\cdots(PBP^{-1})   \\
+                           =PB(P^{-1}P)B(P^{-1}P)\cdots (P^{-1}P)BP^{-1}
+                           =PB^nP^{-1}
+       \end{multline*}
+       以及 $c\cdot A=c\cdot(PBP^{-1})=P(c\cdot B)P^{-1}$，
+       即得所需的事实：对任意多项式函数 $f$，我们有 
+       \( f(A)=P\,f(B)\,P^{-1} \)。
+       例如，若 $f(x)=x^2+2x+3$，则
+       \begin{multline*}
+         A^2+2A+3I=(PBP^{-1})^2+2\cdot PBP^{-1}+3\cdot I           \\
+                  =(PBP^{-1})(PBP^{-1})+P(2B)P^{-1}+3\cdot PP^{-1}
+                  =P(B^2+2B+3I)P^{-1}
+       \end{multline*}
+       这表明 $f(A)$ 与 $f(B)$ 相似。
+       \begin{exparts}
+         \partsitem 取 $f$ 为一次多项式，我们得到
+           $A-xI$ 与 $B-xI$ 相似。
+           相似矩阵有相等的行列式（因为 
+           $\deter{A}=\deter{PBP^{-1}}
+               =\deter{P}\cdot\deter{B}\cdot\deter{P^{-1}}
+               =1\cdot\deter{B}\cdot 1=\deter{B}$）。
+           于是特征多项式相等。 
+         \partsitem 
+           由于 \( P \) 与 \( P^{-1} \) 可逆，\( f(A) \) 是
+           零矩阵当且仅当 \( f(B) \) 是零矩阵。
+         \partsitem 它们不可能相似，因为它们没有相同的
+           特征多项式。
+           第一个的特征多项式是 
+           $x^2-4x-3$，而第二个的
+           特征多项式是 $x^2-5x+5$。
+       \end{exparts}  
+     \end{answer}
+   \item 
+    \begin{exparts}
+     \partsitem 证明一个矩阵可逆当且仅当 
+       其极小多项式中的常数项
+       不是 $0$。
+     \partsitem 证明：若方阵 \( T \) 不可逆     
+       则存在
+       非零矩阵 \( S \)，使得 \( ST \) 与 \( TS \) 都等于
+       零矩阵。
+     \end{exparts}
+     \begin{answer}
+      设 \( m(x)=x^n+m_{n-1}x^{n-1}+\dots+m_1x+m_0 \)
+      是 \( T \) 的极小多项式。
+      \begin{exparts}
+       \partsitem 
+         对于「若」的论证， 
+         由于 \( T^n+\dots+m_1T+m_0I \) 是零矩阵，我们
+         得到 \( I=(T^n+\dots+m_1T)/(-m_0)=
+         T\cdot (T^{n-1}+\dots+m_1I)/(-m_0) \)，所以 
+         矩阵 $(-1/m_0)\cdot (T^{n-1}+\dots+m_1I)$ 是 $T$ 的逆。
+         对于「仅当」，设 \( m_0=0 \) 
+         （我们把 \( n=1 \) 的情形搁置一旁，但它是容易的），
+         于是
+         \( T^n+\dots+m_1T=(T^{n-1}+\dots+m_1I)T \) 是零矩阵。
+         注意 \( T^{n-1}+\dots+m_1I \) 不是零矩阵，因为
+         极小多项式的次数是 \( n \)。
+         若 \( T^{-1} \) 存在，则把
+         \( (T^{n-1}+\dots+m_1I)T \) 与零矩阵从右边
+         乘以 $T^{-1}$ 就得出矛盾。
+       \partsitem 若 \( T \) 不可逆，则其
+         极小多项式中的常数项为零。
+         于是，
+         \begin{equation*}
+            T^n+\dots+m_1T=(T^{n-1}+\dots+m_1I)T=T(T^{n-1}+\dots+m_1I)
+         \end{equation*}
+         是零矩阵。
+       \end{exparts} 
+     \end{answer}
+   \recommended \item \label{exer:PolyMapsFactor}
+      \begin{exparts}
+        \partsitem 完成 \nearbylemma{le:PolyMapsFactor} 的证明。
+        \partsitem 举一个例子，说明当 $t$ 不是线性时
+          该结论不成立。
+      \end{exparts}
+      \begin{answer}
+        \begin{exparts}
+          \partsitem
+            对于归纳步骤，设 \nearbylemma{le:PolyMapsFactor}
+            对次数为 \( i,\ldots,k-1 \) 的多项式
+            成立，并考虑次数为 \( k \) 的多项式 \( f(x) \)。 
+            把 $f(x)$ 分解为 $f(x)=k(x-\lambda_1)^{q_1}\cdots(x-\lambda_z)^{q_z}$，
+            并设
+            \( k(x-\lambda_1)^{q_1-1}\cdots(x-\lambda_z)^{q_z} \)
+            为 \( c_{n-1}x^{n-1}+\cdots+c_1x+c_0 \)。
+            代入：
+            \begin{align*}
+               k\composed{\composed{(t-\lambda_1)^{q_1}}{\cdots}}{
+                                            (t-\lambda_z)^{q_z}}(\vec{v})
+               &=
+               \composed{(t-\lambda_1)}{
+                  \composed{\composed{(t-\lambda_1)^{q_1}}{\cdots}}{
+                  (t-\lambda_z)^{q_z}} }
+                          (\vec{v})    \\
+               &=
+               (t-\lambda_1)\,(c_{n-1}t^{n-1}(\vec{v})+\cdots+c_0\vec{v}) \\
+               &=
+               f(t)(\vec{v})
+            \end{align*}
+           （第二个等号来自归纳假设， 
+           第三个等号来自 \( t \) 的线性）。
+         \partsitem 一个例子是考虑平方映射
+            $\map{s}{\Re}{\Re}$，由 $s(x)=x^2$ 给出。
+            它是非线性的。
+            多项式 $f(t)=t^2-1$ 定义的作用 
+            把 $s$ 变成 $f(s)=s^2-1$，即这个映射。
+            \begin{equation*} 
+              x\mapsunder{s^2-1} \composed{s}{s}(x)-1=x^4-1
+            \end{equation*}
+            注意这个映射不同于映射
+            $\composed{(s-1)}{(s+1)}$；例如，第一个映射把
+            $x=5$ 变为 $624$，而第二个把 $x=5$ 变为 $675$。
+       \end{exparts} 
+     \end{answer}
+%  \item
+%    Give an example of two \( \nbyn{4} \) matrices that have the 
+%    same characteristic polynomial and the same minimal polynomial but
+%    nonetheless are not similar.
+%    \begin{answer}
+%      These two have the same characteristic polynomial,
+%      $c_S(x)=c_T(x)=(x-2)^4$.
+%      \begin{equation*}
+%        S=
+%        \begin{mat}[r]
+%          2  &0  &0  &0  \\
+%          1  &2  &0  &0  \\
+%          0  &0  &2  &0  \\
+%          0  &0  &0  &2
+%        \end{mat}
+%        \qquad
+%        T=
+%        \begin{mat}[r]
+%          2  &0  &0  &0  \\
+%          1  &2  &0  &0  \\
+%          0  &0  &2  &0  \\
+%          0  &0  &1  &2
+%        \end{mat}
+%      \end{equation*}
+%      For each of the two
+%      the candidates for the minimal polynomial are 
+%      $m_1(x)=(x-2)$, $m_2(x)=(x-2)^2$, $m_3(x)=(x-2)^3$, and 
+%      $m_4(x)=(x-2)^4$.
+%      We have 
+%      \begin{equation*}
+%        S-2I=
+%        \begin{mat}[r]
+%          0  &0  &0  &0  \\
+%          1  &0  &0  &0  \\
+%          0  &0  &0  &0  \\
+%          0  &0  &0  &0
+%        \end{mat}
+%        \qquad
+%        T-2I=
+%        \begin{mat}[r]
+%          0  &0  &0  &0  \\
+%          1  &0  &0  &0  \\
+%          0  &0  &0  &0  \\
+%          0  &0  &1  &0
+%        \end{mat}
+%      \end{equation*}
+%      and
+%      \begin{equation*}
+%        (S-2I)^2=
+%        \begin{mat}[r]
+%          0  &0  &0  &0  \\
+%          0  &0  &0  &0  \\
+%          0  &0  &0  &0  \\
+%          0  &0  &0  &0
+%        \end{mat}
+%        =
+%        (T-2I)^2
+%      \end{equation*}
+%      and so the minimal polynomial for each is $m_2$.
+%    \end{answer}
+  \item
+    任何变换或方阵都有极小多项式。
+    逆命题成立吗？
+    \begin{answer}
+      成立。
+      按最后一列展开可以检验
+      \( x^n+m_{n-1}x^{n-1}+\dots+m_1x+m_0 \) 是下面这个行列式的
+      正值或负值。
+      \begin{equation*}
+         \begin{mat}
+            -x  &0  &0  &      &    &m_0    \\
+             0  &1-x&0  &      &    &m_1    \\
+             0  &0  &1-x&      &    &m_2    \\
+                &   &   &\ddots             \\
+                &   &   &      &1-x &m_{n-1}
+         \end{mat}
+      \end{equation*} 
+     \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+

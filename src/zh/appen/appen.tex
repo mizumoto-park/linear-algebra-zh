@@ -1,0 +1,875 @@
+\makeatletter
+\newcommand{\appendsection}[1]{\vspace{2.75ex plus .15ex minus .05ex}\noindent{\addcontentsline{toc}{subsection}{#1}\large\textbf{#1}}\vspace{.5ex plus .05ex minus .05ex}\nopagebreak[4]\par\noindent\trim@spaces}
+\makeatother
+
+\markboth{}{}
+\renewcommand{\thepage}{A-\arabic{page}}
+\setcounter{page}{1}
+%\thispagestyle{plain}
+%\noindent
+\chapter*{附录}
+\addcontentsline{toc}{chapter}{附录}
+数学是由论证构成的（argument 指有条理的推理言说，
+而非扔盘子式的争吵）。
+本节概略介绍本书所用的背景材料与
+论证技巧。
+
+本节以非正式的方式概述这些论题，略去证明。
+欲深入了解，\cite{HowToProveIt} 是一本极佳的参考书。
+另有两份可在线获取的资料：
+\cite{Hefferon} 与~\cite{Beck}。
+
+
+
+
+
+%\vskip .75in
+\appendsection{命题}
+%\addcontentsline{toc}{subsection}{Propositions}
+%\bigskip
+%\par\noindent
+正式的数学命题都带有标签：重大的结论称为
+\definend{定理}，% \index{theorem} 
+由先前结论立即得出的结论称为
+\definend{推论}，% \index{corollary}  
+而主要用来证明其他结论的结论
+则称为
+\definend{引理}。%\index{lemma} 
+
+
+命题可以很复杂，由许多部分组成。
+整个命题的真假既取决于各部分的真值，
+也取决于命题把这些部分
+组合起来的方式。
+
+\startword{非}
+设 \( P \) 是一个命题，
+“并非 \( P \)”在 \( P \) 为假时
+为真。
+例如，“\( n \) 不是素数”只有当 \( n \) 是一些更小整数的
+乘积时才为真。
+
+要证明“非 \( P \)”型命题成立，需证明 \( P \) 为假。
+
+
+
+\startword{且}
+形如“\( P \) 且 \( Q \)”的命题
+要为真，两半必须都成立：
+“\( 7 \) 是素数且 \( 3 \) 也是素数”为真，而
+“\( 7 \) 是素数且 \( 3 \) 不是素数”为假。
+
+要证明“\( P \) 且 \( Q \)”，须分别证明两半。
+
+
+
+
+
+\startword{或}
+“\( P \) 或 \( Q \)”型命题在任一半成立时即为真：
+“\( 7 \) 是素数或 \( 4 \) 是素数”为真，而“\( 8 \) 是素数
+或 \( 4 \) 是素数”为假。
+当命题的两个子句都为真时，
+例如“\( 7 \) 是素数或 \( 3 \) 是素数”，
+我们仍把整个命题视为真。
+（在日常语言中，人们偶尔以排他的方式使用“或”\Dash “不自由，毋宁死”
+并不打算让两半都成立\Dash 但
+我们不会以那种方式使用“或”。）
+
+
+要证明“\( P \) 或 \( Q \)”，需证明在一切情形下至少有一半
+成立（也许有时是这一半，有时是另一半，
+但总至少有一个成立）。
+
+
+
+\startword{若\ldots{}则\ldots{}}
+\index{if-then statement}
+“若 \( P \) 则 \( Q \)”型命题也可写作
+“\( P \) 蕴含 \( Q \)”或“\( P\implies Q\)”或
+“\( P \) 足以给出 \( Q \)”或“只要 $P$ 就有 $Q$”。
+只要不是 \( P \) 为真而 \( Q \) 为假，
+它就为真。
+因此“若 \( 7 \) 是素数则 \( 4 \) 不是素数”为真，
+而“若 \( 7 \) 是素数则 \( 4 \) 也是素数”为假。
+（与日常口语中的用法相反，在数学中“若 \( P \) 则 \( Q \)”
+并不意味着
+\( P \) 先于 \( Q \) 发生或引起 \( Q \)。）
+
+
+注意上一段的这一推论：
+若 $P$ 为假，则无论 $Q$ 取值如何，“若 \( P \) 则 \( Q \)”都
+为真：
+“若 \( 4 \) 是素数则 \( 7 \) 是素数”与
+“若 \( 4 \) 是素数则 \( 7 \) 不是素数”都是真命题。
+（它们是\definend{空洞地为真}的。\index{vacuously true}）
+再注意，当 $Q$ 为真时，“若 \( P \) 则 \( Q \)”为真：
+“若 $4$ 是素数则 $7$ 是素数”与
+“若 $4$ 不是素数则 $7$ 是素数”都为真。
+
+% (We adopt this definition of implication
+% because we want statements 
+% such as `if $n$ is a perfect square then $n$ is not prime'
+% to be true no matter which 
+% number $n$ appears in that statement.
+% For instance, we want `if $5$ is a perfect square then $5$ is not prime'
+% to be true so we want that if both $P$ and~$Q$ are false then
+% $P\implies Q$ is true.)
+
+证明一个蕴含式主要有两种方法。
+第一种方法是直接法：~假设 \( P \) 为真，并利用这一
+假设来证明 \( Q \)。
+例如，
+要证明“若一个数能被 5 整除，则它的两倍能被 10 整除”，
+可以假设该数为 \( 5n \)，并推出
+\( 2(5n)=10n \)。
+间接方法则是证明
+\definend{逆否命题}\index{contrapositive}
+命题：“若 \( Q \) 为假则 \( P \) 为假”
+（换一种说法，“\( Q \) 为假仅当 \( P \) 也为假”）。
+因此，要证明“若一个自然数是素数，
+则它不是完全平方数”，可以
+论证：假如它是平方数 \( p=n^2 \)，那么它可以分解为
+\( p=n\cdot n \)，其中 \( n<p \)，故 \( p \) 不是素数
+（\( p=0 \) 或 \( p=1 \) 不满足 \( n<p \)，但它们
+也不是素数）。
+
+% Note two things about this statement form.
+
+% First, an `if \( P \) then \( Q \)' result can sometimes be improved
+% by weakening \( P \) or strengthening \( Q \).
+% Thus, `if a number is divisible by \( p^2 \) then its square is also
+% divisible by \( p^2 \)' could be upgraded either by relaxing its
+% hypothesis:~`if a number is divisible by \( p \) then its square
+% is divisible by \( p^2 \)', or by tightening its conclusion:~`if
+% a number is divisible by \( p^2 \) then its square is divisible by
+% \( p^4 \)'.
+
+% Second,
+% after showing `if \( P \) then \( Q \)' then a good next step is to look into
+% whether there are cases where \( Q \) holds but \( P \) does not.
+% The idea is to better understand the relationship between \( P \) and
+% \( Q \) with an eye toward strengthening the proposition.
+
+
+
+\startword{等价命题}
+\index{equivalent statements}\index{propositions!equivalent}
+有时不仅 \( P \) 蕴含 \( Q \)，而且
+\( Q \) 也蕴含 \( P \)。
+这一事实有若干种说法：
+“\( P \) 当且仅当
+\( Q \)”、“\( P \) iff \( Q \)”（iff 即“当且仅当”）、“\( P \) 与 \( Q \) 逻辑
+等价”、“\( P \) 给出 \( Q \) 既充分又必要”、
+“\( P\iff Q \)”。
+一个例子是：“一个整数能被十整除当且仅当  
+该数以 $0$ 结尾”。
+
+虽然在简单的论证中，像
+“\( P \) 当且仅当 $R$，而 $R$ 当且仅当 $S$ \ldots{}”这样的链条或许可行，
+但要证明命题彼此等价，我们更常
+分别证明两半：
+“若 \( P \) 则 \( Q \)”与“若 \( Q \) 则 \( P \)”。
+
+
+
+
+
+
+\appendsection{量词}\index{quantifier}%
+比较下面关于自然数的两个命题：
+“存在自然数 \( x \) 使得 \( x \) 能
+被 \( x^2 \) 整除”为真，而
+“对所有自然数 \( x \)，
+\( x \) 都能被 \( x^2 \) 整除”为假。
+前缀“存在”与“对所有”
+称为\definend{量词}。\index{quantifiers}
+
+\startword{对所有}
+“对所有”这一前缀是
+\definend{全称量词}，\index{quantifier!universal} 
+记号为 \( \forall \)。
+
+证明一个命题在一切情形下都成立，其最直接的方法
+是证明
+它在每种情形下都成立。
+因此，要证明“每个能被 \( p \) 整除的数，其平方
+都能被 \( p^2 \) 整除”，可取一个形如
+\( pn \) 的数，并将其平方 \( (pn)^2=p^2n^2 \)。
+这是\definend{典型元素}证明。
+（在这类论证中，注意不要假设 
+该元素具有前提中
+未给出的其他性质。
+下面这个论证是错误的：
+“若 \( n \) 能被一个素数整除，比如说 \( 2 \)，即 \( n=2k \)，
+其中 \( k \) 是某个自然数，
+那么 \( n^2=(2k)^2=4k^2 \)，于是 $n$ 的平方能被
+该素数的平方整除。”
+这是特殊情形 \( p=2 \) 的证明，
+但不是对所有~\( p \) 的证明。
+对比下面这个正确的论证：
+“若 \( n \) 能被一个素数整除，
+即 \( n=pk \)，其中 \( k \) 是某个自然数，
+那么 \( n^2=(pk)^2=p^2k^2 \)，于是 $n$ 的平方能被
+该素数的平方整除。”)
+
+
+
+
+\startword{存在}
+“存在”这一前缀是
+\definend{存在量词}，\index{quantifier!existential}
+记号为
+\( \exists \)。
+
+%This quantifier is in some ways the opposite of `for all'.
+%For instance, contrast these two definitions of primality
+%of an integer \( p \): (i)~for all \( n \), if
+%\( n \) is not \( 1 \) and \( n \) is not \( p \) then \( n \)
+%does not divide \( p \), and
+%(ii)~it is not the case that there exists an \( n \)
+%(with \( n\neq 1 \) and \( n\neq p \)) such that \( n \) divides \( p \).
+
+我们可以通过构造出一个满足该性质的对象
+来证明存在性命题：例如，为了解决
+\( 2^{2^5}+1 \) 的素性问题，
+Euler 给出了因子 \( 641 \)\cite{Sandifer}。
+但也有一些证明
+表明某物存在，却不说明如何找到它；
+下一小节给出的 Euclid 论证
+证明了素数有无穷多个，却没有给出命名它们的公式。
+% In general, while demonstrating existence is better than nothing,
+% giving an example is better, and an
+% exhaustive list of all instances is ideal.
+
+最后，在
+“有没有？”\ %\spacefactor=1000 
+之后我们常问“有多少？”
+也就是说，唯一性问题常常与存在性
+问题一同出现。
+有时把两个论证分开处理会更简单，因此请注意：正如
+证明某物存在并不能表明它唯一，
+证明某物唯一也不能表明它存在。
+
+
+
+
+
+\appendsection{证明方法}
+\index{proof techniques|(}%
+证明数学命题有多种方法。
+这里我们将概述两种我们常用的技巧，
+它们可能并不容易自然想到，即便是对于有技术头脑的人
+也是如此。
+ 
+
+\startword{归纳法}
+\index{induction, mathematical}
+许多证明是迭代式的：
+“这是该命题对数 \( 0 \) 成立的理由，
+于是它对 \( 1 \) 成立，再由此到 \( 2 \) \ldots{}”。
+这些就是用
+\definend{数学归纳法}进行的证明。\index{mathematical induction}\index{induction}
+我们将看到两个例子。
+
+我们将首先证明 \( 1+2+3+\dots+n=n(n+1)/2 \)。
+该公式含有一个自由的自然数变量 $n$，
+意思是取 $n$ 为 $1$、
+或 $2$ 等，便得到该命题的一族情形：
+第一个是 $1=1(2)/2$，第二个是 $1+2=2(3)/2$，等等。
+我们的归纳证明涉及含有一个自由自然数
+变量的命题。
+
+每个这样的证明分两步。
+在\definend{基础步骤}\index{base step, of induction proof}
+中，我们证明该命题对
+某个初始数 $i\in \N$ 成立。
+这一步通常只是例行的验证。
+第二步，
+即\definend{归纳步骤}，\index{inductive step, of induction proof}
+则更微妙；我们将证明下面这个蕴含式成立：
+\begin{equation*}
+  \begin{tabular}{l}
+    \text{若该命题从 $n=i$ 一直成立到并包含~$n=k$}
+     \\
+    \text{\ 则该命题在 $n=k+1$ 情形下也成立}
+  \end{tabular}
+  \tag{$*$}
+\end{equation*}
+（其中第一行是
+\definend{归纳假设}\index{induction!inductive hypothesis}\index{inductive hypothesis}）。
+完成这两步便证明了该命题对
+所有大于等于 $i$ 的自然数都成立。
+
+对于“前 $n$~个数的和”这一命题，
+其原理背后的直观是：首先，基础步骤
+直接验证了初始数 $n=1$ 情形下的命题。
+然后，由于归纳步骤对所有 $k$ 验证了蕴含式~($*$)，
+把该蕴含式用于 $k=1$，
+便得到该命题对数
+$n=2$ 的情形成立。
+现在，命题已对 $1$ 和 $2$ 都成立，
+再用一次 ($*$) 即可得出该命题对数
+$n=3$ 成立。
+如此逐步推进，直到所有满足 $n\geq 1$ 的数。
+
+下面是 \( 1+2+3+\dots+n=n(n+1)/2 \) 的一个证明，
+基础步骤与归纳步骤
+各占单独的段落。
+\begin{quote}\small
+对于基础步骤，我们证明公式在 \( n=1 \) 时成立。
+这很容易：前 \( 1 \) 个自然数的和等于
+\( 1(1+1)/2 \)。
+
+对于归纳步骤，假设归纳假设成立，即公式对
+\( n=1 \)、\( n=2 \)、\ldots{}、\( n=k \)（其中 $k\geq 1$）都成立。
+也就是说，假设
+$1=1(1)/2$，$1+2=2(3)/2$，$1+2+3=3(4)/2$，一直到
+$1+2+\cdots+k=k(k+1)/2$。
+在此基础上，公式在 \( n=k+1 \)~情形下也成立：
+\begin{equation*}
+  1+2+\cdots+k+(k+1)
+  =
+  \frac{k(k+1)}{2}+(k+1)
+  =
+  \frac{(k+1)(k+2)}{2}
+\end{equation*}
+（第一个等号由归纳假设得到。）
+\end{quote}
+% The base case shows that the formula is true holds for \( n=1 \).
+% The inductive step shows that,  
+% because the formula holds for \( 1 \), it also holds for \( n=2 \);
+% The inductive step also shows that,  
+% because the formula holds for \( 1 \) and \( 2\), it holds for \( 3=2 \);
+% Continuing in this way, we see that the statement holds
+% for any natural number greater than or equal to \( 1 \).
+
+下面是另一个例子，证明
+每个大于等于 \( 2 \) 的整数都是
+素数的乘积。
+\begin{quote}\small
+基础步骤很容易：\( 2 \) 是单个素数的乘积。
+
+对于归纳步骤，假设 \( 2, 3,\ldots ,k \) 中的每一个都是
+素数的乘积，目标是要证明 \( k+1 \) 也是素数的
+乘积。
+有两种可能。
+第一，若 \( k+1 \) 不能被比它小的数整除，则它是素数，
+因而是素数的乘积。
+第二种可能是 \( k+1 \) 能被比它小的数整除，
+那么由归纳假设，它的
+因子可以写成素数的乘积。
+无论如何，
+\( k+1 \) 都可以改写为素数的乘积。
+\end{quote}
+
+
+
+
+
+\startword{反证法}
+\index{contradiction}
+另一种证明方法是
+通过证明某件事不可能为假来证明它为真。
+反证法假设命题为假，
+并推导出与已知事实的某种矛盾。
+
+反证法的经典例子是 Euclid 关于
+素数有无穷多个的论证。
+\begin{quote}\small
+假设只有有限多个素数 \( p_1,\dots,p_k \)。
+考虑数 \( p_1\cdot p_2\dots p_k +1 \)。
+那份据称穷尽无遗的素数列表中，没有素数能整除这个数，
+因为每个素数去除它都余 \( 1 \)。
+但每个数都是素数的乘积，所以这不可能是全部。
+因此素数不可能只有有限多个。
+\end{quote}
+
+另一个例子是 \( \sqrt{2} \) 不是有理数的
+证明。
+\begin{quote}\small
+假设 \( \sqrt{2}=m/n \)，于是 $2n^2=m^2$。
+提出所有的因子 \( 2 \)，得到
+\( n=2^{k_n}\cdot \hat{n} \)
+与
+\( m=2^{k_m}\cdot \hat{m} \)。
+改写。
+\begin{equation*}
+  2\cdot (2^{k_n}\cdot \hat{n})^2
+  =
+  (2^{k_m}\cdot \hat{m})^2
+\end{equation*}
+素数因子分解定理指出，两边 \( 2 \) 的因子个数必须相同，
+但左边有奇数个 \( 1+2k_n \)，
+而右边有偶数个 \( 2k_m \)。
+这是一个矛盾，因此平方为
+\( 2 \) 的有理数不可能存在。
+\end{quote}
+
+% Both of these examples aimed to prove something doesn't exist.
+% A negative proposition often suggests a proof by contradiction.
+\index{proof techniques|)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\appendsection{集合、函数与关系}
+这里的材料构成了背景与词汇，
+支撑着我们此后展开的全部内容。
+
+\startword{集合}
+\index{sets}
+数学家经常与各种汇集打交道。
+最常用的一类汇集是\definend{集合}。\index{set} 
+集合的特征由外延性原理刻画：
+具有相同元素的集合相等。
+因此，元素的顺序无关紧要：
+\( \set{2,\pi}=\set{\pi,2} \)，
+而且
+重复的元素会合并 \( \set{7,7}=\set{7} \)。
+
+我们可以用花括号内的列举来描述一个集合
+\( \set{ 1,4,9,16 } \)（如前一段所示），
+或者用集合构造记号
+\( \set{x\suchthat x^5-3x^3+2=0 } \)（读作“所有满足 \ldots{}
+的 \( x \) 构成的集合”）。
+我们用大写罗马字母为集合命名；例如素数的集合是
+\( P=\set{2,3,5,7,11,\ldots\,} \)（不过有少数集合
+太重要了，其名称是保留的，例如
+实数 \( \Re \)
+与复数 \( \C \)）。
+为了表示某物是某一集合的
+\definend{元素}，\index{element}\index{set!element} 
+或\definend{成员}，\index{member}\index{set!member}）
+我们使用记号“\(\in \)”，
+于是 \( 7\in\set{3,5,7} \) 而 \( 8\not\in\set{3,5,7} \)。
+
+当 $x\in A$ 蕴含 $x\in B$ 时，我们说 \( A \) 是 \( B \) 的一个\definend{子集}，记作
+$A\subseteq B$。
+在本书中，我们用
+“\( \subset \)”表示\definend{真子集}\index{sets!proper subset}\index{proper subset}\index{sets!subset}\index{subset, proper} %
+关系，即 \( A \) 是 \( B \) 的子集但 \( A\neq B \)
+（有些作者把这个符号用于任何类型的子集，无论是否为真子集）。
+一个例子是
+\( \set{2,\pi}\subset\set{2,\pi,7} \)。
+这些符号可以反过来写，例如
+\( \set{ 2,\pi,5}\supset\set{2,5} \)。
+
+由外延性原理，要证明两个集合相等 \( A=B \)，
+只需证明它们有相同的成员。
+常用的做法是证明相互包含，\index{mutual inclusion}%
+\index{sets!mutual inclusion}
+即 \( A\subseteq B \) 与 \( A\supseteq B \) 同时成立。
+这样的证明会有一部分证明若 $x\in A$ 则 $x\in B$，
+另一部分证明若 $x\in B$ 则 $x\in A$。
+
+当一个集合没有成员时，它就是
+\definend{空集}\index{empty set}\index{set!empty} \( \set{} \)，
+记号为 \( \emptyset \)。
+根据蕴含定义的“空洞地为真”性质，
+任何集合都以空集为其子集。
+
+
+
+
+\startword{图示}
+我们用
+\definend{Venn 图}来图示基本的集合运算。\index{Venn diagram}
+下图表示 \( x\in P \)。
+\begin{center}
+  \includegraphics{appen/mp/appen.8}
+\end{center}
+外面的矩形包含所讨论对象的
+全域 $\Omega$。
+例如，在一个关于实数的命题中，矩形围住 $\R$ 的全部
+成员。
+集合画成一个圆，围住它的成员。
+
+下面是 \( P\subseteq Q \) 的图。
+它表明若 \( x\in P \) 则 \( x\in Q \)。
+\begin{center}
+  \includegraphics{appen/mp/appen.4}
+\end{center}
+
+
+
+
+\startword{集合运算}
+两个集合的\definend{并}\index{union of sets}\index{set!union}是
+\( P\union Q=\set{x\suchthat \text{$(x\in P)$ 或 $(x\in Q)$}} \)。
+图中表明，元素只要属于两个集合中的
+任一个，就属于并集。
+\begin{center}
+  \includegraphics{appen/mp/appen.3}
+\end{center}
+\definend{交}\index{intersection, of sets}\index{set!intersection}是
+\( P\intersection Q=\set{x\suchthat \text{$(x\in P)$ 且 $(x\in Q)$}} \)。
+\begin{center}
+  \includegraphics{appen/mp/appen.2}
+\end{center}
+集合~\( P \) 的
+\definend{补}\index{complement}\index{set!complement} 
+是
+\( P^{\text{comp}}=\set{x\in\Omega\suchthat x\not\in P} \)
+\begin{center}
+  \includegraphics{appen/mp/appen.1}
+\end{center}
+
+
+
+
+\startword{多重集}\index{multiset}
+如上所述，集合是一种
+顺序无关紧要的汇集，因此集合 $\set{2,\pi}$
+与 $\set{\pi,2}$ 相等，
+并且重复的元素会合并，因此集合
+$\set{7,7}$ 与 $\set{7}$ 相等。
+
+有一类汇集与集合一样顺序无关紧要，
+但重复的元素不合并，这就是\definend{多重集}。
+（注意，我们沿用与集合相同的
+花括号记号 $\set{\ldots}$。）
+于是多重集 $\set{1,2,2}$ 不同于多重集
+$\set{1,2}$。
+由于顺序无关紧要，这些多重集全都
+相等：$\set{1,2,2}$、$\set{2,1,2}$ 与~$\set{2,2,1}$。
+在本书中我们只在一个注里提到多重集，因此
+讨论如何求子集、并或交已超出我们的范围。
+
+
+
+\startword{序列}
+\index{sequence}
+除集合与多重集外，
+我们还使用顺序有影响、重复也不
+合并的汇集。
+它们是\definend{序列}，\index{sequence} 用尖括号表示：
+\( \sequence{ 2,3,7}\neq\sequence{2,7,3} \)。
+长度为 \( 2 \) 的序列是一个
+\definend{有序对}，\index{ordered pair}\index{pair, ordered}
+常用圆括号书写：\( (\pi,3) \)。
+我们有时也说“有序三元组”“有序 \( 4 \) 元组”等。
+集合 \( A \) 的元素构成的有序 \( n \) 元组的集合记作
+\( A^n \)。
+于是 \( \Re^2 \) 是实数对的集合。
+
+
+
+
+\startword{函数}
+\index{function}
+\definend{函数}\index{function}
+或\definend{映射}\index{map}  $\map{f}{D}{C}$ 是
+输入
+\definend{自变量}\index{argument, of a function}\index{function!argument} 
+$x\in D$
+与输出
+\definend{值}，\index{value, of a function}\index{function!value}
+$f(x)\in C$ 之间的一种对应，它要求
+该
+函数必须是\definend{良定义的}，\index{function!well-defined}%
+\index{well-defined}
+即 \( x \) 足以确定 \( f(x) \)。
+换一种说法，这个条件就是
+若 \( x_1=x_2 \) 则 \( f(x_1)=f(x_2) \)。
+
+全体自变量~$D$ 构成的集合是 \( f \) 的
+\definend{定义域}\index{domain}\index{function!domain}，
+输出值的集合是它的
+\definend{值域} $\rangespace{f}$。\index{range}\index{function!range}
+我们常常不直接使用值域，而是使用一个方便的超集，
+即
+\definend{陪域}~$C$。\index{function!codomain}\index{codomain}
+例如，我们可以用 $\map{s}{\R}{\R}$ 来描述平方函数，
+而不用 $\map{s}{\R}{\R^+\union \set{0}}$。
+
+我们用图形来表示函数，
+\definend{豆形图}。\index{bean diagram}\index{function!bean diagram}
+\begin{center}
+  \includegraphics{appen/mp/appen.9}
+\end{center}
+左边的团块是定义域，右边是
+陪域。
+该函数把定义域中的三个点对应到
+陪域中的三个点。
+注意，由函数的定义，
+定义域中的每个点都对应到
+陪域中唯一的一个点，但反之未必。
+
+这种对应是任意的；不需要公式或算法，尽管在
+本书中通常会有一个。
+我们常用 $y$ 表示 $f(x)$。
+我们也使用记号 \( x\mapsunder{f} 16x^2-100 \)，读作
+“\( x \) 在 \( f \) 下映到 \( 16x^2-100 \)”或
+“\( 16x^2-100 \) 是 \( x \) 在 \( f \) 下的
+\definend{像}\index{image, under a function}\index{function!image} 
+”。
+
+像 \( x\mapsto \sin(1/x) \) 这样的映射是若干更简单映射的
+组合，这里是
+\( g(y)=\sin(y) \) 作用于 \( f(x)=1/x \) 的像。
+\definend{复合}\index{composition}\index{function!composition} 
+\( \map{g}{Y}{Z} \) 与 \( \map{f}{X}{Y} \) 的复合
+是把 \( x\in X \) 送到
+\( g(\, f(x)\,)\in Z \) 的映射。
+它记作 \( \map{\composed{g}{f}}{X}{Z} \)。
+这个定义只有在 \( f \) 的值域是 \( g \) 的定义域的
+子集时才有意义。
+
+由 \( \identity(y)=y \) 定义的
+\definend{恒等映射}\index{identity!function}\index{function!identity} 
+\( \map{\identity}{Y}{Y} \) 具有如下性质：对任意 \( \map{f}{X}{Y} \)，
+复合 \( \composed{\identity}{f} \) 等于 \( f \)。
+因此，恒等映射在函数复合中所扮演的角色，
+就像数 \( 0 \) 在实数加法中的角色，
+或
+\( 1 \) 在乘法中的角色。
+
+依照这个类比，我们把映射
+\( \map{f}{X}{Y} \) 的\definend{左逆}\index{inverse!function!left}\index{inverse!left}\index{left inverse}定义为
+一个函数 \( \map{g}{\text{range}(f)}{X} \)，使得 \( \composed{g}{f} \)
+是 \( X \) 上的恒等映射。
+\( f \) 的\definend{右逆}\index{inverse!function!right}\index{inverse!right}\index{right inverse} 
+是一个映射
+\( \map{h}{Y}{X} \)，使得 \( \composed{f}{h} \)
+是恒等映射。
+
+对某些 $f$，存在一个映射既是 \( f \) 的左逆
+又是右逆。
+若这样的映射存在，则它是唯一的，因为若 \( g_1 \) 与
+\( g_2 \) 都具有这一性质，则
+\( g_1(x)=\composed{g_1}{ (\composed{f}{g_2}) }\,(x)
+         =\composed{ (\composed{g_1}{f}) }{g_2}\,(x)
+         =g_2(x) \)
+（中间的等号来自函数复合的结合律）
+因此我们把它称为\definend{双侧逆}，或干脆称为
+\definend{“这一”逆}，\index{inverse}\index{inverse!two-sided}\index{function!inverse}\index{inverse!function}\index{inverse function}\index{inversion}
+并记作 \( f^{-1} \)。
+例如，函数 \( \map{f}{\Re}{\Re} \)
+由 \( f(x)=2x-3 \) 给出，其逆是由 \( f^{-1}(x)=(x+3)/2 \) 给出的
+函数 \( \map{f^{-1}}{\Re}{\Re} \)。
+
+函数逆的上标记号“\( f^{-1} \)”
+纳入一个更大的体系。
+陪域与定义域相同的函数 $\map{f}{X}{X}$ 可以迭代，
+于是我们可以考虑
+$f$ 与自身的复合：\( \composed{f}{f} \)，
+以及 \( \composed{f}{\composed{f}{f}} \)，等等。
+我们
+把 $\composed{f}{f}$ 写成 \( f^2 \)，
+把 $\composed{\composed{f}{f}}{f}$ 写成 \( f^3 \)，等等。
+注意，实数中熟悉的指数法则成立：
+\( \composed{f^i}{f^j}=f^{i+j} \) 与 \( (f^i)^j=f^{i\cdot j} \)。
+而当 \( f \) 可逆时，
+把逆写作 \( f^{-1} \)、\( f^2 \) 的逆写作 \( f^{-2} \)，等等，
+便可使这些熟悉的指数法则继续成立，
+因为我们把 \( f^0 \) 定义为
+恒等映射。
+
+函数的定义要求每个输入都有
+一个且只有一个与之对应的输出值。
+如果函数 $\map{f}{D}{C}$ 还具有如下附加性质：每个输出值都至少
+有一个与之对应的输入值\Dash 也就是说，附加性质是
+$f$ 的陪域等于其值域 \( C=\rangespace{f} \)\Dash
+那么该函数称为
+\definend{满射}。\index{function!onto}\index{onto function}
+\begin{center}
+  \includegraphics{appen/mp/appen.14}
+\end{center}
+一个函数有右逆当且仅当它是满射。
+（上图中的 $f$ 有一个右逆 $\map{g}{C}{D}$，做法是从右到左
+沿箭头反向走。
+对于顶部的陪域中的点，任选一条箭头走。
+这样，先作用 $g$ 再作用 $f$，就把元素
+$y\in C$ 送回其自身，因此是恒等函数。）
+
+如果函数
+$\map{f}{D}{C}$ 具有如下性质：每个输出值至多有一个
+与之对应的输入值\Dash 也就是说，
+没有两个自变量共享一个像，即
+\( f(x_1)=f(x_2) \) 蕴含 \( x_1 = x_2 \)\Dash 那么
+该函数称为
+\definend{单射}。\index{function!one-to-one}\index{one-to-one function}
+前面的豆形图说明了这一点。
+\begin{center}
+  \includegraphics{appen/mp/appen.9}
+\end{center}
+一个函数有左逆当且仅当它是单射。
+（在图中，对那些位于箭头末端的 $y\in C$，定义 $\map{g}{C}{D}$ 沿箭头反向走，
+否则把该点
+送到 $D$ 中任意一个元素。
+于是，对 $D$ 中的元素先作用 $f$ 再接着作用~$g$，
+将起到恒等映射的作用。）
+
+由前面几段可知，一个映射有双侧逆
+当且仅当它既是满射又是单射。
+这样的函数是一个
+\definend{一一对应}。\index{correspondence}\index{function!correspondence}
+它把陪域的每个元素与定义域中的
+一个且只有一个元素对应起来。
+由于单射的复合是单射，满射的复合是满射，
+所以一一对应的复合
+是一一对应。
+
+我们有时想要收缩一个函数的定义域。
+例如，我们可以取由 \( f(x)=x^2 \) 给出的函数 \( \map{f}{\Re}{\Re} \)，
+并为了使它有逆，把输入自变量限制为
+非负实数，得到 \( \map{\hat{f}}{\Re^+\union\set{0}}{\Re} \)。
+那么 \( \hat{f} \) 就
+是 \( f \) 到更小定义域上的
+\definend{限制}。\index{function!restriction}\index{restriction}
+
+
+
+
+
+
+
+\startword{关系}
+\index{relation}
+一些熟悉的数学对象，如“\( < \)”或“\( = \)”，
+最自然的理解是事物之间的关系。
+集合 \( A \) 上的\definend{二元关系}
+是 \( A \) 的元素构成的有序对的集合。
+例如，整数上的关系“$<$”这一集合的
+一些元素是
+\( (3,5) \)、\( (3,7) \) 与 \( (1,100) \)。
+整数上的另一个二元关系是相等；这个关系是集合
+\( \set{\ldots, (-1,1), (0,0),(1,1),\ldots} \)。
+再举一个例子：“相距小于 \( 10 \)”，即集合
+\( \set{(x,y)\suchthat |x-y|<10 } \)。
+这个关系的一些成员是 \( (1,10) \)、\( (10,1) \)
+与 \( (42,44) \)。
+\( (11,1) \) 与 \( (1,11) \) 都不是它的成员。
+
+这些例子说明了定义的一般性。
+各种各样的关系（例如“两数都是偶数”或
+“第一个数是第二个数的数字倒排”）
+都被涵盖在内。
+
+
+
+
+\startword{等价关系}
+\index{relation!equivalence}\index{equivalence relation}\index{equivalence}
+我们将需要表达两个对象在某方面相似。
+它们不完全相同，但彼此相关
+（例如，两个除以 \( 2 \) 余数相同的整数）。
+
+一个二元关系 \( \set{(a,b),\ldots } \)
+若满足下列条件就称为
+\definend{等价关系}\index{equivalence!relation}\index{relation!equivalence} 
+：
+(1)~\definend{自反性}：\index{reflexivity, of a relation}\index{relation!reflexive} 
+     任何对象与它自身相关，
+(2)~\definend{对称性}：\index{symmetry, of a relation}\index{relation!symmetric} 
+     若 \( a \) 与 \( b \) 相关，则
+     \( b \) 与 \( a \) 相关；以及
+(3)~\definend{传递性}：\index{transitivity, of a relation}\index{relation!transitive}
+     若 \( a \) 与 \( b \) 相关且 \( b \)
+     与 \( c \) 相关，则 \( a \) 与 \( c \) 相关。
+一些例子（就整数而言）：“\( = \)”是等价关系；
+“\( < \)”不满足对称性；
+“同号”是等价关系，而“相距小于 \( 10 \)”不满足传递性。
+
+
+
+
+
+\startword{划分}
+\index{partition|(}
+在“同号”关系 \( \set{ (1,3),(-5,-7),(0,0),\ldots} \) 中
+有三类对：两数都为正的对，
+两数都为负的对，以及两数都为零的那一个对。
+于是整数恰好落入三个类之一：正数、负数
+或零。
+
+集合 \( \Omega \) 的\definend{划分}\index{partition} 
+是一些子集构成的汇集
+\( \set{S_0,S_1,S_2,\ldots} \)，使得
+\( S \) 的每个元素都是某个子集的元素，
+\( S_1\union S_2\union \cdots{} = \Omega \)，并且相互重叠的部分相等：
+若 \( S_i\intersection S_j\neq\emptyset \) 则 $S_i=S_j$。
+设想 \( \Omega \) 被分解为互不重叠的部分。
+\begin{center}
+  \includegraphics{appen/mp/appen.10}
+\end{center}
+于是前一段说的是“同号”关系把整数划分为
+正数集、负数集，
+以及只包含零的集合。
+类似地，等价关系“=”把整数划分为
+单元素集。
+
+另一个例子是由一个数、接一个斜杠、
+再接一个非零数组成的
+字符串的集合
+$\Omega=\set{n/d\suchthat \text{$n,d\in\Z$ 且 $d\neq 0$}}$。
+定义 $S_{n,d}$：若 $\hat{n}d=n\hat{d}$，
+则 $\hat{n}/\hat{d}\in S_{n,d}$。
+验证这是 $\Omega$ 的一个划分是例行的
+（例如注意 $S_{4,3}=S_{8,6}$）。
+下图展示了其中一些部分，每个部分列出了其无穷多成员中的几个。
+\begin{center}
+  \includegraphics{appen/mp/appen.11}
+\end{center}
+
+每个等价关系都诱导出一个划分，而每个
+划分也都由一个等价关系诱导。
+（验证这是例行的。）
+下面是两个例子。
+ 
+考虑两个整数之间“除以 \( 2 \) 给出相同余数”的
+等价关系，
+即集合 \( P=\set{ (-1,3),(2,4),(0,0),\ldots} \)。
+集合 $P$ 中有两类对：两个成员都为偶数的对
+与两个成员都为奇数的对。
+这个等价关系诱导出一个划分，其中各部分这样求出：
+对每个 \( x \)，定义与它相关的数的集合
+\( S_x=\set{y\suchthat (x,y)\in P} \)。
+这些部分是
+\( \set{\ldots,-3,-1,1,3,\ldots} \) 与
+\( \set{\ldots,-2,0,2,4,\ldots} \)。
+每个部分可以有许多命名方式；例如，
+\( \set{\ldots,-3,-1,1,3,\ldots} \) 是 \( S_1 \) 也是 \( S_{-3} \)。
+
+现在考虑自然数的一个划分：如果两个数除以 $10$
+有相同的余数，也就是说它们的最低有效数字相同，
+那么它们属于同一部分。
+这个划分由等价关系 $R$ 诱导，其定义为：
+若两个数 $n$、$m$ 同处一个部分，则它们相关。
+例如，$3$ 与 $33$ 相关，但 $3$ 与 $102$ 不相关。
+验证等价定义中的三个条件
+是直截了当的。
+
+我们把划分的每个部分称为一个\definend{等价类}。%
+\index{equivalence!class}\index{class!equivalence}
+我们有时从每个等价类中挑出一个单独的元素作为
+\definend{类代表元}。%
+\index{equivalence!representative}\index{class!representative}\index{representative!class}
+\begin{center}
+  \includegraphics{appen/mp/appen.13}
+\end{center}
+通常挑选代表元时，我们心中有一些自然的方案。
+这时我们称它们为
+\definend{规范}代表元。%
+\index{natural representative}\index{canonical representative}%
+\index{equivalence!class!canonical representative}%
+\index{representative!canonical}
+一个例子是：两个分数 \( 3/5 \) 与 \( 9/15 \) 等价。
+在日常工作中，我们常常更喜欢用“最简形式”或“约简形式”
+的分数 $3/5$ 作为类代表元。
+\begin{center}
+  \includegraphics{appen/mp/appen.12}
+\end{center}
+\index{partition|)}
+%\end{document}

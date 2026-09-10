@@ -1,0 +1,679 @@
+\begin{exercises}
+  \recommended \item
+    对来自\nearbyexample{ex:DiagTwoByTwo}的矩阵，将\nearbyexample{ex:DiagUpperTrian}重做一遍。
+    \begin{answer}
+      由于基向量是任意选取的，因此可能有许多不同的答案。
+      不过，下面给出一种做法；
+      要对角化
+      \begin{equation*}
+         T=\begin{mat}[r]
+            4  &-2  \\
+            1  &1
+         \end{mat}
+      \end{equation*}
+      把它视为某个变换在标准基下的表示 $T=\rep{t}{\stdbasis_2,\stdbasis_2}$，并寻找
+      \( B=\sequence{\vec{\beta}_1,\vec{\beta}_2} \) 使得
+      \begin{equation*}
+        \rep{t}{B,B}
+        =
+        \begin{mat}
+          \lambda_1  &0          \\
+          0          &\lambda_2
+        \end{mat}
+      \end{equation*}
+      也就是说，使得
+      $t(\vec{\beta}_1)=\lambda_1$ 且 $t(\vec{\beta}_2)=\lambda_2$。
+      \begin{equation*}
+        \begin{mat}[r]
+           4  &-2  \\
+           1  &1
+        \end{mat}
+        \vec{\beta}_1=\lambda_1\cdot\vec{\beta}_1
+        \qquad
+        \begin{mat}[r]
+           4  &-2  \\
+           1  &1
+        \end{mat}
+        \vec{\beta}_2=\lambda_2\cdot\vec{\beta}_2
+      \end{equation*}
+      我们要寻找标量 \( x \)，使得方程
+      \begin{equation*}
+       \begin{mat}[r]
+          4  &-2  \\
+          1  &1
+       \end{mat}
+       \colvec{b_1 \\ b_2}=x\cdot\colvec{b_1 \\ b_2}
+      \end{equation*}
+      有不全为零的解 $b_1$ 与 $b_2$。
+      将其改写为线性方程组
+      \begin{equation*}
+        \begin{linsys}{2}
+           (4-x)\cdot b_1  &+  &-2\cdot b_2       &=  &0  \\
+           1\cdot b_1      &+   &(1-x)\cdot b_2   &=  &0
+        \end{linsys}
+      \end{equation*}
+      若 $x=4$，则第一个方程给出 $b_2=0$，进而第二个方程给出 $b_1=0$。
+      我们已排除两个 $b$ 都为零的情形，
+      故可假设 $x\neq 4$。
+      \begin{equation*}
+        \grstep{(-1/(4-x))\rho_1+\rho_2}
+        \begin{linsys}{2}
+           (4-x)\cdot b_1  &+   &-2\cdot b_2                   &=  &0  \\
+                           &    &((x^2-5x+6)/(4-x))\cdot b_2   &=  &0
+        \end{linsys}
+      \end{equation*}
+      考虑最下面的方程。
+      若 \( b_2=0 \)，则第一个方程给出 $b_1=0$ 或 $x=4$。
+      $b_1=b_2=0$ 的情形是不允许的。
+      最下面方程的另一种可能是分式 $x^2-5x+6=(x-2)(x-3)$ 的分子为零。
+      $x=2$ 的情形给出第一个方程 $2b_1-2b_2=0$，因此与 $x=2$ 相关联的是
+      第一、第二分量相等的向量：
+      \begin{equation*}
+         \vec{\beta}_1=\colvec[r]{1 \\ 1}
+         \qquad\text{（于是 \(
+           \begin{mat}[r]
+              4  &-2  \\
+              1  &1
+           \end{mat}
+           \colvec[r]{1 \\ 1}=2\cdot\colvec[r]{1 \\ 1} \)，且 $\lambda_1=2$）。}
+      \end{equation*}
+      若 \( x=3 \)，则第一个方程为
+      $b_1-2b_2=0$，于是相关的向量
+      是那些第一分量为第二分量两倍的向量：
+      \begin{equation*}
+         \vec{\beta}_2=\colvec[r]{2 \\ 1}
+         \qquad\text{（于是 \(
+           \begin{mat}[r]
+              4  &-2  \\
+              1  &1
+           \end{mat}
+           \colvec[r]{2 \\ 1}=3\cdot\colvec[r]{2 \\ 1} \)，从而 $\lambda_2=3$）。}
+      \end{equation*}
+      下图
+        \begin{equation*}
+          \begin{CD}
+            \C^2_{\wrt{\stdbasis_2}}
+               @>t>T>
+               \C^2_{\wrt{\stdbasis_2}}       \\
+            @V{\scriptstyle\identity} VV
+               @V{\scriptstyle\identity} VV \\
+            \C^2_{\wrt{B}}
+               @>t>D>
+               \C^2_{\wrt{B}}
+          \end{CD}
+        \end{equation*}
+      展示了如何得到该对角化。
+      \begin{equation*}
+         \begin{mat}[r]
+           2  &0  \\
+           0  &3
+         \end{mat}
+         =
+         \begin{mat}[r]
+           1  &2  \\
+           1  &1
+         \end{mat}^{-1}
+         \begin{mat}[r]
+           4  &-2  \\
+           1  &1
+         \end{mat}
+         \begin{mat}[r]
+           1  &2  \\
+           1  &1
+         \end{mat}
+      \end{equation*}
+      \textit{评注}。
+      在下述改名之下，这个等式与 $T=PSP^{-1}$ 的定义相符。
+      \begin{equation*}
+        T=
+         \begin{mat}[r]
+           2  &0  \\
+           0  &3
+         \end{mat}
+         \quad
+         P=
+         \begin{mat}[r]
+           1  &2  \\
+           1  &1
+         \end{mat}^{-1}
+         \quad
+         P^{-1}=
+         \begin{mat}[r]
+           1  &2  \\
+           1  &1
+         \end{mat}
+         \quad
+         S=
+         \begin{mat}[r]
+           4  &-2  \\
+           1  &1
+         \end{mat}
+      \end{equation*}
+    \end{answer}
+  \recommended \item \label{exer:DiagTheseA}
+    按照\nearbyexample{ex:DiagUpperTrian}的步骤对角化下面的矩阵。
+    \begin{equation*}
+      \begin{mat}[r]
+      1  &1  \\
+      0  &0
+      \end{mat}
+    \end{equation*}
+    \begin{exparts}
+      \partsitem 写出\nearbylemma{lm:DiagIffBasisOfEigens}中描述的矩阵—向量方程，
+         并将其改写为线性方程组。
+      \partsitem 通过考虑该方程组的解，找出两个向量来构成一个基。
+         （分别考虑 $x=0$ 与
+         $x\neq 0$ 两种情形下的方程组。
+         另外，回忆零向量不能是基的成员。）
+      \partsitem 在相似图中使用该基，把对角矩阵表示为三个矩阵的乘积。
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+        \partsitem 我们要一个基，使其中的向量满足
+          \begin{equation*}
+            \begin{mat}
+              1 &1 \\
+              0 &0
+            \end{mat}
+            \colvec{b_1 \\ b_2}
+            =x\cdot \colvec{b_1 \\ b_2}
+          \end{equation*}
+          于是考虑由此得到的线性方程组。
+          \begin{equation*}
+            \begin{linsys}{2}
+              b_1 &+ &b_2 &= &x\cdot b_1 \\
+                  &  &0   &= &x\cdot b_2 \\
+            \end{linsys}
+          \end{equation*}
+        \partsitem
+          若 $x=0$，则 $b_1+b_2=0$，即 $b_1=-b_2$。
+          也就是说，与这种情形相关联的基元素，
+          其分量符号相反。
+          （分量必须非零，因为零向量
+          不能是基的成员。）
+
+          若 $x\neq 0$，则 $b_2=0$，把它代入上面的
+          方程得到 $b_1=x\cdot b_1$。
+          所以在这种情形，要么 $b_1=0$，要么 $x=1$。
+          但由于此情形中 $b_2=0$，$b_1=0$ 是不可能的，因为
+          零向量不在任何基中。
+          于是~$x=1$，方程组变为
+          \begin{equation*}
+            \begin{linsys}{2}
+              b_1 &+ &b_2 &= &1\cdot b_1 \\
+                  &  &0   &= &1\cdot b_2 \\
+            \end{linsys}
+          \end{equation*}
+          所以这种情形相关联的基元素满足 $b_2=0$，
+          而~$b_1$ 可取任意非零值。
+
+          因此，合适的基是
+          \begin{equation*}
+            B=\sequence{\colvec{1 \\ -1},
+                        \colvec{1 \\ 0}}
+          \end{equation*}
+        \partsitem
+          有了这个基，
+          为得到对角化，画出相似图。
+          \begin{equation*}
+            \begin{CD}
+            \C^2_{\wrt{\stdbasis_2}}
+               @>t>T>
+               \C^2_{\wrt{\stdbasis_2}}       \\
+            @V{\scriptstyle\identity} VV
+               @V{\scriptstyle\identity} VV \\
+            \C^2_{\wrt{B}}
+               @>t>D>
+               \C^2_{\wrt{B}}
+           \end{CD}
+          \end{equation*}
+          在此图中，
+          \begin{equation*}
+             T=
+             \begin{mat}
+               1  &1  \\
+               0  &0
+             \end{mat}
+          \end{equation*}
+          我们将利用基~$B$，
+          沿着左下到左上、再到右上、
+          再到右下的路径来计算矩阵~$D$。
+
+          我们先要从左下走到左上。
+          注意到由于我们把图上方的基
+          选为标准基 $\stdbasis_2$，
+          表示该映射的矩阵很容易写出。
+          \begin{equation*}
+            \rep{\identity}{B,\stdbasis_2}=
+            \begin{mat}
+              1 &1 \\
+             -1 &0
+            \end{mat}
+          \end{equation*}
+          整条路径的计算确实给出了
+          对角的结果
+          （当然，左下到左上这一段出现在
+          三个矩阵乘积的右边）。
+          \begin{align*}
+                 D
+                 &=
+                 \begin{mat}
+                    1  &1  \\
+                    -1  &0
+                 \end{mat}^{-1}
+                 \begin{mat}
+                    1  &1  \\
+                    0  &0
+                 \end{mat}
+                 \begin{mat}
+                    1  &1  \\
+                    -1  &0
+                 \end{mat}                \\
+                 &=
+                 \begin{mat}
+                    0  &-1  \\
+                    1  &1
+                 \end{mat}
+                 \begin{mat}
+                    1  &1  \\
+                    0  &0
+                 \end{mat}
+                 \begin{mat}
+                    1  &1  \\
+                    -1  &0
+                 \end{mat}
+                =\begin{mat}
+                    0  &0  \\
+                    0  &1
+                 \end{mat}
+          \end{align*}
+     \end{exparts}
+    \end{answer}
+  \recommended \item \label{exer:DiagTheseB}
+    按照\nearbyexample{ex:DiagUpperTrian}对角化下面的矩阵。
+    \begin{equation*}
+      \begin{mat}[r]
+      0  &1  \\
+      1  &0
+      \end{mat}
+    \end{equation*}
+    \begin{exparts}
+      \partsitem 写出矩阵—向量方程，
+         并将其改写为线性方程组。
+      \partsitem 通过考虑该方程组的解，找出两个向量来构成一个基。
+         （分别考虑 $x=0$ 与
+         $x\neq 0$ 两种情形。
+         另外，回忆零向量不能是基的成员。）
+      \partsitem 利用这个基和相似图，
+        把对角化表示为三个矩阵的乘积。
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+        \partsitem
+          基中的成员满足
+          \begin{equation*}
+            \begin{mat}
+              0 &1 \\
+              1 &0
+            \end{mat}
+            \colvec{b_1 \\ b_2}
+            =x\cdot \colvec{b_1 \\ b_2}
+          \end{equation*}
+          因此由此得到线性方程组
+          \begin{equation*}
+            \begin{linsys}{2}
+                   &  &b_2 &= &x\cdot b_1 \\
+               b_1 &  &    &= &x\cdot b_2 \\
+            \end{linsys}
+            \qquad\Longrightarrow\qquad
+            \begin{linsys}{2}
+               -xb_1 &+ &b_2  &= &0 \\
+                 b_1 &- &xb_2 &= &0 \\
+            \end{linsys}
+          \end{equation*}
+        \partsitem
+          若 $x=0$，则 $b_1=b_2=0$，但零向量不是任何
+          基的成员，所以这种情形不可能发生。
+
+          另一种情形是 $x\neq 0$。
+          \begin{equation*}
+            \begin{linsys}{2}
+               -xb_1 &+ &b_2  &= &0 \\
+                 b_1 &- &xb_2 &= &0 \\
+            \end{linsys}
+            \grstep{(1/x)\rho_1+\rho_2}
+            \begin{linsys}{2}
+               -xb_1 &+ &b_2           &= &0 \\
+                     &  &(-x+(1/x))b_2 &= &0 \\
+            \end{linsys}
+          \end{equation*}
+          关注最下面的方程。
+          要么 $b_2=0$，要么 $-x+(1/x)=0$。
+          若 $b_2=0$，则代入上面的方程给出
+          $b_1=0$，因为 $x\neq 0$ 是这种情形的假设。
+          但零向量不是任何基的成员，所以这不可能
+          发生。
+
+          于是只剩这种可能。
+          \begin{equation*}
+            \frac{1}{x}-x=0
+            \qquad\Longrightarrow\qquad
+            0=\frac{1-x^2}{x}=\frac{(1-x)(1+x)}{x}
+          \end{equation*}
+          若 $x=1$，则方程组为
+          \begin{equation*}
+            \begin{linsys}{2}
+               -1\cdot b_1 &+ &b_2  &= &0 \\
+                           &  &0    &= &0 \\
+            \end{linsys}
+          \end{equation*}
+          于是基向量满足 $b_2=b_1$。
+          若 $x=-1$，则方程组为
+          \begin{equation*}
+            \begin{linsys}{2}
+               b_1 &+ &b_2  &= &0 \\
+                   &  &0    &= &0 \\
+            \end{linsys}
+          \end{equation*}
+          且基向量满足 $b_2=-b_1$。
+          因此，下面是一个合适的基的例子。
+          \begin{equation*}
+            B=\sequence{\colvec{1 \\ 1},
+                        \colvec{1 \\ -1}}
+          \end{equation*}
+        \partsitem
+          为得到对角化，画出相似图
+          \begin{equation*}
+            \begin{CD}
+            \C^2_{\wrt{\stdbasis_2}}
+               @>t>T>
+               \C^2_{\wrt{\stdbasis_2}}       \\
+            @V{\scriptstyle\identity} VV
+               @V{\scriptstyle\identity} VV \\
+            \C^2_{\wrt{B}}
+               @>t>D>
+               \C^2_{\wrt{B}}
+           \end{CD}
+          \end{equation*}
+          其中 $T$ 是题目中给出的矩阵。
+          \begin{equation*}
+             T=
+             \begin{mat}
+               0  &1  \\
+               1  &0
+             \end{mat}
+          \end{equation*}
+          利用基~$B$ 计算矩阵~$D$，
+          从左下走到左上，再到右上，
+          然后到右下。
+
+          注意表示左下到左上
+          映射的矩阵很容易写出。
+          \begin{equation*}
+            \rep{\identity}{B,\stdbasis_2}=
+            \begin{mat}
+              1 &1 \\
+              1 &-1
+            \end{mat}
+          \end{equation*}
+          有了它，整条路径的计算确实给出
+          对角的结果。
+          \begin{align*}
+                 D
+                 &=
+                 \begin{mat}
+                    1  &1  \\
+                    1  &-1
+                 \end{mat}^{-1}
+                 \begin{mat}
+                    0  &1  \\
+                    1  &0
+                 \end{mat}
+                 \begin{mat}
+                    1  &1  \\
+                    1  &-1
+                 \end{mat}                \\
+                 &=
+                 -\frac{1}{2}
+                 \begin{mat}
+                    -1  &-1  \\
+                    -1  &1
+                 \end{mat}
+                 \begin{mat}
+                    0  &1  \\
+                    1  &0
+                 \end{mat}
+                 \begin{mat}
+                    1  &1  \\
+                    1  &-1
+                 \end{mat}
+                =\begin{mat}
+                    1  &0  \\
+                    0  &-1
+                 \end{mat}
+          \end{align*}
+      \end{exparts}
+    \end{answer}
+  \item
+    对角化这些上三角矩阵。
+    \begin{exparts*}
+      \partsitem
+        $\begin{mat}[r]
+          -2  &1  \\
+           0  &2
+        \end{mat}$
+      \partsitem
+        $\begin{mat}[r]
+          5  &4  \\
+          0  &1
+        \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          写出
+          \begin{equation*}
+            \begin{mat}[r]
+              -2  &1  \\
+               0  &2
+            \end{mat}
+            \colvec{b_1 \\ b_2}
+            =x\cdot\colvec{b_1 \\ b_2}
+            \qquad\Longrightarrow\qquad
+            \begin{linsys}{2}
+               (-2-x)\cdot b_1  &+  &b_2            &=  &0  \\
+                                &   &(2-x)\cdot b_2 &= &0
+            \end{linsys}
+          \end{equation*}
+          给出两种可能：$b_2=0$ 与 $x=2$。
+          沿 $b_2=0$ 这种可能，第一个方程为
+          $(-2-x)b_1=0$，有两种情形：$b_1=0$ 或
+          $x=-2$。
+          于是，在第一种可能之下，我们得到 $x=-2$ 以及
+          相关联的向量，其第二分量为零，而
+          第一分量自由。
+          \begin{equation*}
+            \begin{mat}[r]
+              -2  &1  \\
+               0  &2
+            \end{mat}
+            \colvec{b_1 \\ 0}
+            =-2\cdot\colvec{b_1 \\ 0}
+            \qquad
+            \vec{\beta}_1=\colvec[r]{1 \\ 0}
+          \end{equation*}
+          沿另一种可能，得到第一个方程
+          $-4b_1+b_2=0$，因此与这个
+          解相关联的向量的第二分量是其第一分量
+          的四倍。
+          \begin{equation*}
+            \begin{mat}[r]
+              -2  &1  \\
+               0  &2
+            \end{mat}
+            \colvec{b_1 \\ 4b_1}
+            =2\cdot\colvec{b_1 \\ 4b_1}
+            \qquad
+            \vec{\beta}_2=\colvec{1 \\ 4}
+          \end{equation*}
+          对角化如下。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &1  \\
+              0  &4
+            \end{mat}
+            \begin{mat}[r]
+              -2  &1  \\
+               0  &2
+            \end{mat}
+            \begin{mat}[r]
+              1  &1  \\
+              0  &4
+            \end{mat}^{-1}
+            =
+            \begin{mat}[r]
+              -2  &0  \\
+               0  &2
+            \end{mat}
+          \end{equation*}
+      \partsitem 计算与前一小题类似。
+          \begin{equation*}
+            \begin{mat}[r]
+               5  &4  \\
+               0  &1
+            \end{mat}
+            \colvec{b_1 \\ b_2}
+            =x\cdot\colvec{b_1 \\ b_2}
+            \qquad\Longrightarrow\qquad
+            \begin{linsys}{2}
+               (5-x)\cdot b_1  &+  &4\cdot b_2     &=  &0  \\
+                               &   &(1-x)\cdot b_2 &=  &0
+            \end{linsys}
+          \end{equation*}
+          最下面的方程
+          给出两种可能：$b_2=0$ 与 $x=1$。
+          沿 $b_2=0$ 这种可能，并舍去
+          $b_2$ 与 $b_1$ 都为零的情形，得到
+          $x=5$，与之相关联的向量第二分量
+          为零，而第一分量自由。
+          \begin{equation*}
+            \vec{\beta}_1=\colvec[r]{1 \\ 0}
+          \end{equation*}
+          $x=1$ 这种可能给出第一个方程
+          $4b_1+4b_2=0$，因此相关联的向量的
+          第二分量是其第一分量的相反数。
+          \begin{equation*}
+            \vec{\beta}_1=\colvec[r]{1 \\ -1}
+          \end{equation*}
+          于是我们有如下对角化。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &1  \\
+              0  &-1
+            \end{mat}
+            \begin{mat}[r]
+               5  &4  \\
+               0  &1
+            \end{mat}
+            \begin{mat}[r]
+              1  &1  \\
+              0  &-1
+            \end{mat}^{-1}
+            =
+            \begin{mat}[r]
+               5  &0  \\
+               0  &1
+            \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 若试图用
+    \nearbyexample{ex:DiagUpperTrian}的方法
+    对角化\nearbyexample{ex:MatrixNotDiagonalizable}中的矩阵
+    \begin{equation*}
+       N=\begin{mat}[r]
+            0  &0  \\
+            1  &0
+         \end{mat}
+    \end{equation*}
+    那么会在哪里出问题？
+    \begin{exparts}
+      \partsitem 画出带 $N$ 的相似图。
+      \partsitem 写出\nearbylemma{lm:DiagIffBasisOfEigens}中描述的矩阵—向量方程，
+         并将其改写为线性方程组。
+      \partsitem 通过考虑该方程组的解，找出
+         问题所在。
+         （分别考虑 $x=0$ 与
+         $x\neq 0$ 两种情形。）
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \item  在这个相似图
+          \begin{equation*}
+            \begin{CD}
+            \C^2_{\wrt{\stdbasis_2}}
+               @>n>N>
+               \C^2_{\wrt{\stdbasis_2}}       \\
+            @V{\scriptstyle\identity} VV
+               @V{\scriptstyle\identity} VV \\
+            \C^2_{\wrt{B}}
+               @>n>D>
+               \C^2_{\wrt{B}}
+           \end{CD}
+          \end{equation*}
+          中，我们将尝试计算矩阵~$D$ 并找出合适的
+          基~$B$，
+          即沿左下到左上、再到右上、
+          再到右下的路径行进。
+        \item 该图表明，当
+          $B=\sequence{\vec{\beta}_1,\vec{\beta}_2}$ 时，我们要
+          $n(\vec{\beta}_1)=\lambda_1\vec{\beta}_1$ 且
+          $n(\vec{\beta}_2)=\lambda_2\vec{\beta}_2$。
+          为确定 $\lambda_1$ 和 $\lambda_2$，
+          由于矩阵~$N$ 表示的是关于
+          标准基的映射，我们要求这个方程组的解。
+          \begin{equation*}
+            \begin{mat}
+              0 &0 \\
+              1 &0
+            \end{mat}
+            \colvec{b_1 \\ b_2}
+            =
+            x\cdot\colvec{b_1 \\ b_2}
+          \end{equation*}
+          同解的线性方程组为
+          \begin{equation*}
+            \begin{linsys}{2}
+              0b_1 &+  &0b_2 &= &xb_1 \\
+              b_1  &+  &0b_2 &= &xb_2 \\
+            \end{linsys}
+            \qquad
+            \Longrightarrow
+            \qquad
+            \begin{linsys}{2}
+              -xb_1 &   &     &= &0 \\
+              b_1   &-  &xb_2 &= &0 \\
+            \end{linsys}
+          \end{equation*}
+          由第一行，要么 $x=0$，要么~$b_1=0$。
+          若 $x=0$，则第二个方程变为 $b_1-0=0$，故 $b_1=0$，
+          于是得到这个解集。
+          \begin{equation*}
+            \set{\colvec{0 \\ 1}b_2 \suchthat b_2\in\C}
+          \end{equation*}
+          我们可以取基的第一个成员为
+          $\vec{\beta}_1=\vec{e}_2$。
+
+          若 $x\neq 0$，则线性方程组的
+          第一个方程给出 $b_1=0$。
+          方程组的第一行变为 $0=0$，第二行变为
+          $-xb_2=0$。
+          由于这种情形取 $x\neq 0$，我们得到 $b_2=0$，
+          解集是平凡的。
+          \begin{equation*}
+            \set{\colvec{0 \\ 0}}
+          \end{equation*}
+          所以出问题的地方在于：我们得不到
+          \nearbylemma{lm:DiagIffBasisOfEigens}所要求的基。
+      \end{exparts}
+    \end{answer}

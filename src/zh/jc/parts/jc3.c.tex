@@ -1,0 +1,815 @@
+\begin{exercises}
+   \recommended \item \label{exer:IndNilLftShift}
+      \definend{右移}算子的幂零指数是多少？这里它作用在实数三元组构成的空间上：
+       \begin{equation*}
+          (x,y,z)\mapsto(0,x,y)
+       \end{equation*}
+       \begin{answer}
+         是三。
+         说它至少是三，是因为 $\ell^2(\,(1,1,1)\,)=(0,0,1)\neq \zero$。
+         说它至多是三，是因为
+         $(x,y,z)\mapsto (0,x,y)\mapsto (0,0,x)\mapsto (0,0,0)$。
+       \end{answer}
+   \recommended \item
+     对下面每个链基，给出幂零映射的幂零指数，并给出该幂零映射每次迭代的
+     值域空间与零空间的维数。
+     \begin{exparts}
+       \partsitem $
+         \begin{strings}{ccccccc}
+            \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto &\zero  \\
+            \vec{\beta}_3 &\mapsto &\vec{\beta}_4 &\mapsto &\zero
+          \end{strings}$
+       \partsitem $
+         \begin{strings}{ccccccc}
+            \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto &\vec{\beta}_3
+                 &\mapsto &\zero  \\
+            \vec{\beta}_4 &\mapsto &\zero \\
+            \vec{\beta}_5 &\mapsto &\zero \\
+            \vec{\beta}_6 &\mapsto &\zero
+          \end{strings}$
+       \partsitem $
+         \begin{strings}{ccccccccc}
+            \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto &\vec{\beta}_3
+                 &\mapsto &\zero
+          \end{strings}$
+     \end{exparts}
+     并给出该矩阵的标准形。
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 定义域的维数是四。
+           该映射的作用是：空间中任意向量
+           $c_1\cdot \vec{\beta}_1+c_2\cdot \vec{\beta}_2
+             +c_3\cdot \vec{\beta}_3+c_4\cdot \vec{\beta}_4$
+           被送到
+           $c_1\cdot \vec{\beta}_2+c_2\cdot \zero
+             +c_3\cdot \vec{\beta}_4+c_4\cdot \zero
+            =c_1\cdot \vec{\beta}_3+c_3\cdot\vec{\beta}_4$。
+           映射的第一次作用把两个基向量 $\vec{\beta}_2$ 与
+           $\vec{\beta}_4$ 送到零，
+           因此零空间的维数为~二，值域空间的维数也为~二。
+           第二次作用后，四个基向量全部被送到零，
+           于是二次幂的零空间维数为~四，而二次幂的值域空间维数为零。
+           因此幂零指数是二。
+           这就是标准形。
+           \begin{equation*}
+             \begin{mat}[r]
+               0  &0  &0  &0  \\
+               1  &0  &0  &0  \\
+               0  &0  &0  &0  \\
+               0  &0  &1  &0
+             \end{mat}
+           \end{equation*}
+         \partsitem 该映射定义域的维数是六。
+           对一次幂而言，零空间的维数是四，值域空间的维数是二。
+           对二次幂而言，零空间的维数是五，值域空间的维数是一。
+           第三次迭代得到的零空间维数为六，值域空间维数为零。
+           幂零指数是三，这就是标准形。
+           \begin{equation*}
+             \begin{mat}[r]
+               0  &0  &0  &0  &0  &0  \\
+               1  &0  &0  &0  &0  &0  \\
+               0  &1  &0  &0  &0  &0  \\
+               0  &0  &0  &0  &0  &0  \\
+               0  &0  &0  &0  &0  &0  \\
+               0  &0  &0  &0  &0  &0
+             \end{mat}
+           \end{equation*}
+         \partsitem 定义域的维数是三，幂零指数是三。
+           一次幂的零空间维数为一，值域空间维数为二。
+           二次幂的零空间维数为二，值域空间维数为一。
+           最后，三次幂的零空间维数为三，值域空间维数为零。
+           这是标准形矩阵。
+           \begin{equation*}
+             \begin{mat}[r]
+               0  &0  &0  \\
+               1  &0  &0  \\
+               0  &1  &0
+             \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item
+    判断下列矩阵中哪些是幂零的。
+    \begin{exparts*}
+      \partsitem
+        $\begin{mat}[r]
+           -2  &4  \\
+           -1  &2
+         \end{mat}$
+       \partsitem
+         $\begin{mat}[r]
+           3  &1  \\
+           1  &3
+         \end{mat}$
+       \partsitem
+         $\begin{mat}[r]
+           -3  &2  &1  \\
+           -3  &2  &1  \\
+           -3  &2  &1
+         \end{mat}$
+       \partsitem
+         $\begin{mat}[r]
+            1  &1  &4  \\
+            3  &0  &-1 \\
+            5  &2  &7
+         \end{mat}$
+       \partsitem
+         $\begin{mat}[r]
+            45  &-22  &-19  \\
+            33  &-16  &-14  \\
+            69  &-34  &-29
+         \end{mat}$
+     \end{exparts*}
+     \begin{answer}
+       由 \nearbylemma{le:RangeAndNullChains}，零度会在第 $n$ 次迭代时增长到尽可能大，其中 $n$ 是定义域的维数。
+       于是，对 $\nbyn{2}$ 矩阵，
+       我们只需检查其平方是否为零矩阵。
+       对 $\nbyn{3}$ 矩阵，只需检查其立方。
+       \begin{exparts}
+         \partsitem 是，该矩阵是幂零的，因为
+           它的平方是零矩阵。
+         \partsitem 否，它的平方不是零矩阵。
+           \begin{equation*}
+             \begin{mat}[r]
+                3  &1  \\
+                1  &3
+             \end{mat}^2
+             =\begin{mat}[r]
+                10  &6  \\
+                6   &10
+             \end{mat}
+           \end{equation*}
+         \partsitem 是，它的立方是零矩阵。
+           事实上，它的平方就是零。
+         \partsitem 否，它的三次幂不是零矩阵。
+           \begin{equation*}
+             \begin{mat}[r]
+               1  &1  &4  \\
+               3  &0  &-1 \\
+               5  &2  &7
+             \end{mat}^3
+             =\begin{mat}[r]
+               206  &86  &304  \\
+                26  &8   &26   \\
+               438  &180 &634
+             \end{mat}
+           \end{equation*}
+         \partsitem 是，该矩阵的立方是零矩阵。
+       \end{exparts}
+       要看出第二与第四个矩阵不是幂零的，另一种方法是注意它们是非奇异的。
+     \end{answer}
+   \recommended \item
+     求该矩阵的标准形。
+     \begin{equation*}
+       \begin{mat}[r]
+         0  &1  &1  &0  &1  \\
+         0  &0  &1  &1  &1  \\
+         0  &0  &0  &0  &0  \\
+         0  &0  &0  &0  &0  \\
+         0  &0  &0  &0  &0
+       \end{mat}
+     \end{equation*}
+     \begin{answer} 计算表格
+       \begin{center}
+           \begin{tabular}{c|cc}
+              \multicolumn{1}{c}{\( p \)}  &\( N^p \)  &\( \nullspace{N^p}  \) \\
+              \hline
+              \( 1 \)
+                &\matrixvenlarge{\begin{mat}[r]
+                    0  &1  &1  &0  &1  \\
+                    0  &0  &1  &1  &1  \\
+                    0  &0  &0  &0  &0  \\
+                    0  &0  &0  &0  &0  \\
+                    0  &0  &0  &0  &0
+                   \end{mat}}
+                &\( \set{\matrixvenlarge{\colvec{r \\ u \\ -u-v \\ u \\ v}}
+                               \suchthat r,u,v\in\C}  \) \\
+              \( 2 \)
+                &\matrixvenlarge{\begin{mat}[r]
+                    0  &0  &1  &1  &1  \\
+                    0  &0  &0  &0  &0  \\
+                    0  &0  &0  &0  &0  \\
+                    0  &0  &0  &0  &0  \\
+                    0  &0  &0  &0  &0
+                   \end{mat}}
+                &\( \set{\matrixvenlarge{\colvec{r \\ s \\ -u-v \\ u \\ v}}
+                               \suchthat r,s,u,v\in\C}  \) \\
+             \( 2 \)
+                &\textit{--零矩阵--}
+                &\( \C^5 \)
+           \end{tabular}
+         \end{center}
+         由此得到对链基的如下要求：~有三个基向量直接被映射到零，
+         另有一个基向量经第二次作用被映射到零，
+         最后一个基向量
+         则经第三次作用被映射到零。
+         因此，链基具有如下形式。
+         \begin{equation*}
+           \begin{strings}{ccccccc}
+             \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto
+               &\vec{\beta}_3 &\mapsto &\zero               \\
+             \vec{\beta}_4 &\mapsto &\zero                  \\
+             \vec{\beta}_5 &\mapsto &\zero
+           \end{strings}
+         \end{equation*}
+         据此立得标准形。
+         \begin{equation*}
+           \begin{mat}[r]
+             0  &0  &0  &0  &0  \\
+             1  &0  &0  &0  &0  \\
+             0  &1  &0  &0  &0  \\
+             0  &0  &0  &0  &0  \\
+             0  &0  &0  &0  &0
+           \end{mat}
+         \end{equation*}
+     \end{answer}
+   \recommended \item
+     考虑 \nearbyexample{ex:FiveByNilStrBas} 中的矩阵。
+     \begin{exparts}
+       \partsitem 利用该映射在链基上的作用给出标准形。
+       \partsitem 求出把该矩阵化为标准形的换基矩阵。
+       \partsitem 利用前一小题的答案检验第一小题的答案。
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 标准形含一个 $\nbyn{3}$ 块与一个
+           $\nbyn{2}$ 块
+           \begin{equation*}
+             \begin{pmat}{rrr|rr}
+               0  &0  &0  &0  &0  \\
+               1  &0  &0  &0  &0  \\
+               0  &1  &0  &0  &0  \\ \hline
+               0  &0  &0  &0  &0  \\
+               0  &0  &0  &1  &0  \\
+             \end{pmat}
+           \end{equation*}
+           分别对应于基中长度为三的链与长度为二的
+           链。
+         \partsitem 设 $N$ 是底层映射关于标准基的表示。
+           设 $B$ 是我们即将换到的基。
+           由相似图
+           \begin{equation*}
+             \begin{CD}
+               \C^2_{\wrt{\stdbasis_2}}
+                   @>n>N>
+                   \C^2_{\wrt{\stdbasis_2}}     \\
+              @V\scriptstyle\identity V\scriptstyle PV
+                  @V\scriptstyle\identity V\scriptstyle PV \\
+              C^2_{\wrt{B}}
+                  @>n>>
+              \C^2_{\wrt{B}}
+            \end{CD}
+          \end{equation*}
+          可知标准形矩阵为 $PNP^{-1}$，其中
+          \begin{equation*}
+            P^{-1}
+            =\rep{\identity}{B,\stdbasis_5}
+            =\begin{mat}[r]
+               1 &0 &0 &0 &0 \\
+               0 &1 &0 &1 &0 \\
+               1 &0 &1 &0 &0 \\
+               0 &0 &1 &1 &1 \\
+               0 &0 &0 &0 &1
+             \end{mat}
+          \end{equation*}
+          而 $P$ 是它的逆。
+          \begin{equation*}
+            P=\rep{\identity}{\stdbasis_5,B}
+             =(P^{-1})^{-1}
+            =\begin{mat}[r]
+               1 &0 &0 &0 &0 \\
+              -1 &1 &1 &-1&1 \\
+              -1 &0 &1 &0 &0 \\
+               1 &0 &-1&1 &-1\\
+               0 &0 &0 &0 &1
+             \end{mat}
+          \end{equation*}
+         \partsitem 检验它的计算是例行的。
+       \end{exparts}
+     \end{answer}
+   \recommended \item
+     下列每个矩阵都是幂零的。
+     \begin{exparts*}
+       \partsitem \(
+         \begin{mat}[r]
+           1/2  &-1/2  \\
+           1/2  &-1/2
+         \end{mat}        \)
+       \partsitem \(
+         \begin{mat}[r]
+           0  &0  &0  \\
+           0  &-1 &1  \\
+           0  &-1 &1
+         \end{mat}        \)
+       \partsitem \(
+         \begin{mat}[r]
+          -1  &1  &-1 \\
+           1  &0  &1  \\
+           1  &-1 &1
+         \end{mat}        \)
+     \end{exparts*}
+     把每个矩阵化为标准形。
+     \begin{answer}
+       \begin{exparts}
+       \partsitem 计算
+         \begin{center}
+           \begin{tabular}{c|cc}
+              \multicolumn{1}{c}{\( p \)}  &\( N^p \)  &\( \nullspace{N^p} \) \\
+             \hline
+              \( 1 \)
+                &\matrixvenlarge{\begin{mat}[r]
+                     1/2  &-1/2  \\
+                     1/2  &-1/2
+                   \end{mat}}
+                &\( \set{\matrixvenlarge{\colvec{u \\ u}}
+                               \suchthat u\in\C}  \) \\
+             \( 2 \)
+                &\textit{--零矩阵--}
+                &\( \C^2 \)
+           \end{tabular}
+         \end{center}
+         表明由该矩阵表示的任何映射
+         必须这样作用在链基上
+         \begin{equation*}
+           \begin{strings}{ccccccc}
+             \vec{\beta}_1 &\mapsto &\vec{\beta}_2  &\mapsto &\zero
+           \end{strings}
+         \end{equation*}
+         因为作用一次后零空间的维数为~一，
+         且恰好有一个基向量 $\vec{\beta}_2$ 被映射到零。
+         因此，这个关于
+         $\sequence{\vec{\beta}_1,\vec{\beta}_2}$ 的表示就是标准形。
+         \begin{equation*}
+           \begin{mat}[r]
+             0    &0   \\
+             1    &0
+           \end{mat}
+         \end{equation*}
+       \partsitem 这里的计算与前一题类似。
+         \begin{center}
+           \begin{tabular}{c|cc}
+              \multicolumn{1}{c}{\( p \)}  &\( N^p \)  &\( \nullspace{N^p} \) \\
+              \hline
+              \( 1 \)
+                &\matrixvenlarge{\begin{mat}[r]
+                     0  &0  &0  \\
+                     0  &-1 &1  \\
+                     0  &-1 &1
+                   \end{mat}}
+                &\( \set{\matrixvenlarge{\colvec{u \\ v \\ v}}
+                               \suchthat u,v\in\C}  \) \\
+            \( 2 \)
+                &\textit{--零矩阵--}
+                &\( \C^3 \)
+           \end{tabular}
+        \end{center}
+        表格表明链基形如
+         \begin{equation*}
+           \begin{strings}{ccccccc}
+             \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto &\zero  \\
+             \vec{\beta}_3 &\mapsto &\zero
+           \end{strings}
+         \end{equation*}
+         因为映射作用一次后零空间的
+         维数为二\Dash
+         --$\vec{\beta}_2$ 与 $\vec{\beta}_3$ 都被送到零\Dash 而
+         再迭代一次又使另一个向量
+         被送到零。
+       \partsitem 计算
+         \begin{center}
+           \begin{tabular}{c|cc}
+              \multicolumn{1}{c}{\( p \)}  &\( N^p \)  &\( \nullspace{N^p} \) \\
+              \hline
+              \( 1 \)
+                &\matrixvenlarge{\begin{mat}[r]
+                     -1  &1  &-1  \\
+                      1  &0  &1   \\
+                      1  &-1 &1
+                   \end{mat}}
+                &\( \set{\matrixvenlarge{\colvec{u \\ 0 \\ -u}}
+                               \suchthat u\in\C}  \) \\
+              \( 2 \)
+                &\matrixvenlarge{\begin{mat}[r]
+                      1  &0  &1   \\
+                      0  &0  &0   \\
+                     -1  &0  &-1
+                   \end{mat}}
+                &\( \set{\matrixvenlarge{\colvec{u \\ v \\ -u}}
+                               \suchthat u,v\in\C}  \) \\
+             \( 3 \)
+                &\textit{--零矩阵--}
+                &\( \C^3 \)
+           \end{tabular}
+         \end{center}
+         表明由该基表示的任何映射必须这样作用在
+         链基上。
+         \begin{equation*}
+           \begin{strings}{ccccccc}
+             \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto
+               &\vec{\beta}_3 &\mapsto &\zero
+           \end{strings}
+         \end{equation*}
+         因此，这就是标准形。
+         \begin{equation*}
+           \begin{mat}[r]
+             0    &0   &0   \\
+             1    &0   &0   \\
+             0    &1   &0
+           \end{mat}
+         \end{equation*}
+       \end{exparts}
+      \end{answer}
+   \item
+     描述用幂零矩阵的标准形矩阵左乘或右乘所产生的效果。
+     \begin{answer}
+       下面几个例子
+       \begin{equation*}
+         \begin{mat}[r]
+           0  &0  \\
+           1  &0
+         \end{mat}
+         \begin{mat}
+           a  &b  \\
+           c  &d
+         \end{mat}
+         =
+         \begin{mat}
+           0  &0  \\
+           a  &b
+         \end{mat}
+         \qquad
+         \begin{mat}[r]
+           0  &0  &0 \\
+           1  &0  &0 \\
+           0  &1  &0
+         \end{mat}
+         \begin{mat}
+           a  &b  &c \\
+           d  &e  &f \\
+           g  &h  &i
+         \end{mat}
+         =
+         \begin{mat}
+           0  &0  &0 \\
+           a  &b  &c \\
+           d  &e  &f
+         \end{mat}
+       \end{equation*}
+       表明用一块次对角线上的 $1$ 左乘一个矩阵，
+       会把该矩阵的行向下移。
+       而不同的块
+       \begin{equation*}
+         \begin{mat}[r]
+           0  &0  &0  &0  \\
+           1  &0  &0  &0  \\
+           0  &0  &0  &0  \\
+           0  &0  &1  &0
+         \end{mat}
+         \begin{mat}
+           a  &b  &c  &d  \\
+           e  &f  &g  &h  \\
+           i  &j  &k  &l  \\
+           m  &n  &o  &p
+         \end{mat}
+         =
+         \begin{mat}
+           0  &0  &0  &0  \\
+           a  &b  &c  &d  \\
+           0  &0  &0  &0  \\
+           i  &j  &k  &l
+         \end{mat}
+       \end{equation*}
+       则会把矩阵的不同部分向下移。
+
+       右乘对列做的是类似的事情。
+       参见 \nearbyexercise{exer:IndNilLftShift}。
+     \end{answer}
+   \item
+     幂零性在相似下不变吗？
+     也就是说，与幂零矩阵相似的矩阵必定也是幂零的吗？
+     若是，指数也相同吗？
+     \begin{answer}
+       是。
+       把 \nearbyexample{ex:NilMatNotCanon} 的最后一句推广即可。
+       至于指数，同样的最后一句表明新矩阵的指数小于或等于 $\hat{N}$ 的指数，而把
+       两个矩阵的角色互换便得到另一方向的不等式。
+
+       这个问题的另一种回答方式是证明：一个矩阵是幂零的当且仅当与之相关的映射是幂零的，且
+       指数相同。
+       于是，由于相似矩阵表示同一个映射，结论
+       随之而来。
+       这就是下面的 \nearbyexercise{exer:MatNilIffMapNil}。
+     \end{answer}
+   \recommended \item
+     证明幂零矩阵唯一的特征值是零。
+     \begin{answer}
+       注意标准形的幂零矩阵只有
+       零特征值；例如，这个下三角矩阵
+       \begin{equation*}
+          \begin{mat}
+            -x  &0  &0  \\
+             1  &-x &0  \\
+             0  &1  &-x
+          \end{mat}
+       \end{equation*}
+       的行列式是 \( (-x)^3 \)，它的唯一的根是零。
+       而相似矩阵有相同的特征值，且每个幂零
+       矩阵都与一个标准形的矩阵相似。
+
+       看出这一点的另一种方式是注意：幂零矩阵在若干次迭代后把所有
+       向量都送到零，但这与在特征子空间上的作用 $\vec{v}\mapsto \lambda\vec{v}$
+       相矛盾，除非
+       $\lambda$ 为零。
+     \end{answer}
+   \item
+     在二维空间上存在指数为三的幂零变换吗？
+     \begin{answer}
+       不存在，由 \nearbylemma{le:RangeAndNullChains}，对二维
+       空间上的映射，零度
+       在第二次迭代时就会增长到尽可能大。
+     \end{answer}
+   \item
+     在 \nearbytheorem{th:NilMapHasStrBas} 的证明中，为什么归纳基础的情形不是幂零指数为零？
+     \begin{answer}
+       一个变换的幂零指数为零，仅当开启链的
+       向量
+       必须是 $\zero$ 时，也就是说，仅当 $V$ 是平凡空间时。
+     \end{answer}
+   \recommended \item
+     设 \( \map{t}{V}{V} \) 是线性变换，并设
+     \( \vec{v}\in V \) 满足 \( t^k(\vec{v})=\zero \) 但
+     \( t^{k-1}(\vec{v})\neq\zero \)。
+     考虑 $t$-链
+     $\sequence{\vec{v},t(\vec{v}),\dots,t^{k-1}(\vec{v})}$。
+     \begin{exparts}
+       \partsitem 证明 \( t \) 是该链中向量组张成的空间上的变换，
+         也就是说，证明 \( t\) 限制在该张成空间上的值域
+         是该张成空间的子集。
+         我们说这个张成空间是 \definend{\( t \)-不变的}
+         子空间。\index{invariant subspace}
+       \partsitem 证明该限制是幂零的。
+       \partsitem 证明该 $t$-链
+         线性无关，从而是其张成空间的基。
+       \partsitem 用该 $t$-链基表示这个限制映射。
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 张成空间中的任意成员 $\vec{w}$ 都是
+           一个线性组合
+           $\vec{w}=c_0\cdot \vec{v}+c_1\cdot t(\vec{v})+\dots
+            +c_{k-1}\cdot t^{k-1}(\vec{v})$。
+           于是，由映射的线性性，
+           $t(\vec{w})=c_0\cdot t(\vec{v})+c_1\cdot t^2(\vec{v})+\dots
+            +c_{k-2}\cdot t^{k-1}(\vec{v})+c_{k-1}\cdot \zero$
+           也在这个张成空间中。
+         \partsitem 前一小题中的操作迭代 $k$ 次后，
+           会得到零的线性组合。
+         \partsitem 若 \( \vec{v}=\zero \)，则该集合是空集，按定义
+           线性无关。
+           否则，写 \( c_1\vec{v}+\dots+c_{k-1}t^{k-1}(\vec{v})=\zero \)
+           并对两边施加 \( t^{k-1} \)。
+           右边得到 \( \zero \)，而左边得到
+           \( c_1t^{k-1}(\vec{v}) \)；于是 \( c_1=0 \)。
+           如此继续，对两边施加 \( t^{k-2} \)，
+           依此类推。
+         \partsitem 当然，$t$ 把这条长为 $k$ 的单一 $t$-链作为基作用在其张成空间上。
+           \begin{equation*}
+             \begin{mat}
+               0 &0 &0 &0 &\ldots &0 &0 \\
+               1 &0 &0 &0 &\ldots &0 &0 \\
+               0 &1 &0 &0 &\ldots &0 &0 \\
+               0 &0 &1 &0 &       &0 &0 \\
+                 &  &  &\ddots          \\
+               0 &0 &0 &0 &       &1 &0 \\
+             \end{mat}
+           \end{equation*}
+       \end{exparts}
+     \end{answer}
+   \item \label{exer:NilMapWillHaveStrBas}
+     完成 \nearbytheorem{th:NilMapHasStrBas} 的证明。
+     \begin{answer}
+       我们必须证明
+       \( B\union\hat{C}\union\set{\vec{v}_1,\dots,\vec{v}_j} \) 线性
+       无关，其中 \( B \) 是
+       \( \rangespace{t} \) 的 \( t \)-链基，\( \hat{C} \) 是
+       \( \nullspace{t} \) 的基，且
+       \( t(\vec{v}_1)=\vec{\beta}_1,\dots,t(\vec{v}_i)=\vec{\beta}_i \)。
+       写出
+       \begin{equation*}
+         \zero=c_{1,-1}\vec{v}_1+c_{1,0}\vec{\beta}_1
+                +c_{1,1}t(\vec{\beta}_1)+\dots+
+                c_{1,{h_1}}t^{h_1}(\vec{\vec{\beta}}_1)
+                +c_{2,-1}\vec{v}_2+\dots+c_{j,h_i}t^{h_i}(\vec{\beta_i})
+       \end{equation*}
+       并施加 \( t \)。
+       \begin{multline*}
+         \zero=c_{1,-1}\vec{\beta}_1+c_{1,0}t(\vec{\beta}_1)
+                +\dots+
+                c_{1,h_1-1}t^{h_1}(\vec{\vec{\beta}}_1)+c_{1,h_1}\zero      \\
+             +c_{2,-1}\vec{\beta}_2+\cdots+c_{i,h_i-1}t^{h_i}(\vec{\beta_i})
+             +c_{i,h_i}\zero
+       \end{multline*}
+       由于 \( B\union\hat{C} \)
+       是一组基，可断定系数 \( c_{1,-1},\dots,c_{1,h_i-1},
+       c_{2,-1},\dots,c_{i,h_i-1} \) 全为零。
+       代回第一个行间公式，可知
+       其余系数也为零。
+     \end{answer}
+   \item \label{exer:MatNilIffMapNil}
+     证明 \nearbydefinition{def:nilpotent} 中给出的「幂零变换」与「幂零矩阵」这两个说法彼此吻合：~
+     一个映射是幂零的当且仅当它由一个
+     幂零矩阵表示。
+     （是说一个变换是幂零的当且仅当存在一组基，使得该映射关于该基的表示是
+     幂零矩阵，还是说任何表示都是幂零矩阵？）
+     \begin{answer}
+       对任意基 $B$，
+       变换~$n$ 是幂零的当且仅当
+       $N=\rep{n}{B,B}$ 是幂零矩阵。
+       这是因为只有零矩阵才表示零映射，
+       于是 \( n^j \) 是零映射当且仅当 \( N^j \)
+       是零矩阵。
+     \end{answer}
+   \item
+     设 \( T \) 是指数为四的幂零变换。
+     \( T^3 \) 的值域空间最大能有多大？
+     \begin{answer}
+       它可以是任何大于或等于一的维数。
+       要构造一个指数为四的幂零变换，
+       其立方有维数为~$k$ 的值域空间，取一个向量空间、
+       该空间的一组基，以及一个按如下方式
+       作用于这组基的变换。
+       \begin{equation*}
+          \begin{strings}{ccccccccc}
+             \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto &\vec{\beta}_3
+               &\mapsto &\vec{\beta}_4 &\mapsto &\zero  \\
+             \vec{\beta}_5 &\mapsto &\vec{\beta}_6 &\mapsto &\vec{\beta}_7
+               &\mapsto &\vec{\beta}_8 &\mapsto &\zero  \\
+             &\vdotswithin{\vec{\beta}_{4k-3}}                       \\
+             \vec{\beta}_{4k-3} &\mapsto &\vec{\beta}_{4k-2}
+               &\mapsto &\vec{\beta}_{4k-1}
+               &\mapsto &\vec{\beta}_{4k} &\mapsto &\zero  \\
+             &\vdotswithin{\vec{\beta}_{4k-3}}              \\
+             \multicolumn{8}{l}{%
+               \text{\textit{--可能还有别的更短的链--}}}
+          \end{strings}
+       \end{equation*}
+       所以 $T^3$ 的值域空间的维数可以任意大。
+       它最小为一\Dash 这里
+       必须至少有一条链，否则该映射的幂零指数
+       就不会是四。
+     \end{answer}
+   \item
+     回忆相似矩阵有相同的特征值。
+     证明其逆命题不成立。
+     \begin{answer}
+       下面两个矩阵的特征值都只有零
+       \begin{equation*}
+         \begin{mat}
+           0  &0  \\
+           0  &0
+         \end{mat}
+         \qquad
+         \begin{mat}
+           0  &0  \\
+           1  &0
+         \end{mat}
+       \end{equation*}
+       但它们并不相似（它们有不同的标准形
+       代表元，即它们自身）。
+     \end{answer}
+   \item \nearbylemma{lem:RestONeToOne} 表明，对任意线性
+     变换 \( \map{t}{V}{V} \)，
+     限制 \( \map{t}{\genrangespace{t}}{\genrangespace{t}} \)
+     都是单射。
+     证明它也是满射，从而是一个自同构。
+     它必须是恒等映射吗？
+     \begin{answer}
+       由 \nearbylemma{le:RangeAndNullChains}，它是满射。
+       它不必是恒等映射：考虑这个映射 $\map{t}{\Re^2}{\Re^2}$。
+       \begin{equation*}
+         \colvec{x \\ y}\mapsunder{t}\colvec{y \\ x}
+       \end{equation*}
+       对该映射有 $\genrangespace{t}=\Re^2$，而 $t$ 不是恒等映射。
+     \end{answer}
+   \item
+     证明幂零矩阵相似于一个除上对角线上的 $1$ 组成的块以外全为零的矩阵。
+     \begin{answer}
+       对链基作一个简单的重排即可。
+       例如，与这个链基相关的映射
+       \begin{equation*}
+          \begin{strings}{ccccccc}
+             \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto &\zero
+          \end{strings}
+       \end{equation*}
+       关于
+       $B=\sequence{\vec{\beta}_1,\vec{\beta}_2}$ 由这个矩阵表示
+       \begin{equation*}
+         \begin{mat}
+           0  &0  \\
+           1  &0
+         \end{mat}
+       \end{equation*}
+       但关于
+       $B=\sequence{\vec{\beta}_2,\vec{\beta}_1}$ 却这样表示。
+       \begin{equation*}
+         \begin{mat}
+           0  &1  \\
+           0  &0
+         \end{mat}
+       \end{equation*}
+     \end{answer}
+   \recommended \item
+     证明若一个变换的值域空间与零空间相同，
+     则其定义域的维数是偶数。
+     \begin{answer}
+       设 $\map{t}{V}{V}$ 是该变换。
+       若 \( \rank (t)=\nullity (t) \)，则等式
+       \( \rank(t)+\nullity(t)=\dim (V) \) 表明
+       \( \dim (V) \) 是偶数。
+     \end{answer}
+   \item
+     证明若两个幂零矩阵可交换，则它们的乘积与
+     和也是幂零的。
+     \begin{answer}
+       矩阵要是幂零的，它们必须是方阵。
+       要可交换，它们必须大小相同。
+       于是它们的乘积与和都有定义。
+
+       把这两个矩阵称为 \( A \) 与 \( B \)。
+       要看出 \( AB \) 是幂零的，计算
+       $
+          (AB)^2=ABAB=AABB=A^2B^2$，
+       以及
+          $(AB)^3=A^3B^3$，依此类推，
+       又因 \( A \) 是幂零的，该乘积最终为零。
+
+       和的情形类似；利用二项式定理。
+      \end{answer}
+   % 2014-Dec-19 These two questions and answers are fine; I commented them to make the pages fit better.
+   % \item
+   %   Consider the transformation of \( \matspace_{\nbyn{n}} \) given
+   %   by \( t_S(T)=ST-TS \) where \( S \) is an \( \nbyn{n} \) matrix.
+   %   Prove that if \( S \) is nilpotent then so is \( t_S \).
+   %   \begin{answer}
+   %     Some experimentation gives the idea for the proof.
+   %     Expansion of the second power
+   %     \begin{equation*}
+   %       t^2_S(T)=S(ST-TS)-(ST-TS)S=S^2-2STS+TS^2
+   %     \end{equation*}
+   %     the third power
+   %     \begin{align*}
+   %       t^3_S(T)
+   %         &=S(S^2-2STS+TS^2)-(S^2-2STS+TS^2)S  \\
+   %         &=S^3T-3S^2TS+3STS^2-TS^3
+   %     \end{align*}
+   %     and the fourth power
+   %     \begin{align*}
+   %       t^4_S(T)
+   %         &=S(S^3T-3S^2TS+3STS^2-TS^3)-(S^3T-3S^2TS+3STS^2-TS^3)S  \\
+   %         &=S^4T-4S^3TS+6S^2TS^2-4STS^3+TS^4
+   %     \end{align*}
+   %     suggest that the expansions follow the Binomial Theorem.
+   %     Verifying this by induction on the power of $t_S$ is routine.
+   %     This answers the question because, where the index of nilpotency of
+   %     $S$ is $k$, in the expansion of $t^{2k}_S$
+   %     \begin{equation*}
+   %       t^{2k}_S(T)=\sum_{0\leq i\leq 2k}(-1)^i\binom{2k}{i} S^iTS^{2k-i}
+   %     \end{equation*}
+   %     for any $i$ at least one of the $S^i$ and $S^{2k-i}$
+   %     has a power higher than $k$, and so the term gives the zero matrix.
+   %   \end{answer}
+   % \item
+   %   Show that if \( N \) is nilpotent then \( I-N \) is
+   %   invertible.
+   %   Is that `only if' also?
+   %   \begin{answer}
+   %     Use the geometric series:
+   %     $
+   %        I-N^{k+1}=(I-N)(N^k+N^{k-1}+\cdots+I)
+   %     $.
+   %     If \( N^{k+1} \) is the zero matrix then we have a right inverse for
+   %     \( I-N \).
+   %     It is also a left inverse.
+
+   %     This statement is not `only if' since
+   %     \begin{equation*}
+   %        \begin{mat}[r]
+   %           1  &0  \\
+   %           0  &1
+   %        \end{mat}
+   %        -\begin{mat}[r]
+   %           -1  &0  \\
+   %           0  &-1
+   %        \end{mat}
+   %     \end{equation*}
+   %     is invertible.
+   %    \end{answer}
+ %  \recommended \item
+ %    Show that when a nilpotent matrix \( T \) is in canonical form
+ %    then the number of
+ %    blocks of \( \nbyn{(k+1)} \) matrices that are all zeros
+ %    except for subdiagonal ones is
+ %    \( 2\,(\nullity (T^k))
+ %      -\nullity (T^{k+1})-\nullity (T^{k-1}) \).
+\index{nilpotent|)}
+\end{exercises}

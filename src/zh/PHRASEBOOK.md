@@ -100,6 +100,64 @@
 | vanishing point | 消失点 |
 | Chi\`o's apparatus | Chiò 装置 |
 
+## 第五章标题与术语（特征向量 / 相似）
+
+| 英文 | 中文 |
+|------|------|
+| Similarity（章名与第 II 节名） | 相似 |
+| Complex Vector Spaces | 复向量空间 |
+| Polynomial Factoring and Complex Numbers | 多项式因式分解与复数 |
+| Complex Representations | 复表示 |
+| Diagonalizability | 可对角化性 |
+| Eigenvalues and Eigenvectors | 特征值与特征向量 |
+| Nilpotence | 幂零性 |
+| Self-Composition | 自复合 |
+| Strings | 链 |
+| Jordan Form | Jordan 形式 |
+| Polynomials of Maps and Matrices | 映射与矩阵的多项式 |
+| Jordan Canonical Form | Jordan 标准形 |
+| Method of Powers（专题） | 幂方法 |
+| Stable Populations（专题） | 稳定种群 |
+| Page Ranking（专题） | 网页排名 |
+| Linear Recurrences（专题） | 线性递推 |
+| Coupled Oscillators（专题） | 耦合振子 |
+| Inner Product（专题） | 内积 |
+| Appendix | 附录 |
+
+| 英文 | 中文 |
+|------|------|
+| similar (matrices) | 相似（的矩阵） |
+| similarity transformation | 相似变换 |
+| diagonalizable | 可对角化的 |
+| nilpotent / index of nilpotency | 幂零的 / 幂零指数 |
+| string（幂零链） | 链 |
+| Jordan block | Jordan 块 |
+| canonical form | 标准形 |
+| conjugate / real part / imaginary part | 共轭 / 实部 / 虚部 |
+| root / multiplicity | 根 / 重数 |
+| generalized null space / range space | 广义零空间 / 广义值域空间 |
+| recurrence / initial condition | 递推 / 初始条件 |
+| Fibonacci | Fibonacci（斐波那契） |
+| Markov / stochastic | Markov（马尔可夫）/ 随机的 |
+| normal mode（振子） | 简正模 |
+| resonance | 共振 |
+| PageRank / back link | PageRank / 反向链接 |
+| radix representation（如出现） | 进位表示 |
+
+## 附录常用词（appen.tex）
+
+| 英文 | 中文 |
+|------|------|
+| argument（reasoned discourse） | 论证 |
+| Statements / Quantifiers | 命题 / 量词 |
+| Techniques of Proof | 证明方法 |
+| Sets, Functions, and Relations | 集合、函数与关系 |
+| implication / contrapositive / converse / inverse | 蕴含 / 逆否命题 / 逆命题 / 否命题 |
+| if and only if (iff) | 当且仅当 |
+| quantifier（universal / existential） | 量词（全称 / 存在） |
+| proof by contradiction / by induction / by cases | 反证法 / 归纳法 / 分情形证明 |
+| equivalence relation / equivalence class | 等价关系 / 等价类 |
+
 ## 高频术语补充（GLOSSARY 未覆盖者）
 
 | 英文 | 中文 |

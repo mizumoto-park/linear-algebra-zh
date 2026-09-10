@@ -1,0 +1,601 @@
+% Chapter 4, Section 4 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\section{Jordan 形式}
+\index{Jordan form|(}
+\noindent\textit{本节要用到三个选读小节中的内容：~子空间的组合、行列式的存在性
+以及 Laplace 展开。}
+
+本章开头我们回顾了每个线性映射 $\map{h}{V}{W}$ 都可以
+关于某些基 $B\subset V$ 与 $D\subset W$
+用一个部分单位矩阵来表示。
+换一种说法，部分单位矩阵形式是矩阵等价的
+一种规范形式。
+本章考虑陪域等于定义域的情形，于是我们自然会问，
+当两个基相等时，即有 $\rep{t}{B,B}$ 时，
+能做到什么。
+简言之，我们想要矩阵相似的规范形式。
+
+我们已经指出，在 $B,B$ 的情形下
+部分单位矩阵并非总能得到。
+于是我们把所关心的矩阵形式
+推广到其自然的一般化，即对角矩阵，
+并证明了当特征值互不相同时，
+变换或方阵可以对角化。
+但我们也给出过一个方阵的例子，
+因为它是幂零的，故不能对角化，
+所以对角形式不足以充当矩阵相似的规范形式。
+
+上一小节对那个例子作了深入展开，
+得到了幂零矩阵的规范形式，即非零元都位于次对角线上的矩阵。
+
+本节将完成我们的计划：证明对任意线性变换都
+存在一个基~\( B \)，
+使得矩阵表示 $\rep{t}{B,B}$ 是一个对角矩阵
+与一个幂零矩阵的和。
+这就是 Jordan 标准形。
+
+
+
+
+
+
+
+
+
+\subsectionoptional{映射与矩阵的多项式}\index{polynomial!of map, matrix}
+回顾一下，方阵的集合~\( \matspace_{\nbyn{n}} \)
+在按元素的加法与标量乘法下是一个向量空间，并且
+%the unit matrices\Dash all entries are zero except
+%for a single entry, which is one\Dash form a basis, so 
+这个空间的维数是 \( n^2 \)。
+于是对任意 \( \nbyn{n} \) 矩阵 $T$，
+含 \( n^2+1 \) 个成员的集合 \( \set{I,T,T^2,\dots,T^{n^2} } \) 线性相关，
+因此存在标量 \( c_0,\dots,c_{n^2} \)，
+不全为零，使得
+\begin{equation*}
+  c_{n^2}T^{n^2}+\dots+c_1T+c_0I
+\end{equation*}
+是零矩阵。
+因此每个变换都有一种广义的幂零性\Dash 方阵的幂
+不可能无限攀升而不出现某种重复。
+
+\begin{definition}
+设 \( t \) 是向量空间~\( V \) 上的线性变换。
+若 \( f(x)=c_nx^n+\dots+c_1x+c_0 \) 是一个多项式，
+则 \( f(t) \) 是~\( V \) 上的变换
+\( c_nt^n+\dots+c_1t+c_0(\identity) \)。
+同样地，若 \( T \) 是方阵，
+则
+\( f(T) \) 是矩阵 \( c_nT^n+\dots+c_1T+c_0I \)。
+\end{definition}
+
+\noindent 矩阵的多项式表示映射的多项式：~若
+\( T=\rep{t}{B,B} \) 则 \( f(T)=\rep{f(t)}{B,B} \)。
+这是因为 \( T^j=\rep{t^j}{B,B} \)，
+以及 \( cT=\rep{ct}{B,B} \)，且 \( T_1+T_2 =\rep{t_1+t_2}{B,B} \)。
+
+\begin{remark}
+矩阵多项式的写法，我们将与映射多项式的写法略有不同。
+例如，若 \( f(x)=x-3 \)，则
+我们会写出单位矩阵，如~\( f(T)=T-3I \)，
+但不写出恒等映射，如~\( f(t)=t-3 \)。
+\end{remark}
+
+\begin{example}  \label{ex:PolySendRotMatToZ}
+将平面向量逆时针旋转 \( \pi/3 \)~弧度，
+用标准基表示为
+\begin{equation*}
+  T=
+  \begin{mat}[r]
+      \cos(\pi/3)  &-\sin(\pi/3)  \\
+      \sin(\pi/3)   &\cos(\pi/3)
+   \end{mat}
+   =
+   \begin{mat}[r]
+      1/2        &-\sqrt{3}/2  \\
+      \sqrt{3}/2  &1/2
+   \end{mat}
+\end{equation*}
+验证 \( T^2-T+I=Z \) 是例行的。
+（从几何上看，\( T^2 \) 旋转了 \( 2\pi/3\)。
+在标准基向量~\( \vec{e}_1 \) 上，
+$T^2-T$ 的作用是给出角为
+\( 2\pi/3\) 的单位向量与角为 \( \pi/3\) 的单位向量之差，
+即 \( \binom{-1}{0} \)。
+在 \( \vec{e}_2 \) 上它给出 \( \binom{0}{-1} \)。
+所以 \( T^2-T=-I \)。）
+\end{example}
+
+空间 $\matspace_{\nbyn{2}}$ 的维数是四，所以我们知道对任意
+\( \nbyn{2} \) 矩阵~\( T \)，存在四次多项式
+\( f  \) 使得 \( f(T)=Z \)。
+但在前面的例题中我们展示了一个二次的多项式就够用了。
+因此虽然次数~$n^2$ 总是够用，但在某些情形
+次数更低的多项式就足够了。
+
+\begin{definition}
+变换 \( t \)\index{transformation!minimal polynomial}
+或方阵 \( T \)\index{matrix!minimal polynomial} 的
+\definend{极小多项式}\index{polynomial!minimal}%
+\index{minimal polynomial}
+\( m(x) \) 是次数最低且首项系数为~\( 1 \)
+的非零多项式，
+它使得 \( m(t) \) 是零映射或 \( m(T) \) 是零矩阵。
+\end{definition}
+
+\noindent 极小多项式不能是常值多项式，因为
+对首项系数有限制。
+所以极小多项式的
+次数至少为一。
+零矩阵的极小多项式是 $p(x)=x$，而
+单位矩阵的极小多项式是 $\hat{p}(x)=x-1$。
+
+\begin{lemma}
+任何变换或方阵都有唯一的极小多项式。  
+\end{lemma}
+
+\begin{proof}
+先证存在性。
+由前面的观察，
+次数~$n^2$ 就够用，故至少有一个
+非零多项式 $p(x)=c_kx^k+\cdots+c_0$
+将该映射或矩阵变为零。
+在所有这样的多项式中
+取一个次数最小的。
+再用其首项系数~$c_k$ 除这个多项式，得到首项为~$1$ 的多项式。
+因此任何映射或矩阵至少有一个极小多项式。
+
+下面证唯一性。
+假设
+\( m(x) \) 与 \( \hat{m}(x) \) 都将该映射或矩阵变为零，
+二者都是
+次数最小的，从而次数相等，
+且首项都是~$1$。
+考虑差 \( m(x)-\hat{m}(x) \)。
+若它不是零多项式，则它有非零的首项系数。
+用这个首项系数
+去除整个多项式，将得到一个多项式，它
+把该映射或矩阵变为零，有首项
+系数~\( 1\)，且次数比
+$m$ 与 $\hat{m}$ 都低
+（因为相减时首项的 \( 1\) 相消）。
+这会与 $m$ 和 $\hat{m}$ 的次数
+的最小性矛盾。
+于是 \( m(x)-\hat{m}(x) \) 是零多项式，
+即二者相等。
+\end{proof}
+
+\begin{example}  \label{ex:MinPolyForRotMat}
+计算\nearbyexample{ex:PolySendRotMatToZ} 中矩阵的
+极小多项式的一种方法，是求出 $T$ 的幂
+直到 $n^2=4$。
+\begin{equation*}
+    T^2=
+    \begin{mat}[r]
+       -1/2         &-\sqrt{3}/2  \\
+       \sqrt{3}/2   &-1/2
+    \end{mat} 
+    \quad
+    T^3=
+    \begin{mat}[r]
+       -1    &0           \\
+        0    &-1
+    \end{mat}
+    \quad
+    T^4=
+    \begin{mat}[r]
+       -1/2         &\sqrt{3}/2  \\
+       -\sqrt{3}/2  &-1/2
+    \end{mat}
+\end{equation*}
+令 \( c_4T^4+c_3T^3+c_2T^2+c_1T+c_0I \) 等于零矩阵。
+\begin{equation*}
+  \begin{linsys}{5}
+      -(1/2)c_4  
+          &-  &c_3           
+          &- &(1/2)c_2
+          &+ &(1/2)c_1  
+          &+  &c_0  &=  &0      \\
+      (\sqrt{3}/2)c_4  
+          &  &   
+          &- &(\sqrt{3}/2)c_2
+          &- &(\sqrt{3}/2)c_1  
+          &   &     &=  &0        \\
+      -(\sqrt{3}/2)c_4  
+          &   &    
+          &+ &(\sqrt{3}/2)c_2
+          &+ &(\sqrt{3}/2)c_1  
+         &   &            &=  &0      \\
+      -(1/2)c_4  
+          &-  &c_3             
+          &- &(1/2)c_2
+          &+ &(1/2)c_1  
+          &+  &c_0  &=  &0
+    \end{linsys}
+\end{equation*}
+用高斯消元法。
+\begin{equation*}
+  \begin{linsys}{5}
+      -(1/2)c_4  
+          &- &c_3             
+          &- &(1/2)c_2
+          &+ &(1/2)c_1  
+          &+  &c_0  &=  &0      \\
+          &  &-(\sqrt{3})c_3 
+          &- &\sqrt{3}c_2
+          &  &    
+          &+ &\sqrt{3}c_0 &=  &0
+    \end{linsys} 
+\end{equation*}
+着眼于使多项式的次数尽可能
+小，注意
+令 \( c_4 \)、\( c_3 \) 与 \( c_2 \) 为零会迫使 \( c_1 \) 与
+\( c_0 \) 也得出为零，
+所以这些方程不允许一次的极小多项式。
+于是改为令 \( c_4 \) 与 \( c_3 \) 为零。
+方程组
+\begin{equation*}
+  \begin{linsys}{3}           
+          -(1/2)c_2
+          &+ &(1/2)c_1  
+          &+  &c_0  &=  &0      \\
+          -\sqrt{3}c_2
+          &  &    
+          &+ &\sqrt{3}c_0 &=  &0
+    \end{linsys} 
+\end{equation*}
+的解集为 \( c_1=-c_0 \) 与 \( c_2=c_0 \)。
+取首项系数为~\( c_2=1 \)
+得到极小多项式 $x^2-x+1$。
+\end{example}
+
+% Using the method of that example to find the minimal polynomial of a
+% \( \nbyn{3} \) matrix 
+% would mean doing Gaussian reduction on
+% a system with nine equations in ten unknowns.
+那个计算很笨拙。
+我们将给出另一种方法。
+% To begin, note that we can break a polynomial of a map or a matrix into
+% its components.
+% (For this lemma, recall that we are using complex numbers in this chapter
+% so all polynomials break completely into linear factors.)
+
+\begin{lemma} \label{le:PolyMapsFactor}
+假设多项式 \( f(x)=c_nx^n+\dots+c_1x+c_0 \) 可以因式分解为
+\( k(x-\lambda_1)^{q_1}\cdots(x-\lambda_z)^{q_z} \)。
+若 \( t \) 是线性变换，则下面两个是相等的映射。
+\begin{equation*}
+  c_nt^n+\dots+c_1t+c_0
+  =
+  k\cdot\composed{\composed{(t-\lambda_1)^{q_1}}{\cdots}}{
+      (t-\lambda_z)^{q_z}} 
+\end{equation*}
+因此，若 \( T \) 是方阵，则 \( f(T) \) 与
+\( k\cdot(T-\lambda_1I)^{q_1}\cdots(T-\lambda_z I)^{q_z} \) 
+是相等的矩阵。
+\end{lemma}
+
+\begin{proof}
+我们对多项式的次数用归纳法。
+多项式次数为~零与次数为~一的情形是显然的。
+完整的归纳论证是\nearbyexercise{exer:PolyMapsFactor}，
+但我们将以次数~二的情形给出其大意。
+
+二次多项式可以分解成两个
+一次项 \( f(x)=k(x-\lambda_1)\cdot(x-\lambda_2)
+                    =k(x^2+(-\lambda_1-\lambda_2)x+\lambda_1\lambda_2) \)。
+% (the roots $\lambda_1$ and $\lambda_2$ could be equal).
+代入 \( t \) 
+——无论是分解后的还是未分解的形式——得到的都是同一个映射。
+\begin{align*}
+   \bigl(k\cdot\composed{(t-\lambda_1)}{(t-\lambda_2)}\bigr)\>(\vec{v})
+   &=\bigl(k\cdot(t-\lambda_1)\bigr)\,(t(\vec{v})-\lambda_2\vec{v})    \\
+   &=k\cdot\bigl(t(t(\vec{v}))-t(\lambda_2\vec{v})
+      -\lambda_1 t(\vec{v})+\lambda_1\lambda_2\vec{v}\bigr)    \\
+   &=k\cdot \bigl(\composed{t}{t}\,(\vec{v})-(\lambda_1+\lambda_2)t(\vec{v})
+          +\lambda_1\lambda_2\vec{v}\bigr)                    \\
+   &=k\cdot(t^2-(\lambda_1+\lambda_2)t+\lambda_1\lambda_2)\>(\vec{v})
+\end{align*}
+第三个等号利用 \( t \) 的线性性把 $\lambda_2$ 从
+第二项中提出来。
+\end{proof}
+
+% In particular, if a minimal polynomial for a transformation $t$ 
+% factors as
+% $m(x)=(x-\lambda_1)^{q_1}\cdots (x-\lambda_z)^{q_z}$
+% then 
+% \( m(t)=\composed{\composed{(t-\lambda_1)^{q_1}}{\cdots}}{
+%       (t-\lambda_z)^{q_z}} \) 
+% is the zero map. 
+% Since \( m(t) \) sends every vector to zero, at least
+% one of the maps \( t-\lambda_i \)  sends some
+% nonzero vectors to zero.
+% Exactly the same holds in the matrix case\Dash if $m$ is minimal for $T$ then
+% \( m(T)=(T-\lambda_1I)^{q_1}\cdots (T-\lambda_z I)^{q_z} \)
+% is the zero matrix and at least one of the matrices $T-\lambda_iI$
+% sends some nonzero vectors to zero. 
+% That is, in both cases at least some of the \( \lambda_i \) are eigenvalues.
+% (\nearbyexercise{exer:SomeRootsMinPolyAreEigs} expands on this.)
+
+下一个结论是：
+极小多项式的每个根都是一个特征值，
+且每个特征值都是极小多项式的根。
+（也就是说，该结论说的是 `$1\leq q_i$' 而不只是
+`$0\leq q_i$'。）
+为此，回顾求特征值时
+我们求解 $\deter{T-xI}=0$，
+这个行列式给出一个关于 $x$ 的多项式，
+即特征多项式，
+它的根就是特征值。
+
+\begin{theorem}[Cayley-Hamilton]
+\label{th:CayHam}
+\index{Cayley-Hamilton theorem}
+\hspace*{0em plus2em}
+若变换或方阵的特征多项式
+分解为
+\begin{equation*}
+  k\cdot (x-\lambda_1)^{p_1}(x-\lambda_2)^{p_2}\cdots(x-\lambda_z)^{p_z}
+\end{equation*}
+则其极小多项式分解为
+\begin{equation*}
+  (x-\lambda_1)^{q_1}(x-\lambda_2)^{q_2}\cdots(x-\lambda_z)^{q_z}
+\end{equation*}
+其中对 \( 1 \) 到 \( z \) 之间的每个 \( i \) 有 \( 1\leq q_i \leq p_i \)。
+\end{theorem}
+
+\noindent 证明占接下来的三个引理。
+我们将用矩阵的术语来叙述它们，
+因为这个版本更方便
+第一个证明，但它们同样
+适用于映射。
+
+第一个结论是关键。
+为证明它，注意我们可以把
+一个元素为多项式的矩阵看成
+系数为矩阵的多项式。
+\begin{equation*}
+   \begin{mat}
+     2x^2+3x-1  &x^2+2    \\
+     3x^2+4x+1  &4x^2+x+1
+   \end{mat}
+ = \begin{mat}[r]
+    2  &1  \\
+    3  &4
+  \end{mat}x^2
+ + \begin{mat}[r]
+    3  &0  \\
+    4  &1
+  \end{mat}x
+ + \begin{mat}[r]
+   -1  &2  \\
+    1  &1
+  \end{mat}
+\end{equation*}
+
+\begin{lemma}   \label{le:MatSatItsCharPoly}
+若 \( T \) 是特征多项式为 \( c(x) \) 的方阵，
+则 \( c(T) \) 是零矩阵。
+\end{lemma}
+
+\begin{proof}
+设 \( C \) 为 \( T-xI \)，
+它的行列式即特征多项式
+\( c(x)=c_nx^n+\dots+c_1x+c_0 \)。
+\begin{equation*}
+  C=\begin{mat}
+    t_{1,1}-x        &t_{1,2}   &\ldots        \\
+    t_{2,1}          &t_{2,2}-x               \\
+    \vdots           &          &\ddots       \\
+                     &          &       &t_{n,n}-x
+  \end{mat}
+\end{equation*}
+回顾定理~Four.III.\ref{th:MatTimesAdjEqDiagDets}：
+矩阵与其伴随矩阵的乘积等于
+矩阵的行列式乘以单位矩阵。
+\begin{equation*}
+  c(x)\cdot I
+  =\adj (C)C
+  =\adj (C)(T-xI)
+  =\adj (C)T- \adj(C)\cdot x
+\tag*{($*$)}
+\end{equation*}
+~($*$) 的左边是
+$c_nIx^n+c_{n-1}Ix^{n-1}+\cdots+c_1Ix+c_0I$。
+对于右边，
+\( \adj (C) \) 的元素是多项式，每个的次数
+至多是 \( n-1 \)，因为矩阵的子式去掉了一行与一列。
+正如证明之前所提示的，把它改写成一个
+系数为矩阵的多项式：
+\( \adj (C)=C_{n-1}x^{n-1}+\cdots+C_1x+C_0 \)，
+其中每个 \( C_i \) 是标量组成的矩阵。
+现在~($*$) 的右边是
+\begin{equation*}
+  [(C_{n-1}T)x^{n-1}+\cdots+(C_1T)x+C_0T]  
+   -[C_{n-1}x^n+C_{n-2}x^{n-1}+\cdots+C_0x]
+\end{equation*}
+比较 ($*$) 左右两边
+\( x^n \)、$x^{n-1}$ 等的
+系数。
+\begin{align*}
+  c_nI
+  &=-C_{n-1}    \\
+  c_{n-1}I
+  &=-C_{n-2}+C_{n-1}T    \\
+  &\vdotswithin{=}             \\
+  c_{1}I
+  &=-C_{0}+C_{1}T    \\
+  c_{0}I
+  &=C_{0}T
+\end{align*}
+将第一个等式的两边从右边乘以 \( T^n \)，
+第二个等式的两边乘以 \( T^{n-1} \)，等等。
+\begin{align*}
+  c_nT^n
+  &=-C_{n-1}T^n    \\
+  c_{n-1}T^{n-1}
+  &=-C_{n-2}T^{n-1}+C_{n-1}T^n    \\
+  &\vdotswithin{=}             \\
+  c_{1}T
+  &=-C_{0}T+C_{1}T^2    \\
+  c_{0}I
+  &=C_{0}T
+\end{align*}
+相加。
+左边是
+\( c_nT^n+c_{n-1}T^{n-1}+\cdots+c_0I \)。
+右边是叠缩的；
+例如，第一行的 $-C_{n-1}T^n$ 与第二行的
+一半 $C_{n-1}T^n$ 相消。
+右边总共是零矩阵。
+\end{proof}
+
+我们说矩阵或映射
+\definend{满足}\index{characteristic!polynomial!satisfied by} 
+其特征多项式，指的就是那个结论。
+
+\begin{lemma} \label{le:tSatisImpMinPolyDivides}
+任何被 \( T \) 满足的多项式都可被
+\( T \) 的极小多项式整除。
+也就是说，对多项式 \( f(x) \)，若 \( f(T) \) 是零矩阵，
+则 \( f(x) \) 可被 \( T \) 的极小多项式整除。
+\end{lemma}
+
+\begin{proof}
+设 \( m(x) \) 是 \( T \) 的极小多项式。
+多项式的带余除法定理给出
+\( f(x)=q(x)\cdot m(x)+r(x) \)，
+其中 \( r \) 的次数严格小于 \( m \) 的次数。
+因为 $T$ 满足 $f$ 与 $m$，把 $T$ 代入那个等式得到
+\( r(T) \) 是零矩阵。
+除非 \( r \)
+是零多项式，否则这与 \( m \) 的极小性矛盾。
+\end{proof}
+
+把前面两个引理合起来，可知极小多项式
+整除特征多项式。
+于是
+极小多项式的任意根也是特征
+多项式的根。
+
+于是到目前为止我们有：若极小多项式分解为
+\( m(x)=(x-\lambda_1)^{q_1}\cdots(x-\lambda_i)^{q_i} \)，则
+特征多项式也有根 \( \lambda_1\), \ldots, 
+\( \lambda_i \)。
+但就我们至今所建立的而言，
+特征多项式可能还有别的根：
+\( c(x)=(x-\lambda_1)^{p_1}\cdots(x-\lambda_i)^{p_i}
+     (x-\lambda_{i+1})^{p_{i+1}}\cdots(x-\lambda_z)^{p_z} \)，其中
+对 \( 1\leq j \leq i \) 有 \( 1\leq q_j\leq p_j \)。
+我们通过证明特征多项式没有另外的根来
+完成 Cayley-Hamilton 定理的证明，于是
+不存在 $\lambda_{i+1}$、$\lambda_{i+2}$ 等。
+
+\begin{lemma}
+方阵的特征多项式的每个一次因式
+也是极小多项式的一次因式。
+\end{lemma}
+
+\begin{proof}
+设 \( T \) 是极小多项式 \( m(x) \)
+次数为~\( n \) 的方阵，
+并假设 \( x-\lambda \) 是 \( T \) 的特征多项式的一个因式，
+从而 \( \lambda \) 是 \( T \) 的一个特征值。
+我们将证明 $m(\lambda)=0$，即 $x-\lambda$ 是 $m$ 的因式。
+
+假设 $\lambda$ 与特征向量~$\vec{v}$ 相联系，
+考虑幂 $T^2(\vec{v})$, \ldots, \( T^n(\vec{v}) \)。
+我们有
+$T^2(\vec{v})
+=T\cdot\lambda\vec{v}=\lambda\cdot T\vec{v}=\lambda^2\vec{v}$。
+所有的幂都是如此：
+对 \( 1\leq i \leq n \) 有 $T^i\vec{v}=\lambda^i\vec{v}\,$。
+于是
+对任意多项式函数 \( p(x) \)，把矩阵 \( p(T) \)
+作用到 \( \vec{v} \) 上等于用标量
+\( p(\lambda) \) 乘 \( \vec{v} \) 的结果。
+\begin{multline*}
+  p(T)\,\vec{v}
+  =(c_kT^k+\dots+c_1T+c_0I)\,\vec{v}
+  =c_kT^k\vec{v}+\dots+c_1T\vec{v}+c_0\vec{v}  \\
+  =c_k\lambda^k\vec{v}+\dots+c_1\lambda\vec{v}+c_0\vec{v}
+  =p(\lambda)\cdot\vec{v}
+\end{multline*}
+由于 \( m(T) \) 是零矩阵，
+故 \( \zero=m(T)(\vec{v})=m(\lambda)\cdot\vec{v} \)，
+从而 \( m(\lambda)=0 \)，因为 \( \vec{v}\neq\zero \)
+（它是特征向量）。
+\end{proof}
+
+Cayley-Hamilton 定理的证明到此结束。
+
+\begin{example} \label{ex:MinPolyUsingCH}
+我们可以用 Cayley-Hamilton 定理来求
+这个矩阵的极小多项式。
+\begin{equation*}
+   T=
+   \begin{mat}[r]
+      2  &0  &0  &1  \\
+      1  &2  &0  &2  \\
+      0  &0  &2  &-1 \\
+      0  &0  &0  &1
+   \end{mat}
+\end{equation*}
+先用通常的行列式 $\deter{T-xI}$ 求出它的特征多项式 \( c(x)=(x-1)(x-2)^3 \)。
+有了它，Cayley-Hamilton 定理就说
+\( T \) 的极小多项式是
+\( (x-1)(x-2) \)、
+\( (x-1)(x-2)^2 \) 或
+\( (x-1)(x-2)^3 \) 之一。
+只需计算
+\begin{equation*}
+   (T-1I)(T-2I)=\!
+   \begin{mat}[r]
+      1  &0  &0  &1  \\
+      1  &1  &0  &2  \\
+      0  &0  &1  &-1 \\
+      0  &0  &0  &0
+   \end{mat}
+   \begin{mat}[r]
+      0  &0  &0  &1  \\
+      1  &0  &0  &2  \\
+      0  &0  &0  &-1 \\
+      0  &0  &0  &-1
+   \end{mat}
+   =
+   \begin{mat}[r]
+      0  &0  &0  &0  \\
+      1  &0  &0  &1  \\
+      0  &0  &0  &0  \\
+      0  &0  &0  &0
+   \end{mat}
+\end{equation*}
+与
+\begin{equation*}
+   (T-1I)(T-2I)^2=
+   \begin{mat}[r]
+      0  &0  &0  &0  \\
+      1  &0  &0  &1  \\
+      0  &0  &0  &0  \\
+      0  &0  &0  &0
+   \end{mat}
+   \begin{mat}[r]
+      0  &0  &0  &1  \\
+      1  &0  &0  &2  \\
+      0  &0  &0  &-1 \\
+      0  &0  &0  &-1
+   \end{mat}
+   =
+   \begin{mat}[r]
+      0  &0  &0  &0  \\
+      0  &0  &0  &0  \\
+      0  &0  &0  &0  \\
+      0  &0  &0  &0
+   \end{mat}
+\end{equation*}
+于是 \( m(x)=(x-1)(x-2)^2 \)。
+\end{example}
+
+
+% ==================================

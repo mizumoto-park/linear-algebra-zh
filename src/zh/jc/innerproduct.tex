@@ -1,0 +1,640 @@
+% Chapter 5, Topic _Linear Algebra_ Jim Hefferon
+%  https://hefferon.net/linearalgebra
+%  2021-Jul-28
+\topic{内积}
+\index{Inner Product|(}
+% Smash the depth, not the height; for use in radicals
+\def\smashdp#1{{\setbox0=\hbox{$#1$}\dp0=0pt \box0\relax}}
+
+第一章讲述了点积运算。
+它输入一对来自某个 $\R^n$ 的向量，输出一个标量。
+\begin{equation*}
+  \colvec{-1 \\ 2 \\ 3}\dotprod\colvec{1 \\ 0 \\ 3}
+  =-1\cdot 1+2\cdot 0+3\cdot 3
+  =8
+\end{equation*}
+在那一章中我们还没有``线性''这个词，但是
+这一运算既保持加法
+\begin{equation*}
+ (\vec{v}_1+\vec{v}_2)\dotprod\vec{w}=\vec{v}_1\dotprod\vec{w}
+                                      +\vec{v}_2\dotprod\vec{w}
+\qquad
+ \vec{v}\dotprod(\vec{w}_1+\vec{w}_2)=\vec{v}\dotprod\vec{w}_1
+                                      +\vec{v}\dotprod\vec{w}_2
+\end{equation*}
+也保持标量乘法。
+\begin{equation*}
+ (r\vec{v})\dotprod\vec{w}=r(\vec{v}\dotprod\vec{w})
+  \qquad
+ \vec{v}\dotprod(r\vec{w})=r(\vec{v}\dotprod\vec{w})
+\end{equation*}
+
+关于点积运算，一件有趣的事情是
+它刻画了
+$\Re^n\!$ 的几何。
+例如：两个向量垂直当且仅当它们的
+点积为零；向量的长度由
+$\vec{v}\dotprod\vec{v}=\absval{\vec{v}\,}^2$ 确定。
+在这里，我们要把这个运算以及随之而来的长度
+推广到其他的向量空间。
+我们将沿用这一推广的传统数学记号，
+它不是一个点，而是
+$\innerprod{\vec{v}}{\vec{w}}$。
+
+为了引出这个定义，
+我们需要的复数知识比本章开头一节
+回顾的要多一些。
+在那里，我们把~$\C$ 描述为
+形如 $z=a+bi$ 的数的集合，其中 $a$ 与~$b$ 是实数，
+且 $i^2=-1$。
+我们还讲了加法、标量乘法、
+减法与乘法，以及长度。
+至于除法，考虑 $z=(1+2i)/(3+4i)$。
+平方差公式
+给出 $(a+bi)(a-bi)=a^2-(bi)^2=a^2-(-b^2)=a^2+b^2$，
+这是一个实数。
+于是，
+把 $z$ 的分子与分母同乘以 $3-4i$
+就得到一个 $a+bi$ 形式的表达式。
+\begin{equation*}
+  z=\frac{1+2i}{3+4i}\cdot\frac{3-4i}{3-4i}
+  =
+  \frac{(1\cdot 3+2\cdot 4)+(1\cdot (-4)+2\cdot 3)i}{3^2+4^2}
+  =
+  \frac{11+2i}{25}
+  =
+  \frac{11}{25}+\frac{2}{25}\,i
+\end{equation*}
+带着这个计算，我们把复数~$z$ 的\definend{共轭}定义为
+$\compconj{z}=\compconj{a+bi}=a-bi$，
+从而 $z\compconj{z}=\absval{z}^2$。
+把该等式除以 $\absval{z}^2$ 得到 $z\compconj{z}/\absval{z}^2=1$，
+于是
+每个非零复数都有乘法逆元，
+$z^{-1}\!=\compconj{z}/\absval{z}^2$。
+% (and thus $\absval{z}=1$ if and only if $z^{-1}=\compconj{z}$).
+注意到，一个复数是实数当且仅当
+它等于自己的共轭；
+还注意到 $\compconj{z_1+z_2}=\compconj{z_1}+\compconj{z_2}$，
+以及 $\compconj{z_1\cdot z_2}=\compconj{z_1}\cdot\compconj{z_2}$。
+把 $z=a+bi$ 画在
+复平面上\index{complex plane}
+就能说明共轭。
+\begin{center}
+  \includegraphics{jc/asy/innerproduct000.pdf}
+\end{center}
+这幅图清楚地表明
+$z+\compconj{z}=(a+bi)+(a-bi)$ 等于
+$2\cdot a$，我们把它记作 $2\cdot\RE{z}$。
+（`$\RE{z}$' 读作``$z$ 的实部''。）
+% It also shows the \definend{argument}, $\arg(z)$, the angle that
+% $z$ makes with the real axis.
+
+现在我们可以推广点积与长度运算了。
+在由实列向量组成的集合所构成的空间中，点积与长度是熟悉的，
+但我们已经见过许多远离这类空间的向量空间的例子，例如
+多项式空间 $\polyspace_n$。
+在这样的空间中，什么才是有用或自然的长度定义
+并不明显。
+为了从中获得一些启示，
+考虑复向量空间~$\C^n$。
+
+心中带着实空间中点积的印象，
+这里的第一直觉自然是尝试把
+$\innerprod{\vec{v}}{\vec{w}}$
+取成分量的线性组合，于是对于~$\C^2$
+的情形
+\begin{equation*}
+  \vec{v}=\colvec{a_{1,1}+b_{1,1}i \\ a_{2,1}+b_{2,1}i}
+  \qquad
+  \vec{w}=\colvec{a_{1,2}+b_{1,2}i \\ a_{2,2}+b_{2,2}i}
+\end{equation*}
+$\innerprod{\vec{v}}{\vec{w}}$ 的猜测值是
+$(a_{1,1}+b_{1,1}i)\cdot(a_{1,2}+b_{1,2}i)+(a_{2,1}+b_{2,1}i)\cdot(a_{2,2}+b_{2,2}i)$。
+但这行不通。
+我们研究的是长度，
+所以我们想要 $\innerprod{\vec{v}}{\vec{v}}=\absval{\vec{v}\,}^2\!$，
+因而不希望 $\innerprod{\vec{v}}{\vec{v}}$ 等于
+$(a_1+b_1i)(a_1+b_1i)+(a_2+b_2i)(a_2+b_2i)$。
+我们想要的更像是
+$(a_1+b_1i)(a_1-b_1i)+(a_2+b_2i)(a_2-b_2i)$ 这样的东西。
+于是，我们为 $\C^2\!$ 采纳如下定义。
+\begin{equation*}
+  \innerprod{\vec{v}}{\vec{w}}
+  =(a_{1,1}+b_{1,1}i)\cdot(a_{1,2}-b_{1,2}i)\,+\,(a_{2,1}+b_{2,1}i)\cdot(a_{2,2}-b_{2,2}i)
+\end{equation*}
+所谓
+\definend{Hermitian 内积}
+是：\index{inner product!Hermitian}\index{Hermitian inner product}
+若向量 $\vec{v},\vec{w}\in\C^n$
+有分量 $v_0$，\ldots~$v_n$ 与 $w_0$，\ldots~$w_n$，则
+$\innerprod{\vec{v}}{\vec{w}}=v_1\compconj{w}_1+\cdots+v_n\compconj{w}_n$。
+注意到，这推广了点积，意义在于：如果回到实数，
+取所有 $b$ 为零，
+那么它就等于 $\vec{v}\dotprod\vec{w}$。
+
+这个运算输入两个向量，输出一个标量。
+这是一个例子。
+\begin{align*}
+  \innerprod{\colvec{1+2i \\ 3+4i}}{\colvec{5+6i \\ 7+8i}}
+  &=(1+2i)(5-6i)+(3+4i)(7-8i)                     \\[-2ex]
+  &=(17+4i)+(53+4i)=70+8i
+\end{align*}
+
+Hermitian 内积对第一个输入是线性的：~验证
+$\innerprod{\vec{v}_1+\vec{v}_2}{\vec{w}}
+ = \innerprod{\vec{v}_1}{\vec{w}}
+   +\innerprod{\vec{v}_2}{\vec{w}}$
+以及
+$\innerprod{z\cdot\vec{v}}{\vec{w}}
+     =z\cdot\innerprod{\vec{v}}{\vec{w}}$
+并不困难。
+但它对第二个输入却不是线性的，因为
+虽然
+$\innerprod{\vec{v}}{\vec{w}_1+\vec{w}_2}
+ = \innerprod{\vec{v}}{\vec{w}_1}
+   +\innerprod{\vec{v}}{\vec{w}_2}$
+成立，但对标量乘法会出现一个共轭：
+$\innerprod{\vec{v}}{z\cdot\vec{w}}
+     =\compconj{z}\cdot\innerprod{\vec{v}}{\vec{w}}$。
+当然，出现这个差别是因为
+在定义中第二个输入被取了共轭，
+而第一个没有。
+这种不对称的另一个结果是
+$\innerprod{\vec{w}}{\vec{v}}\neq \innerprod{\vec{v}}{\vec{w}}$，而是
+$\innerprod{\vec{w}}{\vec{v}}=\compconj{\innerprod{\vec{v}}{\vec{w}}}$。
+
+Hermitian 内积是在一类特定的向量空间中
+推广点积的一种方式。
+还有很多其他的方式，存在于很多空间中。
+但我们希望我们的推广能引出合理的长度概念。
+为此，
+\definend{内积}是一个运算，
+它输入来自实或复向量空间的两个向量，
+输出一个标量，并且
+满足三个条件。
+条件~(1) 是它对第一个输入是线性的，即
+$\innerprod{\vec{v}_1+\vec{v}_2}{\vec{w}}
+ = \innerprod{\vec{v}_1}{\vec{w}}
+   +\innerprod{\vec{v}_2}{\vec{w}}$
+以及 $\innerprod{z\vec{v}}{\vec{w}}
+     =z\innerprod{\vec{v}}{\vec{w}}$。
+% (Some presentations take inner product 
+% to be linear in the second input; more on this
+% at the end of this Topic.)
+条件~(2) 是
+$\innerprod{\vec{w}}{\vec{v}}=\compconj{\innerprod{\vec{v}}{\vec{w}}}$。
+注意到，作为推论，
+$\innerprod{\vec{v}}{\vec{v}}$ 等于它自己的共轭，
+因而是一个实数。
+条件~(3) 对这个实数的要求是：
+对所有 $\vec{v}$ 有 $\innerprod{\vec{v}}{\vec{v}}\geq 0$，且
+$\innerprod{\vec{v}}{\vec{v}}= 0$ 当且仅当 $\vec{v}=\zero$。
+
+一个向量空间连同其上的内积运算构成一个
+\definend{内积空间}。
+（在前一段我们对任意内积都使用 $\innerprod{\vec{v}}{\vec{w}}$ 记号，
+而更早时我们把它用在 Hermitian 内积这一特定情形。
+这种重复不会引起混淆，因为在内积空间中
+恰有这样一个运算，
+所以绝不会同时有好几个需要区分。）
+
+每个实向量空间 $\R^n$ 连同点积都是一个内积空间。
+Hermitian 内积把任何复向量空间~$\C^n$ 变成
+一个内积空间。
+两者的验证都在练习中。
+
+一个看起来颇为不同的例子
+是这样的实向量空间，其成员是
+在闭区间
+$\closedinterval{0}{1}$ 上连续的实值函数。
+设内积为
+\begin{equation*}
+  \innerprod{f}{g}=\int_{0}^1 f(t)\cdot g(t)\,dt
+\end{equation*}
+它满足内积定义的
+条件~(1)，因为
+$\int_{0}^1 (f_1(t)+f_2(t))\cdot g(t)\,dt$ 等于
+$\int_{0}^1 f_1(t)g(t)\,dt+\int_{0}^1 f_2(t)g(t)\,dt$，
+这由初等微积分的一个结果保证，
+而对标量乘法也有类似的结果。
+它满足~(2)，因为对实数取共轭没有影响，
+且 $f(t)g(t)$ 等于 $g(t)f(t)$。
+对于条件~(3)，若~$f$ 不是零函数，则
+平方 $f(t)\cdot f(t)$ 在某个
+$\hat{t}\in \closedinterval{0}{1}$ 处大于~$0$。
+由连续性，该平方在围绕~$\hat{t}$ 的一个子区间上
+大于零，
+于是曲线下面积大于~$0$。
+
+接下来我们推广长度运算。
+如果一个运算输入向量、输出实数，并且满足
+三个条件，我们就把它视为长度的一种合理推广；
+任何这样的运算
+都称为\definend{范数}，\index{norm} 记作~$\norm{\vec{v}}$。
+第一个条件是 $\norm{\vec{v}}\geq 0$，
+且 $\norm{\vec{v}}= 0$ 当且仅当 $\vec{v}=\zero$。
+第二个是伸缩向量会伸缩
+它的范数，确切地说
+$\norm{z\cdot \vec{v}}=\absval{z}\cdot\norm{\vec{v}}$。
+第三个条件是
+三角不等式，\index{Triangle Inequality}
+即 $\norm{\vec{v}+\vec{w}}\leq\norm{\vec{v}}+\norm{\vec{w}}$。
+
+向量空间~$\R^n$ 中一个熟悉的范数例子是通常的
+Euclid 长度，$\norm{\vec{v}}=\sqrt{\smashdp{v_1^2+\cdots+v_n^2}}$。
+
+另一个例子定义在矩阵组成的实向量空间
+$\matspace_{\nbym{n}{m}}$ 上。
+设矩阵的范数 $\norm{M}$ 为所有元素中
+绝对值最大者。
+条件~(1) 是清楚的，条件~(2) 也一样。
+条件~(3) 就是通常的实数三角不等式
+$\absval{a+b}\leq\absval{a}+\absval{b}$。
+
+% Still another example of a norm operation 
+% is on the vector space of continuous real-valued functions 
+% on the closed interval $\closedinterval{0}{1}$.  
+% \begin{equation*}
+%   \norm{f}
+%   =\int_{x=0}^1 \absval{f(x)}\,dx
+%   \tag{$*$}
+% \end{equation*}
+% Verifying the three conditions in the definition is an exercise.
+
+在为内积定义作引导时我们说过，我们希望
+点积的推广能产生合理的
+长度概念。
+现在我们已有了把这一点精确化所需的定义。
+令
+$\norm{\vec{v}}=\sqrt{\smashdp{\innerprod{\vec{v}}{\vec{v}}}}$。
+我们将证明它满足范数定义中的
+三个条件。
+第一个条件已在讨论内积时
+讲过。
+为验证第二个条件，
+$\norm{z\cdot\vec{v}}
+=\sqrt{\smashdp{\innerprod{z\vec{v}}{z\vec{v}}}}
+=\sqrt{\smashdp{z\compconj{z}\cdot\innerprod{\vec{v}}{\vec{v}}}}
+=\sqrt{z\compconj{z}}\cdot\sqrt{\smashdp{\innerprod{\vec{v}}{\vec{v}}}}
+=\absval{z}\cdot\sqrt{\smashdp{\innerprod{\vec{v}}{\vec{v}}}}$。
+
+对于第三个条件，我们将像第一章那样，
+把它与 Cauchy–Schwarz 不等式联系起来，\index{Cauchy-Schwartz Inequality}
+$\absval{\innerprod{\vec{v}}{\vec{w}}}\leq \norm{\vec{v}}\cdot\norm{\vec{w}}$。
+这里对该不等式的证明是第一章证明的推广，
+但更为复杂。
+考虑当 $z\in\C$ 变动时的差 $\vec{v}-z\cdot\vec{w}$。
+这个向量的范数是一个非负实数，
+$0\leq \norm{\vec{v}-z\cdot\vec{w}}^2
+   =\innerprod{\vec{v}-z\vec{w}}{\vec{v}-z\vec{w}}$。
+线性性给出
+$\innerprod{\vec{v}}{\vec{v}-z\vec{w}}
+  -z\cdot\innerprod{\vec{w}}{\vec{v}-z\vec{w}}$
+以及
+$\innerprod{\vec{v}}{\vec{v}}
+  -\compconj{z}\cdot\innerprod{\vec{v}}{\vec{w}}
+  -z\cdot\innerprod{\vec{w}}{\vec{v}}
+  +z\compconj{z}\cdot\innerprod{\vec{w}}{\vec{w}}$。
+这对一切 $z\in\C$ 都成立。
+\begin{equation*}
+ 0
+  \leq\innerprod{\vec{v}}{\vec{v}}
+  -\compconj{z}\cdot\innerprod{\vec{v}}{\vec{w}}
+  -z\cdot\compconj{\innerprod{\vec{v}}{\vec{w}}}
+  +z\compconj{z}\cdot\innerprod{\vec{w}}{\vec{w}}
+\end{equation*}
+
+取
+$z=\innerprod{\vec{v}}{\vec{w}}/\innerprod{\vec{w}}{\vec{w}}$
+（若 $\vec{w}=\zero$，则 Cauchy–Schwarz 不等式是平凡的，因此我们
+忽略这种情形）。
+它的分母是实数，所以
+$\compconj{z}=\compconj{\innerprod{\vec{v}}{\vec{w}}}/\innerprod{\vec{w}}{\vec{w}}$，
+于是把它代入第二项得到
+$\compconj{\innerprod{\vec{v}}{\vec{w}}}\innerprod{\vec{v}}{\vec{w}}/\innerprod{\vec{w}}{\vec{w}}$。
+代入第三项得到同样的结果，
+代入最后一项也是如此。
+合并这三个同类项，得到
+\begin{equation*}
+ 0
+  \leq\innerprod{\vec{v}}{\vec{v}}
+  -\frac{\innerprod{\vec{v}}{\vec{w}}\compconj{\innerprod{\vec{v}}{\vec{w}}}}{\innerprod{\vec{w}}{\vec{w}}}
+  =\norm{\vec{v}}^2
+  -\frac{\absval{\innerprod{\vec{v}}{\vec{w}}}^2}{\norm{\vec{w}}^2}
+\end{equation*}
+重新整理并去分母，就得到想要的
+不等式。
+
+有了它，我们就可以证明三角不等式。
+同样，这是第一章论证的推广。
+\begin{align*}
+  \norm{\vec{v}+\vec{w}}^2
+  =\innerprod{\vec{v}+\vec{w}}{\vec{v}+\vec{w}}  
+  &=\innerprod{\vec{v}}{\vec{v}}
+    +\innerprod{\vec{v}}{\vec{w}}  
+    +\innerprod{\vec{w}}{\vec{v}}  
+    +\innerprod{\vec{w}}{\vec{w}}   \\ 
+  &=\norm{\vec{v}}^2
+    +\innerprod{\vec{v}}{\vec{w}}  
+    +\compconj{\innerprod{\vec{v}}{\vec{w}}}  
+    +\norm{\vec{w}}^2              \\   
+  &=\norm{\vec{v}}^2
+    +2\cdot\RE{\innerprod{\vec{v}}{\vec{w}}}  
+    +\norm{\vec{w}}^2      \\
+  &\leq\norm{\vec{v}}^2
+    +2\absval{\innerprod{\vec{v}}{\vec{w}}}  
+    +\norm{\vec{w}}^2     \\
+% \end{align*}
+\intertext{应用 Cauchy--Schwarz 不等式。}
+  &\leq\norm{\vec{v}}^2
+    +2\cdot\norm{\vec{v}}\cdot\norm{\vec{w}}
+    +\norm{\vec{w}}^2      
+  =(\norm{\vec{v}}+\norm{\vec{w}})^2         
+\end{align*}
+两边取平方根即得结论。
+
+我们稍停片刻，再看一个内积、范数与几何之间的联系。
+这是两个向量之和的熟悉的平行四边形图，
+其中除了 $\vec{v}+\vec{w}$ 我们还画出了 $\vec{v}-\vec{w}$。
+\begin{center}
+  \includegraphics{jc/asy/innerproduct001.pdf}
+\end{center}
+我们将证明
+\definend{平行四边形恒等式}，\index{parallelogram identity}
+$\absval{\vec{v}+\vec{w}}^2+\absval{\vec{v}-\vec{w}}^2=2\absval{\vec{v}}^2+2\absval{\vec{w}}^2$
+（它有一个漂亮的说法：平行四边形对角线的平方和
+等于四条边的平方和。）
+尽管上面的图画的是平面，在那里我们通常用点积记号，
+把长度写成 $\absval{\vec{v}\,}$，
+但这里我们使用内积与范数的记号。
+
+与上面一样，把
+$
+  \norm{\vec{v}+\vec{w}}^2=\innerprod{\vec{v}+\vec{w}}{\vec{v}+\vec{w}}
+$
+按第一个输入的可加性、再按第二个输入的可加性展开。
+\begin{align*}
+  \norm{\vec{v}+\vec{w}}^2
+  &=\innerprod{\vec{v}+\vec{w}}{\vec{v}+\vec{w}}           \\
+   % &=\innerprod{\vec{v}}{\vec{v}+\vec{w}}+\innerprod{\vec{w}}{\vec{v}+\vec{w}} \\
+  &=\innerprod{\vec{v}}{\vec{v}}            
+   +\innerprod{\vec{v}}{\vec{w}}
+   +\innerprod{\vec{w}}{\vec{v}}
+   +\innerprod{\vec{w}}{\vec{w}}
+  =\norm{\vec{v}}^2            
+   +\innerprod{\vec{v}}{\vec{w}}
+   +\innerprod{\vec{w}}{\vec{v}}
+   +\norm{\vec{w}}^2
+\end{align*}
+对 $\innerprod{\vec{v}-\vec{w}}{\vec{v}-\vec{w}}$ 作同样的展开
+得到
+\begin{equation*}
+  \norm{\vec{v}-\vec{w}}^2
+  =\innerprod{\vec{v}-\vec{w}}{\vec{v}-\vec{w}}
+  =\norm{\vec{v}}^2
+   -\innerprod{\vec{v}}{\vec{w}}
+   -\innerprod{\vec{w}}{\vec{v}}
+   +\norm{\vec{w}}^2
+\end{equation*}
+把两式相加即得所要的结果。
+
+现在，有了内积与范数运算，
+即使在没有明显几何结构的空间中，
+我们也能解释几何概念。
+一个例子是，我们可以把距离推广为
+\definend{度量}\index{metric} 
+运算
+$d(\vec{v},\vec{w})=\norm{\vec{v}-\vec{w}}$。
+另一个例子是，我们可以规定
+当 $\innerprod{\vec{v}}{\vec{w}}=0$
+时，向量 $\vec{v}$ 与~$\vec{w}$ 正交；
+而且我们可以把 Gram--Schmidt 方法
+推广到任何有限维内积空间。
+
+一点技术性说明：~我们已经由内积定义了范数运算，
+即 $\norm{\vec{v}}=\sqrt{\smashdp{\innerprod{\vec{v}}{\vec{v}}}}$，
+然后导出了平行四边形恒等式。
+同样成立的是：若一个范数满足这个恒等式，则它
+由某个内积产生，即
+$\innerprod{\vec{v}}{\vec{w}}
+  =(1/2)\cdot(\norm{\vec{v}+\vec{w}}^2-\norm{\vec{v}}^2-\norm{\vec{w}}^2)$。
+不过，其证明超出了本书的范围。
+
+范数可以不由内积产生；
+上面我们就见过一个。
+在实向量空间 $\matspace_{\nbyn{2}}$ 上，设矩阵的
+范数 $\norm{M}$ 为任一元素绝对值的最大者。
+考虑这些矩阵。
+\begin{equation*}
+  M_1=
+  \begin{mat}
+  1  &2 \\
+  3  &4  
+  \end{mat}
+  \qquad
+  M_2=
+  \begin{mat}
+  8  &7  \\
+  6  &5
+  \end{mat}
+\end{equation*}
+显然，$\norm{M_1}=4$ 且~$\norm{M_2}=8$。
+同样容易验证的是 $\norm{M_1+M_2}=9$
+以及 $\norm{M_1-M_2}=7$。
+于是 $\norm{M_1+M_2}^2+\norm{M_1-M_2}^2=130$，
+而 $2(\norm{M_1}^2+\norm{M_2}^2)=160$，
+两者不相等。
+
+最后，我们对内积的定义作一点评论。
+有些作者，特别是在物理学中，定义内积使它对第二个变量
+而不是第一个变量线性。
+在我们写 $\innerprod{\vec{v}}{\vec{w}}$ 的地方，
+这些作者写 $\langle y\, |\, x\rangle$。
+这就是
+\definend{bra-ket 记号}\index{bra-ket notation}\index{inner product!compared with bra-ket} 
+它是量子力学中的标准记号。
+
+\begin{exercises}
+\item 
+验证 $\R^n$ 连同点积是一个内积空间。
+\begin{answer}
+本专题开头一段指出点积对两个输入都是线性的，
+因此第一个条件得到满足。
+条件~(2) 涉及共轭，
+而共轭对实数没有影响，
+所以这个条件平凡地得到满足。
+条件~(3) 要求长度（$n$ 维实空间中的通常 Euclid 长度）
+为零当且仅当向量是~$\zero$。
+若向量有分量 $v_1$，\ldots~$v_n$，则
+$v_1^2+\cdots v_n^2=0$ 当且仅当所有分量全为零。
+\end{answer}
+
+\item
+证明二维向量空间~$\C^2$ 上的 Hermitian 内积
+满足内积定义中的三个条件。
+\begin{answer}
+专题正文的推导证明了~(1) 与~(2)。
+对于~(3)，设
+~$\C^n$ 的两个成员 $\vec{v},\vec{w}$
+的第 $i$ 个分量分别为 $v_i$ 与 $w_i$，于是
+$\innerprod{\vec{v}}{\vec{w}}=v_1\compconj{w}_1+\cdots+v_n\compconj{w}_n$。
+那么 $\innerprod{\vec{v}}{\vec{v}}=v_1\compconj{v}_1+\cdots+v_n\compconj{v}_n$
+等于 $\absval{\vec{v}_1}^2+\cdots \absval{\vec{v}_n}^2$，
+显然它等于~$0$ 当且仅当每个分量都是~$0$。
+\end{answer}
+
+\item 证明这个运算是实向量空间
+$\matspace_{\nbyn{2}}$ 上的内积。
+\begin{equation*}
+  \innerprod{
+    \begin{mat}
+    a  &b  \\
+    c  &d
+    \end{mat}
+    }{
+      \begin{mat}
+       e  &f  \\
+       g  &h
+      \end{mat}
+    }
+    =
+    ae+bf+cg+dh
+\end{equation*}
+\begin{answer}
+条件~(1)，即对第一个变量的线性性，是容易的。
+\begin{multline*}
+  \innerprod{
+    \begin{mat}
+    a_1  &b_1  \\
+    c_1  &d_1
+    \end{mat}
+    +
+    \begin{mat}
+    a_2  &b_2  \\
+    c_2  &d_2
+    \end{mat}
+    }{
+      \begin{mat}
+       e  &f  \\
+       g  &h
+      \end{mat}
+    }                                                  \\
+  \begin{split}
+    &=(a_1+a_2)e+(b_1+b_2)f+(c_1+c_2)g+(d_1+d_2)h   \\
+    &=(a_1e+b_1f+c_1g+d_1h)+(a_2e+b_2f+c_2g+d_2h)   \\
+    &=
+  \innerprod{
+    \begin{mat}
+    a_1  &b_1  \\
+    c_1  &d_1
+    \end{mat}
+    }{
+      \begin{mat}
+       e  &f  \\
+       g  &h
+      \end{mat}
+    }
+  +
+  \innerprod{
+    \begin{mat}
+    a_2  &b_2  \\
+    c_2  &d_2
+    \end{mat}
+    }{
+      \begin{mat}
+       e  &f  \\
+       g  &h
+      \end{mat}
+    }
+  \end{split}
+\end{multline*}
+标量乘法的验证同样常规。
+条件~(2) 涉及共轭，
+而共轭对实数没有影响，
+所以这个条件平凡地得到满足。
+对于~(3)，当然有 $a^2+b^2+c^2+d^2\geq 0$，而等号成立当且仅当
+每个元素都是零。
+\end{answer}
+%
+\item 考虑次数不超过二的多项式组成的实向量空间~$\polyspace_2$。
+证明这是一个内积运算：
+$\innerprod{a_2x^2+a_1x+a_0}{b_2x^2+b_1x+b_0}=a_2b_2+a_1b_1+a_0b_0$。
+考虑由此得到的范数。
+$\norm{x^2-1}$ 是多少？
+\begin{answer}
+条件~(1) 是它对第一个输入线性。
+验证这个运算保持加法是例行的
+\begin{multline*}
+  \innerprod{(a_2x^2+a_1x+a_0)+(c_2x^2+c_1x+c_0)}{b_2x^2+b_1x+b_0}  \\
+  \begin{split}
+    &=(a_2+c_2)b_2+(a_1+c_1)b_1+(a_0+c_0)b_0             \\
+    &=(a_2b_2+a_1b_1+a_0b_0)+(c_2b_2+c_1b_1+c_0b_0)             \\
+    &=\innerprod{(a_2x^2+a_1x+a_0)}{b_2x^2+b_1x+b_0}      \\
+      &\qquad+\innerprod{(c_2x^2+c_1x+c_0)}{b_2x^2+b_1x+b_0}
+  \end{split}
+\end{multline*}
+验证它保持标量乘法亦然。
+因为这是实向量空间，而共轭对实数标量
+没有影响，所以它满足条件~(2)。
+对于条件~(3)，令 $\vec{v}=a_2x^2+a_1x+a_0$。
+那么 $\innerprod{\vec{v}}{\vec{v}}=a_2^2+a_1^2+a_0^2$ 显然非负，
+且等于~$0$ 当且仅当 $\vec{v}$ 是零多项式。
+
+至于 $x^2-1$ 的范数，我们有
+\begin{equation*} 
+ \norm{x^2-1}=\sqrt{\innerprod{x^2-1}{x^2-1}}=\sqrt{1^2+0^2+(-1)^2}=\sqrt{2}
+\end{equation*}
+\end{answer}
+
+\item 验证在闭区间
+$\closedinterval{0}{1}$ 上连续的实值函数的集合是一个向量空间。
+\begin{answer}
+向量空间定义中的十个条件
+都是微积分诸结果的推论。
+例如，第一个条件是对加法封闭，而在微积分中
+我们有：两个连续函数的和
+是连续函数。
+（不过，学生往往要到后面的课程
+才见到完全严格的证明。）
+类似地，两个函数的加法是可交换的。
+当然，零向量是函数 $f(x)=0$，它是连续的。
+\end{answer}
+
+%
+\item
+证明：在 $\C^n$ 上尝试定义对两个输入都线性的 $\innerprod{\vec{v}}{\vec{w}}$
+会失去
+$\innerprod{\vec{v}}{\vec{v}}$ 给出长度的性质。
+\begin{answer}
+假设
+$\innerprod{\vec{v}}{\vec{v}}$ 对所有
+复向量~$\vec{v}$ 都大于或等于~$0$。
+那么对两个输入的线性性给出
+$0\leq \innerprod{i\vec{v}}{i\vec{v}}
+  =i\innerprod{\vec{v}}{i\vec{v}}
+  =i^2\innerprod{\vec{v}}{\vec{v}}\leq 0$。
+\end{answer}
+
+
+% \item Show that this operation
+% on the vector space of continuous real-valued functions 
+% over $\closedinterval{0}{1}$ satisfies the 
+% conditions in the definition of a norm.  
+% \begin{equation*}
+%   \norm{f}
+%   =\int_{x=0}^1 \absval{f(x)}\,dx
+% \end{equation*}
+% \begin{answer}
+% The first condition holds because the integral of an absolute
+% value cannot be negative, and for continuous functions it is zero
+% if and only if the function is zero.
+% The second condition is  result from elementary Calculus.
+% \end{answer}
+
+
+
+\end{exercises}
+\index{Inner Product|)}
+\endinput
+% \end{document}

@@ -1,0 +1,884 @@
+% The action of the transformation $t-\lambda_i$ on $\gennullspace{t-\lambda_i}$
+% is especially easy to understand.
+% Observe that any transformation~$t$ is nilpotent on $\gennullspace{t}$, 
+% because if $\vec{v}\in\gennullspace{t}$ then 
+% by definition $t^n(\vec{v})=\zero$. 
+% Thus $t-\lambda_i$ is nilpotent on 
+% $\gennullspace{t-\lambda_i}$.
+
+% % Thus, the generalized null space $\gennullspace{t-\lambda_i}$ is a part of
+% % the space on which the action of $t-\lambda_i$ is easy to understand.
+
+% We shall take three steps to prove this section's major result. 
+% The next result is the first.
+% % It establishes that if $j=neq i$ then \( t-\lambda_j \) leaves
+% % \( t-\lambda_i \)'s part unchanged.
+
+% \begin{lemma} \label{le:tInvIfftMinLambdaInv}
+% A subspace is \( t \) invariant if and only if 
+% it is \( t-\lambda \) invariant for all scalars \( \lambda \).
+% In particular, 
+% if \( \lambda_i \) is an eigenvalue of  a linear transformation
+% \( t \) then for any other eigenvalue $\lambda_j$
+% the spaces \( \gennullspace{t-\lambda_i} \) 
+% and \( \genrangespace{t-\lambda_i} \)
+% are \( t-\lambda_j \) invariant.
+% \end{lemma}
+
+% \begin{proof}
+% For the first sentence we check the two implications separately.
+% The `if' half is easy: if the subspace is $t-\lambda$ invariant for 
+% all scalars $\lambda$ then using $\lambda=0$ shows that it is $t$ invariant.
+% For `only if' suppose that the subspace is $t$ invariant,
+% so that if $\vec{m}\in M$ then $t(\vec{m})\in M$, and let $\lambda$ be 
+% a scalar.
+% The subspace $M$ is closed under linear combinations and so if 
+% $t(\vec{m})\in M$ then $t(\vec{m})-\lambda\vec{m}\in M$.
+% Thus if $\vec{m}\in M$ then $(t-\lambda)\,(\vec{m})\in M$.
+
+% The lemma's second sentence follows from its first.
+% The
+% two spaces are $t-\lambda_i$~invariant so they are \( t \)~invariant.
+% Apply the first sentence again to
+% conclude that they are also \( t-\lambda_j \) invariant.
+% \end{proof}
+
+% The second step of the three that we will take to prove this
+% section's major result makes use of an additional property of 
+% \( \gennullspace{t-\lambda_i} \) and
+% \( \genrangespace{t-\lambda_i} \), that they are complementary.
+% Recall that if a space is the direct sum of two others 
+% \( V=\mathscr{N}\directsum \mathscr{R} \) 
+% then any vector \( \vec{v} \) in the space breaks into
+% two parts \( \vec{v}=\vec{n}+\vec{r} \) where \( \vec{n}\in \mathscr{N} \) and
+% \( \vec{r}\in \mathscr{R} \), and recall also 
+% that if \( B_{\mathscr{N}} \) and \( B_{\mathscr{R}} \) are bases for
+% \( \mathscr{N} \) and \( \mathscr{R} \) then the concatenation
+% \( \cat{B_{\mathscr{N}}}{B_{\mathscr{R}}} \) is linearly independent.
+% The next result says that for any subspaces
+% \( \mathscr{N} \) and \( \mathscr{R} \) that are complementary 
+% as well as \( t \)~invariant,
+% the action
+% of \( t \) on \( \vec{v} \) breaks into the actions of
+% \( t \) on \( \vec{n} \) and on \( \vec{r} \).
+
+% \begin{lemma} \label{le:InvCompSubspSplitTrans}
+% Let \( \map{t}{V}{V} \) be a transformation and let \( \mathscr{N} \) and 
+% \( \mathscr{R} \) be
+% \( t \) invariant complementary subspaces of \( V \).
+% Then we can represent \( t \) by a matrix with
+% blocks of square submatrices $T_1$ and $T_2$
+% \begin{equation*} \renewcommand{\arraystretch}{1.2}
+%   \begin{pmat}{c|c}
+%       T_1   &Z_2  \\  \cline{1-2}
+%       Z_1 &T_2
+%    \end{pmat}
+%    \begin{array}{@{}l}
+%      \} \text{\ $\dim(\mathscr{N})$-many rows}  \\
+%      \} \text{\ $\dim(\mathscr{R})$-many rows}
+%    \end{array}
+% \end{equation*}
+% where \( Z_1 \) and \( Z_2 \) are blocks of zeroes.
+% \end{lemma}
+
+% \begin{proof}
+% Since the two subspaces are complementary, the concatenation of a basis
+% for \( \mathscr{N} \) with a basis for \( \mathscr{R} \) makes a basis
+% \( B=\sequence{\vec{\nu}_1,\dots,\vec{\nu}_p,
+%         \vec{\mu}_1,\ldots,\vec{\mu}_q}  \)
+% for \( V \).
+% We shall show that the matrix
+% \begin{equation*}
+%   \rep{t}{B,B}=
+%   \begin{pmat}{c@{\hspace*{1em}}c@{\hspace*{1em}}c}
+%      \vdots                   &        &\vdots     \\
+%      \rep{t(\vec{\nu}_1)}{B}  &\cdots  &\rep{t(\vec{\mu}_q)}{B}  \\
+%      \vdots                   &        &\vdots     \\
+%   \end{pmat}
+% \end{equation*}
+% has the desired form.
+
+% Any vector \( \vec{v}\in V \) is a member of \( \mathscr{N} \) 
+% if and only if when it is represented with respect to \( B \)
+% the final \( q \)
+% coefficients are zero.
+% As \( \mathscr{N} \) is \( t \)~invariant, each of the vectors
+% \( \rep{t(\vec{\nu}_1)}{B} \),
+% \ldots, \( \rep{t(\vec{\nu}_p)}{B} \) has this form.
+% Hence the lower left of \( \rep{t}{B,B} \) is all zeroes.
+% The argument for the upper right is similar.
+% \end{proof}
+
+% To see that we have decomposed \( t \) into its action on the parts, 
+% let $B_{\mathscr{N}}=\sequence{\vec{\nu}_1,\dots,\vec{\nu}_p}$ and 
+% $B_{\mathscr{R}}=\sequence{\vec{\mu}_1,\ldots,\vec{\mu}_q}$.
+% The restrictions of \( t \) to the subspaces \( \mathscr{N} \) 
+% and~\( \mathscr{R} \) 
+% are represented
+% with respect to the bases $B_{\mathscr{N}},B_{\mathscr{N}}$
+% and $B_{\mathscr{R}},B_{\mathscr{R}}$
+% by the matrices \( T_1 \) and \( T_2 \).
+% So with subspaces that are invariant and complementary 
+% we can split the problem of examining
+% a linear transformation into two lower-dimensional subproblems.
+% The next result illustrates this decomposition into blocks.
+
+% \begin{lemma} \label{le:DetIsProdOfSubDets}
+% If $T$ is a matrix with square submatrices $T_1$ and $T_2$
+% \begin{equation*} \renewcommand{\arraystretch}{1.2}
+%   T=
+%   \begin{pmat}{c|c}
+%       T_1   &Z_2  \\  \cline{1-2}
+%       Z_1   &T_2
+%    \end{pmat}
+% \end{equation*}
+% where the \( Z \)'s are blocks of zeroes,
+% then \( \deter{T}=\deter{T_1}\cdot\deter{T_2} \).
+% \end{lemma}
+
+% \begin{proof}
+% Suppose that \( T \) is \( \nbyn{n} \),
+% that \( T_1 \) is \( \nbyn{p} \),
+% and that \( T_2 \) is \( \nbyn{q} \).
+% In the permutation formula for the determinant
+% \begin{equation*}
+%   \deter{T}=
+%   \sum_{\text{\scriptsize permutations\ }\phi}
+%           t_{1,\phi(1)}t_{2,\phi(2)}\cdots t_{n,\phi(n)}\sgn(\phi)
+% \end{equation*}
+% each term comes from a rearrangement of the column numbers
+% \( 1,\dots,n \) into a new order \( \phi(1),\dots,\phi(n) \).
+% The upper right block $Z_2$ is all zeroes, so if a
+% \( \phi \) has at least one of \( p+1,\dots,n \) among its first
+% \( p \) column numbers \( \phi(1),\dots,\phi(p) \) then the term arising
+% from \( \phi \) does not contribute to the sum because it is zero,
+% e.g., if \( \phi(1)=n \) then
+% \( t_{1,\phi(1)}t_{2,\phi(2)}\dots t_{n,\phi(n)}
+%    =0\cdot t_{2,\phi(2)}\dots t_{n,\phi(n)}=0 \).
+
+% So the above formula reduces to a sum over all permutations with 
+% two halves:~any contributing $\phi$ is the composition of a $\phi_1$ that
+% rearranges only \( 1,\dots,p \) 
+% and a $\phi_2$ that rearranges only \( p+1,\dots,p+q \).
+% Now, the distributive law 
+% and the fact that the signum of a composition is the product
+% of the signums gives that this
+% \begin{multline*}
+%    \deter{T_1}\cdot\deter{T_2}=
+%    \bigg(\sum_{\begin{subarray}{c}
+%                 \text{\scriptsize perms\ }\phi_1 \\
+%                 \text{\scriptsize of\ } 1,\dots,p
+%                \end{subarray}}
+%        \!\!\! t_{1,\phi_1(1)}\cdots t_{p,\phi_1(p)}\sgn(\phi_1) \bigg)  \\
+%    \cdot
+%    \bigg(\sum_{\begin{subarray}{c}
+%                 \text{\scriptsize perms\ }\phi_2 \\
+%                 \text{\scriptsize of\ } p+1,\dots,p+q
+%                \end{subarray}}
+%        \!\!\! t_{p+1,\phi_2(p+1)}\cdots t_{p+q,\phi_2(p+q)}\sgn(\phi_2) 
+%         \bigg)
+% \end{multline*}
+% equals
+%   $\deter{T}=
+%   \sum_{\text{\scriptsize contributing\ }\phi}
+%           t_{1,\phi(1)}t_{2,\phi(2)}\cdots t_{n,\phi(n)}\sgn(\phi)$.
+% \end{proof}
+
+% \begin{example}
+% \begin{equation*}
+%     \begin{vmat}[r]
+%        2  &0  &0  &0  \\
+%        1  &2  &0  &0  \\
+%        0  &0  &3  &0  \\
+%        0  &0  &0  &3
+%     \end{vmat}
+%    =\begin{vmat}[r]
+%        2  &0  \\
+%        1  &2
+%     \end{vmat}
+%     \cdot
+%     \begin{vmat}[r]
+%        3  &0  \\
+%        0  &3
+%     \end{vmat}
+%    =36
+% \end{equation*}
+% \end{example}
+
+% From \nearbylemma{le:DetIsProdOfSubDets} we conclude that
+% if two subspaces 
+% are complementary and \( t \)~invariant then
+% \( t \) is one-to-one if and only if its 
+% restriction %\appendrefs{restrictions}
+% to each subspace is nonsingular.
+
+% Now for the promised third, and final, step to the main result.
+
+% \begin{lemma}
+% If a linear transformation \( \map{t}{V}{V} \) has the 
+% characteristic polynomial
+% \( (x-\lambda_1)^{p_1}\dots(x-\lambda_k)^{p_k} \) then
+% (1)~\( V=\gennullspace{t-\lambda_1}\directsum\cdots
+%              \directsum\gennullspace{t-\lambda_k} \) 
+% and
+% (2)~\( \dim(\gennullspace{t-\lambda_i})=p_i  \).
+% \end{lemma}
+
+% \begin{proof}
+% This argument consists of proving
+% two preliminary claims, followed by proofs of clauses~(1) and~(2).
+
+% The first claim is that
+% \( \gennullspace{t-\lambda_i}\intersection\gennullspace{t-\lambda_j}=\set{\zero} \)
+% when \( i\neq j \).
+% By \nearbylemma{le:tInvIfftMinLambdaInv}
+% both \( \gennullspace{t-\lambda_i} \) and 
+% \( \gennullspace{t-\lambda_j} \) are \( t \)~invariant.
+% The intersection of \( t \) invariant subspaces is \( t \)
+% invariant and so the restriction of \( t \) to
+% \( \gennullspace{t-\lambda_i}\intersection\gennullspace{t-\lambda_j} \)
+% is a linear transformation.
+% Now,
+% $t-\lambda_i$ is nilpotent on \( \gennullspace{t-\lambda_i} \)
+% and  
+% $t-\lambda_j$ is nilpotent on \( \gennullspace{t-\lambda_j} \),
+% so both \( t-\lambda_i \) and \( t-\lambda_j \) are 
+% nilpotent on the intersection.
+% Therefore by \nearbylemma{le:NilIffOnlyEigenZero} and the observation
+% following it, if \( t \) has any eigenvalues on the intersection 
+% then the ``only'' eigenvalue is both
+% \( \lambda_i \) and \( \lambda_j \).
+% This cannot be, so the restriction has no eigenvalues:
+% \( \gennullspace{t-\lambda_i}\intersection\gennullspace{t-\lambda_j} \)
+% is the trivial space
+% (\nearbylemma{le:MapNonTrivSpHasEigen} shows that 
+% the only transformation that is without any eigenvalues is 
+% the transformation on the trivial space).
+
+% The second claim is that  when \( i\neq j \) then
+% \( \gennullspace{t-\lambda_i} \subseteq \genrangespace{t-\lambda_j} \).
+% To verify it we will show that \( t-\lambda_j \) is one-to-one on
+% \( \gennullspace{t-\lambda_i} \).
+% This will imply, 
+% since \( \gennullspace{t-\lambda_i} \) is \( t-\lambda_j \) invariant
+% by \nearbylemma{le:tInvIfftMinLambdaInv},
+% that the map \( t-\lambda_j \) is an automorphism of the subspace
+% \( \gennullspace{t-\lambda_i} \),
+% and therefore that 
+% \( \gennullspace{t-\lambda_i} \)  is a subset of each
+% \( \rangespace{t-\lambda_j} \), \( \rangespace{(t-\lambda_j)^2} \), etc.
+% To verify that the map is one-to-one,
+% suppose that \( \vec{v}\in\gennullspace{t-\lambda_i} \) is in the 
+% null space of \( t-\lambda_j \), aiming to show that \( \vec{v}=\zero \).
+% Consider the map 
+% \( [(t-\lambda_i)-(t-\lambda_j)]^n \).
+% On the one hand, the only
+% vector that \( (t-\lambda_i)-(t-\lambda_j)=\lambda_i-\lambda_j \) maps to 
+% zero is the zero vector itself.
+% On the other hand, as in the proof of 
+% \nearbylemma{le:PolyMapsFactor}
+% the binomial expansion gives this.
+% \begin{equation*}
+%   (t-\lambda_i)^n(\vec{v})
+%     +\binom{n}{1}(t-\lambda_i)^{n-1}(t-\lambda_j)^1(\vec{v})
+%     +\binom{n}{2}(t-\lambda_i)^{n-2}(t-\lambda_j)^2(\vec{v})
+%     +\cdots 
+% \end{equation*}
+% The first term is the zero vector 
+% because \( \vec{v}\in\gennullspace{t-\lambda_i} \).
+% The remaining terms are the zero vector because
+% \( \vec{v} \) is in the null space of \( t-\lambda_j \).
+% Therefore \( \vec{v}=\zero \). 
+
+% With those two preliminary claims done 
+% we can prove clause~(1), that the space is the direct sum of the
+% generalized null spaces.
+% By Corollary~III.\ref{GenRngNullDirSumToSp} the space is the direct sum
+% \( V=\gennullspace{t-\lambda_1}\directsum\genrangespace{t-\lambda_1} \).
+% By the second claim
+% \( \gennullspace{t-\lambda_2}\subseteq\genrangespace{t-\lambda_1} \)
+% and so we can get a basis for \( \genrangespace{t-\lambda_1} \) by
+% starting with a basis for \( \gennullspace{t-\lambda_2} \) and adding
+% extra basis elements taken from
+% \( \genrangespace{t-\lambda_1}\intersection\genrangespace{t-\lambda_2} \). 
+% Thus \( V=\gennullspace{t-\lambda_1}\directsum\gennullspace{t-\lambda_2}
+%           \directsum 
+%        (\genrangespace{t-\lambda_1}\intersection\genrangespace{t-\lambda_2}) \).
+% Continuing in this way we get this.
+% \begin{equation*}
+%   V=\gennullspace{t-\lambda_1}\directsum\cdots\directsum\gennullspace{t-\lambda_k}
+%           \directsum 
+%        (\genrangespace{t-\lambda_1}\intersection\cdots\intersection\genrangespace{t-\lambda_k})
+% \end{equation*}
+% The first claim above shows that the final space is trivial. 
+
+% We finish by verifying clause~(2).
+% Decompose \( V \) as 
+% \( \gennullspace{t-\lambda_i}\directsum\genrangespace{t-\lambda_i} \)
+% %with basis $B=\cat{B_{\mathscr{N}}}{B_{\mathscr{R}}}$
+% and apply \nearbylemma{le:InvCompSubspSplitTrans}.
+% \begin{equation*}   \renewcommand{\arraystretch}{1.2}
+%   T=
+% %  \rep{t}{B,B}=
+%   \begin{pmat}{c|c}
+%       T_1   &Z_2  \\  \cline{1-2}
+%       Z_1   &T_2
+%    \end{pmat}
+%    \begin{array}{@{}l}
+%      \} \text{\ $\dim(\,\gennullspace{t-\lambda_i}\,)$-many rows}  \\
+%      \} \text{\ $\dim(\,\genrangespace{t-\lambda_i}\,)$-many rows}
+%    \end{array}
+% \end{equation*}
+% \nearbylemma{le:DetIsProdOfSubDets} says that
+% \( \deter{T-xI}=\deter{T_1-xI}\cdot\deter{T_2-xI} \).
+% By the uniqueness clause of the Fundamental Theorem of Algebra, 
+% Theorem~I.\ref{th:FundThmAlg},
+% the determinants of the blocks have the same factors as the
+% characteristic polynomial
+% \( \deter{T_1-xI}=(x-\lambda_1)^{q_1}\cdots(x-\lambda_z)^{q_k} \)
+% and
+% \( \deter{T_2-xI}=(x-\lambda_1)^{r_1}\cdots(x-\lambda_z)^{r_k} \),
+% where
+% \( q_1+r_1=p_1 \), \dots, \( q_k+r_k=p_k \).
+% We will finish by establishing that (i)~$q_j=0$ for all $j\neq i$,
+% and (ii)~$q_i=p_i$.
+% Together these prove clause~(2) because they show that the degree of 
+% the polynomial $\deter{T_1-xI}$ is $q_i$ and
+% the degree of that polynomial equals 
+% the dimension of the
+% generalized null space $\gennullspace{t-\lambda_i}$. 
+
+% For (i),
+% because the restriction of \( t-\lambda_i \) to \( \gennullspace{t-\lambda_i} \)
+% is nilpotent on that space,
+% $t$'s only eigenvalue on that space is \( \lambda_i \),
+% by \nearbylemma{cor:tMinLambdaNilpotent}.
+% So $q_j=0$ for $j\neq i$.
+
+% For (ii),
+% consider the restriction of \( t \) to \( \genrangespace{t-\lambda_i} \).
+% By Lemma~III.\ref{lem:RestONeToOne}, the map
+% \( t-\lambda_i \) is one-to-one on
+% \( \genrangespace{t-\lambda_i} \) and so \( \lambda_i \) is not an
+% eigenvalue of \( t \) on that subspace.
+% Therefore \( x-\lambda_i \) is not a factor of \( \deter{T_2-xI} \),
+% so $r_i=0$, and so \( q_i=p_i \).
+% \end{proof}
+
+% Recall the goal of this chapter, to give a canonical form for matrix similarity.
+% That result is next.
+% It 
+% translates the above steps into matrix terms.
+
+% \begin{theorem}
+% \index{Jordan form!represents similarity classes}\index{similar!canonical form}
+% \index{canonical form!for similarity}\index{transformation!Jordan form for}
+% Any square matrix is similar to one in \definend{Jordan form}
+% \begin{equation*}
+%   \begin{mat}
+%     J_{\lambda_1}  &            &\text{\textit{--zeroes--}}                 \\
+%                &J_{\lambda_2}                                              \\
+%                &     &\ddots                                     \\
+%                 &     &                           &J_{\lambda_{k-1}} &     \\
+%                &     &\text{\textit{--zeroes--}} &            &J_{\lambda_{k}}
+%   \end{mat}
+% \end{equation*}
+% where each \( J_{\lambda} \) is the Jordan block associated with an
+% eigenvalue $\lambda$ of the original matrix (that is, each \( J_{\lambda} \)
+% is all zeroes except for
+% \( \lambda \)'s down the diagonal and some subdiagonal ones).
+% \end{theorem}
+
+% \begin{proof}
+% Given an \( \nbyn{n} \) matrix \( T \), consider the linear map
+% \( \map{t}{\C^n}{\C^n} \) that it represents
+% with respect to the standard bases.
+% Use the prior lemma to write
+% \( \C^n=\gennullspace{t-\lambda_1}\directsum\cdots
+%         \directsum\gennullspace{t-\lambda_k} \)
+% where \( \lambda_1 \), \ldots, \(\lambda_k \) are the eigenvalues of \( t \).
+% Because each \( \gennullspace{t-\lambda_i} \)  is \( t \) invariant,
+% \nearbylemma{le:InvCompSubspSplitTrans} and the prior lemma show
+% that \( t \) is represented by a matrix that is all zeroes except for square
+% blocks along the diagonal.
+% To make those blocks into Jordan blocks, pick each \( B_{\lambda_i} \)
+% to be a string basis for the action of \( t-\lambda_i \) on
+% \( \gennullspace{t-\lambda_i} \). 
+% \end{proof}
+
+% \begin{corollary}
+% Every square matrix is similar to the sum of a diagonal matrix and a nilpotent
+% matrix.
+% \end{corollary}
+
+\begin{remark}
+严格地说，要作为矩阵相似\index{representative!of similarity classes}
+的标准形，Jordan 形式必须是唯一的。
+也就是说，对任意方阵，应当有且仅有一个与它相似的矩阵处于
+Jordan 形式。
+我们可以让定理中的形式唯一化：
+将各个 Jordan 块按特征值的某个指定顺序排列，
+然后再将副对角线上的 1 构成的块从最长到最短排列。
+在下面的例子中，我们不讨论这一点。
+\end{remark}
+
+% As in the nilpotent cases earlier in this section,
+% to find the structure of the basis 
+% associated with~$T_3$ we apply
+% the maps $t-3$ and~$(t-3)^2$, the maps $t-2$ and~$(t-2)^2$, and 
+% the map~$t+1$.
+% For instance,
+% the basis has a total of three elements that are mapped to~$\zero$
+% when we apply $t-3$ twice.
+% It has two elements
+% that are sent to~$\zero$ on two applications of~$t-2$.
+% And it has one element sent to~$\zero$ by~$t+1$.
+% That is, to find the elements of this basis we want to
+% iterate the maps, so we look in  
+% the generalized null spaces $\gennullspace{t-3}$, $\gennullspace{t-2}$,
+% and~$\gennullspace{t+1}$.
+
+接下来的例子都从一个矩阵出发，
+算出与之相似的一个 Jordan 形式矩阵。
+在此之前，我们再说明一点。
+例如，在下面的第一个例子中我们将求出特征值为 $2$
+与~$6$。
+为挑选与~\( 2\) 相关的基元素，我们要求出
+$t-2$、\( (t-2)^2 \) 与~\( (t-2)^3\) 的零空间。
+也就是说，为找出这个例子的基中的元素，我们要在广义零空间
+$\gennullspace{t-2}$ 与~$\gennullspace{t-6}$ 中寻找。
+但我们必须确保对每个映射的计算不会影响对另一个的计算。
+
+% So before those examples, 
+% suppose that $\map{t}{\C^n}{\C^n}$ is a transformation and 
+% that $\lambda\in\C$ is an eigenvalue.
+% Note that the generalized null space~$\gennullspace{t-\lambda}$ 
+% and range space~$\genrangespace{t-\lambda}$ are $t-\lambda$
+% invariant spaces.
+% For the generalized null space, 
+% if $\vec{v}\in\gennullspace{t-\lambda}$ then 
+% $(t-\lambda)^n(\vec{v})=\zero$ and it follows that
+% $(t-\lambda)^n(\,(t-\lambda)(\vec{v})\,)=(t-\lambda)^{n+1}(\vec{v})=\zero$ 
+% also. 
+% As to the generalized range space,
+% Lemma Five.III.\ref{le:RangeAndNullChains} and its proof show that
+% $\genrangespace{t-\lambda}
+%   =\rangespace{(t-\lambda)^n}
+%   =\rangespace{(t-\lambda)^{n+1}}$ 
+% and so $\vec{v}\in\genrangespace{t-\lambda}$ implies that
+% $(t-\lambda)(\vec{v})\in\genrangespace{t-\lambda}$ also.
+
+% Before the theorem, we first will show that applying $t-\lambda$ 
+% won't do something awkward to the basis elements not in 
+% $\gennullspace{t-\lambda}$.
+% For instance, in the prior example we want that applying
+% $t-3$ won't do something awkward to~$\vec{\beta}_4$, 
+% $\vec{\beta}_5$, and~$\vec{\beta}_6$. 
+% Here, awkward means that
+% where \( \map{t}{V}{V} \) is a linear transformation,
+% the restriction\appendrefs{restrictions of functions}\spacefactor=1000  %
+% of \( t \) to a subspace \( M\subseteq V \) 
+% need not be a linear transformation on \( M \):~there
+% may be an \( \vec{m}\in M \)
+% with \( t(\vec{m})\not\in M \). 
+% An example is where $t$ is the transformation 
+% that rotates the plane by
+% a quarter turn and $M$ is the $x=y$ line; the vector $\binom{1}{1}$
+% is rotated away from the subspace.
+% We next show this does not happen in the special case of 
+% eigenvalues;~if $j\neq i$ then 
+% application of \( t-\lambda_j \) leaves 
+% \( t-\lambda_i \)'s part unchanged.
+
+\begin{definition} \label{def:invariant}
+设 \( \map{t}{V}{V} \) 是一个变换。
+若子空间 \( M\subseteq V \) 满足：只要 \( \vec{m}\in M \) 就有
+\( t(\vec{m})\in M \)（简记为 \( t(M)\subseteq M \)），
+则称它是 \definend{$t$ 不变的}%
+\index{invariant subspace}\index{subspace!invariant}
+\end{definition}
+
+\begin{lemma} \label{le:tInvIfftMinLambdaInv}
+子空间是 \( t \) 不变的当且仅当
+它对任意标量 \( \lambda \) 都是 \( t-\lambda \) 不变的。
+特别地，
+若 \( \lambda_i,\lambda_j\in\C \) 是
+\( t \) 的两个不相等的特征值，则
+空间 \( \gennullspace{t-\lambda_i} \)
+与 \( \genrangespace{t-\lambda_i} \)
+都是 \( t-\lambda_j \) 不变的。
+\end{lemma}
+
+\begin{proof}
+第一句中从右到左的方向是平凡的：~若子空间对
+所有标量 $\lambda$ 都是 $t-\lambda$ 不变的，
+则取 $\lambda=0$
+即知它是 $t$ 不变的。
+对于另一个方向，设子空间是 $t$~不变的，
+即若 $\vec{m}\in M$ 则 $t(\vec{m})\in M$，并设 $\lambda$ 为
+一个标量。
+子空间 $M$ 对线性组合封闭，因此若
+$t(\vec{m})\in M$ 则 $t(\vec{m})-\lambda\vec{m}\in M$。
+于是若 $\vec{m}\in M$ 则 $(t-\lambda)\,(\vec{m})\in M$。
+
+第二句由第一句得到。
+这两个空间是 $t-\lambda_i$~不变的，所以它们是 \( t \)~不变的。
+再用一次第一句就得到
+它们也是 \( t-\lambda_j \) 不变的。
+\end{proof}
+
+\begin{example} \label{ex:FirstJordForm}
+矩阵
+\begin{equation*}
+   T=
+   \begin{mat}[r]
+     2  &0  &1  \\
+     0  &6  &2  \\
+     0  &0  &2
+   \end{mat}
+\end{equation*}
+的特征多项式为 \( (x-2)^2(x-6) \)。
+\begin{equation*}
+   |T-xI|=
+   \begin{vmat}
+     2-x  &0    &1  \\
+     0    &6-x  &2  \\
+     0    &0    &2-x
+   \end{vmat}
+   =(x-2)^2(x-6)
+\end{equation*}
+我们先处理特征值~$2$。
+计算 $T-2I$ 的幂以及相应的零空间与零度
+都是常规计算。
+（回忆我们的约定：$T$ 表示关于标准基的
+映射 $\map{t}{\C^3}{\C^3}$。）
+\begin{center}
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{r|ccc} 
+    \multicolumn{1}{c}{\( p \)}  
+         &\( (T-2I)^p \) &\( \nullspace{(t-2)^p}  \) 
+         &\textit{零度}                                            \\  
+    \hline
+    \( 1 \)
+    &\matrixvenlarge{\begin{mat}[r]
+          0  &0  &1  \\
+          0  &4  &2  \\
+          0  &0  &0
+        \end{mat}}
+    &\( \set{\matrixvenlarge{\colvec{x \\ 0 \\ 0}}
+         \suchthat x\in\C}  \)  
+    &$1$                                                   \\
+    \( 2 \)
+    &\matrixvenlarge{\begin{mat}[r]
+          0  &0  &0  \\
+          0  &16 &8  \\
+          0  &0  &0
+        \end{mat}}
+    &\( \set{\matrixvenlarge{\colvec{x \\ -z/2 \\  z}}
+               \suchthat x,z\in\C}  \) 
+    &$2$                                                   \\
+    \( 3 \)
+    &\matrixvenlarge{\begin{mat}[r]
+          0  &0  &0  \\
+          0  &64 &32 \\
+          0  &0  &0
+        \end{mat}}
+    &\textit{--同上--}
+    &\textit{--同上--}
+  \end{tabular}
+\end{center}
+所以广义零空间 $\gennullspace{t-2}$ 的维数为二。
+我们知道 $t-2$ 在这个子空间上的限制是幂零的。
+由零度的增长方式可知，$t-2$ 在某个链基上的作用是
+$\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\zero$。
+于是我们可以把这个限制表示成标准形
+\begin{equation*}
+  N_2=
+  \begin{mat}[r]
+    0  &0  \\
+    1  &0  
+  \end{mat}
+  =\rep{t-2}{B,B}
+  \qquad
+   B_2=\sequence{\colvec[r]{1 \\ 1 \\ -2},
+                 \colvec[r]{-2 \\ 0 \\ 0}}  
+\end{equation*}
+（也可以选取别的基）。
+因此，$t$ 在 $\gennullspace{t-2}$ 上的限制的作用
+就由这个 Jordan 块表示。
+\begin{equation*}
+  J_2=N_2+2I=\rep{t}{B_2,B_2}=
+  \begin{mat}[r]
+    2  &0  \\
+    1  &2
+  \end{mat}
+\end{equation*}
+
+第二个特征值是 $6$。
+对它的计算比较容易。
+因为 $x-6$ 在特征多项式中的幂是一次的，
+所以 $t-6$ 在 $\gennullspace{t-6}$ 上的限制
+必是幂零的，幂零指数为一
+（它不可能有小于一的指数，又因为 $x-6$ 是特征多项式中
+指数为一的因子，它也不可能有大于一的指数）。
+它在链基上的作用必是 $\vec{\beta}_3\mapsto\zero$，并且
+由于它是零映射，其标准形 $N_6$
+是 $\nbyn{1}$ 零矩阵。
+因此，$t$ 在 $\gennullspace{t-6}$ 上作用的
+标准形 $J_6$ 是单个元素为 $6$ 的
+$\nbyn{1}$ Jordan 块
+矩阵。
+至于基，我们可以取广义零空间中任意一个非零向量。
+\begin{equation*}
+   B_6=\sequence{\colvec[r]{0 \\ 1 \\ 0}}
+\end{equation*}
+
+把这两部分合在一起就得到，
+\( T \) 的 Jordan 形式是
+\begin{equation*}
+   \rep{t}{B,B}=
+   \begin{mat}[r]
+      2  &0  &0  \\
+      1  &2  &0  \\
+      0  &0  &6
+   \end{mat}
+\end{equation*}
+其中 \( B \) 是 $B_2$ 与 $B_6$ 的连接。
+（如果我们想谨慎地得到唯一的 Jordan 形式，那么
+比如我们可以重排基元素，让特征值
+按降序排列。
+不过，升序排列也可以。）
+\end{example}
+
+\begin{example}  \label{SecJordanForm}
+这个矩阵
+与前一个例子有相同的特征多项式
+\( (x-2)^2(x-6) \)。
+\begin{equation*}
+   T=
+   \begin{mat}[r]
+     2  &2  &1  \\
+     0  &6  &2  \\
+     0  &0  &2
+   \end{mat}
+\end{equation*}
+但这里
+$t-2$ 的作用在仅应用一次之后就稳定了\Dash 即
+$t-2$ 在 $\gennullspace{t-2}$ 上的限制是幂零指数为一的幂零映射。
+\begin{center}
+  % \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{r|ccc}
+    \multicolumn{1}{c}{\( p \)}  &\( (T-2I)^p \)  &\( \nullspace{(t-2)^p}  \)  
+       &\textit{零度} \\                                     \hline
+   \( 1 \)
+   &\matrixvenlarge{\begin{mat}[r]
+         0  &2  &1  \\
+         0  &4  &2  \\
+         0  &0  &0
+       \end{mat}}
+   &\( \set{\matrixvenlarge{\colvec{x \\ (-1/2)z \\ z}}\suchthat x,z\in\C}  \) 
+   &$2$                                                     \\
+   \( 2 \)
+   &\matrixvenlarge{\begin{mat}[r]
+         0  &8  &4 \\
+         0  &16 &8 \\
+         0  &0  &0
+       \end{mat}}
+   &\textit{--同上--}
+   &\textit{--同上--}
+ \end{tabular}
+\end{center}
+所以 $t-2$ 在广义零空间上的限制在某个链基上
+通过两条链起作用：$\vec{\beta}_1\mapsto\zero$ 
+以及 $\vec{\beta}_2\mapsto\zero$。
+我们有这个与特征值~$2$ 相关联的 Jordan 块。
+\begin{equation*}
+  J_2=
+  \begin{mat}[r]
+    2  &0  \\
+    0  &2  
+  \end{mat}
+\end{equation*}
+
+这样，与前一个例子的对比在于：虽然
+特征多项式告诉我们要考察
+$t-2$ 在其广义零空间上的作用，
+但特征多项式并没有完全描述 $t-2$ 的作用。
+我们必须做一些计算才能发现
+极小多项式是 \( (x-2)(x-6) \)。
+
+对于特征值 $6$，前一个例子中对第二个特征值的论证
+在这里同样适用：~因为 $x-6$ 在
+特征多项式中的幂是一次的，
+所以 $t-6$ 在 $\gennullspace{t-6}$ 上的限制
+必是幂零指数为一的幂零映射。
+或者，我们也可以直接算出来。
+\begin{center}
+  \begin{tabular}{r|ccc}
+    \multicolumn{1}{c}{\( p \)}  &\( (T-6I)^p \)  &\( \nullspace{(t-6)^p}  \)  
+       &\textit{零度} \\                                     \hline
+   \( 1 \)
+   &\matrixvenlarge{\begin{mat}[r]
+        -4  &2  &1  \\
+         0  &0  &2  \\
+         0  &0  &-4
+       \end{mat}}
+   &\( \set{\matrixvenlarge{\colvec{x \\ 2x \\ 0}}\suchthat x\in\C}  \) 
+   &$1$                                                     \\
+   \( 2 \)
+   &\matrixvenlarge{\begin{mat}[r]
+        16  &-8 &-4 \\
+         0  &0  &-8 \\
+         0  &0  &16
+       \end{mat}}
+   &\textit{--同上--}
+   &\textit{--同上--}
+ \end{tabular}
+\end{center}
+无论哪种方式，在 $\gennullspace{t-6}$ 上，限制 $t-6$ 的
+标准形 $N_6$ 都是 $\nbyn{1}$ 零矩阵。
+Jordan 块 $J_6$ 是元素为 $6$ 的 $\nbyn{1}$ 矩阵。
+ 
+因此，$T$ 的 Jordan 形式是一个对角矩阵，所以~\( t \) 是一个
+可对角化的变换。
+\begin{equation*}
+  \rep{t}{B,B}=
+  \begin{mat}[r]
+    2  &0  &0  \\
+    0  &2  &0  \\
+    0  &0  &6
+  \end{mat}
+  \qquad
+  B=\cat{B_2}{B_6}
+   =\sequence{\colvec[r]{1 \\ 0 \\ 0},
+              \colvec[r]{0 \\ 1 \\ -2},
+              \colvec[r]{1 \\ 2 \\ 0}}
+\end{equation*}
+在这三个基向量中，前两个来自
+$t-2$ 的零空间，第三个来自~$t-6$ 的零空间。
+\end{example}
+
+\begin{example} \label{ThirdJordanForm}
+对
+\begin{equation*}
+   T=
+   \begin{mat}[r]
+     -1  &4  &0  &0  &0  \\
+      0  &3  &0  &0  &0  \\
+      0  &-4 &-1 &0  &0  \\
+      3  &-9 &-4 &2  &-1 \\
+      1  &5  &4  &1  &4
+   \end{mat}
+\end{equation*}
+做一些计算可知，
+其特征多项式
+是 \( (x-3)^3(x+1)^2 \)。
+这张表
+\begin{center}
+  % \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{@{}r|c@{}c@{}c@{}}
+    \multicolumn{1}{c}{\( p \)}  
+            &\( (T-3I)^p \)  &\( \nullspace{(t-3)^p}  \)
+             &\textit{零度}   
+    \\  \hline
+    \( 1 \)
+    &\matrixvenlarge{\begin{mat}[r]
+         -4  &4  &0  &0  &0  \\
+          0  &0  &0  &0  &0  \\
+          0  &-4 &-4 &0  &0  \\
+          3  &-9 &-4 &-1 &-1 \\
+          1  &5  &4  &1  &1
+       \end{mat}}
+    &\( \set{\matrixvenlarge{\colvec{-(u+v)/2 \\
+                     -(u+v)/2 \\
+                      (u+v)/2 \\
+                       u      \\
+                       v}}\suchthat u,v\in\C}  \) 
+    &$2$                                            \\
+    \( 2 \)
+    &\matrixvenlarge{\begin{mat}[r]
+         16  &-16&0  &0  &0  \\
+          0  &0  &0  &0  &0  \\
+          0  &16 &16 &0  &0  \\
+        -16  &32 &16 &0  &0  \\
+          0  &-16&-16&0  &0
+       \end{mat}}
+    &\( \set{\matrixvenlarge{\colvec{ -z      \\
+                      -z      \\
+                       z      \\
+                       u      \\
+                       v}}\suchthat z,u,v\in\C}  \) 
+    &$3$                                              \\
+    \( 3 \)
+    &\matrixvenlarge{\begin{mat}[r]
+        -64  &64   &0   &0   &0  \\
+          0  &0    &0   &0   &0  \\
+          0  &-64  &-64 &0   &0  \\
+         64  &-128 &-64 &0   &0  \\
+          0  &64   &64  &0   &0
+       \end{mat}}
+    &\textit{--同上--}
+    &\textit{--同上--}
+  \end{tabular}
+\end{center}
+这表明 $t-3$ 在 $\gennullspace{t-3}$ 上的限制在某个
+链基上通过两条链起作用：
+$\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\zero$
+以及
+$\vec{\beta}_3\mapsto\zero$。
+
+对另一个特征值做类似的计算
+\begin{center}
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{r|ccc}
+    \multicolumn{1}{c}{\( p \)}  
+         &\( (T+1I)^p \)  &\( \nullspace{(t+1)^p}  \) 
+         &\textit{零度}  \\  
+    \hline
+    \( 1 \)
+    &\matrixvenlarge{\begin{mat}[r]
+          0  &4  &0  &0  &0  \\
+          0  &4  &0  &0  &0  \\
+          0  &-4 &0  &0  &0  \\
+          3  &-9 &-4 &3  &-1 \\
+          1  &5  &4  &1  &5
+       \end{mat}}
+    &\( \set{\matrixvenlarge{\colvec{-(u+v)   \\
+                       0      \\
+                      -v      \\
+                       u      \\
+                       v}}\suchthat u,v\in\C}  \)  
+    &$2$                                              \\
+    \( 2 \)
+    &\matrixvenlarge{\begin{mat}[r]
+          0  &16 &0  &0  &0  \\
+          0  &16 &0  &0  &0  \\
+          0  &-16&0  &0  &0  \\
+          8  &-40&-16&8  &-8 \\
+          8  &24 &16 &8  &24
+       \end{mat}}
+    &\textit{--同上--}
+    &\textit{--同上--}
+  \end{tabular}
+\end{center}
+得到 $t+1$ 在其广义零空间上的限制
+在某个链基上通过两条单独的链起作用：
+$\vec{\beta}_4\mapsto\zero$ 与 $\vec{\beta}_5\mapsto\zero$。
+
+因此
+\( T \) 相似于这个 Jordan 形式矩阵。
+\begin{equation*}
+   \begin{mat}[r]
+     -1  &0  &0  &0  &0  \\
+      0  &-1 &0  &0  &0  \\    
+      0  &0  &3  &0  &0  \\
+      0  &0  &1  &3  &0  \\
+      0  &0  &0  &0  &3  
+   \end{mat}
+\end{equation*}
+\end{example}
+
+
+
+
+

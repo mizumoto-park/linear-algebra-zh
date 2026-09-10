@@ -1,0 +1,819 @@
+\subsectionoptional{链}
+\index{nilpotent|(}
+\noindent\textit{本小节需要用到选读
+    小节「子空间的组合」中的内容。}
+
+前一小节表明，随着 \( j \) 的增大，
+$\rangespace{t^j}$ 的维数下降，
+而 $\nullspace{t^j}$ 的维数上升，
+并且此秩与零度在二者之间分摊了
+$V$ 的维数。
+我们还能说得更深入一些吗？
+这两者是否分拆出一个基\Dash 即
+\( V=\rangespace{t^j}\directsum\nullspace{t^j} \) 是否成立？
+
+对最小的幂 $j=0$ 答案是肯定的，因为
+\( V=\rangespace{t^0}\directsum\nullspace{t^0}=V\directsum\set{\zero} \)。
+在另一个极端情形，答案也是肯定的。
+
+\begin{lemma} \label{lem:RestONeToOne}
+对任意线性映射 \( \map{t}{V}{V} \)，
+函数 \( \map{t}{\genrangespace{t}}{\genrangespace{t}} \)
+是单射。
+\end{lemma}
+
+\begin{proof}
+设 $V$ 的维数为 $n$。
+因为 \( \rangespace{t^n}=\rangespace{t^{n+1}} \)，
+所以映射 \( \map{t}{\genrangespace{t}}{\genrangespace{t}} \)
+是保持维数的同态。
+因此，由定理~Three.II.\ref{th:OOHomoEquivalence} 可知它是单射。
+\end{proof}
+
+\begin{corollary} \label{GenRngNullDirSumToSp}
+设 \( \map{t}{V}{V} \) 是线性变换，
+则该空间是直和
+\( V=\genrangespace{t}\directsum\gennullspace{t} \)。
+也就是说，(1)~\( \dim(V)=\dim(\genrangespace{t})+\dim(\gennullspace{t}) \)
+与 (2)~\( \genrangespace{t}\intersection\gennullspace{t}=\set{\zero} \)
+均成立。
+\end{corollary}
+
+\begin{proof}
+设 $V$ 的维数为 $n$。
+我们来验证第二句话，它与第一句等价。
+第~(1) 条成立，因为任何变换都满足
+其秩加上其零度
+等于空间的维数，
+特别地，这对变换 $t^n$ 也成立。
+
+对于第~(2) 条，假设
+\( \vec{v}\in\genrangespace{t}\intersection\gennullspace{t} \)
+%               =\rangespace{t^n}\intersection\nullspace{t^n} \)
+我们来证明 $\vec{v}=\zero$。
+因为 \( \vec{v} \) 属于广义零空间，所以 \( t^n(\vec{v})=\zero \)。
+另一方面，由引理
+\( \map{t}{\genrangespace{t}}{\genrangespace{t}} \)
+是单射，而
+单射映射的复合仍是单射，所以
+\( \map{t^n}{\genrangespace{t}}{\genrangespace{t}} \) 是单射。
+单射线性映射只有把 \( \zero \) 映到
+\( \zero \)，故 \( t^n(\vec{v})=\zero \) 就意味着
+\( \vec{v}=\zero \)。
+\end{proof}
+
+\begin{remark}
+严格说来，映射 $\map{t}{V}{V}$ 与
+子空间上的映射 \( \map{t}{\genrangespace{t}}{\genrangespace{t}} \)
+在广义值域空间不等于 $V$ 时是有区别的，因为二者的定义域
+不同。
+但这个差别不大，因为
+后者就是前者
+限制 % \index{restriction}\index{map!restriction}\appendrefs{map restrictions}\spacefactor=1000 %
+在 $\genrangespace{t}$ 上
+所得的映射。
+\end{remark}
+
+对于介于 $j=0$ 与~$j=n$ 之间的幂，
+空间 $V$ 可能不是
+$\rangespace{t^j}$ 与 $\nullspace{t^j}$ 的直和。
+下面的例子表明，这两者可能有非平凡的交。
+
+\begin{example}   \label{FirstNilMap}
+考察 \( \C^2 \) 上的一个变换，
+它按如下方式作用于标准基的元素。
+\begin{equation*}
+  \colvec[r]{1 \\ 0}
+    \mapsunder{n}
+    \colvec[r]{0 \\ 1}
+  \quad
+  \colvec[r]{0 \\ 1}
+    \mapsunder{n}
+    \colvec[r]{0 \\ 0}
+  \qquad
+  N=\rep{n}{\stdbasis_2,\stdbasis_2}=\begin{mat}[r]
+    0  &0  \\
+    1  &0
+  \end{mat}
+\end{equation*}
+这是一个\definend{移位映射}\index{shift}\index{transformation!shift}，
+因为它把各个分量向下移位，最下面的分量被完全移
+出了向量。
+\begin{equation*}
+  \colvec{x \\ y}\mapsto \colvec{0 \\ x}
+\end{equation*}
+在该基上，这个映射的作用给出一条
+\definend{链}。\index{string!of basis vectors}
+\begin{equation*}
+  \begin{strings}{ccccc}
+     \colvec{1 \\ 0} &\mapsto &\colvec{0 \\ 1} &\mapsto &\colvec{0 \\ 0}
+  \end{strings}
+  \qquad\text{即}\qquad
+  \begin{strings}{ccccc}
+     \vec{e}_1 &\mapsto &\vec{e}_2 &\mapsto &\zero
+  \end{strings}
+\end{equation*}
+这个映射是让向量既属于值域空间
+又属于零空间的一种自然方式；链的图示表明
+下面这个向量正是这样一个向量。
+\begin{equation*}
+  \vec{e}_2=\colvec[r]{0 \\ 1}
+\end{equation*}
+另外可以观察到，虽然 $n$ 不是零映射，
+但函数 $n^2=\composed{n}{n}$
+是零映射。
+\end{example}
+
+\begin{example}  \label{NilIndexFourOnCFour}
+设线性函数 \( \map{\hat{n}}{\C^4}{\C^4} \)
+在 \( \stdbasis_4 \) 上的作用由下面的链
+给出
+\begin{equation*}
+  \begin{strings}{ccccccccc}
+     \vec{e}_1 &\mapsto &\vec{e}_2
+          &\mapsto &\vec{e}_3
+          &\mapsto &\vec{e}_4
+          &\mapsto &\zero
+  \end{strings}
+\end{equation*}
+则有
+\( \rangespace{\hat{n}}\intersection\nullspace{\hat{n}} \) 等于
+张成空间 \( \spanof{\set{\vec{e}_4}} \)，
+有 \( \rangespace{\hat{n}^2}\intersection\nullspace{\hat{n}^2}=
+  \spanof{\set{\vec{e}_3,\vec{e}_4}} \)，
+且有 \( \rangespace{\hat{n}^3}\intersection\nullspace{\hat{n}^3}=
+    \spanof{\set{\vec{e}_4}} \)。
+其矩阵表示除次对角线上的若干个
+$1$ 之外全为零。
+\begin{equation*}
+  \hat{N}=\rep{\hat{n}}{\stdbasis_4,\stdbasis_4}
+  =\begin{mat}[r]
+    0  &0  &0  &0 \\
+    1  &0  &0  &0 \\
+    0  &1  &0  &0 \\
+    0  &0  &1  &0 \
+  \end{mat}
+\end{equation*}
+虽然 $\hat{n}$ 不是零映射，
+$\hat{n}^2$ 与~$\hat{n}^3$ 也都不是，但函数
+$\hat{n}^4$ 是零函数。
+\end{example}
+
+\begin{example} \label{ThirdNilMap}
+变换可以经由不止一条链来作用。
+变换 \( t \) 按如下方式作用于基
+\( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_5} \)：
+\begin{equation*}
+   \begin{strings}{ccccccc}
+    \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto &\vec{\beta}_3
+        &\mapsto &\zero \\
+    \vec{\beta}_4 &\mapsto &\vec{\beta}_5 &\mapsto &\zero
+  \end{strings}
+\end{equation*}
+则比如说，$\vec{\beta}_3$ 位于
+其值域空间与零空间的交之中。
+从这些链可以清楚看出 $t^3$ 是零映射。
+这个映射的表示矩阵除了一些由次对角线上的
+$1$ 构成的块以外全为零
+\begin{equation*}
+  \rep{t}{B,B}=
+  \begin{pmat}{rrr|rr}
+     0  &0  &0  &0  &0  \\
+     1  &0  &0  &0  &0  \\
+     0  &1  &0  &0  &0  \\ \hline
+     0  &0  &0  &0  &0  \\
+     0  &0  &0  &1  &0
+  \end{pmat}
+\end{equation*}
+（其中的线条只是为了在视觉上组织这些块）。
+\end{example}
+
+在那些例子中，所有向量最终都被变换成
+零。
+
+\begin{definition} \label{def:nilpotent} \index{nilpotent!definition}
+\definend{幂零的}变换\index{transformation!nilpotent}%
+\index{nilpotent!transformation}
+是指某个幂为零映射的变换。
+\definend{幂零矩阵}\index{matrix!nilpotent}%
+\index{nilpotent!matrix}
+是指某个幂为零矩阵的矩阵。
+无论是哪种情形，最小的这样的幂称为\definend{幂零指数}。%
+\index{nilpotency, index of}\index{index of nilpotency}
+\end{definition}
+
+\begin{example}
+在\nearbyexample{FirstNilMap}中幂零指数是二。
+在\nearbyexample{NilIndexFourOnCFour}中它是四。
+在\nearbyexample{ThirdNilMap}中它是三。
+\end{example}
+
+\begin{example}
+求导映射 \( \map{d/dx}{\polyspace_2}{\polyspace_2} \)
+是幂零指数为三的幂零映射，因为任何二次多项式的三阶导数为零。
+这个映射的作用由链
+$x^2\mapsto 2x\mapsto 2\mapsto 0$
+描述，而取基 \( B=\sequence{x^2,2x,2} \)
+就给出这个表示。
+\begin{equation*}
+  \rep{d/dx}{B,B}=
+  \begin{mat}[r]
+     0  &0  &0  \\
+     1  &0  &0  \\
+     0  &1  &0
+  \end{mat}
+\end{equation*}
+\end{example}
+
+并非所有幂零矩阵都是除了由次对角线上的
+$1$ 构成的块以外全为零的矩阵。
+
+\begin{example} \label{ex:NilMatNotCanon}
+利用\nearbyexample{NilIndexFourOnCFour}中的矩阵 $\hat{N}$，
+以及这个由四个向量构成的基
+\begin{equation*}
+  D=\sequence{\colvec[r]{1 \\ 0 \\ 1 \\ 0},
+              \colvec[r]{0 \\ 2 \\ 1 \\ 0},
+              \colvec[r]{1 \\ 1 \\ 1 \\ 0},
+              \colvec[r]{0 \\ 0 \\ 0 \\ 1}}
+\end{equation*}
+一次换基操作
+得到了这个关于 \( D,D \) 的表示。
+\begin{equation*}
+  \begin{mat}[r]
+    1  &0  &1 &0 \\
+    0  &2  &1 &0 \\
+    1  &1  &1 &0 \\
+    0  &0  &0 &1
+  \end{mat}
+  \begin{mat}[r]
+    0  &0  &0 &0 \\
+    1  &0  &0 &0 \\
+    0  &1  &0 &0 \\
+    0  &0  &1 &0
+  \end{mat}
+  \begin{mat}[r]
+    1  &0  &1 &0 \\
+    0  &2  &1 &0 \\
+    1  &1  &1 &0 \\
+    0  &0  &0 &1
+  \end{mat}^{-1}\!\!
+  =
+  \begin{mat}[r]
+   -1  &0  &1   &0 \\
+   -3  &-2 &5   &0 \\
+   -2  &-1  &3  &0 \\
+    2  &1   &-2 &0
+  \end{mat}
+\end{equation*}
+新矩阵是幂零的；它的四次幂
+是零矩阵。
+我们可以用繁琐的计算来验证这一点，也可以
+只是注意到
+它是幂零的，因为它的四次幂
+相似于 \( \hat{N}^4 \)，即零矩阵，
+而相似于零矩阵的矩阵只有它自己。
+\begin{equation*}
+   (P\hat{N}P^{-1})^4
+   =P\hat{N}P^{-1}\cdot P\hat{N}P^{-1}\cdot P\hat{N}P^{-1}\cdot P\hat{N}P^{-1}
+   =P\hat{N}^4P^{-1}
+\end{equation*}
+\end{example}
+
+本小节的目标是证明
+前面的例题是典型性的，
+即每个幂零矩阵都相似于一个除了由次对角线上的
+$1$ 构成的块以外全为零的矩阵。
+
+\begin{definition}
+设 \( t \) 是 \( V \) 上的幂零变换。
+由 \( \vec{v}\in V \) 生成的
+\definend{\( t \)-链}\index{string}
+是序列
+\( \sequence{\vec{v},t(\vec{v}),\ldots,t^{k-1}(\vec{v})} \)，
+其中 $t^k(\vec{v})=\zero$。
+\definend{\( t \)-链基}\index{basis!string}\index{string!basis}
+是由若干条 \( t \)-链拼接而成的基。
+\end{definition}
+
+\noindent （这些链只有在互不相交时才能拼接成基，
+因为基中不能有重复的向量。）
+
+\begin{example}
+这个线性映射 \( \map{t}{\C^3}{\C^3} \)
+\begin{equation*}
+  \colvec{x \\ y \\ z}\mapsunder{t}\colvec{y \\ z \\ 0}
+\end{equation*}
+是幂零的，幂零指数为~$3$。
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+  \mapsunder{t}\colvec{y \\ z \\ 0}
+  \mapsunder{t}\colvec{z \\ 0 \\ 0}
+  \mapsunder{t}\colvec{0 \\ 0 \\ 0}
+\end{equation*}
+这是一条 $t$-链。
+\begin{equation*}
+  \sequence{\colvec{0 \\ 0 \\ 1},
+            \colvec{0 \\ 1 \\ 0},
+            \colvec{1 \\ 0 \\ 0}}
+\end{equation*}
+因为这个序列是一个基，
+所以它是空间~$\C^3$ 的一组 $t$-链基。
+\end{example}
+
+当前面的例子中的序列为
+$\sequence{\vec{\beta}_1,
+             \vec{\beta}_2,
+             \vec{\beta}_3}$ 时，
+另一条 $t$-链是
+$\sequence{\vec{\beta}_2,
+             \vec{\beta}_3}$。
+但当然，第二个序列并不是 $\C^3$ 的基。
+在这个意义上，$t$-链基中的 $t$-链必须是极大的。
+
+\begin{example}
+求导线性映射 \( \map{d/dx}{\polyspace_2}{\polyspace_2} \)
+是幂零的。
+序列
+\( \sequence{x^2, 2x, 2} \)
+是一条长度为~\( 3 \) 的 \( d/dx \)-链；
+特别地，这条链满足 $d/dx(2)=0$ 的要求。
+由于它是一个基，该序列
+是 \( \polyspace_2\) 的一个 \( d/dx \)-链基。
+\end{example}
+
+\begin{example}
+在\nearbyexample{ThirdNilMap}中，我们可以把 $t$-链
+$\sequence{\vec{\beta}_1,\vec{\beta}_2,\vec{\beta}_3}$ 与
+$\sequence{\vec{\beta}_4,\vec{\beta}_5}$
+拼接起来，作为 $t$ 的定义域的一组基。
+\end{example}
+
+\begin{lemma}  \label{le:LongestTowerIsIndex}
+如果一个空间有 \( t \)-链基，那么 $t$ 的幂零指数
+等于该基中最长链的长度。
+\end{lemma}
+
+\begin{proof}
+设该空间有一组 $t$-链基，且 $t$ 的幂零
+指数为~$k$。
+那么 \( t^k \) 把任何向量都送到 \( \zero \)。
+这必须包括
+每条链起始的向量，
+所以链基中每条链的长度至多为~$k$。
+
+反之，假设该空间有一组 $t$-链基~$B$，其中
+所有链的长度都短于~\( k \)。
+因为 $t$ 的幂零指数为~$k$，所以存在 \( \vec{v} \)
+使得 \( t^{k-1}(\vec{v})\neq\zero \)。
+把 $\vec{v}$ 表示为~$B$ 中元素的线性组合，
+并施以 \( t^{k-1} \)。
+我们假设了 \( t^{k-1} \) 把~$B$ 的每个元素都映到 \( \zero \)。
+于是它把线性组合中的每一项都映到 $\zero$，
+这与它不把 \( \vec{v} \) 映到 \( \zero \) 矛盾。
+\end{proof}
+
+我们将证明每个
+幂零映射都有一组相伴的链基，即由互不相交的链组成的基。
+% Then our goal theorem, that every
+% nilpotent matrix is similar to one that is
+% all zeros except for blocks of subdiagonal ones, is immediate,
+ %as in \nearbyexample{ThirdNilMap}.
+
+为了看清这一论证的主要思想，设想
+我们想构造一个反例：一个幂零的映射，
+但没有相伴的由互不相交的链组成的基。
+我们可能会想到构造类似
+\( \map{t}{\C^5}{\C^5} \) 且作用如下所示的映射。
+\begin{center}
+  \begin{minipage}{1in}
+  \setlength{\unitlength}{1pt}
+  $\begin{strings}{ccccc}
+     \begin{picture}(4,15)
+       \put(0,14){$\vec{e}_1$}
+       \put(0,-12){$\vec{e}_2$}
+     \end{picture}
+     &\begin{picture}(8,10)
+       \put(0,8){\rotatebox{-30}{$\mapsto$}}%
+       \put(0,-8){\rotatebox{30}{$\mapsto$}}
+     \end{picture}
+     &\vec{e}_3 &\mapsto &\zero  \\[4ex]
+     \vec{e}_4 &\mapsto &\vec{e}_5 &\mapsto &\zero
+  \end{strings}$
+  \end{minipage}
+  \hspace*{3em}
+  $\rep{t}{\stdbasis_5,\stdbasis_5}=
+  \begin{mat}[r]
+    0  &0  &0  &0  &0  \\
+    0  &0  &0  &0  &0  \\
+    1  &1  &0  &0  &0  \\
+    0  &0  &0  &0  &0  \\
+    0  &0  &0  &1  &0
+  \end{mat}$
+\end{center}
+但是，所示基不是互不相交的这一事实并不意味着
+不存在另一个由互不相交的链组成的基。
+
+为了给这个映射构造这样一个基，
+我们首先要找出它的链的数目与长度。
+注意到 $t$ 的幂零指数是二。
+\nearbylemma{le:LongestTowerIsIndex} 表明，在一组互不相交的链基中
+至少有一条链的长度为二。
+基元素共有五个，所以如果存在互不相交的链基，
+那么这个映射的作用方式必是下面两者之一。
+\begin{equation*}
+  \begin{strings}{ccccc}
+    \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto &\zero  \\
+    \vec{\beta}_3 &\mapsto &\vec{\beta}_4 &\mapsto &\zero  \\
+    \vec{\beta}_5 &\mapsto &\zero
+  \end{strings}
+  \hspace*{3em}
+  \begin{strings}{ccccc}
+    \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto &\zero  \\
+    \vec{\beta}_3 &\mapsto &\zero   \\
+    \vec{\beta}_4 &\mapsto &\zero   \\
+    \vec{\beta}_5 &\mapsto &\zero
+  \end{strings}
+\end{equation*}
+现在是关键之处。
+具有左边那种作用的变换，
+其零空间的维数是三，因为被映到零的基向量
+正好是这么多。
+具有右边那种作用的变换的零空间
+维数是四。
+利用上面的矩阵表示，我们可以确定两种可能的形状中
+哪一个是正确的。
+\begin{equation*}
+  \nullspace{t}=
+  \set{\colvec{x \\ -x \\ z \\ 0 \\ r}\suchthat x,z,r\in\C }
+\end{equation*}
+它是三维的，
+这意味着在上面两种互不相交链基的形式中，\( t \) 的
+基是左边那一种。
+
+为了构造~$t$ 的一组链基，首先
+从 \( \rangespace{t}\intersection\nullspace{t} \) 中
+取 \( \vec{\beta}_2 \) 与 \( \vec{\beta}_4 \)。
+\begin{equation*}
+  \vec{\beta}_2=\colvec[r]{0 \\ 0 \\ 1 \\ 0 \\ 0}\qquad
+  \vec{\beta}_4=\colvec[r]{0 \\ 0 \\ 0 \\ 0 \\ 1}
+\end{equation*}
+（其他选择也是可能的，只需保证集合
+\( \set{\vec{\beta}_2,\vec{\beta}_4} \) 线性无关。）
+对于 \( \vec{\beta}_5 \)，从 \( \nullspace{t} \) 中取一个
+不在 \( \set{ \vec{\beta}_2,\vec{\beta}_4 } \) 的张成之中的向量。
+\begin{equation*}
+  \vec{\beta}_5=\colvec[r]{1 \\ -1 \\ 0 \\ 0 \\ 0}
+\end{equation*}
+最后，取 \( \vec{\beta}_1 \) 与 \( \vec{\beta}_3 \) 使得
+\( t(\vec{\beta}_1)=\vec{\beta}_2 \) 且
+\( t(\vec{\beta}_3)=\vec{\beta}_4 \)。
+\begin{equation*}
+  \vec{\beta}_1=\colvec[r]{0 \\ 1 \\ 0 \\ 0 \\ 0}\qquad
+  \vec{\beta}_3=\colvec[r]{0 \\ 0 \\ 0 \\ 1 \\ 0}
+\end{equation*}
+这样，我们就有了一组链基
+\( B=\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_5} \)，
+而关于这组基，
+$t$ 的矩阵具有由次对角线~$1$ 构成的块。
+\begin{equation*}
+  \rep{t}{B,B}=
+  \begin{pmat}{rr|rr|r}
+    0  &0  &0  &0  &0  \\
+    1  &0  &0  &0  &0  \\  \hline
+    0  &0  &0  &0  &0  \\
+    0  &0  &1  &0  &0  \\  \hline
+    0  &0  &0  &0  &0
+  \end{pmat}
+\end{equation*}
+
+\begin{theorem}
+\label{th:NilMapHasStrBas}
+任何幂零变换 $t$ 都有一组与之相伴的 \( t \)-链基。
+虽然这组基并不唯一，但链的数目
+与长度由 \( t \) 决定。
+\end{theorem}
+
+下面的图示说明了这个证明，其中描述了三类
+基向量。
+若它们属于零空间则画在方框中，
+否则画在圆圈中。
+\begin{equation*}
+   \begin{strings}{ccccccccccccccccccc}
+     \digitincirc{3}
+         &\mapsto &\digitincirc{1} &\mapsto
+         &\cdots &  &  &  &  &  &  &  &\cdots
+         &\mapsto &\digitincirc{1}
+         &\mapsto &\digitinsq{1} &\mapsto &\zero  \\[.75ex]
+     \digitincirc{3}
+         &\mapsto &\digitincirc{1} &\mapsto
+         &\cdots &  &  &  &  &  &  &  &\cdots
+         &\mapsto &\digitincirc{1}
+         &\mapsto &\digitinsq{1} &\mapsto &\zero  \\[.75ex]
+         &\smash{\vdotswithin{\mapsto}}  \\
+     \digitincirc{3}
+         &\mapsto &\digitincirc{1} &\mapsto
+         &\cdots &
+         &\mapsto &\digitincirc{1}
+         &\mapsto &\digitinsq{1} &\mapsto &\zero  \\[1ex]
+     \digitinsq{2} &\mapsto &\zero \\[.75ex]
+         &\smash{\vdotswithin{\mapsto}}  \\
+     \digitinsq{2} &\mapsto &\zero
+   \end{strings}
+\end{equation*}
+
+\begin{proof}
+固定一个向量空间 $V$。
+我们将对幂零指数作归纳论证。
+如果映射 $\map{t}{V}{V}$
+的幂零指数为~\( 1 \)，那么它是零映射，且任何基
+都是链基：$\vec{\beta}_1\mapsto\zero$，\ldots，
+$\vec{\beta}_n\mapsto\zero$。
+
+对于归纳步骤，假设该定理对任何幂零指数从 $1$ 直到且包括~\( k-1 \)（其中 $k>1$）
+的变换 $\map{t}{V}{V}$
+都成立，
+并考虑指数为~$k$ 的情形。
+
+使归纳得以进行的是这样一个观察：
+\( t \) 限制在值域空间~\( \rangespace{t} \) 上
+也是幂零的，幂零指数为 \( k-1 \)。
+于是应用归纳假设，得到
+\( \rangespace{t} \) 的一组链基，
+其中链的数目与长度
+由 \( t \) 决定。
+\begin{equation*}
+  B=\cat{\cat{\sequence{\vec{\beta}_1,t(\vec{\beta}_1),\dots,
+     t^{h_1}(\vec{\beta}_1)}}{
+  \cat{\sequence{\vec{\beta}_2,\ldots,t^{h_2}(\vec{\beta}_2)}}}{\cdots}}{
+  \sequence{\vec{\beta}_i,\ldots,t^{h_i}(\vec{\beta}_i)} }
+\end{equation*}
+我们用~$i$ 表示链的条数。
+在上面的图示中，这些就是第~\( 1 \) 类向量。
+
+取每条链中的最后一个向量，
+就得到交 \( \rangespace{t}\intersection\nullspace{t} \) 的
+一组基
+\( C=\sequence{t^{h_1}(\vec{\beta}_1),\dots,t^{h_i}(\vec{\beta}_i)} \)。
+这是因为 \( \rangespace{t} \) 中的成员映到零当且仅当
+它是那些映到
+零的基向量的线性组合。
+图示中这些向量画成方框里的 \( 1 \)。
+
+现在把 \( C \) 扩充为整个零空间 \( \nullspace{t} \) 的基。
+\begin{equation*}
+  \hat{C}=\cat{C}{\sequence{\vec{\xi}_1,\dots,\vec{\xi}_p}}
+\end{equation*}
+虽然 \( \vec{\xi} \) 们并不由 $t$ 唯一
+确定，但唯一确定的是它们的
+数目：~它等于
+\( \nullspace{t} \) 的维数减去
+\( \rangespace{t}\intersection\nullspace{t} \) 的维数。
+在图示中，$\vec{\xi}$ 们是第~\( 2 \) 类向量，
+因而 \( \hat{C} \) 就是画在方框中的向量的集合。
+
+最后，\( \cat{B}{\sequence{\vec{\xi}_1,\dots,\vec{\xi}_p}} \)
+是 \( \rangespace{t}+\nullspace{t} \) 的一组基。
+这是因为值域空间中的元素与零空间中的元素的
+和
+可以用 \( B \) 中的元素表示值域空间部分，
+而任何来自
+\( \nullspace{t}-\rangespace{t} \) 的部分则用 $\xi$ 们表示。
+注意到
+\begin{align*}
+  \dim\big(\rangespace{t}+\nullspace{t}\big)
+  &=
+  \dim (\rangespace{t})+\dim (\nullspace{t})
+    -\dim\big(\rangespace{t}\intersection\nullspace{t}\big)  \\
+  &=
+  \rank (t)+\nullity (t)-i          \\
+  &=
+  \dim (V)-i
+\end{align*}
+于是我们可以把基
+\( \cat{B}{\sequence{\vec{\xi}_1,\dots,\vec{\xi}_p}} \)
+扩充为整个 \( V \) 的 $t$-链基，
+只需再添加~\( i \) 个向量。
+为了造出这些向量，
+回忆 \( \vec{\beta}_1,\dots,\vec{\beta}_i \) 中的每一个
+都属于值域空间 \( \rangespace{t} \)，
+因此要用到的向量
+\( \vec{v}_1,\dots,\vec{v}_i\in V \) 满足
+\( t(\vec{v}_1)=\vec{\beta}_1,\dots,t(\vec{v}_i)=\vec{\beta}_i \)。
+验证这一扩充保持线性无关是
+\nearbyexercise{exer:NilMapWillHaveStrBas}。
+在图示中，\( \vec{v}_1,\dots,\vec{v}_i \) 就是那些 \( 3 \)。
+\end{proof}
+
+\begin{corollary} \label{cor:NilpotentMatCanonForm}
+\index{nilpotent!canonical form for}
+\index{transformation!nilpotent!canonical representative}
+\index{canonical form!for nilpotent matrices}
+每个幂零矩阵都相似于一个除了由次对角线上的
+$1$ 构成的块以外全为零的矩阵。
+也就是说，每个幂零映射关于某个基都可以由
+这样的矩阵表示。
+\end{corollary}
+
+这个形式在如下意义上是唯一的：如果一个幂零矩阵相似于两个
+这样的矩阵，那么这两个矩阵只是块的排列顺序不同。
+因此，只要我们把块按比如说从最长到最短的顺序排列，
+它就是幂零矩阵各相似类的
+一个标准形。
+
+\begin{example}
+矩阵
+\begin{equation*}
+  M=\begin{mat}[r]
+      1  &-1  \\
+      1  &-1
+    \end{mat}
+\end{equation*}
+的幂零指数为二，如下面的计算所示。
+\begin{center}
+  \begin{tabular}{c|cc}
+    \multicolumn{1}{c}{\textit{幂} \( p \)}  &\( M^p \)  &\( \nullspace{M^p}  \)   \\
+    \hline
+    \( 1 \)
+    &\(
+       M=\matrixvenlarge{\begin{mat}[r]
+         1  &-1  \\
+         1  &-1
+       \end{mat}}  \)
+    &\( \set{\matrixvenlarge{\colvec{x \\ x}}\suchthat
+                               x\in\C}  \)   \\
+    \( 2 \)
+    &\(  M^2=\matrixvenlarge{\begin{mat}[r]
+         0  &0   \\
+         0  &0
+       \end{mat}}  \)
+    &\( \C^2  \)
+  \end{tabular}
+\end{center}
+因为该矩阵是 $\nbyn{2}$ 的，它所表示的任何变换
+都作用在一个二维空间上。
+映射作用一次的零空间
+$\nullspace{m}$ 的维数为一，而
+作用两次的零空间 $\nullspace{m^2}$ 的维数为二。
+于是 $m$ 在某组链基上的作用是
+$\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\zero$，
+且该矩阵的标准形如下。
+\begin{equation*}
+  N=\begin{mat}[r]
+    0  &0  \\
+    1  &0
+  \end{mat}
+\end{equation*}
+
+我们可以具体给出这样一组链基，
+同时给出见证 $M$ 与~$N$ 矩阵相似的换基矩阵。
+假设 $\map{m}{\C^2}{\C^2}$ 满足：\( M \) 关于标准基
+表示它。
+（我们也可以取 $M$ 为关于某个其他基的表示，
+但标准基更方便。）
+取 \( \vec{\beta}_2\in\nullspace{m} \)。
+再取 \( \vec{\beta}_1 \)
+使得 \( m(\vec{\beta}_1)=\vec{\beta}_2 \)。
+\begin{equation*}
+  \vec{\beta}_2=\colvec[r]{1 \\ 1}
+  \qquad
+  \vec{\beta}_1=\colvec[r]{1 \\ 0}
+\end{equation*}
+对于换基矩阵，回忆一下相似示意图。
+\begin{equation*}
+  \begin{CD}
+    \C^2_{\wrt{\stdbasis_2}}      @>m>M>        \C^2_{\wrt{\stdbasis_2}}     \\
+    @V\scriptstyle\identity V\scriptstyle PV  @V\scriptstyle\identity V\scriptstyle PV \\
+    \C^2_{\wrt{B}}                 @>m>N>         \C^2_{\wrt{B}}
+  \end{CD}
+\end{equation*}
+标准形是 \( \rep{m}{B,B}=PMP^{-1} \)，其中
+\begin{equation*}
+   P^{-1} %=\bigl(\rep{\identity}{\stdbasis_2,B}\bigr)^{-1}
+         =\rep{\identity}{B,\stdbasis_2}
+         =\begin{mat}[r]
+            1  &1  \\
+            0  &1
+          \end{mat}
+   \qquad
+   P=(P^{-1})^{-1}
+         =\begin{mat}[r]
+            1  &-1  \\
+            0  &1
+          \end{mat}
+\end{equation*}
+而矩阵计算的验证是常规的。
+\begin{equation*}
+  \begin{mat}[r]
+    1  &-1  \\
+    0  &1
+  \end{mat}
+  \begin{mat}[r]
+    1  &-1  \\
+    1  &-1
+  \end{mat}
+  \begin{mat}[r]
+    1  &1  \\
+    0  &1
+  \end{mat}=
+  \begin{mat}[r]
+    0  &0  \\
+    1  &0
+  \end{mat}
+\end{equation*}
+%which does indeed describe the effect of $m$ on the string basis.
+\end{example}
+
+\begin{example} \label{ex:FiveByNilStrBas}
+这个矩阵
+\begin{equation*}
+  \begin{mat}[r]
+     0  &0  &0  &0  &0  \\
+     1  &0  &0  &0  &0  \\
+     -1 &1  &1  &-1 &1  \\
+     0  &1  &0  &0  &0  \\
+     1  &0  &-1 &1  &-1
+  \end{mat}
+\end{equation*}
+是幂零的，幂零指数为~$3$。
+% \newlength{\extramatrixvspace}
+% \setlength{\extramatrixvspace}{.75ex}
+% \newcommand{\matrixvenlarge}[1]{\raisebox{-0.5\height}{\vbox{
+%        \vspace*{\extramatrixvspace}
+%        \hbox{$#1$}
+%         \vspace*{\extramatrixvspace}
+%         }}}
+\begin{center}
+  \begin{tabular}{c|cc}
+    \multicolumn{1}{c}{\textit{幂} \( p \)}  &\( N^p \)  &\( \nullspace{N^p}  \)   \\
+    \hline
+    \( 1 \)
+    &\matrixvenlarge{
+         \begin{mat}[r]
+         0  &0  &0  &0  &0  \\
+         1  &0  &0  &0  &0  \\
+         -1 &1  &1  &-1 &1  \\
+         0  &1  &0  &0  &0  \\
+         1  &0  &-1 &1  &-1
+         \end{mat}}
+    &\(
+        \set{\matrixvenlarge{\colvec{0 \\ 0 \\ u-v \\ u \\ v}}
+           \suchthat u,v\in\C}  \)                      \\
+    \( 2 \)
+    &\(
+       \matrixvenlarge{\begin{mat}[r]
+         0  &0  &0  &0  &0  \\
+         0  &0  &0  &0  &0  \\
+         1  &0  &0  &0  &0  \\
+         1  &0  &0  &0  &0  \\
+         0  &0  &0  &0  &0
+       \end{mat}}  \)
+    &\(
+        \set{\matrixvenlarge{\colvec{0 \\ y \\ z \\ u \\ v}}
+                       \suchthat y,z,u,v\in\C}  \)  \\
+    \( 3 \)
+    &\textit{--零矩阵--}
+    &\( \C^5 \)
+  \end{tabular}
+\end{center}
+该表告诉我们任何链基的如下信息：~映射作用一次后的
+零空间
+维数为~二，所以有两个基向量直接映到零；
+作用两次后的零空间维数为四，
+所以又有两个基向量在第二次迭代时映到零；
+而
+作用三次后的零空间维数为~五，所以剩下的
+一个基向量经三步映到零。
+\begin{equation*}
+  \begin{strings}{ccccccc}
+    \vec{\beta}_1 &\mapsto &\vec{\beta}_2 &\mapsto &\vec{\beta}_3
+       &\mapsto &\zero  \\
+    \vec{\beta}_4 &\mapsto &\vec{\beta}_5 &\mapsto &\zero
+  \end{strings}
+\end{equation*}
+为了构造这样一个基，首先从
+\( \nullspace{n} \) 中取两个构成线性无关集的向量。
+\begin{equation*}
+   \vec{\beta}_3=\colvec[r]{0 \\ 0 \\ 1 \\ 1 \\ 0} \quad
+   \vec{\beta}_5=\colvec[r]{0 \\ 0 \\ 0 \\ 1 \\ 1}
+\end{equation*}
+然后添加 \( \vec{\beta}_2,\vec{\beta}_4\in\nullspace{n^2} \)，
+使得 \( n(\vec{\beta}_2)=\vec{\beta}_3 \) 且
+\( n(\vec{\beta}_4)=\vec{\beta}_5 \)。
+\begin{equation*}
+   \vec{\beta}_2=\colvec[r]{0 \\ 1 \\ 0 \\ 0 \\ 0} \quad
+   \vec{\beta}_4=\colvec[r]{0 \\ 1 \\ 0 \\ 1 \\ 0}
+\end{equation*}
+最后添加 \( \vec{\beta}_1 \)，
+使得 \( n(\vec{\beta}_1)=\vec{\beta}_2 \)。
+\begin{equation*}
+   \vec{\beta}_1=\colvec[r]{1 \\ 0 \\ 1 \\ 0 \\ 0}
+\end{equation*}
+\end{example}
+
+
+
+
+
+
+

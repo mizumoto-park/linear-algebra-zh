@@ -1,0 +1,775 @@
+% Chapter 4, Topic _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\topic{线性递推}
+\index{linear recurrence|(}
+\index{recurrence relation|(}
+
+1202 年，以 Fibonacci（斐波那契）之名为人熟知的
+比萨的 Leonardo 提出了这样一个问题。
+\begin{quotation}
+  \noindent 有人把一对兔子放进一个四周围墙的地方。
+  假设每对兔子每个月生出一对新兔子，而新生的兔子
+  从第二个月起便具有繁殖能力，
+  那么一年之内由这一对兔子可以繁殖出多少对兔子？
+\end{quotation}
+它超出了初等的种群指数增长模型，
+把新生个体有一段时间不具繁殖能力（这里是一个月）这一点也考虑进来。
+不过，它保留了其他一些简化假设，比如
+兔子在过了某个年龄之后便不再有繁殖能力。
+
+要知道下个月的兔子对数总和，
+我们把进入下个月时还活着的兔子对数，
+加上下个月将新出生的兔子对数。
+后者等于进入下个月时具有繁殖能力的兔子对数，
+也就是到下个月时已经存活至少两个月的兔子对数。
+\begin{equation*}
+  F(n)=F(n-1)+F(n-2)  \qquad \text{其中 $F(0)=0$，$F(1)=1$}
+  \tag{$*$}
+\end{equation*}
+左边是一个
+\definend{递推关系}。\index{recurrence}
+这个名称的由来是
+$F$ 出现在它自己的定义式中。
+右边是初始条件。
+由~($*$) 我们可以计算 $F(2)$、$F(3)$ 等，
+从而逐步得到 Fibonacci 问题的答案。
+\begin{center}
+  \begin{tabular}{r|ccccccccccccc}
+    \textit{月份}~$n$
+     &0  &1  &2  &3  &4  &5  &6  &7  &8  &9  &10  &11  &12  \\ \hline
+    \textit{对数}~$F(n)$
+     &0  &1  &1  &2  &3  &5  &8  &13  &21  &34  &55  &89  &144   
+  \end{tabular}
+\end{center}
+我们将利用线性代数得到一个公式，
+它无需先算出中间值 $F(2)$、$F(3)$ 等
+就能计算 $F(n)$。
+
+我们先把 ($*$) 写成矩阵形式。
+\begin{equation*}
+  \colvec{F(n) \\ F(n-1)}
+  =
+  \begin{mat}[r]
+    1  &1   \\
+    1  &0
+  \end{mat}
+  \colvec{F(n-1) \\ F(n-2)}
+  \qquad\text{其中 $\colvec{F(1) \\ F(0)}=\colvec{1 \\  0}$}
+\end{equation*}  
+记这个矩阵为 $T$，
+记分量为 $F(n)$ 与 $F(n-1)$ 的向量为 $\vec{v}_{n}$，
+则当 $n\geq 1$ 时 $\vec{v}_{n}=T^{n-1}\vec{v}_1$。
+如果将 $T$ 对角化，那么
+我们就有了计算它的幂的快速方法：~若 $T=PDP^{-1}$，则
+$T^n=PD^nP^{-1}$，而对角矩阵 $D$ 的 $n$ 次幂就是这样的对角矩阵，
+其对角元是 $D$ 的对角元各自的 $n$ 次幂。
+
+$T$ 的特征方程是 $\lambda^2-\lambda-1=0$。
+求根公式给出它的两个根为 $(1+\sqrt{5})/2$ 与
+$(1-\sqrt{5})/2$。
+（它们有时被称为"黄金比"；
+参见 \cite{Falbo}。）
+对角化给出下式。
+\begin{equation*}
+  \begin{mat}[r]
+    1  &1  \\
+    1  &0
+  \end{mat}
+  =\begin{mat}
+     \frac{1+\sqrt{5}}{2}  &\frac{1-\sqrt{5}}{2} \\
+     % \sfrac{1+\sqrt{5}}{2}  &\sfrac{1-\sqrt{5}}{2} \\
+     1                     &1
+   \end{mat}
+   \begin{mat}
+     \frac{1+\sqrt{5}}{2}  &0   \\
+     0                     &\frac{1-\sqrt{5}}{2}
+   \end{mat}
+   \begin{mat}
+     \frac{1}{\sqrt{5}}     &-(\frac{1-\sqrt{5}}{2\sqrt{5}})  \\
+     \frac{-1}{\sqrt{5}}    &\frac{1+\sqrt{5}}{2\sqrt{5}}       
+   \end{mat}
+\end{equation*} 
+引入向量并取 $n$ 次幂，我们得到
+\begin{multline*}
+  \colvec{F(n) \\ F(n-1)}
+  =\begin{mat}[r]
+    1  &1  \\
+    1  &0
+  \end{mat}^{n-1}
+  \colvec{f(1) \\ f(0)}                                          \\
+  =\begin{mat}
+     \frac{1+\sqrt{5}}{2}  &\frac{1-\sqrt{5}}{2} \\
+     1                     &1
+   \end{mat}
+   \begin{mat}
+     \left(\frac{1+\sqrt{5}}{2}\right)^{n-1}  &0   \\
+     0                                  &\left(\frac{1-\sqrt{5}}{2}\right)^{n-1}
+   \end{mat}
+   \begin{mat}
+     \frac{1}{\sqrt{5}}     &-(\frac{1-\sqrt{5}}{2\sqrt{5}})  \\
+     \frac{-1}{\sqrt{5}}    &\frac{1+\sqrt{5}}{2\sqrt{5}}       
+   \end{mat}
+  \colvec[r]{1 \\ 0}                                             
+\end{multline*}
+这个计算虽然难看，但并不难。
+\begin{align*}
+  \colvec{F(n) \\ F(n-1)}
+  &=\begin{mat}
+     \frac{1+\sqrt{5}}{2}  &\frac{1-\sqrt{5}}{2} \\
+     1                     &1
+   \end{mat}
+   \begin{mat}
+     \left(\frac{1+\sqrt{5}}{2}\right)^{n-1}  &0   \\
+     0                                  &\left(\frac{1-\sqrt{5}}{2}\right)^{n-1}
+   \end{mat}
+  \colvec{\frac{1}{\sqrt{5}} \\ -\frac{1}{\sqrt{5}}}       \\ 
+  &=\frac{1}{\sqrt{5}}
+    \begin{mat}
+     \frac{1+\sqrt{5}}{2}  &\frac{1-\sqrt{5}}{2} \\
+     1                     &1
+   \end{mat}
+  \colvec{\left(\frac{1+\sqrt{5}}{2}\right)^{n-1} \\ 
+          -\left(\frac{1-\sqrt{5}}{2}\right)^{n-1}}    \\    
+  &=\frac{1}{\sqrt{5}}
+  \colvec{\left(\frac{1+\sqrt{5}}{2}\right)^{n}  
+          -\left(\frac{1-\sqrt{5}}{2}\right)^{n}  \\
+          \left(\frac{1+\sqrt{5}}{2}\right)^{n-1}  
+          -\left(\frac{1-\sqrt{5}}{2}\right)^{n-1}}   
+\end{align*}
+我们要的是第一个分量。
+\begin{equation*}
+  F(n)=\frac{1}{\sqrt{5}}\left[\left(\frac{1+\sqrt{5}}{2}\right)^{n}
+                               -\left(\frac{1-\sqrt{5}}{2}\right)^{n}\right]
+\end{equation*}
+这个公式给出序列中任何一项的值，
+而不必先求出中间值。
+
+由于 $(1-\sqrt{5})/2\approx -0.618$
+的绝对值小于一，它的幂趋于零，所以
+$F(n)$ 的公式由它的第一项主导。
+尽管我们通过在开始具有繁殖能力之前
+加入一段延迟期而扩展了初等的
+种群增长模型，但我们
+得到的仍是一个渐近指数式的函数。
+
+一般地，一个
+\definend{$k$ 阶齐次线性递推关系}\index{recurrence}\index{linear recurrence!definition} 
+具有如下形式。
+\begin{equation*}
+  f(n)=a_{n-1}f(n-1)+a_{n-2}f(n-2)+\dots+a_{n-k}f(n-k)
+\end{equation*}
+这个递推关系是齐次的，
+因为它没有常数项，也就是说，我们可以把它改写为
+$0=-f(n)+a_{n-1}f(n-1)+a_{n-2}f(n-2)+\dots+a_{n-k}f(n-k)$。
+它是~$k$ 阶的，
+因为它用 $k$ 个此前的项来计算 $f(n)$。
+该关系与给出
+$f(0)$、\ldots、$f(k-1)$ 之值的
+初始条件\index{recurrence!initial conditions} 
+一起，完全确定一个序列，
+原因很简单：
+我们可以先计算 $f(k)$、$f(k+1)$ 等，再算出 $f(n)$。
+与 Fibonacci 的情形一样，我们将求得一个求解该递推的公式，
+它直接给出 $f(n)$。
+
+设 $V$ 是定义域为
+$\N=\set{0,1,2,\ldots}$、陪域为 $\C$ 的函数的集合。
+（在方便时，我们有时使用定义域 $\Z^+=\set{1,2,\ldots}$。）
+在通常的加法与
+标量乘法的意义下，即
+$f+g$ 是映射 $x\mapsto f(x)+g(x)$，
+$cf$ 是映射 $x\mapsto c\cdot f(x)$，
+这是一个向量空间。
+
+如果我们撇开一切初始条件，只考察递推本身，
+那么可能有许多函数满足该关系。
+例如，Fibonacci 递推——除初始值之外的每个值
+都是前两项之和——就为函数 $L$ 所满足，其前几个值
+为 $L(0)=2$、$L(1)=1$、$L(2)=3$、$L(3)=4$，
+以及 $L(4)=7$。
+
+取定一个~$k$ 阶齐次线性递推关系，
+考虑满足该关系（不带
+初始条件）的函数组成的子集 $S$。
+这个 $S$ 是 $V$ 的一个子空间。
+它非空，因为由齐次性，零函数是一个解。
+它对加法封闭，因为若 $f_1$ 与 $f_2$ 是解，则
+该式成立。
+\begin{multline*}
+  -(f_1+f_2)(n)+a_{n-1}(f_1+f_2)(n-1)+\dots+a_{n-k}(f_1+f_2)(n-k) \\  
+  \begin{aligned}
+    &=(-f_1(n)+\dots+a_{n-k}f_1(n-k))          \\
+    &\qquad\hbox{}+(-f_2(n)+\dots+a_{n-k}f_2(n-k))     \\
+    &=0+0=0
+  \end{aligned}
+\end{multline*}
+它对标量乘法也封闭。
+\begin{multline*}
+  -(rf_1)(n)+a_{n-1}(rf_1)(n-1)+\dots+a_{n-k}(rf_1)(n-k) \\  
+  \begin{aligned}
+    &=r\cdot (-f_1(n)+\dots+a_{n-k}f_1(n-k))   \\
+    &=r\cdot 0                                    \\
+    &=0
+  \end{aligned}
+\end{multline*}
+我们可以求出 $S$ 的维数。
+设 $k$ 是递推的阶，
+考虑这个从函数集合~$S$ 到
+$k$ 维高的向量集合的映射。
+\begin{equation*}
+  f 
+  \mapsto 
+  \colvec{f(0) \\ f(1) \\ \vdots \\ f(k-1)}
+\end{equation*}
+\nearbyexercise{exer:SeqToRnLinMap} 证明了这个映射是线性的。
+递推的任何一个解都由那 $k$ 个
+初始条件唯一确定，所以这个映射是单射且满射。
+因此它是一个同构，且 $S$ 的维数为 $k$。
+
+于是我们可以这样来描述~$k$ 阶线性齐次递推关系的
+解集：求出一个由
+$k$ 个线性无关的函数组成的基。
+为了造出这些函数，我们把
+递推写成矩阵形式。
+\begin{equation*}
+  \colvec{f(n) \\ f(n-1) \\ \vdots  \\ f(n-k+1)}
+  =
+  \begin{mat}
+    a_{n-1}  &a_{n-2}  &a_{n-3}  &\ldots  &a_{n-k+1} &a_{n-k}  \\
+    1    &0        &0        &\ldots  &0         &0        \\
+    0    &1        &0                                      \\
+    0    &0        &1                                      \\
+    \vdots &\vdots &         &\ddots  &           &\vdots  \\
+    0    &0        &0        &\ldots   &1          &0
+  \end{mat}
+  \colvec{f(n-1) \\ f(n-2) \\ \vdots  \\ f(n-k)}
+\end{equation*}
+将这个矩阵记为~$A$。
+我们要求它的特征函数，
+即 $A-\lambda I$ 的行列式。
+$\nbyn{2}$ 情形中的模式
+\begin{equation*}
+  \begin{mat}
+    a_{n-1}-\lambda  &a_{n-2} \\
+    1               &-\lambda
+  \end{mat}
+  =\lambda^2-a_{n-1}\lambda-a_{n-2}
+\end{equation*}
+以及 $\nbyn{3}$ 情形
+\begin{equation*}
+  \begin{mat}
+    a_{n-1}-\lambda  &a_{n-2}   &a_{n-3}  \\
+    1               &-\lambda  &0        \\
+    0               &1         &-\lambda
+  \end{mat}
+  =-\lambda^3+a_{n-1}\lambda^2+a_{n-2}\lambda+a_{n-3}
+\end{equation*}
+使我们预期，并且 \nearbyexercise{exer:CharEqnIsDeter} 也验证了：
+这就是特征方程。
+\begin{align*}
+  0 &=
+  \begin{vmat}
+    a_{n-1}-\lambda &a_{n-2}  &a_{n-3}  &\ldots  &a_{n-k+1} &a_{n-k}  \\
+    1              &-\lambda &0        &\ldots  &0         &0        \\
+    0              &1        &-\lambda                                      \\
+    0              &0        &1                                      \\
+    \vdots         &\vdots &         &\ddots   &           &\vdots  \\
+    0             &0        &0        &\ldots   &1          &-\lambda
+  \end{vmat}                                                           \\
+  &=\pm(-\lambda^k+a_{n-1}\lambda^{k-1}+a_{n-2}\lambda^{k-2}
+       +\dots+a_{n-k+1}\lambda+a_{n-k})
+\end{align*}
+这个 $\pm$ 对求根没有影响，
+所以我们把它去掉。
+我们称多项式
+$-\lambda^k+a_{n-1}\lambda^{k-1}+a_{n-2}\lambda^{k-2}
+       +\dots+a_{n-k+1}\lambda+a_{n-k}$
+与该递推关系相伴。\index{recurrence!associated polynomial}\index{polynomial!associated with recurrence}
+
+如果特征方程没有重根，
+那么该矩阵可对角化，
+于是原则上我们可以像 Fibonacci 情形那样得到 $f(n)$ 的公式。
+但由于我们知道解子空间的维数为~$k$，
+因此无需做对角化计算，只要
+我们能展示出 $k$ 个满足该关系的不同的
+线性无关函数。
+
+设 $r_1$、$r_2$、\ldots、$r_k$ 是互不相同的根，
+考虑以这些根的幂为值的函数，即从 $f_{r_1}(n)=r_1^n$ 到
+$f_{r_k}(n)=r_k^n$。
+\nearbyexercise{exer:SoltnsLinRecur} 证明
+每一个都是递推的解，并且它们组成一个
+线性无关集。
+% So given the homogeneous linear recurrence
+% $f(n+1)=a_nf(n)+\dots+a_{n-k}f(n-k)$
+% (that is, $0=-f(n+1)+a_nf(n)+\dots+a_{n-k}f(n-k)$)
+% we consider the associated equation
+% $0=-\lambda^k+a_n\lambda^{k-1}+\dots+a_{n-k+1}\lambda+a_{n-k}$.
+于是，如果相伴多项式的
+根互不相同，
+那么该关系的任何解都具有形式
+$f(n)=c_1r_1^n+c_2r_2^n+\dots+c_kr_k^n$，其中 $c_1, \dots, c_n$ 是一些标量。
+（重根的情形类似，但我们
+在这里不讨论；参见任何一本离散数学教材。）
+
+现在把初始条件引入。
+用它们解出 $c_1$、\ldots、$c_n$。
+例如，与 Fibonacci 关系相伴的多项式是
+$-\lambda^2+\lambda+1$，它的根是 $r_1=(1+\sqrt{5})/2$
+和 $r_2=(1-\sqrt{5})/2$，
+于是 Fibonacci 递推的任何解
+都具有形式 $f(n)=c_1((1+\sqrt{5})/2)^n+c_2((1-\sqrt{5})/2)^n$。
+取 $n=0$ 与 $n=1$ 时的 Fibonacci 初始条件
+\begin{equation*}
+  \begin{linsys}{2}
+    c_1               &+  &c_2               &=  &0  \\
+    (1+\sqrt{5}/2)c_1 &+  &(1-\sqrt{5}/2)c_2 &=  &1
+  \end{linsys}
+\end{equation*}
+解得 $c_1=1/\sqrt{5}$ 与 $c_2=-1/\sqrt{5}$，正如我们在上面求得的。
+
+最后我们考虑非齐次情形，
+其中关系具有形式
+$f(n+1)=a_nf(n)+a_{n-1}f(n-1)+\dots+a_{n-k}f(n-k)+b$，$b$ 为某个非零数。
+从齐次情形过渡过来，
+我们只需作一点小小的调整。
+
+这个经典例子做了说明：
+1883 年，Edouard Lucas 提出了
+Hanoi 塔\index{Tower of Hanoi}问题。
+\begin{quotation}
+  \noindent
+  在贝拿勒斯的大圣庙里，在标志世界中心的穹顶之下，
+  安放着一块铜板，铜板上固定着三根金刚石针，
+  每根高一腕尺，粗如蜜蜂的躯体。
+  开天辟地之时，
+  上帝在其中一根针上安放了六十四片纯金圆盘，最大的圆盘
+  放在铜板上，其余的圆盘越来越小，
+  直至最上面的一片。
+  这就是梵塔。
+  祭司们日夜不停地按照梵天一成不变的法则
+  把圆盘从一根金刚石针移到另一根上，
+  该法则要求值班的祭司一次
+  不得移动多于一片圆盘，
+  并且必须把这片圆盘放在一根针上，使得它下面
+  没有更小的圆盘。
+  当这六十四片圆盘就这样从创世时
+  上帝安放它们的那根针被移到另一根针上时，
+  塔、庙宇和婆罗门都将化为尘土，
+  随着一声霹雳，世界也将消失。
+  （\cite{DeParville} 的译文，转引自 \cite{Ball}。）
+\end{quotation}
+我们撇开"祭司们为什么不坐下歇一会儿、
+好让世界多存在一段时间"这个问题不谈，转而问
+需要移动圆盘多少次。
+在着手解决六十四片圆盘的问题之前，
+我们先考虑
+三片圆盘的问题。
+
+一开始，三片圆盘都在同一根针上。
+\begin{center}
+  \includegraphics{jc/mp/ch5.6}
+\end{center}
+经过三次移动——把小圆盘移到远端的针上，
+把中等大小的圆盘移到
+中间的针上，再把小圆盘移到中间的针上——
+我们就得到下图。
+\begin{center}
+  \includegraphics{jc/mp/ch5.7}
+\end{center}
+现在我们可以把大圆盘移到远端的针上。
+然后，为完成整个移动，我们对两片较小的
+圆盘重复这三步移动过程，这一次要让它们最终
+落在第三根针上、
+大圆盘的上面。
+
+这一移动序列是我们所能做到的最好结果。
+要以最少的次数移动最底下的圆盘，
+我们必须先把较小的圆盘移到中间的针上，
+然后移动大圆盘，
+最后把所有较小的圆盘从中间的针
+移到目标针上。
+由于这个最少次数就够了，我们得到如下递推。
+\begin{equation*}
+  T(n)=T(n-1)+1+T(n-1)=2T(n-1)+1 \qquad \text{其中 $T(1)=1$}
+\end{equation*} 
+下面是 $T$ 的前几个值。
+\begin{center}
+  \begin{tabular}{r|cccccccccc}
+    \textit{圆盘数}~$n$             
+       &1  &2  &3  &4  &5  &6     &7    &8    &9   &10  \\
+    \hline
+    \textit{移动次数}~$T(n)$ 
+       &1  &3  &7  &15  &31  &63  &127  &255  &511 &1023 
+  \end{tabular}
+\end{center}
+当然，这些数都比 2 的幂小一。
+为推导这一点，
+把原关系写成 $-1=-T(n)+2T(n-1)$。
+考虑 $0=-T(n)+2T(n-1)$，一个~$1$ 阶的线性齐次递推。
+它的相伴多项式是 $-\lambda+2$，
+有唯一的根 $r_1=2$。
+于是
+满足该齐次关系的函数具有形式 $c_12^n$。
+
+这就是齐次解。
+现在我们需要一个特解。
+由于非齐次关系 $-1=-T(n)+2T(n-1)$ 非常简单，
+我们可以一眼看出一个特解 $T(n)=-1$。
+递推
+$T(n)=2T(n-1)+1$（不带初始条件）
+的任何解都是齐次解与
+特解之和：$c_12^n-1$。
+现在，初始条件 $T(1)=1$ 给出 $c_1=1$，于是我们得到了
+生成上表的公式：~$n$ 片圆盘的 Hanoi 塔问题
+需要 $T(n)=2^n-1$ 次移动。
+
+在更复杂的情形下求特解，
+也许并不奇怪，
+也更加复杂。
+一份令人愉快且颇有收获、但具有挑战性的资料
+是 \cite{GrahamKnuthPatashnik}。
+关于 Hanoi 塔的更多内容，参见 \cite{Ball}、\cite{Gardner57}，
+以及 \cite{Hofstadter}。
+练习之后附有一些
+计算机代码。
+
+\begin{exercises}
+  \item 
+   多少个月后 Fibonacci 兔子对的数量
+   会超过一千？
+   一万呢？
+   一百万呢？
+   \begin{answer}
+     我们使用公式
+     \begin{equation*}
+       F(n)=\frac{1}{\sqrt{5}}\left[\left(\frac{1+\sqrt{5}}{2}\right)^{n}
+                               -\left(\frac{1-\sqrt{5}}{2}\right)^{n}\right]
+     \end{equation*}
+     如前面所观察到的，$(1+\sqrt{5})/2$ 大于一，
+     而 $(1+\sqrt{5})/2$ 的绝对值小于一。
+\begin{lstlisting}
+sage: phi = (1+5^(0.5))/2
+sage: psi = (1-5^(0.5))/2
+sage: phi
+1.61803398874989
+sage: psi
+-0.618033988749895       
+\end{lstlisting}
+     所以该表达式的值由第一项主导。
+     解 $1000=(1/\sqrt{5})\cdot ((1+\sqrt{5})/2)^n$ 给出
+     下式。
+\begin{lstlisting}
+sage: a = ln(1000*5^(0.5))/ln(phi)
+sage: a
+16.0271918385296
+sage: psi^(17)
+-0.000280033582072583       
+\end{lstlisting}
+   于是到十七次幂时，第二项的贡献已不足以
+   改变舍入的结果。
+   对于一万和一百万的计算，情况
+   更加极端。
+\begin{lstlisting}
+sage: b = ln(10000*5^(0.5))/ln(phi)
+sage: b
+20.8121638053112
+sage: c = ln(1000000*5^(0.5))/ln(phi)
+sage: c
+30.3821077388746    
+\end{lstlisting}
+   在这两种情形下，答案是 $21$ 和 $31$。
+   \end{answer}
+  \item 
+   求解下列各个齐次线性递推关系。
+   \begin{exparts}
+     \partsitem $f(n)=5f(n-1)-6f(n-2)$   
+     \partsitem $f(n)=4f(n-2)$   
+     \partsitem $f(n)=5f(n-1)-2f(n-2)-8f(n-3)$   
+   \end{exparts}
+   \begin{answer}
+    \begin{exparts}
+      \partsitem 
+        我们把该关系写成矩阵形式。
+        \begin{equation*}
+          \colvec{f(n) \\ f(n-1)}
+          =
+          \begin{mat}[r]
+            5  &-6  \\
+            1  &0
+          \end{mat}
+          \colvec{f(n-1) \\ f(n-2)}
+        \end{equation*}
+        这个矩阵的特征方程
+        \begin{equation*}
+          \begin{vmat}
+            5-\lambda &-6       \\
+            1         &-\lambda
+          \end{vmat}
+          =\lambda^2-5\lambda+6 
+        \end{equation*}
+        有根 $2$ 和 $3$。
+        任何形如
+        $f(n)=c_12^n+c_23^n$
+        的函数都满足该递推。
+      \partsitem 
+        该关系的矩阵表示是
+        \begin{equation*}
+          \colvec{f(n) \\ f(n-1)}
+          =
+          \begin{mat}[r]
+            0  &4  \\
+            1  &0  
+          \end{mat}
+          \colvec{f(n-1) \\ f(n-2)}
+        \end{equation*}
+        而特征方程
+        \begin{equation*}
+          \begin{vmat}
+            \lambda^2-2       
+          \end{vmat}
+          =(\lambda-2)(\lambda+2)
+        \end{equation*}
+        有两个根 $2$ 和 $-2$。
+        任何形如
+        $f(n)=c_12^n+c_2(-2)^n$
+        的函数都满足这个递推。
+      \partsitem 
+        用矩阵形式，该关系
+        \begin{equation*}
+          \colvec{f(n) \\ f(n-1) \\ f(n-2)}
+          =
+          \begin{mat}[r]
+            5  &-2  &-8  \\
+            1  &0  &0  \\
+            0  &1  &0
+          \end{mat}
+          \colvec{f(n-1) \\ f(n-2) \\ f(n-3)}
+        \end{equation*}
+        的特征方程有根 $-1$、$2$ 和 $4$。
+        任何形如
+        $c_1(-1)^n+c_22^n+c_34^n$ 的组合都是该递推的解。
+    \end{exparts} 
+   \end{answer}
+  \item \label{exer:SolvePartRecurSoltn} 
+    对前一练习中的各关系，给出带
+    下列初始条件的公式。
+    \begin{exparts}
+      \partsitem $f(0)=1$, $f(1)=1$
+      \partsitem $f(0)=0$, $f(1)=1$
+      \partsitem $f(0)=1$, $f(1)=1$, $f(2)=3$.      
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 该齐次递推的解是
+          $f(n)=c_12^n+c_23^n$。
+          代入 $f(0)=1$ 与 $f(1)=1$ 给出这个线性方程组。
+          \begin{equation*}
+            \begin{linsys}{2}
+              c_1 &+ &c_2   &= &1 \\
+             2c_1 &+ &3c_2  &= &1
+            \end{linsys}
+          \end{equation*}
+          一眼可见 $c_1=2$，$c_2=-1$。
+        \partsitem
+          该齐次递推的解是
+          $c_12^n+c_2(-2)^n$。
+          初始条件给出这个线性方程组。
+          \begin{equation*}
+            \begin{linsys}{2}
+              c_1 &+ &c_2  &= &0  \\
+             2c_1 &- &2c_2 &= &1
+            \end{linsys}
+          \end{equation*}
+          解为 $c_1=1/4$，$c_2=-1/4$。
+        \partsitem
+          该齐次递推有解
+          $f(n)=c_1(-1)^n+c_22^n+c_34^n$。
+          结合初始条件，我们得到这个线性方程组。
+          \begin{equation*}
+            \begin{linsys}{3}
+              c_1 &+  &c_2   &+  &c_3  &= &1 \\
+             -c_1 &+  &2c_2  &+  &4c_3  &= &1 \\
+              c_1 &+  &4c_2  &+  &16c_3  &= &3
+            \end{linsys}
+          \end{equation*}
+          其解为 $c_1=1/3$，$c_2=2/3$，$c_3=0$。
+      \end{exparts}
+    \end{answer}
+  \item \label{exer:SeqToRnLinMap}
+    验证在 $S$ 与 $\Re^k$ 之间给出的那个同构是线性映射。
+    % We argue above that this map is one-to-one.
+    % What is its inverse?
+    \begin{answer}
+      取定一个~$k$ 阶线性齐次递推。
+      设 $S$ 是满足该递推的
+      函数 $\map{f}{\N}{\C}$ 的集合。
+      考虑如下给出的函数 $\map{\Phi}{S}{\C^k}$。
+      \begin{equation*}
+        f\mapsunder{\Phi}\colvec{f(0) \\ f(1) \\ \vdots \\ f(k-1)}
+      \end{equation*}
+      这就证明了线性性。
+      \begin{multline*}
+        \Phi(a\cdot f_1+b\cdot f_2)
+        =
+        \colvec{af_1(0)+bf_2(0) \\ \vdots \\ af_1(k-1)+bf_2(k-1)}     \\
+        =
+        a\colvec{f_1(0) \\ \vdots \\ f_1(k-1)}
+        +
+        b\colvec{f_2(0) \\ \vdots \\ f_2(k-1)}
+        =a\cdot \Phi(f_1)+b\cdot \Phi(f_2)
+      \end{multline*}
+    \end{answer}
+  \item \label{exer:CharEqnIsDeter}
+    证明该矩阵的特征方程正如所述，也就是说，
+    它是与该关系相伴的多项式。
+    （\textit{提示：}沿最后一列展开
+    并使用归纳法即可。）
+    \begin{answer}
+      我们利用提示来证明这一点。
+      \begin{align*}
+        0 &=
+        \begin{vmat}
+          a_{n-1}-\lambda &a_{n-2}  &a_{n-3}  &\ldots  &a_{n-k+1} &a_{n-k}  \\
+          1              &-\lambda &0        &\ldots  &0         &0        \\
+          0              &1        &-\lambda                               \\
+          0              &0        &1                                      \\
+          \vdots         &\vdots &         &\ddots   &           &\vdots  \\
+          0             &0        &0        &\ldots   &1          &-\lambda
+        \end{vmat}                                                           \\
+        &=(-1)^{k-1}(-\lambda^k+a_{n-1}\lambda^{k-1}+a_{n-2}\lambda^{k-2}       
+               +\dots+a_{n-k+1}\lambda+a_{n-k})                      \\
+        &=\pm(-\lambda^k+a_{n-1}\lambda^{k-1}+a_{n-2}\lambda^{k-2}       
+               +\dots+a_{n-k+1}\lambda+a_{n-k})
+      \end{align*}
+      基础步骤是平凡的。
+      对于归纳步骤，
+      沿最后一列展开给出两个非零项。
+      \begin{equation*}
+        (-1)^{k-1}a_{n-k}\cdot 1
+        -\lambda\cdot
+        \begin{vmat}
+          a_{n-1}-\lambda &a_{n-2}  &a_{n-3}  &\ldots  &a_{n-k+1}  \\
+          1              &-\lambda &0        &\ldots  &0       \\
+          0              &1        &-\lambda                               \\
+          0              &0        &1                                      \\
+          \vdots         &\vdots &         &\ddots   &        \\
+          0             &0        &0        &\ldots   &1     
+        \end{vmat}                                                          
+      \end{equation*}
+      （该矩阵是方阵，所以 $-\lambda$
+      前面的符号是 $-1^{\text{偶}}$）。
+      应用归纳假设就得到想要的结果。
+      \begin{multline*}
+        =(-1)^{k-1}a_{n-k}\cdot 1                     \\
+        -\lambda\cdot
+         (-1)^{k-2}(-\lambda^{k-1}+a_{n-1}\lambda^{k-2}+a_{n-2}\lambda^{k-3}       
+               +\dots+a_{n-k+1}\lambda^0)
+      \end{multline*}
+    \end{answer}
+  \item \label{exer:SoltnsLinRecur}
+    给定齐次线性递推关系
+    $f(n)=a_nf(n-1)+\dots+a_{n-k}f(n-k)$，设 $r_1$、\ldots、$r_k$ 是
+    相伴多项式的根。
+    证明每个函数
+         $f_{r_i}(n)=r_k^n$
+         都满足该递推（不带初始条件）。
+    \begin{answer}
+       这是对 $n$ 的直接归纳。
+    \end{answer}
+  \item 
+    （这指的是下面计算机代码中给出的值
+    $T(64)=18,446,744,073,709,551,615$。）
+    若每秒移动一片圆盘，
+    Hanoi 塔的祭司们需要多少年才能完成这项工作？
+    \begin{answer}
+      \Sage{} 表明我们是安全的。
+\begin{lstlisting}
+sage: T64 = 18446744073709551615
+sage: T64_days = T64/(60*60*24)
+sage: T64_days
+1229782938247303441/5760
+sage: T64_years = T64_days/365.25
+sage: T64_years
+5.84542046090626e11        
+sage: age_of_universe = 13.8e9
+sage: T64_years/age_of_universe
+42.3581192819294
+\end{lstlisting}
+    \end{answer}
+
+\end{exercises}
+
+\announcecomputercode
+这段代码生成由一个递推关系和初始条件
+所定义的函数的前几个值。
+它用的是 LISP 的 Scheme 方言，
+具体是 \cite{ChickenScheme}。
+
+在加载了一个扩展——它使计算机在整数变大时
+不会切换到浮点数——之后，
+Hanoi 塔函数就很简单直白了。
+\begin{lstlisting}
+(require-extension numbers)
+
+(define (tower-of-hanoi-moves n) 
+    (if (= n 1)
+       1
+       (+ (* (tower-of-hanoi-moves (- n 1)) 
+              2) 
+           1) ) )
+
+; Two helper funcitons
+(define (first-few-outputs proc n)
+    (first-few-outputs-aux proc n '()) )
+
+(define (first-few-outputs-aux proc n lst)
+    (if (< n 1)
+    lst 
+    (first-few-outputs-aux proc (- n 1) (cons (proc n) lst)) ) )
+\end{lstlisting}
+\noindent （对于不熟悉递归代码的读者：~为计算 $T(64)$，
+计算机想要计算 $2*T(63)-1$，这需要
+先算出 $T(63)$。
+计算机把"乘 $2$"和"加 $1$"暂时放在一边。
+它用这同一段代码来计算 $T(63)$（这就是
+"递归"的含义），而为此它想计算 $2*T(62)-1$。
+如此继续，经过 $63$ 步之后，计算机
+尝试计算 $T(1)$。
+然后它返回 $T(1)=1$，
+这使得 $T(2)$ 的计算得以进行，
+如此等等，直到最初对 $T(64)$ 的计算完成。）
+
+这些辅助函数给出前几个
+值的表。
+% (Some language notes:~\texttt{'()} is the empty list
+% and \texttt{cons} pushes something onto the start of a 
+% list.
+% Note that, in the last line, the function \texttt{proc}
+% is called on argument \texttt{n}.)
+下面是提示符处的会话。
+\begin{lstlisting}
+#;1> (load "hanoi.scm")
+; loading hanoi.scm ...
+; loading /var/lib//chicken/6/numbers.import.so ...
+; loading /var/lib//chicken/6/chicken.import.so ...
+; loading /var/lib//chicken/6/foreign.import.so ...
+; loading /var/lib//chicken/6/numbers.so ...
+#;2> (tower-of-hanoi-moves 64)
+18446744073709551615
+#;3> (first-few-outputs tower-of-hanoi-moves 64)
+(1 3 7 15 31 63 127 255 511 1023 2047 4095 8191 16383 32767 65535 131071 262143 524287 1048575 
+2097151 4194303 8388607 16777215 33554431 67108863 134217727 268435455 536870911 1073741823 
+2147483647 4294967295 8589934591 17179869183 34359738367 68719476735 137438953471 274877906943 
+549755813887 1099511627775 2199023255551 4398046511103 8796093022207 17592186044415 
+35184372088831 70368744177663 140737488355327 281474976710655 562949953421311 1125899906842623 
+2251799813685247 4503599627370495 9007199254740991 18014398509481983 36028797018963967 
+72057594037927935 144115188075855871 288230376151711743 576460752303423487 1152921504606846975 
+2305843009213693951 4611686018427387903 9223372036854775807 18446744073709551615)
+\end{lstlisting}
+\noindent 这是从 $T(1)$ 到 $T(64)$ 的列表（该会话经
+编辑插入了换行以便阅读）。
+\index{recurrence relation|)}
+\index{linear recurrence|)}
+\endinput

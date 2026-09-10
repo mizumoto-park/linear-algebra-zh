@@ -1,0 +1,628 @@
+\begin{exercises}
+  \item 该矩阵有两个特征值 $\lambda_1=3$、$\lambda_2=-4$。
+    \begin{equation*}
+      \begin{mat}
+        4  &1 \\
+        -8 &-5
+      \end{mat}
+    \end{equation*}
+    求出两个不同的对角形矩阵，使它与它们相似。
+    \begin{answer}
+      我们可以调换列的位置，这只需调换做表示时所用的基。
+      \begin{equation*}
+        \begin{mat} 
+          3 &0 \\ 
+          0 &-4
+        \end{mat}
+        \qquad
+        \begin{mat} 
+          -4 &0 \\ 
+          0 &3
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+  \item 
+    分别求出特征多项式与特征值。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                 10  &-9 \\
+                  4  &-2
+            \end{mat}  \)
+      \partsitem $\begin{mat}[r]
+                    1  &2  \\
+                    4  &3  
+                 \end{mat}$
+      \partsitem \( \begin{mat}[r]
+                  0  &3  \\
+                  7 &0
+                 \end{mat} \)
+      \partsitem \( \begin{mat}[r]  
+                  0  &0  \\
+                  0  &0
+            \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                  1  &0  \\
+                  0  &1
+            \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 这个
+           \begin{equation*}
+             0=
+             \begin{vmatrix}
+               10-x  &-9  \\
+               4     &-2-x
+             \end{vmatrix}
+             =(10-x)(-2-x)-(-36)
+           \end{equation*}
+           化简后得到特征方程 \( x^2-8x+16=0 \)。 
+           由于该方程可分解为 $(x-4)^2$，所以只有一个特征值
+           \( \lambda_1=4 \)。
+         \partsitem $0=(1-x)(3-x)-8=x^2-4x-5$；$\lambda_1=5$，$\lambda_2=-1$
+         \partsitem \( x^2-21=0 \)； 
+           \( \lambda_1=\sqrt{21} \)，$\lambda_2=-\sqrt{21}$
+         \partsitem \( x^2=0 \)；\( \lambda_1=0 \)
+         \partsitem \( x^2-2x+1=0 \)；\( \lambda_1=1 \)
+       \end{exparts}  
+     \end{answer}
+  \recommended \item
+    对每个矩阵，求出特征方程以及特征值和相应的特征向量。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                  3  &0  \\
+                  8  &-1
+            \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                  3  &2  \\
+                 -1  &0
+            \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+       \begin{exparts}
+         \partsitem 特征方程是 \( (3-x)(-1-x)=0 \)。
+           它的根即特征值，为 \( \lambda_1=3 \) 与 
+           \( \lambda_2=-1 \)。
+           为求特征向量，我们考虑这个方程。
+           \begin{equation*}
+             \begin{mat}
+               3-x  &0    \\
+               8    &-1-x
+             \end{mat}
+             \colvec{b_1  \\  b_2}
+             =\colvec[r]{0  \\  0}
+           \end{equation*}
+           为求与 $\lambda_1=3$ 相对应的特征向量，
+           我们考虑由此得到的线性方程组。
+           \begin{equation*}
+             \begin{linsys}{2}
+               0\cdot b_1  &+  &0\cdot b_2  &=  &0  \\
+               8\cdot b_1  &+  &-4\cdot b_2 &=  &0
+             \end{linsys}
+           \end{equation*}
+           特征子空间是第二个分量等于第一个分量两倍的向量组成的集合。
+           \begin{equation*}
+             \set{\colvec{b_2/2 \\ b_2}\suchthat b_2\in\C}
+             \qquad
+             \begin{mat}[r]
+               3  &0  \\
+               8  &-1
+             \end{mat}
+             \colvec{b_2/2  \\ b_2}
+             =3\cdot\colvec{b_2/2 \\ b_2}
+           \end{equation*}
+           （这里取 $b_2$ 作为参数，只是因为它是上面方程组中的自由变量。）
+           因此，这是一个与特征值 $3$ 相对应的特征向量。
+           \begin{equation*}
+             \colvec[r]{1 \\ 2}
+           \end{equation*}
+
+           求与 $\lambda_2=-1$ 相对应的特征向量与此类似。方程组
+           \begin{equation*}
+             \begin{linsys}{2}
+               4\cdot b_1  &+  &0\cdot b_2  &=  &0  \\
+               8\cdot b_1  &+  &0\cdot b_2 &=  &0
+             \end{linsys}
+           \end{equation*}
+           导出由第一个分量为零的向量组成的集合。
+           \begin{equation*}
+             \set{\colvec{0 \\ b_2}\suchthat b_2\in\C}
+             \qquad
+             \begin{mat}[r]
+               3  &0  \\
+               8  &-1
+             \end{mat}
+             \colvec{0  \\ b_2}
+             =-1\cdot\colvec{0 \\ b_2}
+           \end{equation*}
+           于是这是与 $\lambda_2$ 相对应的一个特征向量。
+           \begin{equation*}
+             \colvec[r]{0 \\ 1}
+           \end{equation*}
+         \partsitem 特征方程是
+           \begin{equation*}
+             0=
+             \begin{vmatrix}
+               3-x  &2  \\
+               -1   &-x               
+             \end{vmatrix}
+             =x^2-3x+2=(x-2)(x-1)
+           \end{equation*}
+           因此特征值为 $\lambda_1=2$ 和 $\lambda_2=1$。
+           为求特征向量，考虑这个方程组。
+           \begin{equation*}
+             \begin{linsys}{2}
+               (3-x)\cdot b_1  &+  &2\cdot b_2  &=  &0  \\
+               -1\cdot b_1     &-  &x\cdot b_2  &=  &0
+             \end{linsys}
+           \end{equation*}
+           取 $\lambda_1=2$ 我们得到
+           \begin{equation*}
+             \begin{linsys}{2}
+                1\cdot b_1  &+  &2\cdot b_2  &=  &0  \\
+               -1\cdot b_1  &-  &2\cdot b_2  &=  &0
+             \end{linsys}
+           \end{equation*}
+           由此得到这个特征子空间和特征向量。
+           \begin{equation*}
+             \set{\colvec{-2b_2 \\ b_2}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec[r]{-2 \\ 1}
+           \end{equation*}
+           取 $\lambda_2=1$，方程组为
+           \begin{equation*}
+             \begin{linsys}{2}
+                2\cdot b_1  &+  &2\cdot b_2  &=  &0  \\
+               -1\cdot b_1  &-  &1\cdot b_2  &=  &0
+             \end{linsys}
+           \end{equation*}
+           由此得到这个。
+           \begin{equation*}
+             \set{\colvec{-b_2 \\ b_2}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec[r]{-1 \\ 1}
+           \end{equation*}
+       \end{exparts}  
+     \end{answer}
+  \item
+     求这个矩阵的特征方程以及特征值和相应的特征向量。
+     \textit{提示。}
+       特征值是复数。
+     \begin{equation*}
+       \begin{mat}[r]
+         -2  &-1 \\
+          5  &2
+      \end{mat}  
+    \end{equation*}
+    \begin{answer}
+         特征方程
+           \begin{equation*}
+             0=
+             \begin{vmatrix}
+               -2-x  &-1  \\
+               5     &2-x               
+             \end{vmatrix}
+             =x^2+1
+           \end{equation*}
+           有复根 $\lambda_1=i$ 和 $\lambda_2=-i$。
+           对于方程组
+           \begin{equation*}
+             \begin{linsys}{2}
+               (-2-x)\cdot b_1  &-  &1\cdot b_2      &=  &0  \\
+               5\cdot b_1       &   &(2-x)\cdot b_2  &=  &0
+             \end{linsys}
+           \end{equation*}
+           取 $\lambda_1=i$，用高斯消元法得到如下化简。
+           \begin{equation*}
+             \begin{linsys}{2}
+                (-2-i)\cdot b_1  &-  &1\cdot b_2      &=  &0  \\
+                5\cdot b_1       &-  &(2-i)\cdot b_2  &=  &0
+             \end{linsys}
+             \grstep{(-5/(-2-i))\rho_1+\rho_2}
+             \begin{linsys}{2}
+                (-2-i)\cdot b_1  &-  &1\cdot b_2      &=  &0  \\
+                                 &   &0               &=  &0
+             \end{linsys}
+           \end{equation*}
+           （对于右下角的计算，通分后取公分母
+           \begin{equation*}
+             \frac{5}{-2-i}-(2-i)
+             =
+             \frac{5}{-2-i}-\frac{-2-i}{-2-i}\cdot (2-i)
+             =
+             \frac{5-(-5)}{-2-i}
+           \end{equation*}
+           即可看出它给出一个 $0=0$ 的方程。）
+           由此得到特征子空间和特征向量。
+           \begin{equation*}
+             \set{\colvec{(1/(-2-i))b_2 \\ b_2}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec{1/(-2-i) \\ 1}
+           \end{equation*}
+           取 $\lambda_2=-i$，方程组
+           \begin{equation*}
+             \begin{linsys}{2}
+                (-2+i)\cdot b_1  &-  &1\cdot b_2      &=  &0  \\
+                5\cdot b_1       &-  &(2+i)\cdot b_2  &=  &0
+             \end{linsys}
+             \grstep{(-5/(-2+i))\rho_1+\rho_2}
+             \begin{linsys}{2}
+                (-2+i)\cdot b_1  &-  &1\cdot b_2      &=  &0  \\
+                                 &   &0               &=  &0
+             \end{linsys}
+           \end{equation*}
+           导出这个。
+           \begin{equation*}
+             \set{\colvec{(1/(-2+i))b_2 \\ b_2}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec{1/(-2+i) \\ 1}
+           \end{equation*}
+    \end{answer}
+  \item  
+    求这个矩阵的特征多项式、特征值以及相应的特征向量。
+    \begin{equation*}
+      \begin{mat}[r]
+        1  &1  &1  \\
+        0  &0  &1  \\
+        0  &0  &1
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      特征方程是
+      \begin{equation*}
+        0=
+        \begin{vmatrix}
+          1-x  &1   &1   \\
+          0    &-x  &1   \\
+          0    &0   &1-x
+        \end{vmatrix}
+        =(1-x)^2(-x)
+      \end{equation*}
+      因此特征值为 $\lambda_1=1$（它是方程的一个重根）和 $\lambda_2=0$。
+      对于其余部分，考虑这个方程组。
+      \begin{equation*}
+        \begin{linsys}{3}
+          (1-x)\cdot b_1  &+  &b_2         &+  &b_3            &=  &0  \\
+                          &   &-x\cdot b_2 &+  &b_3            &=  &0  \\
+                          &   &            &   &(1-x)\cdot b_3 &= &0  
+        \end{linsys}
+      \end{equation*}
+      当 $x=\lambda_1=1$ 时，解集是这个特征子空间。
+      \begin{equation*}
+        \set{\colvec{b_1 \\ 0 \\ 0}\suchthat b_1\in\C}
+      \end{equation*}
+      当 $x=\lambda_2=0$ 时，解集是这个特征子空间。
+      \begin{equation*}
+        \set{\colvec{-b_2 \\ b_2 \\ 0}\suchthat b_2\in\C}
+      \end{equation*}
+      所以这些就是与 $\lambda_1=1$ 和 
+      $\lambda_2=0$ 相对应的特征向量。
+      \begin{equation*}
+        \colvec[r]{1 \\ 0 \\ 0}
+        \qquad
+        \colvec[r]{-1 \\ 1 \\ 0}  
+      \end{equation*}
+    \end{answer}
+  \recommended \item
+    对每个矩阵，求出特征方程以及特征值和相应的特征向量。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+              3  &-2 &0  \\
+             -2  &3  &0  \\
+              0  &0  &5
+            \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+              0  &1   &0  \\
+              0  &0   &1  \\
+              4  &-17 &8
+            \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 特征方程是
+           \begin{equation*}
+             0=
+             \begin{vmatrix}
+              3-x  &-2   &0  \\
+             -2    &3-x  &0  \\
+              0    &0    &5-x
+             \end{vmatrix}
+             =x^3-11x^2+35x-25=(x-1)(x-5)^2
+           \end{equation*}
+           因此特征值为 $\lambda_1=1$，还有重复的特征值
+           $\lambda_2=5$。
+           为求特征向量，考虑这个方程组。
+           \begin{equation*}
+             \begin{linsys}{3}
+               (3-x)\cdot b_1  &-  &2\cdot b_2      &   &   &=  &0  \\
+               -2\cdot b_1     &+  &(3-x)\cdot b_2  &   &   &=  &0  \\
+                               &   &                &   &(5-x)\cdot b_3 &= &0 
+             \end{linsys}
+           \end{equation*}
+           取 $\lambda_1=1$ 我们得到
+           \begin{equation*}
+             \begin{linsys}{3}
+                2\cdot b_1     &-  &2\cdot b_2   &   &   &=  &0  \\
+               -2\cdot b_1     &+  &2\cdot b_2   &   &   &=  &0  \\
+                               &   &             &   &4\cdot b_3 &= &0 
+             \end{linsys}
+           \end{equation*}
+           由此得到这个特征子空间和特征向量。
+           \begin{equation*}
+             \set{\colvec{b_2 \\ b_2 \\ 0}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec[r]{1 \\ 1 \\ 0}
+           \end{equation*}
+           取 $\lambda_2=5$，方程组为
+           \begin{equation*}
+             \begin{linsys}{3}
+                -2\cdot b_1  &-  &2\cdot b_2   &   &   &=  &0  \\
+               -2\cdot b_1   &-  &2\cdot b_2   &   &   &=  &0  \\
+                             &   &             &   &0\cdot b_3 &= &0 
+             \end{linsys}
+           \end{equation*}
+           由此得到这个。
+           \begin{equation*}
+             \set{\colvec{-b_2 \\ b_2 \\ 0}+\colvec{0 \\ 0 \\ b_3}
+                   \suchthat b_2,b_3\in\C}
+             \qquad
+             \colvec[r]{-1 \\ 1 \\ 0},\,\colvec[r]{0 \\ 0 \\ 1}
+           \end{equation*}
+         \partsitem 特征方程是
+           \begin{equation*}
+             0=
+             \begin{vmatrix}
+              -x   &1    &0  \\
+              0    &-x   &1  \\
+              4    &-17  &8-x
+             \end{vmatrix}
+             =-x^3+8x^2-17x+4=-1\cdot(x-4)(x^2-4x+1)
+           \end{equation*}
+           特征值为 $\lambda_1=4$ 以及（用求根公式）
+           $\lambda_2=2+\sqrt{3}$ 和 
+           $\lambda_3=2-\sqrt{3}$。
+           为求特征向量，考虑这个方程组。
+           \begin{equation*}
+             \begin{linsys}{3}
+               -x\cdot b_1  &+  &b_2          &   &               &=  &0  \\
+                            &   &-x\cdot b_2  &+  &b_3            &=  &0  \\
+               4\cdot b_1   &-  &17\cdot b_2  &+  &(8-x)\cdot b_3 &= &0 
+             \end{linsys}
+           \end{equation*}
+           代入 $x=\lambda_1=4$ 得到方程组
+           \begin{align*}
+             \begin{linsys}{3}
+               -4\cdot b_1  &+  &b_2          &   &           &= &0  \\
+                            &   &-4\cdot b_2  &+  &b_3        &= &0  \\
+               4\cdot b_1   &-  &17\cdot b_2  &+  &4\cdot b_3 &= &0 
+             \end{linsys}                                              
+             &\grstep{\rho_1+\rho_3}
+             \begin{linsys}{3}
+               -4\cdot b_1  &+  &b_2          &   &           &= &0  \\
+                            &   &-4\cdot b_2  &+  &b_3        &= &0  \\
+                            &   &-16\cdot b_2  &+ &4\cdot b_3 &= &0 
+             \end{linsys}                                                \\
+             &\grstep{-4\rho_2+\rho_3}
+             \begin{linsys}{3}
+               -4\cdot b_1  &+  &b_2          &   &           &= &0  \\
+                            &   &-4\cdot b_2  &+  &b_3        &= &0  \\
+                            &   &              &  &0          &= &0 
+             \end{linsys}
+           \end{align*}
+           由此得到这个特征子空间和特征向量。
+           \begin{equation*}
+             V_4=\set{\colvec{(1/16)\cdot b_3 \\ (1/4)\cdot b_3 \\ b_3}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec[r]{1 \\ 4 \\ 16}
+           \end{equation*}
+
+           代入 $x=\lambda_2=2+\sqrt{3}$ 得到方程组
+           \begin{multline*}
+             \begin{linsys}{3}
+               (-2-\sqrt{3})\cdot b_1  
+                      &+  &b_2          
+                          &   &           &= &0  \\
+                      &   &(-2-\sqrt{3})\cdot b_2  
+                          &+  &b_3        &= &0  \\
+               4\cdot b_1   
+                      &-  &17\cdot b_2  
+                          &+  &(6-\sqrt{3})\cdot b_3 &= &0 
+             \end{linsys}                                   \\
+             \grstep{(-4/(-2-\sqrt{3}))\rho_1+\rho_3}
+             \begin{linsys}{3}
+               (-2-\sqrt{3})\cdot b_1  
+                      &+  &b_2          
+                          &   &           &= &0  \\
+                      &   &(-2-\sqrt{3})\cdot b_2  
+                          &+  &b_3        &= &0  \\
+                      &+  &(-9-4\sqrt{3})\cdot b_2  
+                          &+  &(6-\sqrt{3})\cdot b_3 &= &0 
+             \end{linsys}
+           \end{multline*}
+           （第三个方程的中间系数等于数 $(-4/(-2-\sqrt{3}))-17$；
+           先取 $-2-\sqrt{3}$ 为公分母，
+           再将分数的分子分母同乘 $-2+\sqrt{3}$ 以使分母有理化）
+           \begin{equation*}
+             \grstep{((9+4\sqrt{3})/(-2-\sqrt{3}))\rho_2+\rho_3}
+             \begin{linsys}{3}
+               (-2-\sqrt{3})\cdot b_1  
+                      &+  &b_2          
+                          &   &           &= &0  \\
+                      &   &(-2-\sqrt{3})\cdot b_2  
+                          &+  &b_3        &= &0  \\
+                      &   &                         
+                          &   &0                     &= &0 
+             \end{linsys}
+           \end{equation*}
+           由此得到这个特征子空间和特征向量。
+           \begin{equation*}
+             V_{2+\sqrt{3}}
+             =\set{\colvec{(1/(2+\sqrt{3})^2)\cdot b_3  \\ 
+                           (1/(2+\sqrt{3}))\cdot b_3    \\ 
+                           b_3}
+                    \suchthat b_3\in\C}
+             \qquad
+             \colvec{(1/(2+\sqrt{3})^2)  \\ 
+                           (1/(2+\sqrt{3}))  \\ 
+                           1}
+           \end{equation*}
+
+           最后，代入 $x=\lambda_3=2-\sqrt{3}$ 得到方程组
+           \begin{multline*}
+             \begin{linsys}{3}
+               (-2+\sqrt{3})\cdot b_1  
+                      &+  &b_2          
+                          &   &           &= &0  \\
+                      &   &(-2+\sqrt{3})\cdot b_2  
+                          &+  &b_3        &= &0  \\
+               4\cdot b_1   
+                      &-  &17\cdot b_2  
+                          &+  &(6+\sqrt{3})\cdot b_3 &= &0 
+             \end{linsys}                                       \\
+             \begin{aligned}
+               &\grstep{(-4/(-2+\sqrt{3}))\rho_1+\rho_3}
+                \begin{linsys}{3}
+                  (-2+\sqrt{3})\cdot b_1  
+                         &+  &b_2          
+                             &   &           &= &0  \\
+                         &   &(-2+\sqrt{3})\cdot b_2  
+                             &+  &b_3        &= &0  \\
+                         &   &(-9+4\sqrt{3})\cdot b_2  
+                             &+  &(6+\sqrt{3})\cdot b_3 &= &0 
+                \end{linsys}                                       \\
+                &\grstep{((9-4\sqrt{3})/(-2+\sqrt{3}))\rho_2+\rho_3}
+                \begin{linsys}{3}
+                  (-2+\sqrt{3})\cdot b_1  
+                         &+  &b_2          
+                             &   &           &= &0  \\
+                         &   &(-2+\sqrt{3})\cdot b_2  
+                             &+  &b_3        &= &0  \\
+                         &   &                         
+                             &   &0                     &= &0 
+                \end{linsys}
+              \end{aligned}
+           \end{multline*}
+           由此得到这个特征子空间和特征向量。
+           \begin{equation*}
+             V_{2-\sqrt{3}}
+             =\set{\colvec{(1/(-2+\sqrt{3})^2)\cdot b_3  \\ 
+                           (1/(2-\sqrt{3}))\cdot b_3    \\ 
+                           b_3}
+                    \suchthat b_3\in\C}
+             \qquad
+             \colvec{(1/(-2+\sqrt{3})^2)  \\ 
+                           (1/(2-\sqrt{3}))  \\ 
+                           1}
+           \end{equation*}
+       \end{exparts}
+     \end{answer}
+  \item 
+   对每个矩阵，求出特征多项式以及特征值和相应的特征子空间。
+   同时求出代数重数与几何重数。
+    \begin{exparts*}
+      \partsitem 
+        $\begin{mat}
+           13 &-4 \\
+           -4 &7
+         \end{mat}$
+      \partsitem
+         $\begin{mat}
+           1 &3 &-3 \\
+          -3 &7 &-3 \\
+          -6 &6 &-2
+         \end{mat}$
+     \partsitem
+         $\begin{mat}
+           2 &3 &-3 \\
+           0 &2 &-3 \\
+           0 &0 &1
+         \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \item 特征多项式可分解为 
+          $x^2-20x+75=(x-5)(x-15)$，
+          因此特征值为 $\lambda_1=5$ 和~$\lambda_2=15$。
+          下面是相应的特征子空间。
+          \begin{equation*}
+            V_5=\set{k\colvec{1 \\ 2}\suchthat k\in\C}
+            \quad
+            V_{15}=\set{k\colvec{-2 \\ 1}\suchthat k\in\C}
+          \end{equation*}
+          对每个特征值，代数重数与几何重数都是~$1$。
+       \item 特征多项式 $x^3 - 6x^2 + 32$ 可分解为
+          $(x+2)(x-4)^2$。
+          特征向量为 $\lambda_1=-2$ 和 $\lambda_2=4$。
+          下面是相应的特征子空间。
+          \begin{equation*}
+            V_{-2}=\set{k\colvec{1 \\ 1 \\ 2}\suchthat k\in\C}
+            \quad
+            V_4=\set{k_1\colvec{1 \\ 1 \\ 0}
+                      +k_2\colvec{1 \\ 0 \\ -1} \suchthat k_1,k_2\in\C}
+          \end{equation*}
+          对于 $\lambda_1=-2$，代数重数与几何重数
+          都是~$1$。 
+          对于 $\lambda_2=4$，代数重数与几何重数
+          都是~$2$。
+       \item 特征多项式 $x^3 - 5x^2 + 8x - 4$ 可分解为
+          $(x-1)(x-2)^2$。
+          特征值为 $\lambda_1=1$ 和 $\lambda_2=2$。
+          下面是相应的特征子空间。
+          \begin{equation*}
+            V_1=\set{k\colvec{-6 \\ 3 \\ 1}\suchthat k\in \C}
+            \quad
+            V_2=\set{k\colvec{1 \\ 0 \\ 0}\suchthat k\in\C}
+          \end{equation*}
+          对于 $\lambda_1=1$，代数重数与几何重数
+          都是~$1$。
+          对于 $\lambda_2=2$，代数重数是~$2$，但
+          几何重数是~$1$。
+      \end{exparts}
+    \end{answer}
+   \recommended \item
+     设 \( \map{t}{\polyspace_2}{\polyspace_2} \) 是这个线性映射。
+     \begin{equation*}
+      a_0+a_1x+a_2x^2\mapsto
+      (5a_0+6a_1+2a_2)-(a_1+8a_2)x+(a_0-2a_2)x^2
+     \end{equation*}
+    求出它的特征值和相应的特征向量。
+    \begin{answer}
+      关于自然基 $B=\sequence{1,x,x^2}$ 
+      矩阵表示如下。
+      \begin{equation*}
+        \rep{t}{B,B}
+        =
+        \begin{mat}[r]
+          5  &6  &2  \\
+          0  &-1 &-8 \\
+          1  &0  &-2 
+        \end{mat}
+      \end{equation*}
+      于是特征方程
+      \begin{equation*}
+        0
+        =
+        \begin{mat}
+          5-x  &6    &2  \\
+          0    &-1-x &-8 \\
+          1    &0    &-2-x 
+        \end{mat}
+        =(5-x)(-1-x)(-2-x)-48-2\cdot(-1-x)
+      \end{equation*}
+      为 $0=-x^3+2x^2+15x-36=-1\cdot (x+4)(x-3)^2$。
+      为求相应的特征向量，考虑这个方程组。
+      \begin{equation*}
+        \begin{linsys}{3}
+          (5-x)\cdot b_1 &+ &6b_2      &+ &2b_3      &= &0 \\
+                         &  &(-1-x)\cdot b_2 &- &8b_3      &= &0 \\
+          b_1            &  &                &+ &(-2-x)\cdot b_3 &= &0 
+        \end{linsys}
+      \end{equation*}
+      将 $\lambda_1=-4$ 代入 $x$ 得到
+      \begin{equation*}

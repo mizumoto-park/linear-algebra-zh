@@ -1,0 +1,402 @@
+% Chapter 4, Topic _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\topic{幂方法}
+\index{method of powers|(}
+\index{powers, method of|(}
+在应用中，矩阵可能非常庞大。
+通过求出并求解特征多项式来计算特征值与特征向量并不现实，
+既太慢又容易出错。
+有些技巧可以避开特征多项式。
+本节将介绍一种适用于大型矩阵的方法，这样的矩阵是
+\definend{稀疏}\index{matrix!sparse}\index{sparse matrix} 的，
+也就是说，其中绝大多数元素都是零。
+
+设 $\nbyn{n}$ 矩阵 $T$ 有 $n$ 个互不相同的特征值
+$\lambda_1$、$\lambda_2$、\ldots、$\lambda_n$。
+那么 $\C^n$ 有一组由相应的特征向量
+$\sequence{\vec{\zeta}_1,\dots,\vec{\zeta}_n}$ 构成的基。
+对任意 $\vec{v}\in\C^n$，记
+$\vec{v}=c_1\vec{\zeta}_1+\dots+c_n\vec{\zeta}_n$，对 $\vec{v}$ 反复作用以 $T$
+便得到下面各式。
+\begin{align*}
+  T\vec{v}
+      &=c_1\lambda_1\vec{\zeta}_1+c_2\lambda_2\vec{\zeta}_2+
+                              \dots+c_n\lambda_n\vec{\zeta}_n  \\
+  T^2\vec{v}
+      &=c_1\lambda_1^2\vec{\zeta}_1+c_2\lambda_2^2\vec{\zeta}_2+
+                              \dots+c_n\lambda_n^2\vec{\zeta}_n  \\
+  T^3\vec{v}
+      &=c_1\lambda_1^3\vec{\zeta}_1+c_2\lambda_2^3\vec{\zeta}_2+
+                              \dots+c_n\lambda_n^3\vec{\zeta}_n  \\
+      &\vdotswithin{=}                                            \\
+  T^k\vec{v}
+      &=c_1\lambda_1^k\vec{\zeta}_1+c_2\lambda_2^k\vec{\zeta}_2+
+                              \dots+c_n\lambda_n^k\vec{\zeta}_n
+\end{align*}
+假设 $|\lambda_1|$
+是其中最大的，将两边同除以 $\lambda_1^k$
+\begin{equation*}
+  \frac{T^k\vec{v}}{\lambda_1^k}
+      =c_1\vec{\zeta}_1+c_2\frac{\lambda_2^k}{\lambda_1^k}\vec{\zeta}_2+
+                    \dots+c_n\frac{\lambda_n^k}{\lambda_1^k}\vec{\zeta}_n
+\end{equation*}
+可知，随着 $k$ 的增大，各分式趋于零，
+于是 $\lambda_1$ 的项将在表达式中占主导地位，
+而该表达式的极限为 $c_1\vec{\zeta}_1$。
+
+于是若 $c_1\neq 0$，
+则随着 $k$ 增大，向量 $T^k\vec{v}$ 将趋于与主特征值相关联的特征向量的方向。
+从而，
+向量长度之比 $\absval{T^{k}\vec{v}}/\absval{T^{k-1}\vec{v}}$
+趋于该主特征值。
+
+例如，矩阵
+\begin{equation*}
+  T=\begin{mat}[r]
+    3  &0  \\
+    8  &-1
+  \end{mat}
+\end{equation*}
+的特征值是 $3$ 和 $-1$。
+若 $\vec{v}$ 的分量为 $1$ 和 $1$，则迭代给出如下结果。
+\begin{center}
+  \begin{tabular}{c|ccccc}
+     $\vec{v}$  &$T\vec{v}$  &$T^2\vec{v}$
+        &$\cdots$ &$T^9\vec{v}$ &$T^{10}\vec{v}$        \\ \hline
+     $\matrixvenlarge{\colvec[r]{1 \\ 1}}$
+        &$\matrixvenlarge{\colvec[r]{3 \\ 7}}$
+        &$\matrixvenlarge{\colvec[r]{9 \\ 17}}$
+        &$\cdots$
+        &$\matrixvenlarge{\colvec[r]{19\,683 \\ 39\,367}}$
+        &$\matrixvenlarge{\colvec[r]{59\,049 \\ 118\,097}}$
+  \end{tabular}
+\end{center}
+最后两个的长度之比是 $2.999\,9$。
+
+我们指出两个实现上的问题。
+其一，
+我们不先求出 $T$ 的各次幂再作用到 $\vec{v}$ 上，
+而是先把 $\vec{v}_1$ 算成 $T\vec{v}$，再把 $\vec{v}_2$ 算成
+$T\vec{v}_1$，依此类推（也就是说，我们并不单独计算
+$T^2\!$、$T^3\!$、\ldots）。
+即使 $T$ 很大，只要它是稀疏的，
+这些矩阵与向量的乘积也能很快完成。
+第二个问题是，
+为避免产生的数大到超出计算机的能力而溢出，
+可以在每一步对各个 $\vec{v}_i$ 作归一化。
+例如，可以把每个 $\vec{v}_i$ 除以它的长度
+（其他做法还有：除以它的最大分量，或干脆除以它的第一个分量）。
+于是我们通过生成下述序列来实现这一方法
+\begin{align*}
+  \vec{w}_0  &=\vec{v}_0/\absval{\vec{v}_0} \\
+  \vec{v}_1  &=T\vec{w}_0                 \\
+  \vec{w}_1  &=\vec{v}_1/\absval{\vec{v}_1} \\
+  \vec{v}_2  &=T\vec{w}_2                 \\
+             &\vdotswithin{=}    \\
+  \vec{w}_{k-1}  &=\vec{v}_{k-1}/\absval{\vec{v}_{k-1}} \\
+  \vec{v}_k  &=T\vec{w}_k
+\end{align*}
+直到满意为止。
+此时 $\vec{v}_k$ 是某个特征向量的一个近似，而
+主特征值的近似是
+比值 % $\absval{\vec{v}_{k}}/\absval{\vec{w}_{k-1}}$.
+$(T\dotprod \vec{v}_k)/(\vec{v}_k\dotprod\vec{v}_k)
+  \approx (\lambda_1\vec{v}_k\cdot\vec{v}_k)/(\vec{v}_k\dotprod\vec{v}_k)
+  =\lambda_1$。
+
+
+判断“满意”的一种方式是迭代到特征值的近似值稳定下来为止。
+例如可以决定，迭代的终止不设在某个固定的步数之后，
+而是设在 $\absval{\vec{v}_k}$ 与 $\absval{\vec{v}_{k-1}}$
+相差小于百分之一时，或者它们到第二位有效数字都一致时。
+
+收敛的速度由 $|\lambda_2/\lambda_1|$ 的幂趋于零的速度决定，
+其中 $\lambda_2$ 是长度第二大的特征值。
+若该比值远小于一，则收敛很快；
+但若它只比一小一点，收敛就可能相当慢。
+因此，幂方法
+并不是求特征值最常用的方法
+（尽管它是最简单的一种，这正是它出现在这里的原因）。
+作为替代，有一大类各种各样的方法，它们通常这样工作：先把给定的矩阵 $T$
+换成另一个与它相似
+从而有相同特征值的矩阵，但它处于某种简化形式，
+例如
+三对角形式\index{tridiagonal form}\index{matrix!tridiagonal}，
+即除对角线上以及紧贴对角线上、下两条斜线上的元素外，
+其余元素全为零。
+然后可以用针对特殊形式的技巧求出特征值。
+一旦知道特征值，便能容易地算出
+$T$ 的特征向量。
+这些其他方法超出了本书的范围。
+一本好的参考书是 \cite{Goult}
+
+
+
+\begin{exercises}
+  \item
+    用十次迭代估计下列矩阵的最大特征值，
+    初始向量取分量为 $1$ 和 $2$ 的向量。
+    将所得答案与通过求解特征方程
+    得到的答案比较。
+    \begin{exparts*}
+      \partsitem $\begin{mat}[r]
+                    1  &5  \\
+                    0  &4
+                  \end{mat}$
+      \partsitem $\begin{mat}[r]
+                    3   &2  \\
+                    -1  &0
+                  \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+     \begin{exparts}
+       \partsitem 一眼即可看出，最大特征值是 $4$。
+         \Sage{} 给出如下结果。
+\begin{lstlisting}
+sage: def eigen(M,v,num_loops=10):
+....:     for p in range(num_loops):
+....:         v_normalized = (1/v.norm())*v
+....:         v = M*v
+....:     return v
+....:
+sage: M = matrix(RDF, [[1,5], [0,4]])
+sage: v = vector(RDF, [1, 2])
+sage: v = eigen(M,v)
+sage: (M*v).dot_product(v)/v.dot_product(v)
+4.00000147259
+\end{lstlisting}
+       \partsitem 简单的计算表明，最大特征值
+          为~$2$。
+          \Sage{} 给出如下结果。
+\begin{lstlisting}
+sage: M = matrix(RDF, [[3,2], [-1,0]])
+sage: v = vector(RDF, [1, 2])
+sage: v = eigen(M,v)
+sage: (M*v).dot_product(v)/v.dot_product(v)
+2.00097741083
+\end{lstlisting}
+     \end{exparts}
+    \end{answer}
+  \item
+     重做前面的练习：迭代直到
+     $\absval{\vec{v}_k}-\absval{\vec{v}_{k-1}}$ 的绝对值小于
+     $0.01$。
+     每一步都将每个向量除以其长度来归一化。
+     这需要多少次迭代？
+     两种答案的差异显著吗？
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 下面是 \Sage{} 的结果。
+ \begin{lstlisting}
+sage: def eigen_by_iter(M, v, toler=0.01):
+....:     dex = 0
+....:     diff = 10
+....:     while abs(diff)>toler:
+....:         dex = dex+1
+....:         v_next = M*v
+....:         v_normalized = (1/v.norm())*v
+....:         v_next_normalized = (1/v_next.norm())*v_next
+....:         diff = (v_next_normalized-v_normalized).norm()
+....:         v_prior = v_normalized
+....:         v = v_next_normalized
+....:     return v, v_prior, dex
+....:
+sage: M = matrix(RDF, [[1,5], [0,4]])
+sage: v = vector(RDF, [1, 2])
+sage: v,v_prior,dex = eigen_by_iter(M,v)
+sage: (M*v).norm()/v.norm()
+4.00604111686
+sage: dex
+4
+ \end{lstlisting}
+      \partsitem 对这道题 \Sage{} 要多迭代几次。
+        这里用到了上一小题中定义的过程。
+\begin{lstlisting}
+sage: M = matrix(RDF, [[3,2], [-1,0]])
+sage: v = vector(RDF, [1, 2])
+sage: v,v_prior,dex = eigen_by_iter(M,v)
+sage: (M*v).norm()/v.norm()
+2.01585174302
+sage: dex
+6
+\end{lstlisting}
+       \end{exparts}
+     \end{answer}
+  \item
+    用十次迭代估计下列矩阵的最大特征值，
+    初始向量取分量为 $1$、$2$、$3$ 的向量。
+    将所得答案与通过求解特征方程
+    得到的答案比较。
+    \begin{exparts*}
+      \partsitem $\begin{mat}[r]
+                    4   &0  &1 \\
+                    -2  &1  &0  \\
+                    -2  &0  &1
+                  \end{mat}$
+      \partsitem $\begin{mat}[r]
+                   -1  &2  &2  \\
+                    2  &2  &2  \\
+                   -3  &-6 &-6
+                  \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+     \begin{exparts}
+       \partsitem 最大特征值是 $3$。
+         \Sage{} 给出如下结果。
+\begin{lstlisting}
+sage: M = matrix(RDF, [[4,0,1], [-2,1,0], [-2,0,1]])
+sage: v = vector(RDF, [1, 2, 3])
+sage: v = eigen(M,v)
+sage: (M*v).dot_product(v)/v.dot_product(v)
+3.02362112326
+\end{lstlisting}
+       \partsitem 最大特征值是 $-3$。
+\begin{lstlisting}
+sage: M = matrix(RDF, [[-1,2,2], [2,2,2], [-3,-6,-6]])
+sage: v = vector(RDF, [1, 2, 3])
+sage: v = eigen(M,v)
+sage: (M*v).dot_product(v)/v.dot_product(v)
+-3.00941127145
+\end{lstlisting}
+     \end{exparts}
+    \end{answer}
+  \item
+     重做前面的练习：迭代直到
+     $\absval{\vec{v}_k}-\absval{\vec{v}_{k-1}}$ 的绝对值小于
+     $0.01$。
+     每一步都将每个向量除以其长度来归一化。
+     这需要多少次迭代？
+     两种答案的差异显著吗？
+     \begin{answer}
+       \begin{exparts}
+         \partsitem
+           \Sage{} 得到如下结果，其中 \lstinline!eigen_by_iter!
+           已在上面定义。
+\begin{lstlisting}
+sage: M = matrix(RDF, [[4,0,1], [-2,1,0], [-2,0,1]])
+sage: v = vector(RDF, [1, 2, 3])
+sage: v,v_prior,dex = eigen_by_iter(M,v)
+sage: (M*v).dot_product(v)/v.dot_product(v)
+3.05460392934
+sage: dex
+8
+\end{lstlisting}
+         \partsitem 采用如下设置，
+\begin{lstlisting}
+sage: M = matrix(RDF, [[-1,2,2], [2,2,2], [-3,-6,-6]])
+sage: v = vector(RDF, [1, 2, 3])
+\end{lstlisting}
+            \Sage{} 不返回结果（可用 \lstinline!<Ctrl>-c! 中断
+            计算）。
+            在该例程中加入一些错误检查代码
+\begin{lstlisting}
+def eigen_by_iter(M, v, toler=0.01):
+    dex = 0
+    diff = 10
+    while abs(diff)>toler:
+        dex = dex+1
+        if dex>1000:
+            print "oops! probably in some loop: \nv=",v,"\nv_next=",v_next
+        v_next = M*v
+        if (v.norm()==0):
+            print "oops! v is zero"
+	    return None
+        if (v_next.norm()==0):
+            print "oops! v_next is zero"
+            return None
+        v_normalized = (1/v.norm())*v
+        v_next_normalized = (1/v_next.norm())*v_next
+        diff = (v_next_normalized-v_normalized).norm()
+        v_prior = v_normalized
+        v = v_next_normalized
+    return v, v_prior, dex
+\end{lstlisting}
+           得到如下输出。
+\begin{lstlisting}
+oops! probably in some loop:
+  v= (0.707106781187, -1.48029736617e-16, -0.707106781187)
+  v_next= (2.12132034356, -4.4408920985e-16, -2.12132034356)
+oops! probably in some loop:
+  v= (-0.707106781187, 1.48029736617e-16, 0.707106781187)
+  v_next= (-2.12132034356, 4.4408920985e-16, 2.12132034356)
+oops! probably in some loop:
+  v= (0.707106781187, -1.48029736617e-16, -0.707106781187)
+  v_next= (2.12132034356, -4.4408920985e-16, -2.12132034356)
+\end{lstlisting}
+          可见它在循环打转。
+       \end{exparts}
+     \end{answer}
+  \item
+      若 $c_1=0$ 会怎样？
+      也就是说，若初始向量在相应特征向量的方向上
+      没有任何分量，会出现什么情况？
+     \begin{answer}
+       理论上，这一方法将给出 $\lambda_2$。
+       然而在实际计算中，舍入误差会引入
+       $\vec{v}_1$ 方向上的分量，因此该方法
+       仍会给出 $\lambda_1$，只是与选取较为幸运的初始向量
+       相比，可能要多花些时间。
+     \end{answer}
+  \item
+    如何把幂方法加以改造，
+    用来求最小的特征值？
+    \begin{answer}
+      不使用 $\vec{v}_k=T\vec{v}_{k-1}$，
+      而使用 $T^{-1}\vec{v}_k=\vec{v}_{k-1}$。
+    \end{answer}
+\end{exercises}
+
+\announcecomputercode
+下面是完成上述计算的计算机代数系统 Octave 的代码。
+（已稍作编辑，删去了空行等。）
+\begin{lstlisting}
+>T=[3, 0;
+    8, -1]
+T=
+   3   0
+   8  -1
+>v0=[1; 2]
+v0=
+   1
+   1
+>v1=T*v0
+v1=
+   3
+   7
+>v2=T*v1
+v2=
+   9
+  17
+>T9=T**9
+T9=
+  19683  0
+  39368 -1
+>T10=T**10
+T10=
+  59049  0
+ 118096  1
+>v9=T9*v0
+v9=
+  19683
+  39367
+>v10=T10*v0
+v10=
+  59049
+ 118096
+>norm(v10)/norm(v9)
+ans=2.9999
+\end{lstlisting}
+\textit{注。}
+这里没有用到 Octave 的全部本领；
+它内置了若干函数，可自动运用复杂的方法
+求出特征值与特征向量。
+
+\index{powers, method of|)}
+\index{method of powers|)}
+\endinput
+
+
+
+
+

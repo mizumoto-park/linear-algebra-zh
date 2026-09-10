@@ -1,0 +1,911 @@
+\begin{exercises}
+  \item 
+    对于
+    \begin{equation*}
+      T=
+      \begin{mat}[r]
+        1  &3  \\
+       -2  &-6
+      \end{mat}
+      \quad
+      \hat{T}=
+      \begin{mat}[r]
+        0    &0  \\
+       -11/2 &-5
+      \end{mat}
+      \quad
+      P=
+      \begin{mat}[r]
+        4  &2  \\
+       -3  &2
+      \end{mat}
+    \end{equation*}
+    验证 $\hat{T}=PTP^{-1}$。
+    \begin{answer}
+      一种做法是从左到右计算。
+      \begin{multline*}
+        PTP^{-1}=
+        \begin{mat}[r]
+          4  &2  \\
+         -3  &2
+        \end{mat}
+        \begin{mat}[r]
+          1  &3  \\
+         -2  &-6
+        \end{mat}
+        \begin{mat}[r]
+          2/14  &-2/14  \\
+          3/14  &4/14
+        \end{mat}                                 \\
+        =
+        \begin{mat}[r]
+          0  &0  \\
+         -7  &-21
+        \end{mat}  
+        \begin{mat}[r]
+          2/14  &-2/14  \\
+          3/14  &4/14
+        \end{mat}
+        =
+        \begin{mat}[r]
+          0    &0  \\
+         -11/2 &-5
+        \end{mat}
+      \end{multline*}
+    \end{answer}
+  \item
+    \nearbyexample{ex:OnlyZeroSimToZero} 表明，与零矩阵相似的矩阵只有它本身，
+    而且
+    与单位矩阵相似的矩阵
+    也只有它本身。
+    \begin{exparts}
+      \partsitem 证明：唯一元素为 $2$ 的 $\nbyn{1}$ 矩阵
+         也只与它自身相似。
+      \partsitem 形如 $cI$（$c$ 为某个标量）的矩阵
+         是否也只与它自身相似？
+     \partsitem 对角矩阵是否只与它自身相似？
+     % \partsitem Is a square block partial-identity matrix similar only to 
+     % itself?
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+      \partsitem 由于矩阵 $(2)$ 是 $\nbyn{1}$ 的，矩阵
+         $P$ 与 $P^{-1}$ 也是 $\nbyn{1}$ 的，因此当
+         $P=(p)$ 时，其逆为 $P^{-1}=(1/p)$。  
+         于是 $P(2)P^{-1}=(p)(2)(1/p)=(2)$。
+       \partsitem 是的：~回忆一下，我们可以把标量倍数提到矩阵外面 
+        \( P(cI)P^{-1}=cPIP^{-1}=cI \)。
+        顺便指出，零矩阵与单位矩阵分别是特殊情形
+        $c=0$ 与 $c=1$。
+      \partsitem 不是，如下面这个例子所示。
+        \begin{equation*}
+           \begin{mat}[r]
+              1  &-2  \\
+             -1  &1
+            \end{mat}
+           \begin{mat}[r]
+             -1  &0   \\
+              0  &-3
+           \end{mat}
+           \begin{mat}[r]
+              -1  &-2   \\
+              -1  &-1
+           \end{mat}
+           =
+           \begin{mat}[r]
+              -5  &-4   \\
+              2   &1
+           \end{mat}
+        \end{equation*} 
+    \end{exparts}  
+   \end{answer}
+  \recommended \item 考虑~$\C^3$ 的这个变换
+    \begin{equation*}
+      t(\colvec{x \\ y \\ z})=\colvec{x-z \\ z \\ 2y}
+    \end{equation*}
+    以及这些基。
+    \begin{equation*}
+      B=\sequence{\colvec{1 \\ 2 \\ 3}, 
+                  \colvec{0 \\ 1 \\ 0}, 
+                  \colvec{0 \\ 0 \\ 1}}
+      \qquad
+      D=\sequence{\colvec{1 \\ 0 \\ 0},
+                  \colvec{1 \\ 1 \\ 0},
+                  \colvec{1 \\ 0 \\ 1}}
+    \end{equation*}
+    我们将计算箭头图的各个部分，
+    以使用两个相似矩阵来表示该变换。
+    \begin{exparts}
+      \partsitem 画出针对本情形具体化的箭头图。
+      \partsitem 计算 $T=\rep{t}{B,B}$。
+      \partsitem 计算 $\hat{T}=\rep{t}{D,D}$。
+      \partsitem 计算箭头正方形另外两条边的
+         矩阵。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          \begin{equation*}
+            \begin{CD}
+              \C^3_{\wrt{B}}                   @>t>T>        \C^3_{\wrt{B}}       \\
+              @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+              \C^3_{\wrt{D}}                   @>t>\hat{T}>        \C^3_{\wrt{D}}
+            \end{CD}
+          \end{equation*}
+        \partsitem
+          对于起始基~$B$ 中的每个元素，求 
+          变换作用于其后的结果
+          \begin{equation*}
+             \colvec{1 \\ 2 \\ 3}\mapsunder{t}\colvec{-2 \\ 3 \\ 4}
+             \qquad 
+             \colvec{0 \\ 1 \\ 0}\mapsunder{t}\colvec{0 \\ 0 \\ 2}
+             \qquad 
+             \colvec{0 \\ 0 \\ 1}\mapsunder{t}\colvec{-1 \\ 1 \\ 0}
+          \end{equation*}
+          并将这些输出关于终止基~$B$ 表示
+          \begin{equation*}
+            \rep{\colvec{-2 \\ 3 \\ 4}}{B}=\colvec{-2 \\ 7 \\ 10}
+            \qquad
+            \rep{\colvec{0 \\ 0 \\ 2}}{B}=\colvec{0 \\ 0 \\ 2}
+            \qquad
+            \rep{\colvec{-1 \\ 1 \\ 0}}{B}=\colvec{-1 \\ 3 \\ 3}
+          \end{equation*}
+          由此得到矩阵。
+          \begin{equation*}
+            T=\rep{t}{B,B}=
+            \begin{mat}
+              -2 &0 &-1 \\
+               7 &0 &3  \\
+              10 &2 &3 
+            \end{mat}
+          \end{equation*}
+        \partsitem
+          求变换作用于~$D$ 中元素的结果
+          \begin{equation*}
+             \colvec{1 \\ 0 \\ 0}\mapsunder{t}\colvec{1 \\ 0 \\ 0}
+             \qquad 
+             \colvec{1 \\ 1 \\ 0}\mapsunder{t}\colvec{1 \\ 0 \\ 2}
+             \qquad 
+             \colvec{1 \\ 0 \\ 1}\mapsunder{t}\colvec{0 \\ 1 \\ 0}
+          \end{equation*}
+          并将它们关于终止基~$D$ 表示
+          \begin{equation*}
+            \rep{\colvec{1 \\ 0 \\ 0}}{D}=\colvec{1 \\ 0 \\ 0}
+            \qquad
+            \rep{\colvec{1 \\ 0 \\ 2}}{D}=\colvec{-1 \\ 0 \\ 2}
+            \qquad
+            \rep{\colvec{0 \\ 1 \\ 0}}{D}=\colvec{-1 \\ 1 \\ 0}
+          \end{equation*}
+          由此得到矩阵。
+          \begin{equation*}
+            \hat{T}=\rep{t}{D,D}=
+            \begin{mat}
+               1 &-1 &-1 \\
+               0 &0  &1  \\
+               0 &2  &0 
+            \end{mat}
+          \end{equation*}
+        \partsitem
+          要沿右侧向下，我们需要 
+          $\rep{\identity}{B,D}$
+          因此我们先计算恒等映射对 
+          ~$B$ 的每个元素的作用——它没有任何作用，
+          然后将结果关于
+          ~$D$ 表示。 
+          \begin{equation*}
+            \rep{\colvec{1 \\ 2 \\ 3}}{D}=\colvec{-4 \\ 2 \\ 3}
+            \qquad
+            \rep{\colvec{0 \\ 1 \\ 0}}{D}=\colvec{-1 \\ 1 \\ 0}
+            \qquad
+            \rep{\colvec{0 \\ 0 \\ 1}}{D}=\colvec{-1 \\ 0 \\ 1}
+          \end{equation*}
+          所以这就是~$P$。
+          \begin{equation*}
+            P=
+            \begin{mat}
+              -4 &-1 &-1 \\
+               2 &1  &0  \\
+               3 &0  &1
+            \end{mat}
+          \end{equation*}
+          对于另一个矩阵~$\rep{\identity}{D,B}$，我们既可以 
+          像刚才对~$P$ 那样直接求出它，也可以进行 
+          常规的矩阵求逆计算。
+          \begin{equation*}
+            P^{-1}=
+            \begin{mat}
+               1 &1 &1 \\
+               -2 &-1  &-2  \\
+               -3 &-3  &-2
+            \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 
+    考虑变换 $\map{t}{\polyspace_2}{\polyspace_2}$
+    它由
+    $x^2\mapsto x+1$、$x\mapsto x^2-1$ 以及 $1\mapsto 3$ 描述。
+    \begin{exparts}
+      \partsitem 求 $T=\rep{t}{B,B}$，其中 $B=\sequence{x^2,x,1}$。 
+      \partsitem 求 $\hat{T}=\rep{t}{D,D}$，其中 $D=\sequence{1,1+x,1+x+x^2}$。
+      \partsitem 求满足 $\hat{T}=PTP^{-1}$ 的矩阵 $P$。 
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 由于我们用 $B$ 的成员来描述 $t$，
+          求矩阵表示很容易：
+          \begin{equation*}
+            \rep{t(x^2)}{B}=\colvec[r]{0 \\ 1 \\ 1}_B
+            \quad
+            \rep{t(x)}{B}=\colvec[r]{1 \\ 0 \\ -1}_B
+            \quad
+            \rep{t(1)}{B}=\colvec[r]{0 \\ 0 \\ 3}_B
+          \end{equation*}
+          由此得到下式。
+          \begin{equation*}
+            \rep{t}{B,B}
+            \begin{mat}[r]
+              0  &1  &0  \\
+              1  &0  &0  \\
+              1  &-1 &3  
+            \end{mat}
+          \end{equation*}
+        \partsitem 我们将求 $t(1)$、$t(1+x)$ 和 $t(1+x+x^2$，
+          以求出每一个关于 $D$ 的表示。
+          已知 $t(1)=3$，另外两个容易看出：
+          $t(1+x)=x^2+2$ 以及 $t(1+x+x^2)=x^2+x+3$。
+          通过观察，我们得到每个向量的表示
+          \begin{equation*}
+            \rep{t(1)}{D}=\colvec[r]{3 \\ 0 \\ 0}_D
+            \quad
+            \rep{t(1+x)}{D}=\colvec[r]{2  \\ -1 \\  1}_D
+            \quad
+            \rep{t(1+x+x^2)}{D}=\colvec[r]{2 \\ 0 \\ 1}_D
+          \end{equation*}
+          从而得到该映射的表示。
+          \begin{equation*}
+            \rep{t}{D,D}
+            =
+            \begin{mat}[r]
+              3  &2  &2  \\
+              0  &-1 &0  \\
+              0  &1  &1
+            \end{mat}
+          \end{equation*}
+         \partsitem 下面的图表
+           \begin{equation*}
+             \begin{CD}
+               V_{\wrt{B}}                  @>t>T>  V_{\wrt{B}}       \\
+               @V\scriptstyle\identity VPV      @V\scriptstyle\identity VPV \\
+               V_{\wrt{D}}                  @>t>\hat{T}>  V_{\wrt{D}}
+             \end{CD}
+           \end{equation*}
+           表明它们是 $P=\rep{\identity}{B,D}$ 与 
+           $P^{-1}=\rep{\identity}{D,B}$。
+           \begin{equation*}
+             P=
+             \begin{mat}[r]
+               0  &-1  &1  \\ 
+               -1  &1  &0  \\
+               1  &0  &0 
+             \end{mat}
+             \qquad
+             P^{-1}=
+             \begin{mat}[r]
+               0  &0  &1  \\ 
+               0  &1  &1  \\
+               1  &1  &1 
+             \end{mat}
+           \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item 
+    设 $T$ 是 $\map{t}{\C^2}{\C^2}$ 关于 $B,B$ 的表示。
+    \begin{equation*}
+      T=
+      \begin{mat}
+        1 &-1 \\ 
+        2 &1
+      \end{mat}
+      \qquad
+      B=\sequence{\colvec{1 \\ 0},\colvec{1 \\ 1}},\hspace{0.7em}
+      D=\sequence{\colvec{2 \\ 0},\colvec{0 \\ -2}}
+    \end{equation*}
+    我们将转换为关于 $D,D$ 表示~$t$ 的矩阵。
+    \begin{exparts}
+      \partsitem 画出箭头图。
+      \partsitem 给出表示该图左边与右边
+          两条边的矩阵，方向按我们为完成转换
+          而遍历该图的方向。
+      \partsitem 求 $\rep{t}{D,D}$。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          \begin{equation*}
+            \begin{CD}
+              \C^2_{\wrt{B}}                   @>t>T>        \C^2_{\wrt{B}}       \\
+              @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+              \C^2_{\wrt{D}}                   @>t>\hat{T}>        \C^2_{\wrt{D}}
+            \end{CD}
+          \end{equation*}  
+        \partsitem
+          对于右边，我们求恒等映射的作用，
+          它没有任何作用，
+          \begin{equation*}
+            \colvec{1 \\ 0}\mapsunder{\identity}\colvec{1 \\ 0}
+            \qquad
+            \colvec{1 \\ 1}\mapsunder{\identity}\colvec{1 \\ 1}
+          \end{equation*}
+          并将它们关于~$D$ 表示
+          \begin{equation*}
+            \rep{\colvec{1 \\ 0}}{D}=\colvec{1/2 \\ 0}
+            \qquad
+            \rep{\colvec{1 \\ 1}}{D}=\colvec{1/2 \\ -1/2}
+          \end{equation*}
+          于是我们得到下式。
+          \begin{equation*}
+            P=\rep{\identity}{B,D}=
+            \begin{mat}
+              1/2 &1/2 \\
+              0   &-1/2
+            \end{mat}
+          \end{equation*}
+
+          对于左边的矩阵，我们既可以像 
+          上一段那样直接计算，
+          也可以取其逆。 
+          \begin{equation*}
+            P^{-1}=\rep{\identity}{D,B}=
+            \frac{1}{(-1/4)}\cdot
+            \begin{mat}
+              -1/2 &-1/2 \\
+              0   &1/2
+            \end{mat}
+            =
+            \begin{mat}
+              2 &2 \\
+              0 &-2
+            \end{mat}
+          \end{equation*}
+        \partsitem
+          与前一问一样，我们既可以 
+          由定义直接计算，
+          也可以利用矩阵运算来计算。
+          \begin{equation*}
+            PTP^{-1}=
+            \begin{mat}
+              2 &2 \\
+              0 &-2
+            \end{mat}
+            \begin{mat}
+              1 &-1 \\ 
+              2 &1
+            \end{mat}
+            \begin{mat}
+              2 &2 \\
+              0 &-2
+            \end{mat}
+            =
+            \begin{mat}
+              3 &3  \\
+             -2 &-1
+            \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+     通过让
+     \( \map{t}{\C^2}{\C^2} \) 按下面的方式作用，给出一个非平凡的相似关系，
+     \begin{equation*}
+        \colvec[r]{1 \\ 2}\mapsto\colvec[r]{3 \\ 0}
+        \qquad
+        \colvec[r]{-1 \\ 1}\mapsto\colvec[r]{-1 \\ 2}
+     \end{equation*}
+     选取两个基~$B,D$，
+     并关于它们表示 \( t \)，
+     即 \( \hat{T}=\rep{t}{B,B} \) 与 \( T=\rep{t}{D,D} \)。
+     然后计算 
+     用于把基从 \( B \) 换到 \( D \) 以及 
+     换回来的 \( P \) 与 \( P^{-1} \)。
+     \begin{answer}
+        基的一种可行选取是 
+        \begin{equation*}
+          B=\sequence{\colvec[r]{1 \\ 2},\colvec[r]{-1 \\ 1}}
+          \qquad
+          D=\stdbasis_2=\sequence{\colvec[r]{1 \\ 0},\colvec[r]{0 \\ 1}}
+        \end{equation*}
+        （这个 $B$ 来自对该映射的描述）。
+        为求矩阵 $\hat{T}=\rep{t}{B,B}$，解关系式 
+        \begin{equation*}
+           c_1\colvec[r]{1 \\ 2}+c_2\colvec[r]{-1 \\ 1}=\colvec[r]{3 \\ 0}
+           \qquad
+          \hat{c}_1\colvec[r]{1 \\ 2}+\hat{c}_2\colvec[r]{-1 \\ 1}=\colvec[r]{-1 \\ 2}
+        \end{equation*}
+        得 \( c_1=1 \)、\( c_2=-2 \)、\( \hat{c}_1=1/3 \) 及
+        \( \hat{c}_2=4/3 \)。
+        \begin{equation*}
+           \rep{t}{B,B}=
+           \begin{mat}[r]
+              1  &1/3 \\
+             -2  &4/3
+           \end{mat}
+        \end{equation*}
+
+        求 \( \rep{t}{D,D} \) 需要稍多一些计算。
+        我们先求 \( t(\vec{e}_1) \)。
+        关系式
+        \begin{equation*}
+          c_1\colvec[r]{1 \\ 2}+c_2\colvec[r]{-1 \\ 1}=\colvec[r]{1 \\ 0}
+        \end{equation*}
+        给出 \( c_1=1/3 \) 与 \( c_2=-2/3 \)，于是 
+        \begin{equation*}
+          \rep{\vec{e}_1}{B}=\colvec[r]{1/3 \\ -2/3}_B
+        \end{equation*}
+        从而
+        \begin{equation*}
+           \rep{t(\vec{e}_1)}{B}=
+                  \begin{mat}[r]
+                     1  &1/3  \\
+                    -2  &4/3
+                  \end{mat}_{B,B}
+                  \colvec[r]{1/3 \\ -2/3}_B
+                  =
+                  \colvec[r]{1/9 \\ -14/9}_B
+        \end{equation*}
+        因此 $t$ 对第一个基向量 $\vec{e}_1$ 的作用如下。
+        \begin{equation*}
+          t(\vec{e}_1)
+          =(1/9)\cdot\colvec[r]{1 \\ 2}-(14/9)\cdot\colvec[r]{-1 \\ 1}
+          =\colvec[r]{5/3 \\ -4/3}      
+        \end{equation*}
+        \( t(\vec{e}_2) \) 的计算类似。
+        关系式
+        \begin{equation*}
+          c_1\colvec[r]{1 \\ 2}+c_2\colvec[r]{-1 \\ 1}=\colvec[r]{0 \\ 1}
+        \end{equation*}
+        给出 \( c_1=1/3 \) 与 \( c_2=1/3 \)，所以
+        \begin{equation*}
+          \rep{\vec{e}_1}{B}=\colvec[r]{1/3 \\ 1/3}_B      
+        \end{equation*}
+        从而
+        \begin{equation*}
+          \rep{t(\vec{e}_1)}{B}=
+                  \begin{mat}[r]
+                     1  &1/3  \\
+                    -2  &4/3
+                  \end{mat}_{B,B}
+                  \colvec[r]{1/3 \\ 1/3}_B
+                  =
+                  \colvec[r]{4/9 \\ -2/9}_B
+        \end{equation*}
+        因此 $t$ 对第二个基向量 $\vec{e}_2$ 的作用如下。
+        \begin{equation*}
+          t(\vec{e}_2)
+          =(4/9)\cdot\colvec[r]{1 \\ 2}-(2/9)\cdot\colvec[r]{-1 \\ 1}
+          =\colvec[r]{2/3 \\ 2/3}
+        \end{equation*}
+        因此
+        \begin{equation*}
+           \rep{t}{D,D}=
+           \begin{mat}[r]
+              5/3  &2/3  \\
+             -4/3  &2/3
+           \end{mat}
+        \end{equation*}
+        于是得到这个矩阵。
+        \begin{equation*}
+          P=\rep{\identity}{B,D}
+          =\begin{mat}[r]
+            1  &-1  \\
+            2  &1 
+          \end{mat}
+        \end{equation*}
+       而这一个用于换基。 
+       \begin{equation*}
+          P^{-1}=\bigl(\rep{\identity}{B,D}\bigr)^{-1}
+          =\begin{mat}[r]
+             1  &-1 \\
+             2  &1
+          \end{mat}^{-1}
+          =
+          \begin{mat}[r]
+            1/3  &1/3  \\
+            -2/3 &1/3
+          \end{mat}
+       \end{equation*}
+       这些计算的检验是例行的。
+       \begin{equation*}
+          \begin{mat}[r]
+             1  &-1 \\
+             2  &1
+          \end{mat}
+          \begin{mat}[r]
+             1  &1/3 \\
+            -2  &4/3
+          \end{mat}
+          \begin{mat}[r]
+            1/3 &1/3 \\
+           -2/3 &1/3
+          \end{mat}
+          =
+          \begin{mat}[r]
+            5/3 &2/3 \\
+           -4/3 &2/3
+          \end{mat}
+       \end{equation*}  
+    \end{answer}
+  \recommended \item 
+    证明这两个矩阵不相似。
+    \begin{equation*}
+       \begin{mat}[r]
+          1  &0  &4  \\
+          1  &1  &3  \\
+          2  &1  &7
+       \end{mat}
+       \qquad
+       \begin{mat}[r]
+          1  &0  &1  \\
+          0  &1  &1  \\
+          3  &1  &2
+       \end{mat}
+    \end{equation*}
+    \begin{answer}
+      高斯消元法表明，
+      第一个矩阵表示的映射秩为二，而第二个
+      矩阵表示的映射秩为三。
+    \end{answer}
+  \item 
+    用映射的语言解释 \nearbyexample{ex:OnlyZeroSimToZero}。
+    \begin{answer}
+      零映射的表示只有零矩阵，
+      无论基对是什么都有 $\rep{z}{B,D}=Z$，
+      因此特别地，对任何单独一个基 $B$ 我们有 $\rep{z}{B,B}=Z$。  
+      恒等映射的情形稍有不同：~恒等映射关于任何 $B,B$ 的
+      唯一表示
+      是单位矩阵 $\rep{\identity}{B,B}=I$。
+      （\textit{注：}~当然，我们已经见过 $B\neq D$ 且 
+      $\rep{\identity}{B,D}\neq I$ 的例子 \Dash 事实上，我们已经看到任何 
+      非奇异矩阵都是恒等映射关于某个 
+      $B,D$ 的表示。）
+    \end{answer}
+  \recommended \item 
+    \cite{Halmos}
+    是否存在两个矩阵 \( A \) 与 \( B \) 相似，
+    而 \( A^2 \) 与 \( B^2 \) 却不相似？
+    \begin{answer}
+      不存在。
+      若 \( A=PBP^{-1} \)，则 \( A^2=(PBP^{-1})(PBP^{-1})=PB^2P^{-1} \)。
+    \end{answer}
+  \recommended \item
+    证明：若两个矩阵相似且其中一个是可逆的，
+    则另一个也可逆。
+    \begin{answer}
+       矩阵相似是矩阵等价的特殊情形 
+       （若矩阵相似则它们矩阵等价），
+       而矩阵等价保持非奇异性。
+    \end{answer}
+  \item \label{exer:SimIsEquivRel}
+    证明相似是一个等价关系。
+    （前面给出的定义已经体现了这一点，因此 
+    这里改从如下定义出发：$\hat{T}$ 相似于
+    $T$ 当且仅当 $\hat{T}=PTP^{-1}$。）
+    \begin{answer}
+       矩阵与它自身相似；取 \( P \) 为单位
+       矩阵：~$P=IPI^{-1}=IPI$。
+
+       若 \( \hat{T} \) 相似于 \( T \)，则 \( \hat{T}=PTP^{-1} \)
+       于是 \( P^{-1}\hat{T}P=T \)。
+       将其改写为 \( T=(P^{-1})\hat{T}(P^{-1})^{-1} \)，即可得出
+       $T$ 相似于 \( \hat{T} \)。
+
+        对于传递性，
+        若 \( T \) 相似于 \( S \) 且 \( S \) 相似于 \( U \)，
+        则 \( T=PSP^{-1} \) 且 \( S=QUQ^{-1} \)。
+        于是 \( T=PQUQ^{-1}P^{-1}=(PQ)U(PQ)^{-1} \)，这表明 \( T \)
+        相似于 \( U \)。  
+      \end{answer}
+  \item 
+      考虑一个 
+      关于某个 $B,B$ 表示 
+      \( \Re^2 \) 中关于 \( x \) 轴的反射的矩阵。
+      再考虑  
+      一个关于某个 $D,D$ 表示
+      关于 \( y \) 轴的反射的矩阵。
+      它们必定相似吗？
+      \begin{answer}
+         设 $f_x$ 与 $f_y$ 为这两个反射映射（有时称为「翻转」）。
+         对任何基
+         \( B \) 与 \( D \)，矩阵 \( \rep{f_x}{B,B}  \) 与
+         \( \rep{f_y}{D,D} \) 相似。
+         首先注意
+         \begin{equation*}
+            S=\rep{f_x}{\stdbasis_2,\stdbasis_2}=
+            \begin{mat}[r]
+               1  &0  \\
+               0  &-1
+            \end{mat}
+            \qquad
+            T=\rep{f_y}{\stdbasis_2,\stdbasis_2}=
+            \begin{mat}[r]
+              -1  &0  \\
+               0  &1
+            \end{mat}
+         \end{equation*}
+         相似，因为第二个矩阵是 $f_x$
+         关于基 \( A=\sequence{\vec{e}_2,\vec{e}_1} \) 的表示：
+         \begin{equation*}
+            \begin{mat}[r]
+               1  &0  \\
+               0  &-1
+            \end{mat}
+            =    
+            P
+            \begin{mat}[r]
+              -1  &0  \\
+               0  &1
+            \end{mat}
+            P^{-1}
+         \end{equation*}
+         其中 $P=\rep{\identity}{A,\stdbasis_2}$。
+         \begin{equation*}
+           \begin{CD}
+             \C^2_{\wrt{A}}                   
+                @>f_x>T>        
+                V\C^2_{\wrt{A}}       \\
+             @V\scriptstyle\identity VPV                
+                @V\scriptstyle\identity VPV \\
+             \C^2_{\wrt{\stdbasis_2}}         
+                @>f_x>S>        
+                \C^2_{\wrt{\stdbasis_2}}
+           \end{CD}
+         \end{equation*}
+         现在结论由
+         \nearbyexercise{exer:SimIsEquivRel} 的传递性部分得出。
+         
+        我们也可以不依赖那道练习来完成。
+        记
+        $\rep{f_x}{B,B}=QTQ^{-1}=Q\rep{f_x}{\stdbasis_2,\stdbasis_2}Q^{-1}$
+        以及
+        $\rep{f_y}{D,D}=RSR^{-1}=R\rep{f_y}{\stdbasis_2,\stdbasis_2}R^{-1}$。
+        由第一段中的等式， 
+        这两个中的第一个是
+        $\rep{f_x}{B,B}=QP\rep{f_y}{\stdbasis_2,\stdbasis_2}P^{-1}Q^{-1}$。
+        将这两个中的第二个改写为
+        $R^{-1}\cdot\rep{f_y}{D,D}\cdot R=\rep{f_y}{\stdbasis_2,\stdbasis_2}$
+        并代入，就得到所需的关系
+        \begin{multline*}
+          \rep{f_x}{B,B}
+          =QP\rep{f_y}{\stdbasis_2,\stdbasis_2}P^{-1}Q^{-1}  \\
+          =QPR^{-1}\cdot\rep{f_y}{D,D}\cdot RP^{-1}Q^{-1}
+          =(QPR^{-1})\cdot\rep{f_y}{D,D}\cdot (QPR^{-1})^{-1}
+        \end{multline*}
+        因此矩阵 \( \rep{f_x}{B,B}  \) 与 \( \rep{f_y}{D,D} \) 
+        相似。 
+      \end{answer}
+  \item 
+     证明矩阵相似保持秩与行列式。
+     逆命题成立吗？
+     \begin{answer}
+        我们必须证明：若两个矩阵相似，则它们有相同的
+        秩和相同的行列式。
+
+        首先，我们已经证明 
+        映射的秩等于表示该映射的任何矩阵的秩，
+        所以秩对所有表示都相同。
+        （换句话说，秩是映射的性质， 
+        因为它是值域空间的维数。）
+
+        至于行列式，
+        \( \deter{PSP^{-1}}=\deter{P}\cdot\deter{S}\cdot\deter{P^{-1}}
+           =\deter{P}\cdot\deter{S}\cdot\deter{P}^{-1}=\deter{S} \)。
+
+       该命题的逆命题不成立。 
+       一方面，
+       存在行列式相同却不相似的矩阵。
+       举个例子，考虑一个行列式为 
+       零的非零矩阵。
+       它不与零矩阵相似，因为零矩阵只与
+       它自身相似，但二者行列式相同。 
+       同样的思路给出秩的反例。 
+     \end{answer}
+  \item 
+     是否存在只包含一个矩阵相似
+     类的矩阵等价类？
+     是否存在包含无穷多个相似类的？
+     \begin{answer}
+       包含所有秩为 
+       零的 \( \nbyn{n} \) 矩阵的矩阵等价类只含一个矩阵，即零矩阵。
+       因此它作为子集只含有一个相似类。
+
+       相比之下，秩为一的 
+       \( \nbyn{1} \) 矩阵的矩阵等价类由那些 
+       \( k\neq 0 \) 的 $\nbyn{1}$ 矩阵 \( (k) \) 组成。
+       对任何基 \( B \)，
+       用标量 \( k \) 相乘的映射的表示
+       为 \( \rep{t_k}{B,B}=(k) \)，
+       所以每个这样的矩阵独自构成其相似类。
+       所以这是矩阵等价类分裂成
+       无穷多个相似类的一个例子。  
+      \end{answer}
+  \item 
+     两个不同的对角矩阵能属于同一个相似类吗？
+     \begin{answer}
+       能，下面两个矩阵相似
+       \begin{equation*}
+          \begin{mat}[r]
+            1  &0  \\
+            0  &3
+          \end{mat}
+          \qquad
+          \begin{mat}[r]
+            3  &0  \\
+            0  &1
+          \end{mat}
+       \end{equation*}
+       因为，当第一个矩阵是关于 
+       $B=\sequence{\vec{\beta}_1,\vec{\beta}_2}$ 的 $\rep{t}{B,B}$ 时， 
+       第二个矩阵就是关于 
+       $D=\sequence{\vec{\beta}_2,\vec{\beta}_1}$ 的 $\rep{t}{D,D}$。
+      \end{answer}
+  \recommended \item
+     证明：若两个矩阵相似，则当 \( k>0 \) 时，
+     它们的 \( k \) 次幂也相似。
+     若 \( k\leq 0 \) 会怎样？
+     \begin{answer}
+       \( k \) 次幂相似，因为当每个矩阵表示
+       映射 $t$ 时，\( k \) 次幂表示
+       \( t^k \)，即 $k$ 个 $t$ 的复合。
+       （例如，若 $T=rep{t}{B,B}$，则 $T^2=\rep{\composed{t}{t}}{B,B}$。）
+
+       用更计算化的说法重述：若 \( T=PSP^{-1} \)，则
+       \( T^2=(PSP^{-1})(PSP^{-1})=PS^2P^{-1} \)。
+       归纳法将此推广到所有幂。
+
+       对于 $k\leq 0$ 的情形， 
+       设 \( S \) 可逆且 \( T=PSP^{-1} \)。
+       注意 \( T \) 可逆：
+       \( T^{-1}=(PSP^{-1})^{-1}=PS^{-1}P^{-1} \)，
+       而同一个等式表明 
+       \( T^{-1} \) 相似于 \( S^{-1} \)。
+       其余负次幂则由第一段给出。  
+     \end{answer}
+  \recommended \item
+     设 \( p(x) \) 为多项式 \( c_nx^n+\cdots+c_1x+c_0 \)。
+     证明：若 \( T \) 相似于 \( S \)，则
+     \( p(T)=c_nT^n+\cdots+c_1T+c_0I \) 相似于
+     \( p(S)=c_nS^n+\cdots+c_1S+c_0I \)。
+     \begin{answer}
+        从概念上说，二者都表示某个
+        变换 \( t \) 的 \( p(t) \)。
+        从计算上说，我们有下式。
+        \begin{align*}
+           p(T)
+           &=c_n(PSP^{-1})^n+\dots+c_1(PSP^{-1})+c_0I   \\
+           &=c_nPS^nP^{-1}+\dots+c_1PSP^{-1}+c_0I   \\
+           &=Pc_nS^nP^{-1}+\dots+Pc_1SP^{-1}+Pc_0P^{-1}   \\
+           &=P(c_nS^n+\dots+c_1S+c_0)P^{-1}
+        \end{align*}  
+      \end{answer}
+  \item 
+     列出 \( \nbyn{1} \) 矩阵的所有矩阵等价类。
+     同时列出相似类，并描述每个矩阵等价类
+     内部包含哪些相似类。
+     \begin{answer}
+       有两个等价类：(i)~秩为零的矩阵的类， 
+       其中只有一个矩阵：
+       $\mathscr{C}_1=\set{(0)}$，
+       以及 (2)~秩为一的矩阵的类，
+       其中有无穷多个： 
+       \( \mathscr{C}_2=\set{(k)\suchthat k\neq0} \)。
+
+      每个 \( \nbyn{1} \) 矩阵都独自构成其相似类。
+      这是因为一维空间上的任何变换
+      都是乘以一个标量的映射 $\map{t_k}{V}{V}$，由
+      $\vec{v}\mapsto k\cdot\vec{v}$ 给出。 
+      于是，对任何基 \( B=\sequence{\vec{\beta}} \)，
+      表示变换 \( t_k \) 的矩阵 
+      关于 \( B,B \) 为
+      \( (\rep{t_k(\vec{\beta})}{B})=(k) \)。 
+      
+      所以，矩阵等价类
+      $\mathscr{C}_1$ 中（显然）只含有由矩阵 $(0)$ 构成的 
+      唯一相似类。
+      而矩阵等价类 $\mathscr{C}_2$ 中含有
+      无穷多个各含一个成员的相似类，由
+      $k\neq0$ 的 $(k)$ 构成。  
+    \end{answer}
+  \item 
+     相似保持和吗？
+     \begin{answer}
+       不保持。
+       下面是一个例子，其中有两对矩阵，每对中的两个矩阵相似：
+       \begin{equation*}
+          \begin{mat}[r]
+             1  &-1  \\
+             1  &2
+          \end{mat}
+          \begin{mat}[r]
+             1  &0   \\
+             0  &3
+          \end{mat}
+          \begin{mat}[r]
+             2/3  &1/3   \\
+            -1/3  &1/3
+          \end{mat}
+          =
+          \begin{mat}[r]
+             5/3  &-2/3  \\
+            -4/3  &7/3
+          \end{mat}
+       \end{equation*}
+       以及
+       \begin{equation*}
+          \begin{mat}[r]
+             1  &-2  \\
+            -1  &1
+          \end{mat}
+          \begin{mat}[r]
+            -1  &0   \\
+             0  &-3
+          \end{mat}
+          \begin{mat}[r]
+             -1  &-2   \\
+             -1  &-1
+          \end{mat}
+          =
+          \begin{mat}[r]
+             -5  &-4   \\
+              2  &1
+          \end{mat}
+       \end{equation*}
+       （这个例子并非完全任意，因为
+       两个等号左边的中间矩阵相加为零矩阵）。
+       注意这些相似矩阵的和并不相似
+       \begin{equation*}
+          \begin{mat}[r]
+             1  &0   \\
+             0  &3
+          \end{mat}
+          +
+          \begin{mat}[r]
+            -1  &0   \\
+             0  &-3
+          \end{mat}
+          =
+          \begin{mat}[r]
+            0  &0  \\
+            0  &0
+          \end{mat}
+          \qquad
+          \begin{mat}[r]
+             5/3  &-2/3   \\
+             -4/3 &7/3
+          \end{mat}
+          +
+          \begin{mat}[r]
+             -5  &-4   \\
+              2  &1
+          \end{mat}
+          \neq
+          \begin{mat}[r]
+            0  &0  \\
+            0  &0
+          \end{mat}
+       \end{equation*}
+       因为零矩阵只与它自身相似。
+     \end{answer}
+  \item 
+     证明：若 \( T-\lambda I \) 与 \( N \) 是相似矩阵，则
+     \( T \) 与 \( N+\lambda I \) 也相似。
+     \begin{answer}
+    若 \( N=P(T-\lambda I)P^{-1} \)，则
+    \( N=PTP^{-1}-P(\lambda I)P^{-1} \)。
+    对角矩阵 \( \lambda I \) 与任何矩阵可交换，所以
+    \( P(\lambda I)P^{-1}=PP^{-1}(\lambda I)=\lambda I \)。
+    于是 \( N=PTP^{-1}-\lambda I \)，
+    从而 \( N+\lambda I=PTP^{-1} \)。
+    （所以二者不仅相似，事实上它们是经由 
+    同一个 \( P \) 相似的。）
+    \end{answer}
+\end{exercises}

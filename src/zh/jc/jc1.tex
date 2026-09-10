@@ -1,0 +1,396 @@
+% Chapter 4, Section 1 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\chapter{相似}
+我们已经证明，对于任意同态，都存在基 $B$ 与~$D$，使得表示该映射的矩阵具有分块部分单位形。
+\begin{equation*}
+  \rep{h}{B,D}
+  =
+    \begin{pmat}{c|c}
+       \text{\textit{单位}}  &\text{\textit{零}}   \\
+       \hline
+       \text{\textit{零}}      &\text{\textit{零}}
+    \end{pmat}
+\end{equation*}
+该表示把映射描述为将
+\( c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n \) 映到
+\(c_1\vec{\delta}_1+\dots+c_k\vec{\delta}_k+\zero+\dots+\zero \)，
+其中 $n$ 是定义域的维数，而 \( k \) 是值域的维数。
+在这种表示下，
+由于矩阵的大部分元素都是零，映射的作用很容易理解。
+
+本章考虑定义域与陪域相同的特殊情形。
+此时我们自然要求定义域的基与陪域的基相同。
+也就是说，
+我们想要一个基 \( B \)，使得 \( \rep{t}{B,B} \) 尽可能简单，
+这里“简单”指的是矩阵中含有许多零。
+我们会发现，
+并不总能得到具有上述分块部分单位形的矩阵，
+但我们将发展出一种接近的形式，
+即一个近乎对角的表示。
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{复向量空间}
+\index{vector space!over complex numbers}
+%<*ReasonForShiftToComplexNumbers>
+本章需要我们对多项式作因式分解。
+但许多多项式在实数范围内不能分解；
+例如，
+\( x^2+1 \) 不能分解为两个实系数一次多项式的乘积；
+要分解它就需要复数 $x^2+1=(x-i)(x+i)$。
+
+因此在本章中，
+我们将使用复数作为标量，
+包括向量与矩阵中的元素。
+也就是说，我们从研究实数上的向量空间
+转向研究
+复数上的向量空间。\index{complex numbers!vector space over}
+任何实数都是复数，
+本章的大多数例子也只用实数，
+尽管如此，关键的定理要求标量必须是复数。
+%</ReasonForShiftToComplexNumbers>
+因此
+第一节是对复数的复习。
+
+本书转向取复数为标量这一更一般的框架，
+是出于务实的理由：为了继续向前推进，我们必须这样做。
+不过，取实数以外的结构中的标量来做向量空间，
+是一个有趣而又有用的想法。
+从一开始就采用这一方法的精彩论述见
+\cite{Halmos} 与 \cite{HoffmanKunze}。
+
+
+
+
+
+
+\subsectionoptional{多项式因式分解与复数}
+\textit{本小节仅为复习。
+  完整的展开，包括证明，
+  见 \cite{Ebbinghaus}。}
+
+%<*PolynomialReview0>
+考虑多项式\index{polynomial}
+$p(x)=c_nx^n+\dots+c_1x+c_0$，其
+首项系数\index{polynomial!leading coefficient}
+$c_n\neq 0$。
+我们称它是一个
+\definend{次数}为~$n$\index{polynomial!degree}\index{degree of a polynomial}
+的多项式。
+若 $n=0$，则 $p$ 是一个
+常数多项式\index{polynomial!constant}\index{constant polynomial}
+$p(x)=c_0$。
+不是零多项式的常数多项式，$c_0\neq 0$，
+次数为零。
+我们规定零多项式的次数为 $-\infty$。
+%</PolynomialReview0>
+
+\begin{remark}
+将零多项式的次数定义为 $-\infty$ %, which most authors do,
+使得等式 $\text{次数}(fg)=\text{次数}(f)+\text{次数}(g)$
+对所有多项式都成立。
+\end{remark}
+
+%<*PolynomialReview1>
+正如整数有除法运算\Dash 例如“\( 4 \) 除 \( 21 \) 得商 \( 5 \) 余 \( 1 \)”\Dash 多项式也有。
+%</PolynomialReview1>
+
+\begin{theorem}[多项式的除法定理] \label{th:EuclidForPolys}
+\index{division theorem}\index{polynomial!division theorem}
+%<*th:EuclidForPolys>
+设 \( p(x) \) 是一个多项式。
+若 \( d(x) \) 是非零多项式，则存在 \definend{商}多项式与
+\definend{余式}多项式 \( q(x) \) 和 \( r(x) \)，使得
+\begin{equation*}
+  p(x)=d(x)\cdot q(x)+r(x)
+\end{equation*}
+其中 \( r(x) \) 的次数严格小于 \( d(x) \) 的次数。
+%</th:EuclidForPolys>
+\end{theorem}
+
+整数表述
+“\( 4 \) 除 \( 21 \) 得商 \( 5 \) 余 \( 1 \)”
+的要点在于余数小于 \( 4 \)\Dash 虽然 \( 4 \) 能除 \( 5 \) 次，
+却不能除 \( 6 \) 次。
+类似地，多项式除法表述中的最后一句也是关键。
+
+\begin{example}
+若 \( p(x)=2x^3-3x^2+4x \) 且 \( d(x)=x^2+1 \)，则 \( q(x)=2x-3 \) 且
+\( r(x)=2x+3 \)。
+注意 \( r(x) \) 的次数比 \( d(x) \) 的次数低。
+\end{example}
+
+\begin{corollary} \label{co:PolyDividedByLinearPolyIsConstant}
+%<*co:PolyDividedByLinearPolyIsConstant>
+\( p(x) \) 除以 \( x-\lambda \) 所得的余式是常数多项式
+\( r(x)=p(\lambda) \)。
+%</co:PolyDividedByLinearPolyIsConstant>
+\end{corollary}
+
+\begin{proof}
+%<*pf:PolyDividedByLinearPolyIsConstant>
+余式必是常数多项式，
+因为它的次数小于除式 \( x-\lambda \) 的次数。
+为确定这个常数，取定理中的除式
+$d(x)$ 为 $x-\lambda$，并将 \( \lambda\/ \) 代入 $x$。
+%</pf:PolyDividedByLinearPolyIsConstant>
+\end{proof}
+
+%<*PolynomialFactor>
+若除式 \( d(x) \) 整除被除式 \( p(x) \)，
+即 \( r(x) \) 是零多项式，
+则称 \( d(x) \) 是 \( p(x) \) 的一个
+因式\index{factor}\index{polynomial!factor}。
+该因式的任何根\index{root}\index{polynomial!root}，即任何满足
+\( d(\lambda)=0 \) 的 \( \lambda\in\Re \)，
+都是 \( p(x) \) 的根，因为
+\( p(\lambda)=d(\lambda)\cdot q(\lambda)=0 \)。
+%</PolynomialFactor>
+
+\begin{corollary}  \label{co:RootOfPolyIsAssocLinearFactor}
+%<*co:RootOfPolyIsAssocLinearFactor>
+若 \( \lambda \) 是多项式 \( p(x) \) 的根，
+则 \( x-\lambda \) 整除 \( p(x) \)，也就是说，
+$x-\lambda$ 是 $p(x)$ 的因式。
+%</co:RootOfPolyIsAssocLinearFactor>
+\end{corollary}
+
+\begin{proof}
+%<*pf:RootOfPolyIsAssocLinearFactor>
+由上面的推论，$p(x)=(x-\lambda)\cdot q(x)+p(\lambda)$。
+由于 $\lambda$ 是根，
+$p(\lambda)=0$，故 $x-\lambda$ 是因式。
+%</pf:RootOfPolyIsAssocLinearFactor>
+\end{proof}
+
+多项式的重根是这样的数 $\lambda$：该多项式能被 $(x-\lambda)^n$ 整除，其中 $n$ 是大于一的某个幂。
+最大的这样的幂称为~$\lambda$ 的
+重数\index{multiplicity, of a root}\index{polynomial!multiplicity}。
+
+求一个高次多项式的根与因式可能很难。
+但对二次多项式我们有求根公式：~
+\( ax^2+bx+c \) 的根就是下面这些
+\begin{equation*}
+   \lambda_1=\frac{-b+\sqrt{b^2-4ac}}{2a}
+   \qquad
+   \lambda_2=\frac{-b-\sqrt{b^2-4ac}}{2a}
+\end{equation*}
+（若判别式 \( b^2-4ac \) 为负，则该多项式没有实数根）。
+不能分解成两个次数更低的实系数多项式之积的多项式，
+称为在实数上不可约。\index{irreducible polynomial}\index{polynomial!irreducible}
+
+\begin{theorem}  \label{th:CubicsAndHigherFactor}
+%<*th:CubicsAndHigherFactor>
+任何常数多项式或一次多项式在实数上都不可约。
+二次多项式在实数上不可约当且仅当它的
+判别式为负。
+没有三次或更高次的多项式在实数上不可约。
+%</th:CubicsAndHigherFactor>
+\end{theorem}
+
+\begin{corollary}  \label{co:RealPolysFactorIntoLinearsAndQuads}
+%<*co:RealPolysFactorIntoLinearsAndQuads>
+任何实系数多项式都能分解为一些实系数的一次多项式与
+不可约二次多项式的乘积。
+该分解是唯一的；任何两个分解都具有相同的因式
+与相同的幂次。
+%</co:RealPolysFactorIntoLinearsAndQuads>
+\end{corollary}
+
+注意与整数的素因数分解作类比。
+在两种情形中，唯一性条款都非常有用。
+
+\begin{example}
+由唯一性，我们不必把它们乘出来就知道
+\( (x+3)^2(x^2+1)^3 \) 不等于
+\( (x+3)^4(x^2+x+1)^2 \)。
+\end{example}
+
+\begin{example}
+由唯一性，若 \( c(x)=m(x)\cdot q(x) \)，其中
+\( c(x)=(x-3)^2(x+2)^3 \) 且 \( m(x)=(x-3)(x+2)^2 \)，
+则我们知道 \( q(x)=(x-3)(x+2) \)。
+\end{example}
+
+%<*ComplexNumbers>
+虽然 \( x^2+1 \) 没有实根，因而在实数范围内不能分解，
+但如果我们想象一个根\Dash 习惯上记作 \( i \)，
+使得 \( i^2+1=0 \)\Dash 那么 \( x^2+1 \) 就能分解成一次式之积
+\( (x-i)(x+i) \)。
+把这个根 \( i \) 添加到实数中，并使新系统对加法与乘法封闭，
+我们就得到了
+复数，\index{complex numbers}
+\( \C=\set{a+bi\suchthat \text{$a,b\in\R$ 且 $i^2=-1$}} \)。
+%</ComplexNumbers>
+
+对于标量 $z\in\C$，设 $z=a+bi$，
+我们称 $a$ 为~$z$ 的 \definend{实部}，
+而~$b$ 为 \definend{虚部}。
+我们常把复数描绘在
+\definend{复平面}\index{complex plane}上，
+其中 $a$ 画在 \definend{实轴}\index{real axis}上，即水平轴，
+而 $b$ 画在
+\definend{虚轴}上，\index{imaginary axis}
+即竖直轴。
+注意该点到原点的距离就是长度
+$|a+bi|=\sqrt{a^2+b^2}$。
+
+%<*ComplexOperations>
+回忆复数的加法与标量乘法的定义
+\begin{equation*}
+   (a+bi)\,+\,(c+di)=(a+c)+(b+d)i
+  \qquad
+  r\cdot(a+bi)=(ra)+(rb)i
+\end{equation*}
+（因此减法就是 $(a+bi)-(c+di)=(a-c)+(b-d)i$）。
+再回忆复数与复数相乘的定义。
+\begin{align*}
+     (a+bi)(c+di) &=ac+adi+bci+bd(-1)  \\
+                  &=(ac-bd)+(ad+bc)i
+\end{align*}
+%</ComplexOperations>
+
+\begin{example}
+例如，
+% \( (1-2i)\,+\,(5+4i)=6+2i \) and
+\( (2-3i)(4-0.5i)=6.5-13i \)。
+\end{example}
+
+在复数范围内，任何二次多项式都能分解成一次式之积。
+\begin{equation*}
+   ax^2+bx+c=
+   a\cdot \big(x-\frac{-b+\sqrt{b^2-4ac}}{2a}\big)
+    \cdot \big(x-\frac{-b-\sqrt{b^2-4ac}}{2a}\big)
+\end{equation*}
+
+\begin{example}
+二次多项式 \( x^2+x+1 \) 在复数范围内可分解为
+两个一次多项式的乘积：
+\begin{equation*}
+   \big(x-\frac{-1+\sqrt{-3}}{2}\big)
+   \big(x-\frac{-1-\sqrt{-3}}{2}\big)
+   =
+   \big(x-(-\frac{1}{2}+\frac{\sqrt{3}}{2}i)\big)
+   \big(x-(-\frac{1}{2}-\frac{\sqrt{3}}{2}i)\big)
+\end{equation*}
+\end{example}
+
+与实数不同，在 \( \C \) 中没有不可约的二次式。
+所有多项式都能完全分解成一次式之积。
+
+\begin{theorem}[代数基本定理] \label{th:FundThmAlg}\index{Fundamental Theorem!of Algebra}
+\hspace*{0em plus2em}
+%<*th:FundThmAlg>
+复系数多项式能分解成一些复系数一次多项式之积。
+该分解是唯一的。
+%</th:FundThmAlg>
+\end{theorem}
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{复表示}
+有了上面关于复数的定义，
+我们在实向量空间中使用过的所有运算
+都原封不动地适用于复标量的向量空间。
+
+\begin{example}
+矩阵乘法是一样的，尽管计算可能涉及更多的算术运算。
+\begin{multline*}
+   \begin{mat}
+      1+1i  &2-0i  \\
+       i    &-2+3i
+   \end{mat}
+   \begin{mat}
+      1+0i  &1-0i  \\
+      3i    &-i
+   \end{mat}             \\
+ \begin{aligned}
+  &=\begin{mat}
+     (1+1i)\cdot(1+0i)+(2-0i)\cdot(3i)   &(1+1i)\cdot(1-0i)+(2-0i)\cdot(-i) \\
+     (i)\cdot(1+0i)+(-2+3i)\cdot(3i)     &(i)\cdot(1-0i)+(-2+3i)\cdot(-i)
+  \end{mat}                                                  \\
+  &=\begin{mat}
+     1+7i  &1-1i  \\
+    -9-5i  &3+3i
+  \end{mat}
+ \end{aligned}
+\end{multline*}
+\end{example}
+
+我们将把前几章的内容尽可能地原封不动地搬过来。
+例如，我们将把这个
+\begin{equation*}
+   \sequence{\colvec{1+0i \\ 0+0i \\ \vdots \\ 0+0i},
+             \dots,
+             \colvec{0+0i \\ 0+0i \\ \vdots \\ 1+0i}}
+\end{equation*}
+称为 \( \C^n \) 作为 $\C$ 上的向量空间的
+\definend{标准基}\index{standard basis}\index{basis!standard}%
+\index{standard basis!complex number scalars}，
+并仍记作 \( \stdbasis_n \)。
+另一个例子是，
+$\polyspace_n$ 将是系数为复数的
+次数为~$n$ 的多项式组成的向量空间。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

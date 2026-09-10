@@ -1,0 +1,273 @@
+% Chapter 4, Topic _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\topic{稳定种群}
+\index{stable populations|(}
+\index{populations, stable|(}
+想象一个保护区公园，里面养着我们所保护的一个物种的动物。
+公园没有围栏，因此动物会穿越边界，
+既有从里到外的，也有从外到里的。
+每年，园内的动物有 $10\%$ 离开，
+而外面的动物有 $1\%$
+找到路进入园内。
+我们能达到一个稳定的水平吗？
+是否存在公园与世界其余地区的这样一组数量，
+使它们随时间保持不变，
+且离开的动物数等于进入的动物数？
+
+设 $p_n$ 为第~$n$ 年公园内的数量，
+而 $r_n$ 为世界其余地区的数量。
+\begin{align*}
+  p_{n+1}
+  &=.90p_n+.01r_n    \\
+  r_{n+1}
+  &=.10p_n+.99r_n
+\end{align*}
+于是有如下矩阵方程。
+\begin{equation*}
+  \colvec{p_{n+1} \\ r_{n+1}}
+  =\begin{mat}[r]
+    .90  &.01  \\
+    .10  &.99
+  \end{mat}
+  \colvec{p_{n} \\ r_{n}}
+\end{equation*}
+若 $p_{n+1}=p_n$ 且 $r_{n+1}=r_n$，则数量是稳定的，此时
+矩阵方程 $\vec{v}_{n+1}=T\vec{v}_{n}$ 变成 $\vec{v}=T\vec{v}$。
+因此我们寻找的是 $T$ 的与特征值 $\lambda=1$
+相关联的特征向量。
+方程 $\zero=(\lambda I-T)\vec{v}=(I-T)\vec{v}$ 为
+\begin{equation*}
+  \begin{mat}[r]
+      0.10  &-0.01  \\
+      -0.10  &0.01
+  \end{mat}
+  \colvec{p \\ r}=
+  \colvec[r]{0 \\ 0}
+\end{equation*}
+由此得到由满足限制 $p=.1r$ 的向量组成的特征子空间。
+例如，
+若开始时公园内的数量为 $p=10\,000$~只动物，
+世界其余地区的数量为 $r=100\,000$~只动物，那么每年
+园内的动物有百分之十离开公园
+（这是一千只），
+而每年世界其余地区的动物有百分之一进入公园（也是一千只）。
+数量是稳定的，能够自我维持。
+
+现在设想我们正设法提高该物种的世界总数量。
+我们希望世界数量以每年
+$1\%$ 的速度增长。
+这使数量水平在某种意义下是稳定的，
+不过这是一种动态的稳定性，
+与 $\lambda=1$ 情形下的静态数量水平不同。
+方程 $\vec{v}_{n+1}=1.01\cdot\vec{v}_n=T\vec{v}_{n}$ 导出
+$((1.01 I-T)\vec{v}=\zero$，由此得到如下方程组。
+\begin{equation*}
+  \begin{mat}[r]
+     0.11   &-0.01  \\
+     -0.10  &0.02
+  \end{mat}
+  \colvec{p \\ r}=
+  \colvec[r]{0 \\ 0}
+\end{equation*}
+该矩阵是非奇异的，因此唯一的解是 $p=0$、
+$r=0$。
+于是，不存在非平凡的初始数量，
+能使 $p$ 与 $r$ 以每年百分之一的固定速度增长。
+
+我们可以寻找这样的增长率，
+使得公园的某个初始数量
+导致稳定的增长行为。
+我们考虑 $\lambda\vec{v}=T\vec{v}$ 并解出 $\lambda$。
+\begin{equation*}
+  0=\begin{vmat}
+    \lambda-.9  &.01  \\
+    .10         &\lambda-.99
+  \end{vmat}
+  =(\lambda-.9)(\lambda-.99)-(.10)(.01)
+  =\lambda^2-1.89\lambda+.89
+\end{equation*}
+我们已经知道 $\lambda=1$ 是这个特征方程的一个解。
+另一个解是 $0.89$。
+于是，尽管公园的边界是漏的，仍有两个途径使 $p$ 与 $r$
+动态地稳定，即二者以相同的速度增长：(i)~世界数量既不增长也不萎缩，
+以及 (ii)~世界数量每年萎缩
+$11\%$。
+
+因此，看待特征值与特征向量的一种方式是：它们给出系统的一个稳定状态。
+若特征值为一，则系统是静态的；
+若特征值不是一，则它是一种动态的稳定性。
+
+
+
+
+
+\begin{exercises}
+  \item
+    对上面讨论的公园，在数量每年下降 $11\%$
+    的情形下，公园的初始数量应该是多少？
+    \begin{answer}
+      方程
+      \begin{equation*}
+         0.89I-T
+         =
+         \begin{mat}
+           0.89 &0 \\
+           0 &0.89
+         \end{mat}
+         -
+         \begin{mat}
+           .90  &.01  \\
+           .10  &.99
+         \end{mat}
+         =
+         \begin{mat}
+           -.01  &-.01  \\
+           -.10  &-.10
+         \end{mat}
+      \end{equation*}
+      导出如下方程组。
+      \begin{equation*}
+        \begin{mat}
+          -.01  &-.01  \\
+          -.10  &-.10
+        \end{mat}
+        \colvec{p \\ r}
+        =
+        \colvec{0  \\ 0}
+      \end{equation*}\
+      于是特征向量满足 $p=-r$。
+    \end{answer}
+  \item
+    若外部数量每年增长 $1\%$，公园的数量会怎样？
+    公园的增长率会落后于世界还是领先于世界？
+    设公园的初始数量是一万，世界数量是十万，
+    并计算十年的跨度。
+    \begin{answer}
+      \Sage{} 求得如下结果。
+\begin{lstlisting}
+sage: M = matrix(RDF, [[0.90,0.01], [0.10,0.99]])
+sage: v = vector(RDF, [10000, 100000])
+sage: for y in range(10):
+....:     v[1] = v[1]*(1+.01)^y
+....:     print "pop vector year",y," is",v
+....:     v = M*v
+....:
+pop vector year 0  is (10000.0, 100000.0)
+pop vector year 1  is (10000.0, 101000.0)
+pop vector year 2  is (10010.0, 103019.899)
+pop vector year 3  is (10039.19899, 106111.421211)
+pop vector year 4  is (10096.3933031, 110360.453787)
+pop vector year 5  is (10190.3585107, 115891.187687)
+pop vector year 6  is (10330.2345365, 122872.349786)
+pop vector year 7  is (10525.9345807, 131525.973067)
+pop vector year 8  is (10788.6008533, 142139.351965)
+pop vector year 9  is (11131.1342876, 155081.09214)
+\end{lstlisting}
+       于是园内数量增长约百分之十一，
+       而园外数量增长约百分之五十五。
+    \end{answer}
+  \item
+    上面讨论的公园修了部分围栏，于是现在每年
+    只有 $5\%$ 的园内动物离开（不过，
+    园外仍约有 $1\%$ 的动物
+    找到路进来）。
+    现在在什么条件下公园能维持稳定的数量？
+    \begin{answer}
+      我们要求明年公园的数量
+      由留下的动物与从外面进入的动物组合而成，
+      即 $p_{n+1}=0.95p_n+0.01r_n$。
+      而明年世界其余地区的数量
+      由离开公园的动物与留在世界其余地区的动物组合而成，
+      即 $r_{n+1}=0.05p_n+0.99r_n$。
+      矩阵方程
+      \begin{equation*}
+        \colvec{p_{n+1}  \\ r_{n+1}}
+        =
+        \begin{mat}
+          0.95  &0.01  \\
+          0.05  &0.99
+        \end{mat}
+        \colvec{p_n  \\ r_n}
+      \end{equation*}
+      表明，为求特征值我们要解
+      \begin{equation*}
+        0
+        =
+        \begin{vmat}
+          \lambda-0.95  &0.01  \\
+          0.10          &\lambda-0.99
+        \end{vmat}
+        =\lambda^2-1.94\lambda-0.9405
+      \end{equation*}
+      \Sage{} 给出如下结果。
+\begin{lstlisting}
+sage: a,b,c = var('a,b,c')
+sage: qe = (x^2 - 1.94*x -.9405 == 0)
+sage: print solve(qe, x)
+[
+x == -1/100*sqrt(18814) + 97/100,
+x == 1/100*sqrt(18814) + 97/100
+]
+sage: n(-1/100*sqrt(18814) + 97/100)
+-0.401641352540816
+sage: n(1/100*sqrt(18814) + 97/100)
+2.34164135254082
+\end{lstlisting}
+      于是，数量要动态地稳定，唯一的途径是公园的数量每年增长 $234\%$。
+    \end{answer}
+  \item
+    设某鸟种只生活在加拿大、美国
+    或墨西哥。
+    每年，加拿大的鸟有 $4\%$ 飞往美国，另有 $1\%$
+    飞往墨西哥。
+    每年，美国的鸟有 $6\%$ 飞往加拿大，$4\%$ 飞往墨西哥。
+    从墨西哥出发，每年有 $10\%$ 飞往美国，$0\%$ 飞往加拿大。
+    \begin{exparts}
+      \partsitem 给出转移矩阵。
+      \partsitem 三个国家有没有办法使各自的
+         数量保持不变？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 递推关系如下。
+          \begin{equation*}
+            \colvec{c_{n+1} \\ u_{n+1} \\ m_{n+1}}
+            =
+            \begin{mat}
+              .95  &.06  &0  \\
+              .04  &.90  &.10  \\
+              .01  &.04  &.90
+            \end{mat}
+            \colvec{c_n \\ u_n  \\ m_n}
+          \end{equation*}
+        \partsitem 方程组
+          \begin{equation*}
+            \begin{linsys}{3}
+              .05c &- &.06u &  &     &= &0  \\
+             -.04c &+ &.10u &- &.10m &= &0  \\
+             -.01c &- &.04u &+ &.10m &= &0
+            \end{linsys}
+          \end{equation*}
+          有无穷多解。
+\begin{lstlisting}
+sage: var('c,u,m')
+(c, u, m)
+sage: eqns = [ .05*c-.06*u  == 0,
+....:         -.04*c+.10*u-.10*m == 0,
+....:         -.01*c-.04*u+.10*m == 0 ]
+sage: solve(eqns, c,u,m)
+[[c == 30/13*r1, u == 25/13*r1, m == r1]]
+\end{lstlisting}
+      \end{exparts}
+    \end{answer}
+\end{exercises}
+\index{populations, stable|)}
+\index{stable populations|)}
+\endinput
+
+
+
+
+
+

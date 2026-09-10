@@ -1,0 +1,489 @@
+% Chapter 4, Section 1 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\section{幂零性}
+本章将证明，每个方阵都相似于一个能写成两类简单矩阵之和的矩阵。
+前一小节关注了第一类简单矩阵，即对角矩阵。
+现在我们来考虑另一类。
+
+
+
+
+
+
+
+
+
+\subsectionoptional{自复合}\index{self composition!of maps}\index{map!self composition}\index{transformation!composed with itself}\index{composition!self}
+% \noindent\textit{This subsection is optional, although it is necessary
+% for later material in this section and in the next one.}
+
+由于线性变换 $\map{t}{V}{V}$ 的定义域与陪域相同，我们可以将
+$t$ 与自身复合：
+\( t^2=\composed{t}{t} \)，
+以及 \( t^3=\composed{t}{\composed{t}{t}} \)，
+等等。\appendrefs{function iteration}\spacefactor=1000 %
+\begin{center}
+  \includegraphics{jc/mp/ch5.1}
+\end{center}
+对变换的迭代使用上标幂记号 $t^j$，
+与我们对其方阵表示所用的记号是相容的，
+因为若 $\rep{t}{B,B}=T$，则 \( \rep{t^j}{B,B}=T^j \)。
+
+
+\begin{example} \label{ex:DerivIter}
+对于求导映射 \( \map{d/dx}{\polyspace_3}{\polyspace_3} \)，它由下式给出
+\begin{equation*}
+  a+bx+cx^2+dx^3\xmapsunder{d/dx} b+2cx+3dx^2
+\end{equation*}
+其二次幂就是二阶导数，
+\begin{equation*}
+  a+bx+cx^2+dx^3\xmapsunder{d^2/dx^2} 2c+6dx
+\end{equation*}
+其三次幂就是三阶导数，
+\begin{equation*}
+  a+bx+cx^2+dx^3\xmapsunder{d^3/dx^3} 6d
+\end{equation*}
+而任意更高次幂都是零映射。
+\end{example}
+
+\begin{example}
+空间 $\matspace_{\nbyn{2}}$（即 $\nbyn{2}$ 矩阵构成的空间）中的这个变换
+\begin{equation*}
+  \begin{mat}
+    a  &b  \\
+    c  &d
+  \end{mat}
+  \mapsunder{t}
+  \begin{mat}
+    b  &a  \\
+    d  &0
+  \end{mat}
+\end{equation*}
+有如下二次幂
+\begin{equation*}
+  \begin{mat}
+    a  &b  \\
+    c  &d
+  \end{mat}
+  \mapsunder{t^2}
+  \begin{mat}
+    a  &b  \\
+    0  &0
+  \end{mat}
+\end{equation*}
+以及如下三次幂。
+\begin{equation*}
+  \begin{mat}
+    a  &b  \\
+    c  &d
+  \end{mat}
+  \mapsunder{t^3}
+  \begin{mat}
+    b  &a  \\
+    0  &0
+  \end{mat}
+\end{equation*}
+此后，$t^4=t^2$，$t^5=t^3$，依此类推。
+\end{example}
+
+\begin{example}
+考虑平移变换 $\map{t}{\C^3}{\C^3}$。
+\begin{equation*}
+  \colvec{x \\ y \\ z} \mapsunder{t} \colvec{0 \\ x \\ y}
+\end{equation*}
+我们有
+\begin{equation*}
+  \colvec{x \\ y \\ z} \mapsunder{t} \colvec{0 \\ x \\ y}
+                       \mapsunder{t} \colvec{0 \\ 0 \\ x}
+                       \mapsunder{t} \colvec{0 \\ 0 \\ 0}
+\end{equation*}
+所以值域空间下降到平凡子空间。
+\begin{equation*}
+  \rangespace{t}=\set{\colvec{0 \\ a \\ b}\suchthat a,b\in\C}
+  \qquad
+  \rangespace{t^2}=\set{\colvec{0 \\ 0 \\ c}\suchthat c\in\C}
+  \qquad
+  \rangespace{t^3}=\set{\colvec{0 \\ 0 \\ 0}}
+\end{equation*}
+\end{example}
+
+这些例子表明，经过若干次迭代之后，映射就趋于稳定。
+
+\begin{lemma}  \label{le:RangeAndNullChains}
+对任意变换 \( \map{t}{V}{V} \)，各次幂的值域空间构成一个递降链
+\begin{equation*}
+  V\supseteq \rangespace{t}\supseteq\rangespace{t^2}\supseteq\cdots
+\end{equation*}
+而零空间构成一个递升链。
+\begin{equation*}
+  \set{\vec{0}}\subseteq\nullspace{t}\subseteq\nullspace{t^2}\subseteq\cdots
+\end{equation*}
+此外，存在 \( k>0 \)，使得当幂小于 $k$ 时各包含关系都是真包含：~若
+$j<k$，则 $\rangespace{t^j}\supset\rangespace{t^{j+1}}$
+且
+$\nullspace{t^j}\subset\nullspace{t^{j+1}}$；
+而当
+$j\geq k$ 时，则 $\rangespace{t^j}=\rangespace{t^{j+1}}$
+且
+$\nullspace{t^j}=\nullspace{t^{j+1}}$）。
+\end{lemma}
+
+\noindent （$k=1$ 的情形可能发生，例如当 $t$ 是恒等映射时，
+此时两条链中没有一个包含关系是真包含。）
+
+\begin{proof}
+首先回忆，对任意映射，其值域空间的维数加上其零空间的维数等于
+其定义域的维数。
+于是，如果值域空间的维数收缩，那么零空间的维数必定上升。
+这里我们只做值域空间这一半，其余部分留作
+\nearbyexercise{exer:RangeAndNullChains}。
+
+我们先证明
+值域空间构成一条链。
+若 $\vec{w}\in\rangespace{t^{j+1}}$，即有某个 $\vec{v}$ 使得
+$\vec{w}=t^{j+1}(\vec{v})$，
+则 $\vec{w}=t^{j}(\,t(\vec{v})\,)$。
+于是 $\vec{w}\in\rangespace{t^{j}}$。
+
+接下来我们验证“进一步”的性质：
+链中的包含关系起初都是真包含，
+而从某个幂 $k$ 开始值域空间彼此相等。
+我们先证明：如果链中任意一对相邻的值域空间相等
+\( \rangespace{t^{k}}=\rangespace{t^{k+1}} \)，
+那么其后所有的值域空间也都相等：
+\( \rangespace{t^{k+1}}=\rangespace{t^{k+2}} \)，等等。
+这是因为
+\( \map{t}{\rangespace{t^{k+1}}}{\rangespace{t^{k+2}}} \)
+与
+\( \map{t}{\rangespace{t^{k}}}{\rangespace{t^{k+1}}} \) 是定义域相同的同一个映射，
+因此它有相同的值域
+\( \rangespace{t^{k+1}}=\rangespace{t^{k+2}} \)
+（由归纳法可知这对所有更高的幂都成立）。
+因此，值域空间的链一旦停止严格递减，
+从那一点起它就稳定了。
+
+最后我们证明这条链必定最终停止递减。
+每个值域空间都是前一个的子空间。
+若要成为真子空间，它的维数就必须严格更低
+（见 \nearbyexercise{exer:PropSubspStrictLowerDimen}）。
+这些空间都是有限维的，所以这条链只能下降有限多步。
+也就是说，幂 $k$ 至多是 $V$ 的维数。
+\end{proof}
+
+\begin{example}
+$\polyspace_3$ 上的求导映射 $a+bx+cx^2+dx^3\xmapsunder{d/dx} b+2cx+3dx^2$
+有如下值域空间链。
+\begin{equation*}
+  \rangespace{t^0}=\polyspace_3
+    \:\supset\:\rangespace{t^1}=\polyspace_2
+    \:\supset\:\rangespace{t^2}=\polyspace_1
+    \:\supset\:\rangespace{t^3}=\polyspace_0
+    \:\supset\:\rangespace{t^4}=\set{\zero}
+    % =\rangespace{t^5}=\set{\zero}=
+    % \,=\,\cdots
+\end{equation*}
+链中其后的各项都是平凡空间。
+它有如下零空间链。
+\begin{equation*}
+  \nullspace{t^0}=\set{\zero}
+  \:\subset\: \nullspace{t^1}=\polyspace_0
+  \:\subset\:\nullspace{t^2}=\polyspace_1
+  \:\subset\:\nullspace{t^3}=\polyspace_2
+  \:\subset\:\nullspace{t^4}=\polyspace_3
+\end{equation*}
+其后的各项都是整个空间。
+\end{example}
+
+\begin{example} \label{exam:PolyRankFalls}
+设 \( \map{t}{\polyspace_2}{\polyspace_2} \) 是映射
+\( d_0+d_1x+d_2x^2 \mapsto 2d_0+d_2x. \)
+如引理所描述的，在迭代下值域空间收缩
+\begin{equation*}
+  \rangespace{t^0}=\polyspace_2
+    \quad
+  \rangespace{t}=\set{a_0+a_1x\suchthat a_0,a_1\in\C}
+    \quad
+  \rangespace{t^2}=\set{a_0\suchthat a_0\in\C}
+\end{equation*}
+然后稳定下来，使得 $\rangespace{t^2}=\rangespace{t^3}=\cdots$。
+零空间增长
+\begin{equation*}
+  \nullspace{t^0}=\set{0}
+    \quad
+  \nullspace{t}=\set{b_1x\suchthat b_1\in\C}
+    \quad
+  \nullspace{t^2}=\set{b_1x+b_2x^2\suchthat b_1,b_2\in\C}
+\end{equation*}
+然后稳定下来，$\nullspace{t^2}=\nullspace{t^3}=\cdots$。
+\end{example}
+
+\begin{example}
+投影到前两个坐标的变换 \( \map{\pi}{\C^3}{\C^3} \)
+\begin{equation*}
+   \colvec{c_1 \\ c_2 \\ c_3}
+     \mapsunder{\pi}
+   \colvec{c_1 \\ c_2 \\ 0}
+\end{equation*}
+满足 \( \C^3\supset\rangespace{\pi}=\rangespace{\pi^2}=\cdots \)
+且 \( \set{\zero}\subset\nullspace{\pi}=\nullspace{\pi^2}=\cdots\, \)，
+其中的值域空间与零空间为
+\begin{equation*}
+  \rangespace{\pi}=\set{\colvec{a \\ b \\ 0}\suchthat a,b\in\C}
+  \qquad
+  \nullspace{\pi}=\set{\colvec{0 \\ 0 \\ c}\suchthat c\in\C}
+\end{equation*}
+\end{example}
+
+\begin{definition}
+设 \( t \) 是 \( n \) 维空间上的一个变换。
+\definend{广义值域空间}\index{generalized range space}%
+\index{range space!generalized}
+（或 \definend{值域空间的闭包\/}\index{closure!of range space}%
+\index{range space!closure of}）
+是 $\genrangespace{t}=\rangespace{t^n}$。
+\definend{广义零空间}\index{generalized null space}%
+\index{null space!generalized}
+（或 \definend{零空间的闭包\/}\index{closure!of null space}%
+\index{null space!closure of}）
+是 $\gennullspace{t}=\nullspace{t^n}$。
+\end{definition}
+
+这幅图给出了说明。
+横轴给出变换的幂~$j$。
+纵轴把
+$t^j$ 的值域空间的维数表示为零点之上的距离，
+因而也同时显示了零空间的维数，
+因为两者之和等于定义域的维数 $n$。
+\begin{center}
+  % \includegraphics{jc/mp/ch5.2}
+  \includegraphics{jc/mp/ch5.8}
+\end{center}
+在迭代下
+秩下降而零度上升，
+直到存在某个 $k$ 使得
+映射达到稳定状态
+$\rangespace{t^k}=\rangespace{t^{k+1}}=\genrangespace{t}$
+且 $\nullspace{t^k}=\nullspace{t^{k+1}}=\gennullspace{t}$。
+这最迟必定在第 $n$ 次迭代时发生。
+% The steady state's distance above zero is the dimension of the
+% generalized range space
+% and its distance below $n$ is the dimension of
+% the generalized null space.
+
+\begin{exercises}
+  \recommended \item
+    给出零变换与恒等变换的值域空间链和零空间链。
+    \begin{answer}
+      对于零变换，无论空间是什么，值域空间链都是
+      \( V\supset\set{\vec{0}}=\set{\vec{0}}=\cdots\, \)，
+      而零空间链是 \( \set{\vec{0}}\subset V=V=\cdots\, \)。
+      对于恒等变换，两条链分别是
+      \( V=V=V=\cdots \) 与
+      \( \set{\vec{0}}=\set{\vec{0}}=\cdots\, \)。
+    \end{answer}
+  \recommended\item
+     对每个映射，
+     给出值域空间链与零空间链，
+     以及广义值域空间与
+     广义零空间。
+     \begin{exparts}
+       \partsitem $\map{t_0}{\polyspace_2}{\polyspace_2}$,
+         $a+bx+cx^2\mapsto b+cx^2$
+       \partsitem $\map{t_1}{\Re^2}{\Re^2}$,
+         \begin{equation*}
+           \colvec{a \\ b}\mapsto\colvec{0 \\ a}
+         \end{equation*}
+       \partsitem $\map{t_2}{\polyspace_2}{\polyspace_2}$,
+         $a+bx+cx^2\mapsto b+cx+ax^2$
+       \partsitem $\map{t_3}{\Re^3}{\Re^3}$,
+         \begin{equation*}
+           \colvec{a \\ b \\ c}\mapsto\colvec{a \\ a \\ b}
+         \end{equation*}
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 将 $t_0$ 迭代两次
+           $a+bx+cx^2\mapsto b+cx^2\mapsto cx^2$
+           得到
+           \begin{equation*}
+             a+bx+cx^2\mapsunder{t_0^2}cx^2
+           \end{equation*}
+           而任何更高的迭代都是同一个映射。
+           于是，虽然 $\rangespace{t_0}$ 是没有一次项的
+           二次多项式构成的空间
+           $\set{p+rx^2\suchthat p,r\in \C}$，
+           且
+           $\rangespace{t_0^2}$ 是纯二次多项式构成的空间
+           $\set{rx^2\suchthat r\in \C}$，
+           但链就在这里稳定下来：
+           $\genrangespace{t_0}=\set{rx^2\suchthat r\in \C}$。
+
+           至于零空间，
+           $\nullspace{t_0}$ 是仅含一次项的
+           多项式构成的空间 $\set{qx\suchthat q\in \C}$，
+           而
+           $\nullspace{t_0^2}$ 是一次多项式构成的空间
+           $\set{p+qx\suchthat p,q\in \C}$。
+           到此为止：$\gennullspace{t_0}=\nullspace{t_0^2}$。
+         \partsitem 二次幂
+           \begin{equation*}
+             \colvec{a \\ b}
+              \mapsunder{t_1}\colvec{0 \\ a}
+              \mapsunder{t_1}\colvec{0 \\ 0}
+           \end{equation*}
+           是零映射。
+           因此，值域空间链
+           \begin{equation*}
+             \Re^2
+               \supset\set{\colvec{0 \\ p}\suchthat p\in\C}
+               \supset\set{\zero}
+               =\cdots
+           \end{equation*}
+           与零空间链
+           \begin{equation*}
+             \set{\zero}
+               \subset\set{\colvec{q \\ 0}\suchthat q\in\C}
+               \subset\Re^2
+               =\cdots
+           \end{equation*}
+           的长度都是二。
+           广义值域空间是平凡子空间，而
+           广义零空间是整个空间。
+         \partsitem 这个映射的迭代循环往复
+           \begin{equation*}
+             a+bx+cx^2
+               \mapsunder{t_2} b+cx+ax^2
+               \mapsunder{t_2} c+ax+bx^2
+               \mapsunder{t_2} a+bx+cx^2
+               \;\cdots
+           \end{equation*}
+           并且值域空间链与零空间链都是平凡的。
+           \begin{equation*}
+             \polyspace_2=\polyspace_2=\cdots
+              \qquad
+              \set{\zero}=\set{\zero}=\cdots
+           \end{equation*}
+           于是，显然，
+           广义空间是 $\genrangespace{t_2}=\polyspace_2$
+           与 $\gennullspace{t_2}=\set{\zero}$。
+         \partsitem 我们有
+           \begin{equation*}
+             \colvec{a \\ b \\ c}
+                \mapsto\colvec{a \\ a \\ b}
+                \mapsto\colvec{a \\ a \\ a}
+                \mapsto\colvec{a \\ a \\ a}
+                \mapsto\cdots
+           \end{equation*}
+           于是值域空间链
+           \begin{equation*}
+             \Re^3
+               \supset\set{\colvec{p \\ p \\ r}\suchthat p,r\in\C}
+               \supset\set{\colvec{p \\ p \\ p}\suchthat p\in\C}
+               =\cdots
+           \end{equation*}
+           以及零空间链
+           \begin{equation*}
+             \set{\zero}
+                \subset\set{\colvec{0 \\ 0 \\ r}\suchthat r\in \C}
+                \subset\set{\colvec{0 \\ q \\ r}\suchthat q,r\in \C}
+                =\cdots
+           \end{equation*}
+           的长度都是二。
+           广义空间就是上面每条链中最后所示的那个空间。
+       \end{exparts}
+      \end{answer}
+  \item
+    证明函数的复合满足结合律
+    \( \composed{(\composed{t}{t})}{t}=\composed{t}{(\composed{t}{t})} \)，
+    因而我们写 $t^3$ 时无须指明结合方式。
+    \begin{answer}
+      两者都把 \( x\mapsto t(t(t(x))) \)。
+    \end{answer}
+  \item \label{exer:PropSubspStrictLowerDimen}
+    验证子空间的维数必定小于或等于
+    其母空间的维数。
+    验证若子空间是真子空间（子空间不等于
+    母空间），则维数严格更小。
+    \textit{（这用于
+             \nearbylemma{le:RangeAndNullChains} 的证明中。）}
+    \begin{answer}
+      回忆一下，若 $W$ 是 $V$ 的子空间，则我们可以把
+      $W$ 的任意一组基 $B_W$
+      扩充为 $V$ 的一组基 $B_V$。
+      由此第一句话立即可得。
+      第二句话也不难：~$W$ 是 $B_W$ 的张成空间，
+      若 $W$ 是真子空间，则 $V$ 不是 $B_W$ 的张成空间，
+      所以 $B_V$ 至少比 $B_W$ 多一个向量。
+    \end{answer}
+  \recommended\item
+    证明：若变换 $t$ 是非奇异的，则广义值域空间 $\genrangespace{t}$ 是
+    整个空间，且广义零空间 $\gennullspace{t}$ 是平凡的。
+    反过来“仅当”方向也成立吗？
+    \begin{answer}
+      “若”与“仅当”都成立。
+      线性映射是非奇异的
+      当且仅当它保持维数，也就是说，其值域的维数
+      等于其定义域的维数。
+      对于变换 $\map{t}{V}{V}$，这意味着
+      该映射是非奇异的当且仅当它是满射：
+      $\rangespace{t}=V$（从而 $\rangespace{t^2}=V$，等等）。
+    \end{answer}
+  \item \label{exer:RangeAndNullChains}
+    验证 \nearbylemma{le:RangeAndNullChains} 中零空间的那一半。
+    \begin{answer}
+      零空间构成链，因为
+      若 $\vec{v}\in\nullspace{t^j}$，则 $t^j(\vec{v})=\zero$，
+      且 $t^{j+1}(\vec{v})=t(\,t^j(\vec{v})\,)=t(\zero)=\zero$，
+      于是 $\vec{v}\in\nullspace{t^{j+1}}$。
+
+      现在，
+      零空间的“进一步”性质由它对值域空间成立这一事实
+      结合前面的练习即可得出。
+      由于 $\rangespace{t^j}$ 的维数加上
+      $\nullspace{t^j}$ 的维数等于起始空间~$V$ 的维数~$n$，
+      当值域空间的维数停止下降时，
+      零空间的维数也不再变化。
+      前面的练习表明，从这一点~$k$ 开始，
+      链中的包含关系都不是真包含\Dash 零空间
+      彼此相等。
+    \end{answer}
+  \recommended\item
+    给出一个三维空间上的变换的例子，使其值域的维数为二。
+    它的零空间是什么？
+    对你的例子进行迭代，直到值域空间与零空间稳定。
+    \begin{answer}
+      （许多例子都正确，这里给出一个。）
+      一个例子是实三元组上的平移算子
+      \( (x,y,z)\mapsto (0,x,y) \)。
+      零空间是所有以两个零开头的三元组。
+      该映射在三次迭代后稳定。
+     \end{answer}
+  \item
+      证明线性变换的值域空间与零空间未必不相交。
+      它们有可能不相交吗？
+      \begin{answer}
+        求微分算子
+        \( \map{d/dx}{\polyspace_1}{\polyspace_1} \) 的值域空间与零空间相同。
+        要看一个二者不相交\Dash
+        除零向量外\Dash 的例子，
+        可考虑恒等映射，或任意非奇异映射。
+      \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

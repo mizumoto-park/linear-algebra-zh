@@ -1,0 +1,509 @@
+  \recommended \item \label{exer:PowersOfDiags}
+    对角矩阵的幂具有什么形式？
+    \begin{answer}
+      对于任意整数 \( p \)，我们有下式。
+      \begin{equation*}
+        \begin{mat}
+          d_1  &0      &   \\
+          0    &\ddots &   \\
+               &       &d_n
+        \end{mat}^p=
+        \begin{mat}
+          d_1^p  &0      &   \\
+          0      &\ddots &   \\
+                 &       &d_n^p
+        \end{mat}
+     \end{equation*} 
+    \end{answer}
+  \item 
+     给出两个同阶但不相似的对角矩阵。
+     任意两个不同的对角矩阵是否必定来自不同的相似类？
+     \begin{answer}
+       这两个矩阵不相似 
+       \begin{equation*}
+          \begin{mat}[r]
+             0  &0  \\
+             0  &0
+          \end{mat}
+          \qquad
+          \begin{mat}[r]
+             1  &0  \\
+             0  &1
+          \end{mat}
+       \end{equation*}
+       因为每一个在各自的相似类中都是单独的。
+
+       对于后半问，这两个
+       \begin{equation*}
+          \begin{mat}[r]
+             2  &0  \\
+             0  &3
+          \end{mat}
+          \qquad
+          \begin{mat}[r]
+             3  &0  \\
+             0  &2
+          \end{mat}
+       \end{equation*}
+       通过把基从
+       \( \sequence{\vec{\beta}_1,\vec{\beta}_2} \) 变为
+       \( \sequence{\vec{\beta}_2,\vec{\beta}_1} \) 的矩阵而相似。
+       （\textit{问题。}
+        两个对角矩阵相似当且仅当它们的对角元互为排列？）  
+    \end{answer}
+  \item 
+    给出一个非奇异的对角矩阵。
+    对角矩阵有可能是奇异的吗？
+    \begin{answer}
+      对比这两个矩阵。
+      \begin{equation*}
+         \begin{mat}[r]
+           2  &0  \\
+           0  &1
+         \end{mat}
+         \qquad
+         \begin{mat}[r]
+           2  &0  \\
+           0  &0
+         \end{mat}
+      \end{equation*}
+      第一个是非奇异的，第二个是奇异的。  
+     \end{answer}
+  \recommended \item
+    证明：若对角线上没有元素为零，则对角矩阵的逆就是由各元素的
+    逆构成的对角矩阵。
+    当对角元为零时会发生什么？
+    \begin{answer}  
+       要验证对角矩阵的逆是由各元素的逆构成的对角矩阵，只需直接相乘。
+       \begin{equation*}
+          \begin{mat}
+             a_{1,1}  &0                \\
+             0        &a_{2,2}          \\
+                      &       &\ddots    \\
+                      &       &      &a_{n,n}
+          \end{mat}
+          \begin{mat}
+            1/a_{1,1}  &0                \\
+             0        &1/a_{2,2}          \\
+                      &       &\ddots    \\
+                      &       &      &1/a_{n,n}
+          \end{mat}
+      \end{equation*}
+      （证明它是左逆同样容易。）
+
+      若某个对角元为零，则该对角矩阵是奇异的；它的行列式为零。  
+    \end{answer}
+  \item 
+    以 \nearbyexample{ex:DiagUpperTrian} 结尾的方程
+    \begin{equation*}
+       \begin{mat}[r]
+         1  &1  \\
+         0  &-1
+       \end{mat}^{-1}
+       \begin{mat}[r]
+         3  &2  \\
+         0  &1
+       \end{mat}
+       \begin{mat}[r]
+         1  &1  \\
+         0  &-1
+       \end{mat}
+       =
+       \begin{mat}[r]
+         3  &0  \\
+         0  &1
+       \end{mat}
+    \end{equation*}
+    看起来有点别扭，因为 $P$ 必须取第一个矩阵，
+    而它是以逆的形式出现的；$P^{-1}$ 则取第一个矩阵的逆，
+    于是两个 $-1$ 次幂相消，这个矩阵出现时
+    就不带上标 $-1$ 了。
+    \begin{exparts}
+      \partsitem 验证下面这个形式更好看的方程成立。
+        \begin{equation*}
+           \begin{mat}[r]
+             3  &0  \\
+             0  &1
+           \end{mat}
+           =
+           \begin{mat}[r]
+             1  &1  \\
+             0  &-1
+           \end{mat}
+           \begin{mat}[r]
+             3  &2  \\
+             0  &1
+           \end{mat}
+           \begin{mat}[r]
+             1  &1  \\
+             0  &-1
+           \end{mat}^{-1}
+        \end{equation*}
+      \partsitem 上一小问是巧合吗？
+        还是我们总能交换 $P$ 与 $P^{-1}$？
+   \end{exparts}
+   \begin{answer}
+     \begin{exparts}
+       \partsitem 验证很容易。
+         \begin{equation*}
+           \begin{mat}[r]
+             1  &1  \\
+             0  &-1
+           \end{mat}
+           \begin{mat}[r]
+             3  &2  \\
+             0  &1
+           \end{mat}
+           =
+           \begin{mat}[r]
+             3  &3  \\
+             0  &-1
+           \end{mat}
+           \qquad
+           \begin{mat}[r]
+             3  &3  \\
+             0  &-1
+           \end{mat}
+           \begin{mat}[r]
+             1  &1  \\
+             0  &-1
+           \end{mat}^{-1}
+           =
+           \begin{mat}[r]
+             3  &0  \\
+             0  &1
+           \end{mat}
+         \end{equation*}
+        \partsitem 这是一个巧合，也就是说，若 $T=PSP^{-1}$，
+          则 $T$ 不必等于 $P^{-1}SP$。
+          甚至对于对角矩阵~$D$，条件 $D=PTP^{-1}$
+          也不能推出 $D$ 等于 $P^{-1}TP$。
+          来自 \nearbyexample{ex:DiagTwoByTwo} 的矩阵说明了这一点。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  \\
+              1  &1
+            \end{mat}
+            \begin{mat}[r]
+              4  &-2  \\
+              1  &1
+            \end{mat}
+            =
+            \begin{mat}[r]
+              6  &0  \\
+              5  &-1
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              6  &0  \\
+              5  &-1
+            \end{mat}
+            \begin{mat}[r]
+              1  &2  \\
+              1  &1
+            \end{mat}^{-1}
+            =
+            \begin{mat}[r]
+              -6  &12  \\
+              -6  &11
+            \end{mat}
+          \end{equation*}
+     \end{exparts}
+   \end{answer}
+  \item 
+    证明：在 \nearbyexample{ex:DiagUpperTrian}
+    中用于对角化的 $P$ 不是唯一的。
+    \begin{answer}
+      该矩阵的列就是与各个 $x$ 相联系的向量。
+      具体的选取，以及选取的顺序，都是任意的。
+      例如，交换这两列就能得到另一个矩阵。
+    \end{answer}
+  \item 
+    求该矩阵的幂的一个公式。
+    \textit{提示}：~参见 \nearbyexercise{exer:PowersOfDiags}。
+    \begin{equation*}
+      \begin{mat}[r]
+        -3  &1  \\
+        -4  &2
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      先对角化，再取对角矩阵的幂，可知
+      \begin{equation*}
+        \begin{mat}[r]
+          -3  &1  \\
+          -4  &2
+        \end{mat}^k
+        =
+        \frac{1}{3}
+        \begin{mat}[r]
+          -1  &1  \\
+          -4  &4
+        \end{mat}
+        +(\frac{-2}{3})^k
+        \begin{mat}[r]
+           4  &-1 \\
+           4  &-1
+        \end{mat}.
+      \end{equation*}  
+     \end{answer}
+  \item 
+    我们可以问一问对角化与矩阵运算如何相互作用。
+    设 \( \map{t,s}{V}{V} \) 都是可对角化的。
+    对所有标量 \( c \)，\( ct \) 都可对角化吗？
+    那 \( t+s \) 呢？
+    \( \composed{t}{s} \) 呢？
+    \begin{answer}
+      是的，由本小节最后一个定理可知 \( ct \) 可对角化。
+
+      不是，\( t+s \) 不一定可对角化。
+      直观地说，当这两个映射关于不同的基对角化时
+      （即当它们不是
+      \definend{可同时对角化的}）问题就出现了。
+      具体地，这两个矩阵都可对角化，但它们的和不可对角化：
+      \begin{equation*}
+         \begin{mat}[r]
+            1  &1  \\
+            0  &0
+         \end{mat}
+         \qquad
+         \begin{mat}[r]
+           -1  &0  \\
+            0  &0
+         \end{mat}
+      \end{equation*}
+      （第二个已经是对角矩阵；第一个
+      参见 \nearbyexercise{exer:DiagTheseA}）。
+      其和不可对角化，因为它的平方是零矩阵。 
+
+     同样的直觉提示 \( \composed{t}{s} \) 也不
+     可对角化。
+     这两个矩阵都可对角化，但它们的乘积不可对角化：
+     \begin{equation*}
+        \begin{mat}[r]
+           1  &0  \\
+           0  &0
+        \end{mat}
+        \qquad
+        \begin{mat}[r]
+           0  &1  \\
+           1  &0
+        \end{mat}
+     \end{equation*}
+     （第二个参见 \nearbyexercise{exer:DiagTheseB}）。   
+    \end{answer}
+  \item 
+    证明：这种形式的矩阵不可对角化。
+    \begin{equation*}
+       \begin{mat}[r]
+          1  &c  \\
+          0  &1
+       \end{mat}
+       \qquad c\neq 0
+    \end{equation*}
+    \begin{answer}
+      若
+      \begin{equation*}
+         P
+         \begin{mat}
+            1  &c  \\
+            0  &1
+         \end{mat}
+         P^{-1}
+         =
+         \begin{mat}
+            a  &0  \\
+            0  &b
+         \end{mat}
+      \end{equation*}
+      则
+      \begin{equation*}
+         P
+         \begin{mat}
+            1  &c  \\
+            0  &1
+         \end{mat}
+         =
+         \begin{mat}
+            a  &0  \\
+            0  &b
+         \end{mat}
+         P
+      \end{equation*}
+      于是
+      \begin{align*}
+         \begin{mat}
+            p  &q  \\
+            r  &s
+         \end{mat}
+         \begin{mat}
+            1  &c  \\
+            0  &1
+         \end{mat}
+         &=
+         \begin{mat}
+            a  &0  \\
+            0  &b
+         \end{mat}
+         \begin{mat}
+            p  &q  \\
+            r  &s
+         \end{mat}        \\
+         \begin{mat}
+            p  &cp+q  \\
+            r  &cr+s
+         \end{mat}
+         &=
+         \begin{mat}
+            ap  &aq  \\
+            br  &bs
+         \end{mat}
+      \end{align*}
+      \( 1,1 \) 元表明 \( a=1 \)，于是 \( 1,2 \) 元
+      表明 \( pc=0 \)。
+      由于 \( c\neq 0 \)，这意味着 \( p=0 \)。
+      \( 2,1 \) 元表明 
+      \( b=1 \)，于是 \( 2,2 \) 元表明
+      \( rc=0 \)。
+      由于 \( c\neq 0 \)，这意味着 \( r=0 \)。
+      但若 \( p \) 与 \( r \) 都是 \( 0 \)，则 \( P \) 不
+      可逆。  
+     \end{answer}
+  \item 
+    证明：下面每一个矩阵都可对角化。
+    \begin{exparts*}
+      \partsitem
+       \( \begin{mat}[r]
+             1  &2  \\
+             2  &1
+          \end{mat}  \)
+      \partsitem
+       \( \begin{mat}
+             x  &y  \\
+             y  &z
+          \end{mat}
+          \qquad \text{$x,y,z$ 为标量}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+      \partsitem 使用 $\nbyn{2}$
+        矩阵的逆的公式可得下式。
+        \begin{multline*}
+           \begin{mat}
+              a  &b  \\
+              c  &d
+           \end{mat}
+           \begin{mat}[r]
+              1  &2  \\
+              2  &1
+           \end{mat}
+           \cdot\frac{1}{ad-bc}\cdot
+           \begin{mat}
+              d  &-b \\
+             -c  &a
+           \end{mat}                                  \\
+           =\frac{1}{ad-bc}
+           \begin{mat}
+              ad+2bd-2ac-bc    &-ab-2b^2+2a^2+ab \\
+              cd+2d^2-2c^2-cd  &-bc-2bd+2ac+ad
+           \end{mat}
+        \end{multline*}
+        现在选取标量 \( a,\ldots,d \)，使得
+        \( ad-bc\neq 0 \) 且 \( 2d^2-2c^2=0 \) 且 \( 2a^2-2b^2=0 \)。
+        例如，下面这组就行。
+        \begin{equation*}
+          \begin{mat}[r]
+            1  &1  \\
+            1  &-1
+          \end{mat}
+          \begin{mat}[r]
+            1  &2  \\
+            2  &1
+          \end{mat}
+          \cdot\frac{1}{-2}\cdot
+          \begin{mat}[r]
+            -1  &-1  \\
+            -1  &1
+          \end{mat}
+          =
+          \frac{1}{-2}
+          \begin{mat}[r]
+            -6  &0   \\
+             0  &2
+          \end{mat}
+        \end{equation*}
+      \partsitem 同上，
+        \begin{multline*}
+           \begin{mat}
+              a  &b  \\
+              c  &d
+           \end{mat}
+           \begin{mat}
+              x  &y  \\
+              y  &z
+           \end{mat}
+           \cdot\frac{1}{ad-bc}\cdot
+           \begin{mat}
+              d  &-b \\
+             -c  &a
+           \end{mat}                               \\
+           =\frac{1}{ad-bc}
+           \begin{mat}
+              adx+bdy-acy-bcz    &-abx-b^2y+a^2y+abz \\
+              cdx+d^2y-c^2y-cdz  &-bcx-bdy+acy+adz
+           \end{mat}
+        \end{multline*}
+        我们要找标量 \( a,\ldots,d \)，使得
+        \( ad-bc\neq 0 \) 且
+        \( -abx-b^2y+a^2y+abz=0 \)
+        且 \( cdx+d^2y-c^2y-cdz=0 \)，无论
+        \( x \)、\( y \)、\( z \)
+        取什么值。
+
+        首先，我们假定 \( y\neq 0 \)，否则所给矩阵已经
+        是对角矩阵。
+        我们将使用该假定，因为若我们（随意地）令
+        \( a=1 \) 则得到
+        \begin{align*}
+           -bx-b^2y+y+bz
+           &=0              \\
+           (-y)b^2+(z-x)b+y
+           &=0
+        \end{align*}
+        而求根公式给出
+        \begin{equation*}
+           b=\frac{-(z-x)\pm\sqrt{(z-x)^2-4(-y)(y)} }{-2y}
+           \qquad
+           y\neq 0
+        \end{equation*}
+        （注意若 \( x \)、\( y \)、\( z \) 为实数，则这两个
+         \( b \) 都是实数，因为判别式为正）。
+        同理，若我们（随意地）令 \( c=1 \) 则
+        \begin{align*}
+           dx+d^2y-y-dz
+           &=0              \\
+           (y)d^2+(x-z)d-y
+           &=0
+        \end{align*}
+        在这里我们得到
+        \begin{equation*}
+           d=\frac{-(x-z)\pm\sqrt{(x-z)^2-4(y)(-y)} }{2y}
+           \qquad
+           y\neq 0
+        \end{equation*}
+        （同上，若 \( x,y,z\in\Re \)，则此判别式为正，
+        故实对称的 \( \nbyn{2} \) 矩阵相似于一个实的
+        对角矩阵）。
+
+        作为检验，我们取 \( x=1 \)、\( y=2 \)、\( z=1 \)。
+        \begin{equation*}
+           b=\frac{0\pm\sqrt{0+16} }{-4}=\mp 1
+           \qquad
+           d=\frac{0\pm\sqrt{0+16} }{4}=\pm 1
+        \end{equation*}
+        注意并非所有四个选择 \( (b,d)=(+1,+1),\dots,(-1,-1) \)
+        都满足 \( ad-bc\neq 0 \)。
+      \end{exparts} 
+    \end{answer}
+\index{diagonalizable|)}
+\end{exercises}

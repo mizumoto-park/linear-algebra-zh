@@ -1,0 +1,4818 @@
+% Chapter 4, Section 2 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\section{相似}
+\index{similarity|(}
+%<*SimilarityMotiviation0>
+我们已经定义：若存在非奇异的 \( P \) 与 \( Q \)，使得 \( \hat{H}=PHQ \)，
+则称矩阵 \( H \) 与 \( \hat{H} \)
+是矩阵等价的。
+下图给出了这样做的动机，
+图中 $H$ 与 $\hat{H}$ 都表示同一个映射
+$h$，只是所相对于的
+基对不同，分别为 $B,D$ 与 $\hat{B},\hat{D}$。
+\begin{equation*}
+  \begin{CD}
+    V_{\wrt{B}}                   @>h>H>        W_{\wrt{D}}       \\
+    @V{\scriptstyle\identity} VV             @V{\scriptstyle\identity} VV \\
+    V_{\wrt{\hat{B}}}             @>h>\hat{H}>  W_{\wrt{\hat{D}}}
+  \end{CD}
+\end{equation*}
+%</SimilarityMotiviation0>
+
+%<*SimilarityMotiviation1>
+现在考虑变换这一特殊情形，
+此时陪域等于定义域，我们再补充要求
+陪域的基等于定义域的基。
+于是，我们所考虑的是相对于
+$B,B$ 与 $D,D$ 的表示。\index{arrow diagram}
+\begin{equation*}
+  \begin{CD}
+    V_{\wrt{B}}                   @>t>T>        V_{\wrt{B}}       \\
+    @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+    V_{\wrt{D}}                   @>t>\hat{T}>        V_{\wrt{D}}
+  \end{CD}
+\end{equation*}
+用矩阵的语言来说，
+\(\rep{t}{D,D}
+  =\rep{\identity}{B,D}\;\rep{t}{B,B}\;\bigl(\rep{\identity}{B,D}\bigr)^{-1} \)。
+%</SimilarityMotiviation1>
+
+
+
+\subsection{定义与例题}
+\begin{example}
+考虑求导变换
+$\map{d/dx}{\polyspace_2}{\polyspace_2}$，
+以及该空间的两组基
+$B=\sequence{x^2,x,1}$ 与
+$D=\sequence{1,1+x,1+x^2}$。
+我们将计算这个箭头方图的四条边。
+\begin{equation*}
+  \begin{CD}
+    {\polyspace_2\,}_{\wrt{B}}                   @>d/dx>T>        {\polyspace_2\,}_{\wrt{B}}       \\
+    @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+    {\polyspace_2\,}_{\wrt{D}}                   @>d/dx>\hat{T}>        {\polyspace_2\,}_{\wrt{D}}
+  \end{CD}
+\end{equation*}
+先看上边。
+该变换作用于起始基~$B$ 的效果
+\begin{equation*}
+  x^2\mapsunder{d/dx} 2x
+  \qquad
+  x\mapsunder{d/dx} 1
+  \qquad
+  1\mapsunder{d/dx} 0
+\end{equation*}
+再相对于终止基（也是~$B$）表示
+\begin{equation*}
+  \rep{2x}{B}=\colvec{0 \\ 2 \\ 0}
+  \qquad
+  \rep{1}{B}=\colvec{0 \\ 0 \\ 1}
+  \qquad
+  \rep{0}{B}=\colvec{0 \\ 0 \\ 0}
+\end{equation*}
+便得到了该映射
+的表示。
+\begin{equation*}
+  T=
+  \rep{d/dx}{B,B}=
+  \begin{mat}
+    0 &0 &0 \\
+    2 &0 &0 \\
+    0 &1 &0
+  \end{mat}
+\end{equation*}
+
+接下来，计算右边的矩阵需要
+求出恒等映射作用于~$B$ 中元素的效果。
+当然，恒等映射对它们毫无改变，因此
+为得到该矩阵，我们把 $B$ 的元素相对于
+~$D$ 表示。
+\begin{equation*}
+  \rep{x^2}{D}=\colvec{-1 \\ 0 \\ 1}
+  \quad
+  \rep{x}{D}=\colvec{-1 \\ 1 \\ 0}
+  \quad
+  \rep{1}{D}=\colvec{1 \\ 0 \\ 0}
+\end{equation*}
+于是，沿右边向下的矩阵就是将这些列向量依次并置而成的。
+\begin{equation*}
+  P=\rep{id}{B,D}=
+  \begin{mat}
+    -1 &-1  &1 \\
+     0 &1   &0 \\
+     1 &0   &0   
+  \end{mat}
+\end{equation*}
+
+有了它，我们有两种方法来计算沿左边向上
+的矩阵。
+直接计算是把~$D$ 的元素相对于
+~$B$ 表示，
+\begin{equation*}
+  \rep{1}{B}=\colvec{0 \\ 0 \\ 1}
+  \quad
+  \rep{1+x}{B}=\colvec{0 \\ 1 \\ 1}
+  \quad
+  \rep{1+x^2}{B}=\colvec{1 \\ 0 \\ 1}
+\end{equation*}
+再把它们并置成矩阵。
+\begin{equation*}
+  \begin{mat}
+    0 &0 &1 \\
+    0 &1 &0 \\ 
+    1 &1 &1
+  \end{mat}
+\end{equation*}
+计算沿左边向上的矩阵的另一种方法，
+是取沿右边向下的矩阵~$P$ 的
+逆矩阵。
+\begin{equation*}
+  \begin{pmat}{ccc|ccc}
+    -1 &-1 &1 &1 &0 &0 \\
+     0 &1  &0 &0 &1 &0 \\
+     1 &0  &0 &0 &0 &1
+  \end{pmat}
+  % \grstep{\rho_1+\rho_3}
+  % \grstep{\rho_2+\rho_3}
+  % \grstep{-\rho_1}
+  % \grstep{\rho_3+\rho_1}
+  % \grstep{-\rho_2+\rho_1}
+  \grstep{}
+  \cdots
+  \grstep{}
+  \begin{pmat}{ccc|ccc}
+     1 &0  &0 &0 &0 &1 \\
+     0 &1  &0 &0 &1 &0 \\
+     0 &0  &1 &1 &1 &1
+  \end{pmat}
+\end{equation*}
+
+剩下方块的底边。
+计算矩阵~$\hat{T}$ 有两种方法。
+一种是直接计算它，
+即求出该变换作用于~$D$ 中元素的效果，
+\begin{equation*}
+  1\mapsunder{d/dx} 0
+  \qquad
+  1+x\mapsunder{d/dx} 1
+  \qquad
+  1+x^2\mapsunder{d/dx} 2x
+\end{equation*}
+再相对于~$D$ 表示。
+\begin{equation*}
+  \hat{T}=
+  \rep{d/dx}{D,D}=
+  \begin{mat}
+    0 &1 &-2 \\
+    0 &0 &2 \\
+    0 &0 &0
+  \end{mat}
+\end{equation*}
+计算~$\hat{T}$ 的另一种方法——这也是我们通常采用的方法——
+是沿着图先向上，再向左，然后向下。
+\begin{align*}
+  \rep{d/dx}{D,D}
+  &=\rep{\identity}{B,D}\,\rep{d/dx}{B,B}\,\rep{\identity}{D,B}  \\
+  \hat{T}
+  &=\rep{\identity}{B,D}\,T\,\rep{\identity}{D,B}   \\
+  &=  
+  \begin{mat}
+    -1 &-1  &1 \\
+     0 &1   &0 \\
+     1 &0   &0   
+  \end{mat}
+  \begin{mat}
+    0 &0 &0 \\
+    2 &0 &0 \\
+    0 &1 &0
+  \end{mat}
+  \begin{mat}
+    0 &0 &1 \\
+    0 &1 &0 \\ 
+    1 &1 &1
+  \end{mat}
+\end{align*}
+展开乘积，得到的矩阵~$\hat{T}$ 与上面求出的相同。
+\end{example}
+
+\begin{definition} \label{df:Similar}
+%<*df:Similar>
+矩阵 \( T \) 与 $\hat{T}$ 是
+\definend{相似的}\index{matrix!similarity}%
+\index{equivalence relation!matrix similarity}\index{similar matrices}
+若存在非奇异的 \( P \) 使得
+$
+  \hat{T}=PTP^{-1}
+$。
+%</df:Similar>
+\end{definition}
+
+\noindent 由于非奇异矩阵是方阵，
+$T$ 与 $\hat{T}$ 必须
+都是同尺寸的方阵。
+\nearbyexercise{exer:SimIsEquivRel} 验证了
+相似是一个等价关系。
+
+\begin{example}
+该定义并不要求我们考虑某个映射。
+对这两个矩阵进行计算
+\begin{equation*}
+  P=
+  \begin{mat}[r]
+    2  &1  \\
+    1  &1
+  \end{mat}
+  \qquad
+  T=
+  \begin{mat}[r]
+    2  &-3  \\
+    1  &-1
+  \end{mat}
+\end{equation*}
+可知 $T$ 相似于这个矩阵。
+\begin{equation*}
+  \hat{T}=
+  \begin{mat}[r]
+    12  &-19  \\
+    7  &-11
+  \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{example}  \label{ex:OnlyZeroSimToZero}
+%<*ex:OnlyZeroSimToZero>
+与零矩阵相似的矩阵只有它自身：~$PZP^{-1}=PZ=Z$。
+单位矩阵也有同样的性质：~$PIP^{-1}=PP^{-1}=I$。
+%</ex:OnlyZeroSimToZero>
+\end{example}
+
+一个常见的特殊情形是向量空间为 $\C^n$，且
+矩阵~$T$ 是某个映射相对于标准基的表示。
+\begin{equation*}
+  \begin{CD}
+    \C^n_{\wrt{E_n}}                   @>t>T>        \C^n_{\wrt{E_n}}       \\
+    @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+    \C^n_{\wrt{D}}                   @>t>\hat{T}>        \C^n_{\wrt{D}}
+  \end{CD}
+\end{equation*}
+此时在相似等式
+$\hat{T}=PTP^{-1}$ 中，~$P$ 的列就是~$D$ 的元素。
+
+矩阵相似是矩阵等价的特殊情形，因此
+若两个矩阵相似，则它们矩阵等价。
+反过来又如何呢：~若它们是方阵，
+任意两个矩阵等价的矩阵一定相似吗？
+不；一个单位矩阵的矩阵等价类
+由该尺寸的所有非奇异矩阵组成，
+而前面的例题表明一个单位矩阵的相似类
+中唯一的成员是它自身。
+因此这两个矩阵
+矩阵等价但不相似。
+\begin{equation*}
+  T=
+  \begin{mat}[r]
+    1  &0  \\
+    0  &1
+  \end{mat}
+  \qquad
+  S=
+  \begin{mat}[r]
+    1  &2  \\
+    0  &3
+  \end{mat}
+\end{equation*}
+于是，某些矩阵等价类
+会分裂成两个或更多个相似类\Dash 相似给出了比矩阵等价更细的
+划分。
+这里展示了一些矩阵等价类被细分为
+相似类。
+\begin{center}
+  \includegraphics{jc/mp/ch5.4}
+\end{center}
+
+为了理解相似关系，我们将研究相似类。
+我们处理这个问题的方式，与我们此前研究
+行等价关系与矩阵等价关系的方式相同，即求出
+相似类的代表元的一种
+规范形式，% \appendrefs{representatives}\spacefactor=1000 %
+称为 Jordan 形式。
+有了这种规范形式，我们就能通过检查
+两个矩阵是否处于以同一个代表元为代表的类中，来判定它们是否相似。
+对于行等价与矩阵等价，我们都已看到，一种
+规范形式能让我们洞见同一类中的成员
+在哪些方面彼此相似
+（例如，两个同尺寸的矩阵
+当且仅当它们有相同的秩时矩阵等价）。
+%(Along the way we shall see ideas that are interesting and important
+%in their own right, not just as stepping stones to Jordan form.)
+
+\begin{exercises}
+  \item 
+    对于
+    \begin{equation*}
+      T=
+      \begin{mat}[r]
+        1  &3  \\
+       -2  &-6
+      \end{mat}
+      \quad
+      \hat{T}=
+      \begin{mat}[r]
+        0    &0  \\
+       -11/2 &-5
+      \end{mat}
+      \quad
+      P=
+      \begin{mat}[r]
+        4  &2  \\
+       -3  &2
+      \end{mat}
+    \end{equation*}
+    验证 $\hat{T}=PTP^{-1}$。
+    \begin{answer}
+      一种做法是从左到右计算。
+      \begin{multline*}
+        PTP^{-1}=
+        \begin{mat}[r]
+          4  &2  \\
+         -3  &2
+        \end{mat}
+        \begin{mat}[r]
+          1  &3  \\
+         -2  &-6
+        \end{mat}
+        \begin{mat}[r]
+          2/14  &-2/14  \\
+          3/14  &4/14
+        \end{mat}                                 \\
+        =
+        \begin{mat}[r]
+          0  &0  \\
+         -7  &-21
+        \end{mat}  
+        \begin{mat}[r]
+          2/14  &-2/14  \\
+          3/14  &4/14
+        \end{mat}
+        =
+        \begin{mat}[r]
+          0    &0  \\
+         -11/2 &-5
+        \end{mat}
+      \end{multline*}
+    \end{answer}
+  \item
+    \nearbyexample{ex:OnlyZeroSimToZero} 表明，与零矩阵相似的矩阵只有它本身，
+    而且
+    与单位矩阵相似的矩阵
+    也只有它本身。
+    \begin{exparts}
+      \partsitem 证明：唯一元素为 $2$ 的 $\nbyn{1}$ 矩阵
+         也只与它自身相似。
+      \partsitem 形如 $cI$（$c$ 为某个标量）的矩阵
+         是否也只与它自身相似？
+     \partsitem 对角矩阵是否只与它自身相似？
+     % \partsitem Is a square block partial-identity matrix similar only to 
+     % itself?
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+      \partsitem 由于矩阵 $(2)$ 是 $\nbyn{1}$ 的，矩阵
+         $P$ 与 $P^{-1}$ 也是 $\nbyn{1}$ 的，因此当
+         $P=(p)$ 时，其逆为 $P^{-1}=(1/p)$。  
+         于是 $P(2)P^{-1}=(p)(2)(1/p)=(2)$。
+       \partsitem 是的：~回忆一下，我们可以把标量倍数提到矩阵外面 
+        \( P(cI)P^{-1}=cPIP^{-1}=cI \)。
+        顺便指出，零矩阵与单位矩阵分别是特殊情形
+        $c=0$ 与 $c=1$。
+      \partsitem 不是，如下面这个例子所示。
+        \begin{equation*}
+           \begin{mat}[r]
+              1  &-2  \\
+             -1  &1
+            \end{mat}
+           \begin{mat}[r]
+             -1  &0   \\
+              0  &-3
+           \end{mat}
+           \begin{mat}[r]
+              -1  &-2   \\
+              -1  &-1
+           \end{mat}
+           =
+           \begin{mat}[r]
+              -5  &-4   \\
+              2   &1
+           \end{mat}
+        \end{equation*} 
+    \end{exparts}  
+   \end{answer}
+  \recommended \item 考虑~$\C^3$ 的这个变换
+    \begin{equation*}
+      t(\colvec{x \\ y \\ z})=\colvec{x-z \\ z \\ 2y}
+    \end{equation*}
+    以及这些基。
+    \begin{equation*}
+      B=\sequence{\colvec{1 \\ 2 \\ 3}, 
+                  \colvec{0 \\ 1 \\ 0}, 
+                  \colvec{0 \\ 0 \\ 1}}
+      \qquad
+      D=\sequence{\colvec{1 \\ 0 \\ 0},
+                  \colvec{1 \\ 1 \\ 0},
+                  \colvec{1 \\ 0 \\ 1}}
+    \end{equation*}
+    我们将计算箭头图的各个部分，
+    以使用两个相似矩阵来表示该变换。
+    \begin{exparts}
+      \partsitem 画出针对本情形具体化的箭头图。
+      \partsitem 计算 $T=\rep{t}{B,B}$。
+      \partsitem 计算 $\hat{T}=\rep{t}{D,D}$。
+      \partsitem 计算箭头正方形另外两条边的
+         矩阵。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          \begin{equation*}
+            \begin{CD}
+              \C^3_{\wrt{B}}                   @>t>T>        \C^3_{\wrt{B}}       \\
+              @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+              \C^3_{\wrt{D}}                   @>t>\hat{T}>        \C^3_{\wrt{D}}
+            \end{CD}
+          \end{equation*}
+        \partsitem
+          对于起始基~$B$ 中的每个元素，求 
+          变换作用于其后的结果
+          \begin{equation*}
+             \colvec{1 \\ 2 \\ 3}\mapsunder{t}\colvec{-2 \\ 3 \\ 4}
+             \qquad 
+             \colvec{0 \\ 1 \\ 0}\mapsunder{t}\colvec{0 \\ 0 \\ 2}
+             \qquad 
+             \colvec{0 \\ 0 \\ 1}\mapsunder{t}\colvec{-1 \\ 1 \\ 0}
+          \end{equation*}
+          并将这些输出关于终止基~$B$ 表示
+          \begin{equation*}
+            \rep{\colvec{-2 \\ 3 \\ 4}}{B}=\colvec{-2 \\ 7 \\ 10}
+            \qquad
+            \rep{\colvec{0 \\ 0 \\ 2}}{B}=\colvec{0 \\ 0 \\ 2}
+            \qquad
+            \rep{\colvec{-1 \\ 1 \\ 0}}{B}=\colvec{-1 \\ 3 \\ 3}
+          \end{equation*}
+          由此得到矩阵。
+          \begin{equation*}
+            T=\rep{t}{B,B}=
+            \begin{mat}
+              -2 &0 &-1 \\
+               7 &0 &3  \\
+              10 &2 &3 
+            \end{mat}
+          \end{equation*}
+        \partsitem
+          求变换作用于~$D$ 中元素的结果
+          \begin{equation*}
+             \colvec{1 \\ 0 \\ 0}\mapsunder{t}\colvec{1 \\ 0 \\ 0}
+             \qquad 
+             \colvec{1 \\ 1 \\ 0}\mapsunder{t}\colvec{1 \\ 0 \\ 2}
+             \qquad 
+             \colvec{1 \\ 0 \\ 1}\mapsunder{t}\colvec{0 \\ 1 \\ 0}
+          \end{equation*}
+          并将它们关于终止基~$D$ 表示
+          \begin{equation*}
+            \rep{\colvec{1 \\ 0 \\ 0}}{D}=\colvec{1 \\ 0 \\ 0}
+            \qquad
+            \rep{\colvec{1 \\ 0 \\ 2}}{D}=\colvec{-1 \\ 0 \\ 2}
+            \qquad
+            \rep{\colvec{0 \\ 1 \\ 0}}{D}=\colvec{-1 \\ 1 \\ 0}
+          \end{equation*}
+          由此得到矩阵。
+          \begin{equation*}
+            \hat{T}=\rep{t}{D,D}=
+            \begin{mat}
+               1 &-1 &-1 \\
+               0 &0  &1  \\
+               0 &2  &0 
+            \end{mat}
+          \end{equation*}
+        \partsitem
+          要沿右侧向下，我们需要 
+          $\rep{\identity}{B,D}$
+          因此我们先计算恒等映射对 
+          ~$B$ 的每个元素的作用——它没有任何作用，
+          然后将结果关于
+          ~$D$ 表示。 
+          \begin{equation*}
+            \rep{\colvec{1 \\ 2 \\ 3}}{D}=\colvec{-4 \\ 2 \\ 3}
+            \qquad
+            \rep{\colvec{0 \\ 1 \\ 0}}{D}=\colvec{-1 \\ 1 \\ 0}
+            \qquad
+            \rep{\colvec{0 \\ 0 \\ 1}}{D}=\colvec{-1 \\ 0 \\ 1}
+          \end{equation*}
+          所以这就是~$P$。
+          \begin{equation*}
+            P=
+            \begin{mat}
+              -4 &-1 &-1 \\
+               2 &1  &0  \\
+               3 &0  &1
+            \end{mat}
+          \end{equation*}
+          对于另一个矩阵~$\rep{\identity}{D,B}$，我们既可以 
+          像刚才对~$P$ 那样直接求出它，也可以进行 
+          常规的矩阵求逆计算。
+          \begin{equation*}
+            P^{-1}=
+            \begin{mat}
+               1 &1 &1 \\
+               -2 &-1  &-2  \\
+               -3 &-3  &-2
+            \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 
+    考虑变换 $\map{t}{\polyspace_2}{\polyspace_2}$
+    它由
+    $x^2\mapsto x+1$、$x\mapsto x^2-1$ 以及 $1\mapsto 3$ 描述。
+    \begin{exparts}
+      \partsitem 求 $T=\rep{t}{B,B}$，其中 $B=\sequence{x^2,x,1}$。 
+      \partsitem 求 $\hat{T}=\rep{t}{D,D}$，其中 $D=\sequence{1,1+x,1+x+x^2}$。
+      \partsitem 求满足 $\hat{T}=PTP^{-1}$ 的矩阵 $P$。 
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 由于我们用 $B$ 的成员来描述 $t$，
+          求矩阵表示很容易：
+          \begin{equation*}
+            \rep{t(x^2)}{B}=\colvec[r]{0 \\ 1 \\ 1}_B
+            \quad
+            \rep{t(x)}{B}=\colvec[r]{1 \\ 0 \\ -1}_B
+            \quad
+            \rep{t(1)}{B}=\colvec[r]{0 \\ 0 \\ 3}_B
+          \end{equation*}
+          由此得到下式。
+          \begin{equation*}
+            \rep{t}{B,B}
+            \begin{mat}[r]
+              0  &1  &0  \\
+              1  &0  &0  \\
+              1  &-1 &3  
+            \end{mat}
+          \end{equation*}
+        \partsitem 我们将求 $t(1)$、$t(1+x)$ 和 $t(1+x+x^2$，
+          以求出每一个关于 $D$ 的表示。
+          已知 $t(1)=3$，另外两个容易看出：
+          $t(1+x)=x^2+2$ 以及 $t(1+x+x^2)=x^2+x+3$。
+          通过观察，我们得到每个向量的表示
+          \begin{equation*}
+            \rep{t(1)}{D}=\colvec[r]{3 \\ 0 \\ 0}_D
+            \quad
+            \rep{t(1+x)}{D}=\colvec[r]{2  \\ -1 \\  1}_D
+            \quad
+            \rep{t(1+x+x^2)}{D}=\colvec[r]{2 \\ 0 \\ 1}_D
+          \end{equation*}
+          从而得到该映射的表示。
+          \begin{equation*}
+            \rep{t}{D,D}
+            =
+            \begin{mat}[r]
+              3  &2  &2  \\
+              0  &-1 &0  \\
+              0  &1  &1
+            \end{mat}
+          \end{equation*}
+         \partsitem 下面的图表
+           \begin{equation*}
+             \begin{CD}
+               V_{\wrt{B}}                  @>t>T>  V_{\wrt{B}}       \\
+               @V\scriptstyle\identity VPV      @V\scriptstyle\identity VPV \\
+               V_{\wrt{D}}                  @>t>\hat{T}>  V_{\wrt{D}}
+             \end{CD}
+           \end{equation*}
+           表明它们是 $P=\rep{\identity}{B,D}$ 与 
+           $P^{-1}=\rep{\identity}{D,B}$。
+           \begin{equation*}
+             P=
+             \begin{mat}[r]
+               0  &-1  &1  \\ 
+               -1  &1  &0  \\
+               1  &0  &0 
+             \end{mat}
+             \qquad
+             P^{-1}=
+             \begin{mat}[r]
+               0  &0  &1  \\ 
+               0  &1  &1  \\
+               1  &1  &1 
+             \end{mat}
+           \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item 
+    设 $T$ 是 $\map{t}{\C^2}{\C^2}$ 关于 $B,B$ 的表示。
+    \begin{equation*}
+      T=
+      \begin{mat}
+        1 &-1 \\ 
+        2 &1
+      \end{mat}
+      \qquad
+      B=\sequence{\colvec{1 \\ 0},\colvec{1 \\ 1}},\hspace{0.7em}
+      D=\sequence{\colvec{2 \\ 0},\colvec{0 \\ -2}}
+    \end{equation*}
+    我们将转换为关于 $D,D$ 表示~$t$ 的矩阵。
+    \begin{exparts}
+      \partsitem 画出箭头图。
+      \partsitem 给出表示该图左边与右边
+          两条边的矩阵，方向按我们为完成转换
+          而遍历该图的方向。
+      \partsitem 求 $\rep{t}{D,D}$。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          \begin{equation*}
+            \begin{CD}
+              \C^2_{\wrt{B}}                   @>t>T>        \C^2_{\wrt{B}}       \\
+              @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+              \C^2_{\wrt{D}}                   @>t>\hat{T}>        \C^2_{\wrt{D}}
+            \end{CD}
+          \end{equation*}  
+        \partsitem
+          对于右边，我们求恒等映射的作用，
+          它没有任何作用，
+          \begin{equation*}
+            \colvec{1 \\ 0}\mapsunder{\identity}\colvec{1 \\ 0}
+            \qquad
+            \colvec{1 \\ 1}\mapsunder{\identity}\colvec{1 \\ 1}
+          \end{equation*}
+          并将它们关于~$D$ 表示
+          \begin{equation*}
+            \rep{\colvec{1 \\ 0}}{D}=\colvec{1/2 \\ 0}
+            \qquad
+            \rep{\colvec{1 \\ 1}}{D}=\colvec{1/2 \\ -1/2}
+          \end{equation*}
+          于是我们得到下式。
+          \begin{equation*}
+            P=\rep{\identity}{B,D}=
+            \begin{mat}
+              1/2 &1/2 \\
+              0   &-1/2
+            \end{mat}
+          \end{equation*}
+
+          对于左边的矩阵，我们既可以像 
+          上一段那样直接计算，
+          也可以取其逆。 
+          \begin{equation*}
+            P^{-1}=\rep{\identity}{D,B}=
+            \frac{1}{(-1/4)}\cdot
+            \begin{mat}
+              -1/2 &-1/2 \\
+              0   &1/2
+            \end{mat}
+            =
+            \begin{mat}
+              2 &2 \\
+              0 &-2
+            \end{mat}
+          \end{equation*}
+        \partsitem
+          与前一问一样，我们既可以 
+          由定义直接计算，
+          也可以利用矩阵运算来计算。
+          \begin{equation*}
+            PTP^{-1}=
+            \begin{mat}
+              2 &2 \\
+              0 &-2
+            \end{mat}
+            \begin{mat}
+              1 &-1 \\ 
+              2 &1
+            \end{mat}
+            \begin{mat}
+              2 &2 \\
+              0 &-2
+            \end{mat}
+            =
+            \begin{mat}
+              3 &3  \\
+             -2 &-1
+            \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+     通过让
+     \( \map{t}{\C^2}{\C^2} \) 按下面的方式作用，给出一个非平凡的相似关系，
+     \begin{equation*}
+        \colvec[r]{1 \\ 2}\mapsto\colvec[r]{3 \\ 0}
+        \qquad
+        \colvec[r]{-1 \\ 1}\mapsto\colvec[r]{-1 \\ 2}
+     \end{equation*}
+     选取两个基~$B,D$，
+     并关于它们表示 \( t \)，
+     即 \( \hat{T}=\rep{t}{B,B} \) 与 \( T=\rep{t}{D,D} \)。
+     然后计算 
+     用于把基从 \( B \) 换到 \( D \) 以及 
+     换回来的 \( P \) 与 \( P^{-1} \)。
+     \begin{answer}
+        基的一种可行选取是 
+        \begin{equation*}
+          B=\sequence{\colvec[r]{1 \\ 2},\colvec[r]{-1 \\ 1}}
+          \qquad
+          D=\stdbasis_2=\sequence{\colvec[r]{1 \\ 0},\colvec[r]{0 \\ 1}}
+        \end{equation*}
+        （这个 $B$ 来自对该映射的描述）。
+        为求矩阵 $\hat{T}=\rep{t}{B,B}$，解关系式 
+        \begin{equation*}
+           c_1\colvec[r]{1 \\ 2}+c_2\colvec[r]{-1 \\ 1}=\colvec[r]{3 \\ 0}
+           \qquad
+          \hat{c}_1\colvec[r]{1 \\ 2}+\hat{c}_2\colvec[r]{-1 \\ 1}=\colvec[r]{-1 \\ 2}
+        \end{equation*}
+        得 \( c_1=1 \)、\( c_2=-2 \)、\( \hat{c}_1=1/3 \) 及
+        \( \hat{c}_2=4/3 \)。
+        \begin{equation*}
+           \rep{t}{B,B}=
+           \begin{mat}[r]
+              1  &1/3 \\
+             -2  &4/3
+           \end{mat}
+        \end{equation*}
+
+        求 \( \rep{t}{D,D} \) 需要稍多一些计算。
+        我们先求 \( t(\vec{e}_1) \)。
+        关系式
+        \begin{equation*}
+          c_1\colvec[r]{1 \\ 2}+c_2\colvec[r]{-1 \\ 1}=\colvec[r]{1 \\ 0}
+        \end{equation*}
+        给出 \( c_1=1/3 \) 与 \( c_2=-2/3 \)，于是 
+        \begin{equation*}
+          \rep{\vec{e}_1}{B}=\colvec[r]{1/3 \\ -2/3}_B
+        \end{equation*}
+        从而
+        \begin{equation*}
+           \rep{t(\vec{e}_1)}{B}=
+                  \begin{mat}[r]
+                     1  &1/3  \\
+                    -2  &4/3
+                  \end{mat}_{B,B}
+                  \colvec[r]{1/3 \\ -2/3}_B
+                  =
+                  \colvec[r]{1/9 \\ -14/9}_B
+        \end{equation*}
+        因此 $t$ 对第一个基向量 $\vec{e}_1$ 的作用如下。
+        \begin{equation*}
+          t(\vec{e}_1)
+          =(1/9)\cdot\colvec[r]{1 \\ 2}-(14/9)\cdot\colvec[r]{-1 \\ 1}
+          =\colvec[r]{5/3 \\ -4/3}      
+        \end{equation*}
+        \( t(\vec{e}_2) \) 的计算类似。
+        关系式
+        \begin{equation*}
+          c_1\colvec[r]{1 \\ 2}+c_2\colvec[r]{-1 \\ 1}=\colvec[r]{0 \\ 1}
+        \end{equation*}
+        给出 \( c_1=1/3 \) 与 \( c_2=1/3 \)，所以
+        \begin{equation*}
+          \rep{\vec{e}_1}{B}=\colvec[r]{1/3 \\ 1/3}_B      
+        \end{equation*}
+        从而
+        \begin{equation*}
+          \rep{t(\vec{e}_1)}{B}=
+                  \begin{mat}[r]
+                     1  &1/3  \\
+                    -2  &4/3
+                  \end{mat}_{B,B}
+                  \colvec[r]{1/3 \\ 1/3}_B
+                  =
+                  \colvec[r]{4/9 \\ -2/9}_B
+        \end{equation*}
+        因此 $t$ 对第二个基向量 $\vec{e}_2$ 的作用如下。
+        \begin{equation*}
+          t(\vec{e}_2)
+          =(4/9)\cdot\colvec[r]{1 \\ 2}-(2/9)\cdot\colvec[r]{-1 \\ 1}
+          =\colvec[r]{2/3 \\ 2/3}
+        \end{equation*}
+        因此
+        \begin{equation*}
+           \rep{t}{D,D}=
+           \begin{mat}[r]
+              5/3  &2/3  \\
+             -4/3  &2/3
+           \end{mat}
+        \end{equation*}
+        于是得到这个矩阵。
+        \begin{equation*}
+          P=\rep{\identity}{B,D}
+          =\begin{mat}[r]
+            1  &-1  \\
+            2  &1 
+          \end{mat}
+        \end{equation*}
+       而这一个用于换基。 
+       \begin{equation*}
+          P^{-1}=\bigl(\rep{\identity}{B,D}\bigr)^{-1}
+          =\begin{mat}[r]
+             1  &-1 \\
+             2  &1
+          \end{mat}^{-1}
+          =
+          \begin{mat}[r]
+            1/3  &1/3  \\
+            -2/3 &1/3
+          \end{mat}
+       \end{equation*}
+       这些计算的检验是例行的。
+       \begin{equation*}
+          \begin{mat}[r]
+             1  &-1 \\
+             2  &1
+          \end{mat}
+          \begin{mat}[r]
+             1  &1/3 \\
+            -2  &4/3
+          \end{mat}
+          \begin{mat}[r]
+            1/3 &1/3 \\
+           -2/3 &1/3
+          \end{mat}
+          =
+          \begin{mat}[r]
+            5/3 &2/3 \\
+           -4/3 &2/3
+          \end{mat}
+       \end{equation*}  
+    \end{answer}
+  \recommended \item 
+    证明这两个矩阵不相似。
+    \begin{equation*}
+       \begin{mat}[r]
+          1  &0  &4  \\
+          1  &1  &3  \\
+          2  &1  &7
+       \end{mat}
+       \qquad
+       \begin{mat}[r]
+          1  &0  &1  \\
+          0  &1  &1  \\
+          3  &1  &2
+       \end{mat}
+    \end{equation*}
+    \begin{answer}
+      高斯消元法表明，
+      第一个矩阵表示的映射秩为二，而第二个
+      矩阵表示的映射秩为三。
+    \end{answer}
+  \item 
+    用映射的语言解释 \nearbyexample{ex:OnlyZeroSimToZero}。
+    \begin{answer}
+      零映射的表示只有零矩阵，
+      无论基对是什么都有 $\rep{z}{B,D}=Z$，
+      因此特别地，对任何单独一个基 $B$ 我们有 $\rep{z}{B,B}=Z$。  
+      恒等映射的情形稍有不同：~恒等映射关于任何 $B,B$ 的
+      唯一表示
+      是单位矩阵 $\rep{\identity}{B,B}=I$。
+      （\textit{注：}~当然，我们已经见过 $B\neq D$ 且 
+      $\rep{\identity}{B,D}\neq I$ 的例子 \Dash 事实上，我们已经看到任何 
+      非奇异矩阵都是恒等映射关于某个 
+      $B,D$ 的表示。）
+    \end{answer}
+  \recommended \item 
+    \cite{Halmos}
+    是否存在两个矩阵 \( A \) 与 \( B \) 相似，
+    而 \( A^2 \) 与 \( B^2 \) 却不相似？
+    \begin{answer}
+      不存在。
+      若 \( A=PBP^{-1} \)，则 \( A^2=(PBP^{-1})(PBP^{-1})=PB^2P^{-1} \)。
+    \end{answer}
+  \recommended \item
+    证明：若两个矩阵相似且其中一个是可逆的，
+    则另一个也可逆。
+    \begin{answer}
+       矩阵相似是矩阵等价的特殊情形 
+       （若矩阵相似则它们矩阵等价），
+       而矩阵等价保持非奇异性。
+    \end{answer}
+  \item \label{exer:SimIsEquivRel}
+    证明相似是一个等价关系。
+    （前面给出的定义已经体现了这一点，因此 
+    这里改从如下定义出发：$\hat{T}$ 相似于
+    $T$ 当且仅当 $\hat{T}=PTP^{-1}$。）
+    \begin{answer}
+       矩阵与它自身相似；取 \( P \) 为单位
+       矩阵：~$P=IPI^{-1}=IPI$。
+
+       若 \( \hat{T} \) 相似于 \( T \)，则 \( \hat{T}=PTP^{-1} \)
+       于是 \( P^{-1}\hat{T}P=T \)。
+       将其改写为 \( T=(P^{-1})\hat{T}(P^{-1})^{-1} \)，即可得出
+       $T$ 相似于 \( \hat{T} \)。
+
+        对于传递性，
+        若 \( T \) 相似于 \( S \) 且 \( S \) 相似于 \( U \)，
+        则 \( T=PSP^{-1} \) 且 \( S=QUQ^{-1} \)。
+        于是 \( T=PQUQ^{-1}P^{-1}=(PQ)U(PQ)^{-1} \)，这表明 \( T \)
+        相似于 \( U \)。  
+      \end{answer}
+  \item 
+      考虑一个 
+      关于某个 $B,B$ 表示 
+      \( \Re^2 \) 中关于 \( x \) 轴的反射的矩阵。
+      再考虑  
+      一个关于某个 $D,D$ 表示
+      关于 \( y \) 轴的反射的矩阵。
+      它们必定相似吗？
+      \begin{answer}
+         设 $f_x$ 与 $f_y$ 为这两个反射映射（有时称为「翻转」）。
+         对任何基
+         \( B \) 与 \( D \)，矩阵 \( \rep{f_x}{B,B}  \) 与
+         \( \rep{f_y}{D,D} \) 相似。
+         首先注意
+         \begin{equation*}
+            S=\rep{f_x}{\stdbasis_2,\stdbasis_2}=
+            \begin{mat}[r]
+               1  &0  \\
+               0  &-1
+            \end{mat}
+            \qquad
+            T=\rep{f_y}{\stdbasis_2,\stdbasis_2}=
+            \begin{mat}[r]
+              -1  &0  \\
+               0  &1
+            \end{mat}
+         \end{equation*}
+         相似，因为第二个矩阵是 $f_x$
+         关于基 \( A=\sequence{\vec{e}_2,\vec{e}_1} \) 的表示：
+         \begin{equation*}
+            \begin{mat}[r]
+               1  &0  \\
+               0  &-1
+            \end{mat}
+            =    
+            P
+            \begin{mat}[r]
+              -1  &0  \\
+               0  &1
+            \end{mat}
+            P^{-1}
+         \end{equation*}
+         其中 $P=\rep{\identity}{A,\stdbasis_2}$。
+         \begin{equation*}
+           \begin{CD}
+             \C^2_{\wrt{A}}                   
+                @>f_x>T>        
+                V\C^2_{\wrt{A}}       \\
+             @V\scriptstyle\identity VPV                
+                @V\scriptstyle\identity VPV \\
+             \C^2_{\wrt{\stdbasis_2}}         
+                @>f_x>S>        
+                \C^2_{\wrt{\stdbasis_2}}
+           \end{CD}
+         \end{equation*}
+         现在结论由
+         \nearbyexercise{exer:SimIsEquivRel} 的传递性部分得出。
+         
+        我们也可以不依赖那道练习来完成。
+        记
+        $\rep{f_x}{B,B}=QTQ^{-1}=Q\rep{f_x}{\stdbasis_2,\stdbasis_2}Q^{-1}$
+        以及
+        $\rep{f_y}{D,D}=RSR^{-1}=R\rep{f_y}{\stdbasis_2,\stdbasis_2}R^{-1}$。
+        由第一段中的等式， 
+        这两个中的第一个是
+        $\rep{f_x}{B,B}=QP\rep{f_y}{\stdbasis_2,\stdbasis_2}P^{-1}Q^{-1}$。
+        将这两个中的第二个改写为
+        $R^{-1}\cdot\rep{f_y}{D,D}\cdot R=\rep{f_y}{\stdbasis_2,\stdbasis_2}$
+        并代入，就得到所需的关系
+        \begin{multline*}
+          \rep{f_x}{B,B}
+          =QP\rep{f_y}{\stdbasis_2,\stdbasis_2}P^{-1}Q^{-1}  \\
+          =QPR^{-1}\cdot\rep{f_y}{D,D}\cdot RP^{-1}Q^{-1}
+          =(QPR^{-1})\cdot\rep{f_y}{D,D}\cdot (QPR^{-1})^{-1}
+        \end{multline*}
+        因此矩阵 \( \rep{f_x}{B,B}  \) 与 \( \rep{f_y}{D,D} \) 
+        相似。 
+      \end{answer}
+  \item 
+     证明矩阵相似保持秩与行列式。
+     逆命题成立吗？
+     \begin{answer}
+        我们必须证明：若两个矩阵相似，则它们有相同的
+        秩和相同的行列式。
+
+        首先，我们已经证明 
+        映射的秩等于表示该映射的任何矩阵的秩，
+        所以秩对所有表示都相同。
+        （换句话说，秩是映射的性质， 
+        因为它是值域空间的维数。）
+
+        至于行列式，
+        \( \deter{PSP^{-1}}=\deter{P}\cdot\deter{S}\cdot\deter{P^{-1}}
+           =\deter{P}\cdot\deter{S}\cdot\deter{P}^{-1}=\deter{S} \)。
+
+       该命题的逆命题不成立。 
+       一方面，
+       存在行列式相同却不相似的矩阵。
+       举个例子，考虑一个行列式为 
+       零的非零矩阵。
+       它不与零矩阵相似，因为零矩阵只与
+       它自身相似，但二者行列式相同。 
+       同样的思路给出秩的反例。 
+     \end{answer}
+  \item 
+     是否存在只包含一个矩阵相似
+     类的矩阵等价类？
+     是否存在包含无穷多个相似类的？
+     \begin{answer}
+       包含所有秩为 
+       零的 \( \nbyn{n} \) 矩阵的矩阵等价类只含一个矩阵，即零矩阵。
+       因此它作为子集只含有一个相似类。
+
+       相比之下，秩为一的 
+       \( \nbyn{1} \) 矩阵的矩阵等价类由那些 
+       \( k\neq 0 \) 的 $\nbyn{1}$ 矩阵 \( (k) \) 组成。
+       对任何基 \( B \)，
+       用标量 \( k \) 相乘的映射的表示
+       为 \( \rep{t_k}{B,B}=(k) \)，
+       所以每个这样的矩阵独自构成其相似类。
+       所以这是矩阵等价类分裂成
+       无穷多个相似类的一个例子。  
+      \end{answer}
+  \item 
+     两个不同的对角矩阵能属于同一个相似类吗？
+     \begin{answer}
+       能，下面两个矩阵相似
+       \begin{equation*}
+          \begin{mat}[r]
+            1  &0  \\
+            0  &3
+          \end{mat}
+          \qquad
+          \begin{mat}[r]
+            3  &0  \\
+            0  &1
+          \end{mat}
+       \end{equation*}
+       因为，当第一个矩阵是关于 
+       $B=\sequence{\vec{\beta}_1,\vec{\beta}_2}$ 的 $\rep{t}{B,B}$ 时， 
+       第二个矩阵就是关于 
+       $D=\sequence{\vec{\beta}_2,\vec{\beta}_1}$ 的 $\rep{t}{D,D}$。
+      \end{answer}
+  \recommended \item
+     证明：若两个矩阵相似，则当 \( k>0 \) 时，
+     它们的 \( k \) 次幂也相似。
+     若 \( k\leq 0 \) 会怎样？
+     \begin{answer}
+       \( k \) 次幂相似，因为当每个矩阵表示
+       映射 $t$ 时，\( k \) 次幂表示
+       \( t^k \)，即 $k$ 个 $t$ 的复合。
+       （例如，若 $T=rep{t}{B,B}$，则 $T^2=\rep{\composed{t}{t}}{B,B}$。）
+
+       用更计算化的说法重述：若 \( T=PSP^{-1} \)，则
+       \( T^2=(PSP^{-1})(PSP^{-1})=PS^2P^{-1} \)。
+       归纳法将此推广到所有幂。
+
+       对于 $k\leq 0$ 的情形， 
+       设 \( S \) 可逆且 \( T=PSP^{-1} \)。
+       注意 \( T \) 可逆：
+       \( T^{-1}=(PSP^{-1})^{-1}=PS^{-1}P^{-1} \)，
+       而同一个等式表明 
+       \( T^{-1} \) 相似于 \( S^{-1} \)。
+       其余负次幂则由第一段给出。  
+     \end{answer}
+  \recommended \item
+     设 \( p(x) \) 为多项式 \( c_nx^n+\cdots+c_1x+c_0 \)。
+     证明：若 \( T \) 相似于 \( S \)，则
+     \( p(T)=c_nT^n+\cdots+c_1T+c_0I \) 相似于
+     \( p(S)=c_nS^n+\cdots+c_1S+c_0I \)。
+     \begin{answer}
+        从概念上说，二者都表示某个
+        变换 \( t \) 的 \( p(t) \)。
+        从计算上说，我们有下式。
+        \begin{align*}
+           p(T)
+           &=c_n(PSP^{-1})^n+\dots+c_1(PSP^{-1})+c_0I   \\
+           &=c_nPS^nP^{-1}+\dots+c_1PSP^{-1}+c_0I   \\
+           &=Pc_nS^nP^{-1}+\dots+Pc_1SP^{-1}+Pc_0P^{-1}   \\
+           &=P(c_nS^n+\dots+c_1S+c_0)P^{-1}
+        \end{align*}  
+      \end{answer}
+  \item 
+     列出 \( \nbyn{1} \) 矩阵的所有矩阵等价类。
+     同时列出相似类，并描述每个矩阵等价类
+     内部包含哪些相似类。
+     \begin{answer}
+       有两个等价类：(i)~秩为零的矩阵的类， 
+       其中只有一个矩阵：
+       $\mathscr{C}_1=\set{(0)}$，
+       以及 (2)~秩为一的矩阵的类，
+       其中有无穷多个： 
+       \( \mathscr{C}_2=\set{(k)\suchthat k\neq0} \)。
+
+      每个 \( \nbyn{1} \) 矩阵都独自构成其相似类。
+      这是因为一维空间上的任何变换
+      都是乘以一个标量的映射 $\map{t_k}{V}{V}$，由
+      $\vec{v}\mapsto k\cdot\vec{v}$ 给出。 
+      于是，对任何基 \( B=\sequence{\vec{\beta}} \)，
+      表示变换 \( t_k \) 的矩阵 
+      关于 \( B,B \) 为
+      \( (\rep{t_k(\vec{\beta})}{B})=(k) \)。 
+      
+      所以，矩阵等价类
+      $\mathscr{C}_1$ 中（显然）只含有由矩阵 $(0)$ 构成的 
+      唯一相似类。
+      而矩阵等价类 $\mathscr{C}_2$ 中含有
+      无穷多个各含一个成员的相似类，由
+      $k\neq0$ 的 $(k)$ 构成。  
+    \end{answer}
+  \item 
+     相似保持和吗？
+     \begin{answer}
+       不保持。
+       下面是一个例子，其中有两对矩阵，每对中的两个矩阵相似：
+       \begin{equation*}
+          \begin{mat}[r]
+             1  &-1  \\
+             1  &2
+          \end{mat}
+          \begin{mat}[r]
+             1  &0   \\
+             0  &3
+          \end{mat}
+          \begin{mat}[r]
+             2/3  &1/3   \\
+            -1/3  &1/3
+          \end{mat}
+          =
+          \begin{mat}[r]
+             5/3  &-2/3  \\
+            -4/3  &7/3
+          \end{mat}
+       \end{equation*}
+       以及
+       \begin{equation*}
+          \begin{mat}[r]
+             1  &-2  \\
+            -1  &1
+          \end{mat}
+          \begin{mat}[r]
+            -1  &0   \\
+             0  &-3
+          \end{mat}
+          \begin{mat}[r]
+             -1  &-2   \\
+             -1  &-1
+          \end{mat}
+          =
+          \begin{mat}[r]
+             -5  &-4   \\
+              2  &1
+          \end{mat}
+       \end{equation*}
+       （这个例子并非完全任意，因为
+       两个等号左边的中间矩阵相加为零矩阵）。
+       注意这些相似矩阵的和并不相似
+       \begin{equation*}
+          \begin{mat}[r]
+             1  &0   \\
+             0  &3
+          \end{mat}
+          +
+          \begin{mat}[r]
+            -1  &0   \\
+             0  &-3
+          \end{mat}
+          =
+          \begin{mat}[r]
+            0  &0  \\
+            0  &0
+          \end{mat}
+          \qquad
+          \begin{mat}[r]
+             5/3  &-2/3   \\
+             -4/3 &7/3
+          \end{mat}
+          +
+          \begin{mat}[r]
+             -5  &-4   \\
+              2  &1
+          \end{mat}
+          \neq
+          \begin{mat}[r]
+            0  &0  \\
+            0  &0
+          \end{mat}
+       \end{equation*}
+       因为零矩阵只与它自身相似。
+     \end{answer}
+  \item 
+     证明：若 \( T-\lambda I \) 与 \( N \) 是相似矩阵，则
+     \( T \) 与 \( N+\lambda I \) 也相似。
+     \begin{answer}
+    若 \( N=P(T-\lambda I)P^{-1} \)，则
+    \( N=PTP^{-1}-P(\lambda I)P^{-1} \)。
+    对角矩阵 \( \lambda I \) 与任何矩阵可交换，所以
+    \( P(\lambda I)P^{-1}=PP^{-1}(\lambda I)=\lambda I \)。
+    于是 \( N=PTP^{-1}-\lambda I \)，
+    从而 \( N+\lambda I=PTP^{-1} \)。
+    （所以二者不仅相似，事实上它们是经由 
+    同一个 \( P \) 相似的。）
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{可对角化性}
+前一小节表明，
+虽然相似的矩阵必定是矩阵等价的，但
+反之不成立。
+有些矩阵等价类会分裂成两个或更多
+相似类；例如，非奇异的 $\nbyn{2}$ 矩阵
+构成一个矩阵等价类，但不止一个相似类。
+
+下面的图示说明了这一点。
+实线曲线表示矩阵等价类，
+而虚线分界线标出相似类。
+每颗星都是表示其所在相似类的一个矩阵。
+%  so each
+% similarity class has one.
+我们不能把用于矩阵等价的规范形式，
+即分块部分单位矩阵，
+用作相似（关系）的规范形式，
+因为每个矩阵等价类中只有一个
+部分单位矩阵。
+\begin{center}
+  \includegraphics{jc/mp/ch5.5}
+\end{center}
+要为各相似类的
+代表元设计一种规范形式，
+我们自然会在此前工作的基础上展开。
+于是，如果某个相似类中确实含有部分单位矩阵，
+那么它就应当表示该类。
+除此之外，代表元应当尽可能简单。
+%(the partial identities are simple in that they consist mostly of zeros).
+
+部分单位形式最简单的推广是对角形式。
+
+\begin{definition} \label{df:Diagonalizable}
+%<*df:Diagonalizable>
+若一个变换\definend{可对角化}\index{diagonalizable|(}%
+\index{transformation!diagonalizable}，
+则它在定义域与陪域取同一组基时
+具有对角的表示。
+一个\definend{可对角化矩阵}\index{matrix!diagonalizable}
+是指与某个对角矩阵相似的矩阵：~\( T \) 可对角化
+当且仅当存在非奇异的 \( P \) 使得 \( PTP^{-1} \) 是对角的。
+%</df:Diagonalizable>
+\end{definition}
+
+\begin{example} \label{ex:DiagTwoByTwo}
+矩阵
+\begin{equation*}
+  \begin{mat}[r]
+     4 &-2 \\
+     1 &1
+  \end{mat}
+\end{equation*}
+是可对角化的。
+\begin{equation*}
+  \begin{mat}[r]
+     2  &0   \\
+     0  &3
+  \end{mat}
+  =
+  \begin{mat}[r]
+    -1  &2  \\
+     1  &-1
+  \end{mat}
+  \begin{mat}[r]
+     4  &-2 \\
+     1  &1
+  \end{mat}
+  \begin{mat}[r]
+    -1  &2  \\
+     1  &-1
+  \end{mat}^{-1}
+\end{equation*}
+\end{example}
+
+下面我们将看到如何求出矩阵~$P$，但首先我们指出，
+并非每个矩阵都与对角矩阵相似，
+所以对角形式不足以充当
+相似（关系）的规范形式。
+
+\begin{example}  \label{ex:MatrixNotDiagonalizable}
+%<*ex:NotDiagonalizable>
+这个矩阵不是可对角化的。
+\begin{equation*}
+  N=\begin{mat}[r]
+       0  &0  \\
+       1  &0
+    \end{mat}
+\end{equation*}
+$N$ 不是零矩阵这一事实意味着
+它不可能与
+零矩阵相似，因为零矩阵只与它自身相似。
+于是，如果 $N$ 与某个对角矩阵~$D$ 相似，
+那么 $D$ 在对角线上至少有一个非零元。
+
+关键之处在于 $N$ 的某个幂是零矩阵，具体地，
+$N^2$ 是零矩阵。
+这意味着，对于任意由 \( N \)
+关于某组 $B,B$ 所表示的映射~$n$，
+复合 \( \composed{n}{n} \) 是零映射。
+这又意味着，
+表示~$n$ 的任意
+关于某组 $\hat{B},\hat{B}$ 的矩阵，其平方都是零矩阵。
+但对任意非零对角矩阵~$D^2$，$D^2$ 的元素
+是 $D$ 的元素的平方，
+所以 $D^2$ 不可能是零矩阵。
+因此 $N$ 不是可对角化的。
+%</ex:NotDiagonalizable>
+\end{example}
+
+所以并非每个相似类都含有一个对角矩阵。
+下面我们来刻画矩阵何时可对角化。
+% However, some similarity classes do contain a diagonal matrix and
+% the canonical form that we are developing has the property that if
+% a matrix can be diagonalized then the diagonal matrix is the canonical
+% representative of its similarity class.
+
+\begin{lemma} \label{lm:DiagIffBasisOfEigens}
+%<*lm:DiagIffBasisOfEigens>
+变换 \( t \) 可对角化当且仅当
+存在一组基
+\( B=\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_n } \)
+和标量 \( \lambda_1,\ldots,\lambda_n \)，使得
+\( t(\vec{\beta}_i)=\lambda_i\vec{\beta}_i \)
+对每个 \( i \) 都成立。
+%</lm:DiagIffBasisOfEigens>
+\end{lemma}
+
+\begin{proof}
+%<*pf:DiagIffBasisOfEigens>
+考虑一个对角的表示矩阵。
+\begin{equation*}
+   \rep{t}{B,B}=
+   \begin{pmat}{c@{\hspace*{1em}}c@{\hspace*{1em}}c}
+      \vdots                    &       &\vdots                     \\
+      \rep{t(\vec{\beta}_1)}{B} &\cdots &\rep{t(\vec{\beta}_n)}{B}  \\
+      \vdots                    &       &\vdots
+   \end{pmat}
+   =
+   \begin{pmat}{c@{\hspace*{1em}}c@{\hspace*{1em}}c}
+      \lambda_1   &       &0         \\
+      \vdots      &\ddots &\vdots    \\
+      0           &       &\lambda_n
+   \end{pmat}
+\end{equation*}
+考虑该基的一个成员
+关于基 $\rep{\vec{\beta}_i}{B}$ 的表示。
+对角矩阵与表示向量的乘积
+\begin{equation*}
+   \rep{t(\vec{\beta}_i)}{B}
+   =\begin{pmat}{c@{\hspace*{1em}}c@{\hspace*{1em}}c}
+      \lambda_1   &       &0         \\
+      \vdots      &\ddots &\vdots    \\
+      0           &       &\lambda_n
+   \end{pmat}
+  \colvec{0 \\ \vdots \\ 1 \\ \vdots \\ 0}
+  =\colvec{0 \\ \vdots \\ \lambda_i \\ \vdots \\ 0}
+\end{equation*}
+便具有
+所述的作用。
+%</pf:DiagIffBasisOfEigens>
+\end{proof}
+
+\begin{example}     \label{ex:DiagUpperTrian}
+要对角化
+\begin{equation*}
+   T=\begin{mat}[r]
+      3  &2  \\
+      0  &1
+   \end{mat}
+\end{equation*}
+我们把 $T$ 取为一个变换关于
+标准基的表示 $\rep{t}{\stdbasis_2,\stdbasis_2}$，并寻找一组基
+\( B=\sequence{\vec{\beta}_1,\vec{\beta}_2} \)，使得
+\begin{equation*}
+  \rep{t}{B,B}
+  =
+  \begin{mat}
+    \lambda_1  &0          \\
+    0          &\lambda_2
+  \end{mat}
+\end{equation*}
+也就是说，使得
+$t(\vec{\beta}_1)=\lambda_1\vec{\beta}_1$
+以及 $t(\vec{\beta}_2)=\lambda_2\vec{\beta}_2$。
+\begin{equation*}
+  \begin{mat}[r]
+     3  &2  \\
+     0  &1
+  \end{mat}
+  \vec{\beta}_1=\lambda_1\cdot\vec{\beta}_1
+  \qquad
+  \begin{mat}[r]
+     3  &2  \\
+     0  &1
+  \end{mat}
+  \vec{\beta}_2=\lambda_2\cdot\vec{\beta}_2
+\end{equation*}
+我们要找的是使方程
+\begin{equation*}
+ \begin{mat}[r]
+    3  &2  \\
+    0  &1
+ \end{mat}
+ \colvec{b_1 \\ b_2}=x\cdot\colvec{b_1 \\ b_2}
+\end{equation*}
+有不全为 $0$ 的解 $b_1$ 与 $b_2$ 的标量 \( x \)
+（零向量不是任何基的成员）。
+这就是一个线性方程组。
+\begin{equation*}
+  \begin{linsys}{2}
+     (3-x)\cdot b_1  &+  &2\cdot b_2       &=  &0  \\
+                     &   &(1-x)\cdot b_2   &=  &0
+  \end{linsys}
+\tag*{($*$)}\end{equation*}
+先关注最下面的方程。
+有两种情形：要么
+$b_2=0$，要么~$x=1$。
+
+在 \( b_2=0 \) 的情形，
+第一个方程给出：要么 $b_1=0$，要么 \( x=3 \)。
+既然我们已经排除了 $b_2=0$ 且~$b_1=0$ 同时成立的可能性，
+就只剩下第一个对角元 $\lambda_1=3$。
+于是，($*$) 的第一个方程是 $0\cdot b_1+2\cdot b_2=0$，
+因此与 $\lambda_1=3$ 相关联的是
+第二分量为零而第一分量自由的向量。
+\begin{equation*}
+     \begin{mat}[r]
+        3  &2  \\
+        0  &1
+     \end{mat}
+     \colvec{b_1 \\ 0}=3\cdot\colvec{b_1 \\ 0}
+\end{equation*}
+为得到第一个基向量，
+任取一个非零的 $b_1$ 即可。
+\begin{equation*}
+   \vec{\beta}_1=\colvec[r]{1 \\ 0}
+\end{equation*}
+
+($*$) 最下面方程的另一种情形是 $\lambda_2=1$。
+这时 ($*$) 的第一个方程是 $2\cdot b_1+2\cdot b_2=0$，因此
+与这种情形相关联的是
+第二分量为第一分量之相反数的向量。
+\begin{equation*}
+     \begin{mat}[r]
+        3  &2  \\
+        0  &1
+     \end{mat}
+     \colvec{b_1 \\ -b_1}=1\cdot\colvec{b_1 \\ -b_1}
+\end{equation*}
+由此得到第二个基向量：
+从这些向量中任取一个非零的即可。
+\begin{equation*}
+   \vec{\beta}_2=\colvec[r]{1 \\ -1}
+\end{equation*}
+
+现在画出相似图
+（回忆一下，我们使用的标量是复数，
+而非实数），
+\begin{equation*}
+     \begin{CD}
+            \C^2_{\wrt{\stdbasis_2}}
+               @>t>T>
+               \C^2_{\wrt{\stdbasis_2}}       \\
+            @V{\scriptstyle\identity} VV
+               @V{\scriptstyle\identity} VV \\
+            \C^2_{\wrt{B}}
+               @>t>D>
+               \C^2_{\wrt{B}}
+      \end{CD}
+\end{equation*}
+并注意到矩阵 $\rep{\identity}{B,\stdbasis_2}$ 很容易求出，
+由此得到这个对角化。
+\begin{equation*}
+   \begin{mat}[r]
+     3  &0  \\
+     0  &1
+   \end{mat}
+   =
+   \begin{mat}[r]
+     1  &1  \\
+     0  &-1
+   \end{mat}^{-1}
+   \begin{mat}[r]
+     3  &2  \\
+     0  &1
+   \end{mat}
+   \begin{mat}[r]
+     1  &1  \\
+     0  &-1
+   \end{mat}
+\end{equation*}
+\end{example}
+
+本节余下部分将围绕那个例子展开，进一步考察
+\nearbylemma{lm:DiagIffBasisOfEigens} 的性质，
+并给出一种
+求这些 $\lambda$ 的简捷方法。
+下一节则围绕 \nearbyexample{ex:MatrixNotDiagonalizable} 展开，
+以理解是什么可能阻碍对角化。
+再下一节将这两者结合起来，给出一种
+在某种意义上尽可能简单的规范形式。
+
+\begin{exercises}
+  \recommended \item
+    对来自\nearbyexample{ex:DiagTwoByTwo}的矩阵，将\nearbyexample{ex:DiagUpperTrian}重做一遍。
+    \begin{answer}
+      由于基向量是任意选取的，因此可能有许多不同的答案。
+      不过，下面给出一种做法；
+      要对角化
+      \begin{equation*}
+         T=\begin{mat}[r]
+            4  &-2  \\
+            1  &1
+         \end{mat}
+      \end{equation*}
+      把它视为某个变换在标准基下的表示 $T=\rep{t}{\stdbasis_2,\stdbasis_2}$，并寻找
+      \( B=\sequence{\vec{\beta}_1,\vec{\beta}_2} \) 使得
+      \begin{equation*}
+        \rep{t}{B,B}
+        =
+        \begin{mat}
+          \lambda_1  &0          \\
+          0          &\lambda_2
+        \end{mat}
+      \end{equation*}
+      也就是说，使得
+      $t(\vec{\beta}_1)=\lambda_1$ 且 $t(\vec{\beta}_2)=\lambda_2$。
+      \begin{equation*}
+        \begin{mat}[r]
+           4  &-2  \\
+           1  &1
+        \end{mat}
+        \vec{\beta}_1=\lambda_1\cdot\vec{\beta}_1
+        \qquad
+        \begin{mat}[r]
+           4  &-2  \\
+           1  &1
+        \end{mat}
+        \vec{\beta}_2=\lambda_2\cdot\vec{\beta}_2
+      \end{equation*}
+      我们要寻找标量 \( x \)，使得方程
+      \begin{equation*}
+       \begin{mat}[r]
+          4  &-2  \\
+          1  &1
+       \end{mat}
+       \colvec{b_1 \\ b_2}=x\cdot\colvec{b_1 \\ b_2}
+      \end{equation*}
+      有不全为零的解 $b_1$ 与 $b_2$。
+      将其改写为线性方程组
+      \begin{equation*}
+        \begin{linsys}{2}
+           (4-x)\cdot b_1  &+  &-2\cdot b_2       &=  &0  \\
+           1\cdot b_1      &+   &(1-x)\cdot b_2   &=  &0
+        \end{linsys}
+      \end{equation*}
+      若 $x=4$，则第一个方程给出 $b_2=0$，进而第二个方程给出 $b_1=0$。
+      我们已排除两个 $b$ 都为零的情形，
+      故可假设 $x\neq 4$。
+      \begin{equation*}
+        \grstep{(-1/(4-x))\rho_1+\rho_2}
+        \begin{linsys}{2}
+           (4-x)\cdot b_1  &+   &-2\cdot b_2                   &=  &0  \\
+                           &    &((x^2-5x+6)/(4-x))\cdot b_2   &=  &0
+        \end{linsys}
+      \end{equation*}
+      考虑最下面的方程。
+      若 \( b_2=0 \)，则第一个方程给出 $b_1=0$ 或 $x=4$。
+      $b_1=b_2=0$ 的情形是不允许的。
+      最下面方程的另一种可能是分式 $x^2-5x+6=(x-2)(x-3)$ 的分子为零。
+      $x=2$ 的情形给出第一个方程 $2b_1-2b_2=0$，因此与 $x=2$ 相关联的是
+      第一、第二分量相等的向量：
+      \begin{equation*}
+         \vec{\beta}_1=\colvec[r]{1 \\ 1}
+         \qquad\text{（于是 \(
+           \begin{mat}[r]
+              4  &-2  \\
+              1  &1
+           \end{mat}
+           \colvec[r]{1 \\ 1}=2\cdot\colvec[r]{1 \\ 1} \)，且 $\lambda_1=2$）。}
+      \end{equation*}
+      若 \( x=3 \)，则第一个方程为
+      $b_1-2b_2=0$，于是相关的向量
+      是那些第一分量为第二分量两倍的向量：
+      \begin{equation*}
+         \vec{\beta}_2=\colvec[r]{2 \\ 1}
+         \qquad\text{（于是 \(
+           \begin{mat}[r]
+              4  &-2  \\
+              1  &1
+           \end{mat}
+           \colvec[r]{2 \\ 1}=3\cdot\colvec[r]{2 \\ 1} \)，从而 $\lambda_2=3$）。}
+      \end{equation*}
+      下图
+        \begin{equation*}
+          \begin{CD}
+            \C^2_{\wrt{\stdbasis_2}}
+               @>t>T>
+               \C^2_{\wrt{\stdbasis_2}}       \\
+            @V{\scriptstyle\identity} VV
+               @V{\scriptstyle\identity} VV \\
+            \C^2_{\wrt{B}}
+               @>t>D>
+               \C^2_{\wrt{B}}
+          \end{CD}
+        \end{equation*}
+      展示了如何得到该对角化。
+      \begin{equation*}
+         \begin{mat}[r]
+           2  &0  \\
+           0  &3
+         \end{mat}
+         =
+         \begin{mat}[r]
+           1  &2  \\
+           1  &1
+         \end{mat}^{-1}
+         \begin{mat}[r]
+           4  &-2  \\
+           1  &1
+         \end{mat}
+         \begin{mat}[r]
+           1  &2  \\
+           1  &1
+         \end{mat}
+      \end{equation*}
+      \textit{评注}。
+      在下述改名之下，这个等式与 $T=PSP^{-1}$ 的定义相符。
+      \begin{equation*}
+        T=
+         \begin{mat}[r]
+           2  &0  \\
+           0  &3
+         \end{mat}
+         \quad
+         P=
+         \begin{mat}[r]
+           1  &2  \\
+           1  &1
+         \end{mat}^{-1}
+         \quad
+         P^{-1}=
+         \begin{mat}[r]
+           1  &2  \\
+           1  &1
+         \end{mat}
+         \quad
+         S=
+         \begin{mat}[r]
+           4  &-2  \\
+           1  &1
+         \end{mat}
+      \end{equation*}
+    \end{answer}
+  \recommended \item \label{exer:DiagTheseA}
+    按照\nearbyexample{ex:DiagUpperTrian}的步骤对角化下面的矩阵。
+    \begin{equation*}
+      \begin{mat}[r]
+      1  &1  \\
+      0  &0
+      \end{mat}
+    \end{equation*}
+    \begin{exparts}
+      \partsitem 写出\nearbylemma{lm:DiagIffBasisOfEigens}中描述的矩阵—向量方程，
+         并将其改写为线性方程组。
+      \partsitem 通过考虑该方程组的解，找出两个向量来构成一个基。
+         （分别考虑 $x=0$ 与
+         $x\neq 0$ 两种情形下的方程组。
+         另外，回忆零向量不能是基的成员。）
+      \partsitem 在相似图中使用该基，把对角矩阵表示为三个矩阵的乘积。
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+        \partsitem 我们要一个基，使其中的向量满足
+          \begin{equation*}
+            \begin{mat}
+              1 &1 \\
+              0 &0
+            \end{mat}
+            \colvec{b_1 \\ b_2}
+            =x\cdot \colvec{b_1 \\ b_2}
+          \end{equation*}
+          于是考虑由此得到的线性方程组。
+          \begin{equation*}
+            \begin{linsys}{2}
+              b_1 &+ &b_2 &= &x\cdot b_1 \\
+                  &  &0   &= &x\cdot b_2 \\
+            \end{linsys}
+          \end{equation*}
+        \partsitem
+          若 $x=0$，则 $b_1+b_2=0$，即 $b_1=-b_2$。
+          也就是说，与这种情形相关联的基元素，
+          其分量符号相反。
+          （分量必须非零，因为零向量
+          不能是基的成员。）
+
+          若 $x\neq 0$，则 $b_2=0$，把它代入上面的
+          方程得到 $b_1=x\cdot b_1$。
+          所以在这种情形，要么 $b_1=0$，要么 $x=1$。
+          但由于此情形中 $b_2=0$，$b_1=0$ 是不可能的，因为
+          零向量不在任何基中。
+          于是~$x=1$，方程组变为
+          \begin{equation*}
+            \begin{linsys}{2}
+              b_1 &+ &b_2 &= &1\cdot b_1 \\
+                  &  &0   &= &1\cdot b_2 \\
+            \end{linsys}
+          \end{equation*}
+          所以这种情形相关联的基元素满足 $b_2=0$，
+          而~$b_1$ 可取任意非零值。
+
+          因此，合适的基是
+          \begin{equation*}
+            B=\sequence{\colvec{1 \\ -1},
+                        \colvec{1 \\ 0}}
+          \end{equation*}
+        \partsitem
+          有了这个基，
+          为得到对角化，画出相似图。
+          \begin{equation*}
+            \begin{CD}
+            \C^2_{\wrt{\stdbasis_2}}
+               @>t>T>
+               \C^2_{\wrt{\stdbasis_2}}       \\
+            @V{\scriptstyle\identity} VV
+               @V{\scriptstyle\identity} VV \\
+            \C^2_{\wrt{B}}
+               @>t>D>
+               \C^2_{\wrt{B}}
+           \end{CD}
+          \end{equation*}
+          在此图中，
+          \begin{equation*}
+             T=
+             \begin{mat}
+               1  &1  \\
+               0  &0
+             \end{mat}
+          \end{equation*}
+          我们将利用基~$B$，
+          沿着左下到左上、再到右上、
+          再到右下的路径来计算矩阵~$D$。
+
+          我们先要从左下走到左上。
+          注意到由于我们把图上方的基
+          选为标准基 $\stdbasis_2$，
+          表示该映射的矩阵很容易写出。
+          \begin{equation*}
+            \rep{\identity}{B,\stdbasis_2}=
+            \begin{mat}
+              1 &1 \\
+             -1 &0
+            \end{mat}
+          \end{equation*}
+          整条路径的计算确实给出了
+          对角的结果
+          （当然，左下到左上这一段出现在
+          三个矩阵乘积的右边）。
+          \begin{align*}
+                 D
+                 &=
+                 \begin{mat}
+                    1  &1  \\
+                    -1  &0
+                 \end{mat}^{-1}
+                 \begin{mat}
+                    1  &1  \\
+                    0  &0
+                 \end{mat}
+                 \begin{mat}
+                    1  &1  \\
+                    -1  &0
+                 \end{mat}                \\
+                 &=
+                 \begin{mat}
+                    0  &-1  \\
+                    1  &1
+                 \end{mat}
+                 \begin{mat}
+                    1  &1  \\
+                    0  &0
+                 \end{mat}
+                 \begin{mat}
+                    1  &1  \\
+                    -1  &0
+                 \end{mat}
+                =\begin{mat}
+                    0  &0  \\
+                    0  &1
+                 \end{mat}
+          \end{align*}
+     \end{exparts}
+    \end{answer}
+  \recommended \item \label{exer:DiagTheseB}
+    按照\nearbyexample{ex:DiagUpperTrian}对角化下面的矩阵。
+    \begin{equation*}
+      \begin{mat}[r]
+      0  &1  \\
+      1  &0
+      \end{mat}
+    \end{equation*}
+    \begin{exparts}
+      \partsitem 写出矩阵—向量方程，
+         并将其改写为线性方程组。
+      \partsitem 通过考虑该方程组的解，找出两个向量来构成一个基。
+         （分别考虑 $x=0$ 与
+         $x\neq 0$ 两种情形。
+         另外，回忆零向量不能是基的成员。）
+      \partsitem 利用这个基和相似图，
+        把对角化表示为三个矩阵的乘积。
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+        \partsitem
+          基中的成员满足
+          \begin{equation*}
+            \begin{mat}
+              0 &1 \\
+              1 &0
+            \end{mat}
+            \colvec{b_1 \\ b_2}
+            =x\cdot \colvec{b_1 \\ b_2}
+          \end{equation*}
+          因此由此得到线性方程组
+          \begin{equation*}
+            \begin{linsys}{2}
+                   &  &b_2 &= &x\cdot b_1 \\
+               b_1 &  &    &= &x\cdot b_2 \\
+            \end{linsys}
+            \qquad\Longrightarrow\qquad
+            \begin{linsys}{2}
+               -xb_1 &+ &b_2  &= &0 \\
+                 b_1 &- &xb_2 &= &0 \\
+            \end{linsys}
+          \end{equation*}
+        \partsitem
+          若 $x=0$，则 $b_1=b_2=0$，但零向量不是任何
+          基的成员，所以这种情形不可能发生。
+
+          另一种情形是 $x\neq 0$。
+          \begin{equation*}
+            \begin{linsys}{2}
+               -xb_1 &+ &b_2  &= &0 \\
+                 b_1 &- &xb_2 &= &0 \\
+            \end{linsys}
+            \grstep{(1/x)\rho_1+\rho_2}
+            \begin{linsys}{2}
+               -xb_1 &+ &b_2           &= &0 \\
+                     &  &(-x+(1/x))b_2 &= &0 \\
+            \end{linsys}
+          \end{equation*}
+          关注最下面的方程。
+          要么 $b_2=0$，要么 $-x+(1/x)=0$。
+          若 $b_2=0$，则代入上面的方程给出
+          $b_1=0$，因为 $x\neq 0$ 是这种情形的假设。
+          但零向量不是任何基的成员，所以这不可能
+          发生。
+
+          于是只剩这种可能。
+          \begin{equation*}
+            \frac{1}{x}-x=0
+            \qquad\Longrightarrow\qquad
+            0=\frac{1-x^2}{x}=\frac{(1-x)(1+x)}{x}
+          \end{equation*}
+          若 $x=1$，则方程组为
+          \begin{equation*}
+            \begin{linsys}{2}
+               -1\cdot b_1 &+ &b_2  &= &0 \\
+                           &  &0    &= &0 \\
+            \end{linsys}
+          \end{equation*}
+          于是基向量满足 $b_2=b_1$。
+          若 $x=-1$，则方程组为
+          \begin{equation*}
+            \begin{linsys}{2}
+               b_1 &+ &b_2  &= &0 \\
+                   &  &0    &= &0 \\
+            \end{linsys}
+          \end{equation*}
+          且基向量满足 $b_2=-b_1$。
+          因此，下面是一个合适的基的例子。
+          \begin{equation*}
+            B=\sequence{\colvec{1 \\ 1},
+                        \colvec{1 \\ -1}}
+          \end{equation*}
+        \partsitem
+          为得到对角化，画出相似图
+          \begin{equation*}
+            \begin{CD}
+            \C^2_{\wrt{\stdbasis_2}}
+               @>t>T>
+               \C^2_{\wrt{\stdbasis_2}}       \\
+            @V{\scriptstyle\identity} VV
+               @V{\scriptstyle\identity} VV \\
+            \C^2_{\wrt{B}}
+               @>t>D>
+               \C^2_{\wrt{B}}
+           \end{CD}
+          \end{equation*}
+          其中 $T$ 是题目中给出的矩阵。
+          \begin{equation*}
+             T=
+             \begin{mat}
+               0  &1  \\
+               1  &0
+             \end{mat}
+          \end{equation*}
+          利用基~$B$ 计算矩阵~$D$，
+          从左下走到左上，再到右上，
+          然后到右下。
+
+          注意表示左下到左上
+          映射的矩阵很容易写出。
+          \begin{equation*}
+            \rep{\identity}{B,\stdbasis_2}=
+            \begin{mat}
+              1 &1 \\
+              1 &-1
+            \end{mat}
+          \end{equation*}
+          有了它，整条路径的计算确实给出
+          对角的结果。
+          \begin{align*}
+                 D
+                 &=
+                 \begin{mat}
+                    1  &1  \\
+                    1  &-1
+                 \end{mat}^{-1}
+                 \begin{mat}
+                    0  &1  \\
+                    1  &0
+                 \end{mat}
+                 \begin{mat}
+                    1  &1  \\
+                    1  &-1
+                 \end{mat}                \\
+                 &=
+                 -\frac{1}{2}
+                 \begin{mat}
+                    -1  &-1  \\
+                    -1  &1
+                 \end{mat}
+                 \begin{mat}
+                    0  &1  \\
+                    1  &0
+                 \end{mat}
+                 \begin{mat}
+                    1  &1  \\
+                    1  &-1
+                 \end{mat}
+                =\begin{mat}
+                    1  &0  \\
+                    0  &-1
+                 \end{mat}
+          \end{align*}
+      \end{exparts}
+    \end{answer}
+  \item
+    对角化这些上三角矩阵。
+    \begin{exparts*}
+      \partsitem
+        $\begin{mat}[r]
+          -2  &1  \\
+           0  &2
+        \end{mat}$
+      \partsitem
+        $\begin{mat}[r]
+          5  &4  \\
+          0  &1
+        \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          写出
+          \begin{equation*}
+            \begin{mat}[r]
+              -2  &1  \\
+               0  &2
+            \end{mat}
+            \colvec{b_1 \\ b_2}
+            =x\cdot\colvec{b_1 \\ b_2}
+            \qquad\Longrightarrow\qquad
+            \begin{linsys}{2}
+               (-2-x)\cdot b_1  &+  &b_2            &=  &0  \\
+                                &   &(2-x)\cdot b_2 &= &0
+            \end{linsys}
+          \end{equation*}
+          给出两种可能：$b_2=0$ 与 $x=2$。
+          沿 $b_2=0$ 这种可能，第一个方程为
+          $(-2-x)b_1=0$，有两种情形：$b_1=0$ 或
+          $x=-2$。
+          于是，在第一种可能之下，我们得到 $x=-2$ 以及
+          相关联的向量，其第二分量为零，而
+          第一分量自由。
+          \begin{equation*}
+            \begin{mat}[r]
+              -2  &1  \\
+               0  &2
+            \end{mat}
+            \colvec{b_1 \\ 0}
+            =-2\cdot\colvec{b_1 \\ 0}
+            \qquad
+            \vec{\beta}_1=\colvec[r]{1 \\ 0}
+          \end{equation*}
+          沿另一种可能，得到第一个方程
+          $-4b_1+b_2=0$，因此与这个
+          解相关联的向量的第二分量是其第一分量
+          的四倍。
+          \begin{equation*}
+            \begin{mat}[r]
+              -2  &1  \\
+               0  &2
+            \end{mat}
+            \colvec{b_1 \\ 4b_1}
+            =2\cdot\colvec{b_1 \\ 4b_1}
+            \qquad
+            \vec{\beta}_2=\colvec{1 \\ 4}
+          \end{equation*}
+          对角化如下。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &1  \\
+              0  &4
+            \end{mat}
+            \begin{mat}[r]
+              -2  &1  \\
+               0  &2
+            \end{mat}
+            \begin{mat}[r]
+              1  &1  \\
+              0  &4
+            \end{mat}^{-1}
+            =
+            \begin{mat}[r]
+              -2  &0  \\
+               0  &2
+            \end{mat}
+          \end{equation*}
+      \partsitem 计算与前一小题类似。
+          \begin{equation*}
+            \begin{mat}[r]
+               5  &4  \\
+               0  &1
+            \end{mat}
+            \colvec{b_1 \\ b_2}
+            =x\cdot\colvec{b_1 \\ b_2}
+            \qquad\Longrightarrow\qquad
+            \begin{linsys}{2}
+               (5-x)\cdot b_1  &+  &4\cdot b_2     &=  &0  \\
+                               &   &(1-x)\cdot b_2 &=  &0
+            \end{linsys}
+          \end{equation*}
+          最下面的方程
+          给出两种可能：$b_2=0$ 与 $x=1$。
+          沿 $b_2=0$ 这种可能，并舍去
+          $b_2$ 与 $b_1$ 都为零的情形，得到
+          $x=5$，与之相关联的向量第二分量
+          为零，而第一分量自由。
+          \begin{equation*}
+            \vec{\beta}_1=\colvec[r]{1 \\ 0}
+          \end{equation*}
+          $x=1$ 这种可能给出第一个方程
+          $4b_1+4b_2=0$，因此相关联的向量的
+          第二分量是其第一分量的相反数。
+          \begin{equation*}
+            \vec{\beta}_1=\colvec[r]{1 \\ -1}
+          \end{equation*}
+          于是我们有如下对角化。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &1  \\
+              0  &-1
+            \end{mat}
+            \begin{mat}[r]
+               5  &4  \\
+               0  &1
+            \end{mat}
+            \begin{mat}[r]
+              1  &1  \\
+              0  &-1
+            \end{mat}^{-1}
+            =
+            \begin{mat}[r]
+               5  &0  \\
+               0  &1
+            \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 若试图用
+    \nearbyexample{ex:DiagUpperTrian}的方法
+    对角化\nearbyexample{ex:MatrixNotDiagonalizable}中的矩阵
+    \begin{equation*}
+       N=\begin{mat}[r]
+            0  &0  \\
+            1  &0
+         \end{mat}
+    \end{equation*}
+    那么会在哪里出问题？
+    \begin{exparts}
+      \partsitem 画出带 $N$ 的相似图。
+      \partsitem 写出\nearbylemma{lm:DiagIffBasisOfEigens}中描述的矩阵—向量方程，
+         并将其改写为线性方程组。
+      \partsitem 通过考虑该方程组的解，找出
+         问题所在。
+         （分别考虑 $x=0$ 与
+         $x\neq 0$ 两种情形。）
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \item  在这个相似图
+          \begin{equation*}
+            \begin{CD}
+            \C^2_{\wrt{\stdbasis_2}}
+               @>n>N>
+               \C^2_{\wrt{\stdbasis_2}}       \\
+            @V{\scriptstyle\identity} VV
+               @V{\scriptstyle\identity} VV \\
+            \C^2_{\wrt{B}}
+               @>n>D>
+               \C^2_{\wrt{B}}
+           \end{CD}
+          \end{equation*}
+          中，我们将尝试计算矩阵~$D$ 并找出合适的
+          基~$B$，
+          即沿左下到左上、再到右上、
+          再到右下的路径行进。
+        \item 该图表明，当
+          $B=\sequence{\vec{\beta}_1,\vec{\beta}_2}$ 时，我们要
+          $n(\vec{\beta}_1)=\lambda_1\vec{\beta}_1$ 且
+          $n(\vec{\beta}_2)=\lambda_2\vec{\beta}_2$。
+          为确定 $\lambda_1$ 和 $\lambda_2$，
+          由于矩阵~$N$ 表示的是关于
+          标准基的映射，我们要求这个方程组的解。
+          \begin{equation*}
+            \begin{mat}
+              0 &0 \\
+              1 &0
+            \end{mat}
+            \colvec{b_1 \\ b_2}
+            =
+            x\cdot\colvec{b_1 \\ b_2}
+          \end{equation*}
+          同解的线性方程组为
+          \begin{equation*}
+            \begin{linsys}{2}
+              0b_1 &+  &0b_2 &= &xb_1 \\
+              b_1  &+  &0b_2 &= &xb_2 \\
+            \end{linsys}
+            \qquad
+            \Longrightarrow
+            \qquad
+            \begin{linsys}{2}
+              -xb_1 &   &     &= &0 \\
+              b_1   &-  &xb_2 &= &0 \\
+            \end{linsys}
+          \end{equation*}
+          由第一行，要么 $x=0$，要么~$b_1=0$。
+          若 $x=0$，则第二个方程变为 $b_1-0=0$，故 $b_1=0$，
+          于是得到这个解集。
+          \begin{equation*}
+            \set{\colvec{0 \\ 1}b_2 \suchthat b_2\in\C}
+          \end{equation*}
+          我们可以取基的第一个成员为
+          $\vec{\beta}_1=\vec{e}_2$。
+
+          若 $x\neq 0$，则线性方程组的
+          第一个方程给出 $b_1=0$。
+          方程组的第一行变为 $0=0$，第二行变为
+          $-xb_2=0$。
+          由于这种情形取 $x\neq 0$，我们得到 $b_2=0$，
+          解集是平凡的。
+          \begin{equation*}
+            \set{\colvec{0 \\ 0}}
+          \end{equation*}
+          所以出问题的地方在于：我们得不到
+          \nearbylemma{lm:DiagIffBasisOfEigens}所要求的基。
+      \end{exparts}
+    \end{answer}
+  \recommended \item \label{exer:PowersOfDiags}
+    对角矩阵的幂具有什么形式？
+    \begin{answer}
+      对于任意整数 \( p \)，我们有下式。
+      \begin{equation*}
+        \begin{mat}
+          d_1  &0      &   \\
+          0    &\ddots &   \\
+               &       &d_n
+        \end{mat}^p=
+        \begin{mat}
+          d_1^p  &0      &   \\
+          0      &\ddots &   \\
+                 &       &d_n^p
+        \end{mat}
+     \end{equation*} 
+    \end{answer}
+  \item 
+     给出两个同阶但不相似的对角矩阵。
+     任意两个不同的对角矩阵是否必定来自不同的相似类？
+     \begin{answer}
+       这两个矩阵不相似 
+       \begin{equation*}
+          \begin{mat}[r]
+             0  &0  \\
+             0  &0
+          \end{mat}
+          \qquad
+          \begin{mat}[r]
+             1  &0  \\
+             0  &1
+          \end{mat}
+       \end{equation*}
+       因为每一个在各自的相似类中都是单独的。
+
+       对于后半问，这两个
+       \begin{equation*}
+          \begin{mat}[r]
+             2  &0  \\
+             0  &3
+          \end{mat}
+          \qquad
+          \begin{mat}[r]
+             3  &0  \\
+             0  &2
+          \end{mat}
+       \end{equation*}
+       通过把基从
+       \( \sequence{\vec{\beta}_1,\vec{\beta}_2} \) 变为
+       \( \sequence{\vec{\beta}_2,\vec{\beta}_1} \) 的矩阵而相似。
+       （\textit{问题。}
+        两个对角矩阵相似当且仅当它们的对角元互为排列？）  
+    \end{answer}
+  \item 
+    给出一个非奇异的对角矩阵。
+    对角矩阵有可能是奇异的吗？
+    \begin{answer}
+      对比这两个矩阵。
+      \begin{equation*}
+         \begin{mat}[r]
+           2  &0  \\
+           0  &1
+         \end{mat}
+         \qquad
+         \begin{mat}[r]
+           2  &0  \\
+           0  &0
+         \end{mat}
+      \end{equation*}
+      第一个是非奇异的，第二个是奇异的。  
+     \end{answer}
+  \recommended \item
+    证明：若对角线上没有元素为零，则对角矩阵的逆就是由各元素的
+    逆构成的对角矩阵。
+    当对角元为零时会发生什么？
+    \begin{answer}  
+       要验证对角矩阵的逆是由各元素的逆构成的对角矩阵，只需直接相乘。
+       \begin{equation*}
+          \begin{mat}
+             a_{1,1}  &0                \\
+             0        &a_{2,2}          \\
+                      &       &\ddots    \\
+                      &       &      &a_{n,n}
+          \end{mat}
+          \begin{mat}
+            1/a_{1,1}  &0                \\
+             0        &1/a_{2,2}          \\
+                      &       &\ddots    \\
+                      &       &      &1/a_{n,n}
+          \end{mat}
+      \end{equation*}
+      （证明它是左逆同样容易。）
+
+      若某个对角元为零，则该对角矩阵是奇异的；它的行列式为零。  
+    \end{answer}
+  \item 
+    以 \nearbyexample{ex:DiagUpperTrian} 结尾的方程
+    \begin{equation*}
+       \begin{mat}[r]
+         1  &1  \\
+         0  &-1
+       \end{mat}^{-1}
+       \begin{mat}[r]
+         3  &2  \\
+         0  &1
+       \end{mat}
+       \begin{mat}[r]
+         1  &1  \\
+         0  &-1
+       \end{mat}
+       =
+       \begin{mat}[r]
+         3  &0  \\
+         0  &1
+       \end{mat}
+    \end{equation*}
+    看起来有点别扭，因为 $P$ 必须取第一个矩阵，
+    而它是以逆的形式出现的；$P^{-1}$ 则取第一个矩阵的逆，
+    于是两个 $-1$ 次幂相消，这个矩阵出现时
+    就不带上标 $-1$ 了。
+    \begin{exparts}
+      \partsitem 验证下面这个形式更好看的方程成立。
+        \begin{equation*}
+           \begin{mat}[r]
+             3  &0  \\
+             0  &1
+           \end{mat}
+           =
+           \begin{mat}[r]
+             1  &1  \\
+             0  &-1
+           \end{mat}
+           \begin{mat}[r]
+             3  &2  \\
+             0  &1
+           \end{mat}
+           \begin{mat}[r]
+             1  &1  \\
+             0  &-1
+           \end{mat}^{-1}
+        \end{equation*}
+      \partsitem 上一小问是巧合吗？
+        还是我们总能交换 $P$ 与 $P^{-1}$？
+   \end{exparts}
+   \begin{answer}
+     \begin{exparts}
+       \partsitem 验证很容易。
+         \begin{equation*}
+           \begin{mat}[r]
+             1  &1  \\
+             0  &-1
+           \end{mat}
+           \begin{mat}[r]
+             3  &2  \\
+             0  &1
+           \end{mat}
+           =
+           \begin{mat}[r]
+             3  &3  \\
+             0  &-1
+           \end{mat}
+           \qquad
+           \begin{mat}[r]
+             3  &3  \\
+             0  &-1
+           \end{mat}
+           \begin{mat}[r]
+             1  &1  \\
+             0  &-1
+           \end{mat}^{-1}
+           =
+           \begin{mat}[r]
+             3  &0  \\
+             0  &1
+           \end{mat}
+         \end{equation*}
+        \partsitem 这是一个巧合，也就是说，若 $T=PSP^{-1}$，
+          则 $T$ 不必等于 $P^{-1}SP$。
+          甚至对于对角矩阵~$D$，条件 $D=PTP^{-1}$
+          也不能推出 $D$ 等于 $P^{-1}TP$。
+          来自 \nearbyexample{ex:DiagTwoByTwo} 的矩阵说明了这一点。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  \\
+              1  &1
+            \end{mat}
+            \begin{mat}[r]
+              4  &-2  \\
+              1  &1
+            \end{mat}
+            =
+            \begin{mat}[r]
+              6  &0  \\
+              5  &-1
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              6  &0  \\
+              5  &-1
+            \end{mat}
+            \begin{mat}[r]
+              1  &2  \\
+              1  &1
+            \end{mat}^{-1}
+            =
+            \begin{mat}[r]
+              -6  &12  \\
+              -6  &11
+            \end{mat}
+          \end{equation*}
+     \end{exparts}
+   \end{answer}
+  \item 
+    证明：在 \nearbyexample{ex:DiagUpperTrian}
+    中用于对角化的 $P$ 不是唯一的。
+    \begin{answer}
+      该矩阵的列就是与各个 $x$ 相联系的向量。
+      具体的选取，以及选取的顺序，都是任意的。
+      例如，交换这两列就能得到另一个矩阵。
+    \end{answer}
+  \item 
+    求该矩阵的幂的一个公式。
+    \textit{提示}：~参见 \nearbyexercise{exer:PowersOfDiags}。
+    \begin{equation*}
+      \begin{mat}[r]
+        -3  &1  \\
+        -4  &2
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      先对角化，再取对角矩阵的幂，可知
+      \begin{equation*}
+        \begin{mat}[r]
+          -3  &1  \\
+          -4  &2
+        \end{mat}^k
+        =
+        \frac{1}{3}
+        \begin{mat}[r]
+          -1  &1  \\
+          -4  &4
+        \end{mat}
+        +(\frac{-2}{3})^k
+        \begin{mat}[r]
+           4  &-1 \\
+           4  &-1
+        \end{mat}.
+      \end{equation*}  
+     \end{answer}
+  \item 
+    我们可以问一问对角化与矩阵运算如何相互作用。
+    设 \( \map{t,s}{V}{V} \) 都是可对角化的。
+    对所有标量 \( c \)，\( ct \) 都可对角化吗？
+    那 \( t+s \) 呢？
+    \( \composed{t}{s} \) 呢？
+    \begin{answer}
+      是的，由本小节最后一个定理可知 \( ct \) 可对角化。
+
+      不是，\( t+s \) 不一定可对角化。
+      直观地说，当这两个映射关于不同的基对角化时
+      （即当它们不是
+      \definend{可同时对角化的}）问题就出现了。
+      具体地，这两个矩阵都可对角化，但它们的和不可对角化：
+      \begin{equation*}
+         \begin{mat}[r]
+            1  &1  \\
+            0  &0
+         \end{mat}
+         \qquad
+         \begin{mat}[r]
+           -1  &0  \\
+            0  &0
+         \end{mat}
+      \end{equation*}
+      （第二个已经是对角矩阵；第一个
+      参见 \nearbyexercise{exer:DiagTheseA}）。
+      其和不可对角化，因为它的平方是零矩阵。 
+
+     同样的直觉提示 \( \composed{t}{s} \) 也不
+     可对角化。
+     这两个矩阵都可对角化，但它们的乘积不可对角化：
+     \begin{equation*}
+        \begin{mat}[r]
+           1  &0  \\
+           0  &0
+        \end{mat}
+        \qquad
+        \begin{mat}[r]
+           0  &1  \\
+           1  &0
+        \end{mat}
+     \end{equation*}
+     （第二个参见 \nearbyexercise{exer:DiagTheseB}）。   
+    \end{answer}
+  \item 
+    证明：这种形式的矩阵不可对角化。
+    \begin{equation*}
+       \begin{mat}[r]
+          1  &c  \\
+          0  &1
+       \end{mat}
+       \qquad c\neq 0
+    \end{equation*}
+    \begin{answer}
+      若
+      \begin{equation*}
+         P
+         \begin{mat}
+            1  &c  \\
+            0  &1
+         \end{mat}
+         P^{-1}
+         =
+         \begin{mat}
+            a  &0  \\
+            0  &b
+         \end{mat}
+      \end{equation*}
+      则
+      \begin{equation*}
+         P
+         \begin{mat}
+            1  &c  \\
+            0  &1
+         \end{mat}
+         =
+         \begin{mat}
+            a  &0  \\
+            0  &b
+         \end{mat}
+         P
+      \end{equation*}
+      于是
+      \begin{align*}
+         \begin{mat}
+            p  &q  \\
+            r  &s
+         \end{mat}
+         \begin{mat}
+            1  &c  \\
+            0  &1
+         \end{mat}
+         &=
+         \begin{mat}
+            a  &0  \\
+            0  &b
+         \end{mat}
+         \begin{mat}
+            p  &q  \\
+            r  &s
+         \end{mat}        \\
+         \begin{mat}
+            p  &cp+q  \\
+            r  &cr+s
+         \end{mat}
+         &=
+         \begin{mat}
+            ap  &aq  \\
+            br  &bs
+         \end{mat}
+      \end{align*}
+      \( 1,1 \) 元表明 \( a=1 \)，于是 \( 1,2 \) 元
+      表明 \( pc=0 \)。
+      由于 \( c\neq 0 \)，这意味着 \( p=0 \)。
+      \( 2,1 \) 元表明 
+      \( b=1 \)，于是 \( 2,2 \) 元表明
+      \( rc=0 \)。
+      由于 \( c\neq 0 \)，这意味着 \( r=0 \)。
+      但若 \( p \) 与 \( r \) 都是 \( 0 \)，则 \( P \) 不
+      可逆。  
+     \end{answer}
+  \item 
+    证明：下面每一个矩阵都可对角化。
+    \begin{exparts*}
+      \partsitem
+       \( \begin{mat}[r]
+             1  &2  \\
+             2  &1
+          \end{mat}  \)
+      \partsitem
+       \( \begin{mat}
+             x  &y  \\
+             y  &z
+          \end{mat}
+          \qquad \text{$x,y,z$ 为标量}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+      \partsitem 使用 $\nbyn{2}$
+        矩阵的逆的公式可得下式。
+        \begin{multline*}
+           \begin{mat}
+              a  &b  \\
+              c  &d
+           \end{mat}
+           \begin{mat}[r]
+              1  &2  \\
+              2  &1
+           \end{mat}
+           \cdot\frac{1}{ad-bc}\cdot
+           \begin{mat}
+              d  &-b \\
+             -c  &a
+           \end{mat}                                  \\
+           =\frac{1}{ad-bc}
+           \begin{mat}
+              ad+2bd-2ac-bc    &-ab-2b^2+2a^2+ab \\
+              cd+2d^2-2c^2-cd  &-bc-2bd+2ac+ad
+           \end{mat}
+        \end{multline*}
+        现在选取标量 \( a,\ldots,d \)，使得
+        \( ad-bc\neq 0 \) 且 \( 2d^2-2c^2=0 \) 且 \( 2a^2-2b^2=0 \)。
+        例如，下面这组就行。
+        \begin{equation*}
+          \begin{mat}[r]
+            1  &1  \\
+            1  &-1
+          \end{mat}
+          \begin{mat}[r]
+            1  &2  \\
+            2  &1
+          \end{mat}
+          \cdot\frac{1}{-2}\cdot
+          \begin{mat}[r]
+            -1  &-1  \\
+            -1  &1
+          \end{mat}
+          =
+          \frac{1}{-2}
+          \begin{mat}[r]
+            -6  &0   \\
+             0  &2
+          \end{mat}
+        \end{equation*}
+      \partsitem 同上，
+        \begin{multline*}
+           \begin{mat}
+              a  &b  \\
+              c  &d
+           \end{mat}
+           \begin{mat}
+              x  &y  \\
+              y  &z
+           \end{mat}
+           \cdot\frac{1}{ad-bc}\cdot
+           \begin{mat}
+              d  &-b \\
+             -c  &a
+           \end{mat}                               \\
+           =\frac{1}{ad-bc}
+           \begin{mat}
+              adx+bdy-acy-bcz    &-abx-b^2y+a^2y+abz \\
+              cdx+d^2y-c^2y-cdz  &-bcx-bdy+acy+adz
+           \end{mat}
+        \end{multline*}
+        我们要找标量 \( a,\ldots,d \)，使得
+        \( ad-bc\neq 0 \) 且
+        \( -abx-b^2y+a^2y+abz=0 \)
+        且 \( cdx+d^2y-c^2y-cdz=0 \)，无论
+        \( x \)、\( y \)、\( z \)
+        取什么值。
+
+        首先，我们假定 \( y\neq 0 \)，否则所给矩阵已经
+        是对角矩阵。
+        我们将使用该假定，因为若我们（随意地）令
+        \( a=1 \) 则得到
+        \begin{align*}
+           -bx-b^2y+y+bz
+           &=0              \\
+           (-y)b^2+(z-x)b+y
+           &=0
+        \end{align*}
+        而求根公式给出
+        \begin{equation*}
+           b=\frac{-(z-x)\pm\sqrt{(z-x)^2-4(-y)(y)} }{-2y}
+           \qquad
+           y\neq 0
+        \end{equation*}
+        （注意若 \( x \)、\( y \)、\( z \) 为实数，则这两个
+         \( b \) 都是实数，因为判别式为正）。
+        同理，若我们（随意地）令 \( c=1 \) 则
+        \begin{align*}
+           dx+d^2y-y-dz
+           &=0              \\
+           (y)d^2+(x-z)d-y
+           &=0
+        \end{align*}
+        在这里我们得到
+        \begin{equation*}
+           d=\frac{-(x-z)\pm\sqrt{(x-z)^2-4(y)(-y)} }{2y}
+           \qquad
+           y\neq 0
+        \end{equation*}
+        （同上，若 \( x,y,z\in\Re \)，则此判别式为正，
+        故实对称的 \( \nbyn{2} \) 矩阵相似于一个实的
+        对角矩阵）。
+
+        作为检验，我们取 \( x=1 \)、\( y=2 \)、\( z=1 \)。
+        \begin{equation*}
+           b=\frac{0\pm\sqrt{0+16} }{-4}=\mp 1
+           \qquad
+           d=\frac{0\pm\sqrt{0+16} }{4}=\pm 1
+        \end{equation*}
+        注意并非所有四个选择 \( (b,d)=(+1,+1),\dots,(-1,-1) \)
+        都满足 \( ad-bc\neq 0 \)。
+      \end{exparts} 
+    \end{answer}
+\index{diagonalizable|)}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{特征值与特征向量}
+接下来我们将着重讨论
+\nearbylemma{lm:DiagIffBasisOfEigens} 的性质。
+
+\begin{definition} \label{def:Eigen}
+%<*df:Eigen>
+变换 \( \map{t}{V}{V} \) 具有标量
+\definend{特征值}\index{eigenvalue, eigenvector!of a transformation}%
+\index{transformation!eigenvalue, eigenvector}
+\( \lambda \)，是指存在非零的
+\definend{特征向量} \( \vec{\zeta}\in V \)
+使得
+$
+  t(\vec{\zeta})=\lambda\cdot\vec{\zeta}
+$。
+%</df:Eigen>
+\end{definition}
+
+\noindent ``Eigen'' 是德语词，意为``……所特有的''或``……独有的''。
+一些作者将这些值与向量称为 \definend{特征}%
+\index{characteristic!vectors, values} 值与特征向量。
+没有作者称它们为``独有的''向量。
+
+\begin{example}
+投影映射
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+     \mapsunder{\pi}
+  \colvec{x \\ y \\ 0}
+   \qquad x,y,z\in\C
+\end{equation*}
+对任意形如
+\begin{equation*}
+   \colvec{x \\ y \\ 0}
+\end{equation*}
+（其中 \( x \) 与 \( y \) 是不全为零的标量）的特征向量，都有特征值 \( 1 \) 与之相伴。
+
+相比之下，\( 2 \) 不是这个映射的特征值，
+因为假设 $\pi$ 将一个向量加倍，
+就会导出三个方程 $x=2x$、$y=2y$ 以及 $0=2z$，
+于是没有非 $\zero$ 向量被加倍。
+\end{example}
+
+注意，
+定义要求特征向量非 $\zero$。
+一些作者允许 $\zero$ 作为 $\lambda$ 的特征向量，
+只要同时还有与 $\lambda$ 相伴的
+非 $\zero$ 向量即可。
+关键在于
+排除这样的平凡情形：$\lambda$ 满足
+$t(\vec{v})=\lambda\vec{v}$ 仅对唯一的向量 $\vec{v}=\zero$ 成立。
+
+另外，注意特征值 $\lambda$ 可以是~$0$。
+问题在于 $\vec{\zeta}$ 是否等于 $\zero$。
+
+\begin{example}  \label{ex:NoEigenOnTrivSp}
+平凡空间 \( \set{\zero} \) 上仅有的变换是
+%\begin{equation*}
+$\zero\mapsto\zero$。
+%\end{equation*}
+这个映射没有特征值，因为不存在被映射到自身标量倍 $\lambda\cdot\vec{v}$ 的
+非 \( \zero \) 向量 $\vec{v}$。
+\end{example}
+
+\begin{example} \label{ex:TransPolyOne}
+考虑同态 \( \map{t}{\polyspace_1}{\polyspace_1} \)，
+它由 \( c_0+c_1x\mapsto(c_0+c_1)+(c_0+c_1)x \) 给出。
+虽然 $t$ 的陪域 $\polyspace_1$ 是二维的，但其
+值域是一维的 $\rangespace{t}=\set{c+cx\suchthat c\in\C}$。
+应用
+\( t \) 作用到该值域中的向量只是对向量作伸缩：
+\( c+cx\mapsto (2c)+(2c)x \)。
+也就是说，\( t \) 有特征值 \( 2 \) 与形如 \( c+cx \)（其中 \( c\neq 0 \)）的
+特征向量相伴。
+
+这个映射也有特征值 \( 0 \)，与形如 \( c-cx \)（其中 \( c\neq 0 \)）的
+特征向量相伴。
+\end{example}
+
+上面的定义是针对映射的。
+我们也可以给出矩阵版本。
+
+\begin{definition}  \label{df:EigenOfMatrix}
+%<*df:EigenOfMatrix>
+若方阵 \( T \) 满足 \( T\vec{\zeta}=\lambda\cdot\vec{\zeta} \)，
+其中 \( \vec{\zeta} \) 是与之相伴的非零
+\definend{特征向量}，则称 \( T \) 有标量
+\definend{特征值}\index{eigenvalue, eigenvector!of a matrix}
+\( \lambda \)。
+%</df:EigenOfMatrix>
+\end{definition}
+
+把针对映射的定义扩展成针对矩阵的定义是很自然的，
+但有一点必须小心。
+映射的特征值也是表示该映射的矩阵的特征值，
+所以相似的矩阵有相同的特征值。
+然而，特征向量却可以
+不同\Dash 相似的矩阵未必有
+相同的特征向量。
+下面的例子说明了这一点。
+
+\begin{example}
+这两个矩阵是相似的
+\begin{equation*}
+  T=
+  \begin{mat}
+    2  &0  \\
+    0  &0
+  \end{mat}
+  \quad
+  \hat{T}
+  =
+  \begin{mat}[r]
+    4  &-2  \\
+    4  &-2
+  \end{mat}
+\end{equation*}
+因为对这个 $P$ 有 $\hat{T}=PTP^{-1}$。
+\begin{equation*}
+  P=
+  \begin{mat}
+    1  &1  \\
+    1  &2
+  \end{mat}
+  \quad
+  P^{-1}=
+  \begin{mat}[r]
+    2   &-1  \\
+    -1  &1
+  \end{mat}
+\end{equation*}
+矩阵 $T$
+有两个特征值：$\lambda_1=2$ 和~$\lambda_2=0$。
+第一个特征值与这个特征向量相伴。
+\begin{equation*}
+  T\vec{e}_1=
+  \begin{mat}
+    2  &0  \\
+    0  &0
+  \end{mat}
+  \colvec{1 \\ 0}
+  =\colvec{2 \\ 0}
+  =2\vec{e}_1
+\end{equation*}
+假设 $T$ 是关于标准基表示变换 $\map{t}{\C^2}{\C^2}$
+所得的矩阵。
+那么这个变换 $t$ 的作用很简单。
+\begin{equation*}
+  \colvec{x \\ y}\mapsunder{t}\colvec{2x \\ 0}
+\end{equation*}
+
+当然，$\hat{T}$ 表示同一个变换，但
+是关于不同的基~$B$。
+我们可以求出这个基。
+沿着箭头图从左下到左上，
+\begin{equation*}
+  \begin{CD}
+    V_{\wrt{\stdbasis_2}}            @>t>T>        V_{\wrt{\stdbasis_2}}       \\
+    @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+    V_{\wrt{B}}                   @>t>\hat{T}>        V_{\wrt{B}}
+  \end{CD}
+\end{equation*}
+可以看出 $P^{-1}=\rep{\identity}{B,\stdbasis_2}$。
+根据映射的矩阵表示的定义，它的第一列是
+$\rep{\identity(\vec{\beta}_1)}{\stdbasis_2}=\rep{\vec{\beta}_1}{\stdbasis_2}$。
+关于标准基，任何向量都由其自身表示，
+所以第一个基元素 $\vec{\beta}_1$ 就是 $P^{-1}$ 的第一列。
+另一个基元素同理。
+\begin{equation*}
+  B=\sequence{\colvec[r]{2 \\ -1},
+              \colvec[r]{-1 \\ 1}
+              }
+\end{equation*}
+由于矩阵 $T$ 和~$\hat{T}$ 都表示变换~$t$，
+它们都体现了作用 $t(\vec{e}_1)=2\vec{e}_1$。
+\begin{align*}
+  &\rep{t}{\stdbasis_2,\stdbasis_2}\cdot\rep{\vec{e}_1}{\stdbasis_2}
+    =T\cdot\rep{\vec{e}_1}{\stdbasis_2}
+    =2\cdot\rep{\vec{e}_1}{\stdbasis_2}                  \\
+    &\rep{t}{B,B}\cdot\rep{\vec{e}_1}{B}
+    =\hat{T}\cdot\rep{\vec{e}_1}{B}
+    =2\cdot\rep{\vec{e}_1}{B}
+\end{align*}
+但是，虽然在这两个等式中特征值 $2$ 相同，
+向量的表示却不同。
+\begin{align*}
+    T\cdot\rep{\vec{e}_1}{\stdbasis_2}
+    =T\colvec{1 \\ 0}
+    &=2\cdot\colvec{1 \\ 0}                \\
+    \hat{T}\cdot\rep{\vec{e}_1}{B}
+    =\hat{T}\cdot\colvec{1 \\ 1}
+    &=2\cdot\colvec{1 \\ 1}
+\end{align*}
+也就是说，当表示变换的矩阵是
+\( T=\rep{t}{\stdbasis_2,\stdbasis_2} \) 时，它``默认''
+列向量是
+关于 \( \stdbasis_2 \) 的表示。
+而 \( \hat{T}=\rep{t}{B,B} \) 则``默认''列向量
+是关于 \( B \) 的表示，
+于是被加倍的那些列向量
+是不同的。
+\end{example}
+
+
+% \begin{example}
+% Consider again the transformation \( \map{t}{\polyspace_1}{\polyspace_1} \)
+% % from \nearbyexample{ex:TransPolyOne}
+% given by
+% \( c_0+c_1x\mapsto (c_0+c_1)+(c_0+c_1)x \).
+% One of its eigenvalues is \( 2 \), associated with the eigenvectors
+% \( c+cx \) where \( c\neq 0 \).
+% If we represent \( t \) with respect to \( B=\sequence{1+1x,1-1x} \)
+% \begin{equation*}
+%    T=\rep{t}{B,B}=
+%    \begin{mat}[r]
+%       2  &0  \\
+%       0  &0
+%    \end{mat}
+% \end{equation*}
+% then \( 2 \) is an eigenvalue of the matrix \( T \),
+% associated with these eigenvectors.
+% \begin{equation*}
+%    \set{\colvec{c_0 \\ c_1}\suchthat \begin{mat}[r]
+%                                          2  &0  \\
+%                                          0  &0
+%                                       \end{mat}\colvec{c_0 \\ c_1}
+%                                       =\colvec{2c_0 \\ 2c_1}  }
+%   =\set{\colvec{c_0 \\ 0}\suchthat c_0\in\C,\, c_0\neq 0 }
+% \end{equation*}
+% On the other hand, if we represent $t$ with respect to
+% \( D=\sequence{2+1x,1+0x} \)
+% \begin{equation*}
+%    S=\rep{t}{D,D}=
+%    \begin{mat}[r]
+%       3  &1  \\
+%      -3  &-1
+%    \end{mat}
+% \end{equation*}
+% then the eigenvectors associated with the eigenvalue \( 2 \) are
+% these.
+% \begin{equation*}
+%    \set{\colvec{c_0 \\ c_1}\suchthat \begin{mat}[r]
+%                                          3  &1  \\
+%                                         -3  &-1
+%                                       \end{mat}\colvec{c_0 \\ c_1}
+%                                       =\colvec{2c_0 \\ 2c_1}  }
+%   =\set{\colvec{0 \\ c_1}\suchthat c_1\in\C,\, c_1\neq 0 }
+% \end{equation*}
+% \end{example}
+
+
+我们接下来看到求
+特征向量与特征值的基本工具。
+
+\begin{example}  \label{ex:IntroCharEqn}
+若
+\begin{equation*}
+  T=
+  \begin{mat}[r]
+     1    &2    &1    \\
+     2    &0    &-2   \\
+    -1    &2    &3
+  \end{mat}
+\end{equation*}
+那么为求出使得
+\( T\vec{\zeta}=x\vec{\zeta} \)（其中 \( \vec{\zeta} \) 为非零特征向量）的标量 \( x \)，
+把所有项移到左边
+\begin{equation*}
+  \begin{mat}[r]
+     1    &2    &1    \\
+     2    &0    &-2   \\
+    -1    &2    &3
+  \end{mat}
+  \colvec{z_1 \\ z_2 \\ z_3}
+  -x\colvec{z_1 \\ z_2 \\ z_3}
+  =\zero
+\end{equation*}
+然后因式分解，得到
+\( (T-x I)\vec{\zeta}=\zero \)。
+（注意是 $T-xI$。
+式子 \( T-x \) 没有意义，
+因为 \( T \) 是矩阵而 \( x \) 是标量。）
+这个齐次线性方程组
+\begin{equation*}
+  \begin{mat}
+   1-x           &2            &1            \\
+     2           &0-x          &-2           \\
+    -1           &2            &3-x
+  \end{mat}
+  \colvec{z_1 \\ z_2 \\ z_3}
+  =
+  \colvec[r]{0 \\ 0 \\ 0}
+\end{equation*}
+有非零解 $\vec{z}$ 当且仅当该
+矩阵是奇异的。
+我们可以确定何时会发生这种情况。
+\begin{align*}
+  0
+  &=\deter{T-x I}                                               \\
+  &=\begin{vmatrix}
+     1-x          &2            &1            \\
+     2           &0-x          &-2           \\
+    -1           &2            &3-x
+   \end{vmatrix}                                       \\
+  &=x^3-4x^2+4x  \\
+  &=x(x-2)^2
+\end{align*}
+特征值是 \( \lambda_1=0 \) 和 \( \lambda_2=2 \)。
+为求相伴的特征向量，将每个特征值代入。
+代入 $\lambda_1=0$ 给出
+\begin{equation*}
+  \begin{mat}
+     1-0         &2            &1            \\
+     2           &0-0          &-2           \\
+    -1           &2            &3-0
+  \end{mat}
+  \colvec{z_1 \\ z_2 \\ z_3}
+  =
+  \colvec[r]{0 \\ 0 \\ 0}
+  \quad\Longrightarrow\quad
+  \colvec{z_1 \\ z_2 \\ z_3}
+  =
+  \colvec[r]{a \\ -a \\ a}
+\end{equation*}
+其中 \( a\neq 0 \)
+（\( a \) 必须非 $0$，因为按定义特征向量
+是非 \( \zero \) 的）。
+代入 $\lambda_2=2$ 给出
+\begin{equation*}
+  \begin{mat}
+     1-2         &2            &1            \\
+     2           &0-2          &-2           \\
+    -1           &2            &3-2
+  \end{mat}
+  \colvec{z_1 \\ z_2 \\ z_3}
+  =
+  \colvec[r]{0 \\ 0 \\ 0}
+  \quad\Longrightarrow\quad
+  \colvec{z_1 \\ z_2 \\ z_3}
+  =
+  \colvec{b \\ 0 \\ b}
+\end{equation*}
+其中 \( b\neq 0 \)。
+\end{example}
+
+\begin{example} \label{ex:AnotherCharPoly}
+若
+\begin{equation*}
+  S=
+  \begin{mat}[r]
+    \pi      &1      \\
+    0        &3
+  \end{mat}
+\end{equation*}
+（这里 \( \pi \) 不是投影映射，而是数
+\( 3.14\ldots \)），那么
+\begin{equation*}
+    \begin{vmat}
+      \pi-x &1         \\
+      0     &3-x
+    \end{vmat}
+  =
+  (x-\pi)(x-3)
+\end{equation*}
+所以 \( S \) 有特征值 \( \lambda_1=\pi \) 和 \( \lambda_2=3 \)。
+为求相伴的特征向量，先将 $\lambda_1$ 代入 $x$
+\begin{equation*}
+  \begin{mat}
+    \pi-\pi     &1         \\
+    0           &3-\pi
+  \end{mat}
+  \colvec{z_1 \\ z_2}
+  =
+  \colvec[r]{0 \\ 0}
+  \qquad\Longrightarrow\qquad
+  \colvec{z_1 \\ z_2}
+  =
+  \colvec{a \\ 0}
+\end{equation*}
+其中标量 \( a\neq 0 \)。
+再将 $\lambda_2$ 代入
+\begin{equation*}
+  \begin{mat}
+    \pi-3       &1         \\
+    0           &3-3
+  \end{mat}
+  \colvec{z_1 \\ z_2}
+  =
+  \colvec[r]{0 \\ 0}
+  \qquad\Longrightarrow\qquad
+  \colvec{z_1 \\ z_2}
+  =
+  \colvec{-b/(\pi-3) \\ b}
+\end{equation*}
+其中 \( b\neq 0 \)。
+\end{example}
+
+\begin{definition} \label{df:CharacteristicPoly}
+%<*df:CharacteristicPoly>
+\( \nbyn{n} \) 方阵
+\definend{特征多项式}\index{characteristic!polynomial}%
+\index{matrix!characteristic polynomial}
+\( T \) 是行列式 \( \deter{T-x I} \)，其中 \( x \) 是变量。
+\definend{特征方程}\index{characteristic!equation}%
+\index{matrix!characteristic polynomial}
+是 $\deter{T-xI}=0$。
+变换的
+\definend{特征多项式}
+\( t \) 是它的任意矩阵表示 \( \rep{t}{B,B} \)
+的特征多项式。\index{transformation!characteristic polynomial}
+%</df:CharacteristicPoly>
+\end{definition}
+
+\noindent
+%<*df:CharacteristicPolyExer>
+\( \nbyn{n} \) 矩阵
+或变换 \( \map{t}{\C^n}{\C^n} \) 的特征多项式的次数为~\( n \)。
+\nearbyexercise{exer:CharPolyTransWellDefed} 验证了变换的
+特征多项式是
+良定义的，也就是说，无论用哪个基作表示，特征多项式都是
+相同的。
+%</df:CharacteristicPolyExer>
+
+\begin{lemma} \label{le:MapNonTrivSpHasEigen}
+%<*lm:MapNonTrivSpHasEigen>
+非平凡向量空间上的线性变换至少有
+一个特征值。
+%</lm:MapNonTrivSpHasEigen>
+\end{lemma}
+
+\begin{proof}
+%<*pf:MapNonTrivSpHasEigen>
+特征多项式的任何根都是特征值。
+在复数域上，任何次数为一或更高的多项式
+都有根。
+%</pf:MapNonTrivSpHasEigen>
+\end{proof}
+
+\begin{remark}
+这个结果正是本章
+使用复数标量的原因。
+如果坚持使用实数标量，那么就会有些特征多项式，
+比如 $x^2+1$，不能分解。
+\end{remark}
+
+% Notice the familiar form of the sets of eigenvectors in the above examples.
+
+\begin{definition} \label{df:Eigenspace}
+%<*df:Eigenspace>
+变换~$t$ 关于
+特征值~$\lambda$
+的 \definend{特征子空间}\index{eigenspace}\index{transformation!eigenspace}
+是
+$
+  V_{\lambda}=\set{\vec{\zeta}\suchthat t(\vec{\zeta}\,)=\lambda\vec{\zeta}\,}
+              % \union\set{\zero\,}
+$。
+矩阵的特征子空间与之类似。
+%</df:Eigenspace>
+\end{definition}
+
+% \begin{remark}
+% In \nearbydefinition{def:Eigen} we specified that eigenvectors must be
+% non-$\zero$.
+% So, strictly speaking, the eigenspace for $\lambda$ contains the set of
+% associated eigenvectors along with $\zero$.
+% We need the zero vector for the next result.
+% \end{remark}
+
+\begin{lemma}  \label{le:EigSpaceIsSubSp}
+%<*lm:EigSpaceIsSubSp>
+特征子空间是一个子空间。
+它是非平凡的子空间。
+%</lm:EigSpaceIsSubSp>
+\end{lemma}
+
+\begin{proof}
+%<*pf:EigSpaceIsSubSp>
+首先注意，
+$V_{\lambda}$ 非空；它包含零
+向量，因为 $t(\zero)=\zero$，而后者等于
+$\lambda\cdot \zero$。
+为证明特征子空间是子空间，
+剩下只需检查这个集合对线性组合的封闭性。
+取 \( \vec{\zeta}_1,\ldots,\vec{\zeta}_n\in V_{\lambda} \)，那么
+\begin{align*}
+  t(\lincombo{c}{\vec{\zeta}})
+  &=c_1t(\vec{\zeta}_1)+\dots+c_nt(\vec{\zeta}_n)               \\
+  &=c_1\lambda\vec{\zeta}_1+\dots+c_n\lambda\vec{\zeta}_n          \\
+  &=\lambda(c_1\vec{\zeta}_1+\dots+c_n\vec{\zeta}_n)
+\end{align*}
+即该组合也是 $V_{\lambda}$ 的元素。
+% (despite that the zero vector isn't an eigenvector,
+% the second equality holds even if some \( \vec{\zeta}_i \) is \( \zero \) since
+% \( t(\zero)=\lambda\cdot\zero=\zero \)).
+
+空间~$V_\lambda$ 包含的不只是零向量，
+因为按定义，只有当
+$t(\vec{\zeta}\,)=\lambda\vec{\zeta}$ 有 $\zero$ 之外的
+$\vec{\zeta}$ 解时，$\lambda$ 才是特征值。
+%</pf:EigSpaceIsSubSp>
+\end{proof}
+
+\begin{example}   \label{ex:AlgMultDifferentThanGeoMult}
+这些是与 \nearbyexample{ex:IntroCharEqn} 的特征值 \( 0 \)
+和 \( 2 \) 相伴的特征子空间。
+\begin{equation*}
+  V_0=\set{\colvec[r]{a \\ -a \\ a}\suchthat a\in\C},
+  \qquad
+  V_2=\set{\colvec{b \\ 0 \\ b}\suchthat b\in\C}.
+\end{equation*}
+\end{example}
+
+\begin{example} \label{ex:AnotherCharPolyReprise}
+这些是 \nearbyexample{ex:AnotherCharPoly} 的特征值 \( \pi \)
+和~\( 3 \)
+对应的特征子空间。
+\begin{equation*}
+  V_{\pi}=\set{\colvec{a \\ 0}\suchthat a\in\C}
+  \qquad
+  V_3=\set{\colvec{-b/(\pi-3) \\ b}\suchthat b\in\C}
+\end{equation*}
+\end{example}
+
+\nearbyexample{ex:IntroCharEqn} 中的
+特征方程
+是 \( 0=x(x-2)^2 \)，所以在某种意义上
+\( 2 \) 两次成为特征值。
+但特征向量的数目并没有翻倍，因为相伴特征子空间 $V_2$
+的维数是一，不是二。
+下一个例子则是一个数成为特征方程的二重根、
+而相伴特征子空间
+的维数是二的情形。
+
+\begin{example}  \label{ex:EigenvaluesProjection}
+关于标准基，这个矩阵
+\begin{equation*}
+  \begin{mat}[r]
+     1  &0  &0  \\
+     0  &1  &0  \\
+     0  &0  &0
+  \end{mat}
+\end{equation*}
+表示投影。
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+     \mapsunder{\pi}
+  \colvec{x \\ y \\ 0}
+   \qquad x,y,z\in\C
+\end{equation*}
+它的特征方程
+\begin{align*}
+  0
+  &=\deter{T-x I}                                     \\
+  &=\begin{vmatrix}
+     1-x          &0            &0            \\
+     0           &1-x          &0           \\
+     0           &0            &0-x
+   \end{vmatrix}                                       \\
+  &=(1-x)^2(0-x)
+\end{align*}
+有二重根~$x=1$ 以及单根~$x=0$。
+它关于特征值 \( 1 \) 的特征子空间
+与关于特征值 \( 0 \) 的特征子空间
+都容易求出。
+\begin{equation*}
+   V_1=\set{\colvec{c_1 \\ c_2 \\ 0}\suchthat c_1,c_2\in\C}
+   \qquad
+   V_0=\set{\colvec{0 \\ 0 \\ c_3}\suchthat c_3\in\C}
+\end{equation*}
+注意 $V_1$ 的维数是二。
+\end{example}
+
+\begin{definition}
+当特征多项式分解为
+$(x-\lambda_1)^{m_1}\cdots (x-\lambda_k)^{m_k}$ 时，
+就称特征值 $\lambda_i$ 有
+\definend{代数重数}~$m_i$\index{multiplicity!algebraic}%
+\index{algebraic multiplicity}。
+它的
+\definend{几何重数}\index{multiplicity!geometric}%
+\index{geometric multiplicity}
+是相伴特征子空间~$V_{\lambda_i}$ 的维数。
+\end{definition}
+
+在 \nearbyexample{ex:EigenvaluesProjection} 中，有两个特征值。
+对于 $\lambda_1=1$，
+代数重数与几何重数都是~$2$。
+对于 $\lambda_2=0$，
+代数重数与几何重数都是~$1$。
+相比之下，\nearbyexample{ex:AlgMultDifferentThanGeoMult}
+表明特征值 $\lambda=2$ 的代数重数是~$2$，
+但几何重数是~$1$。
+对每个变换，由 \nearbylemma{le:EigSpaceIsSubSp} 知每个特征值的几何
+重数都大于或等于~$1$。
+（而且，特征值的几何重数必定
+小于或等于
+其代数重数，不过这个证明超出了本书的范围。）
+
+由 \nearbylemma{le:EigSpaceIsSubSp}
+知，若两个特征向量 $\vec{v}_1$ 与 $\vec{v}_2$
+与同一个特征值相伴，那么这两个向量的线性组合也是特征向量，
+且与同一个特征值相伴。
+作为说明，参考前面的例题，
+$V_1$ 中两个成员之和
+\begin{equation*}
+  \colvec[r]{1 \\ 0 \\ 0}+\colvec[r]{0 \\ 1 \\ 0}
+\end{equation*}
+给出 $V_1$ 的另一个成员。
+
+下一个结果处理向量来自
+不同特征子空间的情形。
+
+\begin{theorem}  \label{th:DistEValueGivesLIEvecs}
+%<*th:DistEValueGivesLIEvecs>
+对于映射或矩阵的任意一组互不相同的特征值，一组与之相伴的
+特征向量——每个特征值取一个——是线性无关的。
+%</th:DistEValueGivesLIEvecs>
+\end{theorem}
+
+\begin{proof}
+%<*pf:DistEValueGivesLIEvecs0>
+我们将对特征值的个数使用归纳法。
+基础步骤是特征值个数为零的情形。
+此时相伴向量的集合是空集，
+从而线性无关。
+% If there is
+% only one eigenvalue then the set of associated eigenvectors is
+% a singleton set with a non-$\zero$ member,
+% and so is linearly independent.
+%</pf:DistEValueGivesLIEvecs0>
+
+%<*pf:DistEValueGivesLIEvecs1>
+对于归纳步骤，假设结论对任意由
+\( k\geq 0 \) 个互不相同特征值组成的集合成立。
+考虑互不相同的特征值
+\( \lambda_1,\dots,\lambda_{k+1} \)，
+并设 \( \vec{v}_1,\dots,\vec{v}_{k+1} \)
+是与之相伴的特征向量。
+假设
+$\zero=c_1\vec{v}_1+\dots+c_k\vec{v}_k+c_{k+1}\vec{v}_{k+1}$。
+由它导出两个方程：第一个是在两边乘以 \( \lambda_{k+1} \)
+得到的
+$\zero=c_1\lambda_{k+1}\vec{v}_1+\dots+c_{k+1}\lambda_{k+1}\vec{v}_{k+1}$，
+第二个是把映射作用到两边得到的
+$\zero=c_1t(\vec{v}_1)+\dots+c_{k+1}t(\vec{v}_{k+1})
+  =c_1\lambda_1\vec{v}_1+\dots+c_{k+1}\lambda_{k+1}\vec{v}_{k+1}$
+（用矩阵来做结果相同）。
+用第一个减去第二个。
+\begin{equation*}
+  \zero=
+  c_1(\lambda_{k+1}-\lambda_1)\vec{v}_1+\dots
+  +c_k(\lambda_{k+1}-\lambda_k)\vec{v}_k
+      +c_{k+1}(\lambda_{k+1}-\lambda_{k+1})\vec{v}_{k+1}
+\end{equation*}
+$\vec{v}_{k+1}$ 项消失。
+于是归纳假设给出
+\( c_1(\lambda_{k+1}-\lambda_1)=0 \), \ldots, \( c_k(\lambda_{k+1}-\lambda_k)=0 \)。
+特征值互不相同，所以
+系数 \( c_1,\,\dots,\,c_k \) 全都是~\( 0 \)。
+这样一来
+只剩方程 \( \zero=c_{k+1}\vec{v}_{k+1} \)，
+所以 \( c_{k+1} \) 也是~\( 0 \)。
+%</pf:DistEValueGivesLIEvecs1>
+\end{proof}
+
+\begin{example}
+这个矩阵
+\begin{equation*}
+     \begin{mat}[r]
+        2   &-2   &2   \\
+        0   &1    &1   \\
+       -4   &8    &3
+     \end{mat}
+\end{equation*}
+的特征值是互不相同的：\( \lambda_1=1 \)，\( \lambda_2=2 \)，以及~\( \lambda_3=3 \)。
+一组相伴的特征向量
+\begin{equation*}
+  \set{
+       \colvec[r]{2 \\ 1 \\ 0},
+       \colvec[r]{9 \\ 4 \\ 4},
+       \colvec[r]{2 \\ 1 \\ 2}  }
+\end{equation*}
+是线性无关的。
+\end{example}
+
+\begin{corollary} \label{co:DistinctEivenvaluesImpliesDiagonal}
+%<*co:DistinctEivenvaluesImpliesDiagonal>
+有 \( n \) 个互不相同特征值的 \( \nbyn{n} \) 矩阵是可对角化的。
+%</co:DistinctEivenvaluesImpliesDiagonal>
+\end{corollary}
+
+\begin{proof}
+%<*pf:DistinctEivenvaluesImpliesDiagonal>
+构造一个由特征向量组成的基。
+应用 \nearbylemma{lm:DiagIffBasisOfEigens}。
+%</pf:DistinctEivenvaluesImpliesDiagonal>
+\end{proof}
+
+\begin{example} \label{ex:SummaryOfDiagonalizable}
+在前面的例题中我们证明了矩阵
+\begin{equation*}
+     T=\begin{mat}[r]
+        2   &-2   &2   \\
+        0   &1    &1   \\
+       -4   &8    &3
+     \end{mat}
+\end{equation*}
+是可对角化的，其特征值为
+$\lambda_1=1$，$\lambda_2=2$，以及~$\lambda_3=3$。
+这些是相伴的特征向量，它们组成一个基~$B$。
+\begin{equation*}
+       \vec{\beta}_1=\colvec[r]{2 \\ 1 \\ 0}\quad
+       \vec{\beta}_2=\colvec[r]{9 \\ 4 \\ 4}\quad
+       \vec{\beta}_3=\colvec[r]{2 \\ 1 \\ 2}
+\end{equation*}
+箭头图
+\begin{equation*}
+  \begin{CD}
+    V_{\wrt{\stdbasis_3}}            @>t>T>        V_{\wrt{\stdbasis_3}}       \\
+    @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+    V_{\wrt{B}}                   @>t>D>        V_{\wrt{B}}
+  \end{CD}
+\end{equation*}
+给出如下结果，其中 $P=\rep{\identity}{\stdbasis_3,B}$。
+\begin{align*}
+  D &= PTP^{-1}  \\
+  \begin{mat}
+    1  &0  &0 \\
+    0  &2  &0 \\
+    0  &0  &3
+  \end{mat}
+  &=
+    \begin{mat}
+      -2  &5  &-1/2  \\
+       1  &-2  &0    \\
+      -2  &4  &1/2
+    \end{mat}
+     \begin{mat}[r]
+        2   &-2   &2   \\
+        0   &1    &1   \\
+       -4   &8    &3
+     \end{mat}
+    \begin{mat}
+      2  &9  &2  \\
+      1  &4  &1  \\
+      0  &4  &2
+    \end{mat}
+\end{align*}
+% sage: T = matrix(QQ, [[2,-2,2], [0,1,1], [-4,8,3]])
+% sage: T
+% [ 2 -2  2]
+% [ 0  1  1]
+% [-4  8  3]
+% sage: T.eigenvectors_right()
+% [(3, [
+%   (1, 1/2, 1)
+%   ], 1), (2, [
+%   (1, 4/9, 4/9)
+%   ], 1), (1, [
+%   (1, 1/2, 0)
+%   ], 1)]
+% sage: P_inv = matrix(QQ, [[2,9,2], [1,4,1], [0,4,2]])
+% sage: P_inv.inverse()
+% [  -2    5 -1/2]
+% [   1   -2    0]
+% [  -2    4  1/2]
+图的下半部分有
+$t(\vec{\beta}_1)=1\cdot\vec{\beta}_1$，
+还有 $t(\vec{\beta}_2)=2\cdot\vec{\beta}_2$，
+以及 $t(\vec{\beta}_3)=3\cdot\vec{\beta}_3$。
+改写即得：映射 $t-1$ 把 $\vec{\beta}_1$ 送到~$\zero$，
+$t-2$ 把 $\vec{\beta}_2$ 送到~$\zero$，
+而 $(t-3)(\vec{\beta}_3)=\zero$。
+也就是说，在 $B$ 上的作用如下。
+\begin{equation*}
+  \vec{\beta}_1\mapsunder{t-1}\zero  \qquad
+  \vec{\beta}_2\mapsunder{t-2}\zero  \qquad
+  \vec{\beta}_3\mapsunder{t-3}\zero
+\end{equation*}
+转来看那个箭头图中的表示，最上面一行说的是：
+表示 $t-1$ 关于
+$\stdbasis_3,\stdbasis_3$ 的矩阵 $T-(1\cdot I)$，乘以
+$\vec{\beta}_1$ 关于~$\stdbasis_3$ 的表示，将得到零。
+\begin{equation*}
+  \begin{mat}
+    1  &-2  &2  \\
+    0  &0   &1  \\
+   -4  &8   &2  \\
+  \end{mat}
+  \colvec{2 \\ 1 \\ 0}
+  =
+  \colvec{0  \\ 0 \\ 0}
+\end{equation*}
+类似地，表示 $t-2$ 关于
+$\stdbasis_3,\stdbasis_3$ 的矩阵 $T-(2\cdot I)$，乘以
+$\vec{\beta}_2$ 关于~$\stdbasis_3$ 的表示，得到零。
+\begin{equation*}
+  \begin{mat}
+    0  &-2  &2  \\
+    0  &01   &1  \\
+   -4  &8   &1  \\
+  \end{mat}
+  \colvec{9 \\ 4 \\ 4}
+  =
+  \colvec{0  \\ 0 \\ 0}
+\end{equation*}
+当然，矩阵 $T-(3\cdot I)$ 乘以
+$\vec{\beta}_3$ 关于~$\stdbasis_3$ 的
+表示也得到零。
+\end{example}
+
+总而言之，本节观察到一些
+矩阵相似于对角矩阵。
+特征值的想法正是作为那个对角矩阵的对角元而产生的，
+尽管定义的适用范围比仅限于
+可对角化矩阵更广。
+为求特征值，我们定义了特征方程，
+这引出了最后一个结果：一个
+可对角化的判别法。
+（虽然它对理论很有用，但请注意，
+在实际应用中以这种方式求特征值
+通常并不现实；一方面矩阵可能很大，
+而求高次多项式的根是困难的。）
+
+下一节我们将研究不能对角化的矩阵。
+
+
+\begin{exercises}
+  \item 该矩阵有两个特征值 $\lambda_1=3$、$\lambda_2=-4$。
+    \begin{equation*}
+      \begin{mat}
+        4  &1 \\
+        -8 &-5
+      \end{mat}
+    \end{equation*}
+    求出两个不同的对角形矩阵，使它与它们相似。
+    \begin{answer}
+      我们可以调换列的位置，这只需调换做表示时所用的基。
+      \begin{equation*}
+        \begin{mat} 
+          3 &0 \\ 
+          0 &-4
+        \end{mat}
+        \qquad
+        \begin{mat} 
+          -4 &0 \\ 
+          0 &3
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+  \item 
+    分别求出特征多项式与特征值。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                 10  &-9 \\
+                  4  &-2
+            \end{mat}  \)
+      \partsitem $\begin{mat}[r]
+                    1  &2  \\
+                    4  &3  
+                 \end{mat}$
+      \partsitem \( \begin{mat}[r]
+                  0  &3  \\
+                  7 &0
+                 \end{mat} \)
+      \partsitem \( \begin{mat}[r]  
+                  0  &0  \\
+                  0  &0
+            \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                  1  &0  \\
+                  0  &1
+            \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 这个
+           \begin{equation*}
+             0=
+             \begin{vmatrix}
+               10-x  &-9  \\
+               4     &-2-x
+             \end{vmatrix}
+             =(10-x)(-2-x)-(-36)
+           \end{equation*}
+           化简后得到特征方程 \( x^2-8x+16=0 \)。 
+           由于该方程可分解为 $(x-4)^2$，所以只有一个特征值
+           \( \lambda_1=4 \)。
+         \partsitem $0=(1-x)(3-x)-8=x^2-4x-5$；$\lambda_1=5$，$\lambda_2=-1$
+         \partsitem \( x^2-21=0 \)； 
+           \( \lambda_1=\sqrt{21} \)，$\lambda_2=-\sqrt{21}$
+         \partsitem \( x^2=0 \)；\( \lambda_1=0 \)
+         \partsitem \( x^2-2x+1=0 \)；\( \lambda_1=1 \)
+       \end{exparts}  
+     \end{answer}
+  \recommended \item
+    对每个矩阵，求出特征方程以及特征值和相应的特征向量。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                  3  &0  \\
+                  8  &-1
+            \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                  3  &2  \\
+                 -1  &0
+            \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+       \begin{exparts}
+         \partsitem 特征方程是 \( (3-x)(-1-x)=0 \)。
+           它的根即特征值，为 \( \lambda_1=3 \) 与 
+           \( \lambda_2=-1 \)。
+           为求特征向量，我们考虑这个方程。
+           \begin{equation*}
+             \begin{mat}
+               3-x  &0    \\
+               8    &-1-x
+             \end{mat}
+             \colvec{b_1  \\  b_2}
+             =\colvec[r]{0  \\  0}
+           \end{equation*}
+           为求与 $\lambda_1=3$ 相对应的特征向量，
+           我们考虑由此得到的线性方程组。
+           \begin{equation*}
+             \begin{linsys}{2}
+               0\cdot b_1  &+  &0\cdot b_2  &=  &0  \\
+               8\cdot b_1  &+  &-4\cdot b_2 &=  &0
+             \end{linsys}
+           \end{equation*}
+           特征子空间是第二个分量等于第一个分量两倍的向量组成的集合。
+           \begin{equation*}
+             \set{\colvec{b_2/2 \\ b_2}\suchthat b_2\in\C}
+             \qquad
+             \begin{mat}[r]
+               3  &0  \\
+               8  &-1
+             \end{mat}
+             \colvec{b_2/2  \\ b_2}
+             =3\cdot\colvec{b_2/2 \\ b_2}
+           \end{equation*}
+           （这里取 $b_2$ 作为参数，只是因为它是上面方程组中的自由变量。）
+           因此，这是一个与特征值 $3$ 相对应的特征向量。
+           \begin{equation*}
+             \colvec[r]{1 \\ 2}
+           \end{equation*}
+
+           求与 $\lambda_2=-1$ 相对应的特征向量与此类似。方程组
+           \begin{equation*}
+             \begin{linsys}{2}
+               4\cdot b_1  &+  &0\cdot b_2  &=  &0  \\
+               8\cdot b_1  &+  &0\cdot b_2 &=  &0
+             \end{linsys}
+           \end{equation*}
+           导出由第一个分量为零的向量组成的集合。
+           \begin{equation*}
+             \set{\colvec{0 \\ b_2}\suchthat b_2\in\C}
+             \qquad
+             \begin{mat}[r]
+               3  &0  \\
+               8  &-1
+             \end{mat}
+             \colvec{0  \\ b_2}
+             =-1\cdot\colvec{0 \\ b_2}
+           \end{equation*}
+           于是这是与 $\lambda_2$ 相对应的一个特征向量。
+           \begin{equation*}
+             \colvec[r]{0 \\ 1}
+           \end{equation*}
+         \partsitem 特征方程是
+           \begin{equation*}
+             0=
+             \begin{vmatrix}
+               3-x  &2  \\
+               -1   &-x               
+             \end{vmatrix}
+             =x^2-3x+2=(x-2)(x-1)
+           \end{equation*}
+           因此特征值为 $\lambda_1=2$ 和 $\lambda_2=1$。
+           为求特征向量，考虑这个方程组。
+           \begin{equation*}
+             \begin{linsys}{2}
+               (3-x)\cdot b_1  &+  &2\cdot b_2  &=  &0  \\
+               -1\cdot b_1     &-  &x\cdot b_2  &=  &0
+             \end{linsys}
+           \end{equation*}
+           取 $\lambda_1=2$ 我们得到
+           \begin{equation*}
+             \begin{linsys}{2}
+                1\cdot b_1  &+  &2\cdot b_2  &=  &0  \\
+               -1\cdot b_1  &-  &2\cdot b_2  &=  &0
+             \end{linsys}
+           \end{equation*}
+           由此得到这个特征子空间和特征向量。
+           \begin{equation*}
+             \set{\colvec{-2b_2 \\ b_2}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec[r]{-2 \\ 1}
+           \end{equation*}
+           取 $\lambda_2=1$，方程组为
+           \begin{equation*}
+             \begin{linsys}{2}
+                2\cdot b_1  &+  &2\cdot b_2  &=  &0  \\
+               -1\cdot b_1  &-  &1\cdot b_2  &=  &0
+             \end{linsys}
+           \end{equation*}
+           由此得到这个。
+           \begin{equation*}
+             \set{\colvec{-b_2 \\ b_2}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec[r]{-1 \\ 1}
+           \end{equation*}
+       \end{exparts}  
+     \end{answer}
+  \item
+     求这个矩阵的特征方程以及特征值和相应的特征向量。
+     \textit{提示。}
+       特征值是复数。
+     \begin{equation*}
+       \begin{mat}[r]
+         -2  &-1 \\
+          5  &2
+      \end{mat}  
+    \end{equation*}
+    \begin{answer}
+         特征方程
+           \begin{equation*}
+             0=
+             \begin{vmatrix}
+               -2-x  &-1  \\
+               5     &2-x               
+             \end{vmatrix}
+             =x^2+1
+           \end{equation*}
+           有复根 $\lambda_1=i$ 和 $\lambda_2=-i$。
+           对于方程组
+           \begin{equation*}
+             \begin{linsys}{2}
+               (-2-x)\cdot b_1  &-  &1\cdot b_2      &=  &0  \\
+               5\cdot b_1       &   &(2-x)\cdot b_2  &=  &0
+             \end{linsys}
+           \end{equation*}
+           取 $\lambda_1=i$，用高斯消元法得到如下化简。
+           \begin{equation*}
+             \begin{linsys}{2}
+                (-2-i)\cdot b_1  &-  &1\cdot b_2      &=  &0  \\
+                5\cdot b_1       &-  &(2-i)\cdot b_2  &=  &0
+             \end{linsys}
+             \grstep{(-5/(-2-i))\rho_1+\rho_2}
+             \begin{linsys}{2}
+                (-2-i)\cdot b_1  &-  &1\cdot b_2      &=  &0  \\
+                                 &   &0               &=  &0
+             \end{linsys}
+           \end{equation*}
+           （对于右下角的计算，通分后取公分母
+           \begin{equation*}
+             \frac{5}{-2-i}-(2-i)
+             =
+             \frac{5}{-2-i}-\frac{-2-i}{-2-i}\cdot (2-i)
+             =
+             \frac{5-(-5)}{-2-i}
+           \end{equation*}
+           即可看出它给出一个 $0=0$ 的方程。）
+           由此得到特征子空间和特征向量。
+           \begin{equation*}
+             \set{\colvec{(1/(-2-i))b_2 \\ b_2}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec{1/(-2-i) \\ 1}
+           \end{equation*}
+           取 $\lambda_2=-i$，方程组
+           \begin{equation*}
+             \begin{linsys}{2}
+                (-2+i)\cdot b_1  &-  &1\cdot b_2      &=  &0  \\
+                5\cdot b_1       &-  &(2+i)\cdot b_2  &=  &0
+             \end{linsys}
+             \grstep{(-5/(-2+i))\rho_1+\rho_2}
+             \begin{linsys}{2}
+                (-2+i)\cdot b_1  &-  &1\cdot b_2      &=  &0  \\
+                                 &   &0               &=  &0
+             \end{linsys}
+           \end{equation*}
+           导出这个。
+           \begin{equation*}
+             \set{\colvec{(1/(-2+i))b_2 \\ b_2}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec{1/(-2+i) \\ 1}
+           \end{equation*}
+    \end{answer}
+  \item  
+    求这个矩阵的特征多项式、特征值以及相应的特征向量。
+    \begin{equation*}
+      \begin{mat}[r]
+        1  &1  &1  \\
+        0  &0  &1  \\
+        0  &0  &1
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      特征方程是
+      \begin{equation*}
+        0=
+        \begin{vmatrix}
+          1-x  &1   &1   \\
+          0    &-x  &1   \\
+          0    &0   &1-x
+        \end{vmatrix}
+        =(1-x)^2(-x)
+      \end{equation*}
+      因此特征值为 $\lambda_1=1$（它是方程的一个重根）和 $\lambda_2=0$。
+      对于其余部分，考虑这个方程组。
+      \begin{equation*}
+        \begin{linsys}{3}
+          (1-x)\cdot b_1  &+  &b_2         &+  &b_3            &=  &0  \\
+                          &   &-x\cdot b_2 &+  &b_3            &=  &0  \\
+                          &   &            &   &(1-x)\cdot b_3 &= &0  
+        \end{linsys}
+      \end{equation*}
+      当 $x=\lambda_1=1$ 时，解集是这个特征子空间。
+      \begin{equation*}
+        \set{\colvec{b_1 \\ 0 \\ 0}\suchthat b_1\in\C}
+      \end{equation*}
+      当 $x=\lambda_2=0$ 时，解集是这个特征子空间。
+      \begin{equation*}
+        \set{\colvec{-b_2 \\ b_2 \\ 0}\suchthat b_2\in\C}
+      \end{equation*}
+      所以这些就是与 $\lambda_1=1$ 和 
+      $\lambda_2=0$ 相对应的特征向量。
+      \begin{equation*}
+        \colvec[r]{1 \\ 0 \\ 0}
+        \qquad
+        \colvec[r]{-1 \\ 1 \\ 0}  
+      \end{equation*}
+    \end{answer}
+  \recommended \item
+    对每个矩阵，求出特征方程以及特征值和相应的特征向量。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+              3  &-2 &0  \\
+             -2  &3  &0  \\
+              0  &0  &5
+            \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+              0  &1   &0  \\
+              0  &0   &1  \\
+              4  &-17 &8
+            \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 特征方程是
+           \begin{equation*}
+             0=
+             \begin{vmatrix}
+              3-x  &-2   &0  \\
+             -2    &3-x  &0  \\
+              0    &0    &5-x
+             \end{vmatrix}
+             =x^3-11x^2+35x-25=(x-1)(x-5)^2
+           \end{equation*}
+           因此特征值为 $\lambda_1=1$，还有重复的特征值
+           $\lambda_2=5$。
+           为求特征向量，考虑这个方程组。
+           \begin{equation*}
+             \begin{linsys}{3}
+               (3-x)\cdot b_1  &-  &2\cdot b_2      &   &   &=  &0  \\
+               -2\cdot b_1     &+  &(3-x)\cdot b_2  &   &   &=  &0  \\
+                               &   &                &   &(5-x)\cdot b_3 &= &0 
+             \end{linsys}
+           \end{equation*}
+           取 $\lambda_1=1$ 我们得到
+           \begin{equation*}
+             \begin{linsys}{3}
+                2\cdot b_1     &-  &2\cdot b_2   &   &   &=  &0  \\
+               -2\cdot b_1     &+  &2\cdot b_2   &   &   &=  &0  \\
+                               &   &             &   &4\cdot b_3 &= &0 
+             \end{linsys}
+           \end{equation*}
+           由此得到这个特征子空间和特征向量。
+           \begin{equation*}
+             \set{\colvec{b_2 \\ b_2 \\ 0}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec[r]{1 \\ 1 \\ 0}
+           \end{equation*}
+           取 $\lambda_2=5$，方程组为
+           \begin{equation*}
+             \begin{linsys}{3}
+                -2\cdot b_1  &-  &2\cdot b_2   &   &   &=  &0  \\
+               -2\cdot b_1   &-  &2\cdot b_2   &   &   &=  &0  \\
+                             &   &             &   &0\cdot b_3 &= &0 
+             \end{linsys}
+           \end{equation*}
+           由此得到这个。
+           \begin{equation*}
+             \set{\colvec{-b_2 \\ b_2 \\ 0}+\colvec{0 \\ 0 \\ b_3}
+                   \suchthat b_2,b_3\in\C}
+             \qquad
+             \colvec[r]{-1 \\ 1 \\ 0},\,\colvec[r]{0 \\ 0 \\ 1}
+           \end{equation*}
+         \partsitem 特征方程是
+           \begin{equation*}
+             0=
+             \begin{vmatrix}
+              -x   &1    &0  \\
+              0    &-x   &1  \\
+              4    &-17  &8-x
+             \end{vmatrix}
+             =-x^3+8x^2-17x+4=-1\cdot(x-4)(x^2-4x+1)
+           \end{equation*}
+           特征值为 $\lambda_1=4$ 以及（用求根公式）
+           $\lambda_2=2+\sqrt{3}$ 和 
+           $\lambda_3=2-\sqrt{3}$。
+           为求特征向量，考虑这个方程组。
+           \begin{equation*}
+             \begin{linsys}{3}
+               -x\cdot b_1  &+  &b_2          &   &               &=  &0  \\
+                            &   &-x\cdot b_2  &+  &b_3            &=  &0  \\
+               4\cdot b_1   &-  &17\cdot b_2  &+  &(8-x)\cdot b_3 &= &0 
+             \end{linsys}
+           \end{equation*}
+           代入 $x=\lambda_1=4$ 得到方程组
+           \begin{align*}
+             \begin{linsys}{3}
+               -4\cdot b_1  &+  &b_2          &   &           &= &0  \\
+                            &   &-4\cdot b_2  &+  &b_3        &= &0  \\
+               4\cdot b_1   &-  &17\cdot b_2  &+  &4\cdot b_3 &= &0 
+             \end{linsys}                                              
+             &\grstep{\rho_1+\rho_3}
+             \begin{linsys}{3}
+               -4\cdot b_1  &+  &b_2          &   &           &= &0  \\
+                            &   &-4\cdot b_2  &+  &b_3        &= &0  \\
+                            &   &-16\cdot b_2  &+ &4\cdot b_3 &= &0 
+             \end{linsys}                                                \\
+             &\grstep{-4\rho_2+\rho_3}
+             \begin{linsys}{3}
+               -4\cdot b_1  &+  &b_2          &   &           &= &0  \\
+                            &   &-4\cdot b_2  &+  &b_3        &= &0  \\
+                            &   &              &  &0          &= &0 
+             \end{linsys}
+           \end{align*}
+           由此得到这个特征子空间和特征向量。
+           \begin{equation*}
+             V_4=\set{\colvec{(1/16)\cdot b_3 \\ (1/4)\cdot b_3 \\ b_3}
+                   \suchthat b_2\in\C}
+             \qquad
+             \colvec[r]{1 \\ 4 \\ 16}
+           \end{equation*}
+
+           代入 $x=\lambda_2=2+\sqrt{3}$ 得到方程组
+           \begin{multline*}
+             \begin{linsys}{3}
+               (-2-\sqrt{3})\cdot b_1  
+                      &+  &b_2          
+                          &   &           &= &0  \\
+                      &   &(-2-\sqrt{3})\cdot b_2  
+                          &+  &b_3        &= &0  \\
+               4\cdot b_1   
+                      &-  &17\cdot b_2  
+                          &+  &(6-\sqrt{3})\cdot b_3 &= &0 
+             \end{linsys}                                   \\
+             \grstep{(-4/(-2-\sqrt{3}))\rho_1+\rho_3}
+             \begin{linsys}{3}
+               (-2-\sqrt{3})\cdot b_1  
+                      &+  &b_2          
+                          &   &           &= &0  \\
+                      &   &(-2-\sqrt{3})\cdot b_2  
+                          &+  &b_3        &= &0  \\
+                      &+  &(-9-4\sqrt{3})\cdot b_2  
+                          &+  &(6-\sqrt{3})\cdot b_3 &= &0 
+             \end{linsys}
+           \end{multline*}
+           （第三个方程的中间系数等于数 $(-4/(-2-\sqrt{3}))-17$；
+           先取 $-2-\sqrt{3}$ 为公分母，
+           再将分数的分子分母同乘 $-2+\sqrt{3}$ 以使分母有理化）
+           \begin{equation*}
+             \grstep{((9+4\sqrt{3})/(-2-\sqrt{3}))\rho_2+\rho_3}
+             \begin{linsys}{3}
+               (-2-\sqrt{3})\cdot b_1  
+                      &+  &b_2          
+                          &   &           &= &0  \\
+                      &   &(-2-\sqrt{3})\cdot b_2  
+                          &+  &b_3        &= &0  \\
+                      &   &                         
+                          &   &0                     &= &0 
+             \end{linsys}
+           \end{equation*}
+           由此得到这个特征子空间和特征向量。
+           \begin{equation*}
+             V_{2+\sqrt{3}}
+             =\set{\colvec{(1/(2+\sqrt{3})^2)\cdot b_3  \\ 
+                           (1/(2+\sqrt{3}))\cdot b_3    \\ 
+                           b_3}
+                    \suchthat b_3\in\C}
+             \qquad
+             \colvec{(1/(2+\sqrt{3})^2)  \\ 
+                           (1/(2+\sqrt{3}))  \\ 
+                           1}
+           \end{equation*}
+
+           最后，代入 $x=\lambda_3=2-\sqrt{3}$ 得到方程组
+           \begin{multline*}
+             \begin{linsys}{3}
+               (-2+\sqrt{3})\cdot b_1  
+                      &+  &b_2          
+                          &   &           &= &0  \\
+                      &   &(-2+\sqrt{3})\cdot b_2  
+                          &+  &b_3        &= &0  \\
+               4\cdot b_1   
+                      &-  &17\cdot b_2  
+                          &+  &(6+\sqrt{3})\cdot b_3 &= &0 
+             \end{linsys}                                       \\
+             \begin{aligned}
+               &\grstep{(-4/(-2+\sqrt{3}))\rho_1+\rho_3}
+                \begin{linsys}{3}
+                  (-2+\sqrt{3})\cdot b_1  
+                         &+  &b_2          
+                             &   &           &= &0  \\
+                         &   &(-2+\sqrt{3})\cdot b_2  
+                             &+  &b_3        &= &0  \\
+                         &   &(-9+4\sqrt{3})\cdot b_2  
+                             &+  &(6+\sqrt{3})\cdot b_3 &= &0 
+                \end{linsys}                                       \\
+                &\grstep{((9-4\sqrt{3})/(-2+\sqrt{3}))\rho_2+\rho_3}
+                \begin{linsys}{3}
+                  (-2+\sqrt{3})\cdot b_1  
+                         &+  &b_2          
+                             &   &           &= &0  \\
+                         &   &(-2+\sqrt{3})\cdot b_2  
+                             &+  &b_3        &= &0  \\
+                         &   &                         
+                             &   &0                     &= &0 
+                \end{linsys}
+              \end{aligned}
+           \end{multline*}
+           由此得到这个特征子空间和特征向量。
+           \begin{equation*}
+             V_{2-\sqrt{3}}
+             =\set{\colvec{(1/(-2+\sqrt{3})^2)\cdot b_3  \\ 
+                           (1/(2-\sqrt{3}))\cdot b_3    \\ 
+                           b_3}
+                    \suchthat b_3\in\C}
+             \qquad
+             \colvec{(1/(-2+\sqrt{3})^2)  \\ 
+                           (1/(2-\sqrt{3}))  \\ 
+                           1}
+           \end{equation*}
+       \end{exparts}
+     \end{answer}
+  \item 
+   对每个矩阵，求出特征多项式以及特征值和相应的特征子空间。
+   同时求出代数重数与几何重数。
+    \begin{exparts*}
+      \partsitem 
+        $\begin{mat}
+           13 &-4 \\
+           -4 &7
+         \end{mat}$
+      \partsitem
+         $\begin{mat}
+           1 &3 &-3 \\
+          -3 &7 &-3 \\
+          -6 &6 &-2
+         \end{mat}$
+     \partsitem
+         $\begin{mat}
+           2 &3 &-3 \\
+           0 &2 &-3 \\
+           0 &0 &1
+         \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \item 特征多项式可分解为 
+          $x^2-20x+75=(x-5)(x-15)$，
+          因此特征值为 $\lambda_1=5$ 和~$\lambda_2=15$。
+          下面是相应的特征子空间。
+          \begin{equation*}
+            V_5=\set{k\colvec{1 \\ 2}\suchthat k\in\C}
+            \quad
+            V_{15}=\set{k\colvec{-2 \\ 1}\suchthat k\in\C}
+          \end{equation*}
+          对每个特征值，代数重数与几何重数都是~$1$。
+       \item 特征多项式 $x^3 - 6x^2 + 32$ 可分解为
+          $(x+2)(x-4)^2$。
+          特征向量为 $\lambda_1=-2$ 和 $\lambda_2=4$。
+          下面是相应的特征子空间。
+          \begin{equation*}
+            V_{-2}=\set{k\colvec{1 \\ 1 \\ 2}\suchthat k\in\C}
+            \quad
+            V_4=\set{k_1\colvec{1 \\ 1 \\ 0}
+                      +k_2\colvec{1 \\ 0 \\ -1} \suchthat k_1,k_2\in\C}
+          \end{equation*}
+          对于 $\lambda_1=-2$，代数重数与几何重数
+          都是~$1$。 
+          对于 $\lambda_2=4$，代数重数与几何重数
+          都是~$2$。
+       \item 特征多项式 $x^3 - 5x^2 + 8x - 4$ 可分解为
+          $(x-1)(x-2)^2$。
+          特征值为 $\lambda_1=1$ 和 $\lambda_2=2$。
+          下面是相应的特征子空间。
+          \begin{equation*}
+            V_1=\set{k\colvec{-6 \\ 3 \\ 1}\suchthat k\in \C}
+            \quad
+            V_2=\set{k\colvec{1 \\ 0 \\ 0}\suchthat k\in\C}
+          \end{equation*}
+          对于 $\lambda_1=1$，代数重数与几何重数
+          都是~$1$。
+          对于 $\lambda_2=2$，代数重数是~$2$，但
+          几何重数是~$1$。
+      \end{exparts}
+    \end{answer}
+   \recommended \item
+     设 \( \map{t}{\polyspace_2}{\polyspace_2} \) 是这个线性映射。
+     \begin{equation*}
+      a_0+a_1x+a_2x^2\mapsto
+      (5a_0+6a_1+2a_2)-(a_1+8a_2)x+(a_0-2a_2)x^2
+     \end{equation*}
+    求出它的特征值和相应的特征向量。
+    \begin{answer}
+      关于自然基 $B=\sequence{1,x,x^2}$ 
+      矩阵表示如下。
+      \begin{equation*}
+        \rep{t}{B,B}
+        =
+        \begin{mat}[r]
+          5  &6  &2  \\
+          0  &-1 &-8 \\
+          1  &0  &-2 
+        \end{mat}
+      \end{equation*}
+      于是特征方程
+      \begin{equation*}
+        0
+        =
+        \begin{mat}
+          5-x  &6    &2  \\
+          0    &-1-x &-8 \\
+          1    &0    &-2-x 
+        \end{mat}
+        =(5-x)(-1-x)(-2-x)-48-2\cdot(-1-x)
+      \end{equation*}
+      为 $0=-x^3+2x^2+15x-36=-1\cdot (x+4)(x-3)^2$。
+      为求相应的特征向量，考虑这个方程组。
+      \begin{equation*}
+        \begin{linsys}{3}
+          (5-x)\cdot b_1 &+ &6b_2      &+ &2b_3      &= &0 \\
+                         &  &(-1-x)\cdot b_2 &- &8b_3      &= &0 \\
+          b_1            &  &                &+ &(-2-x)\cdot b_3 &= &0 
+        \end{linsys}
+      \end{equation*}
+      将 $\lambda_1=-4$ 代入 $x$ 得到
+      \begin{equation*}
+        \begin{linsys}{3}
+                    9b_1 &+ &6b_2      &+ &2b_3      &= &0 \\
+                         &  &3b_2      &- &8b_3      &= &0 \\
+                     b_1 &  &          &+ &2b_3     &= &0 
+        \end{linsys}
+        \grstep{-(1/9)\rho_1+\rho_3}\quad
+        \grstep{(2/9)\rho_2+\rho_3}\quad
+        \begin{linsys}{3}
+                     9b_1 &+ &6b_2      &+ &2b_3      &= &0 \\
+                         &  &3b_2       &- &8b_3      &= &0  
+        \end{linsys}
+      \end{equation*}
+      特征子空间与一个特征向量如下。
+           \begin{equation*}
+             V_{-4}
+             =\set{\colvec{2\cdot b_3  \\ 
+                           (8/3)\cdot b_3    \\ 
+                           b_3}
+                    \suchthat b_3\in\C}
+             \qquad
+             \colvec{2  \\ 
+                     8/3  \\ 
+                      1}
+           \end{equation*}
+
+      同样，代入 $x=\lambda_2=3$ 得
+      \begin{equation*}
+        \begin{linsys}{3}
+                    2b_1 &+ &6\cdot b_2      &+ &2\cdot b_3      &= &0 \\
+                         &  &-4\cdot b_2      &- &8\cdot b_3      &= &0 \\
+                     b_1 &  &                &- & 5\cdot b_3     &= &0 
+        \end{linsys}
+        \grstep{-(1/2)\rho_1+\rho_3}
+        \repeatedgrstep{-(3/4)\rho_2+\rho_3}
+        \begin{linsys}{3}
+                     2b_1 &+ &6\cdot b_2      &+ &2\cdot b_3      &= &0 \\
+                         &  &-4\cdot b_2       &- &8\cdot b_3      &= &0  
+        \end{linsys}
+      \end{equation*}
+      特征子空间与特征向量如下。
+           \begin{equation*}
+             V_{3}
+             =\set{\colvec{5\cdot b_3  \\ 
+                           -2\cdot b_3    \\ 
+                           b_3}
+                    \suchthat b_3\in\C}
+             \qquad
+             \colvec[r]{5  \\ 
+                     -2  \\ 
+                       1}
+           \end{equation*}
+    \end{answer}
+   \item 
+     求这个映射 \( \map{t}{\matspace_2}{\matspace_2} \) 的特征值与特征向量。
+     \begin{equation*}
+         \begin{mat}
+            a  &b  \\
+            c  &d
+         \end{mat}
+       \mapsto
+         \begin{mat}
+           2c    &a+c  \\
+           b-2c  &d
+         \end{mat}
+     \end{equation*}
+     \begin{answer}
+        $\lambda=1,
+          \begin{mat}
+                   0  &0  \\
+                   0  &1
+          \end{mat} \text{ 和 }
+          \begin{mat}[r]
+                   2  &3  \\
+                   1  &0
+          \end{mat}$,           
+          $\lambda=-2,
+          \begin{mat}[r]
+                  -1  &0  \\
+                   1  &0
+          \end{mat}$,
+          $\lambda=-1,
+          \begin{mat}[r]
+                  -2  &1  \\
+                   1  &0
+          \end{mat}$  
+       \end{answer}
+   \recommended \item 
+     求微分算子
+     \( \map{d/dx}{\polyspace_3}{\polyspace_3} \)
+     的特征值及相应的特征向量。
+     \begin{answer}
+       取自然基 $B=\sequence{1,x,x^2,x^3}$。
+       该映射的作用为 $1\mapsto 0$，$x\mapsto 1$，$x^2\mapsto 2x$，
+       $x^3\mapsto 3x^2$，其表示容易计算。
+       \begin{equation*}
+         T=\rep{d/dx}{B,B}=
+         \begin{mat}[r]
+           0  &1  &0  &0  \\
+           0  &0  &2  &0  \\
+           0  &0  &0  &3  \\
+           0  &0  &0  &0
+         \end{mat}_{B,B}
+       \end{equation*}
+       我们用如下计算求特征值。
+       \begin{equation*}
+         0=\deter{T-xI}=
+         \begin{vmatrix}
+           -x &1  &0  &0  \\
+           0  &-x &2  &0  \\
+           0  &0  &-x &3  \\
+           0  &0  &0  &-x          
+         \end{vmatrix}
+         =x^4
+       \end{equation*}
+       因此该映射只有唯一特征值 $\lambda=0$。
+       为求相应的特征向量，我们求解
+       \begin{equation*}
+         \begin{mat}[r]
+           0  &1  &0  &0  \\
+           0  &0  &2  &0  \\
+           0  &0  &0  &3  \\
+           0  &0  &0  &0
+         \end{mat}_{B,B}
+         \colvec{b_1 \\ b_2 \\ b_3 \\ b_4}_B
+         =0\cdot\colvec{b_1 \\ b_2 \\ b_3 \\ b_4}_B
+         \qquad\Longrightarrow\qquad
+         \text{$b_2=0$, $b_3=0$, $b_4=0$}          
+       \end{equation*}
+       由此得到这个特征子空间。
+       \begin{equation*}
+         \set{\colvec{b_1 \\ 0 \\ 0 \\ 0}_B
+               \suchthat b_1\in\C}
+         =\set{b_1+0\cdot x+0\cdot x^2+0\cdot x^3
+               \suchthat b_1\in\C}
+         =\set{b_1
+               \suchthat b_1\in\C}
+       \end{equation*}
+      \end{answer}
+   \item 证明：
+     三角矩阵（上三角或下三角）的特征值
+     就是对角线上的元素。
+     \begin{answer}
+       三角矩阵 $T-xI$ 的行列式是沿对角线取的乘积，
+       因此它可以分解为诸项 $t_{i,i}-x$ 的乘积。
+     \end{answer}
+   \recommended \item 这个矩阵有互不相同的
+     特征值。
+     \begin{equation*}
+      \begin{mat}
+       1  &2  &1 \\
+       6  &-1 &0 \\
+       -1 &-2 &-1
+      \end{mat}
+     \end{equation*}
+     \begin{exparts}
+       \partsitem 将其对角化。
+       \partsitem 找一个基，使得该矩阵在此基下具有那个
+         对角表示。
+       \partsitem 画出图示。
+          求出实现基变换的矩阵 $P$ 与 $P^{-1}$。
+     \end{exparts}
+     \begin{answer}
+      \begin{exparts}
+       \partsitem 
+       计算特征值，得 $\lambda_1=3$，$\lambda_2=0$，
+       $\lambda_3=-4$。
+       于是该矩阵的对角化如下。
+       \begin{equation*}
+         \begin{mat}
+           3 &0 &0 \\
+           0 &0 &0 \\
+           0 &0 &-4
+         \end{mat}
+       \end{equation*}
+      \partsitem
+       对每个特征值求一个与之相伴的特征向量，并用它们
+       构成一个基。
+
+       对 $\lambda_1=3$，我们求解这个方程组。
+       \begin{equation*}
+         \begin{mat}
+           1-3  &2    &1 \\
+           6    &-1-3 &0 \\
+          -1    &-2   &-1-3
+         \end{mat}
+         \colvec{x \\ y \\ z}
+         =\colvec{0 \\ 0 \\ 0}
+       \end{equation*}
+       用高斯消元法即可。
+       % sage: M = matrix(QQ, [[-2,2,1,0], [6,-4,0,0], [-1,-2,-4,0]])
+       % sage: gauss_method(M)
+       % [-2  2  1  0]
+       % [ 6 -4  0  0]
+       % [-1 -2 -4  0]
+       % take 3 times row 1 plus row 2
+       % take -1/2 times row 1 plus row 3
+       % [  -2    2    1    0]
+       % [   0    2    3    0]
+       % [   0   -3 -9/2    0]
+      % take 3/2 times row 2 plus row 3
+      % [-2  2  1  0]
+      % [ 0  2  3  0]
+      % [ 0  0  0  0]
+      \begin{equation*}
+        \begin{amat}{3}
+          -2 &2  &1  &0  \\
+           6 &-4 &0  &0  \\
+          -1 &-2 &-4 &0
+        \end{amat}
+        \grstep[-(1/2)\rho_1+\rho_3]{3\rho_1+\rho_2}
+        \grstep{(3/2)\rho_1+\rho_3}
+        \begin{amat}{3}
+          -2 &2 &1   &0  \\
+           0 &2 &3   &0  \\
+           0 &0 &0   &0
+        \end{amat}
+      \end{equation*}
+      参数化即得解空间。
+      \begin{equation*}
+        S_1=\set{\colvec{-1 \\ -3/2 \\ 1}\cdot z \suchthat z\in\C}
+      \end{equation*}
+
+      这是 $\lambda_2=0$ 的方程组。
+      \begin{equation*}
+        \begin{mat}
+          1    &2    &1 \\
+          6    &-1 &0 \\
+         -1    &-2   &-1
+        \end{mat}
+        \colvec{x \\ y \\ z}
+        =\colvec{0 \\ 0 \\ 0}
+      \end{equation*}
+      高斯消元法
+      % sage: M = matrix(QQ, [[1,2,1,0], [6,-1,0,0], [-1,-2,-1,0]])
+      % sage: gauss_method(M)
+      % [ 1  2  1  0]
+      % [ 6 -1  0  0]
+      % [-1 -2 -1  0]
+      % take -6 times row 1 plus row 2
+      % take 1 times row 1 plus row 3
+      % [  1   2   1   0]
+      % [  0 -13  -6   0]
+      % [  0   0   0   0]
+      \begin{equation*}
+        \begin{amat}{3}
+           1 &2  &1  &0  \\
+           6 &-1 &0  &0  \\
+          -1 &-2 &-1 &0
+        \end{amat}
+        \grstep[\rho_1+\rho_3]{-6\rho_1+\rho_2}
+        \begin{amat}{3}
+           1 &2 &1   &0  \\
+           0 &-13 &-6   &0  \\
+           0 &0 &0   &0
+        \end{amat}
+      \end{equation*}
+      再加参数化即得解空间。
+      \begin{equation*}
+        S_2=\set{\colvec{-1/13 \\ -6/13 \\ 1}\cdot z \suchthat z\in\C}
+      \end{equation*}
+
+      $\lambda_3=-4$ 的方程组做法相同。
+      \begin{equation*}
+        \begin{mat}
+          1-(-4)    &2    &1 \\
+          6    &-1-(-4) &0 \\
+         -1    &-2   &-1-(-4)
+        \end{mat}
+        \colvec{x \\ y \\ z}
+        =\colvec{0 \\ 0 \\ 0}
+      \end{equation*}
+      高斯消元法
+      % sage: M = matrix(QQ, [[5,2,1,0], [6,3,0,0], [-1,-2,3,0]])
+      % sage: gauss_method(M)
+      % [ 5  2  1  0]
+      % [ 6  3  0  0]
+      % [-1 -2  3  0]
+      % take -6/5 times row 1 plus row 2
+      % take 1/5 times row 1 plus row 3
+      % [   5    2    1    0]
+      % [   0  3/5 -6/5    0]
+      % [   0 -8/5 16/5    0]
+      % take 8/3 times row 2 plus row 3
+      % [   5    2    1    0]
+      % [   0  3/5 -6/5    0]
+      % [   0    0    0    0]
+      \begin{equation*}
+        \begin{amat}{3}
+           5 &2  &1  &0  \\
+           6 &3 &0  &0  \\
+          -1 &-2 &3 &0
+        \end{amat}
+        \grstep[(1/5)\rho_1+\rho_3]{-(6/5)\rho_1+\rho_2}
+        \grstep{(8/3)\rho_2+\rho_3}
+        \begin{amat}{3}
+           5 &2 &1   &0  \\
+           0 &3/5 &-6/5   &0  \\
+           0 &0 &0   &0
+        \end{amat}
+      \end{equation*}
+      参数化后得到
+      \begin{equation*}
+        S_3=\set{\colvec{-1 \\ 2 \\ 1}\cdot z \suchthat z\in\C}
+      \end{equation*}
+
+      于是，当该矩阵表示同一个变换、但关于下面这个 $D$
+      取 $D,D$ 为基时，它就具有那个对角形状。
+      \begin{equation*}
+        D=\sequence{\colvec{-1 \\ -3/2 \\ 1},
+                    \colvec{-1/13 \\ -6/13 \\ 1},
+                    \colvec{-1 \\ 2 \\ 1}}
+      \end{equation*}
+     \partsitem
+     % sage: M = matrix(QQ, [[1,2,1], [6,-1,0], [-1,-2,-1]])
+     % sage: M.eigenvalues()
+     % [3, 0, -4]
+     % sage: P = matrix(QQ, [[-1,-1/13,-1], [-3/2,-6/13,2], [1,1,1]])
+     % sage: P.inverse()*M*P
+     % [ 3  0  0]
+     % [ 0  0  0]
+     % [ 0  0 -4]
+     % sage: P.inverse()
+     % [-16/21   -2/7  -4/21]
+     % [ 13/12      0  13/12]
+     % [ -9/28    2/7   3/28]
+       将该矩阵记为~$T$。
+       取定义域空间与陪域空间为 $\Re^3$，
+       并取矩阵为 $T=\rep{t}{\stdbasis_3,\stdbasis_3}$，
+       便得到下图。
+       \begin{equation*}
+       \begin{CD}
+          \C^3_{\wrt{\stdbasis_3}}            @>t>T>      \C^3_{\wrt{\stdbasis_3}}       \\
+          @V{\scriptstyle\identity} VV           @V{\scriptstyle\identity} VV \\
+          \C^3_{\wrt{B}}             @>t>D>  \C^3_{\wrt{B}}
+       \end{CD}
+       \end{equation*}
+       从图中可读出 $D=P^{-1}MP$，其中
+       $P=\rep{\identity}{\stdbasis_3,B}$。
+       用~$E_3$ 表示 $B$ 中的每个向量很容易，
+       因为关于标准基，每个向量的表示就是它自身。
+       \begin{multline*}
+         \rep{\colvec{-1 \\ -3/2 \\ 1}}{\stdbasis_3}=\colvec{-1 \\ -3/2 \\ 1}
+         \quad
+         \rep{\colvec{-1/13 \\ -6/13 \\ 1}}{\stdbasis_3}=\colvec{-1/13 \\ -6/13 \\ 1}
+         \\
+         \rep{\colvec{-1 \\ 2 \\ 1}}{\stdbasis_3}=\colvec{-1 \\ 2 \\ 1}
+       \end{multline*}
+       于是该矩阵就是把这三个基向量依次并排放置。
+       \begin{equation*}
+         P=
+         \begin{mat}
+           -1   &-1/13 &-1 \\
+           -3/2 &-6/13 &2  \\
+           1    &1     &1
+         \end{mat}
+        \quad\text{于是有}\quad
+        P^{-1}
+        \begin{mat}
+          -16/21 &-2/7 &-4/21 \\
+          13/12  &0    &13/12 \\
+          -9/28  &2/7  &3/28
+        \end{mat}
+       \end{equation*}
+
+
+
+
+
+     \end{exparts}
+    \end{answer}
+  \recommended \item 
+    求 $\nbyn{2}$ 矩阵的特征多项式的公式。
+    \begin{answer}
+      只需展开 $T-xI$ 的行列式。
+      \begin{equation*}
+        \begin{vmatrix}
+          a-x  &c  \\
+          b    &d-x
+        \end{vmatrix}
+        =(a-x)(d-x)-bc
+        =x^2+(-a-d)\cdot x +(ad-bc)
+      \end{equation*}
+    \end{answer}
+  \item \label{exer:CharPolyTransWellDefed}
+    证明：
+    变换的特征多项式是良定义的。
+    \begin{answer}
+      该变换的任意两个表示都是相似的，
+      而相似矩阵具有相同的特征多项式。
+    \end{answer}
+  \item 证明或反驳：若一个矩阵的所有特征值都是 $0$，
+    则它必为零矩阵。
+    \begin{answer}
+      这不成立。
+      这个矩阵的所有特征值都是 $0$。
+      \begin{equation*}
+        \begin{mat}[r]
+          0  &1  \\
+          0  &0
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+  \recommended \item 
+    \begin{exparts}
+      \partsitem 证明：任意非平凡向量空间中的任意非 \( \zero \) 向量
+        都可以作为一个特征向量。
+        也就是说，给定非平凡 \( V \) 中的 \( \vec{v}\neq\zero \)，
+        证明存在变换 \( \map{t}{V}{V} \)，它具有标量
+        特征值 \( \lambda\in\Re \)，使得 \( \vec{v}\in V_{\lambda} \)。
+      \partsitem 如果给定的是标量 \( \lambda \) 呢？
+        任意非平凡向量空间中的任意非 \( \zero \) 成员，
+        都能作为与 \( \lambda \) 相伴的特征向量吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 取 \( \lambda=1 \) 与恒等映射即可。
+        \partsitem 可以，使用把所有向量都乘以
+          标量 \( \lambda \) 的那个变换。
+      \end{exparts}  
+     \end{answer}
+  \recommended \item 
+    设 \( \map{t}{V}{V} \) 且 \( T=\rep{t}{B,B} \)。
+    证明：\( T \) 的与 \( \lambda \) 相伴的特征向量，
+    就是由 \( T-\lambda I \) 所表示的映射（关于同样的基）
+    的核中的非 \( \zero \) 向量。
+    \begin{answer}
+      若 $t(\vec{v})=\lambda\cdot\vec{v}$，则在映射 $t-\lambda\cdot\identity$
+      下 $\vec{v}\mapsto\zero$。
+    \end{answer}
+  \item 
+    证明：若 $a,\ldots,\,d$ 全为整数且 \( a+b=c+d \)，则
+    \begin{equation*}
+      \begin{mat}
+         a  &b  \\
+         c  &d
+      \end{mat}
+    \end{equation*}
+    具有整数特征值，即 \( a+b \) 与 \( a-c \)。
+    \begin{answer}
+      特征方程
+      \begin{equation*}
+        0=
+        \begin{vmatrix}
+          a-x  &b  \\
+          c    &d-x 
+        \end{vmatrix}
+        =(a-x)(d-x)-bc
+      \end{equation*}
+      化简为 $x^2+(-a-d)\cdot x + (ad-bc)$。
+      验证 $x=a+b$ 与 $x=a-c$ 满足该方程
+      （在 $a+b=c+d$ 的条件下）是容易的。
+    \end{answer}
+  \recommended \item
+    证明：若 \( T \) 非奇异且具有特征值
+    \( \lambda_1,\dots,\lambda_n \)，则 \( T^{-1} \) 具有特征值
+    \( 1/\lambda_1,\dots,1/\lambda_n \)。
+    逆命题成立吗？
+    \begin{answer}
+      考虑特征子空间 $V_{\lambda}$。
+      任意 $\vec{w}\in V_{\lambda}$ 都是某个 $\vec{v}\in V_{\lambda}$
+      的像 $\vec{w}=\lambda\cdot\vec{v}$
+      （即 $\vec{v}=(1/\lambda)\cdot\vec{w}$）。
+      于是，在 $V_{\lambda}$（它是一个非平凡子空间）上
+      $t^{-1}$ 的作用为
+      $t^{-1}(\vec{w})=\vec{v}=(1/\lambda)\cdot\vec{w}$，
+      因此 $1/\lambda$ 是 $t^{-1}$ 的特征值。
+    \end{answer}
+  \recommended \item
+    设 \( T \) 是 \( \nbyn{n} \) 的且 \( c,d \) 为标量。
+    \begin{exparts}
+      \partsitem 证明：若 \( T \) 具有特征值
+        \( \lambda \) 及相伴的
+        特征向量 \( \vec{v} \)，则 \( \vec{v} \) 是
+        \( cT+dI \) 的与特征值 \( c\lambda+d \) 相伴的特征向量。
+      \partsitem 证明：若 \( T \) 可对角化，则
+        \( cT+dI \) 也可对角化。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 我们有
+          $(cT+dI)\vec{v}=cT\vec{v}+dI\vec{v}=c\lambda\vec{v}+d\vec{v}
+               =(c\lambda+d)\cdot \vec{v}$。
+        \partsitem 设 $S=PTP^{-1}$ 是对角的。
+          则 $P(cT+dI)P^{-1}=P(cT)P^{-1}+P(dI)P^{-1}
+                 =cPTP^{-1}+dI=cS+dI$ 也是对角的。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    证明：\( \lambda \) 是 \( T \) 的特征值当且仅当
+    \( T-\lambda I \) 所表示的映射不是同构。
+    \begin{answer}
+      标量 $\lambda$ 是特征值当且仅当变换
+      $t-\lambda \identity$ 是奇异的。
+      变换是奇异的当且仅当它不是同构
+      （也就是说，变换是同构当且仅当它是
+      非奇异的）。
+    \end{answer}
+  \item \cite{Strang} 
+    \begin{exparts}
+      \partsitem 证明：若 \( \lambda \) 是 \( A \) 的特征值，
+         则 \( \lambda^k \) 是 \( A^k \) 的特征值。
+      \partsitem 下面这个把上述结论加以推广的证明有什么问题？
+         “若 \( \lambda \) 是 \( A \) 的特征值且 \( \mu \) 是
+         \( B \) 的特征值，则 \( \lambda\mu \) 是
+         \( AB \) 的特征值。因为若 \( A\vec{x}=\lambda\vec{x} \)
+         且 \( B\vec{x}=\mu\vec{x} \)，则
+         \( AB\vec{x}=A\mu\vec{x}=\mu A\vec{x}=\mu\lambda\vec{x} \)”？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 当特征值 $\lambda$ 与特征向量 $\vec{x}$ 相伴时，
+          $A^k\vec{x}=A\cdots A\vec{x}=A^{k-1}\lambda\vec{x}
+            =\lambda A^{k-1}\vec{x}=\cdots=\lambda^k\vec{x}$。
+          （完整的细节需要对 $k$ 作归纳。）
+        \partsitem 与 $\lambda$ 相伴的特征向量
+          未必是与 $\mu$ 相伴的特征向量。
+      \end{exparts}
+    \end{answer}
+  \item 
+    相互矩阵等价的矩阵具有相同的特征值吗？
+    \begin{answer}
+      没有。
+      这是两个同尺寸、同秩但特征值不同的矩阵。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &0  \\
+          0  &1
+        \end{mat}
+        \qquad
+        \begin{mat}[r]
+          1  &0  \\
+          0  &2
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+  \item 
+    证明：元素为实数且行数为奇数的方阵
+    至少有一个实特征值。
+    \begin{answer}
+      特征多项式具有奇数次幂，因此
+      至少有一个实根。
+    \end{answer}
+  \item 
+    对角化。
+    \begin{equation*}
+       \begin{mat}[r]
+         -1  &2  &2  \\
+          2  &2  &2  \\
+         -3  &-6 &-6
+       \end{mat}
+    \end{equation*}
+    \begin{answer}
+      特征多项式 $x^3+5x^2+6x$ 有互不相同的根
+      \( \lambda_1=0 \)、\( \lambda_2=-2 \)、\( \lambda_3=-3 \)。
+      于是该矩阵可以对角化成这个形状。
+      \begin{equation*}
+         \begin{mat}[r]
+            0  &0  &0  \\
+            0  &-2 &0  \\
+            0  &0  &-3
+         \end{mat}
+      \end{equation*}    
+    \end{answer}
+  \item 
+    设 \( P \) 是非奇异的 \( \nbyn{n} \) 矩阵。
+    证明：
+    把 \( T\mapsto PTP^{-1} \) 的
+    \definend{相似变换}\index{similarity transformation}
+    映射 \( \map{t_P}{\matspace_{\nbyn{n}}}{\matspace_{\nbyn{n}}} \)
+    是同构。
+    \begin{answer}
+      我们必须证明它是单射且满射，并且它保持
+      矩阵加法与标量乘法运算。
+
+      为证它是单射，设 $t_P(T)=t_P(S)$，
+      即设 $PTP^{-1}=PSP^{-1}$，注意两边
+      左乘 $P^{-1}$、右乘 $P$ 便得
+      $T=S$。
+      为证它是满射，考虑 $S\in\matspace_{\nbyn{n}}$，并观察
+      $S=t_P(P^{-1}SP)$。
+
+      映射 $t_P$ 保持矩阵加法，因为
+      $t_P(T+S)=P(T+S)P^{-1}=(PT+PS)P^{-1}=PTP^{-1}+PSP^{-1}=t_P(T+S)$
+      可由我们已见过的矩阵乘法与加法的性质
+      得到。
+      标量乘法是
+      类似的：~$t_P(cT)=P(c\cdot T)P^{-1}=c\cdot (PTP^{-1})=c\cdot t_P(T)$。
+    \end{answer}
+  \puzzle \item 
+    \cite{MathMag67p232}
+    证明：若 \( A \) 是 \( n \) 阶方阵且每行（每列）之和均为 \( c \)，
+    则 \( c \) 是 \( A \) 的一个特征根。
+    （“特征根”是特征值的同义词。）\index{characteristic!root}\index{root!characteristic}
+    \begin{answer}
+      \answerasgiven %
+      若把 \( A \) 的特征函数中的变元取为
+      \( c \)，把前 \( (n-1) \) 行（列）加到
+      第 \( n \) 行（列）上，就得到一个第 \( n \) 行
+      （列）全为零的行列式。
+      因此 \( c \) 是 \( A \) 的一个特征根。  
+    \end{answer}
+\index{similarity|)}
+\end{exercises}

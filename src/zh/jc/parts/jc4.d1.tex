@@ -1,0 +1,487 @@
+\begin{exercises}
+  \item 
+    对\nearbyexample{ex:SingJordBlock}做检验。
+    \begin{answer}
+      我们必须检验
+      \begin{equation*}
+         \begin{mat}[r]
+           3  &0  \\
+           1  &3
+         \end{mat}
+         =
+         N+3I=PTP^{-1}
+         =
+         \begin{mat}[r]
+           1/2  &1/2  \\
+          -1/4 &1/4
+         \end{mat}
+         \begin{mat}[r]
+           2  &-1  \\
+           1  &4
+         \end{mat}
+         \begin{mat}[r]
+           1  &-2  \\
+           1  &2
+         \end{mat}
+      \end{equation*}
+      这个计算很容易。
+    \end{answer}
+  \item 
+    每个矩阵都是 Jordan 形式。
+    写出它的特征多项式与极小多项式。
+    \begin{exparts*}
+      \partsitem 
+        $\begin{mat}[r]
+           3  &0  \\
+           1  &3        
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           -1  &0  \\
+            0  &-1 
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           2  &0  &0  \\
+           1  &2  &0  \\
+           0  &0  &-1/2
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           3  &0  &0  \\
+           1  &3  &0  \\
+           0  &1  &3  \\ 
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           3  &0  &0  &0  \\
+           1  &3  &0  &0  \\
+           0  &0  &3  &0  \\
+           0  &0  &1  &3 
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           4  &0  &0  &0  \\
+           1  &4  &0  &0  \\
+           0  &0  &-4 &0  \\
+           0  &0  &1  &-4
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           5  &0  &0  \\
+           0  &2  &0  \\
+           0  &0  &3  
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           5  &0  &0  &0  \\
+           0  &2  &0  &0  \\
+           0  &0  &2  &0  \\
+           0  &0  &0  &3 
+         \end{mat}$
+      \partsitem 
+        $\begin{mat}[r]
+           5  &0  &0  &0  \\
+           0  &2  &0  &0  \\
+           0  &1  &2  &0  \\
+           0  &0  &0  &3 
+         \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 特征多项式为 $c(x)=(x-3)^2$，
+          极小多项式与之相同。
+        \partsitem 特征多项式为 $c(x)=(x+1)^2$。
+          极小多项式为 $m(x)=x+1$。
+        \partsitem 特征多项式为 
+          $c(x)=(x+(1/2))(x-2)^2$，
+          极小多项式与之相同。
+        \partsitem 特征多项式为 $c(x)=(x-3)^3$
+          极小多项式与之相同。
+        \partsitem 特征多项式为 $c(x)=(x-3)^4$。
+          极小多项式为 $m(x)=(x-3)^2$。
+        \partsitem 特征多项式为 $c(x)=(x+4)^2(x-4)^2$，
+          极小多项式与之相同。
+        \partsitem 特征多项式为 
+          $c(x)=(x-2)^2(x-3)(x-5)$，
+          极小多项式为 $m(x)=(x-2)(x-3)(x-5)$。
+        \partsitem 特征多项式为 
+          $c(x)=(x-2)^2(x-3)(x-5)$，
+          极小多项式与之相同。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    由所给数据求出 Jordan 形式。
+    \begin{exparts}
+       \partsitem 矩阵 
+         \( T \) 是 \( \nbyn{5} \) 的，仅有特征值 $3$。
+         各次幂的零度为：
+         \( T-3I \) 的零度为二，\( (T-3I)^2 \) 的零度为三，
+         \( (T-3I)^3 \) 的零度为四，而 \( (T-3I)^4 \) 的零度
+         为五。
+       \partsitem 矩阵 \( S \) 是 \( \nbyn{5} \) 的，有两个特征值。
+         对特征值 $2$，零度为：
+         \( S-2I \) 的零度为二，而 \( (S-2I)^2 \) 的零度为四。
+         对特征值 $-1$，零度为：
+         \( S+1I \) 的零度为一。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 变换 $t-3$ 是幂零的
+          （即 $\gennullspace{t-3}$ 是整个空间），
+          它通过两条链作用在一个链基上：
+          $\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\vec{\beta}_3
+            \mapsto\vec{\beta}_4\mapsto\zero$
+          以及 $\vec{\beta}_5\mapsto\zero$。
+          因此，$t-3$ 可以用这个标准形来表示。
+          \begin{equation*}
+            N_3=
+            \begin{mat}[r]
+               0  &0  &0  &0  &0  \\
+               1  &0  &0  &0  &0  \\
+               0  &1  &0  &0  &0  \\
+               0  &0  &1  &0  &0  \\
+               0  &0  &0  &0  &0
+             \end{mat}
+          \end{equation*}
+          从而 $T$ 相似于这个标准形矩阵。
+          \begin{equation*}
+           J_3=N_3+3I=
+           \begin{mat}[r]
+               3  &0  &0  &0  &0  \\
+               1  &3  &0  &0  &0  \\
+               0  &1  &3  &0  &0  \\
+               0  &0  &1  &3  &0  \\
+               0  &0  &0  &0  &3
+             \end{mat}
+          \end{equation*} 
+         \partsitem 变换 $s+1$ 在子空间 $\gennullspace{s+1}$ 上的限制
+          是幂零的，它在链基上的作用为 $\vec{\beta}_1\mapsto\zero$。  
+          变换 $s-2$ 在子空间 $\gennullspace{s-2}$ 上的限制
+          是幂零的，它在链基上的作用为 $\vec{\beta}_2\mapsto\vec{\beta}_3\mapsto\zero$
+          与 $\vec{\beta}_4\mapsto\vec{\beta}_5\mapsto\zero$。        
+          因此 Jordan 形式如下。
+          \begin{equation*}
+            \begin{mat}[r]
+              -1  &0  &0  &0  &0  \\
+               0  &2  &0  &0  &0  \\
+               0  &1  &2  &0  &0  \\
+               0  &0  &0  &2  &0  \\
+               0  &0  &0  &1  &2
+             \end{mat} 
+          \end{equation*}
+      \end{exparts}  
+    \end{answer}
+  \item 
+    为每个例题求出换基矩阵。 
+    \begin{exparts*}
+      \partsitem \nearbyexample{ex:FirstJordForm}
+      \partsitem \nearbyexample{SecJordanForm}
+      \partsitem \nearbyexample{ThirdJordanForm}
+    \end{exparts*}
+    \begin{answer}
+      对每一小题，由于基的取法有很多种，所以还可以有许多别的答案。
+      当然，检验一个答案是否给出 Jordan 形式的 $PTP^{-1}$
+      的计算才是正确与否的裁判。
+      \begin{exparts}
+        \partsitem 下面是箭头图。
+          \begin{equation*}
+            \begin{CD}
+              \C^3_{\wrt{\stdbasis_3}}      @>t>T>    \C^3_{\wrt{\stdbasis_3}}   \\
+                @V\scriptstyle\identity V\scriptstyle PV  
+                                    @V\scriptstyle\identity V\scriptstyle PV \\
+              \C^3_{\wrt{B}}                 @>t>J>         \C^3_{\wrt{B}}
+            \end{CD}
+          \end{equation*}
+          从左下角移动到左上角的矩阵是这个。 
+          \begin{equation*}
+            P^{-1}=\bigl(\rep{\identity}{\stdbasis_3,B}\bigr)^{-1}
+                  =\rep{\identity}{B,\stdbasis_3}   
+                  =\begin{mat}[r]
+                     1  &-2   &0 \\
+                     1  &0   &1 \\
+                    -2  &0   &0
+                   \end{mat}
+          \end{equation*}
+          从右上角移动到右下角的矩阵 $P$ 是 $P^{-1}$ 的逆。
+        \partsitem 我们需要这个矩阵及其逆。
+          \begin{equation*}
+            P^{-1}=
+            \begin{mat}[r]
+              1  &0  &3  \\
+              0  &1  &4  \\
+              0  &-2 &0
+            \end{mat}
+          \end{equation*}
+        \partsitem 将这些广义零空间的基拼接起来，
+          就可以作为整个空间的基。
+          \begin{equation*}
+             B_{-1}=\sequence{\colvec[r]{-1\\ 0 \\  0 \\ 1 \\ 0},
+                 \colvec[r]{-1\\ 0 \\ -1 \\ 0 \\ 1}}
+            \qquad
+             B_3=\sequence{\colvec[r]{1 \\ 1 \\ -1 \\ 0 \\ 0},
+                 \colvec[r]{0 \\ 0 \\  0 \\-2 \\ 2},
+                 \colvec[r]{-1\\-1 \\  1 \\ 2 \\ 0}}
+          \end{equation*}
+          换基矩阵是这一个矩阵及其逆。
+          \begin{equation*}
+            P^{-1}=
+            \begin{mat}[r]
+              -1  &-1  &1  &0  &-1  \\
+              0   &0   &1  &0  &-1  \\
+              0   &-1  &-1 &0  &1   \\
+              1   &0   &0  &-2 &2   \\
+              0   &1   &0  &2  &0   \\
+            \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item 
+    求每个矩阵的 Jordan 形式与一个 Jordan 基。
+    \begin{exparts*}
+      \partsitem 
+        \(
+        \begin{mat}[r]
+          -10  &4  \\
+          -25  &10
+        \end{mat} \)
+      \partsitem 
+        \(
+        \begin{mat}[r]
+           5   &-4 \\
+           9   &-7
+        \end{mat} \)
+      \partsitem 
+        \(
+        \begin{mat}[r]
+           4   &0    &0  \\
+           2   &1    &3  \\
+           5   &0    &4
+        \end{mat} \)
+      \partsitem 
+        \(
+        \begin{mat}[r]
+           5   &4    &3  \\
+          -1   &0    &-3 \\
+           1   &-2   &1
+        \end{mat} \)
+      \partsitem
+        \(
+        \begin{mat}[r]
+           9   &7    &3  \\
+          -9   &-7   &-4 \\
+           4   &4    &4
+        \end{mat} \)
+      \partsitem 
+        \(
+        \begin{mat}[r]
+           2   &2    &-1 \\
+          -1   &-1   &1  \\
+          -1   &-2   &2
+        \end{mat} \)
+      \partsitem 
+        \(
+        \begin{mat}[r]
+           7   &1    &2   &2 \\
+           1   &4    &-1  &-1\\
+          -2   &1    &5   &-1\\
+           1   &1    &2   &8
+        \end{mat} \)
+    \end{exparts*}
+    \begin{answer}
+      一般的做法是将特征多项式 
+      $c(x)=(x-\lambda_1)^{p_1}(x-\lambda_2)^{p_2}\cdots $ 
+      因式分解，得到特征值 $\lambda_1$、$\lambda_2$ 等。 
+      然后，对每个 $\lambda_i$ 我们求一个
+      链基，它是变换 $t-\lambda_i$
+      限制在 $\gennullspace{t-\lambda_i}$ 上时的作用的链基：
+      计算矩阵 $T-\lambda_iI$ 的各次幂并求出
+      相应的零空间，直到这些零空间稳定下来
+      （不再变化）为止，此时我们就得到了广义零空间。
+      这些零空间的维数（零度）告诉我们
+      $t-\lambda_i$ 在广义零空间的某个链基上的作用，
+      于是我们可以写出次对角线上 $1$ 的分布模式，
+      得到 $N_{\lambda_i}$。
+      由此矩阵，与 $\lambda_i$ 相关联的 Jordan 块
+      $J_{\lambda_i}$ 立即可得：$J_{\lambda_i}=N_{\lambda_i}+\lambda_iI$。
+      最后，在对每个特征值都这样做之后，
+      我们把它们拼成标准形。
+      \begin{exparts}
+        \partsitem 这个矩阵的特征多项式
+           是 $c(x)=(-10-x)(10-x)+100=x^2$， 
+           所以它只有唯一的特征值 $\lambda=0$。
+           \begin{center}
+             \renewcommand{\arraystretch}{1.25}
+             \begin{tabular}{r|ccc}
+                \multicolumn{1}{c}{\textit{幂}~$p$} 
+                    &$(T+0\cdot I)^p$ &$\nullspace{(t-0)^p}$
+                    &\textit{零度}                   \\ 
+                \hline
+                $1$  
+                &\matrixvenlarge{\begin{mat}[r]
+                  -10  &4  \\ 
+                  -25  &10
+                \end{mat}}
+                &$\set{\matrixvenlarge{\colvec{2y/5 \\ y}}
+                                     \suchthat
+                                     y\in\C}$
+                &$1$                                       \\
+                $2$  
+                &\matrixvenlarge{\begin{mat}[r]
+                    0  &0  \\ 
+                    0  &0
+                \end{mat}}
+                &$\C^2$
+                &$2$
+             \end{tabular}
+           \end{center}
+           （因此，这个变换是幂零的：
+           $\gennullspace{t-0}$ 是整个空间）。
+           由这些零度我们知道 $t$ 在某个链基上的作用是
+           $\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\zero$。
+           这是 $t-0$ 在 $\gennullspace{t-0}=\C^2$ 上的作用的
+           标准形矩阵
+           \begin{equation*}
+             N_0=
+             \begin{mat}[r]
+               0  &0  \\
+               1  &0
+            \end{mat}
+           \end{equation*}
+           而这就是该矩阵的 Jordan 形式。
+           \begin{equation*}
+             J_0=N_0+0\cdot I=
+             \begin{mat}[r]
+               0  &0  \\
+               1  &0
+            \end{mat}
+           \end{equation*}
+           注意，若一个矩阵是幂零的，则它的标准形
+           等于它的 Jordan 形式。
+
+           我们可以用前一小节的方法找到这样一个链基。
+           \begin{equation*}
+                 B=\sequence{\colvec[r]{1 \\ 0},
+                             \colvec[r]{-10 \\ -25}}
+           \end{equation*}
+           我们取第一个基向量使得它在 $t^2$ 的零空间中，
+           但不在 $t$ 的零空间中。
+           第二个基向量是第一个基向量在 $t$ 下的像。
+        \partsitem 这个矩阵的特征多项式
+           是 \( c(x)=(x+1)^2 \)，所以它是单特征值矩阵。
+           （即 $t+1$ 的广义零空间是整个空间。） 
+           我们有
+           \begin{equation*}
+             \nullspace{t+1}=\set{\colvec{2y/3 \\ y}\suchthat
+                                     y\in\C} 
+             \qquad
+             \nullspace{(t+1)^2}=\C^2 
+           \end{equation*}
+           于是 $t+1$ 在某个相应的链基上的作用是
+           $\vec{\beta}_1\mapsto\vec{\beta}_2\mapsto\zero$。
+           因此， 
+           \begin{equation*}
+             N_{-1}
+             =
+             \begin{mat}[r]
+                0  &0  \\
+                1  &0 
+             \end{mat}
+           \end{equation*}
+           $T$ 的 Jordan 形式是
+           \begin{equation*}
+             J_{-1}=N_{-1}+-1\cdot I
+             =
+             \begin{mat}[r]
+               -1  &0  \\
+                1  &-1
+             \end{mat}
+           \end{equation*}
+           而从上面的零空间中取向量就得到
+           这个链基（也可以有别的取法）。
+           \begin{equation*}
+             B=\sequence{\colvec[r]{1 \\ 0},
+                         \colvec[r]{6 \\ 9}}
+           \end{equation*}
+        \partsitem 特征多项式
+            \( c(x)=(1-x)(4-x)^2=-1\cdot (x-1)(x-4)^2 \) 有两个根，
+            它们就是特征值 $\lambda_1=1$ 与 $\lambda_2=4$。
+
+            我们分别处理这两个特征值。
+            对 $\lambda_1$，计算 $T-1I$ 的各次幂
+            得到
+            \begin{equation*}
+              \nullspace{t-1}=\set{\colvec{0 \\ y \\ 0}
+                                      \suchthat y\in\C}
+            \end{equation*}
+            而 $(t-1)^2$ 的零空间与之相同。
+            于是这个集合就是广义零空间 
+            $\gennullspace{t-1}$。
+            这些零度表明 $t-1$ 限制在广义零空间上后
+            在某个链基上的作用
+            是 $\vec{\beta}_1\mapsto\zero$。
+
+            对 $\lambda_2=4$ 作类似的计算，得到这些零空间。
+            \begin{equation*}
+              \nullspace{t-4}=\set{\colvec{0 \\ z \\ z}
+                                      \suchthat z\in\C}
+              \qquad
+              \nullspace{(t-4)^2}=\set{\colvec{z-y \\ y \\ z}
+                                          \suchthat y,z\in\C}
+            \end{equation*}
+            （$(t-4)^3$ 的零空间与之相同，这也必然如此，因为
+            特征多项式中与 $\lambda_2=4$ 相关联的项的
+            幂是二，所以
+            $t-2$ 限制在广义零空间 $\gennullspace{t-2}$ 上
+            是幂零的且指数至多为二\Dash 零空间至多经过
+            两次 $t-2$ 的作用就稳定下来。）
+            零度上升的模式告诉我们
+             $t-4$ 在 $\gennullspace{t-4}$ 的某个相应链基上的作用
+            是
+            $\vec{\beta}_2\mapsto\vec{\beta}_3\mapsto\zero$。
+
+            把这两个特征值的信息
+            合在一起，就得到变换 $t$ 的 Jordan 形式。
+            \begin{equation*}
+              \begin{mat}[r]
+                1  &0  &0  \\
+                0  &4  &0  \\
+                0  &1  &4
+              \end{mat}
+            \end{equation*}
+            我们可以取零空间中的元素来得到一个合适的基。
+            \begin{equation*}
+              B=\cat{B_{1}}{B_4}=
+               \sequence{\colvec[r]{0 \\ 1 \\ 0},
+                          \colvec[r]{1 \\ 0 \\ 1},
+                          \colvec[r]{0 \\ 5 \\ 5}}
+            \end{equation*}
+        \partsitem 特征多项式是
+            \( c(x)=(-2-x)(4-x)^2=-1\cdot (x+2)(x-4)^2 \)。
+
+            对特征值 $\lambda_{-2}$
+            （这里的下标是 \( -2\)），计算
+            $T+2I$ 的各次幂得到这个。
+            \begin{equation*}
+              \nullspace{t+2}=\set{\colvec{z \\ z \\ z}
+                                      \suchthat z\in\C}
+            \end{equation*}
+            $(t+2)^2$ 的零空间与之相同，所以 
+            这就是广义零空间 $\gennullspace{t+2}$。
+            于是 $t+2$ 限制在 
+            $\gennullspace{t+2}$ 上后，在某个相应的
+            链基上的作用是 $\vec{\beta}_1\mapsto\zero$。
+
+            对 $\lambda_2=4$，
+            计算 $T-4I$ 的各次幂得到
+            \begin{equation*}
+              \nullspace{t-4}=\set{\colvec{z \\ -z \\ z}
+                                      \suchthat z\in\C} 
+              \qquad
+              \nullspace{(t-4)^2}=\set{\colvec{x \\ -z \\ z}
+                                           \suchthat x,z\in\C}
+            \end{equation*}
+            于是 $t-4$ 在 $\gennullspace{t-4}$ 的某个
+            链基上的作用是
+            $\vec{\beta}_2\mapsto\vec{\beta}_3\mapsto\zero$。
+

@@ -1,0 +1,310 @@
+% Chapter 4, Section 2 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\section{相似}
+\index{similarity|(}
+%<*SimilarityMotiviation0>
+我们已经定义：若存在非奇异的 \( P \) 与 \( Q \)，使得 \( \hat{H}=PHQ \)，
+则称矩阵 \( H \) 与 \( \hat{H} \)
+是矩阵等价的。
+下图给出了这样做的动机，
+图中 $H$ 与 $\hat{H}$ 都表示同一个映射
+$h$，只是所相对于的
+基对不同，分别为 $B,D$ 与 $\hat{B},\hat{D}$。
+\begin{equation*}
+  \begin{CD}
+    V_{\wrt{B}}                   @>h>H>        W_{\wrt{D}}       \\
+    @V{\scriptstyle\identity} VV             @V{\scriptstyle\identity} VV \\
+    V_{\wrt{\hat{B}}}             @>h>\hat{H}>  W_{\wrt{\hat{D}}}
+  \end{CD}
+\end{equation*}
+%</SimilarityMotiviation0>
+
+%<*SimilarityMotiviation1>
+现在考虑变换这一特殊情形，
+此时陪域等于定义域，我们再补充要求
+陪域的基等于定义域的基。
+于是，我们所考虑的是相对于
+$B,B$ 与 $D,D$ 的表示。\index{arrow diagram}
+\begin{equation*}
+  \begin{CD}
+    V_{\wrt{B}}                   @>t>T>        V_{\wrt{B}}       \\
+    @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+    V_{\wrt{D}}                   @>t>\hat{T}>        V_{\wrt{D}}
+  \end{CD}
+\end{equation*}
+用矩阵的语言来说，
+\(\rep{t}{D,D}
+  =\rep{\identity}{B,D}\;\rep{t}{B,B}\;\bigl(\rep{\identity}{B,D}\bigr)^{-1} \)。
+%</SimilarityMotiviation1>
+
+
+
+\subsection{定义与例题}
+\begin{example}
+考虑求导变换
+$\map{d/dx}{\polyspace_2}{\polyspace_2}$，
+以及该空间的两组基
+$B=\sequence{x^2,x,1}$ 与
+$D=\sequence{1,1+x,1+x^2}$。
+我们将计算这个箭头方图的四条边。
+\begin{equation*}
+  \begin{CD}
+    {\polyspace_2\,}_{\wrt{B}}                   @>d/dx>T>        {\polyspace_2\,}_{\wrt{B}}       \\
+    @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+    {\polyspace_2\,}_{\wrt{D}}                   @>d/dx>\hat{T}>        {\polyspace_2\,}_{\wrt{D}}
+  \end{CD}
+\end{equation*}
+先看上边。
+该变换作用于起始基~$B$ 的效果
+\begin{equation*}
+  x^2\mapsunder{d/dx} 2x
+  \qquad
+  x\mapsunder{d/dx} 1
+  \qquad
+  1\mapsunder{d/dx} 0
+\end{equation*}
+再相对于终止基（也是~$B$）表示
+\begin{equation*}
+  \rep{2x}{B}=\colvec{0 \\ 2 \\ 0}
+  \qquad
+  \rep{1}{B}=\colvec{0 \\ 0 \\ 1}
+  \qquad
+  \rep{0}{B}=\colvec{0 \\ 0 \\ 0}
+\end{equation*}
+便得到了该映射
+的表示。
+\begin{equation*}
+  T=
+  \rep{d/dx}{B,B}=
+  \begin{mat}
+    0 &0 &0 \\
+    2 &0 &0 \\
+    0 &1 &0
+  \end{mat}
+\end{equation*}
+
+接下来，计算右边的矩阵需要
+求出恒等映射作用于~$B$ 中元素的效果。
+当然，恒等映射对它们毫无改变，因此
+为得到该矩阵，我们把 $B$ 的元素相对于
+~$D$ 表示。
+\begin{equation*}
+  \rep{x^2}{D}=\colvec{-1 \\ 0 \\ 1}
+  \quad
+  \rep{x}{D}=\colvec{-1 \\ 1 \\ 0}
+  \quad
+  \rep{1}{D}=\colvec{1 \\ 0 \\ 0}
+\end{equation*}
+于是，沿右边向下的矩阵就是将这些列向量依次并置而成的。
+\begin{equation*}
+  P=\rep{id}{B,D}=
+  \begin{mat}
+    -1 &-1  &1 \\
+     0 &1   &0 \\
+     1 &0   &0   
+  \end{mat}
+\end{equation*}
+
+有了它，我们有两种方法来计算沿左边向上
+的矩阵。
+直接计算是把~$D$ 的元素相对于
+~$B$ 表示，
+\begin{equation*}
+  \rep{1}{B}=\colvec{0 \\ 0 \\ 1}
+  \quad
+  \rep{1+x}{B}=\colvec{0 \\ 1 \\ 1}
+  \quad
+  \rep{1+x^2}{B}=\colvec{1 \\ 0 \\ 1}
+\end{equation*}
+再把它们并置成矩阵。
+\begin{equation*}
+  \begin{mat}
+    0 &0 &1 \\
+    0 &1 &0 \\ 
+    1 &1 &1
+  \end{mat}
+\end{equation*}
+计算沿左边向上的矩阵的另一种方法，
+是取沿右边向下的矩阵~$P$ 的
+逆矩阵。
+\begin{equation*}
+  \begin{pmat}{ccc|ccc}
+    -1 &-1 &1 &1 &0 &0 \\
+     0 &1  &0 &0 &1 &0 \\
+     1 &0  &0 &0 &0 &1
+  \end{pmat}
+  % \grstep{\rho_1+\rho_3}
+  % \grstep{\rho_2+\rho_3}
+  % \grstep{-\rho_1}
+  % \grstep{\rho_3+\rho_1}
+  % \grstep{-\rho_2+\rho_1}
+  \grstep{}
+  \cdots
+  \grstep{}
+  \begin{pmat}{ccc|ccc}
+     1 &0  &0 &0 &0 &1 \\
+     0 &1  &0 &0 &1 &0 \\
+     0 &0  &1 &1 &1 &1
+  \end{pmat}
+\end{equation*}
+
+剩下方块的底边。
+计算矩阵~$\hat{T}$ 有两种方法。
+一种是直接计算它，
+即求出该变换作用于~$D$ 中元素的效果，
+\begin{equation*}
+  1\mapsunder{d/dx} 0
+  \qquad
+  1+x\mapsunder{d/dx} 1
+  \qquad
+  1+x^2\mapsunder{d/dx} 2x
+\end{equation*}
+再相对于~$D$ 表示。
+\begin{equation*}
+  \hat{T}=
+  \rep{d/dx}{D,D}=
+  \begin{mat}
+    0 &1 &-2 \\
+    0 &0 &2 \\
+    0 &0 &0
+  \end{mat}
+\end{equation*}
+计算~$\hat{T}$ 的另一种方法——这也是我们通常采用的方法——
+是沿着图先向上，再向左，然后向下。
+\begin{align*}
+  \rep{d/dx}{D,D}
+  &=\rep{\identity}{B,D}\,\rep{d/dx}{B,B}\,\rep{\identity}{D,B}  \\
+  \hat{T}
+  &=\rep{\identity}{B,D}\,T\,\rep{\identity}{D,B}   \\
+  &=  
+  \begin{mat}
+    -1 &-1  &1 \\
+     0 &1   &0 \\
+     1 &0   &0   
+  \end{mat}
+  \begin{mat}
+    0 &0 &0 \\
+    2 &0 &0 \\
+    0 &1 &0
+  \end{mat}
+  \begin{mat}
+    0 &0 &1 \\
+    0 &1 &0 \\ 
+    1 &1 &1
+  \end{mat}
+\end{align*}
+展开乘积，得到的矩阵~$\hat{T}$ 与上面求出的相同。
+\end{example}
+
+\begin{definition} \label{df:Similar}
+%<*df:Similar>
+矩阵 \( T \) 与 $\hat{T}$ 是
+\definend{相似的}\index{matrix!similarity}%
+\index{equivalence relation!matrix similarity}\index{similar matrices}
+若存在非奇异的 \( P \) 使得
+$
+  \hat{T}=PTP^{-1}
+$。
+%</df:Similar>
+\end{definition}
+
+\noindent 由于非奇异矩阵是方阵，
+$T$ 与 $\hat{T}$ 必须
+都是同尺寸的方阵。
+\nearbyexercise{exer:SimIsEquivRel} 验证了
+相似是一个等价关系。
+
+\begin{example}
+该定义并不要求我们考虑某个映射。
+对这两个矩阵进行计算
+\begin{equation*}
+  P=
+  \begin{mat}[r]
+    2  &1  \\
+    1  &1
+  \end{mat}
+  \qquad
+  T=
+  \begin{mat}[r]
+    2  &-3  \\
+    1  &-1
+  \end{mat}
+\end{equation*}
+可知 $T$ 相似于这个矩阵。
+\begin{equation*}
+  \hat{T}=
+  \begin{mat}[r]
+    12  &-19  \\
+    7  &-11
+  \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{example}  \label{ex:OnlyZeroSimToZero}
+%<*ex:OnlyZeroSimToZero>
+与零矩阵相似的矩阵只有它自身：~$PZP^{-1}=PZ=Z$。
+单位矩阵也有同样的性质：~$PIP^{-1}=PP^{-1}=I$。
+%</ex:OnlyZeroSimToZero>
+\end{example}
+
+一个常见的特殊情形是向量空间为 $\C^n$，且
+矩阵~$T$ 是某个映射相对于标准基的表示。
+\begin{equation*}
+  \begin{CD}
+    \C^n_{\wrt{E_n}}                   @>t>T>        \C^n_{\wrt{E_n}}       \\
+    @V{\scriptstyle\identity} VV              @V{\scriptstyle\identity} VV \\
+    \C^n_{\wrt{D}}                   @>t>\hat{T}>        \C^n_{\wrt{D}}
+  \end{CD}
+\end{equation*}
+此时在相似等式
+$\hat{T}=PTP^{-1}$ 中，~$P$ 的列就是~$D$ 的元素。
+
+矩阵相似是矩阵等价的特殊情形，因此
+若两个矩阵相似，则它们矩阵等价。
+反过来又如何呢：~若它们是方阵，
+任意两个矩阵等价的矩阵一定相似吗？
+不；一个单位矩阵的矩阵等价类
+由该尺寸的所有非奇异矩阵组成，
+而前面的例题表明一个单位矩阵的相似类
+中唯一的成员是它自身。
+因此这两个矩阵
+矩阵等价但不相似。
+\begin{equation*}
+  T=
+  \begin{mat}[r]
+    1  &0  \\
+    0  &1
+  \end{mat}
+  \qquad
+  S=
+  \begin{mat}[r]
+    1  &2  \\
+    0  &3
+  \end{mat}
+\end{equation*}
+于是，某些矩阵等价类
+会分裂成两个或更多个相似类\Dash 相似给出了比矩阵等价更细的
+划分。
+这里展示了一些矩阵等价类被细分为
+相似类。
+\begin{center}
+  \includegraphics{jc/mp/ch5.4}
+\end{center}
+
+为了理解相似关系，我们将研究相似类。
+我们处理这个问题的方式，与我们此前研究
+行等价关系与矩阵等价关系的方式相同，即求出
+相似类的代表元的一种
+规范形式，% \appendrefs{representatives}\spacefactor=1000 %
+称为 Jordan 形式。
+有了这种规范形式，我们就能通过检查
+两个矩阵是否处于以同一个代表元为代表的类中，来判定它们是否相似。
+对于行等价与矩阵等价，我们都已看到，一种
+规范形式能让我们洞见同一类中的成员
+在哪些方面彼此相似
+（例如，两个同尺寸的矩阵
+当且仅当它们有相同的秩时矩阵等价）。
+%(Along the way we shall see ideas that are interesting and important
+%in their own right, not just as stepping stones to Jordan form.)
+
