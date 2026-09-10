@@ -1,0 +1,428 @@
+% Chapter 2, Section 3 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-10
+\section{基与维数}
+\index{basis|(}
+前一节的结尾指出：张成集在它线性无关时是最小的，
+而线性无关集在它张成整个空间时是最大的。
+所以“最小张成集”与“最大无关集”这两个概念恰好重合。
+本节将给这个想法命名，并研究它的性质。
+
+
+
+
+
+\subsection{基}
+\begin{definition} \label{def:basis}
+%<*df:basis>
+向量空间的\definend{基}\index{basis!definition}\index{vector space!basis}
+是由线性无关且张成该空间的向量组成的序列。
+%</df:basis>
+\end{definition}
+
+%<*BasisNotation>
+由于基是一个序列，
+也就是说，
+两组基即使所含元素相同而次序不同，
+也算不同的基，
+% the 
+% order of the elements is significant,
+所以我们用尖括号来记它：
+\( \sequence{\vec{\beta}_1,\vec{\beta}_2,\ldots} \).\appendrefs{sequences}\@ %\spacefactor=1000{}
+%</BasisNotation>
+（若由序列的元素构成的重集是无关的，则称该序列是线性无关的。
+类似地，
+若序列的元素构成的集合张成该空间，
+则称该序列张成该空间。）
+
+\begin{example}  \label{ex:FstBasisRTwo}
+这是 \( \Re^2 \) 的一个基。
+\begin{equation*}
+  \sequence{ \colvec{2 \\ 4},\colvec{1 \\ 1} }
+\end{equation*}
+它是线性无关的
+\begin{equation*}
+  c_1\colvec{2 \\ 4}+c_2\colvec{1 \\ 1}=\colvec{0 \\ 0}
+  \quad\implies\quad
+  \begin{linsys}{2}
+     2c_1  &+  &1c_2  &=  &0  \\
+     4c_1  &+  &1c_2  &=  &0  
+   \end{linsys}
+  \quad\implies\quad
+  c_1=c_2=0
+\end{equation*}
+并且它张成 \( \Re^2 \)。
+\begin{equation*}
+  \begin{linsys}{2}
+    2c_1  &+  &1c_2  &=  &x  \\
+    4c_1  &+  &1c_2  &=  &y  
+  \end{linsys}
+  \quad\implies\quad
+  c_2=2x-y\text{\ 而\ } c_1=(y-x)/2
+\end{equation*}
+\end{example}
+
+\begin{example}
+\( \Re^2 \) 的这个基与前面那个不同
+\begin{equation*}
+  \sequence{\colvec[r]{1 \\ 1},\colvec[r]{2 \\ 4}}
+\end{equation*}
+这是因为其中元素的次序不同。
+验证它是一个基，做法与前面的例题完全相同。
+\end{example}
+
+\begin{example}
+空间 \( \Re^2 \) 有许多基。
+另一个是这样的。
+\begin{equation*}
+  \sequence{ \colvec[r]{1 \\ 0},\colvec[r]{0 \\ 1} }
+\end{equation*}
+验证很容易。
+\end{example}
+
+\begin{definition} \label{df:StandardBasis}
+%<*df:StandardBasis>
+对任意 \( \Re^n \)
+\begin{equation*}
+   \stdbasis_n=\sequence{
+     \colvec[r]{1 \\ 0 \\ \vdotswithin{0} \\ 0},
+     \colvec[r]{0 \\ 1 \\ \vdotswithin{0} \\ 0},
+     \dots,\,
+     \colvec[r]{0 \\ 0 \\ \vdotswithin{0} \\ 1}}
+\end{equation*}
+是\definend{标准}\index{standard basis}%
+\index{basis!standard}基（也称为\definend{自然}基）。
+我们把这些向量记为 \( \vec{e}_1,\dots,\vec{e}_n \)。
+%</df:StandardBasis>
+\end{definition}
+
+\noindent 
+微积分教材把 $\Re^2$ 的标准基向量记作
+\( \vec{\imath} \) 和 \( \vec{\jmath} \)，而不是 $\vec{e}_1$
+和 $\vec{e}_2$；并把 \( \Re^3 \) 的标准基向量记作
+\( \vec{\imath} \)、\( \vec{\jmath} \) 和 \( \vec{k} \)，
+而不是 $\vec{e}_1$、$\vec{e}_2$ 和 $\vec{e}_3$。
+注意 \( \vec{e}_1 \) 在讨论 \( \Re^3 \) 时的含义
+与在讨论 \( \Re^2 \) 时的含义不同。
+
+\begin{example}  \label{ex:BasisForCosPlusSin}
+考虑由实变量 $\theta$ 的函数组成的空间
+\( \set{a\cdot\cos\theta+b\cdot\sin\theta\suchthat a,b\in\Re} \)。
+它的一个自然基是
+$ \sequence{\cos\theta, \sin\theta}=\sequence{1\cdot\cos\theta+0\cdot\sin\theta,
+             0\cdot\cos\theta+1\cdot\sin\theta}
+    $。
+这个空间一个更一般的基是
+\( \sequence{\cos\theta-\sin\theta,
+             2\cos\theta+3\sin\theta} \)。
+这两个都是基的验证见
+\nearbyexercise{exer:VerifBasesCosPlusSin}。
+\end{example}
+
+\begin{example}
+三次多项式向量空间 \( \polyspace_3 \) 的一个自然基是
+\( \sequence{1,x,x^2,x^3} \)。
+这个空间的另外两个基是 \( \sequence{x^3,3x^2,6x,6} \)
+和 \( \sequence{1,1+x,1+x+x^2,1+x+x^2+x^3} \)。
+验证它们各自都线性无关且张成整个空间，这很容易。
+\end{example}
+
+\begin{example}
+平凡空间\index{trivial space}\index{vector space!trivial} 
+$\set{\zero}$ 只有一个基，即空的基
+\( \sequence{} \)。
+\end{example}
+
+\begin{example}
+由有限次多项式构成的空间有一个含有无穷多个元素的基
+\( \sequence{1,x,x^2,\ldots} \)。
+\end{example}
+
+\begin{example}
+基我们以前就见过。
+在第一章中，对于诸如这样的齐次方程组
+\begin{equation*}
+   \begin{linsys}{4}
+      x  &+  &y  &   &   &-   &w   &=  &0  \\
+         &   &   &   &z  &+   &w   &=  &0  
+   \end{linsys}
+\end{equation*}
+我们通过参数化来描述其解集。
+\begin{equation*}
+  \set{\colvec[r]{-1 \\ 1 \\ 0 \\ 0}y
+       +\colvec[r]{1 \\ 0 \\ -1 \\ 1}w
+       \suchthat y,w\in\Re }
+\end{equation*}
+于是，解的向量空间就是
+一个二元集合的张成。
+这个由两个向量组成的集合也是线性无关的，这容易验证。
+因此，解集是 \( \Re^4 \) 的一个子空间，以上面这两个向量
+组成它的一个基。
+\end{example}
+
+\begin{example}
+参数化不仅能求出齐次方程组解集的基，
+也能求出其他向量空间的基。
+为求 $\matspace_{\nbyn{2}}$ 的这个子空间的基
+\begin{equation*}
+  \set{\begin{mat}
+         a  &b  \\
+         c  &0
+       \end{mat} \suchthat a+b-2c=0}
+\end{equation*}
+我们把条件改写为 $a=-b+2c$。
+\begin{equation*}
+  \set{\begin{mat}
+         -b+2c  &b  \\
+          c     &0
+       \end{mat} \suchthat b,c \in \Re}
+  =\set{b\begin{mat}[r]
+         -1  &1  \\
+          0  &0
+       \end{mat}+
+       c\begin{mat}[r]
+          2  &0  \\
+          1  &0
+       \end{mat} \suchthat b,c \in \Re}
+\end{equation*}
+于是，下面是一个自然的候选基。
+\begin{equation*}
+  \sequence{\begin{mat}[r]
+         -1  &1  \\
+          0  &0
+       \end{mat},
+       \begin{mat}[r]
+          2  &0  \\
+          1  &0
+       \end{mat} }
+\end{equation*}
+上面的推导表明它张成该空间。
+它的线性无关性也容易证明。
+\end{example}
+
+再考虑 \nearbyexample{ex:FstBasisRTwo}。
+% To verify linearly independence we looked at 
+% linear combinations of the set's members that total to
+% the zero vector 
+% $c_1\vec{\beta}_1+c_2\vec{\beta}_2=\binom{0}{0}$.
+% The resulting 
+% calculation shows that such a combination is unique,
+% that $c_1$ must be $0$ and $c_2$ must be $0$.
+为了验证该集合张成空间，我们考察其和为空间中
+一个成员的线性组合
+$c_1\vec{\beta}_1+c_2\vec{\beta}_2=\binom{x}{y}$。
+在那个例子中我们只指出这样的组合存在，即对每个 $x,y$
+都存在 $c_1,c_2$，但事实上那个计算还表明这个组合是
+唯一的：~$c_1$ 必定是 $(y-x)/2$ 而 $c_2$ 必定是 $2x-y$。
+ 
+\begin{theorem} \label{th:BasisIffUniqueRepWRT}
+%<*th:BasisIffUniqueRepWRT>
+在任何向量空间中，一个子集是基\index{basis}
+当且仅当空间中的每个向量都可以按一种且仅一种方式
+表示为该子集元素的线性组合。
+%</th:BasisIffUniqueRepWRT>
+\end{theorem}
+
+\noindent 如果两个线性组合具有相同的加项而只是次序不同，
+或者仅在添加或删去形如
+“\( 0\cdot\vec{\beta} \)”的项上有差别，
+我们就认为它们是相同的。
+
+
+\begin{proof}
+%<*pf:BasisIffUniqueRepWRT0>
+一个序列是基，当且仅当其中的向量构成一个张成的且线性无关的集合。
+一个子集是张成集，当且仅当空间中的每个向量都可以按至少一种方式
+表示为该子集元素的线性组合。
+所以我们只需证明：
+一个张成的子集是线性无关的，当且仅当空间中的每个向量
+都可以按至多一种方式表示为该子集元素的线性组合。
+%</pf:BasisIffUniqueRepWRT0>
+
+%<*pf:BasisIffUniqueRepWRT1>
+考虑把一个向量表示为子集成员的线性组合的两种方式。
+将两个和式重排，并在必要时添加一些 \( 0\cdot\vec{\beta}_i \) 项，
+使得两个和式按相同的次序组合相同的 \( \vec{\beta} \)：
+\( \vec{v}=\lincombo{c}{\vec{\beta}} \) 与
+\( \vec{v}=\lincombo{d}{\vec{\beta}} \)。
+于是
+\begin{equation*}
+   \lincombo{c}{\vec{\beta}}=\lincombo{d}{\vec{\beta}}
+\end{equation*}
+成立当且仅当
+\begin{equation*}
+   (c_1-d_1)\vec{\beta}_1+\dots+(c_n-d_n)\vec{\beta}_n=\zero
+\end{equation*}
+成立。
+所以，断言下面方程中每个系数都为零，
+就等价于断言对每个 \( i \) 都有 \( c_i=d_i \)，
+也就是说，每个向量都可以按唯一的方式表示为
+这些 \( \vec{\beta} \) 的线性组合。
+%</pf:BasisIffUniqueRepWRT1>
+\end{proof}
+
+\begin{definition} \label{def:RepresentingVectors}
+%<*df:RepresentingVectors>
+在以 $B$ 为基的向量空间中，
+\definend{\( \vec{v} \) 关于 \( B \) 的表示}%
+\index{representation!of a vector}\index{vector!representation of} 是
+用来把 $\vec{v}$ 表示为基向量的线性组合的系数
+所构成的列向量：
+\begin{equation*}
+  \rep{\vec{v}}{B}
+  =
+  \colvec{c_1 \\ c_2 \\ \vdots \\ c_n}_{B}
+\end{equation*}
+其中
+\( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 且
+\( \vec{v}=\lincombo{c}{\vec{\beta}} \)。
+这些 \( c \) 称为
+\definend{\( \vec{v} \) 关于 \( B \) 的坐标}%
+\index{coordinates!with respect to a basis}。
+%</df:RepresentingVectors>
+\end{definition}
+
+\begin{example}  \label{ex:RepPolyWRTA Basis}
+在 \( \polyspace_3 \) 中，关于基
+\( B=\sequence{1,2x,2x^2,2x^3} \)，
+\( x+x^2 \) 的表示是
+\begin{equation*}
+  \rep{x+x^2}{B}=\colvec[r]{0 \\ 1/2 \\ 1/2 \\ 0}_B
+\end{equation*}
+这是因为 $x+x^2=0\cdot 1+(1/2)\cdot 2x+(1/2)\cdot 2x^2+0\cdot 2x^3$。
+而关于另一个基 \( D=\sequence{1+x,1-x,x+x^2,x+x^3} \)，
+表示就不同了。
+\begin{equation*}
+  \rep{x+x^2}{D}=\colvec[r]{0 \\ 0 \\ 1 \\ 0}_D
+\end{equation*}
+\end{example}
+
+\begin{remark}
+\nearbydefinition{def:basis} 要求基是一个序列，
+这样我们才能按某个次序写出这些坐标。
+\end{remark}
+
+当只涉及一个基时，我们常常省略标明该基的下标。
+
+\begin{example}
+在 \( \Re^2 \) 中，为求向量 $\vec{v}=\binom{3}{2}$ 关于基
+\begin{equation*}
+  B=\sequence{
+              \colvec[r]{1 \\ 1},
+              \colvec[r]{0 \\ 2} }
+\end{equation*}
+的坐标，求解
+\begin{equation*}
+  c_1\colvec[r]{1 \\ 1}
+  +c_2\colvec[r]{0 \\ 2}
+  =
+  \colvec[r]{3 \\ 2}
+\end{equation*}
+得到 $c_1=3$ 与 $c_2=-1/2$。
+\begin{equation*}
+  \rep{\vec{v}}{B}=\colvec[r]{3 \\ -1/2}
+\end{equation*}
+\end{example}
+
+把表示写成一列，推广了熟悉的情况：~在 \( \Re^n \) 中，
+关于标准基 \( \stdbasis_n \)，
+起点在原点、终点在
+\( (v_1,\dots,v_n) \) 的向量就有这样的表示。
+\begin{equation*}
+  \rep{\colvec{v_1 \\ \vdots \\ v_n}}{\stdbasis_n}
+    =
+  \colvec{v_1 \\ \vdots \\ v_n}_{\stdbasis_n}
+\end{equation*}
+下面是一个例子。
+\begin{equation*}
+  \rep{\colvec{-1 \\ 1}}{\stdbasis_{n}}
+  =\colvec{-1 \\ 1}
+\end{equation*}
+
+\begin{remark}  \label{rem:RepNotation}
+$\rep{\vec{v}}{B}$ 这个记号不是标准的。
+最常见的记号是 $[\vec{v}]_B$，但 $\rep{\vec{v}}{B}$
+有一个优点：不容易被误解或被忽视。
+\end{remark}
+
+说这个列表示该向量，其含义是：
+一组向量之间成立某个线性关系，
+当且仅当这组表示之间成立该线性关系。
+
+\begin{lemma}  \label{lem:LinearRelRepresented}
+%<*lm:LinearRelRepresented>
+设 $B$ 是一个有 $n$~个元素的基，则对任意一组向量，
+$a_1\vec{v}_1+\cdots+a_k\vec{v}_k=\vec{0}_{V}$ 当且仅当
+$a_1\rep{\vec{v}_1}{B}+\cdots+a_k\rep{\vec{v}_k}{B}=\vec{0}_{\Re^n}$。
+%</lm:LinearRelRepresented>
+\end{lemma}
+
+\begin{proof}
+取定一个基 \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)，
+并设
+\begin{equation*}
+  \rep{\vec{v}_1}{B}=\colvec{c_{1,1} \\ \vdots \\ c_{n,1}}
+  \quad\ldots\quad
+  \rep{\vec{v}_k}{B}=\colvec{c_{1,k} \\ \vdots \\ c_{n,k}}
+\end{equation*}
+于是 $\vec{v}_1=c_{1,1}\vec{\beta}_1+\dots+c_{n,1}\vec{\beta}_n$，等等。
+那么 $a_1\vec{v}_1+\dots+a_k\vec{v}_k=\vec{0}$ 就等价于下面这些式子。
+\begin{align*}
+  \vec{0}
+  &=a_1\cdot(c_{1,1}\vec{\beta}_1+\dots+c_{n,1}\vec{\beta}_n)
+    +\dots+
+    a_k\cdot(c_{1,k}\vec{\beta}_1+\dots+c_{n,k}\vec{\beta}_n)  \\
+  &=(a_1c_{1,1}+\dots+a_kc_{1,k})\cdot\vec{\beta}_1
+    +\dots+
+    (a_1c_{n,1}+\dots+a_kc_{n,k})\cdot\vec{\beta}_n 
+\end{align*}
+显然，若这些系数为零，则下面的方程成立。  
+但由于 \( B \) 是一个基，\nearbytheorem{th:BasisIffUniqueRepWRT}
+表明：下面的方程成立当且仅当这些系数为零。
+所以这个关系等价于
+\begin{align*}
+    a_1c_{1,1}+\dots+a_kc_{1,k} &=0    \\
+                               &\alignedvdots \\ 
+    a_1c_{n,1}+\dots+a_kc_{n,k} &=0
+\end{align*}
+这就是等价地改写成的列向量形式。
+\begin{equation*}
+  a_1\colvec{c_{1,1} \\ \vdots \\ c_{n,1}}
+  +\dots+
+  a_k\colvec{c_{1,k} \\ \vdots \\ c_{n,k}}
+  =\colvec{0 \\ \vdots \\ 0}
+\end{equation*}
+注意，不仅一个关系对一组向量成立当且仅当它对另一组成立，
+而且这是同一个关系\Dash 这些 \( a_i \) 是相同的。
+\end{proof}
+
+\begin{example}
+\nearbyexample{ex:RepPolyWRTA Basis} 求出了
+\( x+x^2\in\polyspace_3 \) 关于
+\( B=\sequence{1,2x,2x^2,2x^3} \) 的表示。
+\begin{equation*}
+  \rep{x+x^2}{B}=\colvec[r]{0 \\ 1/2 \\ 1/2 \\ 0}_B
+\end{equation*}
+关系式
+\begin{equation*}
+  2\cdot(x+x^2)-1\cdot(2x)-2\cdot(x^2) = 0+0x+0x^2+0x^3
+\end{equation*}
+由下面这个式子表示。
+\begin{equation*}
+  2\cdot\rep{x+x^2}{B}-\rep{2x}{B}-2\cdot\rep{x^2}{B}
+  =2\cdot\colvec{0 \\ 1/2 \\ 1/2 \\ 0}
+   -\colvec{0 \\ 1 \\ 0 \\ 0}
+   -2\cdot\colvec{0 \\ 0 \\ 1/2 \\ 0}
+  =\colvec{0 \\ 0 \\ 0 \\ 0}
+\end{equation*}
+
+\end{example}
+
+表示的主要用途要到后面才出现，但这个定义放在这里，
+是因为每个向量都可以按唯一的方式表示为基向量的线性组合，
+这一事实是基的一个关键性质，
+同时也是为了帮助阐明一个观点。
+除其他用途外，为了计算坐标，我们将把注意力
+限制在基只含有限多个元素的空间上。
+这将从下一小节开始。
+

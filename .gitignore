@@ -45,3 +45,6 @@ src/slides/*.zip
 
 
 src/zh/book-zh.pdf
+
+# ---- independent sample repo (has its own git) ----
+sample/

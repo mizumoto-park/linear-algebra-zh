@@ -1,0 +1,587 @@
+% Chapter 1, Topic from _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-09
+\topic{网络分析}
+\index{networks|(}
+下图展示了某辆汽车电气网络的一部分。
+电池在左侧，画作叠起的线段。 
+导线是线条，为了整齐而画成直线并带有直角。
+每盏灯是一个围着一条回路的圆圈。
+\begin{center}
+  \includegraphics{gr/mp/ch1.46}
+\end{center}
+这样的网络的设计者需要回答诸如这样的问题：~当远光灯与刹车灯都亮起时， 
+有多大电流流过？
+我们将使用线性方程组来分析简单的
+电气网络。 
+
+为进行分析，我们需要关于电的两件事实
+和关于电气网络的两件事实。
+
+第一件事实是：电池就像一个泵， 
+在存在通路时提供一个促使电流动的力。  
+我们说电池提供了一个
+\definend{电势}。\index{potential, electric}
+% Of course, this network accomplishes its function when, as the electricity  
+% flows, it goes through a light.
+例如，当驾驶员踩下刹车时，开关接通，
+从而在图中左侧构成一个回路，
+其中包括刹车灯。 
+一旦回路存在，电池的力就会在
+该回路中产生一个流动，称为\definend{电流}，把灯点亮。
+
+第二件关于电的事实是：在某些
+类型的网络元件中，
+流动的量与电池提供的力成正比。
+也就是说，对每个这样的元件都有一个数，  
+即它的\definend{电阻}，\index{resistance}
+使得电势等于流量乘以电阻。
+电势以\definend{伏特}计量，
+流动的速率以\definend{安培}计量，
+而对流动的阻力以\definend{欧姆}计量；
+这些单位的定义使得
+$\mbox{伏特}=\mbox{安培}\cdot\mbox{欧姆}$。
+
+具有这一性质的元件，
+即电压–电流响应曲线是过原点的一条直线的元件，
+是\definend{电阻器}。\index{resistor}
+（并非每个元件都有这一性质。
+例如，上面所示的灯泡
+发热时，其电阻值会变化。）
+一个例子是：若一个电阻器的阻值为$2$~欧姆，
+那么把它接到$12$~伏特的电池上
+会产生$6$~安培的流动。
+反之，若有
+$2$~安培的电流流过该电阻器，则其两端必有
+$4$~伏特的电势差。 
+这就是该电阻器两端的\definend{电压降}\index{voltage drop}。
+看待我们这里所考虑的电气回路的
+一种方式是：电池提供电压升，
+而其他元件都是电压降。
+
+关于网络我们所需要的事实是  
+\textit{Kirchhoff 电流定律}，即对网络中任一点，流入的流量
+     等于流出的流量；
+以及\textit{Kirchhoff 电压定律}，即沿任一回路，总压降等于
+     总压升。\index{Kirchhoff's Laws}\index{networks!Kirchhoff's Laws}
+% In the above network there is only one voltage rise, at the battery, but
+% some networks have more than one.
+
+我们从下面的网络开始。
+它有一个提供流动电势的电池
+和三个电阻器，电阻器画作锯齿形。
+当元件像这里这样被依次连接时，
+它们是\definend{串联}的。\index{circuits!series}
+\begin{center}
+  \includegraphics{gr/mp/ch1.35}
+\end{center}
+由 Kirchhoff 电压定律，因为电压升是
+$20$~伏特，总电压降也必为$20$~伏特。
+由于从起点到终点的电阻是
+$10$~欧姆（连接各元件的导线的电阻可忽略），
+电流为$(20/10)=2$~安培。 
+再由 Kirchhoff 电流定律，每个电阻器上都有$2$~安培通过。
+因此各电压降为： 
+$2$~欧姆电阻器上$4$~伏特，
+$5$~欧姆电阻器上$10$~伏特，
+以及$3$~欧姆电阻器上$6$~伏特。
+
+前面的网络足够简单，我们没有用到线性方程组，
+但下一个更复杂。
+这里电阻器是\definend{并联}的。\index{circuits!parallel}
+% This network is more like the car lighting diagram shown earlier.
+\begin{center}
+  \includegraphics{gr/mp/ch1.36}
+\end{center}
+我们先如下标记各支路。
+令并联部分左支路的
+电流为$i_1$，右支路的为$i_2$，并且
+令通过电池的电流为$i_0$。
+% We are following Kirchoff's Current Law; for instance, all points in the 
+% right branch have the same current, which we call $i_2$.
+注意我们无需知道 
+流动的实际方向\Dash 若电流沿与我们箭头
+相反的方向流动，
+则我们会在解中得到一个负数。
+\begin{center}
+  \includegraphics{gr/mp/ch1.37}
+\end{center}
+将电流定律用于右上方的分流点，
+得到$i_0=i_1+i_2$。 
+用于右下方的分流点则得到$i_1+i_2=i_0$。  
+在从电池顶部出发、
+沿并联部分左支路向下、
+再回到电池底部的回路中，电压
+升为$20$，而电压降为$i_1\cdot 12$，故
+电压定律给出$12i_1=20$。
+类似地，从电池到右支路再回到电池的
+回路给出$8i_2=20$。
+而在围绕并联部分
+左右支路打转的回路中
+（我们任意取顺时针方向），
+电压升为$0$，电压降为$8i_2-12i_1$，
+故$8i_2-12i_1=0$。
+\begin{displaymath}
+  \begin{linsys}{3}
+   i_0&- &i_1    &-  &i_2   &=  &0 \\
+  -i_0&+ &i_1    &+  &i_2   &=  &0  \\
+      &  &12i_1  &   &      &=  &20  \\
+      &  &       &   &8i_2  &=  &20  \\
+      &  &-12i_1 &+  &8i_2  &=  &0  
+  \end{linsys}
+\end{displaymath}
+解
+为$i_0=25/6$、$i_1=5/3$与$i_2=5/2$，单位均为安培。
+（顺带一提，这说明冗余的方程
+在实际中也可能出现。） 
+
+Kirchhoff 定律可以
+确定非常复杂的网络的电气性质。
+下一张图显示了
+五个电阻器，其数值以欧姆为单位，以
+\definend{串–并联}方式连接。\index{circuits!series-parallel} 
+\begin{center}
+  \includegraphics{gr/mp/ch1.38}
+\end{center}
+这是一个\definend{Wheatstone 电桥}\index{Wheatstone bridge} 
+（见\nearbyexercise{exer:WheatstoneBr}）。
+为分析它，我们可以这样放置箭头。
+\begin{center}
+  \includegraphics{gr/mp/ch1.39}
+\end{center}
+将 Kirchhoff 电流定律用于
+顶部节点、左侧节点、右侧节点和底部节点，得到
+下列各式。
+\begin{align*}
+   i_0     &=  i_1+i_2  \\
+   i_1     &=  i_3+i_5  \\
+   i_2+i_5 &=  i_4      \\
+   i_3+i_4 &=  i_0
+\end{align*} 
+将 Kirchhoff 电压定律
+用于内部回路（即$i_0$到~$i_1$到~$i_3$到~$i_0$的回路）、
+外部回路
+以及不涉及电池的上部回路，得到下列各式。  
+\begin{align*}
+      5i_1+10i_3  &= 10   \\
+      2i_2+4i_4   &= 10   \\
+      5i_1+50i_5-2i_2  &= 0     
+\end{align*} 
+这些方程足以确定解
+$i_0=7/3$、$i_1=2/3$、$i_2=5/3$、
+$i_3=2/3$、$i_4=5/3$与$i_5=0$。 
+
+我们可以用这种方式理解许多类型的网络。
+例如，练习中分析了若干街道网络。
+ 
+\begin{exercises}
+  % \item[] \textit{Many of the systems for these problems
+  %     are mostly easily solved on a computer.}
+  \item 
+    计算每个网络各部分中的电流（安培数）。
+    \begin{exparts}
+      \partsitem 这是一个简单的网络。
+          \begin{center}
+             \includegraphics{gr/mp/ch1.40}
+        \end{center}
+      \partsitem 将它与上面讨论过的并联情形比较。
+          \begin{center}
+             \includegraphics{gr/mp/ch1.41}
+        \end{center}
+      \partsitem 这是一个相当复杂的网络。
+          \begin{center}
+           \includegraphics{gr/mp/ch1.42}
+        \end{center}
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 总电阻为$7$~欧姆。
+          在$9$~伏特的电势下，流量将为$9/7$~安培。
+          顺带一提，此时各电压降将为：~$3$~欧姆电阻器上$27/7$~伏特，
+          而两个$2$~欧姆电阻器上各为$18/7$~伏特。        
+        \partsitem 处理这个网络的一种方法是注意到左侧的$2$~欧姆
+          电阻器上有$9$~伏特的电压降
+          （因而通过它的流量为$9/2$~安培），而
+          右侧剩余部分的电压降也为
+          $9$~伏特，于是我们可以像上一小题那样分析它。
+          我们也可以使用线性方程组。
+          \begin{center}
+            \includegraphics{gr/mp/ch1.48}
+          \end{center}
+          使用图中的变量，我们得到线性方程组
+          \begin{equation*}
+            \begin{linsys}{4}
+              i_0  &- &i_1  &- &i_2  &  &    &= &0  \\
+                   &  &i_1  &+ &i_2  &- &i_3 &= &0  \\
+                   &  &2i_1 &  &     &  &    &= &9  \\  
+                   &  &     &  &7i_2 &  &    &= &9       
+            \end{linsys}
+          \end{equation*}
+          它给出唯一解$i_0=81/14$、$i_1=9/2$、$i_2=9/7$
+          与$i_3=81/14$。
+
+          当然，第一段与第二段给出相同的答案。
+          本质上，在第一段中我们用一种不如高斯消元法系统的方法
+          求解了该线性方程组：先解出一些变量，再代入。  
+        \partsitem
+          使用这些变量
+          \begin{center}
+            \includegraphics{gr/mp/ch1.49}
+          \end{center}
+          足以给出唯一解的一个线性方程组如下。
+          \begin{equation*}
+            \begin{linsys}{7}
+              i_0  &- &i_1  &- &i_2  &  &    &  &    & &    & &    &= &0  \\
+                   &  &     &  &i_2  &- &i_3 &- &i_4 & &    & &    &= &0  \\
+                   &  &     &  &     &  &i_3 &+ &i_4 &-&i_5 & &    &= &0  \\  
+                   &  &i_1  &  &     &  &    &  &    &+&i_5 &-&i_6 &= &0  \\  
+                   &  &3i_1 &  &     &  &    &  &    & &    & &    &= &9  \\  
+                   &  &     &  &3i_2 &  &    &+ &2i_4&+&2i_5& &    &= &9  \\  
+                   &  &     &  &3i_2 &+ &9i_3&  &    &+&2i_5& &    &= &9  
+            \end{linsys}
+          \end{equation*}
+          （后三个方程来自包含
+            $i_0$–$i_1$–$i_6$的回路、
+            包含$i_0$–$i_2$–$i_4$–$i_5$–$i_6$的回路、
+            以及包含$i_0$–$i_2$–$i_3$–$i_5$–$i_6$的回路。）
+           Octave给出
+            $i_0=4.35616$、$i_1=3.00000$、$i_2=1.35616$、
+            $i_3=0.24658$、$i_4=1.10959$、$i_5=1.35616$、$i_6=4.35616$。
+      \end{exparts}
+    \end{answer}
+  \item 
+    在我们分析的第一个网络中，三个电阻器  
+    串联，我们直接把它们相加，得到
+    它们合起来像一个$10$~欧姆的单一电阻器。
+    对并联电路我们可以做类似的事情。 
+    在所分析的第二个电路中，
+    \begin{center}
+      \includegraphics{gr/mp/ch1.36}
+    \end{center}
+    通过电池的电流为$25/6$~安培。
+    于是，并联部分
+    \definend{等效}\index{resistance!equivalent}
+    于一个阻值为
+    $20/(25/6)=4.8$~欧姆的单一电阻器。 
+    \begin{exparts}
+      \partsitem 若把$12$~欧姆的电阻器换成$5$~欧姆，
+         等效电阻是多少？
+      \partsitem 若两者各为$8$~欧姆，
+         等效电阻是多少？
+      \partsitem 若并联的两个电阻器分别为$r_1$~欧姆与$r_2$~欧姆，
+         求等效电阻的公式。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+          使用先前分析中的变量，
+          \begin{displaymath}
+            \begin{linsys}{3}
+              i_0&- &i_1    &-  &i_2   &=  &0 \\
+             -i_0&+ &i_1    &+  &i_2   &=  &0  \\
+                 &  &5i_1   &   &      &=  &20  \\
+                 &  &       &   &8i_2  &=  &20  \\
+                 &  &-5i_1  &+  &8i_2  &=  &0  
+            \end{linsys}
+          \end{displaymath}
+          此时各支路中流过的电流
+          为$i_2=20/8=2.5$、$i_1=20/5=4$与$i_0=13/2=6.5$，单位均为安培。
+          于是并联部分表现得像一个
+          阻值为$20/(13/2)\approx 3.08$~欧姆的单一电阻器。
+        \partsitem 
+          类似的分析给出
+          $i_2=i_1=20/8=2.5$与$i_0=40/8=5$~ 安培。
+          等效电阻为$20/5=4$~欧姆。
+        \partsitem 
+          再一次类似的分析给出
+          $i_2=20/r_2$、$i_1=20/r_1$、
+          与$i_0=20(r_1+r_2)/(r_1r_2)$，单位均为安培。
+          于是并联部分表现得像一个
+          阻值为$20/i_0=r_1r_2/(r_1+r_2)$~欧姆的单一电阻器。
+          （这个等式常被表述为：~等效
+          电阻~$r$满足$1/r=(1/r_1)+(1/r_2)$。）
+      \end{exparts}
+    \end{answer}
+% Commented out as bulbs are not linear in resistance as they heat.
+%   \item 
+%     For the car dashboard example that opens this Topic, solve
+%     for these amperages
+%     (assume that all resistances are $2$~ohms).
+%     \begin{exparts}
+%      \partsitem If the driver is stepping on the brakes, so the
+%        brake lights are on, and no other circuit is closed.
+%      \partsitem If the hi-beam headlights and the brake lights are on.
+% %      \partsitem If the hi-beam headlights, brake lights, 
+% %        and dome light are all on.
+% %        (Perhaps the driver, realizing that the dome light is on and so
+% %        that the door must be open, has stepped on the brake!)
+%     \end{exparts}
+%     \begin{answer}
+%       \begin{exparts}
+%         \partsitem The circuit looks like this.
+%           \begin{center}
+%             \includegraphics{gr/mp/ch1.52}
+%           \end{center}
+%         \partsitem The circuit looks like this.
+%           \begin{center}
+%             \includegraphics{gr/mp/ch1.53}
+%           \end{center}
+%       \end{exparts}
+%     \end{answer}
+\item \label{exer:WheatstoneBr} 
+   \definend{Wheatstone 电桥}\index{Wheatstone bridge}
+   用于测量电阻。 
+   \begin{center}
+     \includegraphics{gr/mp/ch1.47}
+   \end{center}
+   证明：在此电路中，若流过
+   $r_g$的电流为零，则$r_4=r_2r_3/r_1$。
+   （使用该器件时，把未知
+   电阻放在$r_4$处。
+   $r_g$处是一个显示电流的仪表。
+   我们调节三个电阻$r_1$、$r_2$与$r_3$\Dash 通常
+   它们每个都带有经校准的旋钮\Dash 直到
+   中间的电流读数为$0$。
+   然后该方程就给出$r_4$的值。）
+   \begin{answer}
+     将 Kirchhoff 电流定律用于
+     $r_1$、$r_2$与~$r_g$相汇的节点，以及
+     $r_3$、$r_4$与~$r_g$相汇的节点，得到下列各式。
+     \begin{equation*}
+       \begin{linsys}{3}
+         i_1 &- &i_2 &- &i_g &= &0  \\
+         i_3 &- &i_4 &+ &i_g &= &0  
+       \end{linsys}
+     \end{equation*}
+     将 Kirchhoff 电压定律用于右上方的回路
+     以及右下方的回路，得到下列各式。 
+     \begin{equation*}
+       \begin{linsys}{3}
+         i_3r_3 &- &i_gr_g &- &i_1r_1 &= &0  \\
+         i_4r_4 &- &i_2r_2 &+ &i_gr_g &= &0  
+       \end{linsys}
+     \end{equation*}
+     假定$i_g$为零，即得$i_1=i_2$、$i_3=i_4$、
+     $i_1r_1=i_3r_3$以及$i_2r_2=i_4r_4$。
+     然后整理最后一个等式
+     \begin{equation*}
+       r_4=\frac{i_2r_2}{i_4}\cdot\frac{i_3r_3}{i_1r_1}
+     \end{equation*}
+     再约去各个$i$，便得到所要的结论。
+   \end{answer}
+   %  \item Prove Th\`evenin's Theorem.
+% \item[]\textit{There are networks other than electrical ones, and 
+%               we can ask how well Kirchhoff's laws apply to them.
+%               The remaining questions consider an extension to 
+%               networks of streets.}
+\item 
+    考虑这个环形交叉口。
+    \begin{center}
+      \includegraphics{gr/mp/ch1.43}
+     \end{center}
+     下表是交通量，单位为每十分钟通过的车辆数。    
+     \begin{center}
+       \begin{tabular}{r|ccc}
+        \multicolumn{1}{c}{\ } % get rid of vert bar
+                            &\textit{North}  
+                            &\textit{Pier}  
+                            &\textit{Main}  \\
+         \cline{2-4}
+         \begin{tabular}{@{}r@{}} \textit{驶入} \\ \textit{驶出} \end{tabular}
+         &\begin{tabular}{@{}r@{}} $100$ \\ $75$ \end{tabular}
+         &\begin{tabular}{@{}r@{}} $150$ \\ $150$ \end{tabular}
+         &\begin{tabular}{@{}r@{}} $25$ \\  $50$ \end{tabular}
+         % rows:
+         % \textit{into}      &$100$           &$150$          &$25$      \\
+         % \textit{out of}    &$75$            &$150$          &$50$       
+       \end{tabular}
+    \end{center}
+    我们可以建立方程来刻画车流如何流动。   
+    \begin{exparts}
+      \partsitem 
+         将 Kirchhoff 电流定律改造后用于这一情形。
+         这是一个合理的建模假设吗？
+      \partsitem 
+         用变量标记环中三条位于道路之间的弧：~令 
+         $i_1$为从 North Avenue 驶向 Main 的车辆数，
+         令$i_2$为在 Main 与 Pier 之间行驶的车辆数，
+         令$i_3$为在 Pier 与 North 之间的车辆数。
+         使用改造后的定律，
+         对三个进出路口的每一个，写出一个
+         描述该节点车流的方程。
+      \partsitem 
+         求解该方程组。
+      \partsitem
+         解释你的解。
+      \partsitem
+         针对这一情形重新表述电压定律。
+         它有多大合理性？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+           一种改造是：~在任一路口，流入的流量等于
+           流出的流量。
+           在这种情形下它看起来确实合理，
+           除非车辆长时间滞留在某个路口。
+        \partsitem
+           由于有$50$辆车经 Main 驶出而只有$25$~辆车驶入，
+           故$i_1-25=i_2$。
+           类似地，Pier 的进出平衡意味着$i_2=i_3$，
+           而 North 给出$i_3+25=i_1$。 
+           我们得到如下方程组。
+           \begin{equation*}
+             \begin{linsys}{3}
+               i_1  &-  &i_2  &   &     &=  &25  \\
+                    &   &i_2  &-  &i_3  &=  &0   \\
+              -i_1  &   &     &+  &i_3  &=  &-25
+              \end{linsys}
+           \end{equation*}
+        \partsitem 
+           行变换$\rho_1+\rho_2$与$\rho_2+\rho_3$
+           导出结论：有无穷多解。
+           以$i_3$为参数，解集如下。
+           \begin{equation*}
+             \set{\colvec[c]{25+i_3  \\ i_3  \\i_3} \suchthat i_3\in\Re}
+           \end{equation*}
+           由于问题是以车辆数来陈述的，
+           我们可以把$i_3$限制为自然数。
+        \partsitem
+           如果我们想象一个最初为空、具有给定输入/输出行为的
+           环形交叉口，那么可以叠加$i_3$辆无限绕行的
+           汽车，得到一个新的解。
+        \partsitem
+           一个合适的重述可能是：~驶入
+           环形交叉口的车辆数必须等于驶出的车辆数。
+           这一条的合理性就不那么清楚了。
+           在五分钟的时间段内，我们可能发现
+           驶入的车辆比驶出的多出五六辆，
+           尽管题中的进出表
+           确实满足这一性质。
+           无论如何，它对获得唯一解没有帮助，
+           因为要做到这一点，我们需要知道无限绕行的车辆数。
+      \end{exparts}
+    \end{answer}
+  \item 
+     这是一个街道网络。 
+          \begin{center}
+            \includegraphics{gr/mp/ch1.44}
+             \end{center}
+          我们可以观察到每小时驶入该网络
+          各入口以及驶出各出口的车流。
+          \begin{center}
+             \begin{tabular}{r|ccccc}
+                \multicolumn{1}{c}{}  
+                  &\textit{east Winooski}  
+                  &\textit{west Winooski}  
+                  &\textit{Willow}  
+                  &\textit{Jay} 
+                  &\textit{Shelburne} \\ 
+                  \cline{2-6}
+               \begin{tabular}{@{}r@{}} \textit{驶入} \\ \textit{驶出} \end{tabular} 
+               &\begin{tabular}{@{}r@{}} $80$ \\ $30$ \end{tabular} 
+               &\begin{tabular}{@{}r@{}} $50$ \\ $5$ \end{tabular} 
+               &\begin{tabular}{@{}r@{}} $65$ \\ $70$ \end{tabular} 
+               &\begin{tabular}{@{}r@{}} -- \\ $55$ \end{tabular} 
+               &\begin{tabular}{@{}r@{}} $40$ \\ $75$ \end{tabular} 
+               % rows:
+               % \textit{into}      &80    &50    &65     &--    &40      \\
+               % \textit{out of}    &30    &5     &70     &55    &75      
+             \end{tabular}
+          \end{center}
+          （注意，要到达 Jay，
+          汽车必须先经由其他道路进入该网络，这就是
+          表中没有`驶入 Jay'条目的原因。
+          还要注意，在长时间内，
+          总量入必须近似等于总量
+          出，这就是两行都合计为$235$~辆的原因。）
+          一旦进入网络，车流可以以不同方式流动，
+          也许挤满 Willow 而 Jay 几乎空着，
+          也许以其他某种方式流动。
+          Kirchhoff 定律给出了对这种自由的限制。
+    \begin{exparts}
+       \partsitem 通过为每个街区设置一个变量、
+          建立方程并求解，确定该街道网络内部
+          车流所受的限制。
+          注意有些街道是单行道。
+          （\textit{提示：}~这不会给出唯一解，因为车流
+          可以以各种方式通过该网络；
+          你应当至少得到一个自由变量。）
+       \partsitem 假设有人提议对 Willow 与 Jay 之间的
+         Winooski Avenue East 段进行施工，
+         该街区的交通将会减少。
+         在不打乱每小时进出网络的
+         车流的前提下，该街区上允许的
+         最小车流量是多少？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 下面是每个未知街区的一个变量；每个已知
+          街区的流量如图所示。
+          \begin{center}
+            \includegraphics{gr/mp/ch1.51}          
+          \end{center}
+          我们应用 Kirchhoff 原理——流入 Willow 与 Shelburne
+          交叉口的车流必须等于流出的——得到
+          $i_1+25=i_2+125$。
+          按从右到左、从上到下的顺序处理各交叉口，
+          得到下列方程。
+          \begin{equation*}
+            \begin{linsys}{7}
+              i_1 &- &i_2 &  &    &  &    &  &    &  &    &  &    &= &10  \\
+             -i_1 &  &    &+ &i_3 &  &    &  &    &  &    &  &    &= &15   \\
+                  &  &i_2 &  &    &+ &i_4 &- &i_5 &  &    &  &    &= &5   \\
+                  &  &    &  &-i_3&- &i_4 &  &    &+ &i_6 &  &    &= &-50 \\
+                  &  &    &  &    &  &    &  &i_5 &  &    &- &i_7 &= &-10 \\
+                  &  &    &  &    &  &    &  &    &  &-i_6&+ &i_7 &= &30 
+            \end{linsys}
+          \end{equation*}
+          行变换$\rho_1+\rho_2$，接着$\rho_2+\rho_3$，
+          再$\rho_3+\rho_4$与$\rho_4+\rho_5$，最后$\rho_5+\rho_6$，
+          得到如下方程组。
+          % runfile("gauss_method.sage")
+          % M = matrix(QQ, [[1,-1,0,0,0,0,0], [-1,0,1,0,0,0,0], [0,1,0,1,-1,0,0], [0,0,-1,-1,0,1,0], [0,0,0,0,1,0,-1], [0,0,0,0,0,-1,1]])
+          % v = vector(QQ, [10,15,5,-50,-10,30])
+          % M_prime = M.augment(v, subdivide=True)
+          % gauss_method(M_prime)
+          \begin{equation*}
+            \begin{linsys}{7}
+              i_1 &- &i_2 &  &    &  &    &  &    &  &    &  &    &= &10  \\
+                  &  &-i_2&+ &i_3 &  &    &  &    &  &    &  &    &= &25   \\
+                  &  &    &  &i_3 &+ &i_4 &- &i_5 &  &    &  &    &= &30  \\
+                  &  &    &  &    &  &    &  &-i_5&+ &i_6 &  &    &= &-20  \\
+                  &  &    &  &    &  &    &  &    &  &i_6 &- &i_7 &= &-30 \\
+                  &  &    &  &    &  &    &  &    &  &    &  &0   &= &0   
+            \end{linsys}
+          \end{equation*}
+          由于自由变量是$i_4$与$i_7$，我们取它们为
+          参数。
+          \begin{equation*}
+          \begin{split}
+            i_6  &=  i_7-30  \\
+            i_5  &=  i_6+20=(i_7-30)+20=i_7-10 \\
+            i_3  &=  -i_4+i_5+30=-i_4+(i_7-10)+30=-i_4+i_7+20 \\
+            i_2  &=  i_3-25=(-i_4+i_7+20)-25=-i_4+i_7-5 \\
+            i_1  &=  i_2+10=(-i_4+i_7-5)+10=-i_4+i_7+5
+          \end{split}
+          \end{equation*}
+          显然$i_4$与$i_7$必须为正，而且
+          第一个方程表明$i_7$至少为$30$。
+          若从$i_7$出发，则$i_2$~方程表明
+          $0\leq i_4\leq i_7-5$。
+        \partsitem 我们不能取$i_7$为零，否则$i_6$将
+          为负（这意味着汽车在单行道 Jay 上
+          逆行）。
+          不过，我们可以取$i_7$小至$30$，此时
+          有许多合适的$i_4$。
+          例如，取$i_4=0$即得到解
+          \begin{equation*}
+            (i_1,i_2,i_3,i_4,i_5,i_6,i_7)
+            =
+            (35,25,50,0,20,0,30)
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+\end{exercises}
+\index{networks|)}
+\endinput

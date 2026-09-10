@@ -1,0 +1,4629 @@
+% Chapter 4, Section 1 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\chapter{行列式} 
+在第一章中，我们
+重点讨论了方程个数与未知量个数相同的线性方程组
+这一特殊情形，即形如 \( T\vec{x}=\vec{b} \)、其中 $T$ 为方阵的方程组。
+我们注意到，这样的 $T$ 只有两种。
+若 $T$ 对任意 $\vec{b}$，
+都对应唯一解，比如
+齐次方程组 $T\vec{x}=\zero$ 那样，那么
+对每一个这样的 $\vec{b}$，$T$ 都对应唯一解。
+我们称这样的矩阵为非奇异的。
+另一类 $T$，凡是以其为
+系数矩阵的线性方程组都要么无解、
+要么有无穷多解，
+我们称之为奇异的。
+
+在此后的工作中，这一区分一直是一条主线。
+例如，我们现在知道，一个
+\( \nbyn{n} \) 矩阵 \( T \) 是非奇异的当且仅当
+以下每一条都成立：
+%<*EquivalentOfNonsingular>
+\begin{itemize}
+   \item 任意方程组 \( T\vec{x}=\vec{b} \) 都有解，
+          且该解唯一；
+    \item 对 $T$ 作高斯–若尔当消元得到单位矩阵；
+    \item $T$ 的各行构成一个线性无关的集合；
+    \item \( T \) 的各列构成一个线性无关的集合，
+          即 \( \Re^n \) 的一个基；
+    \item \( T \) 所表示的任意映射都是同构；
+    \item 存在逆矩阵 \( T^{-1} \)。
+\end{itemize}
+%</EquivalentOfNonsingular>
+因此，当我们看到一个方阵时，首先
+要问的问题之一就是它是否
+非奇异。
+
+本章将建立一个公式，用来判定 $T$ 是否非奇异。
+更准确地说，我们将对 $\nbyn{1}$~矩阵
+给出一个公式，对 $\nbyn{2}$~矩阵给出一个，等等。
+这些公式自然相互关联；也就是说，
+我们将建立一族
+公式，一个描述每种规格之公式的方案。
+
+由于我们的讨论仅限于方阵，本章中
+我们常常径直说“矩阵”，以代替“方阵”。
+
+
+
+
+
+\section{定义}
+%<*DeterminantIntro>
+判定非奇异性这件事，
+对 \( \nbyn{1} \) 矩阵而言是平凡的。
+\begin{equation*}
+  \begin{mat}
+       a
+  \end{mat} 
+  \quad\text{是非奇异的当且仅当}\quad
+  a \neq 0
+\end{equation*} 
+推论~Three.IV.\ref{cor:TwoByTwoInv} 给出了 $\nbyn{2}$ 的公式。 
+\begin{equation*}
+     \begin{mat}
+           a  &b  \\
+           c  &d
+      \end{mat}  
+   \quad\text{是非奇异的当且仅当}\quad
+   ad-bc \neq 0
+\end{equation*}
+我们可以像前面那样得出 $\nbyn{3}$ 的公式，
+尽管计算相当繁琐
+% \typeout{DET1 ThreeByThreeDetForm cleveref expmt!}
+% (see \cref{exer:ThreeByThreeDetForm}).
+（见\nearbyexercise{exer:ThreeByThreeDetForm}）。
+\begin{equation*}
+     \begin{mat}
+           a  &b  &c  \\
+           d  &e  &f  \\
+           g  &h  &i
+     \end{mat}
+  \quad\text{是非奇异的当且仅当}\quad
+    aei+bfg+cdh-hfa-idb-gec \neq 0
+\end{equation*}
+心怀这些特例，我们设想一族
+公式：$a$，$ad-bc$，等等。
+对每个 $n$，该公式定义了一个 
+\definend{行列式}\index{determinant}\index{matrix!determinant} 
+函数
+$\map{\det_{\nbyn{n}}}{\matspace_{\nbyn{n}}}{\Re}$ 
+使得 $\nbyn{n}$ 矩阵 $T$ 是非奇异的当
+且仅当 $\det_{\nbyn{n}}(T)\neq 0$。
+%</DeterminantIntro>
+（我们通常省略下标 \( \nbyn{n} \)，因为
+\( T \) 的规格已经表明我们指的是哪个行列式函数。）
+
+
+
+
+
+
+\subsectionoptional{探索}
+\textit{本小节为选读内容，
+给出一般定义的动机与展开。
+定义在下一小节中。}
+
+在前文中，各种情形下的矩阵都是非奇异的当且
+仅当某个公式不为零。
+但这三个公式并
+没有显示出明显的规律。
+我们或许会注意到 \(\nbyn{1}\) 的项
+\( a \) 有一个字母，\(\nbyn{2}\) 的项
+\(ad\) 与 \(bc\) 各有两个字母，而 \(\nbyn{3}\)
+的项各有三个字母。
+我们甚至能注意到，在这些项中
+每一项都是从矩阵的每一行与每一列各取一个字母，例如，
+在 \(cdh\) 项中一个字母
+来自每一行、每一列。
+\begin{equation*}
+   \begin{mat}
+          &    &c \\
+      d           \\
+          &h
+   \end{mat} 
+\end{equation*}
+但这些观察与其说是有启发性
+的，不如说是令人困惑的。
+比如，我们可能想知道为什么
+有些项相加，而有些项相减。
+
+解题的一个好策略是
+先探索解必须具有哪些性质，然后
+再去寻找具有这些性质的东西。
+于是我们先来问：我们希望行列式
+公式具有哪些性质。
+
+就目前而言，
+判定一个矩阵是否奇异的主要方法
+是作高斯
+消元，然后检查
+阶梯形矩阵的对角线上是否有零，
+即沿对角线的乘积是否为~零。
+于是我们可以猜想：无论找到怎样的行列式公式，证明
+它正确的做法可能都涉及对矩阵应用高斯消元法，
+以说明最终沿对角线的乘积为零当且仅当
+我们的公式给出零。
+
+这提示了一个计划：~我们将寻找一族行列式
+公式，它们
+不受行变换影响，且阶梯形
+矩阵的行列式是其对角元之积。
+% Under this plan, a proof that the functions determine singularity would go, 
+% ``Where $T\rightarrow\cdots\rightarrow\hat{T}$ is the Gaussian
+% reduction, the determinant of $T$ equals the
+% determinant of $\hat{T}$ (because the determinant is unchanged by row
+% operations), which is the product down the diagonal, which is
+% zero if and only if the matrix is singular''.
+在本小节余下的部分，我们将用 $\nbyn{2}$ 与
+$\nbyn{3}$ 的公式来检验这一计划。
+最后我们将不得不修改“不受行变换影响”
+这一部分，但改动不大。
+
+首先我们检查
+$\nbyn{2}$ 与 $\nbyn{3}$ 的公式是否不受
+倍加这一行变换的影响：~若
+\begin{equation*}
+   T \grstep{k\rho_i+\rho_j} \hat{T}
+\end{equation*}
+那么 \( \det(\hat{T})=\det(T) \) 是否成立？ 
+对 $k\rho_1+\rho_2$ 操作之后的 $\nbyn{2}$ 行列式作这一检验
+\begin{equation*}
+   \det(
+       \begin{mat}
+         a     &b       \\
+         ka+c  &kb+d    \\
+      \end{mat}
+   )
+   = a(kb+d)-(ka+c)b = ad-bc
+\end{equation*}
+表明它确实不变，而
+另一个 $\nbyn{2}$ 倍加 $k\rho_2+\rho_1$ 给出同样的结果。
+同样，
+$\nbyn{3}$ 的倍加 $k\rho_3+\rho_2$ 也使行列式保持不变
+  \begin{align*}
+    \det(
+      \begin{mat}
+         a    &b    &c    \\
+         kg+d &kh+e &ki+f \\
+         g    &h    &i
+      \end{mat}
+    )
+    &=\begin{array}[t]{@{}l@{}}
+         a(kh+e)i+b(ki+f)g+c(kg+d)h \\
+         \ \hbox{}-h(ki+f)a-i(kg+d)b-g(kh+e)c  
+    \end{array}                                 \\
+     &=aei + bfg + cdh - hfa - idb - gec
+  \end{align*}
+其他的 $\nbyn{3}$ 行倍加操作也是如此。
+
+所以这个计划看起来是有希望的。
+当然，也许如果我们算出
+$\nbyn{4}$ 行列式公式并加以检验，可能会发现
+它会受行倍加的影响。
+这只是一次探索，我们还没有掌握全部事实。
+尽管如此，到目前为止一切顺利。
+
+接下来，对于行对换的情形，我们比较 \( \det(\hat{T}) \) 与
+\( \det(T) \)。
+% \begin{equation*}
+%    T \grstep{ {\rho}_i \leftrightarrow {\rho}_j } \hat{T}
+% \end{equation*}
+这里我们遇到了一个障碍：
+\(\nbyn{2}\) 的行对换 $\rho_1\leftrightarrow\rho_2$
+并不给出 \( ad-bc \)。
+  \begin{equation*}
+     \det(
+       \begin{mat}
+         c  &d \\
+         a  &b
+       \end{mat}
+     )
+     = bc - ad
+  \end{equation*}
+而 \(\nbyn{3}\) 矩阵内的这次 $\rho_1\leftrightarrow\rho_3$ 对换
+\begin{equation*}
+   \det(
+     \begin{mat}
+        g  &h  &i \\
+        d  &e  &f \\
+        a  &b  &c
+     \end{mat}
+   )
+   = gec + hfa + idb - bfg - cdh - aei
+\end{equation*}
+同样不给出与对换前相同的行列式，因为又一次
+出现了符号改变。
+再试 \(\nbyn{3}\) 的另一次对换 $\rho_1\leftrightarrow\rho_2$ 
+\begin{equation*}
+   \det(
+     \begin{mat}
+        d  &e  &f \\
+        a  &b  &c \\
+        g  &h  &i
+     \end{mat}
+   )
+   = dbi + ecg + fah - hcd - iae - gbf
+\end{equation*}
+也给出符号的改变。
+
+所以在这一实验中，行对换
+看来会改变行列式的符号。
+这并没有完全破坏我们的计划。
+我们希望通过只考虑
+公式是否给出零来判定非奇异性，而不考虑其符号。
+因此，与其期望行列式公式
+完全不受行变换影响，不如修改计划：在行对换时
+它们改变符号。
+
+显然，
+我们最后要比较 \( \det(\hat{T}) \) 与 \( \det(T) \) 
+针对的操作
+% \begin{equation*}
+%    T \grstep{ k{\rho}_i } \hat{T}
+% \end{equation*}
+是把一行乘以一个标量。 
+下面这个计算
+\begin{equation*}
+  \det(
+    \begin{mat}
+      a   &b   \\
+      kc  &kd
+    \end{mat}
+  )
+  = a(kd) - (kc)b
+  =k\cdot (ad-bc)
+\end{equation*}
+最后整个行列式乘上了~$k$，
+另一个 $\nbyn{2}$ 情形也得到同样的结果。
+这个 \(\nbyn{3}\) 情形以同样的方式收尾
+\begin{align*}
+  \det(
+  \begin{mat}
+    a    &b    &c   \\
+    d    &e    &f   \\
+    kg   &kh   &ki
+  \end{mat}
+  )
+   &= \begin{array}[t]{@{}l@{}}
+         ae(ki) + bf(kg) + cd(kh)                \\
+         \>- (kh)fa - (ki)db - (kg)ec  
+      \end{array}                                      \\
+   &= k\cdot(aei + bfg + cdh - hfa - idb - gec)
+\end{align*}
+另外两个 $\nbyn{3}$ 情形也是如此。
+这些使我们猜想：把一行乘以~$k$
+会把行列式乘以~$k$。
+与前面一样，这修改了我们的计划，但没有破坏它。
+我们只要求
+行列式公式的为零性保持不变，而不关注
+它的符号或大小。
+
+所以在这次探索中，我们的计划
+经过一些非实质性的修改，现在变为：~我们将寻找
+$\nbyn{n}$ 行列式
+函数，它们在行倍加操作下
+保持不变，在行对换时
+改变符号，在某行被倍乘时按比例缩放，
+并且阶梯形矩阵的行列式
+是沿对角线的乘积。
+在下面两小节中我们将看到，对每个~$n$，
+这样的函数有且仅有一个。
+
+最后，为下一小节作准备，请注意提出标量因子是一种
+逐行进行的操作：
+在这里
+\begin{equation*}
+    \det(
+      \begin{mat}[r]
+        3  &3  &9  \\
+        2  &1  &1  \\
+        5  &11 &-5
+     \end{mat}
+    )
+    =3 \cdot \det(
+               \begin{mat}[r]
+                 1  &1  &3  \\
+                 2  &1  &1  \\
+                 5  &11 &-5
+               \end{mat}
+             )                                  
+\end{equation*}
+$3$ 仅从最上面一行提出，其余各行保持不变。
+因此，在行列式的定义中，我们将
+把它写成各行的函数
+\( \det (\vec{\rho}_1,\vec{\rho}_2,\dots\vec{\rho}_n) \)，而不是
+\( \det(T) \)，也不是各元素
+\( \det(t_{1,1},\dots,t_{n,n}) \) 的函数。
+
+\begin{exercises}
+  \recommended \item 
+     求下列各矩阵的行列式。
+     \begin{exparts*}
+       \partsitem \(
+            \begin{mat}[r]
+                3    &1   \\
+               -1    &1
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                2    &0   &1  \\
+                3    &1   &1 \\
+               -1    &0   &1
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                4    &0   &1  \\
+                0    &0   &1 \\
+                1    &3   &-1
+            \end{mat}    \)
+     \end{exparts*}
+     \begin{answer}
+       \begin{exparts*}
+         \partsitem \( 4 \)
+         \partsitem \( 3 \)
+         \partsitem \( -12 \)
+       \end{exparts*}  
+     \end{answer}
+  \item 
+     求下列各矩阵的行列式。
+     \begin{exparts*}
+        \partsitem \( \begin{mat}[r]
+                    2  &0  \\
+                   -1  &3
+                 \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+                    2  &1  &1  \\
+                    0  &5  &-2 \\
+                    1  &-3 &4
+                 \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+                    2  &3  &4  \\
+                    5  &6  &7  \\
+                    8  &9  &1
+                 \end{mat} \)
+     \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( 6 \)
+        \partsitem \( 21 \)
+        \partsitem \( 27 \)
+      \end{exparts*}  
+    \end{answer}
+  \recommended \item  
+    验证上三角的
+    $\nbyn{3}$ 矩阵的行列式是对角元之积。
+    \begin{equation*}
+       \det(
+       \begin{mat}
+           a    &b   &c    \\
+           0    &e   &f    \\
+           0    &0   &i
+       \end{mat}
+       )
+       =aei
+    \end{equation*}
+    下三角矩阵也是如此吗？
+    \begin{answer}
+      对于第一个，应用本节中的公式，注意任何
+      含有 \( d \)、\( g \) 或 \( h \) 的项都是零，再化简即可。
+      下三角矩阵也是如此。  
+    \end{answer}
+  \recommended \item 
+     用行列式判断下列各矩阵是奇异的还是
+     非奇异的。
+     \begin{exparts*}
+       \partsitem \(
+            \begin{mat}[r]
+                2    &1   \\
+                3    &1
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                0    &1   \\
+                1    &-1
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                4    &2   \\
+                2    &1
+            \end{mat}    \)
+     \end{exparts*}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 非奇异的，行列式为 \( -1 \)。
+         \partsitem 非奇异的，行列式为 \( -1 \)。
+         \partsitem 奇异的，行列式为 \( 0 \)。
+       \end{exparts}  
+     \end{answer}
+  \item 
+     奇异的还是非奇异的？
+     用行列式来判断。
+     \begin{exparts*}
+       \partsitem \(
+            \begin{mat}[r]
+                2    &1   &1  \\
+                3    &2   &2 \\
+                0    &1   &4
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                1    &0   &1  \\
+                2    &1   &1 \\
+                4    &1   &3
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                2    &1   &0  \\
+                3    &-2  &0 \\
+                1    &0   &0
+            \end{mat}    \)
+     \end{exparts*}
+     \begin{answer}
+      \begin{exparts}
+         \partsitem 非奇异的，行列式为 \( 3 \)。
+         \partsitem 奇异的，行列式为 \( 0 \)。
+         \partsitem 奇异的，行列式为 \( 0 \)。
+       \end{exparts}  
+     \end{answer}
+  \recommended \item
+    下面每一对矩阵仅相差一次行变换。
+    请利用这次行变换
+    来比较 \( \det(A) \) 与 \( \det(B) \)。
+     \begin{exparts}
+        \partsitem \( A=\begin{mat}[r]
+                      1  &2  \\
+                      2  &3
+                   \end{mat} \), 
+               \(  B=\begin{mat}[r]
+                      1  &2  \\
+                      0  &-1
+                   \end{mat}  \)
+        \partsitem \( A=\begin{mat}[r]
+                      3  &1  &0  \\
+                      0  &0  &1  \\
+                      0  &1  &2
+                   \end{mat} \),
+              \(   B=\begin{mat}[r]
+                      3  &1  &0  \\
+                      0  &1  &2  \\
+                      0  &0  &1
+                   \end{mat}  \)
+        \partsitem \( A=\begin{mat}[r]
+                      1  &-1 &3  \\
+                      2  &2  &-6 \\
+                      1  &0  &4
+                   \end{mat} \),
+              \(   B=\begin{mat}[r]
+                      1  &-1 &3  \\
+                      1  &1  &-3 \\
+                      1  &0  &4
+                   \end{mat}  \)
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem \( \det(B)=\det(A) \)，通过 \( -2\rho_1+\rho_2 \)
+         \partsitem \( \det(B)=-\det(A) \)，通过 
+             \( \rho_2\leftrightarrow\rho_3 \)
+         \partsitem \( \det(B)=(1/2)\cdot \det(A) \)，通过 \( (1/2)\rho_2 \)
+       \end{exparts}   
+     \end{answer}
+  \recommended \item 按如下方案求这个 $\nbyn{4}$ 矩阵的行列式：~先做高斯消元，
+    并留意行列式在倍加时保持不变，在
+    对换两行时变号，在某行倍乘时相应倍乘，
+    且阶梯形矩阵的行列式等于
+    其对角元之积。
+    \begin{equation*}
+      \begin{mat}
+        1 &2 &0  &2 \\
+        2 &4 &1  &0 \\
+        0 &0 &-1 &3 \\
+        3 &-1 &1 &4
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      高斯消元法正是这样做的。
+      % [ 0 -7  1 -2]
+      %  swap row 2 with row 4
+      % [ 1  2  0  2]
+      % [ 0 -7  1 -2]
+      % [ 0  0 -1  3]
+      % [ 0  0  1 -4]
+      %  take 1 times row 3 plus row 4
+      % [ 1  2  0  2]
+      % [ 0 -7  1 -2]
+      % [ 0  0 -1  3]
+      % [ 0  0  0 -1]
+      \begin{equation*}
+        \begin{mat}
+          1 &2 &0  &2 \\
+          2 &4 &1  &0 \\
+          0 &0 &-1 &3 \\
+          3 &-1 &1 &4
+        \end{mat}
+        \grstep[-3\rho_1+\rho_4]{-2\rho_1+\rho_2}
+        \grstep{\rho_2\leftrightarrow\rho_4}
+        \grstep{\rho_3+\rho_4}      
+        \begin{mat}
+          1 &2 &0  &2 \\
+          0 &-7 &1  &-2 \\
+          0 &0 &-1 &3 \\
+          0 &0 &0 &-1
+        \end{mat}
+      \end{equation*}
+      阶梯形矩阵的对角元之积为 
+       $1\cdot(-7)\cdot(-1)\cdot(-1)=-7$。
+      在高斯消元的过程中没有行被倍乘，但有
+      一次行对换，所以求行列式时须变号，
+      得 $+7$。
+    \end{answer}
+  \item 
+     证明此式。
+      \begin{equation*}
+         \det(
+         \begin{mat}
+             1    &1   &1    \\
+             a    &b   &c    \\
+             a^2  &b^2 &c^2
+         \end{mat}
+         )
+         =(b-a)(c-a)(c-b)
+      \end{equation*}
+     \begin{answer}
+       利用 $\nbyn{3}$ 矩阵的行列式公式，
+       我们将左边展开
+       \begin{equation*}
+         1\cdot b\cdot c^2+1\cdot c\cdot a^2+1\cdot a\cdot b^2
+          -b^2\cdot c\cdot 1 -c^2\cdot a\cdot 1-a^2\cdot b\cdot 1
+       \end{equation*}
+       而将右边展开则得
+       \begin{equation*}
+         (bc-ba-ac+a^2)\cdot(c-b)
+         =c^2b-b^2c-bac+b^2a-ac^2+acb+a^2c-a^2b
+       \end{equation*}
+       于是只需验证两者相等即可。
+       （\textit{注}。
+       这是
+       \definend{Vandermonde 行列式}\index{Vandermonde!determinant}%
+       \index{determinant!Vandermonde}的 \( \nbyn{3} \) 情形，
+       它出现在许多应用中）。
+     \end{answer}
+   \recommended \item 
+      哪些实数 \( x \) 使这个矩阵是奇异的？
+      \begin{equation*}
+         \begin{mat}
+            12-x  &4  \\
+            8    &8-x
+         \end{mat}
+      \end{equation*}
+      \begin{answer}
+         这个方程
+         \begin{equation*}
+           0=
+           \det(
+             \begin{mat}
+                12-x  &4  \\
+                8    &8-x
+             \end{mat}
+           )
+           =64-20x+x^2
+           =(x-16)(x-4) 
+       \end{equation*}
+       有根 \( x=16 \) 和 \( x=4 \)。  
+     \end{answer}
+  \item \label{exer:ThreeByThreeDetForm} 
+    做高斯消元，以验证本节引言中
+    所述的 $\nbyn{3}$ 矩阵公式。
+    \begin{center}
+      \( \begin{mat}
+               a  &b  &c  \\
+               d  &e  &f  \\
+               g  &h  &i
+         \end{mat} \)
+      是非奇异的当且仅当
+      \( aei+bfg+cdh-hfa-idb-gec \neq 0 \)
+    \end{center}
+    \begin{answer}
+      我们先把矩阵化成阶梯形。
+      首先，假设 \( a\neq 0 \) 且 \( ae-bd\neq 0 \)。
+      \begin{multline*}
+        \grstep{(1/a)\rho_1}
+        \begin{mat}
+           1   &b/a   &c/a   \\
+           d   &e     &f     \\
+           g   &h     &i
+         \end{mat}                                           
+        \grstep[-g\rho_1+\rho_3]{-d\rho_1+\rho_2}
+        \begin{mat}
+           1   &b/a           &c/a           \\
+           0   &(ae-bd)/a     &(af-cd)/a     \\
+           0   &(ah-bg)/a     &(ai-cg)/a
+         \end{mat}                                            \\
+        \grstep{(a/(ae-bd))\rho_2}
+        \begin{mat}
+           1   &b/a           &c/a             \\
+           0   &1             &(af-cd)/(ae-bd) \\
+           0   &(ah-bg)/a     &(ai-cg)/a
+         \end{mat}
+      \end{multline*}
+      这一步完成了计算。
+      \begin{equation*}
+        \grstep{((ah-bg)/a)\rho_2+\rho_3}
+        \begin{mat}
+           1   &b/a    &c/a             \\
+           0   &1      &(af-cd)/(ae-bd)      \\
+           0   &0      &(aei+bgf+cdh-hfa-idb-gec)/(ae-bd)
+         \end{mat}
+      \end{equation*}
+      现在假设 $a\neq 0$ 且 \( ae-bd\neq 0 \)，
+      原矩阵是非奇异的
+      当且仅当上面第 \( 3,3 \) 处的元素非零。
+      也就是说，在这些假设下，原矩阵
+      是非奇异的当且仅当 $aei+bgf+cdh-hfa-idb-gec\neq 0$，
+      即为所证。
+
+      最后我们逐一看一下，若为方便起见而在前一段中所作的假设不成立，
+      会发生什么。
+      首先，若 \( a\neq 0 \) 但 \( ae-bd=0 \)，那么我们可以对换
+      \begin{equation*}
+        \begin{mat}
+           1   &b/a           &c/a           \\
+           0   &0             &(af-cd)/a     \\
+           0   &(ah-bg)/a     &(ai-cg)/a
+         \end{mat}                                  
+        \grstep{\rho_2\leftrightarrow\rho_3}
+        \begin{mat}
+           1   &b/a           &c/a           \\
+           0   &(ah-bg)/a     &(ai-cg)/a     \\
+           0   &0             &(af-cd)/a
+         \end{mat}
+      \end{equation*}
+      从而得出结论：矩阵是非奇异的当且仅当
+      \( ah-bg=0 \) 或 \( af-cd=0 \)。
+      条件‘\( ah-bg=0 \) 或 \( af-cd=0 \)’等价于
+      条件‘\( (ah-bg)(af-cd)=0 \)’。
+      乘开并利用本情形的假设 $ae-bd=0$，以 $ae$ 代 $bd$，便得
+      \begin{multline*}
+         0=ahaf-ahcd-bgaf+bgcd
+          =ahaf-ahcd-bgaf+aegc            \\
+          =a(haf-hcd-bgf+egc)
+      \end{multline*}
+      由于 \( a\neq 0 \)，故矩阵
+      是非奇异的当且仅当 \( haf-hcd-bgf+egc=0 \)。
+      因此，在 \( a\neq 0 \) 且 \( ae-bd=0 \) 的情形下，
+      当
+      \( haf-hcd-bgf+egc-i(ae-bd)=0 \) 时矩阵
+      是非奇异的。
+
+      余下的情形是常规的。
+      对于 \( a=0 \) 但 \( d\neq 0 \) 的情形，以及 \( a=0 \)、\( d=0 \)
+      但 \( g\neq 0 \) 的情形，都先对换两行，然后
+      照上面那样继续即可。
+      \( a=0 \)、\( d=0 \) 且 \( g=0 \) 的情形则很简单\Dash 该矩阵是
+      奇异的，因为它的列构成一个线性相关的组，而且
+      行列式算出来为零。  
+    \end{answer}
+  \item 
+     证明 \( \Re^2 \) 中过 \( (x_1,y_1) \)
+     与 \( (x_2,y_2) \) 的直线方程由这个行列式给出。
+     \begin{equation*}
+        \det(
+        \begin{mat}
+           x   &y   &1  \\
+           x_1 &y_1 &1  \\
+           x_2 &y_2 &1
+        \end{mat})=0 \qquad x_1\neq x_2
+     \end{equation*}
+     \begin{answer}
+       算出行列式并做一点代数运算，便得到
+       \begin{align*}
+          0
+          &=y_1x+x_2y+x_1y_2-y_2x-x_1y-x_2y_1     \\
+          (x_2-x_1)\cdot y
+          &=(y_2-y_1)\cdot x+x_2y_1-x_1y_2              \\
+          y
+          &=\frac{y_2-y_1}{x_2-x_1}\cdot x+\frac{x_2y_1-x_1y_2}{x_2-x_1}
+       \end{align*}
+       注意这是一个直线的方程（特别地，
+       其中含有熟悉的斜率表达式），
+       并注意 \( (x_1,y_1) \) 与 \( (x_2,y_2) \) 都满足它。 
+     \end{answer}
+  \item
+    许多人学过
+    计算这个 \( \nbyn{3} \)
+    矩阵行列式的口诀：~把前两列抄到矩阵右侧，
+    然后取沿正向对角线的乘积并相加，
+    再取沿反向对角线的乘积并相减。
+    也就是说，先写成
+    \begin{equation*}
+        \begin{pmat}{ccc|cc}
+          h_{1,1} &h_{1,2} &h_{1,3} &h_{1,1} &h_{1,2} \\
+          h_{2,1} &h_{2,2} &h_{2,3} &h_{2,1} &h_{2,2} \\
+          h_{3,1} &h_{3,2} &h_{3,3} &h_{3,1} &h_{3,2}
+        \end{pmat}
+     \end{equation*}
+     然后计算这个式子。
+     \begin{equation*}
+      \begin{array}{l}
+      h_{1,1}h_{2,2}h_{3,3}+h_{1,2}h_{2,3}h_{3,1}+h_{1,3}h_{2,1}h_{3,2} \\
+      \>-h_{3,1}h_{2,2}h_{1,3}-h_{3,2}h_{2,3}h_{1,1}
+        -h_{3,3}h_{2,1}h_{1,2}
+      \end{array}
+    \end{equation*}
+    \begin{exparts}
+      \partsitem 验证这与本节引言中
+        给出的公式一致。
+      \partsitem 它能否推广到其他阶数的行列式？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 与本节引言中给出的公式比较，很容易。
+        \partsitem 它对 \( \nbyn{2} \) 矩阵成立
+          \begin{align*}
+            \begin{pmat}{cc|c}
+              h_{1,1} &h_{1,2} &h_{1,1} \\
+              h_{2,1} &h_{2,2} &h_{2,1}
+            \end{pmat}
+            &=\begin{array}[t]{@{}l@{}}
+              h_{1,1}h_{2,2}+h_{1,2}h_{2,1}  \\
+              \>-h_{2,1}h_{1,2}-h_{2,2}h_{1,1}
+            \end{array}                                     \\
+            &=h_{1,1}h_{2,2}-h_{1,2}h_{2,1}
+          \end{align*}
+          但对 \( \nbyn{4} \) 矩阵不成立。
+          例如，这个矩阵是
+          奇异的，因为第二行与第三行相等
+          \begin{equation*}
+            \begin{mat}[r]  
+              1  &0  &0  &1   \\
+              0  &1  &1  &0   \\
+              0  &1  &1  &0   \\
+             -1  &0  &0  &1  
+            \end{mat}
+          \end{equation*}
+          但按口诀的方案算并不得到零。
+          \begin{equation*}
+            \begin{pmat}{rrrr|rrr}
+                       1  &0  &0  &1  &1  &0  &0  \\
+                       0  &1  &1  &0  &0  &1  &1  \\
+                       0  &1  &1  &0  &0  &1  &1  \\
+                      -1  &0  &0  &1  &-1 &0  &0
+            \end{pmat}
+            =\begin{array}[t]{@{}l@{}}
+               1+0+0+0 \\
+               \>-(-1)-0-0-0
+              \end{array}
+           \end{equation*}
+      \end{exparts}  
+     \end{answer}
+  \item 
+    向量
+    \begin{equation*}
+      \vec{x}=\colvec{x_1 \\ x_2 \\ x_3}
+      \qquad
+      \vec{y}=\colvec{y_1 \\ y_2 \\ y_3}
+    \end{equation*}
+    的
+    \definend{叉积}\index{cross product}\index{vector!cross product} 
+    是按这个行列式算出的向量。
+    \begin{equation*}
+      \vec{x}\times\vec{y}=
+      \det(\begin{mat}
+        \vec{e}_1  &\vec{e}_2  &\vec{e}_3  \\
+        x_1        &x_2        &x_3        \\
+        y_1        &y_2        &y_3
+      \end{mat})
+    \end{equation*}
+    注意第一行的元素是向量，即 $\Re^3$ 的
+    标准基中的向量。
+    证明两个向量的叉积与每个向量都垂直。
+    \begin{answer}
+      该行列式为 
+      $
+        (x_2y_3-x_3y_2)\vec{e}_1
+          +(x_3y_1-x_1y_3)\vec{e}_2
+          +(x_1y_2-x_2y_1)\vec{e}_3
+      $。
+      要检验垂直性，我们检验它与第一个向量的点积
+      为零
+      \begin{equation*}
+        \colvec{x_1 \\ x_2 \\ x_3}
+        \dotprod
+        \colvec{x_2y_3-x_3y_2 \\ x_3y_1-x_1y_3 \\ x_1y_2-x_2y_1}
+        =x_1x_2y_3-x_1x_3y_2+x_2x_3y_1-x_1x_2y_3+x_1x_3y_2-x_2x_3y_1=0
+      \end{equation*}
+      而它与第二个向量的点积也为零。
+      \begin{equation*}
+        \colvec{y_1 \\ y_2 \\ y_3}
+        \dotprod
+        \colvec{x_2y_3-x_3y_2 \\ x_3y_1-x_1y_3 \\ x_1y_2-x_2y_1}
+        =x_2y_1y_3-x_3y_1y_2+x_3y_1y_2-x_1y_2y_3+x_1y_2y_3-x_2y_1y_3=0
+      \end{equation*}  
+    \end{answer}
+  \item 
+    证明下列每个论断对 $\nbyn{2}$ 矩阵成立。  
+    \begin{exparts}
+      \partsitem 乘积的行列式
+        等于行列式的乘积
+        $\det(ST)=\det(S)\cdot\det(T)$。
+      \partsitem 若 \( T \) 是可逆的，则
+        逆矩阵的行列式等于行列式的倒数
+        \( \det(T^{-1})=(\,\det(T)\,)^{-1} \)。
+    \end{exparts}
+    矩阵 $T$ 与 $T^\prime$ 称为
+    \definend{相似的}\index{similar}，若存在
+    非奇异矩阵 $P$ 使得 $T^\prime=PTP^{-1}$。
+    （我们将在第五章考察这一关系。）
+    证明相似的 \( \nbyn{2} \) 矩阵有相同的
+    行列式。
+    \begin{answer}
+       \begin{exparts}
+        \partsitem 直接代入计算：
+          乘积的行列式为
+          \begin{align*}
+             \det(\begin{mat}
+                       a  &b  \\
+                       c  &d
+                    \end{mat}
+                    \begin{mat}
+                       w  &x  \\
+                       y  &z
+                    \end{mat}  )
+             &=
+             \det(\begin{mat}
+                 aw+by  &ax+bz  \\
+                 cw+dy  &cx+dz
+              \end{mat} )                 \\
+             &=
+             \begin{array}[t]{@{}l@{}} 
+                 acwx+adwz+bcxy+bdyz  \\
+                 \> -acwx-bcwz-adxy-bdyz
+             \end{array}
+          \end{align*}
+          而行列式的乘积为
+          \begin{equation*}
+             \det(\begin{mat}
+                a  &b  \\
+                c  &d
+             \end{mat})
+             \cdot\det(\begin{mat}
+                w  &x  \\
+                y  &z
+             \end{mat})
+             =
+             (ad-bc)\cdot (wz-xy)
+          \end{equation*}
+          验证两者相等很容易。
+        \partsitem 利用前一小题。
+       \end{exparts}  
+       \noindent 由上面两条立即得到：相似矩阵有相同的行列式
+       $
+          \det(PTP^{-1})=\det(P)\cdot\det(T)\cdot\det(P^{-1})
+       $。
+     \end{answer}
+  \recommended \item
+    证明平面内这个区域的面积
+    \begin{center}
+      \includegraphics{det/mp/ch4.30}
+    \end{center}
+    等于这个行列式的值。
+    \begin{equation*}
+       \det(
+       \begin{mat}
+          x_1  &x_2  \\
+          y_1  &y_2
+       \end{mat})
+    \end{equation*}
+    并与这个比较。
+    \begin{equation*}
+       \det(
+       \begin{mat}
+          x_2  &x_1  \\
+          y_2  &y_1
+       \end{mat})
+    \end{equation*}
+    \begin{answer}
+      一种方法是数出这些面积
+      \begin{center}
+        \includegraphics{det/mp/ch4.31}
+      \end{center}
+      即取整个矩形的面积，再减去
+      左上矩形 $A$、上中三角形 $B$、
+      右上三角形 $D$、左下三角形 $C$、
+      下中三角形 $E$ 与右下矩形 $F$ 的面积
+      \( (x_1+x_2)(y_1+y_2)-x_2y_1-(1/2)x_1y_1-(1/2)x_2y_2
+              -(1/2)x_2y_2-(1/2)x_1y_1-x_2y_1 \)。
+      化简即得行列式公式。
+
+      这个行列式是上面那个的相反数；该公式
+      区分了第二列是否在第一列的
+      逆时针方向。  
+     \end{answer}
+  \item 
+    证明对 \( \nbyn{2} \) 矩阵，矩阵的行列式
+    等于其转置的行列式。
+    这对 \( \nbyn{3} \) 矩阵也成立吗？
+    \begin{answer}
+      对 \( \nbyn{2} \) 矩阵，利用
+      引言中引用的公式，计算很容易。
+      它对 \( \nbyn{3} \) 矩阵也成立；其
+      计算是常规的。  
+    \end{answer}
+  \item 
+    行列式函数是线性的吗 \Dash  即
+    \( \det(x\cdot T+y\cdot S)=x\cdot \det(T)+y\cdot \det(S) \) 成立吗？
+    \begin{answer}
+      不成立。
+      我们用 $\nbyn{2}$ 行列式来说明。
+      回想常数可以每次提出一行。
+      \begin{equation*}
+         \det(
+         \begin{mat}[r]
+            2  &4  \\
+            2  &6  \\
+         \end{mat})
+         =
+         2\cdot\det(\begin{mat}[r]
+            1  &2  \\
+            2  &6  \\
+         \end{mat})
+         =
+         2\cdot 2\cdot \det(\begin{mat}[r]
+            1  &2  \\
+            1  &3  \\
+         \end{mat})
+      \end{equation*}
+      这与线性性矛盾（这里我们不需要 \( S \)，也就是说，我们可以
+      取 $S$ 为零矩阵）。  
+    \end{answer}
+  \item 
+    证明：若 \( A \) 是 \( \nbyn{3} \) 的，则
+    \( \det(c\cdot A)=c^3\cdot \det(A) \) 对任意标量 \( c \) 成立。
+    \begin{answer}
+       把 \( c \) 一次一行地提出来。  
+    \end{answer}
+  \item 
+    哪些实数 \( \theta \) 使
+    \begin{equation*}
+       \begin{mat}
+          \cos\theta  &-\sin\theta  \\
+          \sin\theta  &\cos\theta
+       \end{mat}
+    \end{equation*}
+    奇异？
+    从几何上解释。
+    \begin{answer}
+      不存在使该矩阵奇异的实数 \( \theta \)，
+      因为矩阵的行列式
+      \( \cos^2\theta+\sin^2\theta \) 永不为 $0$，它对所有 $\theta$
+      都等于 $1$。
+      从几何上看，关于标准基，
+      这个矩阵表示
+      平面旋转角度 \( \theta \) 的转动。
+      每个这样的映射都是单射 \Dash  例如，它是可逆的。  
+    \end{answer}
+  \puzzle \item  
+    \cite{Monthly55p257}
+    若一个三阶行列式的元素为
+    \( 1 \), \( 2 \), \ldots, \( 9 \)，它可能取到的最大值
+    是多少？
+    \begin{answer}
+      \answerasgiven
+      设 \( P \) 为行列式中三个正项之和，
+      \( -N \) 为三个负项之和。
+      \( P \) 的最大值为
+      \begin{equation*}
+        9\cdot 8\cdot 7 +6\cdot 5\cdot 4 +3\cdot 2\cdot 1=630.
+      \end{equation*}
+      与 \( P \) 相容的 \( N \) 的最小值为
+      \begin{equation*}
+        9\cdot 6\cdot 1 +8\cdot 5\cdot 2 +7\cdot 4\cdot 3=218.
+      \end{equation*}
+      \( P \) 的任何改变都会使该和的降低量超过
+      \( 4 \)。
+      因此 \( 412 \) 是该行列式的最大值，而该行列式的一种形式是
+      \begin{equation*}
+         \begin{vmat}[r]
+            9  &4  &2  \\
+            3  &8  &6  \\
+            5  &1  &7
+         \end{vmat}.
+      \end{equation*}  
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{行列式的性质}
+\index{determinant|(}
+我们想要一个公式，
+用以判断一个 $\nbyn{n}$ 矩阵是否非奇异的。
+我们不打算一开始就陈述这样一个公式，
+而是先针对每个~$n$，
+考虑这样的公式所计算的函数。
+我们将通过一列性质来定义这个函数。
+随后我们将证明具有这些性质的函数存在且唯一，
+并说明如何计算它。
+（由于我们最终会证明这一点，所以从一开始
+我们就直接说“\( \det(T) \)”而不说
+“若存在唯一的行列式函数，则 \( \det(T) \)”。）
+
+\begin{definition}  \label{def:Det}
+%<*df:Det>
+一个 \( \nbyn{n} \) \definend{行列式\/}\index{determinant!definition}%
+\index{matrix!determinant}是一个函数
+\( \map{\det}{\matspace_{\nbyn{n}}}{\Re} \)，满足下列条件：
+\begin{enumerate}
+  \item
+    $
+       \det (\vec{\rho}_1,\dots,k\cdot\vec{\rho}_i
+                                     + \vec{\rho}_j,\dots,\vec{\rho}_n)
+       =\det (\vec{\rho}_1,\dots,\vec{\rho}_j,\dots,\vec{\rho}_n)
+    $ 当 \( i\ne j \) 时
+  \item
+    $
+       \det (\vec{\rho}_1,\ldots,\vec{\rho}_j,
+               \dots,\vec{\rho}_i,\dots,\vec{\rho}_n)
+       = -\det (\vec{\rho}_1,\dots,\vec{\rho}_i,\dots,\vec{\rho}_j,
+                \dots,\vec{\rho}_n)
+    $
+    当 \( i\ne j\) 时
+  \item
+    $
+       \det (\vec{\rho}_1,\dots,k\vec{\rho}_i,\dots,\vec{\rho}_n)
+       = k\cdot \det (\vec{\rho}_1,\dots,\vec{\rho}_i,\dots,\vec{\rho}_n)
+    $
+    对任意标量~$k$
+    % for \( k\ne 0\)
+  \item
+     $
+       \det(I)=1
+     $
+     其中 \( I \) 是单位矩阵
+\end{enumerate}
+（各个 $\vec{\rho}\,$ 是矩阵的行）。
+我们常把 \( \det (T) \) 写成 \( \deter{T} \)。
+%</df:Det>
+\end{definition}
+
+\begin{remark}  \label{rem:SwapRowsRedun}
+%<*re:SwapRowsRedun>
+条件~(2) 是多余的，因为
+ \begin{equation*}
+   T\grstep{\rho_i+\rho_j}
+    \repeatedgrstep{-\rho_j+\rho_i}
+    \repeatedgrstep{\rho_i+\rho_j}
+    \repeatedgrstep{-\rho_i}
+    \hat{T}
+\end{equation*}
+对换第 \( i \) 行与第~\( j \) 行。
+我们列出它是为了
+与前面各章中高斯消元法的表述保持一致。
+%</re:SwapRowsRedun>
+\end{remark}
+
+\begin{remark}
+条件~(3) 没有 $k\neq 0$ 的限制，虽然
+高斯消元法中把一行乘以~$k$ 的操作
+确有此限制。
+% \nearbylemma{le:IdenRowsDetZero} below
+下面的结果表明，在这里我们不需要该限制。
+\end{remark}
+
+% % \begin{remark}
+% The previous subsection's plan
+% asks for the determinant of an echelon form matrix to be the product
+% down the diagonal.
+% The next result shows that in the presence of the other
+% three, condition~(4) gives that.
+% % \end{remark}
+
+\begin{lemma}   \label{le:IdenRowsDetZero}
+%<*lm:IdenRowsDetZero>
+有两行相同的矩阵，其行列式为零。
+有一个零行的矩阵，其行列式为零。
+矩阵是非奇异的当且仅当其行列式非零。
+阶梯形矩阵的行列式等于沿其对角线的乘积。
+%</lm:IdenRowsDetZero>
+\end{lemma}
+
+\begin{proof}
+%<*pf:IdenRowsDetZero0>
+为验证第一句，对换这两个相同的行。
+行列式的符号改变了，但矩阵是同一个，
+因而其行列式也相同。
+于是行列式为零。
+%</pf:IdenRowsDetZero0>
+
+%<*pf:IdenRowsDetZero1>
+对于第二句，
+将零行乘以二。
+这使行列式加倍，但该行
+保持不变，因而
+行列式也保持不变。
+所以行列式必为零。
+%</pf:IdenRowsDetZero1>
+
+%<*pf:IdenRowsDetZero2>
+对于第三句，
+作高斯–若尔当消元
+$T \rightarrow\cdots\rightarrow\hat{T}$。
+由前三个性质，
+$T$ 的行列式为零当且仅当
+$\hat{T}$ 的行列式为零
+（尽管二者可能在符号或大小上不同）。
+非奇异矩阵 $T$ 经高斯–若尔当消元化为单位矩阵，
+因而其行列式非零。
+奇异的 $T$ 则化为带有一个零行的 $\hat{T}$；
+由本引理的第二句，其行列式为零。
+%</pf:IdenRowsDetZero2>
+
+%<*pf:IdenRowsDetZero3>
+第四句有两种情形。
+若阶梯形矩阵是奇异的，则
+它有一个零行。
+于是其对角线上有一个零，并且
+沿其对角线的乘积为零。
+由本结论的第三句，行列式为零，
+因此该矩阵的行列式等于
+沿其对角线的乘积。
+%</pf:IdenRowsDetZero3>
+
+%<*pf:IdenRowsDetZero4>
+若阶梯形矩阵是非奇异的，则它的对角元
+都不为零。
+这意味着我们可以除以这些对角元，
+再利用条件~(3) 使对角线上都得到 $1$。
+\begin{equation*}
+  \begin{vmat}
+    t_{1,1}  &t_{1,2}  &     &t_{1,n}  \\
+    0        &t_{2,2}  &     &t_{2,n}  \\
+             &         &\ddots         \\
+    0        &         &     &t_{n,n}
+  \end{vmat}
+  =
+  t_{1,1}\cdot t_{2,2}\cdots t_{n,n}\cdot
+  \begin{vmat}
+    1        &t_{1,2}/t_{1,1}  &     &t_{1,n}/t_{1,1}  \\
+    0        &1                &     &t_{2,n}/t_{2,2}  \\
+             &                 &\ddots         \\
+    0        &                 &     &1
+  \end{vmat}
+\end{equation*}
+然后，高斯–若尔当消元的若尔当部分使之成为单位矩阵。
+\begin{equation*}
+  =
+  t_{1,1}\cdot t_{2,2}\cdots t_{n,n}\cdot
+  \begin{vmat}
+    1        &0                &     &0                \\
+    0        &1                &     &0                \\
+             &                 &\ddots         \\
+    0        &                 &     &1
+  \end{vmat}
+  =
+  t_{1,1}\cdot t_{2,2}\cdots t_{n,n}\cdot 1
+\end{equation*}
+所以在这种情形，行列式
+同样是沿对角线的乘积。
+%</pf:IdenRowsDetZero4>
+\end{proof}
+
+这给了我们一种办法，用来计算行列式函数
+在一个矩阵上的取值：
+作高斯消元，记录行对换所引起的任何变号
+以及我们提出的任何标量倍数，
+最后沿阶梯形结果的
+对角线相乘。
+这一算法与高斯消元法一样快，因此
+对我们将会看到的
+所有矩阵都是实用的。
+
+\begin{example}
+用高斯消元法
+计算 \( \nbyn{2} \) 行列式
+\begin{equation*}
+   \begin{vmat}[r]
+      2  &4  \\
+      -1 &3
+   \end{vmat}
+   =
+   \begin{vmat}[r]
+      2  &4  \\
+      0  &5
+   \end{vmat}
+   =10
+\end{equation*}
+省不了多少时间，
+因为 $\nbyn{2}$ 行列式公式很容易。
+然而，一个 \( \nbyn{3} \) 行列式
+用高斯消元法来计算往往比用它的公式更容易。
+\begin{equation*}
+   \begin{vmat}[r]
+     2  &2  &6  \\
+     4  &4  &3  \\
+     0  &-3 &5
+   \end{vmat}
+   =
+   \begin{vmat}[r]
+     2  &2  &6  \\
+     0  &0  &-9 \\
+     0  &-3 &5
+   \end{vmat}
+   =
+   -\begin{vmat}[r]
+     2  &2  &6  \\
+     0  &-3 &5  \\
+     0  &0  &-9
+   \end{vmat}
+   =-54
+\end{equation*}
+\end{example}
+
+\begin{example}
+比 $\nbyn{3}$ 更大的行列式
+用高斯消元法的过程很快就完成了。
+\begin{equation*}
+   \begin{vmat}[r]
+      1  &0  &1  &3  \\
+      0  &1  &1  &4  \\
+      0  &0  &0  &5  \\
+      0  &1  &0  &1
+   \end{vmat}
+   =
+   \begin{vmat}[r]
+      1  &0  &1  &3  \\
+      0  &1  &1  &4  \\
+      0  &0  &0  &5  \\
+      0  &0  &-1 &-3
+   \end{vmat}
+   =
+   -\begin{vmat}[r]
+      1  &0  &1  &3  \\
+      0  &1  &1  &4  \\
+      0  &0  &-1 &-3 \\
+      0  &0  &0  &5
+   \end{vmat}
+   =-(-5)=5
+\end{equation*}
+\end{example}
+
+上面的例题引出了一个重要的观点。
+本章的引言给出了 $\nbyn{2}$
+和 $\nbyn{3}$ 行列式的公式，因此我们知道它们存在，
+但对于 $\nbyn{4}$ 或更大的矩阵上的行列式函数却没有给出公式。
+作为替代，\nearbydefinition{def:Det} 给出了一个行列式函数
+应当具有的性质，
+并由此引出用高斯消元法来计算行列式。
+
+然而，对任意一个矩阵，我们都可以用高斯消元法以
+多种方式将其化为阶梯形。
+例如，给定一个消元过程，我们可以插入一个第一步
+把最上面一行乘以~$2$，然后插入一个第二步
+把它乘以~$1/2$，从而改变这个过程。
+因此我们必须担心，两种不同的高斯消元法消元
+可能导致行列式的两个不同的计算值。
+
+也就是说，我们必须验证 \nearbydefinition{def:Det} 给出的是
+一个良定义的函数。
+接下来的两小节将完成这件事，证明存在
+满足该定义的
+一个良定义的函数。
+
+但首先我们证明，若存在这样的函数，
+则至多只有一个。
+上面的例题说明了这个想法：~我们
+按照定义的性质得到了~$5$。
+因此，虽然我们尚未证明 $\det_{\nbyn{4}}$ 存在，
+即存在具有性质 (1)\,--\,(4) 的函数，
+但若满足这些性质的函数确实存在，
+则我们知道它在上述矩阵上给出的值。
+
+\begin{lemma} \label{lm:DetFcnIsUnique}
+%<*lm:DetFcnIsUnique>
+对每个 $n$，
+若存在 $\nbyn{n}$ 行列式函数，则它是唯一的。
+%</lm:DetFcnIsUnique>
+\end{lemma}
+
+\begin{proof}
+%<*pf:DetFcnIsUnique>
+假设有两个函数
+$\map{\det_1,\det_2}{\matspace_{\nbyn{n}}}{\Re}$
+满足
+\nearbydefinition{def:Det} 的性质以及
+其推论 \nearbylemma{le:IdenRowsDetZero}。
+给定一个方阵~$M$，固定一种实施高斯消元法
+将该矩阵化为阶梯形的方式（有多种方式并不要紧，
+只需固定其中一种）。
+通过像上面的例题中那样
+使用这一固定的消元过程\Dash
+记录行倍乘的因子以及符号在行对换时如何变号，
+然后沿阶梯形结果的对角线相乘\Dash
+我们可以算出这两个函数在~$M$ 上必定返回的值，
+并且它们必定返回相同的值。
+由于它们在每个输入上都给出相同的输出，所以它们是同一个函数。
+%</pf:DetFcnIsUnique>
+\end{proof}
+
+“若存在 $\nbyn{n}$ 行列式函数”
+这一说法强调，
+虽然我们可以
+用高斯消元法计算出行列式函数
+所可能返回的唯一值，
+但我们尚未证明这样的函数对一切 $n$ 都存在。
+本节其余部分将完成这件事。
+
+
+
+\begin{exercises}
+  \item[{\em 做这些题时，假设 $\nbyn{n}$ 行列式
+      函数对一切 $n$ 都存在。}]
+  \recommended \item 通过执行一次行变换求每个行列式。
+    \begin{exparts*}
+      \partsitem \( \begin{vmat}[r]
+                 1  &-2  &1  &2 \\
+                 2  &-4  &1  &0 \\
+                 0  &0  &-1  &0 \\
+                 0  &0  &0  &5
+               \end{vmat} \)
+      \partsitem \( \begin{vmat}[r]
+                 1  &1  &-2  \\
+                 0  &0  &4  \\
+                 0  &3  &-6
+               \end{vmat} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+       \partsitem 作 $2\rho_1+\rho_2$ 化为阶梯形，然后沿对角线相乘。
+          行列式为~$0$。
+          % sage: M = matrix(QQ, [[1,-2,1,2], [2,-4,1,0], [0,0,-1,0], [0,0,0,5]])
+          % sage: M.determinant()
+          % 0
+        \partsitem 对换第二行与第三行即可将其化为阶梯形（同时改变行列式的符号）。
+          沿对角线相乘得~$12$，故所给矩阵的行列式为~$-12$。
+          % sage: M = matrix(QQ, [[1,1,-2], [0,0,4], [0,3,-6]])
+          % sage: M.determinant()
+          % -12
+      \end{exparts}
+    \end{answer}
+  \recommended \item 
+    用高斯消元法求每个行列式。
+    \begin{exparts*}
+      \partsitem \( \begin{vmat}[r]
+                 3  &1  &2  \\
+                 3  &1  &0  \\
+                 0  &1  &4
+               \end{vmat} \)
+      \partsitem \( \begin{vmat}[r]
+                 1  &0  &0  &1 \\
+                 2  &1  &1  &0 \\
+                -1  &0  &1  &0 \\
+                 1  &1  &1  &0
+               \end{vmat} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+      \partsitem \( \begin{vmat}[r]
+                 3  &1  &2  \\
+                 3  &1  &0  \\
+                 0  &1  &4
+               \end{vmat}
+               =
+               \begin{vmat}[r]
+                 3  &1  &2  \\
+                 0  &0  &-2 \\
+                 0  &1  &4
+               \end{vmat}
+               =
+               -\begin{vmat}[r]
+                 3  &1  &2  \\
+                 0  &1  &4  \\
+                 0  &0  &-2
+               \end{vmat}
+               =6  \)
+      \partsitem \( \begin{vmat}[r]
+                 1  &0  &0  &1 \\
+                 2  &1  &1  &0 \\
+                -1  &0  &1  &0 \\
+                 1  &1  &1  &0
+               \end{vmat}
+               =
+               \begin{vmat}[r]
+                 1  &0  &0  &1 \\
+                 0  &1  &1  &-2\\
+                 0  &0  &1  &1 \\
+                 0  &1  &1  &-1
+               \end{vmat}
+               =
+               \begin{vmat}[r]
+                 1  &0  &0  &1 \\
+                 0  &1  &1  &-2\\
+                 0  &0  &1  &1 \\
+                 0  &0  &0  &1
+               \end{vmat}
+               =1    \)
+      \end{exparts} 
+    \end{answer}
+  \item 用高斯消元法求每个行列式。
+    \begin{exparts*}
+      \partsitem \( \begin{vmat}[r]
+                 2  &-1  \\
+                -1 &-1
+               \end{vmat}  \)
+      \partsitem \( \begin{vmat}[r]
+                 1  &1  &0  \\
+                 3  &0  &2  \\
+                 5  &2  &2
+               \end{vmat} \)
+    \end{exparts*}
+    \begin{answer}
+     \begin{exparts}
+      \partsitem \(
+        \begin{vmat}[r]
+                 2  &-1  \\
+                 -1 &-1
+               \end{vmat}
+             =\begin{vmat}[r]
+                 2  &-1  \\
+                 0  &-3/2
+               \end{vmat}=-3  \);
+      \partsitem \( \begin{vmat}[r]
+                 1  &1  &0  \\
+                 3  &0  &2  \\
+                 5  &2  &2
+               \end{vmat}
+              =\begin{vmat}[r]
+                 1  &1  &0  \\
+                 0  &-3 &2  \\
+                 0  &-3 &2
+               \end{vmat}
+              =\begin{vmat}[r]
+                 1  &1  &0  \\
+                 0  &-3 &2  \\
+                 0  &0  &0
+               \end{vmat}
+              =0 \)
+     \end{exparts}  
+    \end{answer}
+  \item 
+    对哪些 \( k \) 值，该方程组
+    有唯一解？
+    \begin{equation*}
+       \begin{linsys}{4}
+          x  &  &  &+ &z  &-  &w  &=  &2  \\
+             &  &y &- &2z &   &   &=  &3  \\
+          x  &  &  &+ &kz &   &   &=  &4  \\
+             &  &  &  &z  &-  &w  &=  &2
+        \end{linsys}
+    \end{equation*}
+    \begin{answer}
+     什么时候行列式不为零？
+      \begin{equation*}
+         \begin{vmat}
+           1  &0  &1  &-1  \\
+           0  &1  &-2 &0   \\
+           1  &0  &k  &0   \\
+           0  &0  &1  &-1
+         \end{vmat}
+         =
+         \begin{vmat}
+           1  &0  &1  &-1  \\
+           0  &1  &-2 &0   \\
+           0  &0  &k-1&1   \\
+           0  &0  &1  &-1
+         \end{vmat}           
+      \end{equation*}
+      显然，
+      $k=1$ 给出非奇异性，从而行列式非零。
+      若 $k\neq 1$，则
+      用倍加 $(-1/k-1)\rho_3+\rho_4$ 可得到阶梯形。
+      \begin{equation*}
+         =
+         \begin{vmat}
+           1  &0  &1  &-1  \\
+           0  &1  &-2 &0   \\
+           0  &0  &k-1&1   \\
+           0  &0  &0  &-1-(1/k-1)
+         \end{vmat}
+      \end{equation*}
+      沿对角线相乘得 $(k-1)(-1-(1/k-1))=-(k-1)-1=-k$。
+      因此，该矩阵的行列式非零，从而方程组
+      有唯一解，当且仅当 \( k\neq 0 \)。  
+    \end{answer}
+  \recommended \item 
+    将下列各式用 \( \deter{H} \) 表示。
+    \begin{exparts}
+      \partsitem \( \begin{vmat}
+            h_{3,1}  &h_{3,2} &h_{3,3} \\
+            h_{2,1}  &h_{2,2} &h_{2,3} \\
+            h_{1,1}  &h_{1,2} &h_{1,3}
+          \end{vmat} \)
+      \partsitem \( \begin{vmat}
+           -h_{1,1}   &-h_{1,2}  &-h_{1,3} \\
+           -2h_{2,1}  &-2h_{2,2} &-2h_{2,3} \\
+           -3h_{3,1}  &-3h_{3,2} &-3h_{3,3}
+          \end{vmat} \)
+      \partsitem \( \begin{vmat}
+            h_{1,1}+h_{3,1}  &h_{1,2}+h_{3,2} &h_{1,3}+h_{3,3} \\
+            h_{2,1}          &h_{2,2}         &h_{2,3} \\
+            5h_{3,1}         &5h_{3,2}        &5h_{3,3}
+          \end{vmat} \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 行列式定义中的条件~(2)
+          经对换 $\rho_1\leftrightarrow\rho_3$ 适用。
+          \begin{equation*}
+            \begin{vmat}
+              h_{3,1}  &h_{3,2} &h_{3,3} \\
+              h_{2,1}  &h_{2,2} &h_{2,3} \\
+              h_{1,1}  &h_{1,2} &h_{1,3}
+            \end{vmat}
+            =
+            -\begin{vmat}
+              h_{1,1}  &h_{1,2} &h_{1,3} \\
+              h_{2,1}  &h_{2,2} &h_{2,3} \\
+              h_{3,1}  &h_{3,2} &h_{3,3} 
+            \end{vmat}
+          \end{equation*}
+        \partsitem 条件~(3) 适用。
+          \begin{multline*}
+            \begin{vmat}
+             -h_{1,1}   &-h_{1,2}  &-h_{1,3} \\
+             -2h_{2,1}  &-2h_{2,2} &-2h_{2,3} \\
+             -3h_{3,1}  &-3h_{3,2} &-3h_{3,3}
+            \end{vmat}
+            =
+            (-1)\cdot(-2)\cdot(-3)\cdot
+            \begin{vmat}
+             h_{1,1}   &h_{1,2}  &h_{1,3} \\
+             h_{2,1}   &h_{2,2}  &h_{2,3} \\
+             h_{3,1}   &h_{3,2}  &h_{3,3}
+            \end{vmat}                                  \\
+            =
+            (-6)\cdot
+            \begin{vmat}
+             h_{1,1}   &h_{1,2}  &h_{1,3} \\
+             h_{2,1}   &h_{2,2}  &h_{2,3} \\
+             h_{3,1}   &h_{3,2}  &h_{3,3}
+            \end{vmat}
+          \end{multline*}
+        \partsitem 
+          \begin{multline*}
+          \begin{vmat}
+            h_{1,1}+h_{3,1}  &h_{1,2}+h_{3,2} &h_{1,3}+h_{3,3} \\
+            h_{2,1}          &h_{2,2}         &h_{2,3} \\
+            5h_{3,1}         &5h_{3,2}        &5h_{3,3}
+          \end{vmat}                                                 \\
+          \begin{aligned}
+          &=
+          5\cdot     
+          \begin{vmat}
+            h_{1,1}+h_{3,1}  &h_{1,2}+h_{3,2} &h_{1,3}+h_{3,3} \\
+            h_{2,1}          &h_{2,2}         &h_{2,3} \\
+            h_{3,1}          &h_{3,2}         &h_{3,3}
+          \end{vmat}                                     \\
+          &=5\cdot
+          \begin{vmat}
+            h_{1,1}          &h_{1,2}         &h_{1,3} \\
+            h_{2,1}          &h_{2,2}         &h_{2,3} \\
+            h_{3,1}          &h_{3,2}         &h_{3,3}
+          \end{vmat}
+          \end{aligned}
+          \end{multline*}
+      \end{exparts}  
+     \end{answer}
+  \recommended \item 
+    求对角矩阵的行列式。
+    \begin{answer}
+       对角矩阵已是阶梯形，所以
+       行列式就是对角线上元素的乘积。
+    \end{answer}
+  \item 
+    若系数矩阵的行列式非零，试描述一个齐次线性方程组的解集。
+    \begin{answer}
+      它就是平凡子空间。  
+    \end{answer}
+  \recommended \item 
+    证明此行列式为零。
+    \begin{equation*}
+      \begin{vmat}
+        y+z  &x+z  &x+y  \\
+        x    &y    &z    \\
+        1    &1    &1
+      \end{vmat}
+    \end{equation*}
+    \begin{answer} 
+      把第二行加到第一行，得到的矩阵其第一行
+      是第三行的 $x+y+z$ 倍。  
+    \end{answer}
+  \item 
+    \begin{exparts}
+      \partsitem 求以 $(-1)^{i+j}$ 为 $i,j$ 元的
+        $\nbyn{1}$、$\nbyn{2}$ 与 $\nbyn{3}$ 矩阵。  
+      \partsitem 求以 \( (-1)^{i+j} \) 为 \( i,j \)
+        元的方阵的行列式。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+          $\begin{mat}[r]
+            1
+          \end{mat}$,
+          $\begin{mat}[r]
+            1  &-1  \\
+            -1  &1
+          \end{mat}$,
+          $\begin{mat}[r]
+            1   &-1  &1   \\
+            -1  &1   &-1  \\
+            1   &-1  &1
+          \end{mat}$
+        \partsitem $\nbyn{1}$ 情形的行列式为 $1$。
+          在其余各种情形中，第二行都是第一行的相反数，
+          因此矩阵是奇异的，行列式为零。 
+      \end{exparts} 
+    \end{answer}
+  \item 
+    \begin{exparts}
+      \partsitem 求以 $i+j$ 为 $i,j$ 元的
+        $\nbyn{1}$、$\nbyn{2}$ 与 $\nbyn{3}$ 矩阵。  
+      \partsitem 求以 $i+j$ 为 
+        $i,j$ 元的方阵的行列式。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+          $\begin{mat}[r]
+            2
+          \end{mat}$,
+          $\begin{mat}[r]
+            2  &3  \\
+            3  &4
+          \end{mat}$,
+          $\begin{mat}[r]
+            2  &3  &4  \\
+            3  &4  &5  \\
+            4  &5  &6
+          \end{mat}$
+        \partsitem $\nbyn{1}$ 与 $\nbyn{2}$ 情形给出如下结果。
+          \begin{equation*}
+            \begin{vmat}[r]
+              2
+            \end{vmat}
+            =2
+            \qquad
+            \begin{vmat}[r]
+              2  &3  \\
+              3  &4
+            \end{vmat}=-1
+          \end{equation*}
+          而 $n\geq 3$ 的 $\nbyn{n}$ 矩阵都是奇异的，例如
+          \begin{equation*}
+            \begin{vmat}[r]
+              2  &3  &4  \\
+              3  &4  &5  \\
+              4  &5  &6
+            \end{vmat}=0
+          \end{equation*}
+          因为第二行的两倍减去第一行
+          等于第三行。
+          验证这一点是例行的。
+      \end{exparts} 
+    \end{answer}
+  \recommended \item 
+    通过给出一个 \( \deter{A+B}\neq\deter{A}+\deter{B} \) 的例子，
+    证明行列式函数不是线性的。
+    \begin{answer}
+      取这一个
+      \begin{equation*}
+         A=B=
+         \begin{mat}[r]
+           1  &2  \\
+           3  &4
+         \end{mat}
+      \end{equation*}
+      容易验证
+      \begin{equation*}
+         \deter{A+B}
+         =
+         \begin{vmat}[r]
+           2  &4  \\
+           6  &8
+         \end{vmat}
+         =-8
+         \qquad
+         \deter{A}+\deter{B}
+         =
+         -2-2
+         =-4
+      \end{equation*}
+      顺便说一下，这也给出了一个标量乘法不被保持的例子：
+      $\deter{2\cdot A}\neq 2\cdot\deter{A}$。  
+     \end{answer}
+  \item 
+    定义中的第二个条件，即行对换改变
+    行列式的符号，多少有些令人烦恼。
+    它意味着我们必须记录对换的次数，以计算
+    符号如何交替变化。
+    我们能否摆脱它？
+    能否把它换成行对换使行列式
+    保持不变这一条件？
+    （若可行，那么我们就需要新的 $\nbyn{1}$、
+     $\nbyn{2}$ 与 $\nbyn{3}$ 公式，但那只是小事一桩。）
+    \begin{answer}
+      不行，不能替换。
+      \nearbyremark{rem:SwapRowsRedun}
+      表明替换之后的四个条件会
+      相互矛盾 \Dash  没有函数同时满足这四个条件。
+    \end{answer}
+  \item 
+    证明任何三角矩阵的行列式，无论是上三角的还是下三角的，
+    都是其对角线上元素的乘积。
+    \begin{answer}
+      上三角矩阵已是阶梯形。
+
+      下三角矩阵要么奇异要么非奇异。
+      若它奇异，则其对角线上有零，从而其
+      行列式（即零）确实是对角线上元素的乘积。 
+      若它非奇异，则其对角线上没有零，并且
+      我们可以用高斯消元法将其化简为阶梯形，
+      而不改变对角线。  
+    \end{answer}
+  \item
+    参见“矩阵乘法的机制”小节中初等矩阵的定义。
+    \begin{exparts}
+      \partsitem 每种初等矩阵的行列式是什么？
+      \partsitem 证明若 \( E \) 是任一初等矩阵，则对任意阶数匹配的
+        \( S \) 都有
+        \( \deter{ES}=\deter{E}\deter{S} \)。
+      \partsitem \textit{（此问题不涉及行列式。）}
+        证明若 \( T \) 奇异，则乘积 \( TS \)
+        也奇异。
+      \partsitem 证明 \( \deter{TS}=\deter{T}\deter{S} \)。
+      \partsitem 证明若 \( T \) 非奇异，则
+          \( \deter{T^{-1}}=\deter{T}^{-1} \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 行列式定义中的诸性质表明
+          \( \deter{M_i(k)}=k \)、
+          \( \deter{P_{i,j}}=-1 \)
+          以及
+          \( \deter{C_{i,j}(k)}=1 \)。
+        \partsitem 回想左乘每类矩阵的作用，三种情形都容易验证。
+        \partsitem 若 \( TS \) 可逆，即 \( (TS)M=I \)，则
+          由矩阵乘法的结合律，
+          \( T(SM)=I \) 表明 \( T \) 可逆。
+          所以若 \( T \) 不可逆，则 \( TS \) 也不可逆。
+        \partsitem 若 \( T \) 奇异，则应用前面的答案：
+          \( \deter{TS}=0 \) 且
+          \( \deter{T}\cdot\deter{S}=0\cdot\deter{S}=0 \)。
+          若 \( T \) 不奇异，则可将它写成初等矩阵的乘积
+          $
+            \deter{TS}=\deter{E_r\cdots E_1S}=
+            \deter{E_r}\cdots\deter{E_1}\cdot\deter{S}=
+            \deter{E_r\cdots E_1}\deter{S}=\deter{T}\deter{S}
+          $。
+        \partsitem \( 1=\deter{I}=\deter{T\cdot T^{-1}}
+                     =\deter{T}\deter{T^{-1}} \)
+      \end{exparts}  
+     \end{answer} 
+  \item 
+    按下面的方式证明乘积的行列式等于行列式的乘积
+    \( \deter{TS}=\deter{T}\,\deter{S} \)。
+    取定 \( \nbyn{n} \) 矩阵 \( S \)，考虑函数
+    \( \map{d}{\matspace_{\nbyn{n}}}{\Re} \)，其由
+    \( T\mapsto \deter{TS}/\deter{S} \) 给出。
+    \begin{exparts}
+      \partsitem 验证 \( d \) 满足行列式函数定义中的条件~(1)。
+      \partsitem 验证条件~(2)。
+      \partsitem 验证条件~(3)。
+      \partsitem 验证条件~(4)。
+      \partsitem 由此得出结论：乘积的行列式等于行列式的乘积。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 我们必须证明：若
+          \begin{equation*}
+            T\grstep{k\rho_i+\rho_j}\hat{T}
+          \end{equation*}
+          则 $d(T)=\deter{TS}/\deter{S}
+          =\deter{\hat{T}S}/\deter{S}=d(\hat{T})$。
+          如果我们能证明先组合行、再相乘得到 \( \hat{T}S \)，
+          与先相乘得到 \( TS \)、再组合行，结果相同
+          （因为行列式 \( \deter{TS} \) 不受该倍加的影响，所以我们就有
+          \( \deter{\hat{T}S}=\deter{TS} \)，从而 \( d(\hat{T})=d(T) \)），
+          便完成证明。
+          该论证如下：~把 \( TS \) 的第~\( i \) 行的 \( k \) 倍加到
+          \( TS \) 的第~$j$ 行之后，第 \( j,p \) 元为
+          \( (kt_{i,1}+t_{j,1})s_{1,p}+\dots+(kt_{i,r}+t_{j,r})s_{r,p} \)，
+          这正是 \( \hat{T}S \) 的第 \( j,p \) 元。
+        \partsitem 我们只需证明：对换
+          $
+            T\smash[b]{\grstep{\rho_i\swap\rho_j}}\hat{T}
+          $
+          之后相乘得到 \( \hat{T}S \)，与先把 \( T \) 乘以 \( S \)、再对换行，
+          结果相同（因为行列式 \( \deter{TS} \) 在行对换下变号，
+         所以我们就有 \( \deter{\hat{T}S}=-\deter{TS} \)，
+          于是 \( d(\hat{T})=-d(T) \)）。
+          该论证与前一个论证的进行方式相同。
+        \partsitem 正如现在所期待的，我们只需证明：
+          把某行乘以一个标量
+          $
+            T\smash[b]{\grstep{k\rho_i}}\hat{T}
+          $
+          之后计算 \( \hat{T}S \)，与先计算 \( TS \)、再把该行乘以 \( k \)，
+          结果相同（由于行列式 \( \deter{TS} \) 在该倍乘下被乘以 \( k \)，
+          我们就有 \( \deter{\hat{T}S}=k\deter{TS} \)，
+          所以 \( d(\hat{T})=k\,d(T) \)）。
+          论证的进行方式与上面完全一样。
+        \partsitem 显然。
+        \partsitem 由于我们已经证明 \( d(T) \) 是一个行列式，
+          并且行列式函数（若存在）是唯一的，
+          我们便有
+          所以 \( \deter{T}=d(T)=\deter{TS}/\deter{S} \)。
+      \end{exparts}  
+    \end{answer}
+  \item 
+    给定矩阵 $A$ 的\definend{子矩阵}\index{submatrix}\index{matrix!submatrix} 
+    指删除 $A$ 的某些行和某些列
+    之后得到的矩阵。
+    于是，这里第一个矩阵是第二个矩阵的子矩阵。
+    \begin{equation*}
+      \begin{mat}[r]
+        3  &1  \\
+        2  &5
+      \end{mat}
+      \qquad
+      \begin{mat}[r]
+        3  &4  &1  \\
+        0  &9  &-2 \\
+        2  &-1 &5
+      \end{mat}
+    \end{equation*}
+    证明：对任意方阵，
+    矩阵的秩为 $r$ 当且仅当
+    \( r \) 是使得存在一个行列式非零的
+    \( \nbyn{r} \) 子矩阵的
+    最大整数。
+    \begin{answer}
+      我们首先论证：秩为 \( r \) 的矩阵有一个行列式非零的
+      \( \nbyn{r} \) 子矩阵。
+      秩为 \( r \) 的矩阵有一个由 \( r \) 行组成的线性无关集合。
+      由这些行构成的矩阵行秩为 \( r \)，因而其
+      列秩也为 \( r \)。
+      结论：从这 \( r \) 行中可以取出一组由 \( r \) 列组成的线性无关集合，
+      于是原矩阵有一个秩为 \( r \) 的
+      \( \nbyn{r} \) 子矩阵。
+
+      最后我们证明：若 \( r \) 是具有该性质的最大整数，
+      则矩阵的秩为 \( r \)。
+      由 \( r \) 的最大性，我们只需证明：
+      若一个矩阵有行列式非零的
+      \( \nbyn{k} \) 子矩阵，则该矩阵的秩至少为 \( k \)。
+      考虑这样一个 \( \nbyn{k} \) 子矩阵。
+      它的行是原矩阵的行的一部分，显然
+      完整的行的集合是线性无关的。
+      于是原矩阵的行秩至少为 \( k \)，而矩阵的行秩
+      等于其秩。  
+   \end{answer}
+  \item
+    证明元素全为有理数的矩阵的行列式是有理数。
+    \begin{answer}
+      元素全为有理数的矩阵用高斯
+      消元法化简时，只用到有理数运算即可化为阶梯形矩阵。
+      因此对角线上的元素必定是有理数，从而
+      对角线上元素的乘积是有理数。  
+    \end{answer}
+  \puzzle \item 
+     \cite{Monthly53p115}
+     求以下各组操作的共同点：(a)~约简一个分数，(b)~给鼻子扑粉，
+     (c)~给教堂修建新台阶，(d)~让荣休教授留驻校园，
+     (e)~把 \( B \)、\( C \)、\( D \) 放入行列式
+     \begin{equation*}
+       \begin{vmat}
+         1   &a   &a^2  &a^3  \\
+         a^3 &1   &a    &a^2  \\
+         B   &a^3 &1    &a    \\
+         C   &D   &a^3  &1
+       \end{vmat}.
+     \end{equation*}
+     \begin{answer}
+       \answerasgiven
+       行列式的值 \( (1-a^4)^3 \) 与
+       \( B \)、\( C \)、\( D \) 的取值无关。
+       因此操作~(e) 不改变行列式的值，
+       只是改变了它的外观。
+       于是在 (a)、(b)、(c)、(d)、(e) 中，
+       共同点仅仅在于主要对象的外观被改变了。
+       同样的共同点还出现在 (f)~改换玫瑰的名称标签、
+       (g)~把一个十进制整数写成 \( 12 \) 进制、(h)~给百合花镀金、
+       (i)~给政客粉饰门面，以及 (j)~授予荣誉学位。
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{置换展开}
+前一小节定义了：满足四个条件的函数就是行列式，并证明了对每个 $n$，
+$\nbyn{n}$ 行列式函数至多有一个。
+剩下的工作就是证明对每个 $n$ 都存在这样的函数。
+
+但是，我们很容易计算行列式：
+用高斯消元法，记录行对换带来的符号变化，
+最后沿对角线相乘。
+行列式怎么可能不存在呢？
+
+困难在于证明该计算给出的是良定义的\Dash 即唯一的\Dash 结果。
+%<*DifferentGaussMethodReductions>
+考虑对同一个矩阵进行如下两次高斯消元法化简，
+第一次不包含行对换
+\begin{equation*}
+  \begin{mat}[r]
+    1  &2  \\
+    3  &4
+  \end{mat}
+  \grstep{-3\rho_1+\rho_2}
+  \begin{mat}[r]
+    1  &2  \\
+    0  &-2
+  \end{mat}
+\end{equation*}
+第二次包含一次行对换。
+\begin{equation*}
+  \begin{mat}[r]
+    1  &2  \\
+    3  &4
+  \end{mat}
+  \grstep{\rho_1\leftrightarrow\rho_2}
+  \begin{mat}[r]
+    3  &4  \\
+    1  &2
+  \end{mat}
+  \grstep{-(1/3)\rho_1+\rho_2}
+  \begin{mat}[r]
+    3  &4  \\
+    0  &2/3
+  \end{mat}
+\end{equation*}
+两者都得到行列式 $-2$，
+因为在第二种化简中我们记下了：行对换会改变
+沿对角线相乘所得结果的符号。
+%</DifferentGaussMethodReductions>
+我们可以按两种方式进行计算，这一事实引出了两种方式可能给出不同答案的问题。
+% To illustrate how a computation that is like the ones that we are doing could 
+% fail to be well-defined, 
+% suppose that \nearbydefinition{def:Det} did not include condition~(2). 
+% That is, suppose that we instead tried to define determinants so that
+% the value would not change on a row swap.
+% Then first reduction above would
+% yield $-2$ while the second would yield $+2$.
+% We could still do computations but they wouldn't give consistent outcomes\Dash
+% there is no 
+% function that satisfies conditions (1), (3), (4), and also this
+% altered second condition. 
+% Of course, observing that \nearbydefinition{def:Det} does the right thing
+% with these two reductions of the above matrix is not enough.
+也就是说，我们给出的这种计算行列式值的方法，并没有明显排除如下可能性：比如说，
+某个 $\nbyn{7}$~矩阵的两次化简可能导出
+不同的行列式值。
+若是那样，我们就不再有函数了，因为函数的定义要求每个输入恰好对应唯一的输出。
+本节余下的部分将证明，定义~\nearbydefinition{def:Det}
+永远不会导致冲突。
+
+% \begin{remark}
+% The natural way approach to this would be 
+% to define the determinant function with:~``The value of the
+% function is the result of doing Gauss's Method,
+% keeping track of row swaps, and finishing by multiplying down the diagonal''. 
+% (Since Gauss's Method allows for some variation, as we saw above, 
+% we would have to fix an explicit algorithm.)
+% Then we would be done if we verified that 
+% this way algorithm satisfies the four properties.
+% However, how to verify this is not evident.
+% So the development below will not proceed in this way.
+% \end{remark}
+
+为此，我们将定义另一种求行列式值的方法。
+（这种替代方法在实践中用处不大，因为它
+速度慢。
+但它对理论非常有用。）
+关键的想法是，
+\nearbydefinition{def:Det} 的条件~(3)
+表明行列式函数不是线性的。
+
+\begin{example}
+利用条件~(3)，标量可以从每一行中分别提出来，
+\begin{equation*}
+   \begin{vmat}[r]
+       4  &2  \\
+      -2  &6
+     \end{vmat}
+  =2\cdot\begin{vmat}[r]
+       2  &1  \\
+      -2  &6
+     \end{vmat}
+  =4\cdot\begin{vmat}[r]
+       2  &1  \\
+      -1  &3
+     \end{vmat}
+\end{equation*}
+而不是从整个矩阵一次提出。
+于是，当
+\begin{equation*}
+   A=\begin{mat}[r]
+       2  &1  \\
+      -1  &3
+     \end{mat}
+\end{equation*} 
+时，\( \det(2A) \neq 2\cdot\det(A) \) 
+（相反，\( \det(2A) =  4\cdot\det(A) \)）。
+\end{example}
+
+由于标量是逐行提出的，我们可以猜测
+行列式是逐行线性的。
+
+\begin{definition} \label{def:multilinear}
+%<*df:Multilinear>
+设 \( V \) 是一个向量空间。
+映射 \( \map{f}{V^n}{\Re} \) 称为
+\definend{多重线性的}\index{function!multilinear}\index{multilinear}，
+若  
+\begin{enumerate}
+  \item 
+    $
+      f(\vec{\rho}_1,\dots,\vec{v}+\vec{w},
+      \ldots,\vec{\rho}_n)
+      =f(\vec{\rho}_1,\dots,\vec{v},\dots,\vec{\rho}_n)
+      +f(\vec{\rho}_1,\dots,\vec{w},\dots,\vec{\rho}_n)
+    $
+  \item 
+    $
+      f(\vec{\rho}_1,\dots,k\vec{v},\dots,\vec{\rho}_n)
+      =k\cdot f(\vec{\rho}_1,\dots,\vec{v},\dots,\vec{\rho}_n)
+    $
+\end{enumerate}
+其中 \( \vec{v}, \vec{w}\in V \)，\( k\in\Re \)。
+%</df:Multilinear>
+\end{definition}
+
+\begin{lemma}  \label{lem:DetsMultilinear}
+%<*lm:DetsMultilinear>
+行列式是多重线性的。
+%</lm:DetsMultilinear>
+\end{lemma}
+
+\begin{proof}
+%<*pf:DetsMultilinear0>
+这里的性质~(2) 恰是 \nearbydefinition{def:Det} 的条件~(3)，
+所以我们只需验证性质~(1)。
+%</pf:DetsMultilinear0>
+% \begin{equation*}
+%   \det(\vec{\rho}_1,\dots,\vec{v}+\vec{w},
+%       \dots,\vec{\rho}_n)
+%   =\det(\vec{\rho}_1,\dots,\vec{v},\dots,\vec{\rho}_n)
+%   +\det(\vec{\rho}_1,\dots,\vec{w},\dots,\vec{\rho}_n)
+% \end{equation*}
+
+%<*pf:DetsMultilinear1>
+分两种情况。
+若其余各行构成的集合
+\(
+  \set{\vec{\rho}_1,\dots,\vec{\rho}_{i-1},\vec{\rho}_{i+1},
+       \dots,\vec{\rho}_n} 
+\)
+是线性相关的，则这三个矩阵都是奇异的，从而三个行列式都为零，等式平凡地成立。
+%</pf:DetsMultilinear1>
+
+%<*pf:DetsMultilinear2>
+因此假设其余各行构成的集合是线性无关的。
+我们可以再添加一个向量
+$\sequence{\vec{\rho}_1,\dots,\vec{\rho}_{i-1},\vec{\beta},
+               \vec{\rho}_{i+1},\dots,\vec{\rho}_n}$
+来作出一个基。
+关于这个基表示 $\vec{v}$ 和 $\vec{w}$
+\begin{align*}
+  \vec{v} &=v_1\vec{\rho}_1+\dots+v_{i-1}\vec{\rho}_{i-1}+v_i\vec{\beta}
+            +v_{i+1}\vec{\rho}_{i+1}+\dots+v_n\vec{\rho}_n                \\
+  \vec{w} &= w_1\vec{\rho}_1+\dots+w_{i-1}\vec{\rho}_{i-1}+w_i\vec{\beta}
+            +w_{i+1}\vec{\rho}_{i+1}+\dots+w_n\vec{\rho}_n
+\end{align*}
+再相加。
+\begin{equation*}
+  \vec{v}+\vec{w}
+  =
+  (v_1+w_1)\vec{\rho}_1+\dots+(v_i+w_i)\vec{\beta}
+            +\dots+(v_n+w_n)\vec{\rho}_n 
+\end{equation*}
+考虑 (1) 的左边并展开 $\vec{v}+\vec{w}$。
+% $\det (\vec{\rho}_1,\dots,\vec{v}+\vec{w},\dots,\vec{\rho}_n)$.
+\begin{equation*}
+    \det (\vec{\rho}_1,\dots,\,(v_1+w_1)\vec{\rho}_1+\dots+(v_i+w_i)\vec{\beta}
+            +\dots+(v_n+w_n)\vec{\rho}_n,\,\dots,\vec{\rho}_n) 
+   \tag{$*$}
+\end{equation*}
+% Gauss's Method enables us to eliminate the terms for $\vec{\rho}_1$,
+% $\vec{\rho}_2$, etc., from the expanded expression.
+% the $(v_1+w_1)\vec{\rho}_1+\dots+(v_i+w_i)\vec{\beta}
+%             +\dots+(v_n+w_n)\vec{\rho}_n$ expression.
+由行列式定义的条件~(1)，($*$) % the determinant
+% $\det(\vec{\rho}_1,\dots,\vec{v}+\vec{w},\dots,\vec{\rho}_n)$
+的值在下述操作下不变：
+将 $-(v_1+w_1)\vec{\rho}_1$ 倍加到第 $i$ 行 $\vec{v}+\vec{w}$ 上。
+第 $i$ 行变成这样。
+\begin{equation*}
+  \vec{v}+\vec{w}-(v_1+w_1)\vec{\rho}_1
+  =
+  (v_2+w_2)\vec{\rho}_2+\cdots+(v_i+w_i)\vec{\beta}
+            +\dots+(v_n+w_n)\vec{\rho}_n 
+\end{equation*}
+%</pf:DetsMultilinear2>
+%<*pf:DetsMultilinear3>
+接着倍加 $-(v_2+w_2)\vec{\rho}_2$ 等等，以消去
+来自其他各行的所有项。
+应用行列式定义中的条件~(3)。
+\begin{multline*}
+  \det (\vec{\rho}_1,\dots,\vec{v}+\vec{w},\dots,\vec{\rho}_n)          \\
+  \begin{aligned}
+    &=\det (\vec{\rho}_1,\dots,(v_i+w_i)\cdot\vec{\beta},\dots,\vec{\rho}_n) \\
+    &=(v_i+w_i)\cdot\det (\vec{\rho}_1,\dots,\vec{\beta},\dots,\vec{\rho}_n) \\
+    &=v_i\cdot \det (\vec{\rho}_1,\dots,\vec{\beta},\dots,\vec{\rho}_n)  
+     +w_i\cdot \det (\vec{\rho}_1,\dots,\vec{\beta},\dots,\vec{\rho}_n)
+  \end{aligned}
+\end{multline*}
+现在这是两个行列式的和。
+为完成证明，把 $v_i$ 与 $w_i$ 重新移回到
+$\vec{\beta}$ 的前面，
+并再次使用行倍加，
+这一次用来按基重构 $\vec{v}$
+和 $\vec{w}$ 的表达式。
+也就是说，从下述操作开始：
+将 $v_1\vec{\rho}_1$ 倍加到 $v_i\vec{\beta}$，
+将 $w_1\vec{\rho}_1$ 倍加到 $w_i\vec{\rho}_1$，等等，
+从而得到 $\vec{v}$ 和 $\vec{w}$ 的展开式。
+%</pf:DetsMultilinear3>
+\end{proof}
+
+多重线性使我们能把一个行列式展开成一些行列式的和，
+其中每一个都涉及一个简单的矩阵。
+
+\begin{example}
+利用多重线性的性质~(1)
+拆分第一行
+\begin{equation*}
+  \begin{vmat}[r]
+     2  &1  \\
+     4  &3
+  \end{vmat}
+  =
+  \begin{vmat}[r]
+     2  &0  \\
+     4  &3
+  \end{vmat}
+  +
+  \begin{vmat}[r]
+     0  &1  \\
+     4  &3
+  \end{vmat}
+\end{equation*}
+然后再用 (1) 沿第二行拆分每一个。
+\begin{equation*}
+  =\begin{vmat}[r]
+     2  &0  \\
+     4  &0
+  \end{vmat}
+  +
+  \begin{vmat}[r]
+     2  &0  \\
+     0  &3
+  \end{vmat}
+  +
+  \begin{vmat}[r]
+     0  &1  \\
+     4  &0
+  \end{vmat}
+  +
+  \begin{vmat}[r]
+     0  &1  \\
+     0  &3
+  \end{vmat}
+\end{equation*}
+结果是四个行列式。
+在这四个行列式的每一行中，
+都只有来自原矩阵的一个元素。
+\end{example}
+
+\begin{example}
+同样地，
+一个 \( \nbyn{3} \) 行列式分离成
+许多更简单行列式的和。
+沿第一行拆分产生三个行列式
+（我们高亮了 $1,3$ 位置的零，使它在视觉上
+与作为拆分一部分出现的零区分开）。
+\begin{equation*}
+  \begin{vmat}[r]
+     2              &1  &-1  \\
+     4              &3  &\highlight{0}  \\
+     2              &1  &5
+  \end{vmat}
+  =
+  \begin{vmat}[r]
+     2              &0  &0   \\
+     4              &3  &\highlight{0}  \\
+     2              &1  &5
+  \end{vmat}
+  +
+  \begin{vmat}[r]
+     0              &1  &0   \\
+     4              &3  &\highlight{0}   \\
+     2              &1  &5
+  \end{vmat}
+  +
+  \begin{vmat}[r]
+     0              &0  &-1  \\
+     4              &3  &\highlight{0}  \\
+     2  &1  &5
+  \end{vmat}                       
+\end{equation*}
+反过来，上面每一个都沿第二行拆分成三个。
+然后这九个每一个再沿第三行拆分成三个。
+结果是二十七个行列式，
+使得每一行都只包含来自初始矩阵的一个元素。
+\begin{equation*}
+  =
+  \begin{vmat}[r]
+     2              &0  &0   \\
+     4              &0  &0   \\
+     2              &0  &0
+  \end{vmat}
+  +
+  \begin{vmat}[r]
+     2  &0  &0   \\
+     4  &0  &0   \\
+     0  &1  &0
+  \end{vmat}
+  +
+  \begin{vmat}[r]
+     2  &0  &0   \\
+     4  &0  &0   \\
+     0  &0  &5
+  \end{vmat}
+  +
+  \begin{vmat}[r]
+     2  &0  &0   \\
+     0  &3  &0   \\
+     2  &0  &0
+  \end{vmat}
+  +\dots+
+  \begin{vmat}[r]
+     0  &0  &-1  \\
+     0  &0  &\highlight{0}  \\
+     0  &0  &5
+  \end{vmat}
+\end{equation*}
+\end{example}
+
+于是多重线性会将一个 \( \nbyn{n} \) 行列式展开成
+\( n^n \) 个行列式的和，其中
+每个行列式的每一行都只包含来自
+初始矩阵的一个元素。
+
+在这个展开中，尽管项很多，
+但大多数的行列式值为零。
+
+\begin{example} \label{ex:SamplePermExp}
+在来自前面展开式的这些例子中，
+原矩阵的两个元素位于同一列。
+\begin{equation*}
+  \begin{vmat}[r]
+     2               &0  &0   \\
+     4               &0  &0  \\
+     0               &1  &0
+  \end{vmat}
+  \qquad
+  \begin{vmat}[r]
+     0               &0  &-1  \\
+     0               &3  &0  \\
+     0               &0  &5
+  \end{vmat}
+  \qquad\
+  \begin{vmat}[r]
+     0               &1  &0   \\
+     0               &0  &\highlight{0}  \\
+     0               &0  &5
+  \end{vmat}
+\end{equation*}
+例如，
+在第一个矩阵中，$2$ 和 $4$ 都来自原矩阵的第一列。
+在第二个矩阵中，$-1$ 和~$5$ 都来自第三列。
+而在第三个矩阵中，$0$ 和~$5$ 都来自第三列。
+任何这样的矩阵都是奇异的，因为
+其中一行是另一行的倍数。
+因此，根据 \nearbylemma{le:IdenRowsDetZero}，任何这样的行列式都为零。
+
+有了这一观察，
+上面把 \( \nbyn{3} \) 行列式展开成
+二十七个行列式之和的做法就化简为这六个行列式之和：
+其中来自原矩阵的元素每行一个，
+且每列也只有一个。
+\begin{align*}
+  \begin{vmat}[r]
+     2  &1  &-1  \\
+     4  &3  &\highlight{0}  \\
+     2  &1  &5
+  \end{vmat}
+  &=\begin{vmat}[r]
+     2  &0  &0   \\
+     0  &3  &0   \\
+     0  &0  &5
+  \end{vmat}
+  +
+   \begin{vmat}[r]
+     2  &0  &0   \\
+     0  &0  &\highlight{0}   \\
+     0  &1  &0
+  \end{vmat}                      \\
+  &\quad\hbox{}+\begin{vmat}[r]
+     0  &1  &0   \\
+     4  &0  &0   \\
+     0  &0  &5
+  \end{vmat}
+  +
+   \begin{vmat}[r]
+     0  &1  &0   \\
+     0  &0  &\highlight{0}   \\
+     2  &0  &0
+  \end{vmat}                      \\
+  &\quad\hbox{}+\begin{vmat}[r]
+     0  &0  &-1  \\
+     4  &0  &0   \\
+     0  &1  &0
+  \end{vmat}
+  +
+   \begin{vmat}[r]
+     0  &0  &-1  \\
+     0  &3  &0    \\
+     2  &0  &0
+  \end{vmat}                      
+\end{align*}
+在那个展开式中我们可以把标量提出来。
+\begin{align*}
+  &=(2)(3)(5)\begin{vmat}[r]
+               1  &0  &0  \\
+               0  &1  &0  \\
+               0  &0  &1
+            \end{vmat}
+  +(2)(\highlight{0})(1)\begin{vmat}[r]
+               1  &0  &0  \\
+               0  &0  &1  \\
+               0  &1  &0
+            \end{vmat}                     \\
+  &\quad\hbox{}+(1)(4)(5)\begin{vmat}[r]
+               0  &1  &0  \\
+               1  &0  &0  \\
+               0  &0  &1
+            \end{vmat}
+  +(1)(\highlight{0})(2)\begin{vmat}[r]
+               0  &1  &0  \\
+               0  &0  &1  \\
+               1  &0  &0
+            \end{vmat}                       \\
+  &\quad\hbox{}+(-1)(4)(1)\begin{vmat}[r]
+               0  &0  &1  \\
+               1  &0  &0  \\
+               0  &1  &0
+            \end{vmat}
+  +(-1)(3)(2)\begin{vmat}[r]
+               0  &0  &1  \\
+               0  &1  &0  \\
+               1  &0  &0
+            \end{vmat}                       
+\end{align*}
+为完成计算，通过行对换把那六个行列式
+化为单位矩阵，
+并记录符号的变化。
+\begin{align*}
+  &=30\cdot (+1)+0\cdot (-1)  \\
+  &\quad\hbox{}+20\cdot (-1)+0\cdot (+1) \\
+  &\quad \hbox{}-4\cdot (+1)-6\cdot (-1)=12
+\end{align*}
+\end{example}
+
+这个例子体现了本小节新的计算方案。
+多重线性把一个行列式展开成
+许多单独的行列式，每个行列式的每一行有来自
+原矩阵的一个元素。
+其中大多数都
+有一行是另一行的倍数，
+所以我们把它们略去。
+剩下的是那些每行每列各有一个原矩阵元素的行列式。
+提出标量进一步把我们必须计算的行列式
+化简为每行每列恰有一个元素的、所有元素都是 $1$ 的矩阵。
+
+%<*NotationForPermutationMatrices>
+回忆定义~Three.IV.\ref{df:PermutationMatrix}：
+一个 \definend{置换矩阵}\index{permutation matrix}%
+\index{matrix!permutation}
+是方阵，其元素除每行每列恰有一个 $1$ 外都是 $0$。
+现在我们引入置换矩阵的一种记号。
+%</NotationForPermutationMatrices>
+
+\begin{definition}  \label{df:permutation}
+%<*df:permutation>
+一个 \definend{\( n \)-置换}\index{permutation}
+是前~$n$ 个正整数上的一个函数
+$\map{\phi}{\set{1,\ldots,n}}{\set{1,\ldots,n}}$，
+它是单射且满射的。
+%</df:permutation>
+\end{definition}
+
+在一个置换中，每个数
+$1$, \ldots, $n$ 都作为且仅作为一个输入的输出出现。
+我们可以把置换记为一个序列
+$\phi=\sequence{\phi(1),\phi(2),\ldots,\phi(n)}$。
+
+\begin{example} \label{ex:AllTwoThreePerms}
+%<*ex:AllTwoPerms>
+$2$-置换是函数
+$\map{\phi_1}{\set{1,2}}{\set{1,2}}$
+由 $\phi_1(1)=1$，$\phi_1(2)=2$ 给出，
+以及
+$\map{\phi_2}{\set{1,2}}{\set{1,2}}$
+由 $\phi_2(1)=2$，$\phi_2(2)=1$ 给出。
+序列记号更简洁：
+\( \phi_1=\sequence{1,2} \) 与 \( \phi_2=\sequence{2,1} \)。
+%</ex:AllTwoPerms>
+\end{example}
+
+\begin{example} \label{ex:AllThreePerms}
+%<*ex:AllThreePerms>
+在序列记号下，$3$-置换是
+\( \phi_1=\sequence{1,2,3} \)、
+\( \phi_2=\sequence{1,3,2} \)、
+\( \phi_3=\sequence{2,1,3} \)、
+\( \phi_4=\sequence{2,3,1} \)、
+\( \phi_5=\sequence{3,1,2} \)，以及
+\( \phi_6=\sequence{3,2,1} \)。
+%</ex:AllThreePerms>
+\end{example}
+
+%<*AssociatePermutationWithPermutationMatrix>
+我们把除第 $j$ 个元素处为 $1$ 外全为 $0$ 的行向量记为 $\iota_j$，
+于是宽度为四的 $\iota_2$
+是~$\rowvec{0 &1 &0 &0}$。
+现在我们的置换矩阵记号是：
+对任意 $\phi=\sequence{\phi(1),\ldots,\phi(n)}$，
+与之相伴的矩阵的行依次为 $\iota_{\phi(1)}$, \ldots, $\iota_{\phi(n)}$。
+%</AssociatePermutationWithPermutationMatrix>
+例如，与 $4$-置换 \( \phi=\sequence{3,2,1,4} \) 相伴的
+是其行依次为相应 $\iota$ 的矩阵。
+\begin{equation*}
+   P_{\phi}=
+   \begin{mat}
+      \iota_{3} \\
+      \iota_{2} \\
+      \iota_{1} \\
+      \iota_{4} 
+   \end{mat}=
+  \begin{mat}[r]
+     0  &0  &1  &0  \\
+     0  &1  &0  &0  \\
+     1  &0  &0  &0  \\
+     0  &0  &0  &1
+  \end{mat}
+\end{equation*}
+
+\begin{example} \label{ex:TwoThreePermsAndMatrices}
+这些是 \nearbyexample{ex:AllTwoThreePerms} 中列出的
+$2$-置换的置换矩阵。
+\begin{equation*}
+  P_{\phi_1}
+  =\begin{mat}
+      \iota_1 \\
+      \iota_2 
+   \end{mat}
+  =\begin{mat}[r]
+    1  &0         \\
+    0  &1   
+  \end{mat}
+  \qquad
+  P_{\phi_2}
+   =\begin{mat}
+      \iota_2 \\
+      \iota_1 
+   \end{mat}
+   =\begin{mat}[r]
+    0  &1         \\
+    1  &0   
+  \end{mat}
+\end{equation*}
+例如，$P_{\phi_2}$ 的第一行是
+$\iota_{\phi_2(1)}=\iota_2$，第二行是 $\iota_{\phi_2(2)}=\iota_1$。
+\end{example}
+
+\begin{example}
+考虑 $3$-置换
+\( \phi_5=\sequence{3,1,2} \)。
+置换矩阵  
+$P_{\phi_5}$ 的行依次为 $\iota_{\phi_5(1)}=\iota_3$、
+$\iota_{\phi_5(2)}=\iota_1$ 与 $\iota_{\phi_5(3)}=\iota_2$。\begin{equation*}
+  % P_{\phi_2}
+  %  =\begin{mat}
+  %     \iota_1 \\
+  %     \iota_3 \\
+  %     \iota_2 
+  %  \end{mat}
+  % =\begin{mat}[r]
+  %    1      &0        &0        \\
+  %    0      &0        &1        \\
+  %    0      &1        &0
+  % \end{mat}
+  % \qquad
+  P_{\phi_5}
+   % =\begin{mat}
+   %    \iota_3 \\
+   %    \iota_1 \\
+   %    \iota_2 
+   % \end{mat}
+  =\begin{mat}[r]
+     0      &0        &1        \\
+     1      &0        &0        \\
+     0      &1        &0
+  \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{definition} \label{df:PermutationExpansion}
+%<*df:PermutationExpansion>
+行列式的 \definend{置换展开}\index{determinant!permutation expansion}%
+\index{permutation expansion}
+是
+\begin{equation*}
+   \begin{vmat}
+      t_{1,1}  &t_{1,2}  &\ldots  &t_{1,n}  \\
+      t_{2,1}  &t_{2,2}  &\ldots  &t_{2,n}  \\
+               &\vdots                      \\
+      t_{n,1}  &t_{n,2}  &\ldots  &t_{n,n}
+   \end{vmat}
+   =
+   \begin{array}[t]{l}
+      t_{1,\phi_1(1)}t_{2,\phi_1(2)}\cdots
+           t_{n,\phi_1(n)}\deter{P_{\phi_1}}       \\[.5ex]
+      \>\hbox{}+t_{1,\phi_2(1)}t_{2,\phi_2(2)}\cdots
+           t_{n,\phi_2(n)}\deter{P_{\phi_2}}       \\
+      \>\vdotswithin{+}                              \\
+      \>\hbox{}+t_{1,\phi_k(1)}t_{2,\phi_k(2)}\cdots
+           t_{n,\phi_k(n)}\deter{P_{\phi_k}} 
+   \end{array}
+\end{equation*}
+其中 \( \phi_1,\ldots,\phi_k \) 是所有的 \( n \)-置换。
+%</df:PermutationExpansion>
+\end{definition}
+%<*SummationForPermutationExpansion>
+我们可以把这个公式改述为
+\definend{求和
+记号}\index{summation notation, for permutation expansion}
+\begin{equation*}
+  \deter{T}=\!\!
+  \sum_{\text{置换\ }\phi}\!\!\!\!
+     t_{1,\phi(1)}t_{2,\phi(2)}\cdots t_{n,\phi(n)}
+                                 \deter{P_{\phi}}
+\end{equation*}
+读作，
+"对所有的置换 \( \phi \) 求和，项形如
+\( t_{1,\phi(1)}t_{2,\phi(2)}\cdots t_{n,\phi(n)} \deter{P_{\phi}} \)。"
+%</SummationForPermutationExpansion>
+
+
+\begin{example}
+熟悉的 $\nbyn{2}$ 行列式公式可由上面推出
+\begin{align*}
+  \begin{vmat}
+    t_{1,1}  &t_{1,2} \\
+    t_{2,1}  &t_{2,2}
+  \end{vmat}
+  &=
+  t_{1,1}t_{2,2}\cdot\deter{P_{\phi_1}}
+  +
+  t_{1,2}t_{2,1}\cdot\deter{P_{\phi_2}}      \\[-1.5ex]     
+  &=
+  t_{1,1}t_{2,2}\cdot\begin{vmat}[r]
+           1  &0 \\
+           0  &1
+         \end{vmat}
+  +
+  t_{1,2}t_{2,1}\cdot\begin{vmat}[r]
+           0  &1 \\
+           1  &0
+         \end{vmat}               \\
+  &=t_{1,1}t_{2,2}-t_{1,2}t_{2,1}
+\end{align*}
+$\nbyn{3}$ 公式也是如此。
+\begin{align*}
+  \begin{vmat}
+    t_{1,1}  &t_{1,2}  &t_{1,3} \\
+    t_{2,1}  &t_{2,2}  &t_{2,3} \\
+    t_{3,1}  &t_{3,2}  &t_{3,3} 
+  \end{vmat}
+  &=
+  \begin{aligned}[t]
+    &t_{1,1}t_{2,2}t_{3,3}\deter{P_{\phi_1}}
+     +t_{1,1}t_{2,3}t_{3,2}\deter{P_{\phi_2}}
+     +t_{1,2}t_{2,1}t_{3,3}\deter{P_{\phi_3}} \\
+    &\hspace*{0em}
+     +t_{1,2}t_{2,3}t_{3,1}\deter{P_{\phi_4}}
+     +t_{1,3}t_{2,1}t_{3,2}\deter{P_{\phi_5}}
+     +t_{1,3}t_{2,2}t_{3,1}\deter{P_{\phi_6}}
+  \end{aligned}                                      \\
+  &=
+  \begin{aligned}[t]
+    &t_{1,1}t_{2,2}t_{3,3}
+     -t_{1,1}t_{2,3}t_{3,2}
+     -t_{1,2}t_{2,1}t_{3,3}  \\
+    &\hspace*{0em}
+     +t_{1,2}t_{2,3}t_{3,1}
+     +t_{1,3}t_{2,1}t_{3,2}
+     -t_{1,3}t_{2,2}t_{3,1}
+  \end{aligned}
+\end{align*}
+\end{example}
+
+用置换展开计算行列式通常比用高斯消元法
+耗时更长。
+不过，我们将用它来证明
+行列式函数存在。
+这个证明很长，所以我们在这里只陈述结果，
+而把证明留到下一小节。
+
+\begin{theorem} \label{th:DetsExist}
+\index{determinant!exists} 
+%<*th:DetsExist>
+对每个 $n$，都存在一个 $\nbyn{n}$ 行列式函数。
+%</th:DetsExist>
+\end{theorem}
+
+下一小节还将给出
+下一个结果的证明（把它们放在一起是因为两个证明有重叠）。
+
+\begin{theorem}  \label{th:DeterminantOfAMatrixEqualsDeterminantOfTranspose}
+\index{transpose!determinant}
+%<*th:DeterminantOfAMatrixEqualsDeterminantOfTranspose>
+一个矩阵的行列式等于其转置的行列式。
+%</th:DeterminantOfAMatrixEqualsDeterminantOfTranspose>
+\end{theorem}
+
+由于这个定理，
+虽然迄今为止我们都是按行陈述行列式的结果，
+但所有这些结果按列也同样成立。
+
+\begin{corollary} \label{cor:ColSwapChgSign} \label{cor:DetsMultiInCols}
+%<*co:ColSwapChgSign>
+  有两列相等的矩阵是奇异的。
+  列对换改变行列式的符号。
+  行列式关于其列是多重线性的。
+%</co:ColSwapChgSign>
+\end{corollary}
+
+\begin{proof}
+%<*pf:ColSwapChgSign>
+对于第一个命题，
+转置该矩阵得到一个具有相同行列式的矩阵，
+且它有两行相等，从而行列式为零。
+其余两个命题按同样的方式证明。
+%</pf:ColSwapChgSign>
+\end{proof}
+
+我们以一段总结来结束本小节：
+行列式函数存在、唯一，并且我们知道如何计算它们。
+至于行列式究竟是关于什么的，下面几行文字
+\cite{Kemp} 或许有助于我们记住它。
+\begin{verse} \small
+行列式为零，         \\*
+\ 解：解无穷多或无解。   \\*
+行列式非零，         \\*
+\ 解：恰有一解。
+\end{verse}
+
+
+
+
+\begin{exercises}
+  \item[]\textit{这里总结我们对
+    $2$-\hbox{}与 $3$-置换所用的记号。
+    \begin{center}
+      \begin{tabular}[t]{c|cc}
+        $i$          &$1$      &$2$    \\
+        \hline
+        $\phi_1(i)$  &$1$      &$2$     \\
+        $\phi_2(i)$  &$2$      &$1$
+      \end{tabular}
+      \qquad
+      \begin{tabular}[t]{c|ccc}
+        $i$          &$1$     &$2$   &$3$    \\
+        \hline
+        $\phi_1(i)$  &$1$     &$2$   &$3$    \\
+        $\phi_2(i)$  &$1$     &$3$   &$2$    \\
+        $\phi_3(i)$  &$2$     &$1$   &$3$    \\
+        $\phi_4(i)$  &$2$     &$3$   &$1$    \\
+        $\phi_5(i)$  &$3$     &$1$   &$2$    \\
+        $\phi_6(i)$  &$3$     &$2$   &$1$
+      \end{tabular}
+    \end{center}  }
+  \recommended \item 对该矩阵，求与每个 $3$-置换相联系的项。
+    \begin{equation*}
+      M=\begin{mat}
+        1 &2 &3 \\
+        4 &5 &6 \\
+        7 &8 &9
+      \end{mat}
+    \end{equation*}
+    也就是说，填写下表中的其余部分。
+      \begin{center} \small
+        \begin{tabular}{r|cccccc}
+          置换 $\phi_i$
+            &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_4$ &$\phi_5$ &$\phi_6$  \\
+          \hline
+          项 $m_{1,\phi_i(1)}m_{2,\phi_i(2)}m_{3,\phi_i(3)}$
+           &$1\cdot 5\cdot 9$
+           &
+           &
+           &
+           &
+           &
+        \end{tabular}
+      \end{center}
+    \begin{answer}
+      记该矩阵为~$M$。
+      \begin{center}
+        \begin{tabular}{r|cccccc}
+          置换
+            &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_4$ &$\phi_5$ &$\phi_6$  \\
+          \hline
+          项
+           &$1\cdot 5\cdot 9$
+           &$1\cdot 6\cdot 8$
+           &$2\cdot 4\cdot 9$
+           &$2\cdot 6\cdot 7$
+           &$3\cdot 4\cdot 8$
+           &$3\cdot 5\cdot 7$
+        \end{tabular}
+      \end{center}
+    \end{answer}
+  \recommended \item 对每个 $3$-置换~$\phi$，求 $|P_\phi|$。
+    \begin{answer}
+      我们可以把每个 $P_{\phi}$ 经过行对换变为单位矩阵。
+      如果对换的次数是偶数，那么它的行列式为~$+1$；
+      而如果对换的次数是奇数，那么行列式为~$-1$。
+      \begin{center}
+        \begin{tabular}{r|cccccc}
+          置换
+            &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_4$ &$\phi_5$ &$\phi_6$  \\
+          \hline
+          对换次数 &$0$
+                  &$1$
+                  &$1$
+                  &$2$
+                  &$2$
+                  &$1$  \\
+          $|P_{\phi_i}|$
+           &$+1$
+           &$-1$
+           &$-1$
+           &$+1$
+           &$+1$
+           &$-1$
+        \end{tabular}
+      \end{center}
+      \textit{注。}
+      在上表中，
+      我们只是不断地对换，直到找到一个把我们带回到`$1,2,3$'的数为止。
+      但不同的对换次数是否可能？
+      如果一个人找到 $2$ 次对换而另一个人找到
+      $4$ 次，这没有问题，因为两者给出的行列式都是~$+1$。
+      但如果我们能用两种不同的方式对换，其中一种次数为偶数而另一种为奇数，
+      那就有问题了。
+      下一节将表明偶数与奇数混合的情形不可能出现。
+    \end{answer}
+  \item 由 $\nbyn{2}$ 公式知该行列式为~$7$。
+    请用置换展开计算它。
+    \begin{equation*}
+      \begin{vmatrix}
+        2 &3 \\
+        1 &5
+      \end{vmatrix}
+    \end{equation*}
+    \begin{answer}
+      \begin{align*}
+        \begin{vmat}
+          2  &3 \\
+          1  &5
+        \end{vmat}
+        &=
+        2\cdot 5\cdot\deter{P_{\phi_1}}
+        +
+        1\cdot 3\cdot\deter{P_{\phi_2}}      \\
+        &=
+        2\cdot 5\cdot\begin{vmat}[r]
+                           1  &0 \\
+                           0  &1
+                         \end{vmat}
+        +
+        1\cdot 3\cdot\begin{vmat}[r]
+                           0  &1 \\
+                           1  &0
+                         \end{vmat}               \\
+        &=2\cdot 5\cdot 1+1\cdot 3\cdot (-1)=7
+        \end{align*}
+    \end{answer}
+  \item 该行列式为 $0$，因为前两行之和等于第三行。
+    请用置换展开计算该行列式。
+    \begin{equation*}
+      \begin{vmatrix}
+        -1 &0 &1 \\
+        3  &1 &4 \\
+        2  &1 &5
+      \end{vmatrix}
+    \end{equation*}
+    \begin{answer}
+          \begin{align*}
+            \begin{vmat}[r]
+              -1  &0  &1  \\
+               3  &1  &4  \\
+               2  &1  &5
+            \end{vmat}
+            &=
+            \begin{aligned}[t]
+              &(-1)(1)(5)\deter{P_{\phi_1}}
+              +(-1)(4)(1)\deter{P_{\phi_2}}
+              +(0)(3)(5)\deter{P_{\phi_3}}  \\
+              &\hbox{}\quad\hbox{}
+              +(0)(4)(2)\deter{P_{\phi_4}}
+              +(1)(3)(1)\deter{P_{\phi_5}}
+              +(1)(1)(2)\deter{P_{\phi_6}}
+            \end{aligned}                        \\
+            &=
+            \begin{aligned}[t]
+              &(-1)(1)(5)\cdot 1
+              +(-1)(4)(1)\cdot (-1)
+              +(0)(3)(5)\cdot (-1)  \\
+              &\hbox{}\quad\hbox{}
+              +(0)(4)(2)\cdot 1
+              +(1)(3)(1)\cdot 1
+              +(1)(1)(2)\cdot (-1)
+            \end{aligned}                        \\
+            &=-5+4+0+0+3-2=0
+          \end{align*}
+    \end{answer}
+  \recommended \item
+    用置换展开计算行列式。
+    \begin{exparts*}
+      \partsitem
+        $\begin{vmat}[r]
+          1  &2  &3  \\
+          4  &5  &6  \\
+          7  &8  &9
+        \end{vmat}$
+      \partsitem
+        $\begin{vmat}[r]
+          2  &2  &1  \\
+          3  &-1 &0  \\
+          -2 &0  &5
+        \end{vmat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 该矩阵是奇异的。
+          \begin{align*}
+            \begin{vmat}[r]
+              1  &2  &3  \\
+              4  &5  &6  \\
+              7  &8  &9
+            \end{vmat}
+            &=
+            \begin{aligned}[t]
+              &(1)(5)(9)\deter{P_{\phi_1}}
+              +(1)(6)(8)\deter{P_{\phi_2}}
+              +(2)(4)(9)\deter{P_{\phi_3}}  \\
+              &\hbox{}\quad\hbox{}
+              +(2)(6)(7)\deter{P_{\phi_4}}
+              +(3)(4)(8)\deter{P_{\phi_5}}
+              +(7)(5)(3)\deter{P_{\phi_6}}
+            \end{aligned}                        \\
+            &=0
+          \end{align*}
+        \partsitem 该矩阵是非奇异的。
+          \begin{align*}
+            \begin{vmat}[r]
+              2  &2  &1  \\
+              3  &-1 &0  \\
+              -2 &0  &5
+            \end{vmat}
+            &=
+            \begin{aligned}[t]
+              &(2)(-1)(5)\deter{P_{\phi_1}}
+              +(2)(0)(0)\deter{P_{\phi_2}}
+              +(2)(3)(5)\deter{P_{\phi_3}} \\
+              &\hbox{}\quad\hbox{}
+              +(2)(0)(-2)\deter{P_{\phi_4}}
+              +(1)(3)(0)\deter{P_{\phi_5}}
+              +(-2)(-1)(1)\deter{P_{\phi_6}}
+            \end{aligned}                      \\
+            &=-42
+        \end{align*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    分别用高斯消元法与置换展开公式计算下面各行列式。
+    \begin{exparts*}
+      \partsitem \( \begin{vmat}[r]
+                 2  &1  \\
+                 3  &1
+               \end{vmat}   \)
+      \partsitem \( \begin{vmat}[r]
+                  0  &1  &4  \\
+                  0  &2  &3  \\
+                  1  &5  &1
+               \end{vmat}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 高斯消元法给出
+          \begin{equation*}
+             \begin{vmat}[r]
+                 2  &1  \\
+                 3  &1
+             \end{vmat}
+             =
+             \begin{vmat}[r]
+                 2  &1  \\
+                 0  &-1/2
+             \end{vmat}
+             =-1
+          \end{equation*}
+          而置换展开给出
+          \begin{equation*}
+             \begin{vmat}[r]
+                 2  &1  \\
+                 3  &1
+             \end{vmat}
+             =
+             \begin{vmat}[r]
+                 2  &0  \\
+                 0  &1
+             \end{vmat} +
+             \begin{vmat}[r]
+                 0  &1  \\
+                 3  &0
+             \end{vmat}
+             =
+             (2)(1)\begin{vmat}[r]
+                 1  &0  \\
+                 0  &1
+             \end{vmat} +
+             (1)(3)\begin{vmat}[r]
+                 0  &1  \\
+                 1  &0
+             \end{vmat}
+             =
+             -1
+          \end{equation*}
+        \partsitem 高斯消元法给出
+          \begin{equation*}
+            \begin{vmat}[r]
+              0  &1  &4  \\
+              0  &2  &3  \\
+              1  &5  &1
+            \end{vmat}
+            =
+            -\begin{vmat}[r]
+              1  &5  &1  \\
+              0  &2  &3  \\
+              0  &1  &4
+            \end{vmat}
+            =
+            -\begin{vmat}[r]
+              1  &5  &1  \\
+              0  &2  &3  \\
+              0  &0  &5/2
+            \end{vmat}
+            =-5
+          \end{equation*}
+          而置换展开给出
+          \begin{align*}
+            \begin{vmat}[r]
+              0  &1  &4  \\
+              0  &2  &3  \\
+              1  &5  &1
+            \end{vmat}
+            &=
+            \begin{aligned}[t]
+            &(0)(2)(1)\deter{P_{\phi_1}}
+            +(0)(3)(5)\deter{P_{\phi_2}}
+            +(1)(0)(1)\deter{P_{\phi_3}}  \\
+            &\hbox{}\quad\hbox{}
+            +(1)(3)(1)\deter{P_{\phi_4}}
+            +(4)(0)(5)\deter{P_{\phi_5}}
+            +(4)(2)(1)\deter{P_{\phi_6}}
+            \end{aligned}                         \\
+            &=-5
+          \end{align*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    用置换展开公式推导 \( \nbyn{3} \) 行列式的公式。
+    \begin{answer}
+        仿照 \nearbyexample{ex:SamplePermExp} 可得
+          \begin{align*}
+             \begin{vmat}
+                t_{1,1}  &t_{1,2}  &t_{1,3}  \\
+                t_{2,1}  &t_{2,2}  &t_{2,3}  \\
+                t_{3,1}  &t_{3,2}  &t_{3,3}
+             \end{vmat}
+             &=\begin{aligned}[t]
+                 &t_{1,1}t_{2,2}t_{3,3}\deter{P_{\phi_1}}
+                   +t_{1,1}t_{2,3}t_{3,2}\deter{P_{\phi_2}} \\
+                 &\hbox{}\quad\hbox{}
+                  +t_{1,2}t_{2,1}t_{3,3}\deter{P_{\phi_3}}
+                             +t_{1,2}t_{2,3}t_{3,1}\deter{P_{\phi_4}} \\
+                 &\hbox{}\quad\hbox{}
+                  +t_{1,3}t_{2,1}t_{3,2}\deter{P_{\phi_5}}
+                             +t_{1,3}t_{2,2}t_{3,1}\deter{P_{\phi_6}}
+               \end{aligned}                                               \\
+             &=\begin{aligned}[t]
+                 & t_{1,1}t_{2,2}t_{3,3}(+1)
+                   +t_{1,1}t_{2,3}t_{3,2}(-1)  \\
+                 &\hbox{}\quad\hbox{}
+                   +t_{1,2}t_{2,1}t_{3,3}(-1)
+                    +t_{1,2}t_{2,3}t_{3,1}(+1) \\
+                 &\hbox{}\quad\hbox{}
+                   +t_{1,3}t_{2,1}t_{3,2}(+1)
+                         +t_{1,3}t_{2,2}t_{3,1}(-1)
+               \end{aligned}
+          \end{align*}
+     \end{answer}
+  \item
+    列出全部 $4$-置换。
+    \begin{answer}
+      下面是所有满足 $\phi(1)=1$ 的置换
+      \begin{align*}
+        &\phi_1=\sequence{1,2,3,4}
+        \quad
+        \phi_2=\sequence{1,2,4,3}
+        \quad
+        \phi_3=\sequence{1,3,2,4}  \\
+        &\quad
+        \phi_4=\sequence{1,3,4,2}
+        \quad
+        \phi_5=\sequence{1,4,2,3}
+        \quad
+        \phi_6=\sequence{1,4,3,2}
+      \end{align*}
+      下面是满足 $\phi(1)=1$ 的那些
+      \begin{align*}
+        &\phi_7=\sequence{2,1,3,4}
+        \quad
+        \phi_8=\sequence{2,1,4,3}
+        \quad
+        \phi_9=\sequence{2,3,1,4}    \\
+        &\quad
+        \phi_{10}=\sequence{2,3,4,1}
+        \quad
+        \phi_{11}=\sequence{2,4,1,3}
+        \quad
+        \phi_{12}=\sequence{2,4,3,1}
+      \end{align*}
+      下面是满足 $\phi(1)=3$ 的那些
+      \begin{align*}
+        &\phi_{13}=\sequence{3,1,2,4}
+        \quad
+        \phi_{14}=\sequence{3,1,4,2}
+        \quad
+        \phi_{15}=\sequence{3,2,1,4}  \\
+        &\quad
+        \phi_{16}=\sequence{3,2,4,1}
+        \quad
+        \phi_{17}=\sequence{3,4,1,2}
+        \quad
+        \phi_{18}=\sequence{3,4,2,1}
+      \end{align*}
+      以及满足 $\phi(1)=4$ 的那些。
+      \begin{align*}
+        &\phi_{19}=\sequence{4,1,2,3}
+        \quad
+        \phi_{20}=\sequence{4,1,3,2}
+        \quad
+        \phi_{21}=\sequence{4,2,1,3}  \\
+        &\quad
+        \phi_{22}=\sequence{4,2,3,1}
+        \quad
+        \phi_{23}=\sequence{4,3,1,2}
+        \quad
+        \phi_{24}=\sequence{4,3,2,1}
+      \end{align*}
+    \end{answer}
+  \item
+    置换可以看作从集合
+    $\set{1,..,n}$ 到其自身的一一对应（既是单射又是满射）的函数。
+    因此，每个置换都有逆。
+    \begin{exparts}
+      \partsitem 求每个 $2$-置换的逆。
+      \partsitem 求每个 $3$-置换的逆。
+    \end{exparts}
+    \begin{answer}
+      下列每一个都容易验证。
+      \begin{exparts}
+        \partsitem
+          \begin{tabular}[t]{r|cc}
+            置换 &$\phi_1$  &$\phi_2$ \\
+             \hline
+            逆     &$\phi_1$  &$\phi_2$
+          \end{tabular}
+        \partsitem
+          \begin{tabular}[t]{r|cccccc}
+            置换
+              &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_4$ &$\phi_5$ &$\phi_6$ \\
+            \hline
+            逆
+              &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_5$ &$\phi_4$ &$\phi_6$
+          \end{tabular}
+      \end{exparts}
+    \end{answer}
+  \item
+     证明：\( f \) 是多重线性的当且仅当对所有
+     \( \vec{v},\vec{w}\in V \) 与 \( k_1,k_2\in\Re \)，下式成立。
+      \begin{equation*}
+         f(\vec{\rho}_1,\dots,k_1\vec{v}_1+k_2\vec{v}_2,
+           \dots,\vec{\rho}_n)
+         =
+         k_1f(\vec{\rho}_1,\dots,\vec{v}_1,\dots,\vec{\rho}_n)+
+         k_2f(\vec{\rho}_1,\dots,\vec{v}_2,\dots,\vec{\rho}_n)
+       \end{equation*}
+       \begin{answer}
+         对于「如果」部分，取 $k_1=k_2=1$ 即得
+         \nearbydefinition{def:multilinear} 的第一个条件，
+         取 $k_2=0$ 即得第二个条件。
+
+         「仅当」部分也是常规推导。
+         由
+         $
+           f(\vec{\rho}_1,\dots,k_1\vec{v}_1+k_2\vec{v}_2,
+             \dots,\vec{\rho}_n)
+         $
+         出发，\nearbydefinition{def:multilinear} 的第一个条件给出
+         $
+           =
+           f(\vec{\rho}_1,\dots,k_1\vec{v}_1,\dots,\vec{\rho}_n)+
+           f(\vec{\rho}_1,\dots,k_2\vec{v}_2,\dots,\vec{\rho}_n)
+         $
+         再对第二个条件应用两次，即得结论。
+       \end{answer}
+  \item
+    如果把定义中的性质~(4) 改成 \( \deter{I}=2 \)，行列式会如何变化？
+    \begin{answer}
+       它们都会变成原来的两倍。
+    \end{answer}
+  \item
+    验证 \nearbycorollary{cor:ColSwapChgSign} 中的第二、第三个论断。
+    \begin{answer}
+      对于第二个论断，
+      给定一个矩阵，先转置，再对换行，然后转置回来。
+      所得结果是对换了列，而行列式改变了因子
+      \( -1 \)。
+      第三个论断类似：~给定
+      一个矩阵，先转置，对如今已是行的东西应用多重线性，
+      然后把所得的各个矩阵转置回来。
+    \end{answer}
+  \recommended \item
+    证明：若 \( \nbyn{n} \) 矩阵的行列式非零，
+    则我们能将任一列向量
+    \( \vec{v}\in\Re^n \) 表示为该矩阵各列的线性组合。
+    \begin{answer}
+      行列式非零的 \( \nbyn{n} \) 矩阵的秩为
+      \( n \)，所以它的各列构成 \( \Re^n \) 的一组基。
+    \end{answer}
+  \item
+    \cite{Strang}
+    判断真假：元素只取 $0$ 或 $1$ 的矩阵，其行列式必等于零、一或负一。
+    \begin{answer}
+      假。
+      \begin{equation*}
+        \begin{vmat}[r]
+          0 &1  &1  \\
+          1 &0  &1 \\
+          1  &1 &0
+        \end{vmat}
+        =2
+      \end{equation*}
+     \end{answer}
+  \item
+    \begin{exparts}
+      \partsitem 证明 \( \nbyn{5} \) 矩阵的置换
+         展开公式中有 $120$ 项。
+      \partsitem
+         若 \( 1,2 \) 元为零，确定必为零的项有多少个？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 第一行元素的列下标有
+          五种选择。
+          于是第二行元素的列下标有
+          四种选择。
+          依此类推，我们得到 $5\cdot 4\cdot 3\cdot 2\cdot 1=120$。
+          （另见下一题。）
+        \partsitem 一旦选定了第一行的第二列，
+          其余元素可以有 \( 4\cdot 3\cdot 2\cdot 1=24 \)
+          种选法。
+      \end{exparts}
+    \end{answer}
+  \item
+    共有多少个 \( n \)-置换？
+    \begin{answer}
+       \( n\cdot(n-1)\cdots 2\cdot 1=n! \)
+    \end{answer}
+  \item 证明置换矩阵的逆是它的转置。
+    \begin{answer}
+      \cite{SchmidtSO}
+      我们将证明 $P\trans{P}=I$；$\trans{P}P=I$ 的论证类似。
+      $P\trans{P}$ 的 $i,j$ 元是形如
+      $p_{i,k}q_{k,j}$ 的项之和，其中 $\trans{P}$ 的元素用 $q$ 记，
+      即 $q_{k,j}=p_{j,k}$。
+      于是 $P\trans{P}$ 的 $i,j$ 元是和
+      \(
+        \sum_{k=1}^n p_{i,k}p_{j,k}
+      \)。
+      但 $p_{i,k}$ 通常为 $0$，所以 $P_{i,k}P_{j,k}$ 通常为 $0$。
+      $P_{i,k}$ 非零仅当它为 $1$，
+      而此时再无其他 $i^\prime\neq i$ 使 $P_{i^\prime,k}$
+      非零（$i$ 是第~$k$ 列中含 $1$ 的唯一一行）。
+      换句话说，
+      \begin{equation*}
+        \sum_{k=1}^n p_{i,k}p_{j,k}=
+        \begin{cases}
+          1  &i=j  \\
+          0  &\text{其他}
+        \end{cases}
+      \end{equation*}
+      而这正是单位矩阵各元素的公式。
+    \end{answer}
+  \item
+    矩阵 \( A \) 称为
+    \definend{反对称的}\index{matrix!skew-symmetric}%
+    \index{skew-symmetric}，若 \( \trans{A}=-A \)，
+    如下矩阵。
+    \begin{equation*}
+      A=\begin{mat}[r]
+          0  &3  \\
+         -3  &0
+        \end{mat}
+    \end{equation*}
+    证明：行列式非零的 \( \nbyn{n} \) 反对称矩阵
+    仅在 \( n \) 为偶数时存在。
+    \begin{answer}
+      在
+      \( \deter{A}=\deter{\trans{A}}=\deter{-A}=(-1)^n\deter{A} \)
+      中指数 $n$ 必须为偶数。
+    \end{answer}
+  \recommended \item
+    为保证 \( \nbyn{4} \) 矩阵的行列式为零，所需零元素的最少个数是多少？
+    这些零元素应如何放置？
+    \begin{answer}
+      证明三个零的任何放置都不够是常规性的。
+      四个零确实够了；把它们全放在同一
+      行或同一列。
+    \end{answer}
+  \item
+    设有 \( n \) 个数据点
+    \( (x_1,y_1),(x_2,y_2),\dots\,,(x_n,y_n) \)，要找一条经过这些点的
+    多项式 \( p(x)=a_{n-1}x^{n-1}+a_{n-2}x^{n-2}+\dots+a_1x+a_0 \)，
+    那么我们可以代入这些点，得到一个 \( n \)~个方程/\( n \)~个未知数的
+    线性方程组。
+    该方程组的系数矩阵是
+    \definend{Vandermonde 矩阵}。\index{matrix!Vandermonde}%
+    \index{Vandermonde matrix}
+    证明该系数矩阵的转置的行列式
+    \begin{equation*}
+      \begin{vmat}
+         1       &1       &\ldots   &1       \\
+         x_1     &x_2     &\ldots   &x_n     \\
+         {x_1}^2 &{x_2}^2 &\ldots   &{x_n}^2 \\
+                 &\vdots                     \\
+         {x_1}^{n-1} &{x_2}^{n-1}   &\ldots   &{x_n}^{n-1}
+      \end{vmat}
+    \end{equation*}
+    等于对所有满足 \( i<j \) 的下标 \( i,j\in\set{1,\dots,n} \)，
+    形如 \( x_j-x_i \) 的项的乘积。
+    （这表明，
+    该行列式为零、线性方程组无解，
+    当且仅当数据中的 \( x_i \) 不两两不同。）
+    \begin{answer}
+      $n=3$ 的情形表明了该怎么做。
+      行倍加变换
+      $-x_1\rho_2+\rho_3$ 与 $-x_1\rho_1+\rho_2$
+      给出
+      \begin{multline*}
+        \begin{vmat}
+          1     &1     &1     \\
+          x_1   &x_2   &x_3   \\
+          x_1^2 &x_2^2 &x_3^2
+        \end{vmat}
+        =
+        \begin{vmat}
+          1     &1             &1             \\
+          x_1   &x_2           &x_3           \\
+          0     &(-x_1+x_2)x_2 &(-x_1+x_3)x_3
+        \end{vmat}                                           \\
+        =
+        \begin{vmat}
+          1     &1             &1             \\
+          0     &-x_1+x_2      &-x_1+x_3      \\
+          0     &(-x_1+x_2)x_2 &(-x_1+x_3)x_3
+        \end{vmat}
+      \end{multline*}
+      再作行倍加变换 $x_2\rho_2+\rho_3$ 便得
+      所要的结果。
+      \begin{equation*}
+        =
+        \begin{vmat}
+          1     &1             &1                     \\
+          0     &-x_1+x_2      &-x_1+x_3              \\
+          0     &0             &(-x_1+x_3)(-x_2+x_3)
+        \end{vmat}
+        =(x_2-x_1)(x_3-x_1)(x_3-x_2)
+      \end{equation*}
+    \end{answer}
+  \item
+    我们可以把矩阵分成
+    \definend{块}，\index{block matrix}\index{matrix!block} %
+    如此处，
+    \begin{equation*}
+      \begin{pmat}{rr|r}
+          1  &2   &0  \\
+          3  &4   &0  \\  \cline{1-3}
+          0  &0   &-2
+       \end{pmat}
+    \end{equation*}
+    其中显示出四个块：左上与右下的方形的 $\nbyn{2}$ 与 $\nbyn{1}$ 块，
+    以及右上与左下的零块。
+    证明：若一个矩阵可以分块为
+    \begin{equation*}
+      T=
+      \begin{pmat}{c|c}
+          J   &Z_2  \\  \cline{1-2}
+          Z_1 &K
+       \end{pmat}
+    \end{equation*}
+    其中 $J$ 与 $K$ 是方阵，而 $Z_1$ 与 $Z_2$ 全为零，
+    则 \( \deter{T}=\deter{J}\cdot\deter{K} \)。
+    \begin{answer}
+      设 \( T \) 为 \( \nbyn{n} \) 的，
+      \( J \) 为 \( \nbyn{p} \) 的，
+      \( K \) 为 \( \nbyn{q} \) 的。
+      应用置换展开公式
+      \begin{equation*}
+        \deter{T}=
+        \sum_{\text{\scriptsize 置换 }\phi}
+                t_{1,\phi(1)}t_{2,\phi(2)}\dots t_{n,\phi(n)}
+                \deter{P_{\phi}}
+      \end{equation*}
+      由于 \( T \) 的右上部分全为零，如果一个
+      \( \phi \) 的前
+      \( p \) 个列编号 \( \phi(1),\dots,\phi(p) \) 中至少有一个取自 \( p+1,\dots,n \)，
+      那么由 \( \phi \) 产生的项为 \( 0 \)
+      （例如，若 \( \phi(1)=n \) 则
+      \( t_{1,\phi(1)}t_{2,\phi(2)}\dots t_{n,\phi(n)} \)
+      为 \( 0 \)）。
+      所以上式化简为对具有两段的全部置换求和：
+      先重排 \( 1,\dots,p \)，随后是
+      \( p+1,\dots,p+q \)。
+      为看出这给出 \( \deter{J}\cdot\deter{K}  \)，将其展开。
+      \begin{multline*}
+         \bigg[\sum_{\substack{\text{\scriptsize 置换 }\phi_1 \\
+                              \text{\scriptsize 作用于 } 1,\dots,p}}
+               t_{1,\phi_1(1)}\cdots t_{p,\phi_1(p)}
+               \deter{P_{\phi_1}} \bigg]                                  \\
+         \cdot
+         \bigg[\sum_{\substack{\text{\scriptsize 置换 }\phi_2 \\
+                              \text{\scriptsize 作用于 } p+1,\dots,p+q}}
+               t_{p+1,\phi_2(p+1)}\cdots t_{p+q,\phi_2(p+q)}
+               \deter{P_{\phi_2}}                          \bigg]
+      \end{multline*}
+    \end{answer}
+  \item
+    证明：对任一 \( \nbyn{n} \) 矩阵 \( T \)，使矩阵 \( T-rI \) 的
+    行列式为零的相异实数 \( r \) 至多有
+    \( n \) 个
+    （我们将在第五章用到这一结果）。
+    \begin{answer}
+      $n=3$ 的情形表明了会发生什么。
+      \begin{equation*}
+        \deter{T-rI}
+        =
+        \begin{vmat}
+          t_{1,1}-x  &t_{1,2}   &t_{1,3}  \\
+          t_{2,1}    &t_{2,2}-x &t_{2,3}  \\
+          t_{3,1}    &t_{3,2}   &t_{3,3}-x
+        \end{vmat}
+      \end{equation*}
+      置换展开中的每一项都有三个取自
+      矩阵元素的因子（例如，$(t_{1,1}-x)(t_{2,2}-x)(t_{3,3}-x)$
+      与 $(t_{1,1}-x)(t_{2,3})(t_{3,2})$），所以该行列式
+      可以表示为 $x$ 的 $3$ 次多项式。
+      这样的多项式至多有 $3$ 个根。
+
+      一般地，置换展开表明
+      行列式是一些项的和，每一项
+      有 \( n \) 个因子，给出一个 $n$ 次多项式。
+      \( n \) 次多项式至多有 \( n \) 个根。
+    \end{answer}
+  \puzzle \item
+    \cite{MathMag63Q307}
+    九个正的数字可以按 \( 9! \) 种方式排成 \( \nbyn{3} \) 阵列。
+    求这些阵列的行列式之和。
+    \begin{answer}
+      \answerasgiven
+      当行列式的两行对换时，行列式的
+      符号改变。
+      当一个三阶行列式的行作置换时，得到 \( 3 \)
+      个正的与 \( 3 \) 个绝对值相等的
+      负行列式。
+      于是 \( 9! \) 个行列式分成 \( 9!/6 \) 组，每一组
+      之和为零。
+    \end{answer}
+  \item
+    \cite{MathMag63Q237}
+    证明
+    \begin{equation*}
+      \begin{vmat}
+        x-2  &x-3  &x-4  \\
+        x+1  &x-1  &x-3  \\
+        x-4  &x-7  &x-10
+      \end{vmat}=0.
+    \end{equation*}
+    \begin{answer}
+      \answerasgiven
+      当任一列的元素分别从另外两列的元素中减去后，所得
+      行列式的两列元素成比例，所以行列式为零。
+      也就是，
+      \begin{equation*}
+        \begin{vmat}
+          2  &1    &x-4  \\
+          4  &2    &x-3  \\
+          6  &3    &x-10
+        \end{vmat}=
+        \begin{vmat}
+          1    &x-3  &-1   \\
+          2    &x-1  &-2   \\
+          3    &x-7  &-3
+        \end{vmat}=
+        \begin{vmat}
+          x-2  &-1   &-2   \\
+          x+1  &-2   &-4   \\
+          x-4  &-3   &-6
+        \end{vmat}=0.
+      \end{equation*}
+    \end{answer}
+  \puzzle \item
+    \cite{Monthly49p33}
+    设 \( S \) 为一个三阶幻方的整数元素之和，\( D \) 为把该方阵视为
+    行列式时的值。
+    证明 \( D/S \) 是整数。
+    \begin{answer}
+      \answerasgiven
+      设
+      \begin{equation*}
+        \begin{array}{ccc}
+          a  &b  &c  \\
+          d  &e  &f  \\
+          g  &h  &i
+        \end{array}
+      \end{equation*}
+      其幻和为 \( N=S/3 \)。
+      那么
+      \begin{align*}
+        N
+        &=(a+e+i)+(d+e+f)+(g+e+c)   \\
+        &\quad\text{}-(a+d+g)-(c+f+i)=3e
+      \end{align*}
+      且 \( S=9e \)。
+      因此，把行与列相加，
+      \begin{equation*}
+        D=
+        \begin{vmat}
+          a  &b  &c  \\
+          d  &e  &f  \\
+          g  &h  &i
+        \end{vmat}
+        =\begin{vmat}
+          a  &b  &c  \\
+          d  &e  &f  \\
+         3e  &3e &3e
+        \end{vmat}
+        =\begin{vmat}
+          a  &b  &3e \\
+          d  &e  &3e \\
+         3e  &3e &9e
+        \end{vmat}
+        =\begin{vmat}
+          a  &b  &e  \\
+          d  &e  &e  \\
+          1  &1  &1
+        \end{vmat}S.
+      \end{equation*}
+    \end{answer}
+  \puzzle \item
+    \cite{Monthly31p355}
+    证明 Pascal 三角形左上角 \( n^2 \) 个元素构成的行列式
+    \begin{equation*}
+      \begin{array}{cccccc}
+        1  &1  &1  &1  &.  &.  \\
+        1  &2  &3  &.  &.      \\
+        1  &3  &.  &.  &   &   \\
+        1  &.  &.  &   &   &   \\
+        .                      \\
+        .
+      \end{array}
+    \end{equation*}
+    的值为 $1$。
+    \begin{answer}
+      \answerasgiven
+      记所论行列式为 \( D_n \)，记
+      \( i \) 行 \( j \) 列的元素为 \( a_{i,j} \)。
+      那么由元素的构造法则我们有
+      \begin{equation*}
+        a_{i,j}=a_{i,j-1}+a_{i-1,j},
+        \qquad a_{1,j}=a_{i,1}=1.
+      \end{equation*}
+      从最后一对行开始，将 \( D_n \) 的每一行从其后一行中减去。
+      经过 \( n-1 \) 次这样的减法，上面的等式表明元素
+      \( a_{i,j} \) 被元素 \( a_{i,j-1} \) 所取代，而第一列中除
+      \( a_{1,1}=1 \) 外的所有元素都变成零。
+      现在从最后一对列开始，将每一列从其后一列中减去。
+      经过这一过程，如上面的关系式所示，元素 \( a_{i,j-1} \) 被
+      \( a_{i-1,j-1} \) 所取代。
+      这两个运算的结果是把 \( a_{i,j} \) 换成
+      \( a_{i-1,j-1} \)，并使第一行与
+      第一列中的每个元素都化为零。
+      于是 \( D_n=D_{n+i} \)，从而
+      \begin{equation*}
+        D_n=D_{n-1}=D_{n-2}=\dots=D_2=1.
+      \end{equation*}
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsectionoptional{行列式的存在性}
+\textit{本小节给出前一小节中
+两个结论的证明。
+本小节为选读内容。
+这里展开的材料只会在
+若尔当标准形小节中用到，而该小节也是选读的。}
+
+我们想要证明：对任意阶数~$n$，
+$\nbyn{n}$矩阵上的行列式函数是良定义的。
+前一小节给出了
+置换展开公式。\index{determinant!permutation expansion}%
+\index{permutation expansion}
+\begin{align*}
+   %\deter{T}
+   %=
+   \begin{vmat}
+      t_{1,1}  &t_{1,2}  &\ldots  &t_{1,n}  \\
+      t_{2,1}  &t_{2,2}  &\ldots  &t_{2,n}  \\
+               &\vdots                      \\
+      t_{n,1}  &t_{n,2}  &\ldots  &t_{n,n}
+   \end{vmat}
+   &=
+   \begin{array}[t]{l}
+      t_{1,\phi_1(1)}t_{2,\phi_1(2)}\cdots
+           t_{n,\phi_1(n)}\deter{P_{\phi_1}}       \\[.75ex]
+      \>\hbox{}+t_{1,\phi_2(1)}t_{2,\phi_2(2)}\cdots
+           t_{n,\phi_2(n)}\deter{P_{\phi_2}}       \\[.75ex]
+      \>\alignedvdots                              \\
+      \>\hbox{}+t_{1,\phi_k(1)}t_{2,\phi_k(2)}\cdots
+           t_{n,\phi_k(n)}\deter{P_{\phi_k}} 
+   \end{array}                                                 \\[1ex]
+   &=\!\!\sum_{\text{permutations\ }\phi}\!\!\!\!
+     t_{1,\phi(1)}t_{2,\phi(2)}\cdots t_{n,\phi(n)}
+                                 \deter{P_{\phi}}
+\end{align*}
+这就把证明行列式是良定义的这一
+问题化归为
+只需证明行列式在置换矩阵的集合上
+是良定义的。
+
+置换矩阵可以通过行对换变成单位矩阵。
+因此我们可以用记录对换次数的方法
+来计算它的行列式。
+然而，
+我们仍必须证明该结果是良定义的。
+回想一下困难所在：~矩阵
+\begin{equation*}
+   P_{\phi}=
+   \begin{mat}[r]
+      0  &1  &0  &0 \\
+      1  &0  &0  &0 \\
+      0  &0  &1  &0 \\
+      0  &0  &0  &1
+   \end{mat}
+\end{equation*}
+的行列式既可以用一次对换
+\begin{equation*}
+   P_{\phi}
+   \grstep{\rho_1\leftrightarrow\rho_2}
+   \begin{mat}[r]
+      1  &0  &0  &0 \\
+      0  &1  &0  &0 \\
+      0  &0  &1  &0 \\
+      0  &0  &0  &1
+   \end{mat}
+\end{equation*}
+也可以用三次对换来计算。
+\begin{equation*}
+   P_{\phi}
+   \grstep{\rho_3\leftrightarrow\rho_1}
+   % \begin{mat}[r]
+   %    0  &0  &1  &0 \\
+   %    1  &0  &0  &0 \\
+   %    0  &1  &0  &0 \\
+   %    0  &0  &0  &1
+   % \end{mat}
+   \repeatedgrstep{\rho_2\leftrightarrow\rho_3}
+   % \begin{mat}[r]
+   %    0  &0  &1  &0 \\
+   %    0  &1  &0  &0 \\
+   %    1  &0  &0  &0 \\
+   %    0  &0  &0  &1
+   % \end{mat}
+   \repeatedgrstep{\rho_1\leftrightarrow\rho_3}
+   \begin{mat}[r]
+      1  &0  &0  &0 \\
+      0  &1  &0  &0 \\
+      0  &0  &1  &0 \\
+      0  &0  &0  &1
+   \end{mat}
+\end{equation*}
+这两种化简所用的对换次数都是奇数，所以这里我们认为
+\( \deter{P_{\phi}}=-1 \)；
+但如果有某种方法用偶数次对换来实现，
+那么同一个输入就会使行列式给出
+两个不同的输出。
+下面，\nearbycorollary{cor:ParityInversEqParitySwaps} 将证明
+这种情况不会发生\Dash
+不存在这样的置换矩阵，它能以两种方式经行对换变成单位矩阵，
+其中一种用偶数次对换，另一种用奇数次对换。
+
+% So the critical step will be a way to calculate whether the 
+% number of swaps that it takes could be even or odd.
+
+\begin{definition} \label{df:Inversion}
+%<*df:Inversion>
+在置换 $\phi=\sequence{\ldots,k,\ldots,j,\ldots}$ 中，
+满足 $k>j$ 的元素相对于其自然顺序
+构成一个\definend{逆序}。
+类似地，在置换矩阵中，两行
+\begin{equation*}
+  P_{\phi}=
+  \begin{mat}
+    \vdots          \\
+    \iota_{k} \\
+    \vdots          \\
+    \iota_{j} \\
+    \vdots
+  \end{mat}
+\end{equation*}
+若满足 \( k>j \)，则处于一个\definend{逆序}中。\index{inversion}%
+\index{permutation!inversions}
+%</df:Inversion>
+\end{definition}
+
+\begin{example}
+这个置换矩阵
+\begin{equation*}
+  \begin{mat}[r]
+    1  &0  &0  &0 \\
+    0  &0  &1  &0 \\
+    0  &1  &0  &0 \\
+    0  &0  &0  &1
+  \end{mat}
+  =
+  \begin{mat}
+    \iota_1  \\
+    \iota_3  \\
+    \iota_2  \\
+    \iota_4
+  \end{mat}
+\end{equation*}
+只有一个逆序，即 \( \iota_3 \) 位于 \( \iota_2 \) 之前。
+\end{example}
+
+\begin{example} \label{ex:ThreeInversions}
+这里有三个逆序：
+\begin{equation*}
+  \begin{mat}[r]
+    0  &0  &1  \\
+    0  &1  &0  \\
+    1  &0  &0
+  \end{mat}
+  =
+  \begin{mat}
+    \iota_3  \\
+    \iota_2  \\
+    \iota_1
+  \end{mat}
+\end{equation*}
+\( \iota_3 \) 位于 \( \iota_1 \) 之前，
+\( \iota_3 \) 位于 \( \iota_2 \) 之前，且 \( \iota_2 \) 位于
+\( \iota_1 \) 之前。
+\end{example}
+
+\begin{lemma} \label{le:SwapsChangeSgn}
+%<*lm:SwapsChangeSgn>
+置换矩阵中的一次行对换会使逆序的个数
+从偶数变为奇数，或从奇数变为偶数。
+%</lm:SwapsChangeSgn>
+\end{lemma}
+
+\begin{proof}
+%<*pf:SwapsChangeSgn0>
+考虑对第 $j$ 行与第 $k$ 行的对换，其中 $k>j$。
+
+若这两行相邻
+\begin{equation*}
+   P_{\phi}=
+   \begin{mat}
+     \vdots           \\
+     \iota_{\phi(j)}  \\
+     \iota_{\phi(k)}  \\
+     \vdots
+   \end{mat}
+ \grstep{\rho_k\leftrightarrow\rho_j}
+   \begin{mat}
+     \vdots           \\
+     \iota_{\phi(k)}  \\
+     \iota_{\phi(j)}  \\
+     \vdots
+   \end{mat}
+\end{equation*}
+那么由于涉及这对之外其他行的逆序不受影响，
+这次对换使逆序的总数改变一，
+究竟是消去一个逆序还是产生一个逆序，
+取决于 \( \phi(j)>\phi(k) \) 是否成立。
+因此，逆序的总数从奇数变为偶数，
+或从偶数变为奇数。
+%</pf:SwapsChangeSgn0>
+
+%<*pf:SwapsChangeSgn1>
+若这两行不相邻，则我们可以通过一系列相邻行的对换来交换它们，
+先把第~$k$ 行向上移
+\begin{equation*}
+   \begin{mat}
+     \vdots             \\
+     \iota_{\phi(j)}    \\
+     \iota_{\phi(j+1)}  \\
+     \iota_{\phi(j+2)}  \\
+     \vdots             \\
+     \iota_{\phi(k)}    \\
+     \vdots
+   \end{mat}
+  \grstep{\rho_k\swap\rho_{k-1}}
+  \repeatedgrstep{\rho_{k-1}\swap\rho_{k-2}}
+  \cdots
+  \grstep{\rho_{j+1}\swap\rho_j}
+   \begin{mat}
+     \vdots             \\
+     \iota_{\phi(k)}    \\
+     \iota_{\phi(j)}    \\
+     \iota_{\phi(j+1)}  \\
+     \vdots             \\
+     \iota_{\phi(k-1)}  \\
+     \vdots
+   \end{mat}
+\end{equation*}
+%</pf:SwapsChangeSgn1>
+%<*pf:SwapsChangeSgn2>
+再把第~$j$ 行向下移。
+\begin{equation*}
+  \grstep{\rho_{j+1}\swap\rho_{j+2}}
+  \repeatedgrstep{\rho_{j+2}\swap\rho_{j+3}}
+  \cdots
+  \grstep{\rho_{k-1}\swap\rho_k}
+   \begin{mat}
+     \vdots             \\
+     \iota_{\phi(k)}    \\
+     \iota_{\phi(j+1)}  \\
+     \iota_{\phi(j+2)}  \\
+     \vdots             \\
+     \iota_{\phi(j)}    \\
+     \vdots
+   \end{mat}
+\end{equation*}
+这些相邻对换中的每一次都使逆序的个数
+从奇数变为偶数或从偶数变为奇数。
+对换的总次数 \( (k-j)+(k-j-1) \) 是奇数。
+于是，总体上逆序的个数
+从偶数变为奇数，或从奇数变为偶数。
+%</pf:SwapsChangeSgn2>
+\end{proof}
+
+\begin{corollary}  \label{cor:ParityInversEqParitySwaps}
+%<*co:ParityInversEqParitySwaps>
+若置换矩阵有奇数个逆序，则把它换成
+单位矩阵需要奇数次对换。
+若它有偶数个逆序，则换成单位矩阵需要偶数次对换。
+%</co:ParityInversEqParitySwaps>
+\end{corollary}
+
+\begin{proof}
+%<*pf:ParityInversEqParitySwaps>
+单位矩阵有零个逆序。
+把奇数变成零需要奇数次对换，
+把偶数变成零需要偶数次对换。
+%</pf:ParityInversEqParitySwaps>
+\end{proof}
+
+\begin{example}
+\nearbyexample{ex:ThreeInversions} 中的矩阵
+用一次对换 $\rho_1\leftrightarrow\rho_3$ 就能变成单位矩阵。
+（所以对换的次数不必与逆序的个数相同，
+但这两个数的奇偶性是一样的。）
+\end{example}
+
+\begin{definition} \label{df:Signum}
+%<*df:Signum>
+置换的\definend{符号}\index{permutation!signum}\index{signum}%
+\index{sgn!see {signum}}
+\( \sgn(\phi) \)
+在 \( \phi \) 中逆序个数为奇数时是 \( -1 \)，为偶数时是
+\( +1 \)。
+%</df:Signum>
+\end{definition}
+
+\begin{example}
+使用 \nearbyexample{ex:AllTwoThreePerms} 中
+$3$ 元置换的记号，我们有
+\begin{equation*}
+  P_{\phi_1}=
+  \begin{mat}
+    1  &0  &0  \\
+    0  &1  &0  \\
+    0  &0  &1
+  \end{mat}
+  \qquad
+  P_{\phi_2}=
+  \begin{mat}
+    1  &0  &0  \\
+    0  &0  &1  \\
+    0  &1  &0  
+  \end{mat}
+\end{equation*}
+所以
+\( \sgn(\phi_1)=1 \)，因为没有逆序，
+而 \( \sgn(\phi_2)=-1 \)，因为有一个逆序。
+\end{example}
+
+我们仍未证明行列式函数是良定义的，
+因为除了行对换之外，
+我们还没有考虑置换矩阵上的其他行变换。
+我们将巧妙地绕过这个问题。
+%<*DefiningDFunction>
+定义函数
+\( \map{d}{\matspace_{\nbyn{n}}}{\Re} \)：
+修改置换展开公式，
+把 $\deter{P_\phi}$ 换成 $\sgn(\phi)$。
+\begin{equation*}
+  d(T)=
+  \sum_{\text{permutations\ }\phi}t_{1,\phi(1)}t_{2,\phi(2)}\cdots t_{n,\phi(n)}
+                                 \cdot\sgn(\phi)
+\end{equation*}
+% This gives the same value as the permutation expansion
+% because the corollary shows that $\det(P_\phi)=\sgn(\phi)$.
+这个公式的优点是逆序的个数
+显然是良定义的\Dash  直接数出来即可。
+因此，当我们证明了~$d$
+满足行列式定义中的条件时，
+也就证明了一个~$\nbyn{n}$阶行列式函数的
+存在性。
+%</DefiningDFunction>
+
+\begin{lemma} \label{lm:DeterminantsExist}
+\index{determinant!exists}
+%<*lm:DeterminantsExist>
+上面的函数 \( d \) 是一个行列式。
+从而 $\det_{\nbyn{n}}$ 对每个 $n$ 都存在。
+%</lm:DeterminantsExist>
+\end{lemma}
+
+\begin{proof}
+%<*pf:DeterminantsExist0>
+我们必须验证它满足行列式定义中的四个条件，
+即 \nearbydefinition{def:Det}。
+%</pf:DeterminantsExist0>
+
+%<*pf:DeterminantsExist1>
+条件~(4) 容易验证：设 $I$ 是 $\nbyn{n}$ 阶单位矩阵，
+在
+\begin{equation*}
+  d(I)=
+  \sum_{\text{perm\ }\phi}
+    \iota_{1,\phi(1)}\iota_{2,\phi(2)}\cdots \iota_{n,\phi(n)}
+                                 \sgn(\phi)
+\end{equation*}
+中，求和式里所有的项都为零，
+只有置换~$\phi$ 为恒等的那一项例外，
+这一项给出沿对角线的乘积，
+而该乘积为一。
+%</pf:DeterminantsExist1>
+
+%<*pf:DeterminantsExist2>
+对于条件~(3)，设 \( T\smash[b]{\grstep{k\rho_i}}\hat{T} \)，
+考虑 $d(\hat{T})$。
+\begin{multline*}
+  \sum_{\text{perm\ }\phi}\!\!
+    \hat{t}_{1,\phi(1)}
+     \cdots\hat{t}_{i,\phi(i)}\cdots\hat{t}_{n,\phi(n)}
+                                 \sgn(\phi)   \\
+  =\sum_{\phi}
+     t_{1,\phi(1)}\cdots kt_{i,\phi(i)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)
+\end{multline*}
+提出因子~\( k \) 便得到所要的等式。
+\begin{equation*}
+  =k\cdot\sum_{\phi}
+     t_{1,\phi(1)}\cdots t_{i,\phi(i)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)                 
+  =k\cdot d(T)
+\end{equation*}
+%</pf:DeterminantsExist2>
+
+%<*pf:DeterminantsExist3>
+对于~(2)，设
+\( T\smash[b]{\grstep{\rho_i\swap\rho_j}}\hat{T} \)。
+我们必须证明 $d(\hat{T})$ 是 $d(T)$ 的相反数。
+\begin{equation*}
+  d(\hat{T})=
+  \sum_{\text{perm\ }\phi}\!\!
+    \hat{t}_{1,\phi(1)}
+    \cdots\hat{t}_{i,\phi(i)}
+    \cdots\hat{t}_{j,\phi(j)}
+    \cdots \hat{t}_{n,\phi(n)}
+                                 \sgn(\phi)
+    \tag{$*$}
+\end{equation*}
+我们将证明（$*$）中的每一项都对应 $d(T)$ 中的一项，
+且这两项互为相反数。
+考虑 $d(\hat{T})$ 的多重线性展开式中给出项
+    $\hat{t}_{1,\phi(1)}
+    \cdots\hat{t}_{i,\phi(i)}
+    \cdots\hat{t}_{j,\phi(j)}
+    \cdots \hat{t}_{n,\phi(n)}
+                                  \sgn(\phi)$ 的矩阵。
+\begin{equation*}
+  \begin{mat}
+     \ &                  &\vdots &               &     \\
+       &\hat{t}_{i,\phi(i)}  &       &               &    \\
+       &                &\vdots &                 &  \\
+       &                &       &\hat{t}_{j,\phi(j)} &  \\
+       &                &\vdots                   &
+  \end{mat}
+\end{equation*}
+%</pf:DeterminantsExist3>
+%<*pf:DeterminantsExist4>
+它是对矩阵
+施加 $\rho_i\swap\rho_j$ 操作的结果。
+\begin{equation*}
+  \begin{mat}
+       \ &              &\vdots &           &        \\
+         &              &       &t_{i,\phi(j)} &  \\
+         &              &\vdots &           &       \\
+         &t_{j,\phi(i)}    &       &          &        \\
+         &              &\vdots &          &
+  \end{mat}
+\end{equation*}
+也就是说，带帽 $t$ 的项对应于来自 $d(T)$ 展开式的这一项：
+ \(    t_{1,\sigma(1)}
+       \cdots t_{j,\sigma(j)}
+       \cdots t_{i,\sigma(i)}
+       \cdots t_{n,\sigma(n)} \sgn(\sigma)
+       \)，其中置换
+\( \sigma \)
+与 \( \phi \) 相同，只是把第 \( i \) 个数与第 \( j \) 个数互换：
+\( \sigma(i)=\phi(j) \) 且 \( \sigma(j)=\phi(i) \)。
+这两项的各因子相同：
+$\hat{t}_{1,\phi(1)}=t_{1,\sigma(1)}$，\ldots，
+包括来自对换过的两行的元素
+$\hat{t}_{i,\phi(i)}=t_{j,\phi(i)}=t_{j,\sigma(j)}$
+和 $\hat{t}_{j,\phi(j)}=t_{i,\phi(j)}=t_{i,\sigma(i)}$。 
+但这两项互为相反数，
+因为由 \nearbylemma{le:SwapsChangeSgn} 有 \( \sgn(\phi)=-\sgn(\sigma) \)。
+%</pf:DeterminantsExist4>
+
+%<*pf:DeterminantsExist5>
+现在，任意置换 $\phi$ 都可以由某个
+其他置换 $\sigma$ 通过这样的对换得到，
+而且方式有且仅有一种。
+因此（$*$）中的求和实际上是对所有置换的求和，
+每个置换恰好取一次。
+\begin{align*}
+  d(\hat{T})
+  &=
+  \sum_{\text{perm\ }\phi}\!\!
+    \hat{t}_{1,\phi(1)}
+    \cdots\hat{t}_{i,\phi(i)}
+    \cdots\hat{t}_{j,\phi(j)}
+    \cdots \hat{t}_{n,\phi(n)}
+                                 \sgn(\phi)   \\
+  &=\sum_{\text{perm\ }\sigma}\!\!
+     t_{1,\sigma(1)}
+    \cdots t_{j,\sigma(j)}
+    \cdots t_{i,\sigma(i)}
+    \cdots t_{n,\sigma(n)}
+                                 \cdot\bigl(-\sgn(\sigma)\bigr)        
+\end{align*}
+于是 \( d(\hat{T})=-d(T) \)。
+%</pf:DeterminantsExist5>
+
+%<*pf:DeterminantsExist6>
+最后，对于条件~(1)，设
+\( T\smash[b]{\grstep{k\rho_i+\rho_j}}\hat{T} \)。
+\begin{align*}
+  d(\hat{T})
+  &=\sum_{\text{perm\ }\phi}
+    \hat{t}_{1,\phi(1)}\cdots\hat{t}_{i,\phi(i)}
+    \cdots\hat{t}_{j,\phi(j)}\cdots\hat{t}_{n,\phi(n)}
+                                 \sgn(\phi)                \\
+  &=\sum_{\phi}
+    t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+    \cdots (kt_{i,\phi(j)}+t_{j,\phi(j)})\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)
+\end{align*}
+% (notice:~that's 
+% \( kt_{i,\phi(j)} \), not \( kt_{j,\phi(j)} \)).
+对 $kt_{i,\phi(j)}+t_{j,\phi(j)}$ 中的加法使用分配律。
+\begin{equation*}
+  = 
+      \begin{aligned}[t]
+        &\smash[b]{\sum_{\smash{\phi}}}\big[t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+          \cdots kt_{i,\phi(j)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)         \\ % [-1ex]
+        &\hbox{}\qquad\quad\hbox{}
+           +t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+           \cdots t_{j,\phi(j)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)\big]
+      \end{aligned}                                               
+\end{equation*}
+把它拆成两个和式。
+\begin{equation*}
+  =\begin{aligned}[t] 
+         &\smash[b]{\sum_{\smash{\phi}}} \:t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+            \cdots kt_{i,\phi(j)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)           \\ % [-1ex]               
+         &\hbox{}\qquad\quad\hbox{}
+            +\smash[b]{\sum_{\phi}}\:
+            t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+            \cdots t_{j,\phi(j)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)        
+     \end{aligned}                                               
+\end{equation*}
+识别出第二个和式。
+\begin{equation*}
+  =\begin{aligned}[t]
+       &k\cdot \smash[b]{\sum_{\smash{\phi}}}\:
+            t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+            \cdots t_{i,\phi(j)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)          \\  % [-.75ex]
+       &\hbox{}\qquad\quad\hbox{}
+             +d(T)          
+     \end{aligned}
+\end{equation*}
+%</pf:DeterminantsExist6>
+%<*pf:DeterminantsExist7>
+考虑各项
+\( t_{1,\phi(1)}\cdots t_{i,\phi(i)} \cdots t_{i,\phi(j)}\cdots t_{n,\phi(n)}
+   \sgn(\phi)  \)。
+注意下标；元素是 \( t_{i,\phi(j)} \)，而不是 \( t_{j,\phi(j)} \)。
+这些项的和是矩阵~\( S \) 的行列式，
+它等于 \( T \)，
+只是 $S$ 的第~$j$ 行是 $T$ 的第~$i$ 行的副本，
+也就是说，$S$ 有两行相同。
+用与证明 \nearbylemma{le:IdenRowsDetZero} 相同的方式可以看出
+$d(S)=0$：交换 $S$ 的相同的两行会改变
+$d(S)$ 的符号，但由于矩阵经这次交换并不改变，
+$d(S)$ 的值也必须不变，因此这个值必为零。
+%</pf:DeterminantsExist7>
+\end{proof}
+
+至此我们证明了每个阶数~$\nbyn{n}$ 的行列式函数都存在。
+我们已经知道，对每个阶数，行列式至多有一个。
+因此，对每个阶数，行列式函数有且仅有一个。
+
+我们以证明来自前一小节的另一个尚待证明的结论
+来结束本小节。
+
+\begin{theorem} \label{th:DetMatrixEqualsDetTrans}
+\index{transpose!determinant}
+%<*th:DetMatrixEqualsDetTrans>
+矩阵的行列式等于其转置的行列式。
+%</th:DetMatrixEqualsDetTrans>
+\end{theorem}
+
+\begin{proof}
+%<*pf:DetMatrixEqualsDetTrans0>
+最好通过作出一般的
+$\nbyn{3}$ 情形来理解这个证明。
+该论证适用于 $\nbyn{n}$ 情形，这一点将是显然的。
+
+比较矩阵~$T$ 的置换展开
+\begin{align*}
+  \begin{vmat}
+    t_{1,1}  &t_{1,2}  &t_{1,3}  \\
+    t_{2,1}  &t_{2,2}  &t_{2,3}  \\
+    t_{3,1}  &t_{3,2}  &t_{3,3}  
+  \end{vmat}
+  &=
+  t_{1,1}t_{2,2}t_{3,3}
+  \begin{vmat}
+    1 &0 &0 \\
+    0 &1 &0 \\
+    0 &0 &1
+  \end{vmat}
+  +t_{1,1}t_{2,3}t_{3,2}
+  \begin{vmat}
+    1 &0 &0 \\
+    0 &0 &1 \\
+    0 &1 &0
+  \end{vmat}            \\
+  &\quad+
+  t_{1,2}t_{2,1}t_{3,3}
+  \begin{vmat}
+    0 &1 &0 \\
+    1 &0 &0 \\
+    0 &0 &1
+  \end{vmat}
+  +t_{1,2}t_{2,3}t_{3,1}
+  \begin{vmat}
+    0 &1 &0 \\
+    0 &0 &1 \\
+    1 &0 &0
+  \end{vmat}           \\
+  &\quad+
+  t_{1,3}t_{2,1}t_{3,2}
+  \begin{vmat}
+    0 &0 &1 \\
+    1 &0 &0 \\
+    0 &1 &0
+  \end{vmat}
+  +t_{1,3}t_{2,2}t_{3,1}
+  \begin{vmat}
+    0 &0 &1 \\
+    0 &1 &0 \\
+    1 &0 &0
+  \end{vmat}
+\end{align*}
+与其转置的置换展开。
+%</pf:DetMatrixEqualsDetTrans0>
+%<*pf:DetMatrixEqualsDetTrans1>
+\begin{align*}
+  \begin{vmat}
+    t_{1,1}  &t_{2,1}  &t_{3,1}  \\
+    t_{1,2}  &t_{2,2}  &t_{3,2}  \\
+    t_{1,3}  &t_{2,3}  &t_{3,3}  
+  \end{vmat}
+  &=
+  t_{1,1}t_{2,2}t_{3,3}
+  \begin{vmat}
+    1 &0 &0 \\
+    0 &1 &0 \\
+    0 &0 &1
+  \end{vmat}
+  +t_{1,1}t_{3,2}t_{2,3}
+  \begin{vmat}
+    1 &0 &0 \\
+    0 &0 &1 \\
+    0 &1 &0
+  \end{vmat}            \\
+  &\quad+
+  t_{2,1}t_{1,2}t_{3,3}
+  \begin{vmat}
+    0 &1 &0 \\
+    1 &0 &0 \\
+    0 &0 &1
+  \end{vmat}
+  +t_{2,1}t_{3,2}t_{1,3}
+  \begin{vmat}
+    0 &1 &0 \\
+    0 &0 &1 \\
+    1 &0 &0
+  \end{vmat}           \\
+  &\quad+
+  t_{3,1}t_{1,2}t_{2,3}
+  \begin{vmat}
+    0 &0 &1 \\
+    1 &0 &0 \\
+    0 &1 &0
+  \end{vmat}
+  +t_{3,1}t_{2,2}t_{1,3}
+  \begin{vmat}
+    0 &0 &1 \\
+    0 &1 &0 \\
+    1 &0 &0
+  \end{vmat}
+\end{align*}
+先比较六个 $t$ 的乘积。
+$T$ 展开式中的那些乘积与转置展开式中的相同；
+例如，$t_{1,2}t_{2,3}t_{3,1}$ 在上面，
+而 $t_{3,1}t_{1,2}t_{2,3}$ 在下面。
+这完全合理\Dash 上面的六个来自从~$T$ 的每一行、每一列
+各取一个元素的所有方式，
+而下面的六个是从~$T$ 的每一列、每一行
+各取一个元素的所有方式，
+所以它们当然是同一个集合。
+%</pf:DetMatrixEqualsDetTrans1>
+
+%<*pf:DetMatrixEqualsDetTrans2>
+接下来观察到，在这两个展开式中，
+每个 $t$ 乘积表达式所对应的
+置换矩阵不一定相同。
+例如，在上面，$t_{1,2}t_{2,3}t_{3,1}$ 对应于映射
+$1\mapsto 2$, $2\mapsto 3$, $3\mapsto 1$ 的矩阵。
+在下面，$t_{3,1}t_{1,2}t_{2,3}$
+对应于映射
+$1\mapsto 3$, $2\mapsto 1$, $3\mapsto 2$ 的矩阵。
+第二个映射是第一个的逆映射。
+这也完全合理\Dash 两者
+矩阵转置与逆映射都把 $1,2$ 换成 $2,1$，
+把 $2,3$ 换成 $3,2$，并把 $3,1$ 换成 $1,3$。
+ 
+最后我们指出，$P_{\phi}$ 的行列式等于
+$P_{\phi^{-1}}$ 的行列式，
+正如 \nearbyexercise{exer:PermInvFacts} %
+所表明的。
+%</pf:DetMatrixEqualsDetTrans2>
+\end{proof}
+
+
+\begin{exercises}
+  \item[]\textit{这里总结本书中 $2$-\hbox{} 与 $3$-置换所用的记号。
+    \begin{center}
+      \begin{tabular}[t]{c|cc}
+        $i$          &$1$      &$2$    \\
+        \hline
+        $\phi_1(i)$  &$1$      &$2$     \\
+        $\phi_2(i)$  &$2$      &$1$     
+      \end{tabular}
+      \qquad
+      \begin{tabular}[t]{c|ccc}
+        $i$          &$1$     &$2$   &$3$    \\
+        \hline
+        $\phi_1(i)$  &$1$     &$2$   &$3$    \\
+        $\phi_2(i)$  &$1$     &$3$   &$2$    \\
+        $\phi_3(i)$  &$2$     &$1$   &$3$    \\
+        $\phi_4(i)$  &$2$     &$3$   &$1$    \\
+        $\phi_5(i)$  &$3$     &$1$   &$2$    \\
+        $\phi_6(i)$  &$3$     &$2$   &$1$    
+      \end{tabular}
+    \end{center}  }
+  \item 
+    写出一般 $\nbyn{2}$ 矩阵及其转置的置换展开。
+    \begin{answer}
+      这是 $\nbyn{2}$ 矩阵的行列式的置换展开
+      \begin{equation*}
+        \begin{vmat}
+          a  &b  \\
+          c  &d
+        \end{vmat}
+         =ad\cdot \begin{vmat}[r]
+                    1  &0  \\
+                    0  &1
+                  \end{vmat}
+         +bc\cdot \begin{vmat}[r]
+                    0  &1 \\
+                    1  &0
+                  \end{vmat}
+      \end{equation*}
+      以及它的转置的行列式的置换展开。
+      \begin{equation*}
+         \begin{vmat}
+            a  &c  \\
+            b  &d
+         \end{vmat}
+         =ad\cdot\begin{vmat}[r]
+                    1  &0  \\
+                    0  &1
+                 \end{vmat}
+         +cb\cdot\begin{vmat}[r]
+                   0  &1 \\
+                   1  &0
+                 \end{vmat}
+       \end{equation*}
+       与小节中描述的 $\nbyn{3}$ 展开一样，对应项的置换矩阵互为转置
+       （尽管每个矩阵都是自转置的这一事实把这一点掩盖了）。
+    \end{answer}
+  \recommended \item 
+    \textit{本题也出现在前面的小节中。}
+    \begin{exparts}
+      \partsitem 求每个 $2$-置换的逆。
+      \partsitem 求每个 $3$-置换的逆。
+    \end{exparts}
+    \begin{answer}
+      每一个都容易验证。
+      \begin{exparts}
+        \partsitem 
+          \begin{tabular}[t]{r|cc}
+            \textit{置换} &$\phi_1$  &$\phi_2$ \\
+             \hline
+            \textit{逆}     &$\phi_1$  &$\phi_2$ 
+          \end{tabular}
+        \partsitem 
+          \begin{tabular}[t]{r|cccccc}
+            \textit{置换} 
+              &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_4$ &$\phi_5$ &$\phi_6$ \\
+            \hline
+            \textit{逆}
+              &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_5$ &$\phi_4$ &$\phi_6$ 
+          \end{tabular}
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    \begin{exparts}
+      \partsitem 求每个 $2$-置换的符号。
+      \partsitem 求每个 $3$-置换的符号。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \( \sgn(\phi_1)=+1 \), \( \sgn(\phi_2)=-1 \)
+        \partsitem \( \sgn(\phi_1)=+1 \), \( \sgn(\phi_2)=-1 \),
+              \( \sgn(\phi_3)=-1 \), \( \sgn(\phi_4)=+1 \),
+              \( \sgn(\phi_5)=+1 \), \( \sgn(\phi_6)=-1 \)
+      \end{exparts}  
+     \end{answer}
+  \item 
+    找出此矩阵的置换展开中唯一非零的项。
+    \begin{equation*}
+      \begin{vmat}[r]
+        0  &1  &0  &0  \\
+        1  &0  &1  &0  \\
+        0  &1  &0  &1  \\
+        0  &0  &1  &0
+      \end{vmat}
+    \end{equation*}
+    通过求相应置换的符号来计算该行列式。
+    \begin{answer}
+      要在置换展开中得到非零项，我们必须取 \( 1,2 \) 处的元素与
+      \( 4,3 \) 处的元素。
+      选定这两处之后，我们还必须取 \( 2,1 \) 处的元素与 \( 3,4 \) 处的元素。
+      \( \sequence{2,1,4,3} \) 的符号是 \( +1 \)，因为由
+      \begin{equation*}
+        \begin{mat}[r]
+          0  &1  &0  &0  \\
+          1  &0  &0  &0  \\
+          0  &0  &0  &1  \\
+          0  &0  &1  &0            
+        \end{mat}
+      \end{equation*}
+      经过两次行对换 $\rho_1\leftrightarrow\rho_2$ 与
+      $\rho_3\leftrightarrow\rho_4$ 即可得到单位矩阵。  
+    \end{answer}
+  \item  
+    \cite{Strang}
+    $n$-置换 \( \phi=\sequence{n,n-1,\dots,2,1} \) 的符号是什么？
+    \begin{answer}
+      规律如下。
+      \begin{center}
+         \begin{tabular}[b]{c|ccccccc}
+           \( i \) &\( 1 \) &\( 2 \) &\( 3 \) &\( 4 \) &\( 5 \)
+              &\( 6 \) &\ldots \\
+           \hline
+           \( \sgn(\phi_i) \) &\( +1 \) &\( -1 \) &\( -1 \) &\( +1 \)
+              &\( +1 \) &\( -1 \) &\ldots
+         \end{tabular}
+      \end{center}  
+      于是为求 $\phi_{n!}$ 的符号，我们用 $n!-1$ 减一，再看它除以四的余数。
+      若余数是 $1$ 或 $2$，则符号为 $-1$；否则为 $+1$。
+      对 $n>4$，数 $n!$ 能被四整除，所以 $n!-1$ 除以四的余数是
+      $-1$（更准确地说，余数是 $3$），因此符号是 $+1$。
+      $n=1$ 的情形符号为 $+1$，$n=2$ 的情形符号为 $-1$，
+      $n=3$ 的情形符号为 $-1$。
+    \end{answer}
+  \item \label{exer:PermInvFacts}
+     证明这些结论。   
+     \begin{exparts}
+        \partsitem 每个置换都有逆。
+        \partsitem \( \sgn(\phi^{-1})=\sgn(\phi) \)
+        \partsitem 每个置换都是另一个置换的逆。
+     \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+       \partsitem 我们可以把置换看成
+         \( \map{\phi}{\set{1,\ldots,n}}{\set{1,\ldots,n}} \)
+         这样单射且满射的映射。
+         任何单射且满射的映射都有逆。
+       \partsitem 若从 \( P_\phi \)
+         变到单位矩阵总需要奇数次对换，那么从单位矩阵变到
+         \( P_\phi \) 也总需要奇数次对换（任何对换都是可逆的）。
+       \partsitem 这就是第一问。
+      \end{exparts}  
+    \end{answer}
+  \item \label{exer:PermInvIffMatTrans}
+      证明对任意置换 $\phi$，置换逆的矩阵就是置换的矩阵的转置
+      $P_{\phi^{-1}}=\trans{P_{\phi}}$。
+      \begin{answer}
+        若 $\phi(i)=j$ 则 $\phi^{-1}(j)=i$。
+        于是注意到 $P_{\phi}$ 在 $i,j$ 处有一个 $1$ 当且仅当 $\phi(i)=j$，
+        而 $P_{\phi^{-1}}$ 在 $j,i$ 处有一个 $1$ 当且仅当 $\phi^{-1}(j)=i$，
+        结论即得。
+      \end{answer}
+  \recommended \item 
+    证明有 \( m \) 个逆序的置换矩阵可以经过 \( m \) 步行对换变成单位矩阵。
+    将此与\nearbycorollary{cor:ParityInversEqParitySwaps}对比。
+    \begin{answer}
+      这并不是说 \( m \) 是变成单位矩阵所需的最少对换次数，
+      也不是说 \( m \) 是最多的。
+      它说的是存在一种恰好经 \( m \) 步对换变成单位矩阵的方法。
+
+      设 \( \iota_j \) 是相对于前面某行来说第一个出现逆序的行，
+      并设 \( \iota_k \) 是给出该逆序的第一行。
+      我们有这样一个行区间。
+      \begin{equation*}
+         \begin{mat}
+           \vdots      \\
+           \iota_k     \\
+           \iota_{r_1} \\
+           \vdots      \\
+           \iota_{r_s} \\
+           \iota_j     \\
+           \vdots
+         \end{mat}
+         \qquad j<k<r_1<\dots <r_s
+      \end{equation*}
+      作对换。
+      \begin{equation*}
+         \begin{mat}
+           \vdots      \\
+           \iota_j     \\
+           \iota_{r_1} \\
+           \vdots      \\
+           \iota_{r_s} \\
+           \iota_k     \\
+           \vdots
+         \end{mat}
+      \end{equation*}
+      第二个矩阵的逆序少了一个，因为该区间内的逆序少了一个
+      （\( s \) 对 \( s+1 \)），而涉及区间之外各行的逆序不受影响。
+
+      如此进行下去，每作一次行对换就把逆序的个数减少一个。
+      当逆序不复存在时，结果就是单位矩阵。
+
+      与\nearbycorollary{cor:ParityInversEqParitySwaps}的对比在于，
+      本练习的陈述是一个“存在”命题：
+      存在一种恰好经~$m$ 步对换变成单位矩阵的方法。
+      而该推论是一个“对所有”命题：对变成单位矩阵的所有对换方式，
+      奇偶性（是偶还是奇）都相同。 
+    \end{answer}
+  \recommended \item 
+    对任意置换 $\phi$，令 $g(\phi)$ 是如下定义的整数。
+    \begin{equation*}
+       g(\phi)=\prod_{i<j} [\phi(j)-\phi(i)]
+    \end{equation*}
+    （这是在所有满足 \( i<j \) 的指标 \( i \) 与 \( j \) 上，
+    对上述形式的项作的乘积。）
+    \begin{exparts}
+      \partsitem 计算 $g$ 在所有 $2$-置换上的值。
+      \partsitem 计算 $g$ 在所有 $3$-置换上的值。
+      \partsitem 证明 $g(\phi)$ 不为 $0$。
+      \partsitem 证明这个结论。
+         \begin{equation*}
+            \sgn(\phi)=\frac{g(\phi)}{\absval{g(\phi)}}
+         \end{equation*}
+    \end{exparts}
+    许多作者把这个公式当作符号函数的定义。
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 首先，$g(\phi_1)$ 是单独一个因子 $2-1$ 的乘积，
+          所以 $g(\phi_1)=1$。
+          其次，$g(\phi_2)$ 是单独一个因子 $1-2$ 的乘积，
+          所以 $g(\phi_2)=-1$。
+        \partsitem 
+            \begin{tabular}[t]{r|cccccc}
+               \textit{置换 $\phi$} 
+                 &$\phi_{1}$ &$\phi_{2}$ &$\phi_{3}$ 
+                    &$\phi_{4}$ &$\phi_{5}$ &$\phi_{6}$ \\
+               \hline
+               $g(\phi)$ &$2$ &$-2$ &$-2$ &$2$ &$2$ &$-2$ 
+            \end{tabular}
+        \partsitem 它是一些非零项的乘积。
+        \partsitem 注意 \( \phi(j)-\phi(i) \) 为负当且仅当
+           \( \iota_{\phi(j)} \) 与 \( \iota_{\phi(i)} \) 处于它们通常顺序的一个逆序之中。
+      \end{exparts}  
+     \end{answer}
+%  \item Prove that the signum function on permutations is unique in that
+%    if \( f \) is a map from the permutations of \( \set{1,\ldots,n} \)
+%    to the integers that is multiplicative:
+%    \( f(\sigma\phi)=f(\sigma)f(\phi) \) then \( f \) is either the
+%    function that always gives zero, or the function that always gives
+%    one, or is the signum.
+%    \begin{answer}
+%      Consider the identity permutation.
+%      \begin{equation*}
+%        \map{\identity}{\set{1,2,\ldots,n}}{\set{1,2,\ldots,n}}    
+%      \end{equation*}
+%      Note that $f(\identity)$ equals $0$ or $1$ because
+%      the multiplicative property gives 
+%      $f(\identity)
+%       =f(\composed{\identity}{\identity})
+%       =f(\identity)\cdot f(\identity)
+%       =f(\identity)^2$.
+%      If $f(\identity)=0$ then $f$ is the constant function 
+%      $f(\phi)=0$ because 
+%      $f(\phi)=f(\composed{\identity}{\phi})=0\cdot f(\phi)=0$.
+%
+%      If $f(\identity)=1$ then consider the permutation
+%      $\tau$ that just swaps $i$ and $j$
+%      \begin{equation*}
+%        1\mapsto 1
+%        \quad 2\mapsto 2
+%        \quad \cdots 
+%        \quad i\mapsto j
+%        \quad \cdots
+%        \quad j\mapsto i
+%        \quad \cdots
+%        \quad n\mapsto n
+%      \end{equation*}
+%      (the $n=1$ special case is easy).
+%      Note that $\composed{\tau}{\tau}=\identity$ so 
+%      $1=f(\composed{\tau}{\tau})=f(\tau)\cdot f(\tau)$,
+%      and $f(\tau)$ is either $+1$ or $-1$.
+%    \end{answer}
+\end{exercises}
+
+
+
+\index{determinant|)}

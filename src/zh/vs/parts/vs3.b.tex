@@ -1,0 +1,1062 @@
+\begin{exercises}
+  \recommended \item 判断下列每个集合是否为 $\polyspace_2$ 的基。
+    \begin{exparts*}
+      \partsitem $\sequence{x^2-x+1, 2x+1, 2x-1}$
+      \partsitem $\sequence{x+x^2, x-x^2}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这是 $\polyspace_2$ 的一个基。
+           为证明它张成该空间，考虑一个一般的
+           $a_2x^2+a_1x+a_0\in\polyspace_2$，寻找
+           满足
+           $a_2x^2+a_1x+a_0=c_1\cdot(x^2-x+1) +c_2\cdot(2x+1) +c_3(2x-1)$
+           的标量 $c_1, c_2, c_3\in\Re$。
+           由此得到的线性方程组如下。
+            \begin{equation*}
+              \begin{linsys}{3}
+                c_1  &\spaceforemptycolumn  &     &  &     &=  &a_2 \\
+                     &  &2c_2 &+ &2c_3 &=  &a_1 \\
+                     &  &c_2  &- &c_3   &=  &a_0
+              \end{linsys}
+              \grstep{(-1/2)\rho_2+\rho_3}
+              \begin{linsys}{3}
+                c_1  &\spaceforemptycolumn  &     &  &     &=  &a_2\hfill\hbox{} \\
+                     &  &2c_2 &+ &2c_3    &=  &a_1\hfill\hbox{} \\
+                     &  &     &  &-2c_3   &=  &a_0-(1/2)a_1
+              \end{linsys}
+            \end{equation*}
+           于是，给定任意一组 $a_i$，我们都能据此算出 $c_j$：
+           $c_1=a_2$，$c_2=(1/4)a_1+(1/2)a_0$，以及 $c_3=(1/4)a_1-(1/2)a_0$。
+           因此 $\polyspace_2$ 的每个元素都是给定的
+           $x^2-x+1$、$2x+1$ 与~$2x-1$ 的组合。
+
+           为证明所给三个元素构成的集合线性无关，可以建立方程
+           $0x^2+0x+0=c_1\cdot(x^2-x+1) +c_2\cdot(2x+1) +c_3(2x-1)$
+           并求解，它将给出 $c_1=0$、$c_2=0$、$c_3=0$。
+           或者，我们也可以换一种方式，
+           注意到上一段中的解是唯一的，
+           并引用 \nearbytheorem{th:BasisIffUniqueRepWRT}。
+        \partsitem 这不是基。
+           它不张成该空间，因为 $c_1\cdot (x+x^2) +c_2\cdot (x-x^2)$
+           这两个元素的任何组合都不能合成多项式
+           $3\in\polyspace_2$。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    判断下列每个集合是否为 \( \Re^3 \) 的基。
+    \begin{exparts*}
+      \partsitem \( \sequence{
+                 \colvec[r]{1 \\ 2 \\ 3},
+                 \colvec[r]{3 \\ 2 \\ 1},
+                 \colvec[r]{0 \\ 0 \\ 1}}  \)
+      \partsitem \( \sequence{
+                 \colvec[r]{1 \\ 2 \\ 3},
+                 \colvec[r]{3 \\ 2 \\ 1}}  \)
+      \partsitem \( \sequence{
+                 \colvec[r]{0 \\ 2 \\ -1},
+                 \colvec[r]{1 \\ 1 \\ 1},
+                 \colvec[r]{2 \\ 5 \\ 0}}  \)
+      \partsitem \( \sequence{
+                 \colvec[r]{0 \\ 2 \\ -1},
+                 \colvec[r]{1 \\ 1 \\ 1},
+                 \colvec[r]{1 \\ 3 \\ 0}}  \)
+    \end{exparts*}
+    \begin{answer}
+      由 \nearbytheorem{th:BasisIffUniqueRepWRT}，每一个是基当且仅当
+      我们能以唯一的方式把空间中的每个向量表示为
+      所给向量的线性组合。
+      \begin{exparts}
+        \partsitem 是的，这是一个基。
+          关系式
+          \begin{equation*}
+            c_1\colvec[r]{1 \\ 2 \\ 3}
+            +c_2\colvec[r]{3 \\ 2 \\ 1}
+            +c_3\colvec[r]{0 \\ 0 \\ 1}
+            =\colvec{x \\ y \\ z}
+          \end{equation*}
+          给出
+          \begin{equation*}
+            \begin{amat}{3}
+              1  &3  &0  &x  \\
+              2  &2  &0  &y  \\
+              3  &1  &1  &z
+            \end{amat}
+            \grstep[-3\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \repeatedgrstep{-2\rho_2+\rho_3}
+            \begin{amat}{3}
+              1  &3  &0  &x \hfill\hbox{}  \\
+              0  &-4 &0  &-2x+y \hfill\hbox{}  \\
+              0  &0  &1  &x-2y+z
+            \end{amat}
+          \end{equation*}
+          它有唯一的解
+          \( c_3=x-2y+z \)、\( c_2=x/2-y/4 \)
+          以及 \( c_1=-x/2+3y/4 \)。
+        \partsitem 这不是基。
+          按照上一小题的方式建立关系式
+          \begin{equation*}
+            c_1\colvec[r]{1 \\ 2 \\ 3}
+            +c_2\colvec[r]{3 \\ 2 \\ 1}
+            =\colvec{x \\ y \\ z}
+          \end{equation*}
+          得到一个线性方程组，其求解过程为
+          \begin{equation*}
+            \begin{amat}{2}
+              1  &3  &x  \\
+              2  &2  &y  \\
+              3  &1  &z
+            \end{amat}
+            \grstep[-3\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \repeatedgrstep{-2\rho_2+\rho_3}
+            \begin{amat}{2}
+              1  &3  &x\hfill\hbox{}  \\
+              0  &-4 &-2x+y\hfill\hbox{}  \\
+              0  &0  &x-2y+z
+            \end{amat}
+          \end{equation*}
+          当且仅当这个三元向量的分量
+          $x$、$y$、$z$ 满足 $x-2y+z=0$ 时，求解才可能。
+          例如，当 $x=1$、$y=1$、$z=1$ 时，
+          我们能找到起作用的系数 $c_1$ 与 $c_2$。
+          然而，对于 $x=1$、$y=1$、$z=2$，
+          则不存在起作用的 $c$。
+          因此这不是基；它不张成该空间。
+        \partsitem 是的，这是一个基。
+         建立关系式后得到如下化简
+          \begin{equation*}
+            \begin{amat}{3}
+              0  &1  &2  &x \hfill\hbox{} \\
+              2  &1  &5  &y \hfill\hbox{} \\
+             -1  &1  &0  &z
+            \end{amat}
+            \grstep{\rho_1\swap\rho_3}
+            \repeatedgrstep{2\rho_1+\rho_2}
+            \repeatedgrstep{-(1/3)\rho_2+\rho_3}
+            \begin{amat}{3}
+             -1  &1  &0   &z  \hfill\hbox{} \\
+              0  &3  &5   &y+2z \hfill\hbox{} \\
+              0  &0  &1/3 &x-y/3-2z/3
+            \end{amat}
+          \end{equation*}
+          对于每一组分量
+          $x$、$y$、$z$，它都有唯一的解。
+        \partsitem 不，这不是基。
+          化简过程
+          \begin{equation*}
+            \begin{amat}{3}
+              0  &1  &1  &x   \\
+              2  &1  &3  &y   \\
+             -1  &1  &0  &z
+            \end{amat}
+            \grstep{\rho_1\swap\rho_3}
+            \repeatedgrstep{2\rho_1+\rho_2}
+            \repeatedgrstep{(-1/3)\rho_2+\rho_3}
+            \begin{amat}{3}
+             -1  &1  &0  &z  \hfill\hbox{} \\
+              0  &3  &3  &y+2z  \hfill\hbox{} \\
+              0  &0  &0  &x-y/3-2z/3
+            \end{amat}
+          \end{equation*}
+          它并非对每一组三元 $x$、$y$、$z$ 都有解。
+          恰恰相反，所给集合的张成
+          只包含那些满足 \( x=y/3+2z/3 \) 的三元向量。
+      \end{exparts}
+     \end{answer}
+  \recommended \item
+    求向量关于该基的表示。
+    \begin{exparts}
+      \partsitem \( \colvec[r]{1 \\ 2} \),
+        \( B=\sequence{\colvec[r]{1 \\ 1},\colvec[r]{-1 \\ 1}}\subseteq\Re^2 \)
+      \partsitem \( x^2+x^3 \),
+        \( D=\sequence{1,1+x,1+x+x^2,1+x+x^2+x^3}\subseteq\polyspace_3 \)
+      \partsitem \( \colvec[r]{0 \\ -1 \\ 0 \\ 1} \),
+        \( \stdbasis_4\subseteq\Re^4 \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 我们求解
+          \begin{equation*}
+            c_1\colvec[r]{1 \\ 1}
+            +c_2\colvec[r]{-1 \\ 1}
+            =\colvec[r]{1 \\ 2}
+          \end{equation*}
+          其过程为
+          \begin{equation*}
+             \begin{amat}[r]{2}
+               1  &-1  &1  \\
+               1  &1   &2
+             \end{amat}
+             \grstep{-\rho_1+\rho_2}
+             \begin{amat}[r]{2}
+               1  &-1  &1  \\
+               0  &2   &1
+             \end{amat}
+          \end{equation*}
+          并由此得出 \( c_2=1/2 \)，从而 \( c_1=3/2 \)。
+          于是，表示如下。
+          \begin{equation*}
+            \rep{\colvec[r]{1 \\ 2}}{B}=\colvec[r]{3/2 \\ 1/2}_B
+          \end{equation*}
+        \partsitem 关系式
+           $c_1\cdot(1)+c_2\cdot(1+x)+c_3\cdot(1+x+x^2)+c_4\cdot(1+x+x^2+x^3)
+             =x^2+x^3$
+           一眼即可解出：$c_4=1$，$c_3=0$，$c_2=-1$，
+           以及 $c_1=0$。
+            \begin{equation*}
+               \rep{x^2+x^3}{D}=\colvec[r]{0 \\ -1 \\ 0 \\ 1}_D
+            \end{equation*}
+        \partsitem \( \rep{\colvec[r]{0 \\ -1 \\ 0 \\ 1}}{\stdbasis_4}
+                     =\colvec[r]{0 \\ -1 \\ 0 \\ 1}_{\stdbasis_4} \)
+      \end{exparts}
+    \end{answer}
+  \item  求向量关于下面两个基各自的表示。
+    \begin{equation*}
+      \vec{v}=\colvec{3  \\ -1}
+      \quad
+      B_1=\sequence{\colvec{1  \\ -1}, \colvec{1  \\ 1}},\;
+      B_2=\sequence{\colvec{1 \\ 2}, \colvec{1 \\ 3}}
+    \end{equation*}
+    \begin{answer}
+       求解
+      \begin{equation*}
+        \colvec{3 \\ -1}=\colvec{1 \\ -1}\cdot c_1
+                         +\colvec{1 \\ 1}\cdot c_2
+      \end{equation*}
+      给出 $c_1=2$ 与~$c_2=1$。
+      \begin{equation*}
+        \rep{\colvec{3 \\ -1}}{B_1}
+           =\colvec{2 \\ 1}_{B_1}
+      \end{equation*}
+      类似地，求解
+      \begin{equation*}
+        \colvec{3 \\ -1}=\colvec{1 \\ 2}\cdot c_1
+                         +\colvec{1 \\ 3}\cdot c_2
+      \end{equation*}
+      给出下式。
+      \begin{equation*}
+        \rep{\colvec{3 \\ -1}}{B_2}
+           =\colvec{10 \\ -7}_{B_2}
+      \end{equation*}
+    \end{answer}
+  \item
+    求出 \(  \polyspace_2 \)（全体二次多项式构成的空间）
+    的一个基。
+    这样的基是否必定含有每个次数的
+    多项式：~零次、
+    一次以及二次？
+    \begin{answer}
+      一个自然的基是 \( \sequence{1,x,x^2} \)。
+      $\polyspace_2$ 的有些基不含有任何
+      一次或零次多项式。
+      例如 \( \sequence{1+x+x^2,x+x^2,x^2} \)。
+      （不过，每个基都至少含有一个二次多项式。）
+    \end{answer}
+  \item
+    求此方程组解集的一个基。
+    \begin{equation*}
+      \begin{linsys}{4}
+         x_1  &-  &4x_2  &+  &3x_3  &-  &x_4  &=  &0  \\
+        2x_1  &-  &8x_2  &+  &6x_3  &-  &2x_4 &=  &0
+      \end{linsys}
+    \end{equation*}
+    \begin{answer}
+      化简
+      \begin{equation*}
+        \begin{amat}[r]{4}
+          1  &-4  &3  &-1  &0  \\
+          2  &-8  &6  &-2  &0
+        \end{amat}
+        \grstep{-2\rho_1+\rho_2}
+        \begin{amat}[r]{4}
+          1  &-4  &3  &-1  &0  \\
+          0  &0   &0  &0   &0
+        \end{amat}
+      \end{equation*}
+      给出：唯一的条件是
+      $x_1=4x_2-3x_3+x_4$。
+      解集为
+      \begin{multline*}
+        \set{\colvec{4x_2-3x_3+x_4 \\ x_2 \\ x_3 \\ x_4}
+               \suchthat x_2,x_3,x_4\in\Re}                          \\
+        =\set{x_2\colvec[r]{4 \\ 1 \\ 0 \\ 0}
+             +x_3\colvec[r]{-3 \\ 0 \\ 1 \\ 0}
+             +x_4\colvec[r]{1 \\ 0 \\ 0 \\ 1} \suchthat x_2,x_3,x_4\in\Re}
+      \end{multline*}
+      因此，基的显然候选就是下面这个。
+      \begin{equation*}
+       \sequence{\colvec[r]{4 \\ 1 \\ 0 \\ 0},
+                   \colvec[r]{-3 \\ 0 \\ 1 \\ 0},
+                   \colvec[r]{1 \\ 0 \\ 0 \\ 1}  }
+      \end{equation*}
+      我们已经证明它张成该空间，而证明它还线性无关
+      则是例行的。
+    \end{answer}
+  \recommended \item
+    求出 \( \matspace_{\nbyn{2}} \)（\( \nbyn{2} \) 矩阵构成的空间）
+    的一个基。
+    \begin{answer}
+      基有很多。
+      下面是一个自然的基。
+      \begin{equation*}
+        \sequence{
+           \begin{mat}[r]
+             1  &0  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &1  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             1  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat}  }
+      \end{equation*}
+    \end{answer}
+  \recommended \item
+      为下面每一个求出一个基。
+      \begin{exparts}
+        \partsitem $\polyspace_2$ 的子空间
+          $\set{a_2x^2+a_1x+a_0\suchthat a_2-2a_1=a_0}$
+        \partsitem 由第一个分量与第二个分量
+          之和为零的三元行向量构成的空间
+        \partsitem $\nbyn{2}$ 矩阵的这个子空间
+          \begin{equation*}
+            \set{\begin{mat}
+                   a  &b  \\
+                   0  &c
+                 \end{mat} \suchthat c-2b=0}
+          \end{equation*}
+      \end{exparts}
+      \begin{answer}
+        对每一小题，都有多种可能的答案。
+        \begin{exparts}
+          \partsitem 一种做法是参数化：把 $a_2$ 表示为另外两个的组合，
+            即 $a_2=2a_1+a_0$。
+            于是
+            $a_2x^2+a_1x+a_0$ 即为 $(2a_1+a_0)x^2+a_1x+a_0$，而
+            \begin{multline*}
+              \set{(2a_1+a_0)x^2+a_1x+a_0\suchthat a_1,a_0\in\Re}          \\
+              =\set{a_1\cdot(2x^2+x)+a_0\cdot(x^2+1)\suchthat a_1,a_0\in\Re}
+            \end{multline*}
+            提示了
+            $\sequence{2x^2+x,x^2+1}$。
+            这只表明它张成该空间，但验证它线性无关
+            是例行的。
+          \partsitem 对 $\set{\rowvec{a  &b  &c}\suchthat a+b=0}$ 参数化
+            得到 $\set{\rowvec{-b &b &c}\suchthat b,c\in\Re}$，这提示我们
+            使用序列 $\sequence{\rowvec{-1 &1 &0},\rowvec{0 &0 &1}}$。
+            我们已证明它张成该空间，而验证它线性无关
+            也容易。
+          \partsitem 改写
+            \begin{equation*}
+              \set{\begin{mat}
+                     a  &b  \\
+                     0  &2b
+                   \end{mat}\suchthat a,b\in\Re}
+              =\set{a\cdot\begin{mat}[r]
+                     1  &0  \\
+                     0  &0
+                   \end{mat}
+                  +b\cdot\begin{mat}[r]
+                           0  &1  \\
+                           0  &2
+                          \end{mat} \suchthat a,b\in\Re}
+            \end{equation*}
+            提示了下面这个基。
+            \begin{equation*}
+              \sequence{\begin{mat}[r]
+                          1  &0  \\
+                          0  &0
+                        \end{mat},
+                        \begin{mat}[r]
+                          0  &1  \\
+                          0  &2
+                        \end{mat}}
+            \end{equation*}
+         \end{exparts}
+      \end{answer}
+  \item 对每个空间求一个基，并验证它是基。
+    \begin{exparts}
+      \partsitem
+        $\polyspace_3$ 的子空间
+        $M=\set{a+bx+cx^2+dx^3\suchthat a-2b+c-d=0}$。
+      \partsitem  $\matspace_{\nbyn{2}}$ 的这个子空间。
+         \begin{equation*}
+           W=\set{
+             \begin{mat}
+               a  &b  \\
+               c  &d
+             \end{mat}
+             \suchthat a-c=0}
+         \end{equation*}
+
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          将 $a-2b+c-d=0$ 参数化为 $a=2b-c+d$，$b=b$，$c=c$，以及~$d=d$，得到
+          把 $M$ 描述为一个三元集合的张成。
+          \begin{equation*}
+            M=\set{
+             (2+x)\cdot b+(-1+x^2)\cdot c+(1+x^3)\cdot d
+             \suchthat b,c,d\in\Re
+             }
+          \end{equation*}
+          为证明这个三元集合是基，剩下只需
+          验证它线性无关。
+          \begin{equation*}
+             0+0x+0x^2+0x^3=(2+x)\cdot c_1+(-1+x^2)\cdot c_2+(1+x^3)\cdot c_3
+          \end{equation*}
+          由 $x$~项可知 $c_1=0$。
+          由 $x^2$~项可知 $c_2=0$。
+          $x^3$~项给出 $c_3=0$。
+       \partsitem
+         先把该描述参数化
+         （注意，$b$ 与~$d$ 未在 $W$ 的
+         描述中被提到
+         并不意味着
+         它们为零或不存在，而是意味着它们不受限制）。
+         \begin{equation*}
+           W=\set{
+             \begin{mat}
+               0 &1 \\
+               0 &0
+             \end{mat}\cdot b
+             +
+             \begin{mat}
+               1 &0 \\
+               1 &0
+             \end{mat}\cdot c
+             +
+             \begin{mat}
+               0 &0 \\
+               0 &1
+             \end{mat}\cdot d
+             \suchthat b,c,d\in\Re}
+         \end{equation*}
+         这就把 $W$ 给成了一个三元集合的张成。
+         若再证明该集合线性无关，我们就完成了。
+         \begin{equation*}
+             \begin{mat}
+               0 &0 \\
+               0 &0
+             \end{mat}
+             =
+             \begin{mat}
+               0 &1 \\
+               0 &0
+             \end{mat}\cdot c_1
+             +
+             \begin{mat}
+               1 &0 \\
+               1 &0
+             \end{mat}\cdot c_2
+             +
+             \begin{mat}
+               0 &0 \\
+               0 &1
+             \end{mat}\cdot c_3
+         \end{equation*}
+         用右上角的元素可知 $c_1=0$。
+         左上角的元素给出 $c_2=0$，而左下角的元素
+         表明 $c_3=0$。
+     \end{exparts}
+   \end{answer}
+  \item \label{exer:VerifBasesCosPlusSin}
+    验证 \nearbyexample{ex:BasisForCosPlusSin}。
+    \begin{answer}
+      我们将证明第二个是基；第一个类似。
+      我们将直接从基的定义出发来证明，
+      因为这个例子出现在
+      \nearbytheorem{th:BasisIffUniqueRepWRT} 之前。
+
+      为看出它线性无关，
+      我们建立
+      \( c_1\cdot(\cos\theta-\sin\theta)+c_2\cdot(2\cos\theta+3\sin\theta)=
+        0\cos\theta+0\sin\theta \)。
+      取 \( \theta=0 \) 与 \( \theta=\pi/2 \) 给出这个方程组
+      \begin{equation*}
+        \begin{linsys}{2}
+          c_1\cdot 1    &+  &c_2\cdot 2   &=  &0  \\
+          c_1\cdot (-1) &+  &c_2\cdot 3   &=  &0
+        \end{linsys}
+        \grstep{\rho_1+\rho_2}
+        \begin{linsys}{2}
+          c_1  &+  &2c_2   &=  &0  \\
+               &+  &5c_2   &=  &0
+        \end{linsys}
+      \end{equation*}
+      它表明 $c_1=0$ 与 $c_2=0$。
+
+      张成的计算也不难；对任意 $x,y\in\Re$，
+      我们有
+      \( c_1\cdot(\cos\theta-\sin\theta)+c_2\cdot(2\cos\theta+3\sin\theta)=
+        x\cos\theta+y\sin\theta \)
+      给出 \( c_2=x/5+y/5 \) 与 \( c_1=3x/5-2y/5 \)，
+      因此张成就是整个空间。
+    \end{answer}
+  \recommended \item
+    求每个集合的张成，然后为该张成求一个基。
+    \begin{exparts*}
+       \partsitem $\set{1+x,1+2x}$（在 $\polyspace_2$ 中）
+       \partsitem $\set{2-2x,3+4x^2}$（在 $\polyspace_2$ 中）
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 问哪些 $a_0+a_1x+a_2x^2$ 可以表示为
+           $c_1\cdot (1+x)+c_2\cdot (1+2x)$，
+           就产生三个线性方程，
+           分别比较 $x^2$ 的系数、$x$ 的系数与常数项。
+           \begin{equation*}
+             \begin{linsys}{2}
+               c_1 &+ &c_2  &= &a_0 \\
+               c_1 &+ &2c_2 &= &a_1 \\
+                   &  &0    &= &a_2
+             \end{linsys}
+           \end{equation*}
+           带回代的高斯消元法表明，
+           只要 $a_2=0$，就有 $c_2=-a_0+a_1$
+           与 $c_1=2a_0-a_1$。
+           于是，当 $a_2=0$ 时，对任意 $a_0$ 和 $a_1$，
+           我们都能算出合适的
+           $c_1$ 与 $c_2$。
+           所以张成就是全体一次多项式
+           $\set{a_0+a_1x\suchthat a_0,a_1\in\Re}$。
+           将该集合参数化为
+           $\set{a_0\cdot 1+a_1\cdot x\suchthat a_0,a_1\in\Re}$
+           提示了一个基 $\sequence{1,x}$
+           （我们已证明它张成；验证线性无关也容易）。
+        \partsitem 利用
+          \begin{equation*}
+            a_0+a_1x+a_2x^2
+            =c_1\cdot(2-2x)+c_2\cdot(3+4x^2)
+            =(2c_1+3c_2)+(-2c_1)x+(4c_2)x^2
+          \end{equation*}
+          我们得到这个方程组。
+           \begin{equation*}
+             \begin{linsys}{2}
+               2c_1  &+ &3c_2  &= &a_0 \\
+               -2c_1 &  &      &= &a_1 \\
+                     &  &4c_2  &= &a_2
+              \end{linsys}
+             \grstep{\rho_1+\rho_2}
+             \repeatedgrstep{(-4/3)\rho_2+\rho_3}
+             \begin{linsys}{2}
+               2c_1  &+ &3c_2  &= &a_0\hfill\hbox{} \\
+                     &  &3c_2  &= &a_0+a_1\hfill\hbox{} \\
+                     &  &0     &= &(-4/3)a_0-(4/3)a_1+a_2
+              \end{linsys}
+           \end{equation*}
+           于是，有相应 $c$ 的二次多项式 $a_0+a_1x+a_2x^2$
+           只有那些满足
+           $0=(-4/3)a_0-(4/3)a_1+a_2$ 的。
+           因此张成如下。
+           \begin{equation*}
+             \set{(-a_1+(3/4)a_2)+a_1x+a_2x^2\suchthat a_1,a_2\in\Re}
+           \end{equation*}
+           参数化给出
+           $\set{a_1\cdot (-1+x)+a_2\cdot ((3/4)+x^2)\suchthat a_1,a_2\in\Re}$，
+           这提示了 $\sequence{-1+x,(3/4)+x^2}$
+           （验证它线性无关是例行的）。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    为三次多项式空间
+    $\polyspace_3$ 的下列子空间各求一个基。
+    \begin{exparts}
+      \partsitem  由满足 $p(7)=0$ 的三次多项式 $p(x)$
+        构成的子空间
+      \partsitem  由满足 $p(7)=0$ 且 $p(5)=0$
+        的多项式 $p(x)$ 构成的子空间
+      \partsitem  由满足 $p(7)=0$、$p(5)=0$ 且~$p(3)=0$
+        的多项式 $p(x)$ 构成的子空间
+      \partsitem  由满足 $p(7)=0$、$p(5)=0$、$p(3)=0$ 且~$p(1)=0$
+        的多项式 $p(x)$ 构成的空间
+    \end{exparts}
+    \begin{answer}
+       \begin{exparts}
+        \partsitem 该子空间如下。
+          \begin{equation*}
+             \set{a_0+a_1x+a_2x^2+a_3x^3 \suchthat a_0+7a_1+49a_2+343a_3=0 }
+          \end{equation*}
+          改写 $a_0=-7a_1-49a_2-343a_3$ 给出下式。
+          \begin{equation*}
+             \set{(-7a_1-49a_2-343a_3)+a_1x+a_2x^2+a_3x^3
+               \suchthat a_1,a_2,a_3\in\Re }
+          \end{equation*}
+          分离出
+          各参数后，这提示 \( \sequence{-7+x,-49+x^2,-343+x^3} \)
+          可作基（容易验证）。
+        \partsitem 所给子空间是三次多项式
+          $p(x)=a_0+a_1x+a_2x^2+a_3x^3$ 的全体，其中 $a_0+7a_1+49a_2+343a_3=0$
+          且 $a_0+5a_1+25a_2+125a_3=0$。
+          高斯消元法
+          \begin{equation*}
+            \begin{linsys}{4}
+              a_0  &+  &7a_1  &+  &49a_2  &+  &343a_3  &=  &0  \\
+              a_0  &+  &5a_1  &+  &25a_2  &+  &125a_3  &=  &0
+            \end{linsys}
+            \grstep{-\rho_1+\rho_2}
+            \begin{linsys}{4}
+              a_0  &+  &7a_1  &+  &49a_2  &+  &343a_3  &=  &0  \\
+                   &   &-2a_1 &-  &24a_2  &-  &218a_3  &=  &0
+            \end{linsys}
+          \end{equation*}
+          给出 $a_1=-12a_2-109a_3$ 与 $a_0=35a_2+420a_3$。
+          把 $(35a_2+420a_3)+(-12a_2-109a_3)x+a_2x^2+a_3x^3$
+          改写为 $a_2\cdot(35-12x+x^2)+a_3\cdot(420-109x+x^3)$
+          提示了基 $\sequence{35-12x+x^2,420-109x+x^3}$。
+          上面已证明它张成该空间。
+          验证它线性无关是例行的。
+          （\textit{评注。}
+          一个值得做的检验是验证基中的两个多项式
+          都以七和五为根。）
+        \partsitem 这里对三次多项式有三个条件：
+          $a_0+7a_1+49a_2+343a_3=0$，$a_0+5a_1+25a_2+125a_3=0$，
+          以及 $a_0+3a_1+9a_2+27a_3=0$。
+          高斯消元法
+          \begin{equation*}
+            \begin{linsys}{4}
+              a_0  &+  &7a_1  &+  &49a_2  &+  &343a_3  &=  &0  \\
+              a_0  &+  &5a_1  &+  &25a_2  &+  &125a_3  &=  &0  \\
+              a_0  &+  &3a_1  &+  &9a_2   &+  &27a_3   &=  &0
+            \end{linsys}
+            \grstep[-\rho_1+\rho_3]{-\rho_1+\rho_2}
+            \repeatedgrstep{-2\rho_2+\rho_3}
+            \begin{linsys}{4}
+              a_0  &+  &7a_1  &+  &49a_2  &+  &343a_3  &=  &0  \\
+                   &   &-2a_1 &-  &24a_2  &-  &218a_3  &=  &0  \\
+                   &   &      &   &8a_2   &+  &120a_3  &=  &0
+            \end{linsys}
+          \end{equation*}
+          给出唯一的自由变量 $a_3$，其中
+          $a_2=-15a_3$，$a_1=71a_3$，$a_0=-105a_3$。
+          参数化如下。
+          \begin{multline*}
+            \set{(-105a_3)+(71a_3)x+(-15a_3)x^2+(a_3)x^3\suchthat a_3\in\Re} \\
+            =
+            \set{a_3\cdot(-105+71x-15x^2+x^3)\suchthat a_3\in\Re}
+          \end{multline*}
+          因此，基的一个自然候选是
+          $\sequence{-105+71x-15x^2+x^3}$。
+          由上面的推导可知它张成该空间。
+          它显然线性无关，因为它是单元素
+          集合（且那个唯一的元素不是该空间的零对象）。
+          于是，过三点 $(7,0)$、$(5,0)$ 和
+          $(3,0)$ 的任何三次多项式都是它的倍数。
+          （\textit{评注。}
+          与前一题一样，
+          一个值得做的检验是验证把七、五、三
+          代入这个多项式每次都得到零。）
+        \partsitem 这是 $\polyspace_3$ 的平凡子空间。
+          因此，基为空 $\sequence{}$。
+      \end{exparts}
+      \noindent\textit{注。}
+      另外，我们也可以通过展开 $(x-7)(x-5)(x-3)$
+      来导出第三小题中的多项式。
+     \end{answer}
+  \item
+     我们已经看到，重排一个基的结果可能是另一个基。
+     一定如此吗？
+    \begin{answer}
+      是的。
+      线性无关与张成都不会因重排而改变。
+    \end{answer}
+  \item
+    基可以包含零向量吗？
+    \begin{answer}
+      线性无关的集合都不包含零向量。
+    \end{answer}
+  \recommended \item
+    设 \( \sequence{\vec{\beta}_1,\vec{\beta}_2,\vec{\beta}_3} \)
+    是一个向量空间的基。
+    \begin{exparts}
+      \partsitem 证明：
+        当 \( c_1, c_2, c_3\neq 0 \) 时，
+        \( \sequence{c_1\vec{\beta}_1,c_2\vec{\beta}_2,c_3\vec{\beta}_3} \)
+        是基。
+        当至少一个 \( c_i \) 为 $0$ 时会怎样？
+      \partsitem 证明：
+        \( \sequence{\vec{\alpha}_1,\vec{\alpha}_2,\vec{\alpha}_3} \)
+        是基，其中 \( \vec{\alpha}_i=\vec{\beta}_1+\vec{\beta}_i \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 为证明它线性无关，注意如果
+           \( d_1(c_1\vec{\beta}_1)+d_2(c_2\vec{\beta}_2)+d_3(c_3\vec{\beta}_3)
+               =\zero \)，
+           那么
+           \( (d_1c_1)\vec{\beta}_1+(d_2c_2)\vec{\beta}_2+(d_3c_3)\vec{\beta}_3
+               =\zero \)，而这转而
+           蕴含每个 \( d_ic_i \) 都是零。
+           但由 \( c_i\neq 0 \)，这意味着每个 \( d_i \) 都是零。
+           证明它张成该空间也大体相同；
+           由于 $\sequence{\vec{\beta}_1,\vec{\beta}_2,\vec{\beta}_3}$
+           是基，从而张成该空间，故对任意 $\vec{v}$ 我们可写成
+           \( \vec{v}=d_1\vec{\beta}_1+d_2\vec{\beta}_2+d_3\vec{\beta}_3 \)，
+           进而
+           \( \vec{v}=(d_1/c_1)(c_1\vec{\beta}_1)
+               +(d_2/c_2)(c_2\vec{\beta}_2)+(d_3/c_3)(c_3\vec{\beta}_3) \)。
+
+           如果这些标量中有零，那么结果不是基，
+           因为它不线性无关。
+         \partsitem 证明
+           $\sequence{2\vec{\beta}_1,\vec{\beta}_1+\vec{\beta}_2,
+             \vec{\beta}_1+\vec{\beta}_3}$ 线性无关是容易的。
+           为证明它张成该空间，设
+           \( \vec{v}=d_1\vec{\beta}_1+d_2\vec{\beta}_2+d_3\vec{\beta}_3 \)。
+           那么，我们可以把同一个 \( \vec{v} \) 关于
+           \( \sequence{2\vec{\beta}_1,\vec{\beta}_1+\vec{\beta}_2,
+                         \vec{\beta}_1+\vec{\beta}_3} \)
+           这样表示：
+           $\vec{v}=(1/2)(d_1-d_2-d_3)(2\vec{\beta}_1)
+           +d_2(\vec{\beta}_1+\vec{\beta}_2)+d_3(\vec{\beta}_1+\vec{\beta}_3)$。
+      \end{exparts}
+    \end{answer}
+  \item
+    找出一个向量 $\vec{v}$，使下列每一个都成为该空间
+    的基。
+    \begin{exparts*}
+      \partsitem $\sequence{\colvec[r]{1 \\ 1},\vec{v}}$（在 $\Re^2$ 中）
+      \partsitem $\sequence{\colvec[r]{1 \\ 1 \\ 0},
+                            \colvec[r]{0 \\ 1 \\ 0},\vec{v}}$（在 $\Re^3$ 中）
+      \partsitem $\sequence{x,1+x^2,\vec{v}}$（在 $\polyspace_2$ 中）
+    \end{exparts*}
+    \begin{answer}
+      如果我们略去 $\vec{v}$，每一个都构成线性无关的集合。
+      为保持线性无关，我们必须扩大每一个的张成。
+      也就是说，我们必须确定每一个的张成（把 $\vec{v}$ 排除在外），
+      然后选取一个位于该张成之外的 $\vec{v}$。
+      最后，我们还必须检验结果张成整个所给的
+      空间。
+      这些检验都是例行的。
+      \begin{exparts}
+        \partsitem 任何不是所给向量的倍数的向量，
+          即任何不在直线 $y=x$ 上的向量，在这里都可以。
+          例如 $\vec{v}=\vec{e}_1$。
+        \partsitem 通过观察，我们注意到向量 $\vec{e}_3$
+          不在所给两个向量构成的集合的张成中。
+          检验所得集合是 $\Re^3$ 的基
+          是例行的。
+        \partsitem 对张成
+          $\set{c_1\cdot(x)+c_2\cdot(1+x^2)\suchthat c_1,c_2\in\Re}$ 中的任何元素，
+          $x^2$ 的系数都等于常数项。
+          所以，如果我们添加一个不具此性质的二次多项式，
+          比如 $\vec{v}=1-x^2$，就能扩大张成。
+          检验结果是 $\polyspace_2$ 的基是容易的。
+      \end{exparts}
+    \end{answer}
+  \recommended \item 考虑 \( 2+4x^2, 1+3x^2, 1+5x^2 \in\polyspace_2\)。
+    \begin{exparts}
+      \partsitem 求出三者之间的一个线性关系。
+      \partsitem 关于
+        $B=\sequence{1-x,1+x,x^2}$ 表示它们。
+      \partsitem 检验同样的线性关系在
+        各表示之间也成立，如
+        \nearbylemma{lem:LinearRelRepresented} 中那样。
+    \end{exparts}
+    \begin{answer}
+    \begin{exparts}
+      \partsitem $1\cdot(2+4x^2)-3\cdot(1+3x^2)+1\cdot(1+5x^2)=0+0x+0x^2$
+      \partsitem 简单的计算给出下式。
+        \begin{equation*}
+          \rep{2+4x^2}{B}=\colvec{1 \\ 1 \\ 4}
+          \quad
+          \rep{1+3x^2}{B}=\colvec{1/2 \\ 1/2 \\ 3}
+          \quad
+          \rep{1+5x^2}{B}=\colvec{1/2 \\ 1/2 \\ 5}
+        \end{equation*}
+      \partsitem 检验是直截了当的。
+        \begin{equation*}
+          1\cdot\colvec{1 \\ 1 \\ 4}
+          -3\cdot\colvec{1/2 \\ 1/2 \\ 3}
+          +1\cdot\colvec{1/2 \\ 1/2 \\ 5}
+          =\colvec{0 \\ 0 \\ 0}
+        \end{equation*}
+    \end{exparts}
+    \end{answer}
+  \recommended \item
+    设
+    \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_n } \)
+    是一个基，证明在方程
+    \begin{equation*}
+       c_1\vec{\beta}_1+\dots+c_k\vec{\beta}_k
+       =
+       c_{k+1}\vec{\beta}_{k+1}+\dots+c_n\vec{\beta}_n
+    \end{equation*}
+    中每个 \( c_i \) 都是零。
+    并加以推广。
+    \begin{answer}
+      为证明每个标量都是零，只需作差：
+      \( c_1\vec{\beta}_1+\dots+c_k\vec{\beta}_k
+          -c_{k+1}\vec{\beta}_{k+1}-\dots-c_n\vec{\beta}_n=\zero \)。
+      显然的推广是：在任何只含
+      \( \vec{\beta} \) 且其中每个 \( \vec{\beta} \) 只出现
+      一次的方程中，每个标量都是零。
+      例如，一个方程右端是偶数编号基向量的组合
+      （即 $\vec{\beta}_2$、$\vec{\beta}_4$ 等），左端是
+      奇数编号基向量的组合，也同样给出
+      所有系数都是零的结论。
+    \end{answer}
+  \item
+    基包含向量空间中的一部分向量；它能
+    包含全部向量吗？
+    \begin{answer}
+      不能；线性无关的集合都不包含零向量。
+    \end{answer}
+  \item
+    \nearbytheorem{th:BasisIffUniqueRepWRT} 表明，关于一个
+    基，每个线性组合都是唯一的。
+    如果一个子集不是基，线性组合可以不唯一吗？
+    如果可以，它们必定不唯一吗？
+    \begin{answer}
+      这是 $\Re^2$ 的一个不是基的子集，以及它的元素的
+      两个不同的线性组合，二者都合成为同一个向量。
+      \begin{equation*}
+        \set{\colvec[r]{1 \\ 2},\colvec[r]{2 \\ 4}}
+        \qquad
+        2\cdot\colvec[r]{1 \\ 2}+0\cdot\colvec[r]{2 \\ 4}
+        =0\cdot\colvec[r]{1 \\ 2}+1\cdot\colvec[r]{2 \\ 4}
+      \end{equation*}
+      于是，当子集不是基时，可能出现
+      其线性组合不唯一的情形。
+
+      但子集不是基并不意味着
+      它的组合必定不唯一。
+      例如，这个集合
+      \begin{equation*}
+        \set{\colvec[r]{1 \\ 2}}
+      \end{equation*}
+      确实具有如下性质：
+      \begin{equation*}
+        c_1\cdot\colvec[r]{1 \\ 2}
+        =
+        c_2\cdot\colvec[r]{1 \\ 2}
+      \end{equation*}
+      蕴含 $c_1=c_2$。
+      这里的要点是，这个子集之所以不是基，是因为它
+      不张成该空间；该定理的证明建立了
+      线性组合唯一当且仅当该子集线性
+      无关。
+     \end{answer}
+  \item
+    方阵是\definend{对称的}\index{matrix!symmetric}%
+    \index{symmetric matrix}，如果
+    对所有下标 \( i \) 与
+    \( j \)，\( i,j \) 处的元素等于 \( j,i \) 处的元素。
+    \begin{exparts}
+      \partsitem 求出对称 \( \nbyn{2} \) 矩阵
+        构成的向量空间的一个基。
+      \partsitem 求出对称 \( \nbyn{3} \)
+        矩阵构成的空间的一个基。
+      \partsitem 求出对称 \( \nbyn{n} \)
+        矩阵构成的空间的一个基。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 把该向量空间描述为
+          \begin{equation*}
+             \set{\begin{mat}
+                     a  &b  \\
+                     b  &c
+                  \end{mat}  \suchthat a,b,c\in\Re}
+          \end{equation*}
+          提示了下面这个基。
+          \begin{equation*}
+            \sequence{
+              \begin{mat}[r]
+                1  &0  \\
+                0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  \\
+                0  &1
+              \end{mat},
+              \begin{mat}[r]
+                0  &1  \\
+                1  &0
+              \end{mat}  }
+          \end{equation*}
+          容易验证。
+        \partsitem 这是一个可能的基。
+          \begin{equation*}
+            \sequence{
+              \begin{mat}[r]
+                1  &0  &0  \\
+                0  &0  &0  \\
+                0  &0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  &0  \\
+                0  &1  &0  \\
+                0  &0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  &0  \\
+                0  &0  &0  \\
+                0  &0  &1
+              \end{mat},
+              \begin{mat}[r]
+                0  &1  &0  \\
+                1  &0  &0  \\
+                0  &0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  &1  \\
+                0  &0  &0  \\
+                1  &0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  &0  \\
+                0  &0  &1  \\
+                0  &1  &0
+              \end{mat}  }
+          \end{equation*}
+         \partsitem 与前两题一样，我们可以用两类
+           矩阵构成一个基。
+           第一类是只有一个对角元为 1、
+           其余元素全为零的矩阵（这样的矩阵有 \( n \) 个）。
+           第二类是两个相对的非对角元素为 1、
+           其余元素全为零的矩阵。
+           （也就是说，$M$ 中除 $m_{i,j}$ 与 $m_{j,i}$ 为 1 外，
+           其余元素全为零。）
+      \end{exparts}
+    \end{answer}
+  \item
+     我们可以证明 $\Re^3$ 的每个基都包含相同
+     数目的向量。
+     \begin{exparts}
+       \partsitem 证明 $\Re^3$ 的任何线性无关子集
+          至多包含三个向量。
+       \partsitem 证明
+          $\Re^3$ 的任何张成子集至少包含三个向量。
+          \textit{提示：}
+          回想如何计算一个集合的张成，并证明
+          这种方法
+          在用于少于
+          三个向量时，不能给出整个 $\Re^3$。
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 来自 $\Re^3$ 的任意四个向量都是线性相关的，因为
+           向量方程
+           \begin{equation*}
+             c_1\colvec{x_1 \\ y_1 \\ z_1}
+             +c_2\colvec{x_2 \\ y_2 \\ z_2}
+             +c_3\colvec{x_3 \\ y_3 \\ z_3}
+             +c_4\colvec{x_4 \\ y_4 \\ z_4}
+             =\colvec[r]{0 \\ 0 \\ 0}
+           \end{equation*}
+           产生一个线性方程组
+           \begin{equation*}
+             \begin{linsys}{4}
+                x_1c_1  &+  &x_2c_2  &+  &x_3c_3  &+  &x_4c_4  &=  &0 \\
+                y_1c_1  &+  &y_2c_2  &+  &y_3c_3  &+  &y_4c_4  &=  &0 \\
+                z_1c_1  &+  &z_2c_2  &+  &z_3c_3  &+  &z_4c_4  &=  &0
+             \end{linsys}
+           \end{equation*}
+           它是齐次的（因而有解），且有
+           四个未知数却只有三个方程，
+           因而有非平凡解。
+           （当然，这个论证适用于 $\Re^3$ 的任何
+           含有四个或更多向量的子集。）
+         \partsitem 我们只做两个向量的情形。
+           给定 $x_1$、\ldots、$z_2$，
+           \begin{equation*}
+             S=\set{\colvec{x_1 \\ y_1 \\ z_1},
+             \colvec{x_2 \\ y_2 \\ z_2}}
+           \end{equation*}
+           为判定哪些向量
+           \begin{equation*}
+             \colvec{x \\ y \\ z}
+           \end{equation*}
+           在 $S$ 的张成中，建立
+           \begin{equation*}
+             c_1\colvec{x_1 \\ y_1 \\ z_1}
+             +c_2\colvec{x_2 \\ y_2 \\ z_2}
+             =\colvec{x \\ y \\ z}
+           \end{equation*}
+           并对所得方程组作行化简。
+           \begin{equation*}
+             \begin{linsys}{2}
+                x_1c_1  &+  &x_2c_2   &=  &x \\
+                y_1c_1  &+  &y_2c_2   &=  &y \\
+                z_1c_1  &+  &z_2c_2   &=  &z
+             \end{linsys}
+           \end{equation*}
+           只有两个
+           变量 $c_1$ 和 $c_2$，却有三个方程，因此
+           当高斯消元法结束时，最后一
+           行上会有某个形如
+           $0=m_1x+m_2y+m_3z$ 的关系式。
+           因此，二元集合 $S$ 的张成中的向量
+           必须满足某种限制。
+           因此该张成不是整个 $\Re^3$。
+       \end{exparts}
+    \end{answer}
+  \item
+    子空间小节中的一道练习表明，集合
+    \begin{equation*}
+      \set{\colvec{x \\ y \\ z}\suchthat x+y+z=1}
+    \end{equation*}
+    在这些运算下是一个向量空间。
+    \begin{equation*}
+      \colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2}
+      =\colvec{x_1+x_2-1 \\ y_1+y_2 \\ z_1+z_2}
+      \qquad
+      r\colvec{x \\ y \\ z}=\colvec{rx-r+1 \\ ry \\ rz}
+    \end{equation*}
+    求一个基。
+    \begin{answer}
+      我们有（小心地使用这些古怪的运算）
+      \begin{multline*}
+        \set{\colvec{1-y-z \\ y \\ z}\suchthat y,z\in\Re}
+         =\set{\colvec{-y+1 \\ y \\ 0}
+               +\colvec{-z+1 \\ 0 \\ z}
+              \suchthat y,z\in\Re}                           \\
+         =\set{y\cdot\colvec{0 \\ 1 \\ 0}
+               +z\cdot\colvec{0 \\ 0 \\ 1}
+              \suchthat y,z\in\Re}
+      \end{multline*}
+      因此基的一个自然候选是下面这个。
+      \begin{equation*}
+        \sequence{\colvec[r]{0 \\ 1 \\ 0},\colvec[r]{0 \\ 0 \\ 1}}
+      \end{equation*}
+      为检验线性无关，我们建立
+      \begin{equation*}
+         c_1\colvec[r]{0 \\ 1 \\ 0}+c_2\colvec[r]{0 \\ 0 \\ 1}
+         =\colvec[r]{1 \\ 0 \\ 0}
+      \end{equation*}
+      （右边的向量是这个空间中的零对象）。
+      这给出线性方程组
+      \begin{equation*}
+        \begin{linsys}{3}
+          (-c_1+1)  &+  &(-c_2+1)  &-  &1  &=  &1  \\
+             c_1    &   &          &   &   &=  &0  \\
+                    &   &c_2       &   &   &=  &0
+        \end{linsys}
+      \end{equation*}
+      它仅有解 $c_1=0$ 与 $c_2=0$。
+      检验张成也是类似的。
+   \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

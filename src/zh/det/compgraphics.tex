@@ -1,0 +1,508 @@
+% Chapter 4, Topic _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2020-Apr-08
+\topic{计算机图形学}
+\index{computer graphics|(}
+前面关于射影几何的专题给出了这个模型，
+描述我们的眼睛或照相机如何观看世界。
+\begin{center} 
+  \vcenteredhbox{\includegraphics{det/mp/ch4.14}}
+\end{center}
+过原点的一条直线上的所有点都投影到同一个
+位置。
+
+在那个专题中我们定义了：对任一非零向量 $\vec{v}\in\Re^3$，与之相伴的
+\definend{射影平面中的点 $p$}\index{point!in projective plane} 
+是集合 $\set{k\vec{v}\suchthat \text{$k\in\Re$ and $k\neq 0$}}$。
+这是与 $\vec{v}$ 位于同一条过原点直线上的
+非零向量的全体。
+
+要描述一个射影点，我们可以给出该直线的任一代表元。
+因此下面每一个都表示同一个射影点。
+\begin{equation*}
+  \colvec[r]{1 \\ 2 \\ 3}
+  \qquad
+  \colvec{1/3 \\ 2/3 \\ 1}
+  \qquad
+  \colvec[r]{-2 \\ -4 \\ -6}
+\end{equation*} 
+每一个都是点~$p$ 的一个
+\definend{齐次坐标向量}\index{coordinates!homogeneous}%
+\index{homogeneous coordinate vector}\index{vector!homogeneous coordinate}。 
+两个齐次坐标向量（按定义非零）
+\begin{equation*}
+  \tilde{p}_1=\colvec{a_1 \\ b_1 \\ c_1}
+  \qquad
+  \tilde{p}_2=\colvec{a_2 \\ b_2 \\ c_2}
+\end{equation*}
+表示同一个射影点，当且仅当存在缩放因子
+$s\neq 0$ 使得 $s\tilde{p}_1=\tilde{p}_2$。
+
+在无穷多个可能的代表元中，
+我们常使用第三个分量为~$1$ 的那一个。
+这相当于投影到平面 $z=1$ 上。
+\begin{center} 
+  \vcenteredhbox{\includegraphics{det/mp/ch4.18}}
+\end{center}
+
+在本专题中，我们将展示如何利用这些想法来实现计算机图形学中的
+一些效果。
+为此，我们把前面的图重画为不带球，
+在原点处放一台电影放映机，而平面 $z=1$ 看起来像
+电影院的银幕。
+\begin{center} 
+  \vcenteredhbox{\includegraphics{det/mp/ch4.60}}
+\end{center}
+这将三维空间中灰线上的向量与银幕平面中的~$p$
+联系起来。
+\begin{equation*}
+  \tilde{p}=\colvec{a \\ b \\ c} 
+  \mapsto 
+  p=\colvec{x \\ y}=\colvec{a/c \\ b/c}
+\end{equation*}
+
+我们可以改造已经见过的关于矩阵的内容来实现这些
+变换。
+旋转\index{rotation} 
+就是一例。
+这个矩阵使平面~$z=1$ 绕原点旋转角度~$\theta$。
+\begin{equation*}
+  \begin{mat}
+    \cos\theta  &-\sin\theta  &0  \\
+    \sin\theta  &\cos\theta   &0  \\
+    0           &0            &1  
+  \end{mat}
+  \colvec{x \\ y \\ 1}
+  =
+  \colvec{cos\theta\cdot x -\sin\theta\cdot y  \\  
+         \sin\theta\cdot x +\cos\theta\cdot y  \\ 
+         1}
+\end{equation*}
+注意它对任何齐次坐标向量都适用；
+如果我们先用这个矩阵
+\begin{equation*}
+  \begin{mat}
+    \cos\theta  &-\sin\theta  &0  \\
+    \sin\theta  &\cos\theta   &0  \\
+    0           &0            &1  
+  \end{mat}
+  \colvec{a \\ b \\ c}
+  =
+  \colvec{cos\theta\cdot a -\sin\theta\cdot b  \\  
+         \sin\theta\cdot a +\cos\theta\cdot b  \\ 
+         c}
+\end{equation*}
+然后移到 $z=1$~平面
+\begin{equation*}
+  \colvec{cos\theta\cdot a -\sin\theta\cdot b  \\  
+         \sin\theta\cdot a +\cos\theta\cdot b  \\ 
+         c}
+  \mapsto
+  \colvec{(cos\theta\cdot a -\sin\theta\cdot b)/c  \\  
+         (\sin\theta\cdot a +\cos\theta\cdot b)/c  \\ 
+         1}
+\end{equation*}
+那么得到的结果与
+先移到该平面再用
+矩阵作用的结果相同。
+\begin{equation*}
+  \begin{mat}
+    \cos\theta  &-\sin\theta  &0  \\
+    \sin\theta  &\cos\theta   &0  \\
+    0           &0            &1  
+  \end{mat}
+  \colvec{a/c \\ b/c \\ 1}
+  =
+  \colvec{cos\theta\cdot a/c -\sin\theta\cdot b/c  \\  
+         \sin\theta\cdot a/c +\cos\theta\cdot b/c  \\ 
+         1}
+\end{equation*}
+
+所以使用齐次坐标并无妨害。
+但它的优势是什么呢？
+
+计算机图形学中的平移操作，\index{translation} 
+即把物体从一处滑动到另一处，
+不是线性变换，因为它
+不保持原点不动。
+但如果使用齐次坐标，我们就可以用矩阵来实现。
+这个矩阵把所讨论平面中的点沿 $x$~方向平移 $t_x$，沿 $y$~方向平移 $t_y$。
+\begin{equation*}
+  \begin{mat}
+    1  &0  &t_x  \\
+    0  &1  &t_y  \\
+    0  &0  &1  
+  \end{mat}
+  \colvec{a \\ b \\ c}
+  =
+  \colvec{a+t_x\cdot c  \\  
+          b+t_y\cdot c  \\ 
+          c}
+  \mapsto
+  \colvec{a/c+t_x  \\  
+          b/c+t_y  \\ 
+          1}
+\end{equation*}
+也就是说，在所讨论的平面中，这个矩阵把
+$\binom{a/c}{b/c}$ 滑动到 $\binom{a/c+t_x}{b/c+t_y}$。
+这样，齐次坐标使我们能够使用矩阵。
+
+好，那么使用这些矩阵的优势是什么？
+多出来的这个坐标能带给我们什么？
+假设我们正在用计算机制作一部电影。
+此刻
+摄影机正在同时平移和旋转。
+场景中的每一个点都需要既被平移又被旋转。
+与其让计算机对每个点执行两次操作，
+我们可以把两个矩阵相乘，
+这样计算机对每个点只需施加一次操作：把该点
+乘以所得的矩阵。
+这是巨大的加速与简化。
+
+我们将列举一些可以实现的效果的例子。
+前面已经谈过旋转。
+这是旋转半个弧度的图示。
+\begin{center} 
+  \vcenteredhbox{\includegraphics{det/mp/ch4.61}}
+  \quad$\mapsto$\quad
+  \vcenteredhbox{\includegraphics{det/mp/ch4.62}}
+\end{center}
+这是 $t_x=1.5$、~$t_y=0.5$ 的平移。
+\begin{center} 
+  \vcenteredhbox{\includegraphics{det/mp/ch4.61}}
+  \quad$\mapsto$\quad
+  \vcenteredhbox{\includegraphics{det/mp/ch4.67}}
+\end{center}
+
+接下来是缩放。
+这个矩阵把目标平面中的物体
+沿 $x$~方向缩放~$s$ 倍，
+沿 $y$~方向缩放~$t$ 倍。
+\begin{equation*}
+  \begin{mat}
+    s  &0  &0  \\
+    0  &t  &0  \\
+    0  &0  &1  
+  \end{mat}
+  \colvec{a/c \\ b/c \\ 1}
+  =
+  \colvec{s\cdot a/c  \\  
+          t\cdot b/c \\ 
+          1}
+\end{equation*}
+在这幅图中，我们沿 $x$~方向缩放 $s=2.5$ 倍，
+沿 $y$~方向缩放~$t=0.75$ 倍。
+\begin{center} 
+  \vcenteredhbox{\includegraphics{det/mp/ch4.61}}
+  \quad$\mapsto$\quad
+  \vcenteredhbox{\includegraphics{det/mp/ch4.63}}
+\end{center}
+
+如果取 $s=t$，那么整个形状被等比缩放。
+例如，如果我们把 $s=t=1.10$ 的帧串联起来，那么在电影中
+看起来物体正在向我们靠近。
+\begin{center} 
+  \vcenteredhbox{\includegraphics{det/mp/ch4.61}}
+  \quad
+  \vcenteredhbox{\includegraphics{det/mp/ch4.68}}
+  \quad
+  \vcenteredhbox{\includegraphics{det/mp/ch4.69}}
+  \quad
+  \vcenteredhbox{\includegraphics{det/mp/ch4.70}}
+\end{center}
+
+我们可以反射物体。
+这是关于直线 $y=x$ 的反射。
+\begin{equation*}
+  \begin{mat}
+    0  &1  &0  \\
+    1  &0  &0  \\
+    0  &0  &1  
+  \end{mat}
+  \colvec{a/c \\ b/c \\ 1}
+  =
+  \colvec{b/c  \\  
+          a/c \\ 
+          1}
+\end{equation*}
+这里的虚线是 $y=x$。
+\begin{center} 
+  \vcenteredhbox{\includegraphics{det/mp/ch4.61}}
+  \quad$\mapsto$\quad
+  \vcenteredhbox{\includegraphics{det/mp/ch4.64}}
+\end{center}
+
+这是关于 $y=-x$ 的反射。
+\begin{equation*}
+  \begin{mat}
+    0   &-1  &0  \\
+    -1  &0  &0  \\
+    0   &0  &1  
+  \end{mat}
+  \colvec{a/c \\ b/c \\ 1}
+  =
+  \colvec{-b/c  \\  
+          -a/c \\ 
+          1}
+\end{equation*}
+下面的虚线是 $y=-x$。
+\begin{center} 
+  \vcenteredhbox{\includegraphics{det/mp/ch4.61}}
+  \quad$\mapsto$\quad
+  \vcenteredhbox{\includegraphics{det/mp/ch4.65}}
+\end{center}
+
+更复杂的变换也是可能的。
+这是一个\definend{错切}。\index{shear}
+\begin{equation*}
+  \begin{mat}
+    1   &1  &0  \\
+    0   &1  &0  \\
+    0   &0  &1  
+  \end{mat}
+  \colvec{a/c \\ b/c \\ 1}
+  =
+  \colvec{a/c+b/c  \\  
+          b/c \\ 
+          1}
+\end{equation*}
+在这幅图中，点的 $y$~分量不变，
+但 $x$~分量加上了~$y$ 的值。
+\begin{center} 
+  \vcenteredhbox{\includegraphics{det/mp/ch4.61}}
+  \quad$\mapsto$\quad
+  \vcenteredhbox{\includegraphics{det/mp/ch4.66}}
+\end{center}
+
+这一切都用矩阵来表示的一大优势是，我们可以通过组合简单的操作来完成
+复杂的操作。
+要关于直线 $y=-x+2$ 作反射，我们可以找到三个矩阵：
+先把所有东西滑动到原点，再关于 $y=-x$ 反射，然后
+滑回去。
+\begin{equation*}
+  \begin{mat}
+    1   &0  &0  \\
+    0   &1  &2  \\
+    0   &0  &1  
+  \end{mat}
+  \begin{mat}
+    0   &-1  &0  \\
+    -1  &0   &0  \\
+    0   &0   &1  
+  \end{mat}
+  \begin{mat}
+    1   &0  &0  \\
+    0   &1  &-2  \\
+    0   &0  &1  
+  \end{mat}
+  \tag{*}
+\end{equation*}
+（一如既往，先执行的操作由
+右边的矩阵描述。
+也就是说，右边的矩阵描述把所讨论平面中的所有点滑动 $-2$，
+中间的矩阵关于 $y=-x$ 作反射，
+而左边的矩阵把所有点滑回去。）
+
+还有用矩阵可以实现的更复杂的效果。
+下面是
+\definend{一般仿射变换}\index{affine transformation} 
+和
+\definend{一般射影变换}\index{projective transformation}
+的矩阵。
+\begin{equation*}
+  \begin{mat}
+    d   &e  &f  \\
+    g   &h  &i  \\
+    0   &0  &1  
+  \end{mat}
+  \qquad
+  \begin{mat}
+    d   &e  &f  \\
+    g   &h  &i  \\
+    j   &k  &1  
+  \end{mat}
+\end{equation*}
+不过，对它们几何效果的描述超出了本书的范围。
+
+关于计算机图形学有大量文献，
+线性代数在其中扮演着重要角色。
+一份极好的参考资料是 \cite{Hughes}。
+这门学科是数学与艺术的绝妙融合；
+参见 \cite{Disney}。
+
+
+
+% ========================================
+\begin{exercises}
+  \item 
+    计算 ($*$) 中的乘积。
+    \begin{answer}
+      直接计算得乘积如下。
+      \begin{equation*}
+        \begin{mat}
+          1   &0  &0  \\
+          0   &1  &2  \\
+          0   &0  &1  
+        \end{mat}
+        \begin{mat}
+          0   &-1  &0  \\
+          -1  &0   &0  \\
+          0   &0   &1  
+        \end{mat}
+        \begin{mat}
+          1   &0  &0  \\
+          0   &1  &-2  \\
+          0   &0  &1  
+        \end{mat}
+        =
+        \begin{mat}
+         0 &-1 &2 \\
+        -1 &0  &2 \\
+         0 &0  &1
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+% sage: M0 = matrix(QQ, [[1,0,0], [0,1,2], [0,0,1]])
+% sage: M0
+% [1 0 0]
+% [0 1 2]
+% [0 0 1]
+% sage: M1 = matrix(QQ, [[0,-1,0], [-1,0,0], [0,0,1]])
+% sage: M2 = matrix(QQ, [[0,-1,0], [-1,0,0], [0,0,1]])
+% sage: M2 = matrix(QQ, [[1,0,0], [0,1,-2], [0,0,1]])
+% sage: M0*M1*M2
+% [ 0 -1  2]
+% [-1  0  2]
+% [ 0  0  1]
+  \item 求关于直线 $y=2x$ 作反射的矩阵。
+    \begin{answer}
+      在 $\R^2$ 中工作，设该矩阵为 $M$。
+      我们得到这两个。
+      \begin{equation*}
+        \colvec{1 \\ 2}\mapsto \colvec{1 \\ 2}
+        \qquad
+        \colvec{-2 \\ 1}\mapsto \colvec{2 \\ -1}
+      \end{equation*}
+      （对于第二个，起始向量位于过原点且
+      垂直于 $y=2x$ 的直线上。）
+      我们有
+      \begin{equation*}
+        M
+        \begin{mat}
+          1  &-2  \\
+          2  &1
+        \end{mat}
+        =
+        \begin{mat}
+          1  &2  \\
+          2  &-1
+        \end{mat}
+      \end{equation*}
+      求解得
+      \begin{equation*}
+        M =
+            \begin{mat}
+              1  &2  \\
+              2  &-1
+            \end{mat}
+            \begin{mat}
+              1  &-2  \\
+              2  &1     
+            \end{mat}^{-1}
+          =
+            \begin{mat}
+              -3/5  &4/5 \\
+              4/5   &3/5
+            \end{mat}
+      \end{equation*}
+      于是对齐次坐标而言，矩阵是这个。
+      \begin{equation*}
+      \begin{mat}
+        -3/5  &4/5  &0  \\
+         4/5  &3/5  &0  \\
+           0  &0    &1
+      \end{mat}
+      \end{equation*}
+    \end{answer}
+  \item 求关于直线 $y=2x-4$ 作反射的矩阵。
+    \begin{answer}
+      先把所有点移动 $4$，用前一题的结果关于直线 $y=2x$ 作反射，然后把它们移回去。
+      \begin{equation*}
+      \begin{mat}
+        1  &0  &0  \\
+        0  &1  &-4 \\
+        0  &0  &1
+      \end{mat}
+      \begin{mat}
+        -3/5  &4/5  &0  \\
+         4/5  &3/5  &0  \\
+           0  &0    &1
+      \end{mat}
+      \begin{mat}
+        1  &0  &0  \\
+        0  &1  &4 \\
+        0  &0  &1
+      \end{mat}
+      =
+      \begin{mat}
+        -3/5  &4/5  &16/5  \\
+         4/5  &3/5  &-8/5 \\
+           0  &0    &1
+      \end{mat}
+      \end{equation*}
+    \end{answer}
+% sage: M0 = matrix(QQ, [[1,0,0], [0,1,-4], [0,0,1]])
+% sage: M1 = matrix(QQ, [[-3/5,4/5,0], [4/5,3/5,0], [0,0,1]])
+% sage: M2 = matrix(QQ, [[1,0,0], [0,1,4], [0,0,1]])
+% sage: M0*M1*M2
+% [-3/5  4/5 16/5]
+% [ 4/5  3/5 -8/5]
+% [   0    0    1]
+  \item 
+    旋转与平移都是刚体操作。
+    先旋转再平移的矩阵是什么？
+    \begin{answer}
+    \begin{equation*}
+      \begin{mat}
+        1  &0  &t_x  \\
+        0  &1  &t_y  \\
+        0  &0  &1
+      \end{mat}
+      \begin{mat}
+        \cos\theta &-\sin\theta  &0 \\
+        \sin\theta &\cos\theta   &0 \\
+        0          &0            &1
+      \end{mat}
+      =
+      \begin{mat}
+        \cos\theta  &-\sin\theta  &t_x  \\
+        \sin\theta  &\cos\theta   &t_y  \\
+        0           &0            &1
+      \end{mat}
+    \end{equation*}
+    \end{answer}
+  \item 齐次坐标以显然的方式推广到对三维空间的操作：~每一坐标
+    是一组四个分量的非零向量，它们互为倍数而彼此关联。
+    给出绕 $z$~轴旋转的矩阵，以及
+    绕 $y$~轴旋转的矩阵。
+    \begin{answer}
+    下面是两个 $\nbyn{4}$ 矩阵。
+    \begin{equation*}
+      \begin{mat}
+        \cos\theta  &-\sin\theta  &0  &0  \\
+        \sin\theta  &\cos\theta   &0  &0  \\
+        0           &0            &0  &0  \\
+        0           &0            &0  &1  
+      \end{mat}
+      \qquad
+      \begin{mat}
+        \cos\theta  &0  &-\sin\theta  &0   \\
+        0           &0  &0            &0  \\
+        \sin\theta  &0  &\cos\theta   &0   \\
+        0           &0  &0            &1  
+      \end{mat}
+    \end{equation*}    
+    \end{answer}
+\end{exercises}
+\index{computer graphics|)}
+\endinput

@@ -1,0 +1,309 @@
+% Chapter 4, Section 2 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\section{行列式的几何}
+前面一节从代数角度展开行列式的讨论，考虑的是满足若干条件的公式。
+本节则以几何视角作为补充。
+这种做法除了直观上的吸引力之外，还有一个优点：到目前为止我们只关心
+行列式是否为零，而在这里我们将赋予行列式的值以含义。
+（前面一节把行列式视为行的函数，而本节聚焦于列。）
+
+
+
+
+
+
+
+
+
+
+\subsection{作为大小函数的行列式}
+这幅平行四边形的图形，在构造两个向量之和时已为大家所熟悉。
+\begin{center}
+  \includegraphics{det/mp/ch4.30}
+\end{center}
+
+\begin{definition} \label{df:Box}
+%<*df:Box>
+在 $\Re^n$ 中，
+由 \( \sequence{\vec{v}_1,\dots,\vec{v}_n} \) 生成的
+\definend{箱体}\index{box}
+（或 \definend{平行六面体}\index{parallelepiped}）
+是集合
+\( \set{t_1\vec{v}_1+\dots+t_n\vec{v}_n
+      \suchthat t_1,\ldots,t_n\in \closedinterval{0}{1}} \)。
+%</df:Box>
+\end{definition}
+
+\noindent 于是，上面的平行四边形就是
+由 $\sequence{\binom{x_1}{y_1},\binom{x_2}{y_2}}$ 生成的箱体。
+三维空间中的箱体见 \nearbyexample{ex:VolParPiped}。
+
+我们可以通过画一个包围矩形，再把不属于箱体的各块面积减去，
+来求出上述箱体的面积。
+\begin{center}
+  \parbox{1.5in}{\hbox{}\hfil\includegraphics{det/mp/ch4.31}\hfil\hbox{}}
+  \quad
+  \parbox{3.0in}{
+    \hbox{}\hfil
+    $\begin{array}{l}
+        \text{平行四边形的面积}                    \\
+          \hbox{}\quad \hbox{}
+             =\text{矩形的面积}
+                 -\text{$A$ 的面积}-\text{$B$ 的面积} \\
+          \hbox{}\qquad \hbox{}
+             -\cdots-\text{$F$ 的面积}                   \\
+          \hbox{}\quad \hbox{}
+             =(x_1+x_2)(y_1+y_2)-x_2y_1-x_1y_1/2        \\
+          \hbox{}\qquad \hbox{}
+             -x_2y_2/2-x_2y_2/2-x_1y_1/2-x_2y_1         \\
+          \hbox{}\quad \hbox{}
+             =x_1y_2-x_2y_1
+    \end{array}$
+    \hfil\hbox{}}
+\end{center}
+该面积等于行列式
+\begin{equation*}
+  \begin{vmat}
+    x_1  &x_2  \\
+    y_1  &y_2
+  \end{vmat}
+  =x_1y_2-x_2y_1
+\end{equation*}
+的值，这并非巧合。
+行列式的定义中包含四条性质，我们知道对于每个维数~$n$，
+这些性质唯一确定一个函数。
+我们将论证，这些性质恰好是一个度量 $n$ 维空间中箱体大小的函数
+的合理公设。\index{size}
+
+举例来说，这样的函数应当具有如下性质：把定义箱体的某个向量乘以
+一个标量，
+箱体的大小也随之乘以该标量。
+\begin{center}
+  \includegraphics{det/mp/ch4.32}
+  \qquad
+  \includegraphics{det/mp/ch4.33}
+\end{center}
+图中展示的是 $k=1.4$ 的情形。
+右图中，缩放后的区域用实线画出，原来的区域涂以阴影以便比较。
+% The region formed by $k\vec{v}$ and~$\vec{w}$
+% is bigger by a factor of \( k \)
+% than the shaded region enclosed by $\vec{v}$ and~$\vec{w}$.
+% That is,
+% \( \size (k\vec{v},\vec{w})=k\cdot\size (\vec{v},\vec{w}) \) and
+
+也就是说，我们可以合理地预期
+$\size (\dots,k\vec{v},\dots)=k\cdot\size (\dots,\vec{v},\dots)$。
+当然，这一条件正是行列式定义中的性质之一。
+
+行列式的另一条性质也应适用于任何度量箱体大小的函数：
+它不受倍加操作的影响。
+这里是倍加之前与之后的箱体（图中标出的标量为 $k=-0.35$）。
+\begin{center}
+  \includegraphics{det/mp/ch4.34}
+  \qquad
+  \includegraphics{det/mp/ch4.35}
+\end{center}
+由 $v$ 与
+$k\vec{v}+\vec{w}$ 生成的箱体倾斜方式
+与原来的不同，但二者具有相同的底和相同的高，因而面积相同。
+% (As before, the figure on the right has the
+% original region in shade for comparison.)
+所以我们预期，大小不受剪切操作的影响：
+$\size (\dots,\vec{v},\dots,\vec{w},\dots)
+=\size (\dots,\vec{v},\dots,k\vec{v}+\vec{w},\dots)$。
+同样，这也是一条行列式性质。
+
+我们预期由单位向量生成的箱体具有单位大小
+\begin{center}
+  \includegraphics{det/mp/ch4.36}
+\end{center}
+并且自然地把它推广到任意 $n$ 维空间：
+$\size(\vec{e}_1,\dots,\vec{e}_n)=1$。
+% Again, that is a determinant property.
+
+正如定义之后所指出的，行列式定义中的条件~(2) 是冗余的。
+从前一节我们知道，对每个~$n$ 行列式都存在且唯一，
+因此这些关于大小函数的公设是相容的，
+而且我们不需要更多的公设。
+于是，我们把 \( \det(\vec{v}_1,\dots,\vec{v}_n) \)
+解释为给出生成箱体的向量所构成箱体的大小，就是有根据的。
+% (\textit{Comment.}
+%   An even more basic approach, which also leads to the definition
+%   below, is in \cite{Weston59}.)
+
+\begin{remark}  \label{re:PropertyTwoGivesSign}
+虽然条件~(2) 是冗余的，但它提出了一个重要问题。
+考虑下面两个行列式。
+\begin{center} \small
+  \begin{tabular}{c@{\hspace*{8em}}c}
+    \includegraphics{det/mp/ch4.37}
+      &\includegraphics{det/mp/ch4.38}  \\[.25ex]
+    \ $\begin{vmat}[r]
+        4  &1   \\
+        2  &3
+      \end{vmat}=10$
+      &\ $\begin{vmat}[r]
+          1  &4   \\
+          3  &2
+        \end{vmat}=-10$
+  \end{tabular}
+\end{center}
+对换两列会改变符号。
+在左图中，从 $\vec{u}$ 出发沿夹角内部的弧走到 $\vec{v}$（即沿逆时针方向），
+我们得到正的大小。
+在右图中，从 $\vec{v}$ 出发走到~$\vec{u}$，
+即沿顺时针方向的弧，则得到负的大小。
+大小函数所给出的符号反映了箱体的
+\definend{定向}\index{box!orientation}\index{orientation}
+或 \definend{朝向}\index{box!sense}\index{sense}。
+（如果我们设想用一个负标量做标量乘法的效果，也会看到同样的现象。）
+% Although it is both interesting and important, we don't need the idea of
+% orientation for the development below and so we will pass it by.
+% (See \nearbyexercise{exer:BasisOrient}.)
+\end{remark}
+
+\begin{definition} \label{df:Volume}
+%<*df:Volume>
+箱体的\definend{体积}\index{volume}\index{box!volume}
+是以这些向量为列的矩阵的行列式的绝对值。
+%</df:Volume>
+\end{definition}
+
+\begin{example} \label{ex:VolParPiped}
+按底面积乘以高的公式，这个
+平行六面体的体积是 $12$。
+这与行列式的值一致。
+\begin{center}
+   \parbox{2in}{\hbox{}\hfil\includegraphics{det/asy/ppiped.pdf}\hfil\hbox{}}
+  %  \parbox{2in}{\hbox{}\hfil\includegraphics{det/mp/ch4.39}\hfil\hbox{}}
+  \hspace{4.5em}
+  $\begin{vmat}[r]
+     2 &0 &-1\\
+     0 &3 &0 \\
+     2 &1 &1
+  \end{vmat}=12$
+\end{center}
+按不同次序取这些向量会改变符号，但不改变大小。
+\begin{equation*}
+  \begin{vmat}[r]
+     0  &2 &-1 \\
+     3  &0 &0 \\
+     1  &2 &1
+  \end{vmat}=-12
+\end{equation*}
+\end{example}
+
+% The next result describes some of the geometry of the linear
+% functions that act on
+% \( \Re^n \).
+
+\begin{theorem}\label{th:MatChVolByDetMat}
+\index{size}\index{transformation!size change}
+%<*th:MatChVolByDetMat>
+变换 \( \map{t}{\Re^n}{\Re^n} \) 以同一个因子改变所有箱体的大小，也就是说，箱体的像的大小
+$\deter{t(S)}$ 等于 $\deter{T}$ 乘以箱体的大小 $\deter{S}$，
+其中 $T$ 是在标准基下
+表示 $t$ 的矩阵。
+
+也就是说，乘积的行列式等于
+行列式的乘积 $\deter{TS}=\deter{T}\cdot\deter{S}$。
+%</th:MatChVolByDetMat>
+\end{theorem}
+
+这两句话说的是同一件事，前者用映射的语言，后者用
+矩阵的语言。
+这是因为
+$\deter{t(S)}=\deter{TS}$，二者给出的都是单位箱体 $\stdbasis_n$
+在复合映射 $\composed{t}{s}$ 下的像这一箱体的大小，
+其中各映射均以标准基下的矩阵表示。
+我们将证明第二句话。
+
+\begin{proof}
+%<*pf:MatChVolByDetMat0>
+首先考虑 $T$ 是奇异的、因而
+没有逆矩阵的情形。
+注意到，若 \( TS \) 可逆，则存在
+某个 $M$ 使得 \( (TS)M=I \)，于是
+\( T(SM)=I \)，从而 \( T \) 可逆。
+这一论断的逆否命题是：若 \( T \) 不可逆，则 \( TS \) 也不可逆 \Dash
+若 $\deter{T}=0$ 则 $\deter{TS}=0$。
+%</pf:MatChVolByDetMat0>
+
+%<*pf:MatChVolByDetMat1>
+再考虑 $T$ 是非奇异的情形。
+任何非奇异矩阵都可以分解为
+初等矩阵的乘积 $T=E_1E_2\cdots E_r$。
+为完成这一论证，
+我们将对所有的矩阵~$S$ 与初等矩阵~$E$ 验证
+\( \deter{ES}=\deter{E}\cdot\deter{S} \)。
+于是结论随之成立，因为
+$\deter{TS}=\deter{E_1\cdots E_rS}=\deter{E_1}\cdots\deter{E_r}\cdot\deter{S}
+  =\deter{E_1\cdots E_r}\cdot\deter{S}=\deter{T}\cdot\deter{S}$。
+%</pf:MatChVolByDetMat1>
+
+%<*pf:MatChVolByDetMat2>
+初等矩阵有三种类型。
+我们处理 $M_i(k)$ 的情形；
+$P_{i,j}$ 与 $C_{i,j}(k)$ 的验证类似。
+矩阵 $M_i(k)S$ 等于 $S$，只是第~$i$ 行乘了 $k$。
+由行列式函数的第三条条件
+即得 $\deter{M_i(k)S}=k\cdot\deter{S}$。
+而 $\deter{M_i(k)}=k$，这同样由第三条条件得出，因为
+$M_i(k)$ 是把单位矩阵的第~$i$ 行乘以
+$k$ 得到的。
+因此 \( \deter{ES}=\deter{E}\cdot\deter{S} \) 对
+$E=M_i(k)$ 成立。
+%</pf:MatChVolByDetMat2>
+\end{proof}
+
+
+\begin{example}
+应用这个以标准基下的矩阵
+\begin{equation*}
+  \begin{mat}[r]
+    1  &1  \\
+   -2  &0
+  \end{mat}
+\end{equation*}
+表示的映射 $t$，会使箱体的大小加倍，例如，从这个
+\begin{center}
+    \parbox{1.5in}{\hbox{}\hfil\includegraphics{det/mp/ch4.40}\hfil\hbox{}}
+    \quad
+    $\begin{vmat}[r]
+      2  &1  \\
+      1  &2
+    \end{vmat}=3$
+\end{center}
+到这个
+\begin{center}
+    \parbox{1.5in}{\hbox{}\hfil\includegraphics{det/mp/ch4.41}\hfil\hbox{}}
+    \quad
+    $\begin{vmat}[r]
+        3  &3  \\
+       -4  &-2
+     \end{vmat}=6$
+\end{center}
+\end{example}
+
+
+% Recall that determinants are not additive homomorphisms, that
+% $\det(A+B)$ need not equal $\det(A)+\det(B)$.
+% In contrast, the above theorem says that determinants are
+% multiplicative homomorphisms:
+% $\det(AB)$ equals $\det(A)\cdot \det(B)$.
+
+\begin{corollary} \label{co:DeterminantOfInverseIsInverseOfDeterminant}
+%<*co:DeterminantOfInverseIsInverseOfDeterminant>
+若矩阵可逆，则其逆矩阵的行列式是其行列式的倒数
+$\deter{T^{-1}}=1/\deter{T}$。
+%</co:DeterminantOfInverseIsInverseOfDeterminant>
+\end{corollary}
+
+\begin{proof}
+%<*pf:DeterminantOfInverseIsInverseOfDeterminant>
+$1=\deter{I}=\deter{TT^{-1}}=\deter{T}\cdot\deter{T^{-1}}$
+%</pf:DeterminantOfInverseIsInverseOfDeterminant>
+\end{proof}
+
+

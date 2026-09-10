@@ -99,3 +99,22 @@
 
 % 习题标题（bookans.sty 中硬编码为 Exercises）
 \patchcmd{\exercises}{\textbf{Exercises}}{\textbf{练习}}{}{}
+
+% ---------- 章首/目录/页眉中的 Chapter、Section 字样汉化 ----------
+% bookjhconcrete 的章首排版为 \@chapapp{} \thechapter（即 "Chapter 四"），
+% 目录行硬编码 "Chapter \thechapter:"，页眉 \sectionmark 硬编码 "Section"。
+% 这里统一替换为「第四章」「第 I 节」。
+\makeatletter
+\patchcmd{\@makechapterhead}%
+  {\@chapapp{} \thechapter}%
+  {第\Englishnumber{\value{chapter}}章}{}{}
+% hyperref/nameref 已把 bookjhconcrete 的 \chapter 包装为 \NR@chapter → \@chapter，
+% 目录行的字面量 "Chapter \thechapter:" 在原件 \NR@chapter 里，两个都试补。
+\patchcmd{\NR@chapter}%
+  {Chapter \thechapter:}%
+  {第\Englishnumber{\value{chapter}}章：}{}{}
+\patchcmd{\@chapter}%
+  {Chapter \thechapter:}%
+  {第\Englishnumber{\value{chapter}}章：}{}{}
+\makeatother
+\renewcommand{\sectionmark}[1]{\markright{第~\Roman{section}~节\quad #1}}

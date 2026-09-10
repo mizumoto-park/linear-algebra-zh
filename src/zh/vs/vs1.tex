@@ -1,0 +1,3898 @@
+% Chapter 2, Section 1 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-10
+\chapter{向量空间}
+第一章结束时，我们已经对高斯消元法如何求解线性方程组有了相当好的理解。
+它系统地取各行的线性组合。
+这里我们将转向对线性组合的一般研究。
+
+我们需要一个舞台。
+第一章中，我们有时组合来自 $\Re^2$ 的向量，
+有时组合来自 $\Re^3$ 的向量，
+还有时组合来自更高维空间的向量。
+于是我们的第一反应可能是在 $\Re^n$ 中工作，
+而不指明 $n$ 取何值。
+这样做有一个好处：
+所有结果可以同时对 $\Re^2$、对 $\Re^3$
+以及对许多其他空间成立。
+
+但是，如果让结果同时适用于许多空间是有利的，
+那么只局限于 $\Re^n$ 这类空间就太受束缚了。
+我们希望我们的结果也能适用于行向量的组合，
+如第一章最后一节那样。
+我们甚至已经见过一些空间，
+它们并非就是同等尺寸的列向量或行向量全体的集合。
+例如，我们见过某个齐次方程组的解集，
+它是 $\Re^3$ 内的一个平面。
+这个集合是一个封闭系统，因为
+这些解的线性组合仍是解。
+但它并不包含所有高为3的列向量，
+只包含其中的一部分。
+
+我们希望关于线性组合的结果，
+在一切线性组合有意义的场合都适用。
+我们将把任何这样的集合称为\definend{向量空间}。
+我们的结果将不再表述为
+“每当我们有一个可以合理地取线性组合的集合\ldots”，
+而是表述为“在任何向量空间中\ldots”
+
+这样一句话同时描述了许多空间中的情形。
+为了理解从研究单个空间进到研究一类空间的好处，
+请看这个类比。
+设想政府一次只给一个人立法：
+“Leslie Jones 不得乱穿马路。”
+那会很糟糕；
+陈述的优点在于其经济性，即同时适用于许多情形。
+又假设他们说：“Kim Ke 路过事故现场时必须停车。”
+对比一下：“任何医生路过事故现场时必须停车。”
+更一般的陈述，在某些方面，反而更清晰。
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{向量空间的定义}
+\index{vector space|(}
+我们将研究带有两个运算的结构：
+一个加法与一个标量乘法，
+它们须满足一些简单的条件。
+这些条件我们稍后还会进一步思考，
+但初读时请注意它们是多么合理。
+例如，任何可以称作加法的运算
+（如列向量加法、行向量加法或
+实数加法）必定满足下面的条件 (1) 至~(5)。
+
+
+
+\vspace*{1ex}
+\subsection{定义与例题}
+
+\begin{definition}
+\label{def:VecSpace}
+%<*df:VectorSpace>
+一个\definend{向量空间}\index{vector space!definition}
+（在 \( \Re \) 上）由一个集合 \( V \) 连同
+两个运算
+“+”\index{vector!sum}\index{sum!vector}\index{addition of vectors} 
+与“\( \cdot \)”\index{scalar multiple!vector}\index{vector!scalar multiple} 
+组成，它们满足以下条件：
+对所有向量 \( \vec{v},\vec{w},\vec{u}\in V \)
+及所有\definend{标量}\index{scalar}
+\( r,s\in\Re \)：
+% \begin{tfae}
+\begin{compactenum} 
+\item 集合 $V$ 对
+  向量加法封闭，也就是说，
+  \( \vec{v}+\vec{w}\in V \)
+\item 向量加法是交换的，
+  \( \vec{v}+\vec{w}=\vec{w}+\vec{v} \) 
+\item 向量加法是结合的，
+  \( (\vec{v}+\vec{w})+\vec{u}=\vec{v}+(\vec{w}+\vec{u}) \)
+\item 存在一个\definend{零向量}\index{zero vector}
+    \( \zero\in V \)，使得
+    \( \vec{v}+\zero=\vec{v}\, \) 对所有 \( \vec{v}\in V\/ \) 成立
+\item 每个 \( \vec{v}\in V \) 都有一个
+    \definend{加法逆元}\index{additive inverse}\index{inverse!additive}
+    \( \vec{w}\in V \)，使得 \( \vec{w}+\vec{v}=\zero \)
+\item 集合 $V$ 对
+    标量乘法封闭，也就是说，
+   \( r\cdot\vec{v}\in V \)
+\item 标量乘法对标量加法可分配，
+ \( (r+s)\cdot\vec{v}=r\cdot\vec{v}+s\cdot\vec{v} \)
+\item 标量乘法对向量加法可分配，
+  \( r\cdot(\vec{v}+\vec{w})=r\cdot\vec{v}+r\cdot\vec{w} \)
+\item 标量的普通乘法与
+  标量乘法满足结合律，\( (rs)\cdot\vec{v} =r\cdot(s\cdot\vec{v}) \)
+\item 用标量~$1$ 作乘法是
+  恒等运算，\( 1\cdot\vec{v}=\vec{v} \)。
+\end{compactenum}
+% \end{tfae}  
+%</df:VectorSpace>
+\end{definition}
+
+\vspace{-4.5ex}  % why is the extra space there?  Bug in shading code?
+\begin{remark}
+这个定义涉及两种加法与两种乘法，
+因此乍看之下可能令人困惑。
+例如，在条件~(7) 中，
+左边的“$+$”是两个实数的加法，
+而右边的“$+$”是
+\( V\/ \) 中两个向量的加法。
+这些表达式因上下文而无歧义；例如，
+\( r \) 与 \( s \)
+是实数，所以“\( r+s \)”只能表示实数加法。
+同样，条目~(9) 左边的“$rs$”是普通的实数
+乘法，而右边的“$s\cdot\vec{v}$”是
+为这个向量空间定义的标量乘法。
+\end{remark}
+
+\vspace{-0.5ex}  % why is the extra space there?  Bug in shading code?
+要理解这个定义，最好的方法是逐个考察下面的例子，
+并对每个例子验证全部十条条件。
+第一个例子包含这一验证，写得十分详细。
+请把它作为其余各例的范本。
+特别重要的是\definend{封闭性}\index{vector space!closure}
+条件，即 (1) 与~(6)。
+它们规定加法与标量乘法运算总是有意义的\Dash 即它们对每一对向量、
+每一个标量与向量都有定义，
+并且运算的结果是该集合的成员。
+
+
+\begin{example}  \label{PlaneThruOriginSubsp}
+\( \Re^2 \) 的这个子集是过原点的一条直线。
+\begin{equation*}
+  L=\set{ \colvec{x \\ y}  \suchthat y=3x}
+\end{equation*}
+我们将验证，在“+”与“\(\cdot\)”的通常意义下
+它构成向量空间。
+\begin{equation*}
+  \colvec{x_1 \\ y_1}
+  +
+  \colvec{x_2 \\ y_2}
+  =
+  \colvec{x_1+x_2 \\ y_1+y_2}
+  \qquad
+  r\cdot
+  \colvec{x \\ y}
+  =
+  \colvec{rx \\ ry}
+\end{equation*}
+这些运算
+就是通常的运算，只是在它的子集 $L$ 上重新使用。
+我们说 \( L \) 从 \( \Re^2 \)
+\definend{继承\/}\index{inherited operations} 这些运算。
+
+我们将验证全部十条条件。
+与加法有关的条件共有五条。
+对于条件~(1)，即对加法封闭，
+假设我们从直线~$L$ 上取两个向量，
+\begin{equation*}
+  \vec{v}_1=\colvec{x_1 \\ y_1}
+  \quad
+  \vec{v}_2=\colvec{x_2 \\ y_2}
+\end{equation*}
+于是它们满足限制
+$y_1=3x_1$ 与~$y_2=3x_2$。
+它们的和
+\begin{equation*}
+  \vec{v}_1+\vec{v}_2
+  =\colvec{x_1+x_2 \\ y_1+y_2}
+\end{equation*}
+也在直线 $L$ 上，
+因为其第二个分量是第一个分量的三倍
+$y_1+y_2=3(x_1+x_2)$，这由
+$\vec{v}_1$ 与~$\vec{v}_2$ 所受的限制可得。
+对于~(2)，即向量加法可交换，
+只需比较
+\begin{equation*}
+  \vec{v}_1+\vec{v}_2
+  =\colvec{x_1+x_2 \\ y_1+y_2}
+  \quad
+  \vec{v}_2+\vec{v}_1
+  =\colvec{x_2+x_1 \\ y_2+y_1}
+\end{equation*}
+并注意它们相等，因为它们的分量是实数而
+实数可交换。
+（向量满足位于该直线上的限制与本条件无关；
+它们可交换只是因为平面中的所有向量都可交换。）
+条件~(3)，即向量加法的结合律，是类似的。
+\begin{align*}
+  (\colvec{x_1 \\ y_1}
+  +\colvec{x_2 \\ y_2})
+  +\colvec{x_3 \\ y_3}
+  &=\colvec{(x_1+x_2)+x_3 \\ (y_1+y_2)+y_3}  \\
+  &=\colvec{x_1+(x_2+x_3) \\ y_1+(y_2+y_3)}  \\
+  &=\colvec{x_1 \\ y_1}
+  +(\colvec{x_2 \\ y_2}
+  +\colvec{x_3 \\ y_3})
+\end{align*}
+对于第四条条件，我们必须给出一个充当
+零元的向量。
+全部分量为零的向量即可。
+\begin{equation*}
+  \colvec{x \\ y}
+  +\colvec{0 \\ 0}
+  =\colvec{x \\ y}
+\end{equation*}
+注意 $\zero\in L$，因为其第二个分量是第一个分量的三倍。
+对于~(5)，即给任意~$\vec{v}\in L$ 都能
+产生一个加法逆元，我们有
+\begin{equation*}
+  \colvec{-x \\ -y}
+  +\colvec{x \\ y}
+  =\colvec{0 \\ 0}
+\end{equation*}
+所以向量 $-\vec{v}$ 就是想要的逆元。
+与前一条条件一样，这里注意若 $\vec{v}\in L$，即
+$y=3x$，则 $-\vec{v}\in L$ 也成立，因为 $-y=3(-x)$。
+
+与标量乘法有关的五条条件的验证是类似的。
+对于~(6)，即对标量乘法封闭，
+假设 $r\in\R$ 且 $\vec{v}\in L$，即
+\begin{equation*}
+  \vec{v}=\colvec{x \\ y}
+\end{equation*}
+满足~$y=3x$。
+那么
+\begin{equation*}
+  r\cdot\vec{v}=r\cdot\colvec{x \\ y}
+  =\colvec{rx \\ ry}
+\end{equation*}
+也在 $L$ 中：~关系式 $ry=3\cdot rx$ 成立，因为
+$y=3x$。
+接下来，这验证了~(7)。
+\begin{equation*}
+  (r+s)\cdot\colvec{x \\ y}
+  =\colvec{(r+s)x \\ (r+s)y}
+  =\colvec{rx+sx \\ ry+sy}
+  =r\cdot\colvec{x \\ y}+s\cdot\colvec{x \\ y}
+\end{equation*}
+对于~(8)，我们有：
+\begin{equation*}
+  r\cdot(\colvec{x_1 \\ y_1}+\colvec{x_2 \\ y_2})
+  =\colvec{r(x_1+x_2) \\ r(y_1+y_2)}
+  =\colvec{rx_1+rx_2 \\ ry_1+ry_2}
+  =r\cdot\colvec{x_1 \\ y_1}+r\cdot\colvec{x_2 \\ y_2}
+\end{equation*}
+第九条
+\begin{equation*}
+  (rs)\cdot\colvec{x \\ y}
+  =\colvec{(rs)x \\ (rs)y}
+  =\colvec{r(sx) \\ r(sy)}
+  =r\cdot(s\cdot\colvec{x \\ y})
+\end{equation*}
+与第十条条件也同样直接。
+\begin{equation*}
+  1\cdot\colvec{x \\ y}
+  =\colvec{1x \\ 1y}
+  =\colvec{x \\ y}
+\end{equation*}
+\end{example}
+
+\begin{example}  \label{ex:RealVecSpaces}
+整个平面，即集合
+\( \Re^2 \)，是一个向量空间，其中运算“\( + \)”与“\( \cdot \)”
+取通常的意义。
+\begin{equation*}
+  \colvec{x_1 \\ y_1}
+  +
+  \colvec{x_2 \\ y_2}
+  =
+  \colvec{x_1+x_2 \\ y_1+y_2}
+  \qquad
+  r\cdot
+  \colvec{x \\ y}
+  =
+  \colvec{rx \\ ry}
+\end{equation*}
+我们只验证其中的两条条件，即封闭性条件。
+
+对于 (1)，注意向量和
+\begin{equation*}
+  \colvec{x_1 \\ y_1}
+  +\colvec{x_2 \\ y_2}
+  =\colvec{x_1+x_2 \\ y_1+y_2}
+\end{equation*}
+的结果是一个带有两个实分量的列阵列，所以是
+平面~\( \Re^2 \) 的成员。
+与前面的例题相比，这里对向量的
+第一个与第二个分量没有任何限制。
+
+条件 (6) 类似。
+向量
+\begin{equation*}
+  r\cdot\colvec{x \\ y}
+  =\colvec{rx \\ ry}
+\end{equation*}
+有两个实分量，所以是~\( \Re^2 \) 的成员。
+\end{example}
+
+类似地，
+每个 \( \Re^n \) 都是向量空间，带有通常的向量加法
+与标量乘法运算。
+（在 \( \Re^1 \) 中，我们通常不把成员写成
+列向量，也就是说，我们通常不写“\( (\pi) \)”。
+而是直接写“\( \pi \)”。）
+
+\begin{example} \label{ex:ColsIntEntNotVS}
+\nearbyexample{PlaneThruOriginSubsp} 给出了 $\Re^2$ 的一个
+构成向量空间的子集。
+% \nearbyexample{ex:RealVecSpaces} shows that the entire
+% set of two-tall vectors with real entries is also a vector space. 
+作为对比，考虑
+由分量为整数的
+高为2的列组成的集合，
+运算仍是同样的按分量的
+加法与标量乘法。
+它是 $\Re^2$ 的一个子集，但它不是向量空间：
+它对标量乘法不封闭，
+也就是说，它不满足条件~(6)。
+例如，下面的左边是一个具有整数分量的向量，以及一个标量。
+\begin{equation*}
+  0.5
+  \cdot
+  \colvec[r]{4 \\ 3}
+  =
+  \colvec[r]{2 \\ 1.5}
+\end{equation*}
+右边是一个不属于该集合的列向量，因为
+它的分量不全是整数。
+\end{example}
+
+\begin{example}  \label{ex:TrivSbspReFour}
+单元素集
+\begin{equation*}
+  \set{ \colvec[r]{0 \\ 0 \\ 0 \\ 0} }
+\end{equation*}
+在下述运算下构成向量空间
+\begin{equation*}
+  \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+  +
+  \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+  =
+  \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+  \qquad
+  r\cdot
+  \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+  =
+  \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+\end{equation*}
+这些运算继承自 \( \Re^4 \)。
+\end{example}
+
+向量空间必须至少有一个元素，即它的零向量。
+因此，单元素向量空间是可能的最小情形。
+
+\begin{definition} \label{df:TrivialVectorSpace}
+%<*df:TrivialVectorSpace>
+单元素向量空间是\definend{平凡的}\index{vector space!trivial}%
+\index{trivial space}
+空间。
+%</df:TrivialVectorSpace>
+\end{definition}
+
+迄今的例子涉及的都是带有通常运算的列向量的集合。
+但向量空间不必是列向量的集合，甚至不必是行
+向量的集合。
+下面是其他一些类型的向量空间。
+“向量空间”一词并不意味着“实数列的集合”。
+它的含义更像是
+“任何线性组合都有意义的集合”。
+
+\begin{example} \label{ex:PolySpaceThree}
+考虑
+\( \polyspace_3=\set{a_0+a_1x+a_2x^2+a_3x^3\suchthat a_0,\ldots,a_3\in\Re} \)，
+即次数不超过三的多项式之集
+（在本书中，我们把常数多项式，包括零多项式，
+取为零次）。
+在以下运算下它是向量空间
+\begin{multline*}
+   (a_0+a_1x+a_2x^2+a_3x^3)+(b_0+b_1x+b_2x^2+b_3x^3)  \\
+     =(a_0+b_0)+(a_1+b_1)x+(a_2+b_2)x^2+(a_3+b_3)x^3
+\end{multline*}
+与
+\begin{equation*}
+   r\cdot(a_0+a_1x+a_2x^2+a_3x^3)=
+     (ra_0)+(ra_1)x+(ra_2)x^2+(ra_3)x^3
+\end{equation*}
+（验证很容易）。
+这个向量空间值得关注，因为
+这些是高中代数中熟悉的多项式运算。
+例如，
+$
+  3\cdot(1-2x+3x^2-4x^3)-2\cdot(2-3x+x^2-(1/2)x^3)=-1+7x^2-11x^3$。
+
+虽然这个空间不是任何 \( \Re^n \) 的子集，
+但在某种意义下我们可以把 $\polyspace_3$ 看作与
+\( \Re^4 \) “相同”。
+如果我们按如下方式将这两个空间的元素对应起来
+\begin{equation*}
+  a_0+a_1x+a_2x^2+a_3x^3
+  \quad\text{对应于}\quad
+  \colvec{a_0 \\ a_1 \\ a_2 \\ a_3}
+\end{equation*}
+那么运算也相互对应。
+下面是一个对应加法的例子。
+\begin{equation*}
+  \mbox{\begin{tabular}{lr}
+       &\(1-2x+0x^2+1x^3\) \\
+     + &\(2+3x+7x^2-4x^3\) \\ \hline
+       &\(3+1x+7x^2-3x^3\)
+  \end{tabular}  }
+  \quad\text{对应于}\quad
+  \colvec[r]{1 \\ -2 \\ 0 \\ 1}
+  +
+  \colvec[r]{2 \\ 3 \\ 7 \\ -4}
+  =
+  \colvec[r]{3 \\ 1 \\ 7 \\ -3}
+\end{equation*}
+我们视为“相同”的事物相加得到“相同”的和。
+第三章将把这种向量空间对应的思想精确化。
+现在我们只把它当作一种直观。
+\end{example}
+
+一般地，我们用
+\( \polyspace_n \) 表示
+次数不超过~$n$ 的多项式组成的向量空间
+\( \set{a_0+a_1x+a_2x^2+\cdots+a_nx^n\suchthat a_0,\ldots,a_n\in\Re} \)，
+其运算为通常的多项式加法与标量
+乘法。\index{vector space!of polynomials}
+我们会经常使用这些空间作为例子。
+
+\begin{example} \label{ex:MatSpaceTwoByTwo}
+\( \nbym{2}{2} \) 的实元素矩阵之集 \( \matspace_{\nbym{2}{2}} \)
+在自然的逐元素
+运算下构成向量空间。
+\begin{equation*}
+  \begin{mat}
+    a  &b \\
+    c  &d
+  \end{mat}
+  +
+  \begin{mat}
+    w  &x \\
+    y  &z
+  \end{mat}
+  =
+  \begin{mat}
+    a+w  &b+x \\
+    c+y  &d+z
+  \end{mat}
+  \qquad
+  r\cdot
+  \begin{mat}
+    a  &b \\
+    c  &d
+  \end{mat}
+  =
+  \begin{mat}
+    ra  &rb \\
+    rc  &rd
+  \end{mat}
+\end{equation*}
+与前面的例题一样，我们可以认为这个空间
+与 \( \Re^4 \) 是“相同的”。
+\end{example}
+
+我们用
+\( \matspace_{\nbym{n}{m}} \) 表示
+$\nbym{n}{m}$ 矩阵
+在自然的矩阵加法与标量
+乘法运算下的向量空间。\index{vector space!of matrices}
+与多项式空间一样，
+我们会经常用它们作为例子。
+
+\begin{example}   \label{ex:FcnsNToRIsVecSp}
+全体以一个自然数为自变量的实值函数之集
+\( \set{f\suchthat \map{f}{\N}{\Re} } \)
+在以下运算下构成向量空间
+\begin{equation*}
+  (f_1+f_2)\,(n)=f_1(n)+f_2(n)
+  \qquad
+  (r\cdot f)\,(n)=r\,f(n)
+\end{equation*}
+于是，例如若 \( f_1(n)=n^2+2\sin(n) \) 且
+\( f_2(n)=-\sin(n)+0.5 \)，
+则 \( (f_1+2f_2)\,(n)=n^2+1 \)。
+
+我们可以把这个空间看作
+\nearbyexample{ex:RealVecSpaces} 的推广\Dash 这些函数不是
+高为$2$的向量，而像是无限高的
+向量。
+\begin{equation*}
+  \text{
+    \begin{tabular}{c|c}
+      \( n \)      &\( f(n)=n^2+1 \)  \\ \hline
+      \( 0      \) &\( 1      \)    \\
+      \( 1      \) &\( 2      \)    \\
+      \( 2      \) &\( 5      \)    \\
+      $3$          &$10$            \\
+      \( \vdots \) &\( \vdots \)    
+    \end{tabular} }
+    \quad\text{对应于}\quad
+    \colvec[r]{
+           1           \\
+           2           \\
+           5           \\
+           10          \\
+           \vdotswithin{10}      }
+\end{equation*}
+加法与标量乘法都是按分量的，
+如\nearbyexample{ex:RealVecSpaces} 中那样。
+（我们可以把“无限高”形式化：说它表示一个无穷
+序列，或者说它表示一个从 $\N$ 到 $\Re$ 的函数。）
+\end{example}
+
+\begin{example} \label{ex:PolysOfAllFiniteDegrees}
+实系数多项式之集
+\begin{equation*}
+ \set{ a_0+a_1x+\cdots+a_nx^n\suchthat n\in\N
+    \text{ 且 } a_0,\ldots,a_n\in\Re} 
+\end{equation*}
+在赋予自然的“$+$”
+\begin{multline*}
+  (a_0+a_1x+\cdots+a_nx^n)+(b_0+b_1x+\cdots+b_nx^n)  \\
+     =(a_0+b_0)+(a_1+b_1)x+\cdots +(a_n+b_n)x^n
+\end{multline*}
+与“$\cdot$”之后
+\begin{equation*}
+  r\cdot (a_0+a_1x+\ldots a_nx^n)
+   =
+  (ra_0)+(ra_1)x+\ldots (ra_n)x^n
+\end{equation*}
+便构成向量空间。
+这个空间不同于
+\nearbyexample{ex:PolySpaceThree} 的空间 $\polyspace_3$。
+这个空间包含的不只是三次多项式，
+还有三十次的与三百次的
+多项式。
+当然，每个多项式的次数都是有限的，
+但该集合对其所有成员的次数没有一个统一的界。
+
+与前面的例题一样，我们可以
+用无穷元组来思考这个例子。
+例如，我们可以认为 \( 1+3x+5x^2 \) 对应于
+\( (1,3,5,0,0,\ldots) \)。
+然而，这个空间不同于
+\nearbyexample{ex:FcnsNToRIsVecSp} 中的空间。
+这里，集合的每个成员都有有限的次数，也就是说，
+在这个对应下，本空间中没有元素
+与 \( (1,2,5,10,\,\ldots\,) \) 匹配。
+这个空间中的向量对应于
+以零结尾的无穷元组。
+\end{example}
+
+\begin{example}  \label{ex:RealValuedFcns}
+全体以一个实数为自变量的实值函数之集
+\( \set{f\suchthat \map{f}{\Re}{\Re} } \)
+在这些运算下构成向量空间。
+\begin{equation*}
+  (f_1+f_2)\,(x)=f_1(x)+f_2(x)
+  \qquad
+  (r\cdot f)\,(x)=r\,f(x)
+\end{equation*}
+它与\nearbyexample{ex:FcnsNToRIsVecSp} 的差别在于
+函数的定义域。
+\end{example}
+
+\begin{example}\label{ex:ACos+BSin}
+实变量 \( \theta \) 的实值函数之集
+\( F=\{ a\cos\theta+b\sin\theta \suchthat a,b\in\Re\} \)
+在以下运算下构成向量空间
+%\nearbyexample{ex:RealValuedFcns}:
+\begin{equation*}
+  (a_1\cos\theta+b_1\sin\theta)+(a_2\cos\theta+b_2\sin\theta)
+    =(a_1+a_2)\cos\theta+(b_1+b_2)\sin\theta
+\end{equation*}
+与
+\begin{equation*}
+  r\cdot (a\cos\theta+b\sin\theta)
+   =(ra)\cos\theta+(rb)\sin\theta
+\end{equation*}
+这些运算继承自前面例题中的空间。
+（我们可以把 \( F \) 看作与 \( \Re^2 \) “相同”，
+因为 $a\cos\theta+b\sin\theta$ 对应于
+分量为 $a$ 和 $b$ 的向量。）
+\end{example}
+
+\begin{example}  \label{ex:SpaceSatisfyingDiffQ}
+集合
+\begin{equation*}
+  \set{\map{f}{\Re}{\Re}\suchthat \dfrac{d^2f}{dx^2}+f=0}
+\end{equation*}
+在如今已很自然的解释下构成向量空间。
+\begin{equation*}
+  (f+g)\,(x)=f(x)+g(x)
+  \qquad
+  (r\cdot f)\,(x)=r\,f(x)
+\end{equation*}
+特别地，注意初等微积分给出
+\begin{equation*}
+   \frac{d^2(f+g)}{dx^2}+(f+g)
+   =(\frac{d^2f}{dx^2}+f)+(\frac{d^2g}{dx^2}+g)
+\end{equation*}
+以及
+\begin{equation*}
+   \frac{d^2(rf)}{dx^2}+(rf)
+   =r(\frac{d^2 f}{dx^2}+f)
+\end{equation*}
+所以该空间对加法与标量乘法封闭。
+结果这个空间就等于前面例题中的空间\Dash 满足
+此微分方程的函数形如
+$a\cos\theta+b\sin\theta$\Dash 但这一描述提示可将其推广到其他
+微分方程的解集。
+\end{example}
+
+\begin{example} \label{ex:HomoSlnMakesVS}
+\( n \) 个变量的齐次线性方程组的解集，
+在从 \( \Re^n \) 继承的运算下构成向量空间。
+例如，为验证对加法封闭，
+考虑该方程组中一个典型的方程
+$c_1x_1+\cdots+c_nx_n=0$，并假设这两个向量
+\begin{equation*}
+   \vec{v}=\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+   \qquad
+   \vec{w}=\colvec{w_1 \\ \vdotswithin{w_1} \\ w_n}
+\end{equation*}
+都满足该方程。
+那么它们的和
+\( \vec{v}+\vec{w}\/ \) 也满足该方程：
+\(
+  c_1(v_1+w_1)+\cdots+c_n(v_n+w_n)
+  =(c_1v_1+\cdots+c_nv_n)+(c_1w_1+\cdots+c_nw_n)
+  =0
+\)。
+其余向量空间条件的验证同样常规。
+\end{example}
+
+在标量与向量之间，我们常省略
+乘号“\( \cdot \)”。
+我们凭上下文区分
+\( c_1v_1 \) 中的乘法与 \( r\vec{v}\, \) 中的乘法，因为若两个
+相乘的都是实数，则必是
+实数与实数的乘法；而若其中一个是向量，则必是
+标量与向量的乘法。
+
+\nearbyexample{ex:HomoSlnMakesVS} 让我们回到了出发点，因为它是我们的
+动机性例子之一。
+现在，对满足向量空间
+定义的各类结构有了些许感受之后，
+我们可以反思这个定义。
+例如，为什么在定义中规定条件
+\( 1\cdot\vec{v}=\vec{v} \)，
+而不规定条件 \( 0\cdot\vec{v}=\zero \)？
+
+一个回答是：这只是一个定义\Dash 它给出规则，
+而你需要遵循这些规则才能继续。
+
+另一个回答也许更令人满意。
+这个领域的人们一直在努力发展
+威力与一般性之间的恰当平衡。
+这个定义的设计，使得它包含了证明线性组合空间
+一切有趣而重要性质所需的条件。
+随着我们的推进，我们将从定义给出的条件出发，
+导出线性组合的集合所自然具有的全部性质。
+
+下面的结果就是一例。
+我们无需把这些性质纳入向量空间的定义，
+因为它们可以由其中已列出的性质推出。
+
+\begin{lemma} \label{lm:ElementaryPropertiesOfVectorSpaces}
+%<*lm:ElementaryPropertiesOfVectorSpaces>
+在任何向量空间 \( V \) 中，
+对任意 \( \vec{v}\in V \) 与 \( r\in\Re \)，有
+(1)~\( 0\cdot\vec{v}=\zero \)，
+(2)~\( (-1\cdot\vec{v})+\vec{v}=\zero \)，以及
+(3)~\( r\cdot\zero=\zero \)。
+%</lm:ElementaryPropertiesOfVectorSpaces>
+\end{lemma}
+
+\begin{proof}
+%<*pf:ElementaryPropertiesOfVectorSpaces0>
+对于 (1)，注意
+\( \vec{v}=(1+0)\cdot\vec{v}=\vec{v}+(0\cdot\vec{v}) \)。
+在两边加上 \( \vec{v} \) 的加法逆元，
+即满足 \( \vec{w}+\vec{v}=\zero \) 的向量 \( \vec{w} \)。
+\begin{align*}
+  \vec{w}+\vec{v}
+  &=\vec{w}+\vec{v}+0\cdot\vec{v}  \\
+  \zero
+  &=\zero+0\cdot\vec{v}                   \\
+  \zero
+  &=0\cdot\vec{v}
+\end{align*}
+条目~(2) 很容易：
+\(  (-1\cdot\vec{v})+\vec{v}=(-1+1)\cdot\vec{v}=0\cdot\vec{v}=\zero \)。
+对于 (3)，
+\( r\cdot\zero
+  =
+  r\cdot(0\cdot\zero)
+  =
+  (r\cdot 0)\cdot\zero
+  =
+  \zero \)
+即可。
+%</pf:ElementaryPropertiesOfVectorSpaces0>
+\end{proof}
+
+第二条
+表明我们可以把 \( \vec{v} \) 的加法逆元
+写作“\( -\vec{v}\, \)”，而不必担心
+与 \( (-1)\cdot\vec{v} \) 混淆。
+
+\medskip
+回顾一下：
+第一章中对高斯消去法的研究
+使我们去考虑线性组合的集合。
+因此在本章中我们把向量空间定义为
+可以形成这种组合的结构，
+% expressions of the form \( c_1\cdot\vec{v}_1+\dots+c_n\cdot\vec{v}_n \)
+并对加法与标量
+乘法运算施加一些简单条件。
+一言以蔽之：~向量空间是
+研究线性性的恰当语境。
+
+% Finally, a comment.
+由于它构成了完整的一章，尤其因为这还是第一章，
+读者可能会猜想本书的目的
+就是研究线性方程组。
+事实是：我们并非在用向量空间来研究线性方程组，
+而是让线性方程组
+引领我们开始对向量空间的研究。
+本小节中各式各样的例子表明，对向量空间的研究
+本身就有趣且重要。
+线性方程组不会消失。
+但从今以后，我们主要的研究对象将是向量空间。
+
+\begin{exercises}
+  \item
+    写出下列各向量空间中的零向量。
+    \begin{exparts}
+      \partsitem 在通常运算下，三次多项式构成的空间。
+      \partsitem \( \nbym{2}{4} \) 矩阵构成的空间。
+      \partsitem 空间
+        \( \set{\map{f}{[0..1]}{\Re}\suchthat f\text{ 连续}} \)。
+      \partsitem 一个自然数自变量的实值函数构成的空间。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \( 0+0x+0x^2+0x^3 \)
+        \partsitem \( \begin{mat}[r]
+                   0  &0  &0  &0  \\
+                   0  &0  &0  &0
+                 \end{mat} \)
+        \partsitem 常值函数 \( f(x)=0 \)
+        \partsitem 常值函数 \( f(n)=0 \)
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    求该向量在此向量空间中的加法逆元。
+    \begin{exparts}
+      \partsitem 在 \( \polyspace_3 \) 中，向量 \( -3-2x+x^2 \)。
+      \partsitem 在空间 \( \nbyn{2} \) 中，
+        \begin{equation*}
+          \begin{mat}[r]
+            1  &-1  \\
+            0  &3
+          \end{mat}.
+        \end{equation*}
+      \partsitem 在 \( \set{ae^x+be^{-x}\suchthat a,b\in\Re} \)——这是实变量
+        \( x \) 的函数在通常运算下构成的空间——中，向量 \( 3e^x-2e^{-x} \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( 3+2x-x^2 \)
+        \partsitem \( \begin{mat}[r]
+                   -1  &+1  \\
+                    0  &-3
+                 \end{mat} \)
+        \partsitem \( -3e^x+2e^{-x} \)
+      \end{exparts*}
+    \end{answer}
+  \recommended \item
+    对每一小题，列出三个元素，然后证明它是向量空间。
+    \begin{exparts}
+      \partsitem 一次多项式的集合
+        \( \polyspace_1=\set{a_0+a_1x\suchthat a_0,a_1\in\Re} \)，
+        运算为通常的多项式加法与标量乘法。
+      \partsitem 一次多项式的集合
+        \( \set{a_0+a_1x\suchthat a_0-2a_1=0} \)，
+        运算为通常的多项式加法与标量乘法。
+   \end{exparts}
+   \textit{提示。}  以 \nearbyexample{PlaneThruOriginSubsp} 作为指导。
+   十个条件中的大多数都只是验证而已。
+   \begin{answer}
+      \begin{exparts}
+        \partsitem
+          三个元素是：
+          $1+2x$、$2-1x$ 与 $x$。
+          （当然，可以有许多不同的答案。）
+
+          验证过程与 \nearbyexample{ex:RealVecSpaces} 完全类似。
+          我们先处理
+          \nearbydefinition{def:VecSpace} 中与加法有关的
+          条件 $1$-$5$。
+          关于对加法封闭，即条件~(1)，
+          注意当 $a+bx,c+dx\in\polyspace_1$ 时，
+          $(a+bx)+(c+dx)=(a+c)+(b+d)x$ 是系数为实数的一次多项式，
+          因而是
+          $\polyspace_1$ 的元素。
+          条件~(2) 的验证如下：当 $a+bx,c+dx\in\polyspace_1$ 时，
+          $(a+bx)+(c+dx)=(a+c)+(b+d)x$，而按另一顺序相加则得
+          $(c+dx)+(a+bx)=(c+a)+(d+b)x$，由于这些都是实数，
+          故 $a+c=c+a$
+          且 $b+d=d+b$。
+          条件~(3) 类似：设
+          $a+bx,c+dx,e+fx\in\polyspace$，则
+          $((a+bx)+(c+dx))+(e+fx)=(a+c+e)+(b+d+f)x$
+          而
+          $(a+bx)+((c+dx)+(e+fx))=(a+c+e)+(b+d+f)x$，两者相等
+          （也就是说，实数加法满足结合律，故 $(a+c)+e=a+(c+e)$
+          且 $(b+d)+f=b+(d+f)$）。
+          对于条件~(4)，注意一次多项式
+          $0+0x\in\polyspace_1$ 满足
+          $(a+bx)+(0+0x)=a+bx$ 与
+          $(0+0x)+(a+bx)=a+bx$。
+          对于这一部分的最后一个条件，即条件~(5)，
+          注意对任意 $a+bx\in\polyspace_1$，其加法逆元
+          是 $-a-bx\in\polyspace_1$，因为
+          $(a+bx)+(-a-bx)=(-a-bx)+(a+bx)=0+0x$。
+
+          接下来我们还要检查与
+          标量乘法有关的条件~(6)-(10)。
+          对于~(6)，即空间对标量乘法封闭这一条件，
+          设 $r$ 是实数，$a+bx$ 是
+          $\polyspace_1$ 的元素，则 $r(a+bx)=(ra)+(rb)x$ 是
+          $\polyspace_1$ 的元素，因为它是系数为
+          实数的一次多项式。
+          条件~(7) 成立，因为
+          $(r+s)(a+bx)=r(a+bx)+s(a+bx)$ 可由实数乘法的分配律
+          得到。
+          条件~(8) 类似：
+          $r((a+bx)+(c+dx))=r((a+c)+(b+d)x)=r(a+c)+r(b+d)x=(ra+rc)+(rb+rd)x
+          =r(a+bx)+r(c+dx)$。
+          对于~(9)，我们有
+          $(rs)(a+bx)=(rsa)+(rsb)x=r(sa+sbx)=r(s(a+bx))$。
+          最后，条件~(10) 是
+          $1(a+bx)=(1a)+(1b)x=a+bx$。
+        \partsitem
+          将该集合记为 $P$。
+          本练习的前一小题对系数没有限制，
+          而这里我们只关注满足 $a_0-2a_1=0$ 的一次多项式，
+          即常数项减去一次项系数的两倍为零的一次多项式。
+          于是，$P$ 的三个典型元素是
+          $2+1x$、$6+3x$ 与 $-4-2x$。
+
+          对于条件~(1)，我们必须证明：
+          若两个满足该限制的一次多项式相加，
+          则所得仍是一次满足该限制的一次多项式：这里的论证是，
+          若 $a+bx,c+dx\in P$，则
+          $(a+bx)+(c+dx)=(a+c)+(b+d)x$ 是 $P$ 的元素，因为
+          $(a+c)-2(b+d)=(a-2b)+(c-2d)=0+0=0$。
+          条件~(2) 可以这样验证：
+          当 $a+bx,c+dx\in\polyspace_1$ 时，
+          $(a+bx)+(c+dx)=(a+c)+(b+d)x$，而按另一顺序相加则得
+          $(c+dx)+(a+bx)=(c+a)+(d+b)x$，由于这些都是实数，
+          故 $a+c=c+a$
+          且 $b+d=d+b$。
+          （也就是说，这一条件不受该限制的影响，
+          其验证与本练习第一小题中的验证相同。）
+          条件~(3) 同样不受这一附加限制的影响：
+          设
+          $a+bx,c+dx,e+fx\in\polyspace$，则
+          $((a+bx)+(c+dx))+(e+fx)=(a+c+e)+(b+d+f)x$
+          而
+          $(a+bx)+((c+dx)+(e+fx))=(a+c+e)+(b+d+f)x$，两者相等。
+          对于条件~(4)，注意一次多项式
+          $0+0x\in P$ 满足该限制，因为
+          其常数项减去其一次项系数的两倍
+          为零，于是本小题中的
+          验证即可适用：
+          $0+0x\in\polyspace_1$ 满足
+          $(a+bx)+(0+0x)=a+bx$ 与
+          $(0+0x)+(a+bx)=a+bx$。
+          为检查条件~(5)，
+          注意对任意 $a+bx\in P$，其加法逆元
+          是 $-a-bx$，因为
+          它是 $P$ 的元素（由 $a+bx\in P$ 知
+          $a-2b=0$，两边同乘 $-1$ 得 $-a+2b=0$），
+          并且如第一小题那样，它起到加法逆元的作用：
+          $(a+bx)+(-a-bx)=(-a-bx)+(a+bx)=0+0x$。
+
+          我们还必须检查
+          标量乘法的条件~(6)-(10)。
+          对于~(6)，即空间对标量乘法封闭这一条件，
+          设 $r$ 是实数且 $a+bx\in P$（于是 $a-2b=0$），
+          则 $r(a+bx)=(ra)+(rb)x$ 是
+          $P$ 的元素，因为它是系数为实数、
+          且满足 $(ra)-2(rb)=r(a-2b)=0$ 的一次多项式。
+          条件~(7) 成立的理由与本练习第一小题中
+          相同，因为
+          $(r+s)(a+bx)=r(a+bx)+s(a+bx)$ 可由实数乘法的分配律
+          得到。
+          条件~(8) 也与第一小题中相同：
+          $r((a+bx)+(c+dx))=r((a+c)+(b+d)x)=r(a+c)+r(b+d)x=(ra+rc)+(rb+rd)x
+          =r(a+bx)+r(c+dx)$。
+          对~(9) 也是如此：
+          $(rs)(a+bx)=(rsa)+(rsb)x=r(sa+sbx)=r(s(a+bx))$。
+          最后，条件~(10) 也是如此：
+          $1(a+bx)=(1a)+(1b)x=a+bx$。
+       \end{exparts}
+     \end{answer}
+  \item
+    对每一小题，列出三个元素，然后证明它是向量空间。
+    \begin{exparts}
+      \partsitem 实元素的 \( \nbyn{2} \) 矩阵的集合，运算为通常的矩阵运算。
+      \partsitem 实元素且 $2,1$ 元为零的 \( \nbyn{2} \) 矩阵的集合，
+        运算为通常的矩阵运算。
+    \end{exparts}
+    \begin{answer}
+      可参照
+      \nearbyexample{ex:RealVecSpaces} 作为指导。
+      （\textit{评注。}
+      由于许多条件都很容易检查，
+      有时人们会觉得一定是漏掉了什么。
+      请记住：容易做或常规，与不必做是两回事。）
+      \begin{exparts}
+        \partsitem
+          以下是三个元素。
+          \begin{equation*}
+            \begin{mat}
+              1  &2  \\
+              3  &4
+            \end{mat},\,
+            \begin{mat}
+              -1  &-2  \\
+              -3  &-4
+            \end{mat},\,
+            \begin{mat}
+              0  &0  \\
+              0  &0
+            \end{mat}
+          \end{equation*}
+
+          对于~(1)，$\nbyn{2}$ 实矩阵的和是 $\nbyn{2}$
+          实矩阵。
+          对于~(2)，我们考察两个矩阵的和
+          \begin{equation*}
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}+
+            \begin{mat}
+              e  &f  \\
+              g  &h
+            \end{mat}
+            =
+            \begin{mat}
+              a+e  &b+f  \\
+              c+g  &d+h
+            \end{mat}
+          \end{equation*}
+          并利用实数加法的交换律
+          \begin{equation*}
+            =\begin{mat}
+              e+a  &f+b  \\
+              g+c  &h+d
+            \end{mat}
+            =
+            \begin{mat}
+              e  &f  \\
+              g  &h
+            \end{mat}
+            +
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+          \end{equation*}
+          来验证矩阵加法的交换性。
+          条件~(3) 的验证，即矩阵加法的结合律，
+          与前面的验证类似：
+          \begin{equation*}
+            \big(
+              \begin{mat}
+                a  &b  \\
+                c  &d
+              \end{mat}
+              +\begin{mat}
+                e  &f  \\
+                g  &h
+              \end{mat}
+            \big)
+            +
+            \begin{mat}
+              i  &j  \\
+              k  &l
+            \end{mat}
+            =
+            \begin{mat}
+              (a+e)+i  &(b+f)+j  \\
+              (c+g)+k  &(d+h)+l
+            \end{mat}
+          \end{equation*}
+          而
+          \begin{equation*}
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            +
+              \big(
+              \begin{mat}
+                e  &f  \\
+                g  &h
+              \end{mat}
+              +
+              \begin{mat}
+                i  &j  \\
+                k  &l
+              \end{mat}
+            \big)
+            =
+            \begin{mat}
+              a+(e+i)  &b+(f+j)  \\
+              c+(g+k)  &d+(h+l)
+            \end{mat}
+          \end{equation*}
+          且由于实数加法满足结合律，两者逐项相同。
+          对于~(4)，这个空间的零元素是全为零的 $\nbyn{2}$
+          矩阵。
+          条件~(5) 成立，因为对任意 $\nbyn{2}$ 矩阵~$A$，
+          其加法逆元是各元素为 $A$ 相应元素的相反数的矩阵，
+          即矩阵 $-1\cdot A$。
+
+          条件~($6$)
+          成立，因为 $\nbyn{2}$ 矩阵的标量倍
+          仍是 $\nbyn{2}$ 矩阵。
+          对于条件~(7)，我们有：
+          \begin{multline*}
+            (r+s)
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            =
+            \begin{mat}
+              (r+s)a  &(r+s)b  \\
+              (r+s)c  &(r+s)d
+            \end{mat}               \\
+            =
+            \begin{mat}
+              ra+sa  &rb+sb  \\
+              rc+sc  &rd+sd
+            \end{mat}
+            =
+            r
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            +
+            s
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+          \end{multline*}
+          条件~(8) 的处理方式相同。
+          \begin{multline*}
+            r
+            \big(
+              \begin{mat}
+                a  &b  \\
+                c  &d
+              \end{mat}
+              +
+              \begin{mat}
+                e  &f  \\
+                g  &h
+              \end{mat}
+            \big)
+            =
+            r
+            \begin{mat}
+              a+e  &b+f  \\
+              c+g  &d+h
+            \end{mat}
+            =
+            \begin{mat}
+              ra+re  &rb+rf  \\
+              rc+rg  &rd+rh
+            \end{mat}              \\
+            =
+            r
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            +
+            r
+            \begin{mat}
+              e  &f  \\
+              g  &h
+            \end{mat}
+            =
+            r
+            \big(
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            +
+            \begin{mat}
+              e  &f  \\
+              g  &h
+            \end{mat}
+            \big)
+          \end{multline*}
+          对于~(9)，我们有：
+          \begin{equation*}
+            (rs)
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            =
+            \begin{mat}
+              rsa  &rsb  \\
+              rsc  &rsd
+            \end{mat}
+            =
+            r
+            \begin{mat}
+              sa  &sb  \\
+              sc  &sd
+            \end{mat}
+            =
+            r\big( s
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            \big)
+          \end{equation*}
+          条件~(10) 同样简单。
+          \begin{equation*}
+            1
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            =
+            \begin{mat}
+              1\cdot a  &1\cdot b  \\
+              1\cdot c  &1\cdot d
+            \end{mat}
+            =
+            \begin{mat}
+              sa  &sb  \\
+              sc  &sd
+            \end{mat}
+          \end{equation*}
+        \partsitem
+          本小题与本练习前一小题的差别仅在于：
+          我们限定于第二行第一列
+          为零的矩阵集合 $T$。
+          以下是 $T$ 的三个元素。
+          \begin{equation*}
+            \begin{mat}
+              1  &2  \\
+              0  &4
+            \end{mat},\,
+            \begin{mat}
+              -1  &-2  \\
+              0  &-4
+            \end{mat},\,
+            \begin{mat}
+              0  &0  \\
+              0  &0
+            \end{mat}
+          \end{equation*}
+          本小题的某些验证与本练习第一小题相同，
+          下面我们只做那些不同的验证。
+
+          对于~(1)，$2,1$ 元为零的 $\nbyn{2}$ 实矩阵之和
+          也是 $2,1$ 元为零的 $\nbyn{2}$ 实矩阵。
+          \begin{equation*}
+            \begin{mat}
+              a  &b  \\
+              0  &d
+            \end{mat}
+            +
+            \begin{mat}
+              e  &f  \\
+              0  &h
+            \end{mat}
+            \begin{mat}
+              a+e  &b+f  \\
+              0    &d+h
+            \end{mat}
+          \end{equation*}
+          前一小题中给出的条件~(2) 的验证
+          在本小题同样适用。
+          条件~(3) 也是如此。
+          对于~(4)，注意全为零的 $\nbyn{2}$
+          矩阵是 $T$ 的元素。
+          条件~(5) 成立，因为对任意 $\nbyn{2}$ 矩阵~$A$，
+          其加法逆元是矩阵
+          $-1\cdot A$，因此 $2,1$ 元为零的矩阵的加法逆元
+          也是 $2,1$ 元为零的矩阵。
+
+          条件~$6$ 成立，因为 $2,1$ 元为零的 $\nbyn{2}$ 矩阵的标量倍
+          仍是 $2,1$ 元为零的 $\nbyn{2}$ 矩阵。
+          条件~(7) 的验证与前一小题相同。
+          条件~(8)、(9) 与~(10) 的验证也是如此。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    对每一小题，列出三个元素，然后证明它是向量空间。
+    \begin{exparts}
+      \partsitem 三个分量的行向量的集合，运算为其通常运算。
+      \partsitem 集合
+        \begin{equation*}
+          \set{\colvec{x \\ y \\ z \\ w}\in\Re^4\suchthat x+y-z+w=0}
+        \end{equation*}
+        运算取从 $\Re^4$ 继承的运算。
+    \end{exparts}
+    \begin{answer}
+      % Most of the conditions are easy to check; use
+      % \nearbyexample{ex:RealVecSpaces} as a guide.
+      \begin{exparts}
+        \partsitem
+          三个元素是 $\rowvec{1  &2  &3}$、
+          $\rowvec{2  &1  &3}$ 与 $\rowvec{0  &0  &0}$。
+
+          我们必须检查 \nearbydefinition{def:VecSpace} 中的条件 (1)-(10)。
+          条件 (1)-(5) 与加法有关。
+          对于条件~(1)，回顾两个三分量行向量的和
+          \begin{equation*}
+            \rowvec{a  &b  &c}
+            +\rowvec{d  &e  &f}
+            =\rowvec{a+d  &b+e  &c+f}
+          \end{equation*}
+          也是三分量行向量
+         （字母 $a,\ldots,f$ 全都表示实数）。
+         对~(2) 的验证是常规的
+          \begin{multline*}
+            \rowvec{a  &b  &c}
+            +\rowvec{d  &e  &f}
+            =\rowvec{a+d  &b+e  &c+f}   \\
+            =\rowvec{d+a  &e+b  &f+c}
+            =\rowvec{d  &e  &f}
+            +\rowvec{a  &b  &c}
+          \end{multline*}
+          （第二个等号成立是因为三个分量都是实数，
+          而实数加法可交换）。
+         条件~(3) 的验证类似。
+          \begin{multline*}
+            \big(\rowvec{a  &b  &c}
+              +\rowvec{d  &e  &f}
+            \big)
+            +\rowvec{g  &h  &i}
+            =\rowvec{(a+d)+g  &(b+e)+h  &(c+f)+i}    \\
+            =\rowvec{a+(d+g)  &b+(e+h)  &c+(f+i)}
+            =\rowvec{a  &b  &c}
+            +\big(\rowvec{d  &e  &f}
+               +\rowvec{g  &h  &i}
+             \big)
+          \end{multline*}
+          对于~(4)，注意三分量行向量
+          $\rowvec{0  &0  &0}$ 是加法单位元：
+          $\rowvec{a  &b  &c}+\rowvec{0  &0  &0}=\rowvec{a  &b  &c}$。
+          为验证条件~(5)，设给定集合中的
+          元素 $\rowvec{a  &b  &c}$，并注意
+          $\rowvec{-a  &-b  &-c}$ 也在此集合中且具有
+          所需性质：
+          $\rowvec{a  &b  &c}+\rowvec{-a  &-b  &-c}=\rowvec{0  &0  &0}$。
+
+          条件 (6)-(10) 涉及标量乘法。
+          为验证~(6)，即空间对所给的
+          标量乘法运算封闭，
+          注意 $r\rowvec{a  &b  &c}=\rowvec{ra  &rb  &rc}$ 是
+          实分量的三分量行向量。
+          对于~(7)，我们计算如下。
+          \begin{multline*}
+            (r+s)\rowvec{a  &b  &c}=\rowvec{(r+s)a  &(r+s)b  &(r+s)c}
+            =\rowvec{ra+sa  &rb+sb  &rc+sc}                             \\
+            =\rowvec{ra  &rb  &rc}+\rowvec{sa  &sb  &sc}
+            =r\rowvec{a  &b  &c}+s\rowvec{a  &b  &c}
+          \end{multline*}
+          条件~(8) 非常类似。
+          \begin{multline*}
+            r\big(\rowvec{a  &b  &c}+\rowvec{d  &e  &f}\big)  \\
+            \begin{aligned}
+            &=r\rowvec{a+d  &b+e  &c+f}
+            =\rowvec{r(a+d)  &r(b+e)  &r(c+f)}                     \\
+            &=\rowvec{ra+rd  &rb+re  &rc+rf}
+            =\rowvec{ra  &rb  &rc}+\rowvec{rd  &re  &rf}          \\
+            &=r\rowvec{a  &b  &c}+r\rowvec{d  &e  &f}
+            \end{aligned}
+          \end{multline*}
+          条件~(9) 的计算也是如此。
+          \begin{equation*}
+            (rs)\rowvec{a  &b  &c}
+             =\rowvec{rsa  &rsb  &rsc}
+             =r\rowvec{sa  &sb  &sc}
+             =r\big(s\rowvec{a  &b  &c}\big)
+          \end{equation*}
+          条件~(10) 同样是常规的：
+          $1\rowvec{a  &b  &c}
+             =\rowvec{1\cdot a  &1\cdot b  &1\cdot c}
+             =\rowvec{a  &b  &c}$。
+        \partsitem
+          将该集合记为 $L$。
+          加法的封闭性，即条件~(1)，需要检查：若各加数都是~$L$ 的成员，则
+          和
+          \begin{equation*}
+            \colvec{a \\ b \\ c \\ d}
+            +\colvec{e \\ f \\ g \\ h}
+            =
+            \colvec{a+e \\ b+f \\ c+g \\ d+h}
+          \end{equation*}
+          也是 \( L \) 的成员；这是成立的，因为它满足
+          $L$ 的成员资格判据：
+          \( (a+e)+(b+f)-(c+g)+(d+h)
+          =(a+b-c+d)+(e+f-g+h)=0+0 \)。
+          条件~(2)、(3) 与~(5) 的验证与本练习第一部分中的
+          验证类似。
+          对于条件~(4)，注意零向量是~$L$ 的成员，
+          因为其第一分量加第二分量、减第三分量、
+          再加第四分量，总和为零。
+
+          条件~(6)，即标量乘法的封闭性，类似：
+          当该向量是~$L$ 的元素时，
+          \begin{equation*}
+            r\colvec{a  \\ b \\ c \\ d}
+            =\colvec{ra  \\  rb  \\  rc  \\  rd}
+          \end{equation*}
+          也是~$L$ 的元素，因为 $ra+rb-rc+rd=r(a+b-c+d)=r\cdot 0=0$。
+          条件~(7)、(8)、(9) 与~(10) 的验证与本练习
+          前一小题中相同。
+     \end{exparts}
+     \end{answer}
+  \recommended \item \label{exer:NotVectorSpaces}
+    证明下列每一个都不是向量空间。
+    （\textit{提示。}  为检查封闭性，列出每个集合的两个成员，
+    并对它们尝试一些运算。）
+    \begin{exparts}
+      \partsitem 在从 \( \Re^3 \) 继承的运算下，集合
+        \begin{equation*}
+          \set{\colvec{x \\ y \\ z}\in\Re^3\suchthat x+y+z=1}
+        \end{equation*}
+      \partsitem 在从 \( \Re^3 \) 继承的运算下，集合
+        \begin{equation*}
+          \set{\colvec{x \\ y \\ z}\in\Re^3\suchthat x^2+y^2+z^2=1}
+        \end{equation*}
+      \partsitem 在通常的矩阵运算下，
+        \begin{equation*}
+          \set{\begin{mat}
+                 a  &1  \\
+                 b  &c
+               \end{mat} \suchthat a,b,c\in\Re}
+        \end{equation*}
+      \partsitem 在通常的多项式运算下，
+        \begin{equation*}
+          \set{a_0+a_1x+a_2x^2\suchthat a_0,a_1,a_2\in\Re^+}
+        \end{equation*}
+        其中 $\Re^+$ 是大于零的实数构成的集合
+      \partsitem 在继承的运算下，
+        \begin{equation*}
+          \set{\colvec{x \\ y}\in\Re^2\suchthat
+               \text{\( x+3y=4 \) 且 \( 2x-y=3 \) 且 \( 6x+4y=10 \)} }
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      每一小题中都将该集合记为 \( Q \)。
+      对其中某些小题，还有其他正确方法可证明 $Q$ 不是
+      向量空间。
+      \begin{exparts}
+        \partsitem 它对加法不封闭；它不满足
+          条件~(1)。
+          \begin{equation*}
+            \colvec[r]{1 \\ 0 \\ 0},
+            \colvec[r]{0 \\ 1 \\ 0}\in Q
+            \qquad
+            \colvec[r]{1 \\ 1 \\ 0}\not\in Q
+          \end{equation*}
+        \partsitem 它对加法不封闭。
+          \begin{equation*}
+            \colvec[r]{1 \\ 0 \\ 0},
+            \colvec[r]{0 \\ 1 \\ 0}\in Q
+            \qquad
+            \colvec[r]{1 \\ 1 \\ 0}\not\in Q
+          \end{equation*}
+        \partsitem 它对加法不封闭。
+          \begin{equation*}
+            \begin{mat}[r]
+              0  &1  \\
+              0  &0
+            \end{mat},
+            \,
+            \begin{mat}[r]
+              1  &1  \\
+              0  &0
+            \end{mat}\in Q
+            \qquad
+            \begin{mat}[r]
+              1  &2  \\
+              0  &0
+            \end{mat}\not\in Q
+          \end{equation*}
+        \partsitem 它对标量乘法不封闭。
+          \begin{equation*}
+            1+1x+1x^2\in Q
+            \qquad
+            -1\cdot(1+1x+1x^2)\not\in Q
+          \end{equation*}
+        \item 它是空集，违反条件~(4)。
+      \end{exparts}
+    \end{answer}
+  \item
+    定义加法与标量乘法运算，
+    使复数成为 \( \Re \) 上的向量空间。
+    \begin{answer}
+      通常的运算
+      \( (v_0+v_1i)+(w_0+w_1i)=(v_0+w_0)+(v_1+w_1)i \) 与
+      \( r(v_0+v_1i)=(rv_0)+(rv_1)i \) 即可满足要求。
+      检查很容易。
+    \end{answer}
+  \item
+    在通常的加法与标量乘法
+    运算下，有理数集是 \( \Re \) 上的向量空间吗？
+    \begin{answer}
+       不是，它对标量乘法不封闭，因为例如
+       \( \pi\cdot (1) \) 不是有理数。
+    \end{answer}
+  \item
+    证明
+    变量 \( x,y,z \) 的线性组合构成的集合
+    在自然的加法与标量乘法
+    运算下是向量空间。
+    \begin{answer}
+      自然运算是
+      \( (v_1x+v_2y+v_3z)+(w_1x+w_2y+w_3z)=(v_1+w_1)x+(v_2+w_2)y+(v_3+w_3)z \)
+      与 \( r\cdot(v_1x+v_2y+v_3z)=(rv_1)x+(rv_2)y+(rv_3)z \)。
+      检查它是向量空间很容易；以
+      \nearbyexample{ex:RealVecSpaces} 作为指导。
+    \end{answer}
+  \item
+    证明
+    这不是向量空间：实元素的
+    二行列向量的集合，其运算如下。
+    \begin{equation*}
+      \colvec{x_1 \\ y_1}
+      +\colvec{x_2 \\ y_2}
+      =\colvec{x_1-x_2 \\ y_1-y_2}
+      \qquad
+      r\cdot\colvec{x \\ y}
+      =\colvec{rx \\ ry}
+    \end{equation*}
+    \begin{answer}
+      “\( + \)” 运算不可交换（即条件~(2) 不
+      满足）；很容易找出该集合的两个成员来
+      证实这一断言。
+    \end{answer}
+  \item
+    证明或反驳：\( \Re^3 \) 在下列
+    运算下是向量空间。
+    \begin{exparts}
+      \partsitem \(
+               \colvec{x_1 \\ y_1 \\ z_1}
+               +\colvec{x_2 \\ y_2 \\ z_2}
+               =\colvec{0 \\ 0 \\ 0}
+               \quad\text{且}\quad
+               r\colvec{x \\ y \\ z}
+               =\colvec{rx \\ ry \\ rz} \)
+      \partsitem \(
+               \colvec{x_1 \\ y_1 \\ z_1}
+               +\colvec{x_2 \\ y_2 \\ z_2}
+               =\colvec{0 \\ 0 \\ 0}
+               \quad\text{且}\quad
+               r\colvec{x \\ y \\ z}
+               =\colvec{0 \\ 0 \\ 0} \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 它不是向量空间。
+          \begin{equation*}
+            (1+1)\cdot\colvec[r]{1 \\ 0 \\ 0}\neq
+            \colvec[r]{1 \\ 0 \\ 0}
+            +\colvec[r]{1 \\ 0 \\ 0}
+          \end{equation*}
+        \partsitem 它不是向量空间。
+          \begin{equation*}
+            1\cdot\colvec[r]{1 \\ 0 \\ 0}\neq\colvec[r]{1 \\ 0 \\ 0}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    对每一小题，判断它是否为向量空间；
+    所指的运算是自然的那些。
+    \begin{exparts}
+      \partsitem \definend{对角} \( \nbyn{2} \) 矩阵
+        \begin{equation*}
+          \set{\begin{mat}
+            a  &0  \\
+            0  &b
+          \end{mat}\suchthat a,b\in\Re}
+        \end{equation*}
+      \partsitem 这个 \( \nbyn{2} \) 矩阵集合
+        \begin{equation*}
+          \set{\begin{mat}
+            x    &x+y  \\
+            x+y  &y
+          \end{mat}\suchthat x,y\in\Re}
+        \end{equation*}
+      \partsitem 这个集合
+        \begin{equation*}
+          \set{\colvec{x \\ y \\ z \\ w}\in\Re^4
+               \suchthat x+y+z+w=1}
+        \end{equation*}
+      \partsitem 函数的集合
+        \( \set{\map{f}{\Re}{\Re}\suchthat df/dx+2f=0} \)
+      \partsitem 函数的集合
+        \( \set{\map{f}{\Re}{\Re}\suchthat df/dx+2f=1} \)
+    \end{exparts}
+    \begin{answer}
+      对每个“是”的答案，只需在该空间中检查几个
+      线性组合即可。
+      对每个“否”的答案，给出其中一个
+      条件不成立的具体例子。
+      \begin{exparts}
+        \partsitem 是。
+          随手取的一个线性组合如下。
+          \begin{equation*}
+            2\cdot\begin{mat}
+              3  &0 \\
+              0  &4
+            \end{mat}
+            +5\cdot\begin{mat}
+              6  &0 \\
+              0  &7
+            \end{mat}
+          \end{equation*}
+          这个集合成为向量空间的关键在于：
+          结果是对角矩阵。
+          \begin{equation*}
+            =\begin{mat}
+              36 &0 \\
+              0  &43
+            \end{mat}
+          \end{equation*}
+        \partsitem 是。
+          线性组合如下。
+          \begin{equation*}
+            10\cdot\begin{mat}
+              1  &3  \\
+              3  &2
+            \end{mat}
+            +11\cdot\begin{mat}
+              3  &7  \\
+              7  &4
+            \end{mat}
+          \end{equation*}
+          我们看到结果保持了如下形式：左上
+          与右下元素相加得到右上元素，
+          同时也得到左下元素。
+          \begin{equation*}
+            =\begin{mat}
+               43  &107  \\
+              107  &64
+            \end{mat}
+          \end{equation*}
+        \partsitem 否，这个集合对自然加法
+          运算不封闭。
+          全部分量都是 $1/4$ 的向量是这个集合的成员，
+          但它自加所得的结果，即
+          全部分量都是 $1/2$ 的向量，不是成员。
+        \partsitem 是。
+        \partsitem 否，\( f(x)=e^{-2x}+(1/2) \) 在集合中，
+           但 \( 2\cdot f \) 不在（即条件~(6) 不成立）。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    证明或反驳：这是一个向量空间——满足 \( f(7)=0 \) 的
+    单实变量实值函数 \( f \) 构成的集合。
+    \begin{answer}
+      它是向量空间。
+      向量空间定义中的大多数条件的验证都是常规的；这里我们
+      只检查封闭性。
+      对于加法，
+      \( (f_1+f_2)\,(7)=f_1(7)+f_2(7)=0+0=0 \)。
+      对于标量乘法，
+      \( (r\cdot f)\,(7)=rf(7)=r0=0 \)。
+    \end{answer}
+  \recommended \item
+    证明：正实数集 \( \Re^+ \)
+    是向量空间，其中我们把 “\( x+y \)” 解释为
+    \( x \) 与 \( y \) 的乘积（于是 \( 2+3 \) 为 \( 6 \)），
+    把 “\( r\cdot x \)” 解释为 \( x \) 的 \( r \) 次幂。
+    \begin{answer}
+      我们逐条检查 \nearbydefinition{def:VecSpace}。
+
+      首先，对`\( + \)'封闭
+      成立，因为两个正实数之积是
+      正实数。
+      第二个条件满足，因为实数乘法可交换。
+      类似地，由于实数乘法可结合，第三条也成立。
+      对于第四个条件，注意用
+      \( 1\in\Re^+ \)中的数去乘一个数不会改变它。
+      第五，任何正实数都有一个倒数，它是正实数。
+
+      第六条，对`\( \cdot \)'封闭， 
+      成立是因为正实数的任意次幂仍是
+      正实数。
+      第七个条件就是\( v^{r+s} \)等于
+      \( v^r \)与\( v^s \)之积这条法则。
+      第八个条件说\( (vw)^r=v^rw^r \)。
+      第九个条件断言\( (v^r)^s=v^{rs} \)。
+      最后一个条件说\( v^1=v \)。  
+    \end{answer}
+  \item 
+      \( \set{(x,y)\suchthat x,y\in\Re} \)在这些
+      运算下是向量空间吗？
+      \begin{exparts}
+        \partsitem \( (x_1,y_1)+(x_2,y_2)=(x_1+x_2,y_1+y_2) \)
+        以及\( r\cdot (x,y)=(rx,y) \)
+        \partsitem \( (x_1,y_1)+(x_2,y_2)=(x_1+x_2,y_1+y_2) \)
+        以及\( r\cdot (x,y)=(rx,0) \)
+      \end{exparts}
+      \begin{answer}
+        \begin{exparts}
+           \partsitem 不是：\( 1\cdot(0,1)+1\cdot(0,1)\neq (1+1)\cdot(0,1) \)。
+           \partsitem 不是；与前一答案相同的计算表明，向量空间定义中的
+              一个条件被违反了。 
+              违反向空间条件的另一个例子是
+              \( 1\cdot (0,1)\neq (0,1) \)。 
+        \end{exparts}  
+      \end{answer}
+  \item 
+    证明或否证：这是
+    一个向量空间——次数大于或等于二的多项式
+    连同零多项式构成的集合。
+    \begin{answer}
+      它不是向量空间，因为它对加法不封闭，例如
+      \( (x^2)+(1+x-x^2) \)不在此集合中。  
+    \end{answer}
+  \item 
+    此时“相同”还只是一种
+    直观，但尽管如此，请对每个向量空间指出使得
+    该空间与\( \Re^k \)“相同”的\( k \)。
+    \begin{exparts}
+      \partsitem 通常运算下的\( \nbym{2}{3} \)矩阵
+      \partsitem \( \nbym{n}{m} \)矩阵（在它们通常的运算下）
+      \partsitem \( \nbyn{2} \)矩阵的这个集合
+        \begin{equation*}
+          \set{\begin{mat}
+            a  &0  \\
+            b  &c
+          \end{mat} \suchthat a,b,c\in\Re}
+        \end{equation*}
+      \partsitem \( \nbyn{2} \)矩阵的这个集合
+        \begin{equation*}
+          \set{\begin{mat}
+            a  &0  \\
+            b  &c
+          \end{mat} \suchthat a+b+c=0}
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \( 6 \)
+        \partsitem \( nm \)
+        \partsitem \( 3 \)
+        \partsitem 为看出答案是\( 2 \)，把它改写为
+        \begin{equation*}
+          \set{\begin{mat}
+            a  &0  \\
+            b  &-a-b
+          \end{mat} \suchthat a,b\in\Re}
+        \end{equation*}
+        可见其中有两个参数。
+      \end{exparts}  
+     \end{answer}
+  \item 
+    用\( \vec{+} \)表示向量加法、
+    用\( \,\vec{\cdot}\, \)表示标量乘法，
+    重新表述向量空间的定义。
+    \begin{answer}
+      {
+      \def\plus{\mathbin{\vec{+}}}
+      \def\tim{\mathbin{\vec{\cdot}}}
+        \definend{向量空间}\index{vector space!definition}
+        （\( \Re \)上的）由一个集合\( V \)连同两个运算`\( \plus \)'与
+        `\( \tim \)'组成，满足以下条件。
+        当\( \vec{v},\vec{w}\in V \)时， 
+        (1)~它们的\definend{向量和}
+          \( \vec{v}\plus\vec{w} \)是\( V \)中的一个元素。
+        若\( \vec{u},\vec{v},\vec{w}\in V \)，则 
+        (2)~\( \vec{v}\plus\vec{w}=\vec{w}\plus\vec{v} \)且 
+        (3)~\( (\vec{v}\plus\vec{w})\plus\vec{u}
+                 =\vec{v}\plus(\vec{w}\plus\vec{u}) \)。
+        (4)~存在一个\definend{零向量}
+          \( \zero\in V \)，使得
+          对所有\( \vec{v}\in V\)都有\( \vec{v}\plus\zero=\vec{v}\, \)。
+        (5)~每个\( \vec{v}\in V \)都有一个
+          \definend{加法逆元}
+          \( \vec{w}\in V \)，使得\( \vec{w}\plus\vec{v}=\zero \)。
+        若\( r,s \)是\definend{标量\/}
+        （即\( \Re \)的成员），
+        且\( \vec{v},\vec{w}\in V \)，则 
+        (6)~每个
+           \definend{标量倍数}
+           \( r\cdot\vec{v} \)都在\( V \)中。
+        若\( r,s\in\Re \)且\( \vec{v},\vec{w}\in V \)，则
+        (7)~\( (r+ s)\cdot\vec{v}=r\cdot\vec{v}\plus s\cdot\vec{v} \)， 
+        以及(8)~\( r\tim (\vec{v}+\vec{w})
+           =r\tim\vec{v}+r\tim\vec{w} \)，
+        以及(9)~\( (rs)\tim \vec{v} =r\tim (s\tim\vec{v}) \)，
+        以及(10)~\( 1\tim \vec{v}=\vec{v} \)。
+     }
+    \end{answer}
+  \item 
+    证明这些结论。
+    \begin{exparts}
+      \partsitem 对任意$\vec{v}\in V$，若$\vec{w}\in V$是$\vec{v}$的加法 
+        逆元，则$\vec{v}$是
+        $\vec{w}$的加法逆元。
+        因此，一个向量是它自己的任意一个加法逆元的加法逆元。
+      \partsitem 向量加法可从左边消去：~若 
+        \( \vec{v},\vec{s},\vec{t}\in V \)，
+        则\( \vec{v}+\vec{s}=\vec{v}+\vec{t}\, \)蕴涵
+        \( \vec{s}=\vec{t} \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 设\( V \)是向量空间， 
+          设\( \vec{v}\in V \)，并
+          假设\( \vec{w}\in V \)是$\vec{v}$的加法逆元，
+          于是\( \vec{w}+\vec{v}=\zero \)。
+          因为加法可交换，
+          \( \zero=\vec{w}+\vec{v}=\vec{v}+\vec{w} \)，
+          所以\( \vec{v} \)也是 
+          \( \vec{w} \)的加法逆元。
+        \partsitem 设\( V \)是向量空间且设
+          \( \vec{v},\vec{s},\vec{t}\in V \)。
+          \( \vec{v} \)的加法逆元是\( -\vec{v} \)，于是
+          \( \vec{v}+\vec{s}=\vec{v}+\vec{t} \)给出
+          \( -\vec{v}+\vec{v}+\vec{s}=-\vec{v}+\vec{v}+\vec{t} \)，
+          即\( \zero+\vec{s}=\zero+\vec{t} \)，从而
+          \( \vec{s}=\vec{t} \)。
+      \end{exparts}  
+     \end{answer}
+  \item 
+    向量空间的定义并未明确说出
+    \( \zero+\vec{v}=\vec{v} \) 
+    （它说的是\( \vec{v}+\zero=\vec{v} \)）。
+    证明它在任何向量空间中仍必成立。
+    \begin{answer}
+      加法可交换，所以在任何向量空间中，
+      对任意向量\( \vec{v} \)我们有
+      \( \vec{v}=\vec{v}+\zero=\zero+\vec{v} \)。  
+    \end{answer}
+  \recommended \item
+    证明或否证：这是
+    一个向量空间——通常运算下的全体矩阵之集。
+    \begin{answer}
+      它不是向量空间，因为尺寸不同的两个矩阵相加没有定义，
+      因而该集合不满足封闭性
+      条件。
+    \end{answer}
+  \item 
+    向量空间中每个元素都有一个加法逆元。
+    某些元素能否有两个或更多个？
+    \begin{answer}
+      向量空间中每个元素有且只有一个加法
+      逆元。
+
+      设\( V \)是向量空间且设\( \vec{v}\in V \)。
+      若\( \vec{w}_1,\vec{w}_2\in V \)都是
+      \( \vec{v} \)的加法逆元，则考虑\( \vec{w}_1+\vec{v}+\vec{w}_2 \)。
+      一方面，我们有它等于$\vec{w}_1+(\vec{v}+\vec{w}_2)=
+      \vec{w}_1+\zero=\vec{w}_1$。
+      另一方面，我们有它等于$(\vec{w}_1+\vec{v})+\vec{w}_2=
+      \zero+\vec{w}_2=\vec{w}_2$。
+      因此$\vec{w}_1=\vec{w}_2$。
+    \end{answer}
+  \item 
+    \begin{exparts}
+      \partsitem 证明\( \Re^3 \)中每个过原点的点、直线或平面 
+         在继承的运算下是向量空间。
+      \partsitem 若它不包含原点呢？
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+      \partsitem 每个这样的集合都具有形式
+        \( \set{r\cdot\vec{v}+s\cdot\vec{w}\suchthat r,s\in\Re} \)，
+        其中\( \vec{v},\vec{w} \)之一或两者可以是\( \zero \)。
+        在继承的运算下，加法的封闭性
+        \( (r_1\vec{v}+s_1\vec{w})+(r_2\vec{v}+s_2\vec{w})
+           =(r_1+r_2)\vec{v}+(s_1+s_2)\vec{w} \)
+        与标量乘法的封闭性
+        \( c(r\vec{v}+s\vec{w})=(cr)\vec{v}+(cs)\vec{w} \)
+        是容易的。
+        其他条件也是常规的。
+      \partsitem 这样的集合在继承的
+        运算下不能是向量空间，因为它没有零元素。
+     \end{exparts}  
+    \end{answer}
+  \item 
+    利用向量空间的想法，我们可以轻松地重新证明
+    齐次线性方程组的解集要么
+    有一个元素，要么有无穷多个元素。 
+    设\( \vec{v}\in V \)不是\( \zero \)。
+    \begin{exparts}
+      \partsitem 证明\( r\cdot\vec{v}=\zero \)当且仅当\( r=0 \)。
+      \partsitem 证明\( r_1\cdot\vec{v}=r_2\cdot\vec{v} \)
+      当且仅当\( r_1=r_2 \)。
+      \partsitem 证明任何非平凡的向量空间都是无限的。
+      \partsitem 利用齐次线性方程组的非空解集是向量空间这一事实
+        来得出结论。
+    \end{exparts}
+    \begin{answer}
+      设\( \vec{v}\in V \)不是\( \zero \)。
+      \begin{exparts}
+        \partsitem 当且仅当的一个方向是清楚的：~若$r=0$，
+          则$r\cdot\vec{v}=\zero$。
+          另一个方向，设\( r \)是非零标量。
+          若\( r\vec{v}=\zero \)，则
+          \( (1/r)\cdot r\vec{v}=(1/r)\cdot \zero \)表明
+          $\vec{v}=\zero$，与假设矛盾。
+        \partsitem 当\( r_1,r_2 \)是标量时， 
+          \( r_1\vec{v}=r_2\vec{v}\, \)
+          成立当且仅当\( (r_1-r_2)\vec{v}=\zero \)。
+          由前一项，于是\( r_1-r_2=0 \)。
+        \partsitem 非平凡空间有向量 
+          \( \vec{v}\neq\zero \)。
+          考虑集合\( \set{k\cdot\vec{v}\suchthat k\in\Re} \)。
+          由前一项，这个集合是无限的。
+        \partsitem 解集要么是平凡的，要么是非平凡的。
+          在第二种情形，它是无限的。   
+     \end{exparts}  
+    \end{answer}
+  \item 
+    在自然运算下这是向量空间吗：一个实变量的
+    可微实值函数之集？
+    \begin{answer}
+      是。
+      第一学期微积分的一个定理说，可微函数之和可微，且
+      \( (f+g)^\prime=f^\prime+g^\prime \)；还说 
+      可微函数的倍数
+      可微，且\( (r\cdot f)^\prime=r\,f^\prime \)。 
+    \end{answer}
+  \item 
+    \definend{复数上的向量空间}\index{vector space!complex scalars}%
+    \index{complex numbers!vector space over}
+    $\C$的定义
+    与实数上的向量空间相同，只是标量取自
+    \( \C \)而非\( \Re \)。
+    证明下列每一个都是复数上的向量空间。
+    （回忆复数如何相加与相乘：
+    \( (a_0+a_1i)+(b_0+b_1i)=(a_0+b_0)+(a_1+b_1)i \)以及
+    \( (a_0+a_1i)(b_0+b_1i)=(a_0b_0-a_1b_1)+(a_0b_1+a_1b_0)i \)。）
+    \begin{exparts}
+      \partsitem 系数为复数的二次多项式之集
+      \partsitem 这个集合
+        \begin{equation*}
+          \set{\begin{mat}
+                 0  &a  \\
+                 b  &0
+               \end{mat}\suchthat a,b\in\C\text{\ 且\ }
+                               a+b=0+0i }
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      这个验证是常规的。
+      注意`\( 1 \)'是\( 1+0i \)，零元素是下面这些。
+      \begin{exparts}
+        \partsitem \( (0+0i)+(0+0i)x+(0+0i)x^2 \)
+        \partsitem \( \begin{mat}
+                   0+0i  &0+0i  \\
+                   0+0i  &0+0i
+                 \end{mat} \)
+      \end{exparts}  
+    \end{answer}
+  \item 
+    指出所有\( \Re^n \)共有、
+    但未被列为
+    向量空间要求的一条性质。
+    \begin{answer}
+      向量空间的定义中显著缺失的
+      是距离的度量。  
+    \end{answer}
+  \item 
+    \begin{exparts}
+      \partsitem 证明对任意四个向量
+        \( \vec{v}_1,\ldots,\vec{v}_4\in V \)，我们可以
+        以任何方式结合它们的和而不改变结果。
+        \begin{multline*}
+          ((\vec{v}_1+\vec{v}_2)+\vec{v}_3)+\vec{v}_4
+          =(\vec{v}_1+(\vec{v}_2+\vec{v}_3))+\vec{v}_4  
+          =(\vec{v}_1+\vec{v}_2)+(\vec{v}_3+\vec{v}_4)  \\
+          =\vec{v}_1+((\vec{v}_2+\vec{v}_3)+\vec{v}_4)  
+          =\vec{v}_1+(\vec{v}_2+(\vec{v}_3+\vec{v}_4))
+        \end{multline*}
+        这使我们可以写成
+        `\( \vec{v}_1+\vec{v}_2+\vec{v}_3+\vec{v}_4 \)'而无歧义。
+      \partsitem 证明对任意多个向量的和，任何两种结合方式
+        给出相同的和。
+        （\textit{提示。}  对向量的个数使用归纳法。）
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 小小的重新排列即可奏效。
+          \begin{align*}
+            (\vec{v}_1+(\vec{v}_2+\vec{v}_3))+\vec{v}_4
+            &=((\vec{v}_1+\vec{v}_2)+\vec{v}_3)+\vec{v}_4  \\
+            &=(\vec{v}_1+\vec{v}_2)+(\vec{v}_3+\vec{v}_4)  \\
+            &=\vec{v}_1+(\vec{v}_2+(\vec{v}_3+\vec{v}_4))  \\
+            &=\vec{v}_1+((\vec{v}_2+\vec{v}_3)+\vec{v}_4)
+          \end{align*}
+          上面每个等号都来自三个向量的结合性，
+          它作为一条条件写在向量空间的定义中。
+          例如，第二个`$=$'应用法则
+          $(\vec{w}_1+\vec{w}_2)+\vec{w}_3=\vec{w}_1+(\vec{w}_2+\vec{w}_3)$，
+          取$\vec{w}_1$为$\vec{v}_1+\vec{v}_2$， 
+          取$\vec{w}_2$为$\vec{v}_3$，
+          取$\vec{w}_3$为$\vec{v}_4$。 
+        \partsitem 归纳的基础是三个向量的情形。
+          这一情形
+          \( \vec{v}_1+(\vec{v}_2+\vec{v}_3)
+          =(\vec{v}_1+\vec{v}_2)+\vec{v}_3 \)
+          是向量空间定义中的条件之一。
+
+          归纳步骤：假设三个向量的任意两个和、
+          四个向量的任意两个和、
+          \ldots、$k$个向量的任意两个和， 
+          无论我们如何给这些和加括号都相等。
+          我们将证明任意\( k+1 \)个向量的和都等于这一个
+          \( ((\cdots((\vec{v}_1+\vec{v}_2)+\vec{v}_3)+\cdots)+\vec{v}_k)
+              +\vec{v}_{k+1} \)。
+
+          任何加了括号的和都有一个最外层的`\( + \)'。
+          设它位于\( \vec{v}_m \)与\( \vec{v}_{m+1} \)之间，
+          于是这个和看起来像这样。
+          \begin{equation*}
+            (\cdots\,\vec{v}_1\cdots\vec{v}_m\,\cdots)
+           +(\cdots\,\vec{v}_{m+1}\cdots\vec{v}_{k+1}\,\cdots)
+          \end{equation*}
+          后一半涉及的加法少于$k+1$次，所以
+          由归纳假设我们可以重新加括号，
+          使得它从里到外自左向右读，特别地，
+          使得其最外层的`$+$'恰好出现在 
+          $\vec{v}_{k+1}$之前。
+          \begin{equation*}
+            =(\cdots\,\vec{v}_1\,\cdots\,\vec{v}_m\,\cdots)
+             +((\cdots(\vec{v}_{m+1}+\vec{v}_{m+2})+\cdots+\vec{v}_{k})
+                 +\vec{v}_{k+1})
+          \end{equation*}
+          应用三个对象之和的结合性
+          \begin{equation*}
+            =((\,\cdots\, \vec{v}_1\,\cdots\,\vec{v}_m\,\cdots\,)
+             +(\,\cdots\,(\vec{v}_{m+1}+\vec{v}_{m+2})+\cdots\,\vec{v}_k))
+             +\vec{v}_{k+1}
+          \end{equation*}
+          最后在这些最外层括号的内部应用归纳假设，即完成证明。
+      \end{exparts}  
+    \end{answer}
+  \item \nearbyexample{ex:ColsIntEntNotVS}给出$\Re^2$的一个子集，
+   在显然的运算下它不是向量空间，因为
+   虽然它对加法封闭，却对标量
+   乘法不封闭。
+   考虑平面上分量同号或为~$0$的向量组成的集合。
+   证明这个集合对标量乘法封闭但对 
+   加法不封闭。
+   \begin{answer}
+     设$\vec{v}$是$\Re^2$的成员，分量为$v_1$与$v_2$。
+     两个分量同号或为~$0$这一条件可以缩写
+     为$v_1v_2\geq 0$。
+
+     为证这个集合对标量乘法封闭，注意
+     $r\vec{v}$的分量满足$(rv_1)(rv_2)=r^2(v_1v_2)$，
+     且$r^2\geq 0$，所以$r^2v_1v_2\geq 0$。
+
+     为证这个集合对加法不封闭，我们只需给出一个
+     例子。  
+     分量为$-1$与~$0$的向量加到
+     分量为$0$与~$1$的向量上，得到一个分量为$-1$与~$1$、
+     符号混合的向量。
+   \end{answer}
+  % \item 
+  %   For any vector space, a subset that is itself a vector space
+  %   under the inherited operations
+  %   (e.g., a plane through the origin inside of \( \Re^3 \))
+  %   is a \definend{subspace}.
+  %   \begin{exparts}
+  %     \partsitem Show that \( \set{a_0+a_1x+a_2x^2\suchthat a_0+a_1+a_2=0} \)
+  %       is a subspace of the vector space of degree~two polynomials.
+  %     \partsitem Show that this is a subspace of the \( \nbyn{2} \) matrices.
+  %       \begin{equation*}
+  %         \set{\begin{mat}
+  %                a  &b  \\
+  %                c  &0
+  %              \end{mat} \suchthat a+b=0}
+  %       \end{equation*}
+  %     \partsitem Show that a nonempty subset \( S \) of a real vector
+  %       space is a
+  %       subspace if and only if it is closed under linear combinations of
+  %       pairs of vectors: whenever \( c_1,c_2\in\Re \) and
+  %       \( \vec{s}_1,\vec{s}_2\in S \) then the combination
+  %       \( c_1\vec{v}_1+c_2\vec{v}_2 \) is in \( S \).
+  %   \end{exparts}
+  %   \begin{answer}
+  %     \begin{exparts}
+  %       \partsitem We outline the check of the conditions from
+  %         \nearbydefinition{def:VecSpace}.
+
+  %         Additive closure holds because if \( a_0+a_1+a_2=0 \)
+  %         and \( b_0+b_1+b_2=0 \) then
+  %         \begin{equation*}
+  %           (a_0+a_1x+a_2x^2)+(b_0+b_1x+b_2x^2)=
+  %           (a_0+b_0)+(a_1+b_1)x+(a_2+b_2)x^2
+  %         \end{equation*}
+  %         is in the set since
+  %         \( (a_0+b_0)+(a_1+b_1)+(a_2+b_2)=(a_0+a_1+a_2)+(b_0+b_1+b_2) \)
+  %         is zero.
+  %         The second through fifth conditions are easy.
+
+  %         Closure under scalar multiplication holds because
+  %         if \( a_0+a_1+a_2=0 \) then
+  %         \begin{equation*}
+  %           r\cdot(a_0+a_1x+a_2x^2)=
+  %           (ra_0)+(ra_1)x+(ra_2)x^2
+  %         \end{equation*}
+  %         is in the set as \( ra_0+ra_1+ra_2=r(a_0+a_1+a_2) \) is zero.
+  %         The remaining conditions here are also easy.
+  %       \partsitem This is similar to the prior answer.
+  %       \partsitem Call the vector space \( V \).
+  %         We have two implications: left to right, if \( S \) is a subspace
+  %         then it is closed under linear combinations of pairs of vectors and,
+  %         right to left, if a nonempty subset is closed under linear
+  %         combinations of pairs of vectors then it is a subspace.
+  %         The left to right implication is easy; we here sketch the
+  %         other one by
+  %         assuming \( S \) is nonempty and closed, and checking the conditions
+  %         of \nearbydefinition{def:VecSpace}.
+
+  %         First, to show closure under addition, if
+  %         \( \vec{s}_1,\vec{s}_2\in S \) then \( \vec{s}_1+\vec{s}_2\in S \)
+  %         as \( \vec{s}_1+\vec{s}_2=1\cdot\vec{s}_1+1\cdot\vec{s}_2 \).
+  %         Second, for any \( \vec{s}_1,\vec{s}_2\in S \), because addition
+  %         is inherited from \( V \), the sum \( \vec{s}_1+\vec{s}_2 \)
+  %         in \( S \) equals the sum \( \vec{s}_1+\vec{s}_2 \)
+  %         in \( V \) and that equals the sum \( \vec{s}_2+\vec{s}_1 \) in
+  %         \( V \) and that in turn equals the sum \( \vec{s}_2+\vec{s}_1 \) in
+  %         \( S \).
+  %         The argument for the third condition is similar to that for the
+  %         second.
+  %         For the fourth, suppose that 
+  %         \( \vec{s} \) is in the nonempty set \( S \)
+  %         and note that \( 0\cdot\vec{s}=\zero\in S \); showing that 
+  %         the \( \zero \) of
+  %         \( V \) acts under the inherited operations as the additive identity
+  %         of \( S \) is easy.
+  %         The fifth condition is satisfied because for any \( \vec{s}\in S \)
+  %         closure under linear combinations shows that the vector
+  %         \( 0\cdot\zero+(-1)\cdot\vec{s} \) is in \( S \); showing 
+  %         that it is the
+  %         additive inverse of \( \vec{s} \) under the inherited operations is
+  %         routine.
+
+  %         The proofs for the remaining conditions are similar.
+  %     \end{exparts}  
+  %   \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+\subsection{子空间与张成集}
+\index{subspace|(}
+在\nearbyexample{PlaneThruOriginSubsp}中，我们见到了一个向量空间，它是 $\Re^2$ 的一个子集：一条过原点的直线。
+在那里，向量空间 $\Re^2$ 的内部还包含着另一个
+向量空间，即这条直线。
+
+\begin{definition} \label{df:Subspace}
+%<*df:Subspace>
+对于任意向量空间，
+\definend{子空间}\index{vector space!subspace}\index{subspace!definition}
+是指在继承的运算之下，其本身也是一个向量空间的子集。
+%</df:Subspace>
+\end{definition}
+
+\begin{example}  \label{ex:PlaneSubspRThree}
+这个过原点的平面
+\begin{equation*}
+  P=\set{\colvec{x \\ y \\ z}\suchthat x+y+z=0}
+\end{equation*}
+是 \( \Re^3 \) 的一个子空间。
+正如定义所要求的，
+该平面的运算继承自更大的空间，
+也就是说，
+向量在 $P$ 中的加法与在 $\Re^3$ 中的加法一样
+\begin{equation*}
+   \colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2}
+   =\colvec{x_1+x_2 \\ y_1+y_2 \\ z_1+z_2}
+\end{equation*}
+且标量乘法也与 $\Re^3$ 中的相同。
+为证明 $P$ 是子空间，我们只需注意它是一个子集，
+然后验证它是一个空间。
+我们不必检验全部十个条件，只检验两个封闭性条件。
+关于对加法封闭，注意若
+两个加项分别满足
+$x_1+y_1+z_1=0$ 与 $x_2+y_2+z_2=0$，则其和满足
+$(x_1+x_2)+(y_1+y_2)+(z_1+z_2)=(x_1+y_1+z_1)+(x_2+y_2+z_2)=0$。
+关于对标量乘法封闭，若
+$x+y+z=0$，则其标量倍满足
+$rx+ry+rz=r(x+y+z)=0$。
+\end{example}
+
+\begin{example}   \label{ex:SubspacesRTwo}
+\( \Re^2 \) 中的 \( x \) 轴
+是一个子空间，其中
+加法与标量乘法运算都是
+继承而来的那些运算。
+\begin{equation*}
+  \colvec{x_1 \\ 0}
+    +
+  \colvec{x_2 \\ 0}
+    =
+  \colvec{x_1+x_2 \\ 0}
+  \qquad
+  r\cdot\colvec{x \\ 0}
+  =\colvec{rx \\ 0}
+\end{equation*}
+与前面的例题一样，要从定义直接验证它是子空间，
+我们只需注意它是一个
+子集，然后检验它满足
+向量空间定义中的各个条件。
+例如两个封闭性条件都
+满足：第二个分量为零的两个向量相加，所得向量的第二个分量仍为零；
+标量乘以第二个分量为零的向量，
+所得向量的第二个分量仍为零。
+\end{example}
+
+\begin{example}
+$\Re^2$ 的另一个子空间是
+它的平凡子空间。
+\begin{equation*}
+  \set{\colvec[r]{0 \\ 0}}
+\end{equation*}
+\end{example}
+
+%<*ProperSubspace>
+任何向量空间都有一个平凡子空间
+\( \set{\zero\,} \)。\index{subspace!trivial}%
+\index{trivial subspace}
+与之相反的极端是，任何向量空间都以自身作为自己的一个子空间。
+不是整个空间的子空间称为
+\definend{真}\index{subspace!proper}%
+\index{proper subspace} 子空间。
+%</ProperSubspace>
+
+\begin{example}  \label{ex:LinSubspPolyThree}
+不是 $\Re^n$ 的向量空间也有子空间。
+三次多项式的空间
+\( \set{a+bx+cx^2+dx^3\suchthat a,b,c,d\in\Re} \)
+有一个由全部一次多项式
+\( \set{m+nx\suchthat m,n\in\Re} \)
+组成的子空间。
+\end{example}
+
+\begin{example}
+另一个不是 $\Re^n$ 的子集的子空间的例子出现在向量空间的定义之后。
+\nearbyexample{ex:RealValuedFcns}中全体一元实值函数构成的空间
+\( \set{f\suchthat \map{f}{\Re}{\Re} } \) 含有\nearbyexample{ex:SpaceSatisfyingDiffQ}中满足
+限制 $(d^2\,f/dx^2)+f=0$ 的那些函数组成的子空间。
+\end{example}
+
+\begin{example} \label{ex:OperNotInherit}
+该定义要求
+加法与标量乘法运算
+必须是继承自更大空间的那两种运算。
+集合 \( S=\set{1} \) 是 \( \Re^1 \) 的一个子集。
+而且在运算 $1+1=1$ 与 $r\cdot 1=1$ 之下，
+集合 $S$ 是一个向量空间，确切地说，是一个平凡空间。
+然而 $S$ 不是 \( \Re^1 \) 的子空间，因为那些运算不是
+继承的运算，毕竟 \( \Re^1 \) 中当然有 \( 1+1=2 \)。
+\end{example}
+
+\begin{example}  \label{cex:RPlusNotSubSp}
+子空间本身是向量空间，因此必须满足封闭性
+条件。
+集合 \( \Re^+ \) 不是向量空间 \( \Re^1 \) 的子空间，
+因为在继承的运算下它对标量乘法不封闭：
+若 \( \vec{v}=1 \)，则 \( -1\cdot\vec{v}\not\in\Re^+ \)。
+\end{example}
+
+下面的结果表明，\nearbyexample{cex:RPlusNotSubSp} 是典型的。
+一个子集若非空且使用继承的运算，
+则它不成其为子空间的唯一可能就是不封闭。
+
+\begin{lemma}     \label{th:SubspIffClosed} \index{subspace!closed}
+%<*lm:SubspIffClosed>
+对于向量空间的一个非空子集 \( S \)，在继承的
+运算之下，下列诸命题
+等价。\appendrefs{equivalence of statements}   %\spacefactor=1000
+\begin{tfae}
+  \item \( S \) 是该向量空间的一个子空间
+  \item \( S \) 对两个向量的线性组合封闭：
+    对任意向量 \( \vec{s}_1,\vec{s}_2\in S \) 与标量 \( r_1,r_2 \)，
+    向量 \( r_1\vec{s}_1+r_2\vec{s}_2 \) 属于 \( S \)
+  \item \( S \) 对任意多个向量的线性组合封闭：
+    对任意向量 \( \vec{s}_1,\ldots,\vec{s}_n\in S \) 与标量
+    \( r_1, \ldots,r_n \)，
+    向量 \( r_1\vec{s}_1+\cdots+r_n\vec{s}_n \) 是 \( S \) 的元素。
+\end{tfae}
+%</lm:SubspIffClosed>
+\end{lemma}
+\noindent 简言之，一个子集是
+子空间当且仅当它对线性组合封闭。
+
+\begin{proof}
+%<*pf:SubspIffClosed0>
+“下列诸命题等价”是指每一对
+命题都等价。
+\begin{equation*}
+  (1)\!\iff\!(2)
+  \qquad
+  (2)\!\iff\!(3)
+  \qquad
+  (3)\!\iff\!(1)
+\end{equation*}
+我们将通过确立
+\( (1)\implies (3)\implies (2)\implies (1) \) 来证明这一等价性。
+采取这一策略的理由是如下观察：蕴含关系
+\( (1)\implies (3) \) 与 \( (3)\implies (2) \) 都很容易，于是我们只需
+论证 \( (2)\implies (1) \)。
+%</pf:SubspIffClosed0>
+
+%<*pf:SubspIffClosed1>
+设 \( S \) 是向量空间
+$V$ 的一个非空子集，且对两个向量的组合封闭。
+我们将通过检验各项条件来证明 $S$ 是一个向量空间。
+
+向量空间的定义中有五条关于加法的条件。
+第一，关于对加法封闭，若
+\( \vec{s}_1,\vec{s}_2\in S \)，则 \( \vec{s}_1+\vec{s}_2\in S \)，
+因为它是
+两个向量的组合，
+而我们正假设~\( S \) 对这种组合封闭。
+第二，对任意 \( \vec{s}_1,\vec{s}_2\in S \)，由于加法
+继承自 \( V \)，
+\( S \) 中的和 \( \vec{s}_1+\vec{s}_2 \)
+等于 \( V \) 中的和 \( \vec{s}_1+\vec{s}_2 \)，
+而后者等于
+\( V \) 中的和 \( \vec{s}_2+\vec{s}_1 \)（因为 $V$ 是向量空间，其加法可交换），
+进而后者又等于 \( S \) 中的和 \( \vec{s}_2+\vec{s}_1 \)。
+第三个条件的论证与第二个类似。
+第四，考虑 \( V \) 的零向量，注意
+$S$ 对两个向量的线性组合的封闭性给出：
+\( 0\cdot\vec{s}+0\cdot\vec{s}=\zero \) 是 \( S\) 的元素
+（其中 \( \vec{s} \) 是非空集 \( S \) 的任一成员）；
+容易检验 \( \zero \) 在继承的运算下充当 \( S \) 的加法
+单位元。
+第五个条件满足，因为对任意 \( \vec{s}\in S \)，
+对两个向量的线性组合的封闭性表明
+\( 0\cdot\zero+(-1)\cdot\vec{s} \) 是~\( S \) 的元素，而且它显然是
+\( \vec{s} \) 在继承的运算下的
+加法逆元。
+%</pf:SubspIffClosed1>
+关于标量乘法诸条件的验证类似；
+见\nearbyexercise{exer:SubspIffClosed}。
+\end{proof}
+
+以后我们通常通过检验一个子集
+满足命题~(2) 来验证它是子空间。
+
+\begin{remark}
+在本章开头，我们把向量空间作为线性组合在其中“有意义”的集合加以介绍。
+% The vector space definition has ten conditions but eight of them, the
+% conditions not about closure, simply ensure that referring to the
+% operations by the names `addition' and `scalar multiplication' is sensible.
+% For instance, calling an operation `$+$' would not
+% be odd unless it is commutative, as in condition~(2). 
+% The proof above checks that the subspace satisfies these 
+% eight non-closure conditions because they hold in the
+% surrounding vector space, provided that the nonempty set $S$ satisfies
+% \nearbylemma{th:SubspIffClosed}'s statement~(2) 
+% (e.g., commutativity of addition in $S$ follows right from
+% commutativity of addition in $V$).
+% There is a second way in which we can regard vector spaces as structures in 
+% which linear combinations are ``sensible.''
+% It has to do with the closure conditions.
+\nearbylemma{th:SubspIffClosed} 的诸命题 (1)-(3)
+表明我们总能对形如
+$r_1\vec{s}_1+r_2\vec{s}_2$
+的表达式给出意义，
+也就是说，所描述的向量在集合~$S$ 中。
+
+作为对比，考虑由分量之和不小于零的二元向量组成的集合 $T$。
+在这里我们不能随手写出任意的线性组合如 $2\vec{t}_1-3\vec{t}_2$
+并确信其结果是 $T$ 的元素。
+\end{remark}
+
+\nearbylemma{th:SubspIffClosed} 提示我们，理解向量空间的一种好方式
+是把它看作无限制线性组合的集合。
+接下来的两个例子取一些空间，把对它们的描述改写成这种形式。
+
+\begin{example}
+要证明 $\Re^3$ 的这个过原点的平面子集
+\begin{equation*}
+  S=\set{\colvec{x \\ y \\ z}\suchthat x-2y+z=0}
+\end{equation*}
+在列向量通常的加法与标量乘法
+运算下是子空间，我们可以检验它非空且对
+两个向量的线性组合封闭。
+但还有另一种方法。
+把 $x-2y+z=0$ 看作只含一个方程的线性方程组并加以参数化：
+将首变量用自由变量表示为 $x=2y-z$。
+\begin{equation*}
+     S
+     =\set{\colvec{2y-z \\ y \\ z}\suchthat y,z\in\Re}
+     =\set{y\colvec[r]{2 \\ 1 \\ 0}+
+            z\colvec[r]{-1 \\ 0 \\ 1}\suchthat y,z\in\Re}
+    \tag{$*$}
+\end{equation*}
+现在，为证明它是子空间，考虑
+$r_1\vec{s}_1+r_2\vec{s}_2$。
+每个 $\vec{s}_i$ 都是 ($*$) 中那两个向量的线性组合，
+所以这是一个线性组合的线性组合。
+\begin{equation*}
+  r_1\cdot(y_1\colvec[r]{2 \\ 1 \\ 0}+
+            z_1\colvec[r]{-1 \\ 0 \\ 1})
+  +
+  r_2\cdot(y_2\colvec[r]{2 \\ 1 \\ 0}+
+            z_2\colvec[r]{-1 \\ 0 \\ 1})
+\end{equation*}
+线性组合引理（Lemma~One.III.\ref{lm:LinearCombinationLemma}）
+表明总和是那两个向量的线性组合，
+于是 \nearbylemma{th:SubspIffClosed} 的命题~(2) 得到满足。
+\end{example}
+
+\begin{example} \label{ex:ParamSubspace}
+这是全体 \( \nbyn{2} \) 矩阵的空间 $\matspace_{\nbyn{2}}$ 的一个子空间。
+\begin{equation*}
+  L=\set{\begin{mat}
+         a  &0  \\
+         b  &c
+       \end{mat}
+       \suchthat a+b+c=0}
+\end{equation*}
+为参数化，把条件写成 $a=-b-c$。
+\begin{equation*}
+  L
+  =\set{\begin{mat}
+         -b-c  &0  \\
+         b     &c
+       \end{mat}
+       \suchthat b,c\in\Re}
+  =\set{b\begin{mat}[r]
+         -1    &0  \\
+         1     &0
+       \end{mat}
+       +c\begin{mat}[r]
+         -1    &0  \\
+         0     &1
+       \end{mat}
+       \suchthat b,c\in\Re}
+\end{equation*}
+如上所述，我们已把这个子空间描述为无限制线性
+组合的集合。
+为证明它是子空间，注意来自
+$L$ 的向量的线性组合是线性组合的线性组合，因此命题~(2)
+成立。
+\end{example}
+
+% Parametrization is easy, but important.
+% We shall use it often.
+
+\begin{definition} \label{df:Span}
+%<*df:Span>
+向量空间的一个非空子集 \( S \) 的\definend{张成}\index{span}\index{sets!span of}\index{closure}（或称
+\definend{线性闭包}）是由 \( S \) 中向量的一切线性组合组成的集合。
+\begin{equation*}
+  \spanof{S} =\{ c_1\vec{s}_1+\cdots+c_n\vec{s}_n
+            \suchthat c_1,\ldots, c_n\in\Re
+            \text{\ 且\ } \vec{s}_1,\ldots,\vec{s}_n\in S \}
+\end{equation*}
+向量空间的空子集的张成是它的平凡子空间。
+%</df:Span>
+\end{definition}
+
+%<*NotationForSpan>
+\noindent 关于张成的记号没有完全标准的。
+这里用的方括号很常见，
+“$\mbox{span}(S)$” 与 “$\mbox{sp}(S)$” 也很常用。
+%</NotationForSpan>
+
+\begin{remark}
+在第一章，当我们证明了可以把齐次线性方程组的解
+集写成
+$\set{c_1\vec{\beta}_1+\cdots+c_k\vec{\beta}_k\suchthat
+  c_1,\ldots,c_k\in\Re}$
+之后，我们把它描述为由诸 $\smash{\vec{\beta}}$ “生成”的集合。
+现在我们称它为
+$\set{\vec{\beta}_1,\ldots,\vec{\beta}_k}$ 的张成。
+
+也应从那个证明中回忆起：
+空集的张成定义为集合 \( \set{\zero} \)，
+这是出于这样一个约定：平凡的线性组合，即零个向量的组合，其和为~\( \zero \)。
+此外，把空集的张成定义为平凡子空间
+也很方便，因为它使得像下一个结果那样的定理
+无需为空集另立例外。
+\end{remark}
+
+\begin{lemma}   \label{le:SpanIsASubsp}
+%<*lm:SpanIsASubsp>
+在向量空间中，任何子集的张成都是子空间。
+%</lm:SpanIsASubsp>
+\end{lemma}
+
+\begin{proof}
+%<*pf:SpanIsASubsp>
+若子集 \( S \)
+为空，则按定义其张成是平凡
+子空间。
+若 \( S\) 非空，则由\nearbylemma{th:SubspIffClosed}，我们
+只需检验张成 \( \spanof{S} \) 对两个元素的线性组合封闭。
+取该张成中的一对向量，
+\( \vec{v}=c_1\vec{s}_1+\cdots+c_n\vec{s}_n \) 与
+\( \vec{w}=c_{n+1}\vec{s}_{n+1}+\cdots+c_m\vec{s}_m \)，
+则线性组合
+\begin{multline*}
+  p\cdot(c_1\vec{s}_1+\cdots+c_n\vec{s}_n)+
+       r\cdot(c_{n+1}\vec{s}_{n+1}+\cdots+c_m\vec{s}_m)  \\
+  =
+  pc_1\vec{s}_1+\cdots+pc_n\vec{s}_n
+    +rc_{n+1}\vec{s}_{n+1}+\cdots+rc_m\vec{s}_m
+\end{multline*}
+是~\( S \) 中元素的线性组合，
+因此是 \( \spanof{S} \) 的元素
+（来自 $\vec{v}$ 的某些 $\vec{s}_i$ 可能与来自 $\vec{w}$ 的某些 $\vec{s}_j$ 相同，但这无关紧要）。
+%</pf:SpanIsASubsp>
+\end{proof}
+
+这个引理的逆
+也成立：任何子空间都是某个集合的张成，
+因为子空间显然是它自身的张成，即由其全体成员
+构成的集合的张成。
+于是，向量空间的一个子集是子空间当且仅当它是一个张成。
+这符合下述
+直觉：理解向量空间的好方式是把它看作
+线性组合在其中有意义的集合。
+
+合起来，\nearbylemma{th:SubspIffClosed} 与
+\nearbylemma{le:SpanIsASubsp} 表明：向量空间的子集 $S$ 的
+张成是包含 $S$ 的全体成员的最小子空间。
+
+\begin{example}   \label{ex:SpanSingVec}
+在任意向量空间 \( V \) 中，对任意向量 \( \vec{v}\in V \)，集合
+\( \set{r\cdot\vec{v} \suchthat r\in\Re} \) 是 \( V \) 的子空间。
+例如，对任意向量 \( \vec{v}\in\Re^3 \)，
+包含该向量的过原点直线
+\( \set{k\vec{v}\suchthat k\in\Re } \) 是 \( \Re^3 \) 的子空间。
+即使 $\vec{v}$ 是零向量，这也是对的，此时
+它是退化直线，即平凡子空间。
+\end{example}
+
+\begin{example}
+这个集合的张成
+是整个 $\Re^2$。
+\begin{equation*}
+  \set{\colvec[r]{1 \\ 1},\colvec[r]{1 \\ -1}}
+\end{equation*}
+我们知道该张成是~$\Re^2$ 的某个子空间。
+要检验它就是整个~$\Re^2$，
+必须证明 $\Re^2$ 的任何成员都是这两个向量的
+线性组合。
+于是我们问：~对以实数 $x$ 与~$y$ 为分量的哪些向量，
+存在标量 $c_1$ 与 $c_2$ 使下式成立？
+\begin{equation*}
+   c_1\colvec[r]{1 \\ 1}+c_2\colvec[r]{1 \\ -1}=\colvec{x \\ y}
+  \tag{$*$}
+\end{equation*}
+高斯消元法
+\begin{equation*}
+  \begin{linsys}{2}
+    c_1  &+  &c_2  &=  &x  \\
+    c_1  &-  &c_2  &=  &y
+  \end{linsys}
+  \grstep{-\rho_1+\rho_2}
+  \begin{linsys}{2}
+    c_1  &+  &c_2    &=  &x\hfill  \\
+         &   &-2c_2  &=  &-x+y
+  \end{linsys}
+\end{equation*}
+经回代给出 $c_2=(x-y)/2$ 与 $c_1=(x+y)/2$。
+这表明对任意 $x,y$ 都存在
+适当的系数 $c_1,c_2$ 使~($*$) 成立\Dash 我们可以把 $\Re^2$ 的任意元素写成这两个
+给定向量的线性组合。
+例如，取 $x=1$ 与 $y=2$，系数 $c_2=-1/2$ 与
+$c_1=3/2$ 即可。
+\end{example}
+
+既然张成是子空间，而我们又知道
+理解子空间的好方式是
+将其描述参数化，那么我们可以尝试用这种方式来理解一个集合的张成。
+
+\begin{example}
+在次数不超过二的多项式空间~\( \polyspace_2 \) 中，考虑
+集合 \( S=\set{3x-x^2, 2x} \) 的张成。
+由张成的定义，它是这两个向量的无限制线性组合
+$\set{c_1(3x-x^2)+c_2(2x)\suchthat c_1,c_2\in\Re}$ 组成的集合。
+显然这个张成中的多项式的常数项必为零。
+这个必要条件也是充分的吗？
+
+我们问的是：~对 $\polyspace_2$ 的哪些成员 $a_2x^2+a_1x+a_0$
+存在 $c_1$ 与 $c_2$ 使
+$a_2x^2+a_1x+a_0=c_1(3x-x^2)+c_2(2x)$？
+系数相等的多项式相等，因此
+我们要找 $a_2$、$a_1$ 与 $a_0$ 上的条件，
+使这个三元组成为下面方程组的解。
+\begin{equation*}
+  \begin{linsys}{2}
+    -c_1  &   &     &=  &a_2   \\
+    3c_1  &+  &2c_2 &=  &a_1   \\
+          &   &0    &=  &a_0
+  \end{linsys}
+\end{equation*}
+高斯消元法与回代给出
+$c_1=-a_2$，以及 $c_2=(3/2)a_2+(1/2)a_1$，以及 $0=a_0$。
+于是
+%the only condition on elements  $a_0+a_1x+a_2x^2$ of the span
+%is the condition that we knew:
+只要没有常数项，即 $a_0=0$，
+我们就能给出系数 $c_1$ 与 $c_2$，
+把该多项式描述为张成中的一个元素。
+例如，对多项式 $0-4x+3x^2$，系数
+$c_1=-3$ 与 $c_2=5/2$ 即可。
+所以给定集合的张成是
+$\spanof{S}=\set{a_1x+a_2x^2\suchthat a_1,a_2\in\Re}$。
+
+顺带地，这表明
+集合 \( \set{x,x^2} \) 张成同一个子空间。
+一个空间可以有不止一个张成集。
+张成这个子空间的另外两个集合是
+\( \set{x,x^2,-x+2x^2} \) 与
+\( \set{x,x+x^2,x+2x^2,\ldots\,} \)。
+% (Usually we prefer to work with spanning sets that have only
+% a small number of members.)
+\end{example}
+
+\begin{example}  \label{ex:SubspRThree}
+下图展示了我们目前已知的 \( \Re^3 \) 的子空间：平凡
+子空间、过原点的直线、
+过原点的平面，以及整个空间。
+（当然，图示只画出了无穷多种情形中的少数几个。
+线段把子集与其
+超集连接起来。）
+在下一节我们将证明 $\Re^3$ 没有其他
+类型的子空间，因此实际上这张图列出了全部子空间。
+
+这把每个子空间
+描述为成员个数最少的集合的张成。
+据此，各子空间
+自然分成一些层次\Dash 平面在同一层，
+直线在另一层，
+等等。
+\begin{center}
+  \setlength{\unitlength}{4pt}
+  \begin{picture}(75,38)(0,-2) %subspaces of R-three
+      \thinlines
+      \put(45,31){\makebox(0,0)[bl]{
+                        \scriptsize \( %\Re^3=
+                                   \set{x\colvec[r]{1 \\ 0 \\ 0}
+                                              +y\colvec[r]{0 \\ 1 \\ 0}
+                                              +z\colvec[r]{0 \\ 0 \\ 1}} \)} }
+    %Next the dimension two subspaces
+      \put(43,31){\line(-4,-1){25} } % connects R3 to 2,a
+      %set 2,a:
+      \put(0,22){\makebox(0,0)[l]{\scriptsize\( \set{x\colvec[r]{1 \\ 0 \\ 0}
+                                                 +y\colvec[r]{0 \\ 1 \\ 0} }\) }}
+      \put(48,29){\line(-3,-1){12} } % connects R3 to 2,b
+      %set 2,b:
+      \put(20,22){\makebox(0,0)[l]{\scriptsize\( \set{x\colvec[r]{1 \\ 0 \\ 0}
+                                                 +z\colvec[r]{0 \\ 0 \\ 1} }\) }}
+      \put(53,29){\line(-1,-1){3}} % connects R3 to 2,c
+      %set 2,c:
+      \put(40,22){\makebox(0,0)[l]{\scriptsize\( \set{x\colvec[r]{1 \\ 1 \\ 0}
+                                                 +z\colvec[r]{0 \\ 0 \\ 1} }\) }}
+      \put(60,22){\makebox(0,0)[l]{$\cdots$} }
+    %Next the dimension one subspaces
+      \put(7,18){\line(-1,-4){1} } % connects 2,a to 1,a
+      \put(22,18){\line(-3,-1){13} } % connects 2,c to 1,a
+      %set 1,a:
+      \put(0,10){\makebox(0,0)[l]{\scriptsize\( \set{x\colvec[r]{1 \\ 0 \\ 0}} \)} }
+      \put(12,18){\line(1,-2){2} } % connects 2,a to 1,b
+      %set 1,b:
+      \put(12,10){\makebox(0,0)[l]{\scriptsize\( \set{y\colvec[r]{0 \\ 1 \\ 0}} \)} }
+      \put(14,18){\line(2,-1){10} } % connects 2,a to 1,c
+      %set 1,c:
+      \put(24,10){\makebox(0,0)[l]{\scriptsize\( \set{y\colvec[r]{2 \\ 1 \\ 0}} \)} }
+      \put(46,18){\line(-1,-1){3.25} } %connects 2,c to 1,d
+      %set 1,d:
+      \put(36,10){\makebox(0,0)[l]{\scriptsize\( \set{y\colvec[r]{1 \\ 1 \\ 1}} \)} }
+      \put(48,10){\makebox(0,0)[l]{$\cdots$} }
+    %Finally, the trivial subspace.
+      \put(9,7.5){\line(4,-1){30} } %connects 1,a to trivial
+      \put(18.9,7.7){\line(3,-1){20} } %connects 1,b to trivial
+      \put(30.4,6.8){\line(2,-1){10} } %connects 1,c to trivial
+      \put(41,6){\line(1,-2){1.5} } %connects 1,d to trivial
+      \put(45,0){\makebox(0,0){\scriptsize\( \set{\colvec[r]{0 \\ 0 \\ 0} } \)} }
+  \end{picture}
+\end{center}
+\end{example}
+
+到本章目前为止我们已经看到：要研究
+线性组合的性质，合适的框架是
+对这些组合封闭的集合。
+在第一小节中我们引入了这类集合，即向量空间，
+并见到了丰富多样的例子。
+在本小节中我们又见到了
+更多的空间，它们是其他空间的子空间。
+在所有这些多样性中有一个共同点。
+上面的\nearbyexample{ex:SubspRThree}
+把它揭示了出来：~向量空间与子空间最好被理解为张成，
+尤其是少量向量的张成。
+下一节将研究具有极小性的张成集。
+
+
+
+
+
+
+\begin{exercises}
+  \recommended \item
+    下列 \( \nbyn{2} \) 矩阵构成的向量空间中的哪些子集，在继承的运算下是子空间？
+    对每一个是子空间的，给出其参数化描述。
+    对每一个不是的，给出一条不满足的条件。
+    \begin{exparts}
+      \partsitem \( \set{\begin{mat}
+                      a  &0  \\
+                      0  &b
+                    \end{mat}  \suchthat a,b\in\Re}  \)
+      \partsitem \( \set{\begin{mat}
+                      a  &0  \\
+                      0  &b
+                    \end{mat}  \suchthat a+b=0} \)
+      \partsitem \( \set{\begin{mat}
+                      a  &0  \\
+                      0  &b
+                    \end{mat}  \suchthat a+b=5} \)
+      \partsitem \( \set{\begin{mat}
+                      a  &c  \\
+                      0  &b
+                    \end{mat}  \suchthat a+b=0, c\in\Re} \)
+    \end{exparts}
+    \begin{answer}
+      根据 \nearbylemma{th:SubspIffClosed}，要判断 $\matspace_{\nbyn{2}}$
+      的每个子集是否为子空间，只需检查它是否非空且封闭。
+      \begin{exparts}
+        \partsitem 是，容易验证它非空且封闭。
+          这就是它的一个参数化描述。
+          \begin{equation*}
+            \set{a\begin{mat}[r]
+                    1  &0  \\
+                    0  &0
+                  \end{mat}
+                 +b\begin{mat}[r]
+                    0  &0  \\
+                    0  &1
+                   \end{mat}
+                 \suchthat a,b\in\Re}
+          \end{equation*}
+          顺便指出，这个参数化描述本身也表明它是一个子空间，
+          因为它被表示为由两个矩阵构成的集合张成，
+          而任何张成都是子空间。
+        \partsitem 是；容易验证它非空且封闭。
+         或者，如前一个答案所述，参数化描述的存在性
+         表明它是一个子空间。
+         要得到参数化描述，
+         可将条件 $a+b=0$ 改写为 $a=-b$。
+         于是有下式。
+          \begin{equation*}
+            \set{\begin{mat}
+                    -b  &0  \\
+                    0   &b
+                  \end{mat}
+                 \suchthat b\in\Re}
+            =\set{b\begin{mat}[r]
+                    -1  &0  \\
+                    0   &1
+                  \end{mat}
+                 \suchthat b\in\Re}
+          \end{equation*}
+        \partsitem 不是。
+          它对加法不封闭。
+          例如，
+          \begin{equation*}
+            \begin{mat}[r]
+              5  &0  \\
+              0  &0
+            \end{mat}
+            +\begin{mat}[r]
+              5  &0  \\
+              0  &0
+            \end{mat}
+            =\begin{mat}[r]
+              10  &0  \\
+              0  &0
+            \end{mat}
+          \end{equation*}
+          不在该集合中。
+          （这个集合对标量乘法也不封闭，
+          例如，它不包含零矩阵。）
+        \partsitem 是。
+          \begin{equation*}
+            \set{b\begin{mat}[r]
+                    -1  &0  \\
+                    0   &1
+                  \end{mat}
+                 +c\begin{mat}[r]
+                    0  &1  \\
+                    0  &0
+                   \end{mat}
+                 \suchthat b,c\in\Re}
+          \end{equation*}
+      \end{exparts}
+     \end{answer}
+  \recommended \item
+    这是 \( \polyspace_2 \) 的子空间吗：
+    \( \set{a_0+a_1x+a_2x^2\suchthat a_0+2a_1+a_2=4} \)？
+    如果是，给出其参数化描述。
+    \begin{answer}
+      不是，它不封闭。
+      具体来说，它对标量乘法不封闭，因为它
+      不包含零多项式。
+    \end{answer}
+  \item 下面的向量是否在该集合的张成之中？
+    \begin{equation*}
+      \colvec{1 \\ 0 \\ 3}
+      \quad
+      \set{\colvec{2 \\ 1 \\ -1},
+           \colvec{1 \\ -1 \\ 1}}
+    \end{equation*}
+    \begin{answer}
+      方程
+      \begin{equation*}
+        \colvec{1 \\ 0 \\ 3} =
+                 c_1\colvec{2 \\ 1 \\ -1}
+                 +c_2\colvec{1 \\ -1 \\ 1}
+      \end{equation*}
+      给出一个线性方程组
+      \begin{equation*}
+        \begin{amat}{2}
+          2  &1  &1  \\
+          1  &-1 &0  \\
+          -1 &1  &3
+        \end{amat}
+        \grstep[(1/2)\rho_1+\rho_3]{(-1/2)\rho_1+\rho_2}
+        \begin{amat}{2}
+          2  &1    &1  \\
+          0  &-3/2 &-1/2  \\
+          0  &0  &3
+        \end{amat}
+      \end{equation*}
+      该方程组无解，所以该向量不在张成之中。
+    \end{answer}
+  \recommended \item
+    判断该向量是否张成于该集合的张成之中，所在
+    空间如下。
+    \begin{exparts}
+      \partsitem \( \colvec[r]{2 \\ 0 \\ 1} \),
+        \( \set{\colvec[r]{1 \\ 0 \\ 0},
+                \colvec[r]{0 \\ 0 \\ 1}  } \),
+        在 \( \Re^3 \) 中
+      \partsitem \( x-x^3 \),
+        \( \set{x^2,2x+x^2,x+x^3} \),
+        在 \( \polyspace_3 \) 中
+      \partsitem \( \begin{mat}[r]
+                 0  &1  \\
+                 4  &2
+               \end{mat}  \),
+        \( \set{\begin{mat}[r]
+                  1  &0  \\
+                  1  &1
+                \end{mat},
+                \begin{mat}[r]
+                  2  &0  \\
+                  2  &3
+                \end{mat}  } \),
+        在 \( \matspace_{\nbyn{2}} \) 中
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 是，由
+          \begin{equation*}
+            r_1\colvec[r]{1 \\ 0 \\ 0}+r_2\colvec[r]{0 \\ 0 \\ 1}
+              =\colvec[r]{2 \\ 0 \\ 1}
+          \end{equation*}
+          得到的线性方程组的解给出 \( r_1=2 \) 与 \( r_2=1 \)。
+        \partsitem 是；由
+          \( r_1(x^2)+r_2(2x+x^2)+r_3(x+x^3)=x-x^3 \)
+          \begin{equation*}
+            \begin{linsys}{3}
+                  &  &2r_2 &+ &r_3 &= &1  \\
+              r_1 &+ &r_2  &  &    &= &0  \\
+                  &  &     &  &r_3 &= &-1
+            \end{linsys}
+          \end{equation*}
+          可得 \( -1(x^2)+1(2x+x^2)-1(x+x^3)=x-x^3 \)。
+       \partsitem 不是；所给两个矩阵的任意组合，其右上角元素都为零。
+      \end{exparts}
+    \end{answer}
+  \item % \cite{Cleary} credit removed at request Cleary 2022-Sep-13
+    一位超级英雄位于二维平面上的原点处。
+    超级英雄有两件装置：一块悬浮滑板，可沿方向 $\binom{3}{1}$
+    移动任意距离；
+    以及一张魔毯，可沿方向
+    $\binom{1}{2}$ 移动任意距离。
+    \begin{exparts}
+      \partsitem 一个邪恶反派藏身于平面上点
+        $(-5,7)$ 处。
+        超级英雄要移动多少个悬浮滑板单位和多少个魔毯单位，
+        才能到达反派所在处？
+     \partsitem 平面上是否存在某个地方，可以让反派安全藏身而不被找到？
+        如果存在，给出一个这样的位置。
+        如果不存在，解释原因。
+     \partsitem 超级英雄和反派被传送到了一个三维空间，此时超级英雄拥有三件装置。
+        \begin{equation*}
+          \text{悬浮滑板: }\colvec{-1 \\ 0 \\ 3}
+          \quad
+          \text{魔毯: }\colvec{2 \\ 1 \\ 0}
+          \quad
+          \text{滑板车: }\colvec{5 \\ 4 \\ -9}
+        \end{equation*}
+        是否还有可以让反派安全藏身的地方？
+        如果有，给出一个这样的位置；如果没有，解释原因。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 关系式
+          \begin{equation*}
+            \colvec{-5 \\ 7}=a\colvec{3 \\ 1}+b\colvec{1 \\ 2}
+          \end{equation*}
+          给出如下方程组。
+          \begin{equation*}
+            \begin{linsys}{2}
+              3a &+ &b  &= &-5 \\
+               a &+ &2b &= &7
+            \end{linsys}
+            \grstep{-(1/3)\rho_1+\rho_2}
+            \begin{linsys}{2}
+              3a &+ &b      &= &-5 \\
+                 &  &(5/3)b &= &26/3
+            \end{linsys}
+          \end{equation*}
+          所以 $b=26/5$。
+          代入 $3a+(26/5)=-5$ 得 $a=-17/5$。
+          用本小节的术语来说，向量 $\binom{-5}{7}$
+          在另外两个向量构成的集合的张成之中。
+        \partsitem 没有藏身之处。
+          下面的高斯消元法化简
+          \begin{equation*}
+            \begin{linsys}{2}
+              3a &+ &b  &= &x \\
+               a &+ &2b &= &y
+            \end{linsys}
+            \grstep{-(1/3)\rho_1+\rho_2}
+            \begin{linsys}{2}
+              3a &+ &b      &= &x\hfill\hbox{} \\
+                 &  &(5/3)b &= &-(1/3)x+y
+            \end{linsys}
+          \end{equation*}
+          表明，对任意 $x,y\in\R$ 都存在一对 $a,b\in\R$。
+          用本小节的术语来说，这两个向量的张成
+          是整个平面。
+        \partsitem 没有藏身之处。
+          考虑这个方程组。
+          \begin{equation*}
+            a\colvec{-1 \\ 0 \\ 3}+b\colvec{2 \\ 1 \\ 0}+c\colvec{5 \\ 4 \\ -9}
+                = \colvec{x \\ y \\ z}
+          \end{equation*}
+          化简后
+          \begin{align*}
+            \begin{linsys}{3}
+              -a &+ &2b &+ &5c &= &x \\
+                 &  &b  &+ &4c &= &y \\
+              3a &  &   &- &9c &= &z \\
+            \end{linsys}
+            & \grstep{3\rho_1+\rho_3}
+            \begin{linsys}{3}
+              -a &+ &2b  &+ &5c &= &x\hfill\hbox{} \\
+                 &  &b   &+ &4c &= &y\hfill\hbox{} \\
+                 &  &6b  &+ &6c &= &3x+z \\
+            \end{linsys}                                  \\
+            & \grstep{-6\rho_2+\rho_3}
+            \begin{linsys}{3}
+              -a &+ &2b  &+ &5c  &= &x\hfill\hbox{} \\
+                 &  &b   &+ &4c  &= &y\hfill\hbox{} \\
+                 &  &    & &-18c &= &3x+-6y+z \\
+            \end{linsys}
+          \end{align*}
+          表明，对任意 $x,y,z\in\R$，
+          所需的 $a$、$b$ 与~$c$ 都存在。
+          超级英雄的装置张成了整个空间。
+      \end{exparts}
+    \end{answer}
+  \item
+    下列哪些是实变量实值函数构成的向量空间中
+    张成
+    \( \spanof{\set{\cos^2x,\sin^2x} } \)
+    的成员？
+    \begin{exparts*}
+      \partsitem \( f(x)=1 \)
+      \partsitem \( f(x)=3+x^2 \)
+      \partsitem \( f(x)=\sin x \)
+      \partsitem \( f(x)=\cos (2x) \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 是；它在那个张成之中，因为
+          \( 1\cdot\cos^2x+1\cdot\sin^2x=f(x) \)。
+        \partsitem 不是，因为 \( r_1\cos^2x+r_2\sin^2x=3+x^2 \) 没有对
+          所有 \( x \) 都成立的标量解。
+          例如，取 $x$ 为 $0$ 和 $\pi$ 得到两个方程 $r_1\cdot 1+r_2\cdot 0=3$ 与
+          $r_1\cdot 1+r_2\cdot 0=3+\pi^2$，二者
+          相互矛盾。
+        \partsitem 不是；考虑取 $x$ 为 $\pi/2$ 与
+          $3\pi/2$ 时的结果。
+        \partsitem 是，\( \cos (2x)=1\cdot\cos^2(x)-1\cdot\sin^2(x) \)。
+      \end{exparts}
+     \end{answer}
+  \recommended \item
+    下列哪些集合张成 \( \Re^3 \)？
+    也就是说，下列哪些集合具有这样的性质：任意三元
+    向量都可以表示为该集合元素的某个适当
+    线性组合？
+    \begin{exparts*}
+      \partsitem \( \set{ \colvec[r]{1 \\ 0 \\ 0},
+               \colvec[r]{0 \\ 2 \\ 0},
+               \colvec[r]{0 \\ 0 \\ 3}  } \)
+      \partsitem \( \set{ \colvec[r]{2 \\ 0 \\ 1},
+               \colvec[r]{1 \\ 1 \\ 0},
+               \colvec[r]{0 \\ 0 \\ 1}  } \)
+      \partsitem \( \set{ \colvec[r]{1 \\ 1 \\ 0},
+               \colvec[r]{3 \\ 0 \\ 0}  } \)
+      \partsitem \( \set{ \colvec[r]{1 \\ 0 \\ 1},
+               \colvec[r]{3 \\ 1 \\ 0},
+               \colvec[r]{-1 \\ 0 \\ 0},
+               \colvec[r]{2 \\ 1 \\ 5}  } \)
+      \partsitem \( \set{ \colvec[r]{2 \\ 1 \\ 1},
+               \colvec[r]{3 \\ 0 \\ 1},
+               \colvec[r]{5 \\ 1 \\ 2},
+               \colvec[r]{6 \\ 0 \\ 2}  } \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 是，对任意 \( x,y,z\in\Re \)，方程
+          \begin{equation*}
+             r_1\colvec[r]{1 \\ 0 \\ 0}
+             +r_2\colvec[r]{0 \\ 2 \\ 0}
+             +r_3\colvec[r]{0 \\ 0 \\ 3}
+             =\colvec{x \\ y \\ z}
+          \end{equation*}
+          有解 \( r_1=x \)，\( r_2=y/2 \) 与
+          \( r_3=z/3 \)。
+        \partsitem 是，方程
+          \begin{equation*}
+            r_1\colvec[r]{2 \\ 0 \\ 1}
+            +r_2\colvec[r]{1 \\ 1 \\ 0}
+            +r_3\colvec[r]{0 \\ 0 \\ 1}
+            =\colvec{x \\ y \\ z}
+          \end{equation*}
+          给出如下
+          \begin{equation*}
+            \begin{linsys}{3}
+              2r_1 &+  &r_2  &  &    &=  &x \\
+                   &   &r_2  &  &    &=  &y \\
+               r_1 &   &     &+ &r_3 &=  &z \\
+            \end{linsys}
+            \grstep{-(1/2)\rho_1+\rho_3}\repeatedgrstep{(1/2)\rho_2+\rho_3}
+            \begin{linsys}{3}
+              2r_1 &+  &r_2  &  &    &=  &x\hfill\hbox{} \\
+                   &   &r_2  &  &    &=  &y\hfill\hbox{} \\
+                   &   &     &  &r_3 &=  &-(1/2)x+(1/2)y+z \\
+            \end{linsys}
+          \end{equation*}
+          于是，给定任意 $x$、$y$ 和 $z$，我们可以算出
+          \( r_3=(-1/2)x+(1/2)y+z \)、\( r_2=y \) 与
+          \( r_1=(1/2)x-(1/2)y \)。
+        \partsitem 不是。
+          特别地，我们无法得到向量
+          \begin{equation*}
+            \colvec[r]{0 \\ 0 \\ 1}
+          \end{equation*}
+          的线性组合，因为所给的两个
+          向量的第三个分量都为零。
+       \partsitem 是。
+         方程
+         \begin{equation*}
+           r_1\colvec[r]{1 \\ 0 \\ 1}
+           +r_2\colvec[r]{3 \\ 1 \\ 0}
+           +r_3\colvec[r]{-1\\ 0 \\ 0}
+           +r_4\colvec[r]{2 \\ 1 \\ 5}
+           =\colvec{x \\ y \\ z}
+         \end{equation*}
+         导出如下化简。
+         \begin{equation*}
+           \begin{amat}{4}
+             1  &3  &-1  &2  &x  \\
+             0  &1  &0   &1  &y  \\
+             1  &0  &0   &5  &z
+           \end{amat}
+           \grstep{-\rho_1+\rho_3}\repeatedgrstep{3\rho_2+\rho_3}
+           \begin{amat}{4}
+             1  &3  &-1  &2  &x \\
+             0  &1  &0   &1  &y  \\
+             0  &0  &1   &6  &-x+3y+z
+           \end{amat}
+         \end{equation*}
+         它有无穷多解。
+         例如，我们可以取 $r_4$ 为零，然后按通常的
+         回代方法，用 $x$、$y$ 和 $z$ 解出
+         $r_3$、$r_2$ 和 $r_1$。
+       \partsitem 不是。
+         方程
+         \begin{equation*}
+           r_1\colvec[r]{2 \\ 1 \\ 1}
+           +r_2\colvec[r]{3 \\ 0 \\ 1}
+           +r_3\colvec[r]{5 \\ 1 \\ 2}
+           +r_4\colvec[r]{6 \\ 0 \\ 2}
+           =\colvec{x \\ y \\ z}
+         \end{equation*}
+         导出如下化简。
+         \begin{multline*}
+           \begin{amat}{4}
+             2  &3  &5   &6  &x  \\
+             1  &0  &1   &0  &y  \\
+             1  &1  &2   &2  &z
+           \end{amat}                                             \\
+           \grstep[-(1/2)\rho_1+\rho_3]{-(1/2)\rho_1+\rho_2}
+           \repeatedgrstep{-(1/3)\rho_2+\rho_3}
+           \begin{amat}{4}
+             2  &3     &5     &6  &x \\
+             0  &-3/2  &-3/2  &-3 &-(1/2)x+y  \\
+             0  &0     &0     &0  &-(1/3)x-(1/3)y+z
+           \end{amat}
+         \end{multline*}
+         这表明并非每个三元向量都能如此表示。
+         只有满足约束 $-(1/3)x-(1/3)y+z=0$ 的向量才在张成之中。
+         （要看出任何这样的向量确实可以表示，
+         可取 $r_3$ 与 $r_4$
+         为零，然后用回代法以 $x$、$y$ 和
+         $z$ 解出 $r_1$ 与 $r_2$。）
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    对每个子空间的描述给出参数化。
+    然后把每个子空间表示为一个张成。
+    \begin{exparts}
+      \partsitem  三宽行向量中的子集
+        \( \set{\rowvec{a &b &c}\suchthat a-c=0}   \)
+      \partsitem \( \matspace_{\nbyn{2}} \) 的这个子集
+        \begin{equation*}
+          \set{\begin{mat}
+                 a  &b  \\
+                 c  &d
+               \end{mat}  \suchthat a+d=0}
+        \end{equation*}
+      \partsitem \( \matspace_{\nbyn{2}} \) 的这个子集
+        \begin{equation*}
+          \set{\begin{mat}
+                 a  &b  \\
+                 c  &d
+               \end{mat}  \suchthat \text{\( 2a-c-d=0 \)
+                                               且 \( a+3b=0 \)} }
+        \end{equation*}
+      \partsitem 子集 \( \set{a+bx+cx^3\suchthat a-2b+c=0} \)，
+        属于 \( \polyspace_3 \)
+      \partsitem \( \polyspace_2 \) 的子集：满足 \( p(7)=0 \) 的
+        次数不超过二的多项式 \( p \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \( \set{\rowvec{c &b &c}\suchthat b,c\in\Re}
+                      =\set{b\rowvec{0 &1 &0}+c\rowvec{1 &0 &1}
+                        \suchthat b,c\in\Re} \)
+           张成集合的显然选择是
+           $\set{\rowvec{0 &1 &0},\rowvec{1 &0 &1}}$。
+        \partsitem \( \set{\begin{mat}
+                       -d &b  \\
+                       c  &d
+                      \end{mat} \suchthat b,c,d\in\Re}
+                     =\set{b\begin{mat}[r]
+                       0  &1  \\
+                       0  &0
+                      \end{mat}
+                     +c\begin{mat}[r]
+                       0  &0  \\
+                       1  &0
+                      \end{mat}
+                     +d\begin{mat}[r]
+                       -1  &0  \\
+                       0  &1
+                      \end{mat}  \suchthat b,c,d\in\Re} \)
+            张成这个空间的一个集合就由这三个矩阵组成。
+        \partsitem 方程组
+          \begin{equation*}
+            \begin{linsys}{4}
+              a  &+  &3b  &   &   &  &  &=  &0  \\
+             2a  &   &    &   &-c &- &d &=  &0
+            \end{linsys}
+          \end{equation*}
+          给出 \( b=-(c+d)/6 \) 与 \( a=(c+d)/2 \)。
+          于是一种描述如下。
+          \begin{equation*}
+            \set{c\begin{mat}[r]
+                       1/2  &-1/6  \\
+                       1    &0
+                      \end{mat}
+                     +d\begin{mat}[r]
+                       1/2  &-1/6  \\
+                       0    &1
+                      \end{mat}  \suchthat c,d\in\Re}
+           \end{equation*}
+          这表明张成该子空间的一个集合由那
+          两个矩阵组成。
+        \partsitem 由 $a=2b-c$ 可知，集合
+           \( \set{(2b-c)+bx+cx^3 \suchthat b,c\in\Re} \)
+           等于集合
+           \( \set{b(2+x)+c(-1+x^3) \suchthat b,c\in\Re}  \)。
+           所以该子空间是集合 $\set{2+x, -1+x^3}$ 的张成。
+        \partsitem 集合
+          \( \set{a+bx+cx^2\suchthat a+7b+49c=0} \)
+          可以参数化为
+          \begin{equation*}
+            \set{b(-7+x)+c(-49+x^2)\suchthat b,c\in\Re}
+          \end{equation*}
+          因此
+          有张成集 $\set{-7+x,-49+x^2}$。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    对给定空间中的给定子空间，求一个张成它的集合。
+    （\textit{提示。}先对每一个作参数化。）
+    \begin{exparts}
+      \partsitem  \( \Re^3 \) 中的 \( xz \) 平面
+      \partsitem \( \set{\colvec{x \\ y \\ z}\suchthat 3x+2y+z=0} \)
+            在 \( \Re^3 \) 中
+      \partsitem \( \set{\colvec{x \\ y \\ z \\ w}\suchthat
+                       2x+y+w=0 \text{\ 且\ } y+2z=0} \)
+            在 \( \Re^4 \) 中
+      \partsitem \( \set{a_0+a_1x+a_2x^2+a_3x^3\suchthat
+                        a_0+a_1=0 \text{\ 且\ } a_2-a_3=0} \)
+            在 \( \polyspace_3 \) 中
+      \partsitem 空间 \( \polyspace_4 \) 中的集合 \( \polyspace_4 \)
+      \partsitem \( \matspace_{\nbyn{2}} \) 中的 \( \matspace_{\nbyn{2}} \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 我们可以这样参数化
+          \begin{equation*}
+             \set{\colvec{x \\ 0 \\ z}\suchthat x,z\in\Re}
+             =\set{x\colvec[r]{1 \\ 0 \\ 0}
+                  +z\colvec[r]{0 \\ 0 \\ 1}\suchthat x,z\in\Re}
+          \end{equation*}
+          由此得到张成集如下。
+          \begin{equation*}
+             \set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 0 \\ 1}}
+          \end{equation*}
+        \item 这是参数化描述，以及相应的张成集。
+          \begin{equation*}
+             \set{y\colvec[r]{-2/3 \\ 1 \\ 0}+z\colvec[r]{-1/3 \\ 0 \\ 1}
+                 \suchthat y,z\in\Re }
+             \qquad
+             \set{\colvec[r]{-2/3 \\ 1 \\ 0},\colvec[r]{-1/3 \\ 0 \\ 1} }
+          \end{equation*}
+        \partsitem \( \set{\colvec[r]{1 \\ -2 \\ 1 \\ 0},
+                      \colvec[r]{-1/2 \\ 0 \\ 0 \\ 1} } \)
+        \partsitem 把描述参数化为
+          \( \set{-a_1+a_1x+a_3x^2+a_3x^3\suchthat a_1,a_3\in\Re } \)
+          得到 \( \set{-1+x,x^2+x^3}. \)
+        \partsitem \( \set{1,x,x^2,x^3,x^4} \)
+        \partsitem \( \set{ \begin{mat}[r]
+                   1  &0  \\
+                   0  &0
+                 \end{mat},
+                 \begin{mat}[r]
+                   0  &1  \\
+                   0  &0
+                 \end{mat},
+                 \begin{mat}[r]
+                   0  &0  \\
+                   1  &0
+                 \end{mat},
+                 \begin{mat}[r]
+                   0  &0  \\
+                   0  &1
+                 \end{mat} } \)
+      \end{exparts}
+    \end{answer}
+  \item
+    \( \Re^2 \) 是 \( \Re^3 \) 的子空间吗？
+    \begin{answer}
+      严格地说，不是。
+      \( \Re^3 \) 的子空间都是三元向量构成的集合，而
+      \( \Re^2 \) 是二元向量构成的集合。
+      不过显然，\( \Re^2 \) 与 \( \Re^3 \) 的这个子空间“几乎
+      一样”。
+      \begin{equation*}
+        \set{\colvec{x \\ y \\ 0}\suchthat x,y\in\Re}
+      \end{equation*}
+    \end{answer}
+  \recommended \item
+    判断下列每一个是否为实变量实值函数构成的向量空间的子空间。
+    \begin{exparts}
+      \partsitem \definend{偶}\index{function!even}\index{even functions} 函数
+        \( \set{\map{f}{\Re}{\Re} \suchthat f(-x)=f(x) \text{对一切 } x} \)。
+        例如，该集合的两个成员是 $f_1(x)=x^2$
+        与 $f_2(x)=\cos (x)$。
+      \partsitem \definend{奇}\index{function!odd}\index{odd function}
+        函数
+        \( \set{\map{f}{\Re}{\Re} \suchthat f(-x)=-f(x) \text{对一切 } x} \)。
+        两个成员是 $f_3(x)=x^3$ 与 $f_4(x)=\sin(x)$。
+    \end{exparts}
+    \begin{answer}
+      当然，加法与标量乘法运算就是
+      从外围空间继承的那两个运算。
+      \begin{exparts}
+        \partsitem 这是一个子空间。
+          它不是空集，因为它至少包含上面给出的两个示例函数。
+          它是封闭的，因为若 \( f_1,f_2 \) 是偶函数且
+          \( c_1,c_2 \) 是标量，则有下式。
+          \begin{equation*}
+            (c_1f_1+c_2f_2)\,(-x)
+            =c_1\,f_1(-x)+c_2\,f_2(-x)
+            =c_1\,f_1(x)+c_2\,f_2(x)
+            =(c_1f_1+c_2f_2)\,(x)
+          \end{equation*}
+        \partsitem 这也是一个子空间；验证方法与
+          前一个类似。
+      \end{exparts}
+    \end{answer}
+  \item
+    \nearbyexample{ex:SpanSingVec} 说明，对向量空间 $V$ 中任一向量 $\vec{v}$，
+    集合 $\set{r\cdot\vec{v}\suchthat r\in\Re}$
+    是 $V$ 的一个子空间。
+    （这不过是单元素集 $\set{\vec{v}}$ 的
+    张成\index{span!of a singleton}。）
+    这样的子空间是否一定是真子空间？
+    \begin{answer}
+      它可以不是真子空间。
+      例如，
+      若向量空间是 \( \Re^1 \) 且 \( \vec{v}\neq\zero\, \)，
+      则子空间 $\set{r\cdot\vec{v}\suchthat r\in\Re}$
+      就是整个 $\Re^1$。
+    \end{answer}
+  \item
+    向量空间定义之后的一个例子表明，
+    齐次线性方程组的解集是一个向量空间。
+    用本小节的术语来说，当方程组有 $n$ 个变量时，它是 $\Re^n$ 的一个子空间。
+    那么非齐次线性方程组呢；它的解是否构成一个
+    子空间（在继承的运算下）？
+    \begin{answer}
+      不构成，这样的集合不封闭。
+      首先，它不包含零向量。
+    \end{answer}
+  \item \cite{Cleary}
+   就下列每一条给出一个例子，或者解释为什么
+   不可能给出。
+   \begin{exparts}
+     \item $\matspace_{\nbyn{2}}$ 的一个不是
+       子空间的非空子集。
+     \item $\Re^2$ 中一个不张成该空间的两向量集合。
+   \end{exparts}
+   \begin{answer}
+     \begin{exparts}
+       \item $\matspace_{\nbyn{2}}$ 的这个非空子集不是子空间。
+         \begin{equation*}
+           A=\set{
+             \begin{mat}[r]
+               1 &2 \\
+               3 &4
+             \end{mat},
+             \begin{mat}[r]
+               5 &6 \\
+               7 &8
+             \end{mat}}
+         \end{equation*}
+         它不是 $\matspace_{\nbyn{2}}$ 的子空间的一个理由是
+         它不包含零矩阵。
+         （另一个理由是它对加法不封闭，因为两者的和
+         不是 $A$ 的元素。
+         它对标量乘法也不封闭。）
+        \item 这个由两个向量构成的集合不张成 $\Re^2$。
+          \begin{equation*}
+            \set{\colvec[r]{1 \\ 1},\colvec[r]{3 \\ 3}}
+          \end{equation*}
+          这两个向量的任何线性组合都无法给出
+          第二个分量不等于第一个分量的向量。
+      \end{exparts}
+   \end{answer}
+  \item
+    \nearbyexample{ex:SubspRThree} 表明
+    $\Re^3$ 有无穷多个子空间。
+    是否每个非平凡空间都有无穷多个子空间？
+    \begin{answer}
+      不是。
+      \( \Re^1 \) 仅有的子空间是它本身与其
+      平凡子空间。
+      $\Re$ 的任何包含非零成员 $\vec{v}$ 的子空间 $S$
+      必须包含其全部标量倍数构成的集合
+      $\set{r\cdot\vec{v}\suchthat r\in\Re}$。
+      但这个集合就是整个 $\Re$。
+    \end{answer}
+  \item \label{exer:SubspIffClosed}
+    补全 \nearbylemma{th:SubspIffClosed} 的证明。
+    \begin{answer}
+      第~(1) 项已在正文中验证。
+
+      第~(2) 条有五个条件。
+      第一条是封闭性：若 \( c\in\Re \) 且 \( \vec{s}\in S \)，则
+      \( c\cdot\vec{s}\in S \)，因为
+      \( c\cdot\vec{s}=c\cdot\vec{s}+0\cdot\zero \)。
+      第二，因为 \( S \) 中的运算继承自 \( V \)，所以对 \( c,d\in\Re \) 与 \( \vec{s}\in S \)，
+      \( S \) 中的标量乘积 \( (c+d)\cdot\vec{s}\, \) 等于 \( V \) 中的乘积
+      \( (c+d)\cdot\vec{s}\, \)，而它等于 \( V \) 中的
+      \( c\cdot\vec{s}+d\cdot\vec{s}\, \)，进而等于 \( S \) 中的
+      \( c\cdot\vec{s}+d\cdot\vec{s}\, \)。
+
+      第三、第四和第五个条件的验证与刚才给出的第二个条件的验证类似。
+    \end{answer}
+  \item 
+    证明每个向量空间只有一个平凡子空间。
+    \begin{answer}
+      前一小节的一道练习证明了每个向量空间只有一个零向量（也就是说，只有
+      一个向量是该空间的加法单位元）。
+      而平凡空间只有一个元素，且该元素必是这个（唯一的）零向量。
+    \end{answer}
+  \item 
+    证明对向量空间的任意子集 \( S \)，张成的张成等于张成
+    \( \spanof{ \spanof{S} }=\spanof{S} \)。
+    （\textit{提示。}
+    $\spanof{S}$ 的成员是 $S$ 的成员的线性组合。
+    $\spanof{\spanof{S}}$ 的成员是 $S$ 的成员的线性组合的
+    线性组合。）
+    \begin{answer}
+      如提示所言，根本的原因是第一章的线性组合引理。
+      为给出完整证明，我们将证明这两个集合互相包含。
+
+      第一个包含关系 \( \spanof{ \spanof{S} }\supseteq\spanof{S}  \)
+      是一个更一般且显然的事实的特例：对向量空间的任意子集
+      \( T \)，都有 \( \spanof{T}\supseteq T \)。
+
+      对于另一个包含关系，
+      即 \( \spanof{ \spanof{S} }\subseteq\spanof{S} \)，
+      从 \( \spanof{S} \) 中取 $m$ 个向量，即
+      \( c_{1,1}\vec{s}_{1,1}+\cdots+c_{1,n_1}\vec{s}_{1,n_1} \)、\ldots、
+      \( c_{1,m}\vec{s}_{1,m}+\cdots+c_{1,n_m}\vec{s}_{1,n_m} \)，
+      并注意它们的任意线性组合
+      \begin{equation*}
+         r_1(c_{1,1}\vec{s}_{1,1}+\cdots+c_{1,n_1}\vec{s}_{1,n_1})+\cdots
+        +r_m(c_{1,m}\vec{s}_{1,m}+\cdots+c_{1,n_m}\vec{s}_{1,n_m})
+      \end{equation*}
+      是 \( S \) 中元素的线性组合
+      \begin{equation*}
+        = (r_1c_{1,1})\vec{s}_{1,1}+\cdots+(r_1c_{1,n_1})\vec{s}_{1,n_1}+\cdots
+        +(r_mc_{1,m})\vec{s}_{1,m}+\cdots+(r_mc_{1,n_m})\vec{s}_{1,n_m}
+      \end{equation*}
+      因而在 \( \spanof{S} \) 中。
+      也就是说，只需回想：线性组合的线性组合（$S$ 中成员的）
+      仍是线性组合（同样还是 $S$ 中成员的）。
+    \end{answer}
+  \item 
+    我们见过的所有子空间都在其描述中以某种方式用到了零。
+    例如，\nearbyexample{ex:SubspacesRTwo} 中的子空间由 $\Re^2$ 中
+    第二个分量为零的所有向量组成。
+    相比之下，
+    $\Re^2$ 中第二个分量为 1 的向量集合
+    不构成子空间（它对标量乘法不封闭）。
+    另一个例子是 \nearbyexample{ex:PlaneSubspRThree}，其中对向量的条件
+    是三个分量之和为零。
+    如果那里的条件
+    改为三个分量之和为 1，
+    那么它就不是子空间
+    （同样，它不封闭）。
+    不过，对零的依赖并非严格必需。
+    考虑集合
+    \begin{equation*}
+       \set{\colvec{x \\ y \\ z}\suchthat x+y+z=1}
+    \end{equation*}
+    在这些运算下。
+    \begin{equation*}
+       \colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2}
+       =\colvec{x_1+x_2-1 \\ y_1+y_2 \\ z_1+z_2}
+       \qquad
+       r\colvec{x \\ y \\ z}=\colvec{rx-r+1 \\ ry \\ rz}
+    \end{equation*}
+    \begin{exparts}
+      \partsitem 证明它不是 $\Re^3$ 的子空间。
+         （\textit{提示。}   参见 \nearbyexample{ex:OperNotInherit}）。
+      \partsitem 证明它是一个向量空间。         
+         注意由前一问，
+         \nearbylemma{th:SubspIffClosed} 不能适用。  
+      \partsitem 证明 $\Re^3$ 的任何子空间必定经过原点，
+         因此 $\Re^3$ 的任何子空间在其描述中必定涉及零。
+         逆命题成立吗？  
+          $\Re^3$ 的任何包含原点的子集，
+          在给定继承的运算后会成为子空间吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 它不是子空间，因为这些运算不是继承来的运算。  
+           例如，在这个空间中，
+           \begin{equation*}
+             0\cdot\colvec{x \\ y \\ z}=\colvec[r]{1 \\ 0 \\ 0}
+           \end{equation*}
+           而这当然在 $\Re^3$ 中不成立。
+         \partsitem 我们可以把证明对加法封闭的论证
+           与证明对标量乘法封闭的论证合并成
+           一个证明对两个向量的线性组合封闭的单一论证。
+           若 $r_1,r_2,x_1,x_2,y_1,y_2,z_1,z_2$ 都属于 $\Re$，则      
+           \begin{multline*}
+              r_1\colvec{x_1 \\ y_1 \\ z_1}
+              +r_2\colvec{x_2 \\ y_2 \\ z_2}
+              =\colvec{r_1x_1-r_1+1 \\ r_1y_1 \\ r_1z_1}
+               +\colvec{r_2x_2-r_2+1 \\ r_2y_2 \\ r_2z_2}                 \\
+            =\colvec{r_1x_1-r_1+r_2x_2-r_2+1 \\ r_1y_1+r_2y_2 \\ r_1z_1+r_2z_2}
+           \end{multline*} 
+           （注意这个空间中加法的定义是：第一个分量按
+           $(r_1x_1-r_1+1)+(r_2x_2-r_2+1)-1$ 的方式合并，
+           所以最后一个向量的第一个分量并非表示
+           `$\hbox{}+2$'）。
+           将最后一个向量的三个分量相加得
+           $r_1(x_1-1+y_1+z_1)+r_2(x_2-1+y_2+z_2)+1=r_1\cdot0+r_2\cdot0+1=1$。
+
+           其余大部分条件的验证都很容易（尽管这些运算的古怪之处
+           使它们无法按常规进行）。
+           加法的交换律如下。
+           \begin{equation*}
+             \colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2}
+             =\colvec{x_1+x_2-1 \\ y_1+y_2 \\ z_1+z_2}
+             =\colvec{x_2+x_1-1 \\ y_2+y_1 \\ z_2+z_1}
+             =\colvec{x_2 \\ y_2 \\ z_2}+\colvec{x_1 \\ y_1 \\ z_1}
+           \end{equation*}
+           加法的结合律则是
+           \begin{equation*}
+             (\colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2})
+              +\colvec{x_3 \\ y_3 \\ z_3}
+             =\colvec{(x_1+x_2-1)+x_3-1 \\ (y_1+y_2)+y_3 \\ (z_1+z_2)+z_3}
+           \end{equation*}
+           而
+           \begin{equation*}
+             \colvec{x_1 \\ y_1 \\ z_1}
+             +(\colvec{x_2 \\ y_2 \\ z_2}+\colvec{x_3 \\ y_3 \\ z_3})
+             =\colvec{x_1+(x_2+x_3-1)-1 \\ y_1+(y_2+y_3) \\ z_1+(z_2+z_3)}
+           \end{equation*}
+           且两者相等。
+           关于这个加法运算的单位元 
+           如下
+           \begin{equation*}
+             \colvec{x \\ y \\ z}+\colvec[r]{1 \\ 0 \\ 0}
+             =\colvec{x+1-1 \\ y+0 \\ z+0}
+             =\colvec{x \\ y \\ z}
+           \end{equation*}
+           加法逆元类似。
+           \begin{equation*}
+             \colvec{x \\ y \\ z}+\colvec{-x+2 \\ -y \\ -z}
+             =\colvec{x+(-x+2)-1 \\ y-y \\ z-z}
+             =\colvec[r]{1 \\ 0 \\ 0}
+           \end{equation*}
+
+           关于标量乘法的那些条件也容易验证。
+           对第一个条件，
+           \begin{equation*}
+             (r+s)\colvec{x \\ y \\ z}
+             =\colvec{(r+s)x-(r+s)+1 \\ (r+s)y \\ (r+s)z}
+           \end{equation*}
+           而
+           \begin{multline*}
+             r\colvec{x \\ y \\ z}+s\colvec{x \\ y \\ z}
+             =\colvec{rx-r+1 \\ ry \\ rz}+\colvec{sx-s+1 \\ sy \\ sz}  \\
+             =\colvec{(rx-r+1)+(sx-s+1)-1 \\ ry+sy \\ rz+sz}
+           \end{multline*}
+           两者相等。
+           第二个条件比较
+           \begin{equation*}
+             r\cdot(\colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2})
+             =r\cdot\colvec{x_1+x_2-1 \\ y_1+y_2 \\ z_1+z_2}
+             =\colvec{r(x_1+x_2-1)-r+1 \\ r(y_1+y_2) \\ r(z_1+z_2)}
+           \end{equation*}
+           与
+           \begin{multline*}
+             r\colvec{x_1 \\ y_1 \\ z_1}+r\colvec{x_2 \\ y_2 \\ z_2}
+             =\colvec{rx_1-r+1 \\ ry_1 \\ rz_1}
+                     +\colvec{rx_2-r+1 \\ ry_2 \\ rz_2}                  \\
+             =\colvec{(rx_1-r+1)+(rx_2-r+1)-1 \\ ry_1+ry_2 \\ rz_1+rz_2}
+           \end{multline*}
+           且它们相等。
+           对第三个条件，
+           \begin{equation*}
+             (rs)\colvec{x \\ y \\ z}
+             =\colvec{rsx-rs+1 \\ rsy \\ rsz}
+           \end{equation*}
+           而
+           \begin{equation*}
+             r(s\colvec{x \\ y \\ z})
+             =r(\colvec{sx-s+1 \\ sy \\ sz})
+             =\colvec{r(sx-s+1)-r+1 \\ rsy \\ rsz}
+           \end{equation*}
+           两者相等。
+           对于被 $1$ 的标量乘法，我们有下式。
+           \begin{equation*}
+             1\cdot\colvec{x \\ y \\ z}
+             =\colvec{1x-1+1 \\ 1y \\ 1z}
+             =\colvec{x \\ y \\ z}
+           \end{equation*}
+           这样，这两个运算满足向量空间的所有条件。
+
+           \textit{注记。}
+           理解这个向量空间的一种方式是把它看作 $\Re^3$ 中的平面
+           \begin{equation*}
+             P=\set{\colvec{x \\ y \\ z}\suchthat x+y+z=0}
+           \end{equation*}
+           沿 $x$ 轴离开原点平移 $1$ 所得的平面。
+           于是加法变成：~要加上这个空间的两个成员
+           \begin{equation*}
+             \colvec{x_1 \\ y_1 \\ z_1},\;\colvec{x_2 \\ y_2 \\ z_2}
+           \end{equation*}
+           （其中 $x_1+y_1+z_1=1$ 且 $x_2+y_2+z_2=1$）
+           先把它们移回 $1$ 放入 $P$，再按通常方式相加，
+           \begin{equation*}
+             \colvec{x_1-1 \\ y_1 \\ z_1}+\colvec{x_2-1 \\ y_2 \\ z_2}
+             =\colvec{x_1+x_2-2 \\ y_1+y_2 \\ z_1+z_2}
+             \qquad\text{（在 $P$ 中）}
+           \end{equation*}
+           然后把结果沿 $x$ 轴再移出 $1$。
+           \begin{equation*}
+             \colvec{x_1+x_2-1 \\ y_1+y_2 \\ z_1+z_2}.
+           \end{equation*}
+           标量乘法类似。
+         \partsitem 为使该子空间对继承的标量
+           乘法封闭，设 $\vec{v}$ 是该子空间的一个成员，
+           \begin{equation*}
+             0\cdot\vec{v}=\colvec[r]{0 \\ 0 \\ 0}
+           \end{equation*}
+           它也必须是成员。
+
+           逆命题不成立。
+           下面是 $\Re^3$ 的一个包含原点的子集
+           \begin{equation*}
+             \set{\colvec[r]{0 \\ 0 \\ 0},\colvec[r]{1 \\ 0 \\ 0}}
+           \end{equation*}
+           （这个子集只有两个元素）但它不是子空间。
+       \end{exparts}
+     \end{answer}
+  \item 
+    我们可以为“零个向量之和等于零向量”这一约定给出一个理由。
+    考虑三个向量的和 $\vec{v}_1+\vec{v}_2+\vec{v}_3$。
+    \begin{exparts}
+      \partsitem 这个三个向量的和与这三个中前两个的和之差是什么？
+      \partsitem 前一个和与仅第一个向量的和之差是什么？
+      \partsitem 前一个只含一个向量的和与零个向量的和之差应当是什么？
+      \partsitem 那么零个向量的和应当定义为什么？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \item $(\vec{v}_1+\vec{v}_2+\vec{v}_3)-(\vec{v}_1+\vec{v}_2)
+                 =\vec{v}_3$
+        \item $(\vec{v}_1+\vec{v}_2)-(\vec{v}_1)
+                 =\vec{v}_2$
+        \item 显然，$\vec{v}_1$。
+        \item 取那个只含一项的和再相减，得
+          （$\vec{v}_1)-\vec{v}_1=\zero$。
+      \end{exparts}
+    \end{answer}
+  \item 
+    一个空间由它的子空间决定吗？
+    也就是说，如果两个向量空间有相同的子空间，这两个空间是否必定相等？
+    \begin{answer}
+      是的；任何空间都是它自身的子空间，所以每个空间都包含另一个。  
+    \end{answer}
+  \item 
+     \begin{exparts}
+      \partsitem 给出一个对标量乘法封闭
+        但对加法不封闭的集合。
+      \partsitem 给出一个对加法封闭但对标量乘法
+        不封闭的集合。
+      \partsitem 给出一个对两者都不封闭的集合。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \( \Re^2 \) 中 \( x \) 轴与 \( y \) 轴的并就是一例。
+        \partsitem 整数集，作为 \( \Re^1 \) 的子集，就是一例。
+        \partsitem \( \Re^2 \) 的子集 \( \set{\vec{v}} \) 就是一例，
+          其中 $\vec{v}$ 是任意非零向量。
+      \end{exparts}  
+     \end{answer}
+  \item 
+    证明一组向量的张成不依赖于列举这些向量时的顺序，即
+    该集合中向量被列举的顺序。
+    \begin{answer}
+      由于向量空间加法是交换的，重新排列被加项不会改变线性组合。  
+    \end{answer}
+  \item  
+    空集的张成是哪个平凡子空间？
+    是
+    \begin{equation*}
+      \set{\colvec[r]{0 \\ 0 \\ 0}}\subseteq \Re^3,
+      \quad\text{或}\quad
+      \set{0+0x}\subseteq \polyspace_1,
+    \end{equation*}
+    还是某个别的子空间？
+    \begin{answer}
+      我们总是在一个包围空间的背景下考虑这个张成。  
+    \end{answer}
+  \item   
+    证明若一个向量在某个集合的张成中，则把该向量加进集合
+    不会使张成变大。
+    这在“仅当”方向上也成立吗？
+    \begin{answer}
+      “当”与“仅当”两个方向都成立。
+
+      对于“当”的方向，
+      设 \( S \) 是向量空间 \( V \) 的子集，并假设
+      \( \vec{v}\in S \) 满足
+      \( \vec{v}=c_1\vec{s}_1+\dots+c_n\vec{s}_n \)，其中
+      \( c_1,\ldots,c_n \) 是标量，且
+      \( \vec{s}_1,\ldots,\vec{s}_n\in S \)。
+      我们必须证明 \( \spanof{S\union\set{\vec{v}} }=\spanof{S} \)。
+
+      一侧的包含关系，
+      \( \spanof{S}\subseteq\spanof{S\union\set{\vec{v}} } \) 是显然的。
+      对于另一个方向，
+      \( \spanof{S\union\set{\vec{v}} }\subseteq\spanof{S} \)，注意若一个
+      向量属于左边的集合，则它形如
+      \( d_0\vec{v}+d_1\vec{t}_1+\dots+d_m\vec{t}_m \)，其中诸 \( d \) 是
+      标量，诸 \( \vec{t}\, \) 属于 \( S \)。
+      把它改写为
+      \( d_0(c_1\vec{s}_1+\dots+c_n\vec{s}_n)
+      +d_1\vec{t}_1+\cdots+d_m\vec{t}_m \)，并注意
+      该结果是 \( S \) 的张成中的一个成员。
+
+      “仅当”显然成立\Dash 加入 \( \vec{v} \) 
+      会把张成扩大到至少包含 \( \vec{v} \)。
+    \end{answer}
+  \recommended \item
+    子空间是子集，所以我们自然会考虑“是……的子空间”这一关系
+    与通常的集合运算如何相互作用。
+    \begin{exparts}
+      \partsitem 若 \( A,B \) 是向量空间的子空间，它们的交
+        \( A\intersection B \) 必是子空间吗？
+        总是？有时？从不？
+      \partsitem 并 \( A\union B \) 必是子空间吗？
+      \partsitem 若 \( A \) 是某个~$V$ 的子空间，它的补集 $V-A$
+        必是子空间吗？
+    \end{exparts}
+    （\textit{提示。}   试用 \nearbyexample{ex:SubspRThree} 中
+    的一些试验性子空间。）
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 总是。
+
+          设 \( A,B \) 是 \( V \) 的子空间。
+          注意 
+          它们的交不空，因为两者都包含零向量。
+          若 \( \vec{w},\vec{s}\in A\intersection B \) 且 \( r,s \) 是
+          标量，则 \( r\vec{v}+s\vec{w}\in A \)，因为
+          每个向量都属于 \( A \)，所以线性组合属于 \( A \)，
+          出于同样的理由 \(r\vec{v}+s\vec{w}\in B \)。
+          于是这个交是封闭的。
+          这时 \nearbylemma{th:SubspIffClosed} 适用。
+        \partsitem 有时（更准确地说，仅当 \( A\subseteq B \) 或
+          \( B\subseteq A \)）。
+
+          为看出答案不是“总是”，取 \( V \) 为 \( \Re^3 \)，
+          取 \( A \) 为 $x$ 轴，\( B \) 为
+          \( y \) 轴。
+          注意
+          \begin{equation*}
+            \colvec[r]{1 \\ 0}\in A \text{ 且 }\colvec[r]{0 \\ 1}\in B
+            \quad\text{而}\quad
+            \colvec[r]{1 \\ 0}+\colvec[r]{0 \\ 1}\not\in A\union B
+          \end{equation*}
+          因为该和既不在 \( A \) 中也不在 \( B \) 中。
+
+          答案不是“从不”，因为若 \( A\subseteq B \) 或
+          \( B\subseteq A \)，则显然 \( A\union B \) 是子空间。
+
+          为证明 \( A\union B \) 是子空间仅当一个子空间
+          包含另一个，我们假设 \( A\not\subseteq B \)
+          且 \( B\not\subseteq A \)，并证明 
+          该并不是子空间。
+          \( A \) 不是 \( B \) 的子集这一假设意味着存在 
+          \( \vec{a}\in A \) 且 \( \vec{a}\not\in B \)。
+          另一假设给出一个 \( \vec{b}\in B \)，满足
+          \( \vec{b}\not\in A \)。
+          考虑 \( \vec{a}+\vec{b} \)。
+          注意该和不是 \( A \) 的元素，否则 
+          \( (\vec{a}+\vec{b})-\vec{a} \) 将属于 \( A \)，但它不属于。
+          类似地，该和也不是 \( B \) 的元素。
+          因此该和不是 \( A\union B \) 的元素，所以该并
+          不是子空间。
+        \partsitem 从不。
+          由于 \( A \) 是子空间，它包含零向量，因此
+          作为 $A$ 的补集的集合 $V-A$ 不包含它。
+          没有零向量，这个补集不可能是向量空间。
+      \end{exparts}  
+    \end{answer}
+  \item 
+    一个集合的张成依赖于包围它的空间吗？
+    也就是说，若 \( W \) 是 \( V \) 的子空间，\( S \) 是
+    \( W \) 的子集（因而也是 \( V \) 的子集），那么 \( S \) 在
+    \( W \) 中的张成可能不同于 \( S \) 在 \( V \) 中的张成吗？
+    \begin{answer}
+      一个集合的张成不依赖于包围它的空间。
+      \( S \) 中向量的线性组合给出同样的和，
+      无论我们把运算视为 \( W \) 的还是 \( V \) 的，
+      因为 \( W \) 的运算继承自 \(  V \)。  
+    \end{answer}
+  \item 
+    “是……的子空间”这一关系是传递的吗？
+    也就是说，若 $V$ 是 $W$ 的子空间，$W$ 是 $X$ 的
+    子空间，$V$ 必是 $X$ 的子空间吗？ 
+    \begin{answer}
+      是传递的；
+      应用 \nearbylemma{th:SubspIffClosed}。
+      （你必须考虑下面这一点。
+      设 \( B \) 是向量空间 \( V \) 的子空间，再设
+      \( A\subseteq B\subseteq V \) 是一个子空间。
+      \( A \) 从哪个空间继承它的运算？
+      答案是这无关紧要\Dash 两种情形下 \( A \) 继承的
+      都是相同的运算。）  
+    \end{answer}
+  \item
+    由于“张成”是集合上的一种运算，我们自然会考虑
+    它与通常的集合运算如何相互作用。
+    \begin{exparts}
+      \partsitem 若 \( S\subseteq T \) 是向量空间的子集，是否有
+        \( \spanof{S}\subseteq\spanof{T} \)？
+        总是？有时？从不？
+      \partsitem 若 \( S,T \) 是向量空间的子集，是否有
+        \( \spanof{S\union T}=\spanof{S}\union\spanof{T} \)？
+      \partsitem 若 \( S,T \) 是向量空间的子集，是否有
+        \( \spanof{S\intersection T}=\spanof{S}\intersection\spanof{T} \)？
+      \partsitem 补集的张成等于张成的补吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 总是；
+           若 \( S\subseteq T \)，则 \( S \) 中元素的线性组合
+           也是 \( T \) 中元素的线性组合。
+         \partsitem 有时（更准确地说，当且仅当 
+           \( S\subseteq T \) 或 \( T\subseteq S \)）。
+
+           答案不是“总是”，\( \Re^3 \) 中的这个例子
+           表明了这一点
+           \begin{equation*}
+             S=\set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 1 \\ 0}},\quad
+             T=\set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 0 \\ 1}}
+           \end{equation*}
+           因为有下式。
+           \begin{equation*}
+             \colvec[r]{1 \\ 1 \\ 1}\in\spanof{S\union T}
+             \qquad
+             \colvec[r]{1 \\ 1 \\ 1}\not\in\spanof{S}\union \spanof{T}
+           \end{equation*}
+
+           答案不是“从不”，因为若其中一个集合包含另一个，
+           则等式显然成立。
+           我们可以通过假设 \( S\not\subseteq T \)（意味着存在
+           向量 \( \vec{s}\in S \) 满足 
+           \( \vec{s}\not\in T \)）
+           且 \( T\not\subseteq S \)（给出一个 \( \vec{t}\in T \)，满足
+           \( \vec{t}\not\in S \)），并注意
+           \( \vec{s}+\vec{t}\in\spanof{S\union T} \)，
+           再证明 
+           \( \vec{s}+\vec{t}\not\in\spanof{S}\union\spanof{T} \)，
+           来刻画等式仅在其中一个集合包含另一个时才发生。
+         \partsitem 有时。
+
+           显然
+           \( \spanof{S\intersection T}
+             \subseteq\spanof{S}\intersection\spanof{T} \)
+           因为来自 
+           \( S\intersection T \)
+           的向量的任何线性组合既是 \( S \) 中向量的组合，也是
+           \( T \) 中向量的组合。
+
+           反方向的包含并不总成立。
+           例如，在 \( \Re^2 \) 中，取
+           \begin{equation*}
+             S=\set{\colvec[r]{1 \\ 0},\colvec[r]{0 \\ 1}},\quad
+             T=\set{\colvec[r]{2 \\ 0}}
+           \end{equation*}
+           于是 \( \spanof{S}\intersection\spanof{T} \) 是 \( x \) 轴，
+           但 \( \spanof{S\intersection T}  \) 是平凡子空间。
+
+           要精确刻画等式何时成立并不容易。
+           显然若其中一个集合包含另一个则等式成立，但由 \( \Re^3 \) 中的这个例子
+           可知那不是“仅当”的。
+           \begin{equation*}
+             S=\set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 1 \\ 0}},
+             \quad
+             T=\set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 0 \\ 1}}
+           \end{equation*}
+         \partsitem 从不，因为补集的张成是子空间，而
+           张成的补不是（它不包含零 
+           向量）。
+      \end{exparts}  
+     \end{answer}
+  % \item 
+  %   Reprove \nearbylemma{le:SpanIsASubsp} without doing the
+  %   empty set separately.
+  %   \begin{answer}
+  %     Call the subset \( S \).
+  %     By \nearbylemma{th:SubspIffClosed},
+  %     we need to check that 
+  %     \( \spanof{S} \) is closed under linear combinations.
+  %     If \( c_1\vec{s}_1+\dots+c_n\vec{s}_n,
+  %       c_{n+1}\vec{s}_{n+1}+\dots+c_m\vec{s}_m\in\spanof{S} \) then
+  %     for any \( p,r\in\Re \) we have
+  %     \begin{multline*}
+  %       p\cdot(c_1\vec{s}_1+\cdots+c_n\vec{s}_n)+
+  %            r\cdot(c_{n+1}\vec{s}_{n+1}+\cdots+c_m\vec{s}_m)        \\
+  %       =
+  %       pc_1\vec{s}_1+\cdots+pc_n\vec{s}_n
+  %         +rc_{n+1}\vec{s}_{n+1}+\cdots+rc_m\vec{s}_m
+  %     \end{multline*}
+  %     which is an element of \( \spanof{S} \).
+  %     % (\textit{Remark.}
+  %     % If the set $S$ is empty, then that
+  %     % `if \ldots\ then \ldots' statement is vacuously true.)  
+  %   \end{answer}
+  \item 找一个对线性组合封闭 
+    然而却不是向量空间的结构。
+    % (\textit{Remark.} 
+    % This is a bit of a trick question.)
+    \begin{answer}
+      要出现这种情况，保证加法与标量乘法运算合理性的条件中
+      必须有一个被违反。
+      考虑带这些运算的 \( \Re^2 \)。
+      \begin{equation*}
+        \colvec{x_1 \\ y_1}
+        +\colvec{x_2 \\ y_2}
+        =\colvec[r]{0 \\ 0}
+        \qquad
+        r\colvec{x \\ y}
+        =\colvec[r]{0 \\ 0}
+      \end{equation*}
+      集合 $\Re^2$ 对这些运算封闭。 
+      但它不是向量空间。
+      \begin{equation*}
+        1\cdot\colvec[r]{1 \\ 1}
+        \neq\colvec[r]{1 \\ 1}
+      \end{equation*}  
+    \end{answer}
+\index{subspace|)}
+\index{vector space|)}
+\end{exercises}

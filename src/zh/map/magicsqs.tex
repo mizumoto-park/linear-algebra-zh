@@ -1,0 +1,560 @@
+% 翻译状态：专题标题已译；正文待继续翻译与校对。
+% Topic from _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2012-Feb-12
+\topic{幻方}
+\index{magic square|(}
+中国传说讲述了一个关于
+洛河洪水的传说。
+人们献祭以安抚河神。
+每次都有一只乌龟出现，
+绕着祭品走一圈后回到水中。
+Fuh-Hi, % (2858-2738~BC)
+中华文明的奠基者，
+将此解释为
+河神仍未消气。  
+幸运的是，一个孩子注意到
+乌龟背上有如下左图的图案，今天称为
+洛书（“河图”）。
+\begin{center}
+  \vcenteredhbox{\includegraphics[height=.8in]{map/pix/LoShu.png}} % http://en.wikipedia.org/wiki/File:Lo_Shu_3x3_magic_square.svg
+  \hspace{.8in}
+  \begin{tabular}{|c|c|c|}
+    \hline
+      $4$  &$9$  &$2$  \\ \hline
+      $3$  &$5$  &$7$  \\ \hline
+      $8$  &$1$  &$6$  \\ \hline    
+  \end{tabular}
+\end{center}
+右图矩阵的各个
+行、列和对角线之和均为 $15$。
+人们知道应献多少祭品后，
+河神的怒气平息了。
+% (http://en.wikipedia.org/wiki/Lo_Shu_Square)
+
+方阵若
+\definend{magic}\index{matrix!magic square}\index{magic square!definition}
+每一行、每一列和每条对角线之和都等于同一个数，该数称为方阵的\definend{幻和}，则称该方阵为\definend{幻方}。
+
+另一幅幻方出现在丢勒的版画
+\textit{Melencolia I}（丢勒作品）。
+% (http://en.wikipedia.org/wiki/Melencolia_I)
+\begin{center}
+  \includegraphics[height=2.20in]{map/pix/Melencolia.jpg} % wikipedia http://upload.wikimedia.org/wikipedia/commons/1/14/Melencolia_I_%28Durero%29.jpg
+\end{center}
+一种解释是它描绘了忧郁这种消沉状态。
+画中人物是一位天才，
+周围有许多值得探索的事物，包括圆规、几何体、天平和沙漏。
+但人物无动于衷，所有物品都未被使用。
+右上方一个可能的乐趣是
+是一个 $\nbyn{4}$ 方阵，其
+行、列和对角线之和均为 $34$。
+\begin{center}
+  \vcenteredhbox{\includegraphics[height=1.25in]{map/pix/Melencoliadetail.jpg}} % wikipedia http://upload.wikimedia.org/wikipedia/commons/7/7e/Albrecht_D%C3%BCrer_-_Melencolia_I_%28detail%29.jpg
+  \hspace{.8in}
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+      $16$  &$3$  &$2$  &$13$  \\ \hline
+      $5$   &$10$ &$11$ &$8$   \\ \hline
+      $9$   &$6$  &$7$  &$12$  \\ \hline    
+      $4$   &$15$ &$14$ &$1$  \\ \hline  
+  \end{tabular}
+\end{center}
+底行中间的数字组成 $1514$，即版画的
+创作年份。
+
+上面两个方阵都是 $\interval{1}{n^2}$ 的排列。
+它们称为\definend{正规幻方}。\index{magic square!normal}.
+唯一元素为 $1$ 的 $\nbyn{1}$ 方阵是正规幻方；
+\nearbyexercise{exer:TwoByTwoMagicSqUnique} shows that there is
+no normal $\nbyn{2}$ magic square,
+且其他所有阶数都存在正规幻方；
+see \cite{WikipediaMagicSquare}.
+求每种阶数的正规幻方数量仍是未解决问题；见 \cite{OnlineEncyclopedia}。
+ 
+若不要求幻方正规，则可以得到更多结论。
+任意 $\nbyn{1}$ 方阵显然都是幻方。
+若 $\nbyn{2}$ 方阵的行、列和对角线
+\begin{equation*}
+  \begin{mat}
+    a  &b  \\
+    c  &d
+  \end{mat}
+\end{equation*}
+之和为 $s$，则 $a+b=s$、$c+d=s$、$a+c=s$、$b+d=s$、$a+d=s$、$b+c=s$。
+\nearbyexercise{exer:TwoByTwoMagicSqUnique} 表明该系统唯一解为 $a=b=c=d=s/2$.
+因此所有 $\nbyn{2}$ 阶幻方构成 $\matspace_{\nbyn{2}}$ 的一维子空间。
+
+两个同阶幻方之和仍是幻方，幻方的标量倍数也仍是幻方，因此
+幻方的标量倍数仍是幻方，因此所有
+$\nbyn{n}$ magic squares
+$\magicsquares_n$ 构成向量空间，是 $\matspace_{\nbyn{n}}$ 的子空间。
+本专题将证明当 $n\geq 3$ 时，
+$\magicsquares_n$ 的维数为 $n^2-n$。
+幻和为 $0$ 的 $\nbyn{n}$ 阶幻方集合 $\magicsquares_{n,0}$ 
+也是子空间，其维数为：
+当 $n\geq 3$ 时维数为 $n^2-2n-1$。
+
+首先证明 $\dim\magicsquares_n=\dim\magicsquares_{n,0}+1$.
+定义
+\definend{迹}\index{trace}\index{matrix!trace} 定义为矩阵从左上到右下主对角线元素之和
+$\trace (M)=m_{1,1}+\cdots+m_{n,n}$.
+考虑迹在幻方空间上的限制
+$\map{\trace}{\magicsquares_n}{\Re}$. 
+零空间 $\nullspace{\trace}$ 是幻和为零的幻方集合
+$\magicsquares_{n,0}$.
+注意迹映射满射，因为对陪域中任意 $r$，
+陪域 $\Re$ 中所有元素为 $r/n$ 的 $\nbyn{n}$ 方阵都是幻和为 $r$ 的幻方。
+定理 Two.II.\ref{th:RankPlusNullEqDim} 表明，对任意线性映射，定义域维数等于值域维数与零空间维数之和，即映射的秩加零度。
+这里定义域为 $\magicsquares_n$，值域为 $\Re$，零空间为 $\magicsquares_{n,0}$，因此 $\dim\magicsquares_n=1+\dim\magicsquares_{n,0}$。
+
+最后求向量空间
+$\magicsquares_{n,0}$. 
+当 $n=1$ 时维数显然为 $0$。
+\nearbyexercise{exer:DimTwoMagicSqsMagicSumZero} shows 
+that $\dim\magicsquares_{n,0}$ is also $0$
+for $n=2$.
+
+还需证明   
+$\dim\magicsquares_{n,0}=n^2-2n-1$ for $n\geq 3$. 
+该向量空间中的方阵都是幻方，
+给出一个线性约束方程组，而
+幻和为零使该方程组齐次；例如考虑
+例如考虑 $\nbyn{3}$ 情形。
+要求下列方阵的行、列和对角线
+\begin{equation*}
+    \begin{mat}
+      a &b &c \\
+      d &e &f \\
+      g &h &i
+    \end{mat}
+\end{equation*}
+之和为零，得到以下 $\nbym{(2n+2)}{n^2}$ 线性方程组。
+\begin{equation*}
+  \begin{linsys}{9}
+    a &+ &b &+ &c &  &  &  &  &  &  &  &  &  &  &  &  &= &0 \\ 
+      &  &  &  &  &  &d &+ &e &+ &f &  &  &  &  &  &  &= &0 \\ 
+      &  &  &  &  &  &  &  &  &  &  &  &g &+ &h &+ &i &= &0 \\ 
+    a &  &  &  &  &+ &d &  &  &  &  &+ &g &  &  &  &  &= &0 \\ 
+      &  &b &  &  &  &  &+ &e &  &  &  &  &+ &h &  &  &= &0 \\ 
+      &  &  &  &c &  &  &  &  &+ &f &  &  &  &  &+ &i &= &0 \\ 
+    a &  &  &  &  &  &  &+ &e &  &  &  &  &  &  &+ &i &= &0 \\ 
+      &  &  &  &c &  &  &+ &e &  &  &+ &g &  &  &  &  &= &0    
+  \end{linsys}
+\end{equation*}
+通过求线性方程组中
+自由变量的数量来求该空间维数。
+
+当 $n=3$ 和 $n=4$ 时，系数矩阵
+如下，并标出行列编号以便阅读
+the proof.
+相对于标准基，每个矩阵表示线性映射
+$\map{h}{\Re^{n^2}}{\Re^{2n+2}}$.
+定义域维数为 $n^2$，因此若证明
+矩阵秩为 $2n+1$，就得到
+所需结论：零空间
+$\magicsquares_{n,0}$ is $n^2-(2n+1)$.
+\newlength{\interblockhspace}
+\setlength{\interblockhspace}{1.45em}
+\newlength{\interblockvspace}
+\setlength{\interblockvspace}{1ex}
+\newlength{\colwidth}
+\settowidth{\colwidth}{$9$}
+\begin{equation*}
+  \begin{array}{r|ccc@{\hspace*{\interblockhspace}}ccc@{\hspace*{\interblockhspace}}ccc}
+    \multicolumn{1}{c}{\ }  &1 &2 &3 &4 &5 &6 &7 &8 &9 \\
+    \cline{2-10}
+    \vec{\rho}_1 &1 &1 &1 &0 &0 &0 &0 &0 &0 \\
+    \vec{\rho}_2 &0 &0 &0 &1 &1 &1 &0 &0 &0 \\
+    \vec{\rho}_3 &0 &0 &0 &0 &0 &0 &1 &1 &1 \\[\interblockvspace]
+    \vec{\rho}_4 &1 &0 &0 &1 &0 &0 &1 &0 &0 \\
+    \vec{\rho}_5 &0 &1 &0 &0 &1 &0 &0 &1 &0 \\
+    \vec{\rho}_6 &0 &0 &1 &0 &0 &1 &0 &0 &1 \\[\interblockvspace]
+    \vec{\rho}_7 &1 &0 &0 &0 &1 &0 &0 &0 &1 \\
+    \vec{\rho}_8 &0 &0 &1 &0 &1 &0 &1 &0 &0 
+  \end{array}
+\end{equation*}
+\begin{equation*}
+  \begin{array}{r|cccc@{\hspace*{\interblockhspace}}cccc@{\hspace*{\interblockhspace}}cccc@{\hspace*{\interblockhspace}}cccc}
+    \multicolumn{1}{c}{\ }  &1 &2 &3 &4 &5 &6 &7 &8 &9 
+           &\makebox[\colwidth]{$10$} &\makebox[\colwidth]{$11$} 
+           &\makebox[\colwidth]{$12$} &\makebox[\colwidth]{$13$} 
+           &\makebox[\colwidth]{$14$} &\makebox[\colwidth]{$15$} 
+           &\makebox[\colwidth]{$16$} \\
+    \cline{2-17}
+    \vec{\rho}_1   &1 &1 &1 &1  &0 &0 &0 &0  &0 &0 &0 &0  &0 &0 &0 &0 \\
+    \vec{\rho}_2   &0 &0 &0 &0  &1 &1 &1 &1  &0 &0 &0 &0  &0 &0 &0 &0 \\
+    \vec{\rho}_3   &0 &0 &0 &0  &0 &0 &0 &0  &1 &1 &1 &1  &0 &0 &0 &0 \\
+    \vec{\rho}_4   &0 &0 &0 &0  &0 &0 &0 &0  &0 &0 &0 &0  &1 &1 &1 &1 \\[\interblockvspace]
+    \vec{\rho}_5   &1 &0 &0 &0  &1 &0 &0 &0  &1 &0 &0 &0  &1 &0 &0 &0 \\
+    \vec{\rho}_6   &0 &1 &0 &0  &0 &1 &0 &0  &0 &1 &0 &0  &0 &1 &0 &0 \\
+    \vec{\rho}_7   &0 &0 &1 &0  &0 &0 &1 &0  &0 &0 &1 &0  &0 &0 &1 &0 \\
+    \vec{\rho}_8   &0 &0 &0 &1  &0 &0 &0 &1  &0 &0 &0 &1  &0 &0 &0 &1 \\[\interblockvspace]
+    \vec{\rho}_9   &1 &0 &0 &0  &0 &1 &0 &0  &0 &0 &1 &0  &0 &0 &0 &1 \\
+    \vec{\rho}_{10} &0 &0 &0 &1  &0 &0 &1 &0  &0 &1 &0 &0  &1 &0 &0 &0 \\
+  \end{array}
+\end{equation*}
+
+我们要证明系数矩阵的秩，即
+最大线性无关行组中的行数，为 $2n+1$。
+系数矩阵前 $n$ 行之和与后 $n$ 行之和相同，均为全 1 向量。
+因此最大线性无关行组至少要删去一行。
+我们将证明除第一行外的所有行
+$\setinterval{\vec{\rho}_2}{\vec{\rho}_{2n+2}}$
+线性无关。
+考虑如下线性关系。
+\begin{equation*}
+  c_2\vec{\rho}_2+\cdots+c_{2n}\vec{\rho}_{2n}
+     +c_{2n+1}\vec{\rho}_{2n+1}+c_{2n+2}\vec{\rho}_{2n+2}=\zero
+   \tag{$*$}
+\end{equation*}
+
+下面进行细致分析。
+关注表格左下部分。
+注意最后两行在前 $n$ 列中分别含有一行子向量：
+除第 $1$ 列开头为 1 外其余全为零，
+以及除第 $n$ 列末尾为 1 外其余全为零。
+在第 $n$ 列。
+
+首先，删去 $\vec{\rho}_1$ 后，第 $1$ 列和第 $n$ 列都只含有
+two ones.
+由于（*）中第 $1$ 列非零的行只有
+非零行是 $\vec{\rho}_{n+1}$ 和 $\vec{\rho}_{2n+1}$，它们元素为 1，
+因此 $c_{2n+1}=-c_{n+1}$。
+同理，考察（*）中向量的第 $n$ 个分量可得
+$c_{2n+2}=-c_{2n}$.
+
+接着考察这两列之间的列\Dash
+在 $n=3$ 表中只有第 $2$ 列，而
+在 $n=4$ 表中包括第 $2$、$3$ 列。
+每一列都只有一个 1。
+也就是说，对每个列指标 $j\in\setinterval{2}{n-2}$
+该列除第 $n+j$ 行为 1 外全为零，
+因此 $c_{n+j}=0$。
+
+再看从 $n+1$ 到 $2n$ 的下一组列。
+第 $n+1$ 列只有两个 1（因为 $n\geq3$，其中的 1
+最后两行中的 1 不会落在这一组的第一列，
+位于最后两行之外）。 
+Thus $c_2=-c_{n+1}$
+因此 $c_2=c_{2n+1}$。
+同理，由第 $2n$ 列可得 $c_2=-c_{2n}$。
+所以 $c_2=c_{2n+2}$。  
+
+Because $n\geq 3$
+第 $n+1$ 列与第 $2n-1$ 列之间至少有一列。
+在其中至少一列中，$\vec{\rho}_{2n+1}$ 的对应元素为 1。
+若该列在 $\vec{\rho}_{2n+2}$ 中也为 1，则
+$c_2=-(c_{2n+1}+c_{2n+2})$ 
+since $c_{n+j}=0$ for $j\in\setinterval{2}{n-2}$.
+若该列在 $\vec{\rho}_{2n+2}$ 中不为 1，
+则 $c_2=-c_{2n+1}$。
+无论哪种情况都有 $c_2=0$，从而
+$c_{2n+1}=c_{2n+2}=0$ and  
+$c_{n+1}=c_{2n}=0$.
+
+若下一组 $n$ 列不是最后一组，同理
+由其第一列可得
+第一列可得 $c_3=c_{n+1}=0$。
+
+重复上述过程直到最后一组列，其编号为
+$(n-1)n+1$ through~$n^2$.
+Because $c_{n+1}=\cdots=c_{2n}=0$ column~$n^2$ 
+可得 $c_n=-c_{2n+1}=0$。
+
+因此矩阵秩为 $2n+1$，证毕。
+
+\medskip
+正规幻方的经典来源是 \cite{Ball}。
+洛书的更多内容见 \cite{WikipediaLoShuSquare}。
+这里的证明源自 \cite{Ward}。
+
+\begin{exercises}
+  \item 设 $M$ 是幻和为 $s$ 的 $\nbyn{3}$ 幻方。
+    \begin{exparts}
+      \partsitem 证明 $M$ 的元素之和为 $3s$。
+      \partsitem 证明 $s=3\cdot m_{2,2}$.
+      \partsitem 证明 $m_{2,2}$ 是其所在行、列和各条对角线元素的平均值。
+      \partsitem 证明 $m_{2,2}$ 是 $M$ 的元素中位数。
+
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem $M$ 的元素之和等于三行元素和之和。
+          
+        \partsitem 涉及中心元素的约束给出方程组：
+          \begin{equation*}
+            \begin{linsys}{3}
+              m_{2,1}  &+  &m_{2,2}  &+  &m_{2,3}  &=  &s  \\ 
+              m_{1,2}  &+  &m_{2,2}  &+  &m_{3,2}  &=  &s  \\ 
+              m_{1,1}  &+  &m_{2,2}  &+  &m_{3,3}  &=  &s  \\ 
+              m_{1,3}  &+  &m_{2,2}  &+  &m_{3,1}  &=  &s  
+            \end{linsys}
+          \end{equation*}
+          将这四个方程相加时，每个元素只计算一次，
+          但中心元素计算了四次。
+          因此左端为 $3s+3m_{2,2}$，右端为 $4s$。
+          所以 $3m_{2,2}=s$。
+        \partsitem
+          第二行之和为 $s$，所以 $m_{2,1}+m_{2,2}+m_{2,3}=3m_{2,2}$,
+          从而 $(1/2)\cdot(m_{2,1}+m_{2,3})=m_{2,2}$.
+          对列和对角线同理。
+        \partsitem
+          根据上一小题，$m_{2,1}$ 和 $m_{2,3}$ 要么都等于 $m_{2,2}$，要么一个大于而另一个小于 $m_{2,2}$。
+          Thus $m_{2,2}$ is the median of the set
+          $\set{m_{2,1},m_{2,2},m_{2,3}}$.
+          对第二列作同样推理可得，
+          Thus $m_{2,2}$ is the median of the set
+          $\set{m_{1,2},m_{2,1},m_{2,2},m_{2,3},m_{3,2}}$.
+          对两条对角线作推广可知它是所有元素的中位数。
+          所有元素的中位数。
+      \end{exparts}
+    \end{answer}
+  \item \label{exer:TwoByTwoMagicSqUnique}
+    求解方程组 $a+b=s$、$c+d=s$、$a+c=s$、$b+d=s$、$a+d=s$、$b+c=s$。
+    \begin{answer}
+      对任意 $k$，有如下消元：
+      \begin{multline*}
+        \begin{amat}{4}
+          1  &1  &0  &0  &s  \\
+          0  &0  &1  &1  &s  \\
+          1  &0  &1  &0  &s  \\
+          0  &1  &0  &1  &s  \\
+          1  &0  &0  &1  &s  \\
+          0  &1  &1  &0  &s            
+        \end{amat}
+        \grstep[-\rho_1+\rho_5]{-\rho_1+\rho_3}
+        \begin{amat}{4}
+          1  &1  &0  &0  &s  \\
+          0  &0  &1  &1  &s  \\
+          0  &-1 &1  &0  &0  \\
+          0  &1  &0  &1  &s  \\
+          0  &-1 &0  &1  &0  \\
+          0  &1  &1  &0  &s            
+        \end{amat}                                            \\
+        \grstep{-\rho_2\leftrightarrow\rho_6}
+        \begin{amat}{4}
+          1  &1  &0  &0  &s  \\
+          0  &1  &1  &0  &s  \\          
+          0  &-1 &1  &0  &0  \\
+          0  &1  &0  &1  &s  \\
+          0  &-1 &0  &1  &0  \\
+          0  &0  &1  &1  &s  
+        \end{amat}
+        \grstep[-\rho_2+\rho_4 \\ \rho_2+\rho_5]{-\rho_2+\rho_3}
+        \begin{amat}{4}
+          1  &1  &0  &0  &s  \\
+          0  &1  &1  &0  &s  \\          
+          0  &0  &2  &0  &s  \\
+          0  &1  &-1 &1  &0  \\
+          0  &0  &1  &1  &s  \\
+          0  &0  &1  &1  &s  
+        \end{amat}
+      \end{multline*}
+      唯一解为 $a=b=c=d=s/2$。
+    \end{answer}
+  \item \label{exer:DimTwoMagicSqsMagicSumZero} 
+    证明 $\dim\magicsquares_{2,0}=0$.
+    \begin{answer}
+       根据上一小题，唯一元素是 $Z_{\nbyn{2}}$。
+    \end{answer}
+  \item   \label{exer:TraceIsLinear}
+    设 \definend{trace} 函数为
+    $\trace (M)=m_{1,1}+\cdots+m_{n,n}$.
+    另定义
+    副对角线元素之和
+    $\trace^* (M)=m_{1,n}+\cdots+m_{n,1}$.
+    \begin{exparts}
+      \partsitem 
+        证明两个函数
+        $\map{\trace,\trace^*}{\matspace_{\nbyn{n}}}{\Re}$
+        are linear.
+      \partsitem
+        证明函数
+       $\map{\theta}{\matspace_{\nbyn{n}}}{\Re^2}$
+       given by $\theta(M)=(\trace(M),\trace^*(m))$
+       是线性的。
+     \partsitem
+       推广上一小题。 
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          对 $M,N\in\matspace_{\nbyn{n}}$，有
+          $\trace(cM+dN)=(cm_{1,1}+dn_{1,1})+\cdots+(cm_{n,n}+dn_{n,n})
+          =(cm_{1,1}+\cdots+cm_{n,n})+(dn_{1,1}+\cdots+dn_{n,n})
+          =c\cdot\trace(M)+d\cdot\trace(N)$其中所有数均为实数，因此迹保持线性组合。
+         对 $\trace^*$ 的论证类似。
+       \partsitem
+         它保持线性组合；所有数均为实数，
+          $\theta(cM+dN)=(\trace(cM+dN),\trace^*(cM+dN))
+          =(c\cdot\trace(M)+d\cdot\trace(N), c\cdot\trace^*(M)+d\cdot\trace^*(N))
+          =c\cdot\theta(M)+d\cdot\theta(N)$.
+       \partsitem   
+         若 $\map{h_1,\ldots,h_n}{V}{W}$ 都是线性映射，则
+         $\map{g}{V}{W^n}$ given by
+         $g(\vec{v})=(h_1(\vec{v}), \ldots, h_n(\vec{v}))$.
+         证明同上一小题。
+      \end{exparts}
+    \end{answer}
+  \item 方阵若\definend{semimagic} 定义为
+     行和列之和相等，即忽略
+     对角线条件。
+     \begin{exparts*}
+       \partsitem
+         证明半幻方集合 $\semimagicsquares_n$
+         是 $\matspace_{\nbyn{n}}$ 的子空间。
+       \partsitem
+         证明 
+         集合 $\semimagicsquares_{n,0}$
+         的幻和为 $0$ 的 $\nbyn{n}$ 阶半幻方也构成 $\matspace_{\nbyn{n}}$ 的子空间。
+     \end{exparts*}
+     \begin{answer}
+       \begin{exparts*}
+         \partsitem
+           两个半幻方之和仍是半幻方，半幻方的标量倍数也仍是半幻方。
+         \partsitem
+           与上一小题一样，两个
+           幻和为零的半幻方的线性组合仍是此类矩阵。
+       \end{exparts*}
+     \end{answer}
+  % 2014-Dec-19 Nothing wrong with this; I trimmed to make pages fit.
+  % \item 
+  %   \cite{Beardon}
+  %   Here is a slicker proof of the result of this Topic, when $n\geq 3$.
+  %   See the prior two exercises for some definitions and needed results.
+  %   \begin{exparts}
+  %     \partsitem
+  %       First show that 
+  %       $\dim\magicsquares_{n,0}=\dim\semimagicsquares_{n,0}+2$.
+  %       To do this, consider the function
+  %       $\map{\theta}{\matspace_n}{\Re^2}$ sending a 
+  %       matrix~$M$ to
+  %       the ordered pair $(\trace(M),\trace^*(M))$.
+  %       Specifically, consider the restriction of that map
+  %       $\map{\theta}{\semimagicsquares_n}{\Re^2}$ to the semimagic squares.  
+  %       Clearly its null space is $\magicsquares_{n,0}$.
+  %       证明 when $n\geq 3$ this restriction $\theta$ is onto.
+  %       (\textit{Hint:} we need only find a basis for 
+  %          $\Re^2$ that is the
+  %          image of two members of $\mathcal{H}_n$)  
+  %     \partsitem
+  %       Let the function $\map{\phi}{\matspace_{\nbyn{n}}}{\matspace_{\nbyn{(n-1)}}}$
+  %       be the identity map except that it 
+  %       drops the final row and column: $\phi(M)=\hat{M}$ 其中 
+  %       $\hat{m}_{i,j}=m_{i,j}$ for all $i,j\in\setinterval{1}{n-1}$.
+  %       The check that $\phi$ 是线性的 is easy.
+  %       Consider $\phi$'s restriction to the semimagic squares with 
+  %       magic number zero
+  %      $\map{\phi}{\semimagicsquares_{n,0}}{\matspace_{\nbyn{(n-1)}}}$.
+  %      证明 $\phi$ is one-to-one
+  %    \partsitem
+  %      证明 $\phi$ is onto.
+  %    \partsitem Conclude that
+  %       $\semimagicsquares_{n,0}$ has dimension~$(n-1)^2$.
+  %    \partsitem 
+  %       Conclude that $\dim(\magicsquares_n)=n^2-n$
+  %   \end{exparts}
+  %   \begin{answer}
+  %     \begin{exparts}
+  %       \partsitem
+  %         考虑 matrix $C\in \mathcal{H}_n$ that has all 
+  %         entries zero except
+  %         that the four corners are $c_{1,1}=c_{n,n}=1$ and $c_{1,n}=c_{n,1}=-1$.
+  %          Also consider the matrix $D\in \mathcal{H}_n$ with all entries 
+  %          zero except that 
+  %          $d_{1,1}=d_{2,2}=1$ and $d_{1,2}=d_{2,1}=-1$.
+  %          有
+  %          \begin{equation*}
+  %             \theta(C)=\colvec{2 \\ -2}
+  %             \qquad
+  %             \theta(D)=\begin{cases}
+  %                          \binom{2}{-1}  &\text{if $n=3$}  \\[1ex]
+  %                          \binom{2}{0}  &\text{if $n>3$}
+  %                       \end{cases}
+  %          \end{equation*}
+  %          and so the image of $\theta$ includes a basis for $\Re^2$ and
+  %          thus $\theta$ is onto.
+  %          With that, because for any linear map the
+  %          dimension of the domain equals its rank plus its nullity
+  %          we conclude that 
+  %          $\dim(\mathcal{H}_n)=2+\dim(\magicsquares_{n,0})$, as desired.
+  %       \partsitem
+  %          We claim that 
+  %          $\map{\phi}{\semimagicsquares_{n,0}}{\matspace_{\nbyn{(n-1)}}}$.
+  %          is one-to-one and onto.
+
+  %          To show that it is one-to-one we will show that the only member of 
+  %          $\semimagicsquares_{n,0}$ mapped to the zero matrix $Z_{\nbyn{(n-1)}}$
+  %          is the zero matrix~$Z_{\nbyn{n}}$.
+  %          设 $M\in\semimagicsquares_{\nbyn{n}}$ and 
+  %          $\phi(M)=Z_{\nbyn{(n-1)}}$.
+  %          On all but the final row and column $\phi$ is the identity so
+  %          the entries in $M$ in all but the final row and column are zero: 
+  %          $m_{i,j}=0$ for $i,j\in\setinterval{1}{n-1}$.
+  %          The first row of $M$ adds to zero and hence
+  %          the final entry in that row $m_{1,n}$ is zero.
+  %          Similarly the final entry in each row $i\in\setinterval{1}{n-1}$
+  %          and column $j\in\setinterval{1}{n-1}$ is zero.
+  %          Then, the final column adds to zero so $m_{n,n}=0$.
+  %          Therefore $M$ is the zero matrix $Z_{\nbyn{n}}$ and the 
+  %          restriction of $\phi$ 
+  %          is one-to-one. 
+  %       \partsitem
+  %          Consider a member $\hat{M}$ of the codomain $\matspace_{\nbyn{(n-1)}}$.
+  %          We will produce a matrix $M$ from the domain 
+  %          $\semimagicsquares_{n,0}$ that maps to it.
+  %          The function $\phi$ is the identity on all but the final row 
+  %          and column of 
+  %          $M$ so for $i,j\in\setinterval{1}{n-1}$
+  %          the entries are $m_{i,j}=\hat{m}_{i,j}$.
+  %          \begin{equation*}
+  %            M=\begin{mat}
+  %              \hat{m}_{1,1}    &\hat{m}_{1,2}  &\ldots &\hat{m}_{1,n-1} &m_{1,n}  \\
+  %              \vdotswithin{\hat{m}_{1,1}}  
+  %                &\vdotswithin{\hat{m}_{1,2}}     \\
+  %              \hat{m}_{n-1,1}  &\hat{m}_{n-1,2} &\ldots &\hat{m}_{n-1,n-1} &m_{n-1,n}  \\
+  %              m_{n,1}         &m_{n,2}         &\ldots &m_{n,n-1}        &m_{n,n}  
+  %           \end{mat}
+  %         \end{equation*}
+  %         The first row of $M$ must add to zero so we take $m_{1,n}$ to be  
+  %         $-(\hat{m}_{1,1}+\cdots+\hat{m}_{1,n-1})$.
+  %         In the same way we get the final entries 
+  %         $m_{i,n}=-(\hat{m}_{i,1}+\cdots+\hat{m}_{i,n-1})$ in all the rows but the 
+  %         bottom $i\in\setinterval{1}{n-1}$, 
+  %         and the final entries $m_{n,j}=-(\hat{m}_{1,j}+\cdots+\hat{m}_{n-1,j})$ 
+  %         in all the columns but the last
+  %         $j\in\setinterval{1}{n-1}$.
+  %         The entry remaining is the one in the lower right~$m_{n,n}$.
+  %         The final column adds to zero so we set it to 
+  %         $-(m_{1,n}+\cdots+m_{n-1,n})$ but we must check
+  %         that the final row now also adds to zero.
+  %         有 $m_{n,n}=-m_{1,n}-\cdots-m_{n-1,n}$ and expanding each of the
+  %         $m_{i,n}$ as $-\hat{m}_{1,1}-\cdots-\hat{m}_{1,n-1}$
+  %         gives that we have defined $m_{n,n}$ to be the sum of all the entries
+  %         of $\hat{M}$.
+  %         The sum of the all the entries but the last in the final row is
+  %         $m_{1,n}+m_{2,n}+\cdots+m_{n-1,n}$ and expanding each 
+  %         $m_{n,j}=-\hat{m}_{1,j}-\cdots-\hat{m}_{n-1,j}$ 
+  %         verifies that the sum of the final row is zero.
+  %         Thus $M$ is semimagic with magic number zero and so $\phi$ is onto.
+  %       \partsitem
+  %          Theorem~Two.II.\ref{th:RankPlusNullEqDim} says that for any linear 
+  %          map the
+  %          dimension of the domain equals its rank plus its nullity.
+  %          Because $\map{\phi}{\semimagicsquares_n}{\matspace_{\nbyn{(n-1)}}}$ 
+  %          is one-to-one its nullity is zero.
+  %          Because it is onto its rank is $\dim(\matspace_{\nbyn{(n-1)}})=(n-1)^2$.
+  %          Thus the domain of $\phi$, the subspace  
+  %          $\semimagicsquares_{n,0}$ of semimagic squares with magic number zero,
+  %          has dimension~$(n-1)^2$.
+  %        \partsitem   
+  %          有 that $\dim\magicsquares_n=\dim\magicsquares_{n,0}+1
+  %          =(\dim\semimagicsquares_n-2)+1=(n-1)^2-1=n^2-n$ 
+  %          when $n\geq 3$.
+  %     \end{exparts}
+  %   \end{answer}
+\end{exercises}
+\index{magic square|)}
+\endinput
+

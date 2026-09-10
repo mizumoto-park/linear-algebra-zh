@@ -71,16 +71,20 @@ zh-book:
 	@echo "Built $(SRC)/zh/book-zh.pdf"
 
 zh-progress:
-	@total=0; done=0; \
+	@total=0; done=0; partial=0; \
 	for f in $(ZH_FILES); do \
 	  total=$$((total+1)); \
 	  if [ -f "$(SRC)/zh/$$f.tex" ]; then \
-	    done=$$((done+1)); printf "  [x] %s\n" "$$f"; \
+	    if grep -q '^% TRANSLATION-PARTIAL:' "$(SRC)/zh/$$f.tex"; then \
+	      partial=$$((partial+1)); printf "  [~] %s (部分初译)\n" "$$f"; \
+	    else \
+	      done=$$((done+1)); printf "  [x] %s\n" "$$f"; \
+	    fi; \
 	  else \
 	    printf "  [ ] %s\n" "$$f"; \
 	  fi; \
 	done; \
-	echo "进度: $$done / $$total"
+	printf "进度: %s / %s；部分初译: %s\n" "$$done" "$$total" "$$partial"
 
 zh-view:
 	open $(SRC)/zh/test-zh.pdf

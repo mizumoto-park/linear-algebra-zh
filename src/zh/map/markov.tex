@@ -1,0 +1,2214 @@
+% 翻译状态：专题标题已译；正文待继续翻译与校对。
+% Chapter 3, Topic _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\topic{马尔可夫链}
+\index{Markov chain|(}
+
+下面是一个简单的游戏：
+玩家每次抛硬币下注 1 美元，
+当玩家输光钱或
+赢到 5 美元时游戏结束。
+若玩家以 3 美元开始，游戏
+至少进行 5 次抛掷的概率是多少？
+进行 25 次呢？
+
+任意时刻，玩家拥有 \$0、\$1、\ldots 或 \$5。 
+称玩家处于状态
+\definend{state}\index{state} 
+$s_0$、$s_1$、\ldots、$s_5$。
+游戏中玩家在状态之间移动。
+例如，当前处于状态 $s_3$ 下一次抛掷以 $0.5$ 的概率移动
+到状态 $s_2$，以 $0.5$ 的概率移动到 $s_4$。
+边界状态不同；
+玩家永远不会离开状态 $s_0$ 或 $s_5$。
+
+设 $p_i(n)$ 为玩家在抛掷 $n$ 次后处于状态 $s_i$ 的概率。
+抛掷 $n$ 次后。
+例如，抛掷
+$n+1$ 次后处于状态 $s_0$ 的概率为
+$p_{0}(n+1)=p_{0}(n)+0.5\cdot p_{1}(n)$.
+该方程可概括为：
+\begin{equation*}
+  % breqn didn't like this:
+  % \begin{dmat}{D{.}{.}{1}D{.}{.}{1}D{.}{.}{1}D{.}{.}{1}D{.}{.}{1}D{.}{.}{1}}
+    \begin{mat}
+      1.0  &0.5  &0.0  &0.0  &0.0   &0.0  \\ 
+      0.0  &0.0  &0.5  &0.0  &0.0   &0.0  \\ 
+      0.0  &0.5  &0.0  &0.5  &0.0   &0.0  \\ 
+      0.0  &0.0  &0.5  &0.0  &0.5   &0.0  \\ 
+      0.0  &0.0  &0.0  &0.5  &0.0   &0.0  \\ 
+      0.0  &0.0  &0.0  &0.0  &0.5   &1.0 
+   \end{mat}  
+   % \end{dmat}
+   \colvec{p_{0}(n) \\ 
+        p_{1}(n) \\
+        p_{2}(n) \\
+        p_{3}(n) \\
+        p_{4}(n) \\
+        p_{5}(n)}
+   =\colvec{p_{0}(n+1) \\ 
+        p_{1}(n+1) \\
+        p_{2}(n+1) \\
+        p_{3}(n+1) \\
+        p_{4}(n+1) \\
+        p_{5}(n+1)}
+\end{equation*}
+
+\textit{Sage} 可计算该游戏的演化。 
+\begin{lstlisting}
+sage: M = matrix(RDF, [[1.0, 0.5, 0.0, 0.0, 0.0, 0.0],
+....:                  [0.5, 0.0, 0.5, 0.0, 0.0, 0.0],
+....:                  [0.0, 0.5, 0.0, 0.5, 0.0, 0.0],
+....:                  [0.0, 0.0, 0.5, 0.0, 0.5, 0.0],
+....:                  [0.0, 0.0, 0.0, 0.5, 0.0, 0.5],
+....:                  [0.0, 0.0, 0.0, 0.0, 0.5, 1.0]])
+sage: M = M.transpose()
+sage: v0 = vector(RDF, [0.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+sage: v1 = v0*M
+sage: v1
+(0.0, 0.0, 0.5, 0.0, 0.5, 0.0)
+sage: v2 = v1*M
+sage: v2
+(0.0, 0.25, 0.0, 0.5, 0.0, 0.25)  
+\end{lstlisting}
+（两点说明：(1)~\textit{Sage} 可使用不同数系来
+表示矩阵元素；这里使用 Real Double Float；(2)~
+\textit{Sage} 习惯从右侧进行矩阵乘法，
+即写作 $\vec{v}\hspace{.1em}M$ 而非通常的 $M\vec{v}$，
+因此需要取矩阵的转置。）
+
+这些是所得向量的分量。
+\begin{center}
+  \begin{tabular}{@{}c|ccccc@{\hspace*{5em}}c@{}}
+    $n=0$
+    &\multicolumn{1}{c}{$n=1$}
+    &\multicolumn{1}{c}{$n=2$}
+    &\multicolumn{1}{c}{$n=3$}
+    &\multicolumn{1}{c}{$n=4$}
+    &\multicolumn{1}{c}{$\cdots$}
+    &$n=24$ \\ 
+    \hline  
+    $\begin{array}{l}
+             0 \\ 0    \\  0   \\  1    \\  0    \\  0
+     \end{array}$
+    % breqn again
+    % &$\dcolvec[1]{
+    %    0      \\  0    \\  0.5  \\  0    \\  0.5    \\  0
+    %      }$
+    % &$\dcolvec[2]{
+    %   0      \\  .25  \\ 0    \\ .5    \\  0     \\  .25
+    %      }$
+    % &$\dcolvec[3]{
+    %     .125   \\   0   \\ .375 \\ 0     \\ .25    \\  .25
+    %       }$
+    % &$\dcolvec[4]{
+    %     .125   \\ .1875 \\ 0    \\ .3125 \\ 0      \\ .375
+    %       }$
+    % &$\cdots$
+    % &$\dcolvec[5]{
+    %     .39600 \\ .00276   \\ 0    \\ .00447 \\ 0  \\ .59676
+    %       }$
+    &$\begin{array}{l}
+       0      \\  0    \\  0.5  \\  0    \\  0.5    \\  0
+      \end{array}$
+    &$\begin{array}{l}
+      0      \\  0.25  \\ 0    \\ 0.5    \\  0     \\  0.25
+      \end{array}$
+    &$\begin{array}{l}
+        0.125   \\   0   \\ 0.375 \\ 0     \\ 0.25    \\  0.25
+       \end{array}$
+    &$\begin{array}{l}
+        0.125   \\ 0.187\,5 \\ 0    \\ 0.312\,5 \\ 0      \\ 0.375
+       \end{array}$
+    &  % $\cdots$
+    &$\begin{array}{l}
+        0.396\,00 \\ 0.002\,76   \\ 0    \\ 0.004\,47 \\ 0  \\ 0.596\,76
+      \end{array}$
+  \end{tabular}  
+\end{center}
+该游戏不太可能持续很久，
+因为玩家很快会进入终止状态。
+例如，第四次抛掷后游戏已经有 $0.50$ 的概率
+结束。
+% (Because a player who enters either of the boundary states never leaves, they
+% are said to be \definend{absorbtive}.)\index{state!absorbtive}
+
+这是一个\definend{马尔可夫链}。\index{Markov chain!definition} 
+每个向量都是
+\definend{probability vector},\index{vector!probability}%
+\index{probability vector} 其元素为非负实数且
+总和为 $1$。  
+矩阵称为
+\definend{transition matrix}\index{matrix!transition}%
+\index{transition matrix} 
+或 \definend{随机矩阵}，\index{matrix!stochastic}%
+\index{stochastic matrix}  
+其元素为非负实数且每列之和为 $1$。
+
+马尔可夫链模型的一个特征是它
+
+\definend{historyless}\index{historyless process}%
+\index{Markov chain!historyless} 即 
+下一状态只取决于当前状态， 
+而不取决于此前状态。
+因此，玩家
+若从状态 $s_3$ 出发到达 $s_2$，
+下一步移动到 $s_3$ 的概率，与
+另一玩家先从 $s_3$ 到 $s_4$ 再到 $s_3$ 最后到 $s_2$ 后
+移动到 $s_3$ 的概率完全相同。
+
+下面是社会学中的一个马尔可夫链例子。
+一项研究（\cite{MacdonaldRidge}，第 202 页）
+将英国职业分为三个层次：
+管理人员和专业人员，
+主管和熟练体力劳动者，
+以及非熟练劳动者。
+研究询问约
+两千名男性：“你处于哪个层次，
+你十四岁时父亲处于哪个层次？”
+这里马尔可夫模型关于历史的假设
+似乎合理\Dash 
+我们可以认为，
+父母职业直接影响子女职业，
+而祖父母职业很可能没有这种直接影响。
+这概括了研究结论。
+\begin{equation*}
+  % breqn again
+  % \begin{dmat}{D{.}{.}{2}D{.}{.}{2}D{.}{.}{2}}
+  \begin{mat}
+    .60  &.29  &.16  \\
+    .26  &.37  &.27  \\
+    .14  &.34  &.57
+  \end{mat}  
+  % \end{dmat}
+  \colvec{p_{U}(n) \\ p_{M}(n) \\ p_{L}(n)}
+  =\colvec{p_{U}(n+1) \\ p_{M}(n+1) \\ p_{L}(n+1)}
+\end{equation*} 
+例如，考察下一代的中产阶级，
+上层阶级工人的子女成为中产阶级的概率为 $0.26$，
+
+中产阶级工人的子女成为中产阶级的概率为 $0.37$，
+
+下层阶级工人的子女成为中产阶级的概率为 $0.27$。
+
+
+\textit{Sage} 将计算该系统的连续阶段
+（当前阶级分布为 $\vec{v}_0$）。
+\begin{lstlisting}
+sage: M = matrix(RDF, [[0.60, 0.29, 0.16],
+....:                  [0.26, 0.37, 0.27],
+....:                  [0.14, 0.34, 0.57]])
+sage: M = M.transpose()
+sage: v0 = vector(RDF, [0.12, 0.32, 0.56])
+sage: v0*M
+(0.2544, 0.3008, 0.4448)
+sage: v0*M^2
+(0.31104, 0.297536, 0.391424)
+sage: v0*M^3
+(0.33553728, 0.2966432, 0.36781952)  
+\end{lstlisting}
+下面给出接下来五代。
+它们显示出向上流动，尤其是
+第一代。
+特别是下层阶级明显缩小。
+\begin{center}
+  % breqn again
+  \begin{tabular}{c|ccccc}
+    $n=0$  &$n=1$  &$n=2$  &$n=3$  &$n=4$  &$n=5$  \\ \hline
+    $\begin{array}{l}
+               .12 \\ .32  \\ .56
+      \end{array}$
+    &$\begin{array}{l}
+               .25 \\ .30  \\ .44
+       \end{array}$
+    &$\begin{array}{l}
+               .31 \\ .30  \\ .39  
+       \end{array}$
+    &$\begin{array}{l}
+               .34 \\ .30  \\ .37  
+       \end{array}$
+    &$\begin{array}{l}
+               .35 \\ .30 \\ .36  
+       \end{array}$
+    &$\begin{array}{l}
+               .35 \\ .30  \\ .35  
+       \end{array}$
+  \end{tabular}
+\end{center}
+
+再看一个例子。
+美国职业棒球有两个联盟：
+美国联盟和国家联盟。
+每年赛季结束时，
+赢得美国联盟冠军的球队
+与赢得国家联盟冠军的球队进行世界大赛。
+% what are these? (we follow [Brunner] but see also [Woodside]).
+先赢四场的球队获胜。
+因此一轮系列赛有 24 种状态：
+$0$-$0$（两队均未赢得比赛），
+$1$-$0$（美国联盟球队赢一场、国家联盟球队未赢），等等。
+
+设每场比赛美国联盟球队获胜的概率为 $p$。
+美国联盟球队赢得每场比赛。
+其转移方程为：
+\begin{equation*}
+  \begin{pmatrix}
+    0      &0      &0      &0   &\ldots  \\
+    p      &0      &0      &0   &\ldots  \\
+    1-p    &0      &0      &0   &\ldots  \\
+    0      &p      &0      &0   &\ldots  \\
+    0      &1-p    &p      &0   &\ldots  \\
+    0      &0      &1-p    &0   &\ldots  \\
+    \vdots &\vdots &\vdots &\vdots
+  \end{pmatrix}
+  \colvec{p_{\text{0-0}}(n) \\ p_{\text{1-0}}(n) \\ p_{\text{0-1}}(n) \\
+           p_{\text{2-0}}(n) \\ p_{\text{1-1}}(n) \\ p_{\text{0-2}}(n) \\ 
+  \vdots }
+  =
+  \colvec{p_{\text{0-0}}(n+1) \\ p_{\text{1-0}}(n+1) \\ p_{\text{0-1}}(n+1) \\
+           p_{\text{2-0}}(n+1) \\ p_{\text{1-1}}(n+1) \\ p_{\text{0-2}}(n+1) \\ 
+           \vdots }
+\end{equation*}
+特别有趣的情形是两队实力相当，即
+两队实力相当，即 $p=0.50$。
+下表列出
+$n=0$ 到 $n=7$ 各向量的分量。
+% (The code to generate this table in the computer algebra system
+% Octave follows the exercises.)
+
+注意实力相当的球队很可能进行较长系列赛\Dash 系列赛
+至少进行六场的概率为 $0.625$。
+
+\begin{center}\small
+\newcommand{\markovspacer}{\hspace{.8em}}
+\begin{tabular}{@{}r|c@{\markovspacer}c@{\markovspacer}c@{\markovspacer}c@{\markovspacer}c@{\markovspacer}c@{\markovspacer}c@{\markovspacer}c@{}}
+      &$n=0$  &$n=1$  &$n=2$  &$n=3$  &$n=4$  &$n=5$  &$n=6$  &$n=7$  \\ \hline
+  $\begin{array}{@{}c@{}}
+    0-0 \\
+    1-0 \\
+    0-1 \\
+    2-0 \\
+    1-1 \\
+    0-2 \\
+    3-0 \\
+    2-1 \\
+    1-2 \\
+    0-3 \\
+    4-0 \\
+    3-1 \\
+    2-2 \\
+    1-3 \\
+    0-4 \\
+    4-1 \\
+    3-2 \\
+    2-3 \\
+    1-4 \\
+    4-2 \\
+    3-3 \\
+    2-4 \\
+    4-3 \\
+    3-4 
+  \end{array}$
+  &$\begin{array}{l}
+     1 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 \\
+     0 
+   \end{array}$
+  &$\begin{array}{l}
+        0           \\
+        0.5         \\
+        0.5         \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0              
+   \end{array}$
+  &$\begin{array}{l}
+        0           \\
+        0           \\
+        0           \\
+        0.25        \\
+        0.5         \\
+        0.25        \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0           \\
+        0              
+   \end{array}$
+  &$\begin{array}{l}
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0.125        \\
+        0.375        \\
+        0.375        \\
+        0.125        \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0            \\
+        0              
+   \end{array}$
+  &$\begin{array}{l}
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0.062\,5         \\
+        0.25           \\
+        0.375          \\
+        0.25           \\
+        0.062\,5         \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0                      
+   \end{array}$
+  &$\begin{array}{l}
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0.062\,5         \\
+        0              \\
+        0              \\
+        0              \\
+        0.062\,5         \\
+        0.125          \\
+        0.312\,5         \\
+        0.312\,5         \\
+        0.125          \\
+        0              \\
+        0              \\
+        0              \\
+        0              \\
+        0                      
+   \end{array}$
+  &$\begin{array}{l}
+        0               \\
+        0               \\
+        0               \\
+        0               \\
+        0               \\
+        0               \\
+        0               \\
+        0               \\
+        0               \\
+        0               \\
+        0.062\,5          \\
+        0               \\
+        0               \\
+        0               \\
+        0.062\,5          \\
+        0.125           \\
+        0               \\
+        0               \\
+        0.125           \\
+        0.156\,25         \\
+        0.312\,5          \\
+        0.156\,25         \\
+        0               \\
+        0                      
+   \end{array}$
+  &$\begin{array}{l}
+        0             \\
+        0             \\
+        0             \\
+        0             \\
+        0             \\
+        0             \\
+        0             \\
+        0             \\
+        0             \\
+        0             \\
+        0.062\,5        \\
+        0             \\
+        0             \\
+        0             \\
+        0.062\,5        \\
+        0.125         \\
+        0             \\
+        0             \\
+        0.125         \\
+        0.156\,25       \\
+        0             \\
+        0.156\,25       \\
+        0.156\,25       \\
+        0.156\,25        
+   \end{array}$
+  % f-ing breqn
+  % &$\begin{aligncolondecimal}{0}
+  %    1 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 \\
+  %    0 
+  %  \end{aligncolondecimal}$
+  % &$\begin{aligncolondecimal}{1}
+  %       0           \\
+  %       0.5         \\
+  %       0.5         \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0              
+  %  \end{aligncolondecimal}$
+  % &$\begin{aligncolondecimal}{2}
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0.25        \\
+  %       0.5         \\
+  %       0.25        \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0           \\
+  %       0              
+  %  \end{aligncolondecimal}$
+  % &$\begin{aligncolondecimal}{3}
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0.125        \\
+  %       0.375        \\
+  %       0.375        \\
+  %       0.125        \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0            \\
+  %       0              
+  %  \end{aligncolondecimal}$
+  % &$\begin{aligncolondecimal}{4}
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0.0625         \\
+  %       0.25           \\
+  %       0.375          \\
+  %       0.25           \\
+  %       0.0625         \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0                      
+  %  \end{aligncolondecimal}$
+  % &$\begin{aligncolondecimal}{4}
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0.0625         \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0.0625         \\
+  %       0.125          \\
+  %       0.3125         \\
+  %       0.3125         \\
+  %       0.125          \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0              \\
+  %       0                      
+  %  \end{aligncolondecimal}$
+  % &$\begin{aligncolondecimal}{5}
+  %       0               \\
+  %       0               \\
+  %       0               \\
+  %       0               \\
+  %       0               \\
+  %       0               \\
+  %       0               \\
+  %       0               \\
+  %       0               \\
+  %       0               \\
+  %       0.0625          \\
+  %       0               \\
+  %       0               \\
+  %       0               \\
+  %       0.0625          \\
+  %       0.125           \\
+  %       0               \\
+  %       0               \\
+  %       0.125           \\
+  %       0.15625         \\
+  %       0.3125          \\
+  %       0.15625         \\
+  %       0               \\
+  %       0                      
+  %  \end{aligncolondecimal}$
+  % &$\begin{aligncolondecimal}{5}
+  %       0             \\
+  %       0             \\
+  %       0             \\
+  %       0             \\
+  %       0             \\
+  %       0             \\
+  %       0             \\
+  %       0             \\
+  %       0             \\
+  %       0             \\
+  %       0.0625        \\
+  %       0             \\
+  %       0             \\
+  %       0             \\
+  %       0.0625        \\
+  %       0.125         \\
+  %       0             \\
+  %       0             \\
+  %       0.125         \\
+  %       0.15625       \\
+  %       0             \\
+  %       0.15625       \\
+  %       0.15625       \\
+  %       0.15625        
+  %  \end{aligncolondecimal}$
+\end{tabular}
+\end{center}
+
+马尔可夫链是矩阵运算的
+一个广泛应用。
+它还提供了
+一个矩阵应用的例子，其中我们不考虑
+矩阵所表示映射的意义。
+关于马尔可夫链的更多内容，可参考
+\cite{KemenySnell} and \cite{Iosifescu}.
+
+\begin{exercises}
+  % \item[]\textit{Use a computer for these problems.
+  %   You can, for instance, adapt the Octave script given below.}
+  \item 
+    以下问题关于抛硬币游戏。
+    \begin{exparts}
+     \partsitem 检查第一段末尾表格中的计算。
+     \partsitem 考察向量表的第二行。
+       注意该行的 $0$ 交替出现。  
+       当 $j$ 为奇数时，$p_1(j)$ 是否必须为 $0$？
+       证明它必须为 $0$，或给出反例。
+     \partsitem 通过计算实验估计
+       玩家最终拥有 5 美元的概率，
+       分别从 1 美元、2 美元和 4 美元开始。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem With this file \texttt{coin.m}
+\begin{computercode}         
+# Octave function for Markov coin game.  p is chance of going down.
+function w = coin(p,v)
+  q = 1-p;
+  A=[1,p,0,0,0,0;
+     0,0,p,0,0,0;
+     0,q,0,p,0,0;
+     0,0,q,0,p,0;
+     0,0,0,q,0,0;
+     0,0,0,0,q,1];
+  w = A * v;
+endfunction
+\end{computercode}
+         本次 Octave 会话产生如下输出。 
+\begin{computercode}
+octave:1> v0=[0;0;0;1;0;0]
+v0 =
+  0
+  0
+  0
+  1
+  0
+  0
+octave:2> p=.5
+p = 0.50000
+octave:3> v1=coin(p,v0)
+v1 =
+  0.00000
+  0.00000
+  0.50000
+  0.00000
+  0.50000
+  0.00000
+octave:4> v2=coin(p,v1)
+v2 =
+  0.00000
+  0.25000
+  0.00000
+  0.50000
+  0.00000
+  0.25000
+\end{computercode}
+后续步骤过多，此处不一一列出。
+\begin{computercode}
+octave:26> v24=coin(p,v23)
+v24 =
+  0.39600
+  0.00276
+  0.00000
+  0.00447
+  0.00000
+  0.59676
+\end{computercode}        
+        \partsitem 利用以下公式
+          \begin{alignat*}{2}
+             p_{1}(n+1) &= 0.5\cdot p_{2}(n)
+             &\qquad
+             p_{2}(n+1) &= 0.5\cdot p_{1}(n)+0.5\cdot p_{3}(n)
+                                                              \\
+             p_{3}(n+1) &= 0.5\cdot p_{2}(n)+0.5\cdot p_{4}(n)
+             &\qquad
+             p_{5}(n+1) &= 0.5\cdot p_{4}(n)             
+          \end{alignat*}
+          以及以下初始条件
+          \begin{equation*}
+            \colvec{p_{0}(0) \\ p_{1}(0) \\ p_{2}(0) \\ p_{3}(0) \\ 
+                        p_{4}(0) \\ p_{5}(0)}
+            =
+            \colvec{0 \\ 0 \\ 0 \\ 1 \\ 
+                        0 \\ 0}
+          \end{equation*} 
+          我们将用归纳法证明：当 $n$ 为奇数时，
+          $p_{1}(n)=p_{3}(n)=0$；当 $n$ 为偶数时，$p_{2}(n)=p_{4}(n)=0$。
+          首先，由初始条件可知 $n=0$ 基础情形成立。
+          的情形成立。
+          归纳步骤中，假设结论在
+          $n=0,1,\ldots,k$ 情形成立，考察 $n=k+1$。
+          若 $k+1$ 为奇数，则以下两个
+          \begin{align*}
+             p_{1}(k+1) &= 0.5\cdot p_{2}(k)=0.5\cdot 0=0
+                                                          \\
+             p_{3}(k+1) &=0.5\cdot p_{2}(k)+0.5\cdot p_{4}(k)
+                        =0.5\cdot 0+0.5\cdot 0
+                        =0
+          \end{align*}
+          根据归纳假设可得
+          $p_{2}(k)=p_{4}(k)=0$，因为 $k$ 为偶数。
+          当 $k+1$ 为偶数时同理。
+        \partsitem 例如取 $n=100$。
+          以下 Octave 会话
+\begin{computercode}
+octave:1> B=[1,.5,0,0,0,0;
+>             0,0,.5,0,0,0;
+>             0,.5,0,.5,0,0;
+>             0,0,.5,0,.5,0;
+>             0,0,0,.5,0,0;
+>             0,0,0,0,.5,1];
+octave:2> B100=B**100
+B100 =
+  1.00000  0.80000  0.60000  0.40000  0.20000  0.00000
+  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000
+  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000
+  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000
+  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000
+  0.00000  0.20000  0.40000  0.60000  0.80000  1.00000
+octave:3> B100*[0;1;0;0;0;0]
+octave:4> B100*[0;1;0;0;0;0]
+octave:5> B100*[0;0;0;1;0;0]
+octave:6> B100*[0;1;0;0;0;0]
+\end{computercode}
+        得到以下输出。
+        \begin{equation*}
+          \begin{array}{r|*{4}{c}}
+            \multicolumn{1}{r}{\textit{starting with:}}
+            &\text{\$1}  &\text{\$2}  &\text{\$3}  &\text{\$4} \\ 
+             \hline
+               \begin{array}{c}
+                 s_{0}(100) \\
+                 s_{1}(100) \\
+                 s_{2}(100) \\
+                 s_{3}(100) \\
+                 s_{4}(100) \\
+                 s_{5}(100)
+               \end{array}
+               &\begin{aligncolondecimal}{5}
+                 0.80000 \\
+                 0.00000 \\
+                 0.00000 \\
+                 0.00000 \\
+                 0.00000 \\
+                 0.20000
+               \end{aligncolondecimal}
+               &\begin{aligncolondecimal}{5}
+                    0.60000 \\
+                    0.00000 \\
+                    0.00000 \\
+                    0.00000 \\
+                    0.00000 \\
+                    0.40000         
+               \end{aligncolondecimal}
+               &\begin{aligncolondecimal}{5}
+                      0.40000 \\
+                      0.00000 \\
+                      0.00000 \\
+                      0.00000 \\
+                      0.00000 \\
+                      0.60000           
+               \end{aligncolondecimal}
+               &\begin{aligncolondecimal}{5}
+                   0.20000 \\
+                   0.00000 \\
+                   0.00000 \\
+                   0.00000 \\
+                   0.00000 \\
+                   0.80000        
+               \end{aligncolondecimal}
+          \end{array}
+        \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 
+    \cite{Feller} % , p.~424.
+    考虑掷骰子；若骰子出现过的最大点数为 $i$，则称系统处于状态 $s_i$。
+    \begin{exparts}
+      \partsitem 给出转移矩阵。
+      \partsitem 令系统从状态 $s_1$ 开始，运行
+        五次掷骰。结束时的向量是什么？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem From these equations
+          \begin{equation*}
+            \begin{linsys}{6}
+              s_{1}(n)/6 &+ &0s_{2}(n) &+ &0s_{3}(n) 
+                  &+ &0s_{4}(n) &+ &0s_{5}(n)  &+ &0s_{6}(n)  &= &s_{1}(n+1) \\
+              s_{1}(n)/6 &+ &2s_{2}(n)/6 &+ &0s_{3}(n) 
+                  &+ &0s_{4}(n) &+ &0s_{5}(n)  &+ &0s_{6}(n)  &= &s_{2}(n+1) \\
+              s_{1}(n)/6 &+ &s_{2}(n)/6 &+ &3s_{3}(n)/6 
+                  &+ &0s_{4}(n) &+ &0s_{5}(n)  &+ &0s_{6}(n)  &= &s_{3}(n+1) \\
+              s_{1}(n)/6 &+ &s_{2}(n)/6 &+ &s_{3}(n)/6 
+                  &+ &4s_{4}(n)/6 &+ &0s_{5}(n)  &+ &0s_{6}(n)  
+                  &=  &s_{4}(n+1) \\
+              s_{1}(n)/6 &+ &s_{2}(n)/6 &+ &s_{3}(n)/6 
+                  &+ &s_{4}(n)/6 &+ &5s_{5}(n)/6  &+ &0s_{6}(n)  
+                  &=  &s_{5}(n+1) \\
+              s_{1}(n)/6 &+ &s_{2}(n)/6 &+ &s_{3}(n)/6 
+                  &+ &s_{4}(n)/6 &+ &s_{5}(n)/6  &+ &6s_{6}(n)/6  
+                  &=  &s_{6}(n+1) 
+            \end{linsys}
+          \end{equation*}
+          得到如下转移矩阵。
+          \begin{equation*}
+            \begin{mat}
+              1/6  &0   &0   &0   &0   &0  \\
+              1/6  &2/6 &0   &0   &0   &0  \\
+              1/6  &1/6 &3/6 &0   &0   &0  \\
+              1/6  &1/6 &1/6 &4/6 &0   &0  \\
+              1/6  &1/6 &1/6 &1/6 &5/6 &0  \\
+              1/6  &1/6 &1/6 &1/6 &1/6 &6/6  
+            \end{mat}
+          \end{equation*}
+       \partsitem 下面是 Octave 会话，
+         省略输出，并将结果汇总在末尾表格中。
+\begin{computercode}
+octave:1>   F=[1/6,  0,   0,   0,   0,   0;
+>      1/6,  2/6, 0,   0,   0,   0; 
+>      1/6,  1/6, 3/6, 0,   0,   0;  
+>      1/6,  1/6, 1/6, 4/6, 0,   0; 
+>      1/6,  1/6, 1/6, 1/6, 5/6, 0; 
+>      1/6,  1/6, 1/6, 1/6, 1/6, 6/6];
+octave:2> v0=[1;0;0;0;0;0]
+octave:3> v1=F*v0
+octave:4> v2=F*v1
+octave:5> v3=F*v2
+octave:6> v4=F*v3
+octave:7> v5=F*v4
+\end{computercode}
+        结果如下。
+        \begin{equation*}
+          \begin{array}{c|*{5}{c}}
+            \multicolumn{1}{c}{\ }
+            &1  &2  &3  &4 &5  \\ 
+            \hline
+               \begin{aligncolondecimal}{0}
+                   1 \\
+                   0 \\
+                   0 \\
+                   0 \\
+                   0 \\
+                   0              
+               \end{aligncolondecimal}
+               &\begin{aligncolondecimal}{5}
+                    0.16667 \\
+                    0.16667 \\
+                    0.16667 \\
+                    0.16667 \\
+                    0.16667 \\
+                    0.16667         
+               \end{aligncolondecimal}
+               &\begin{aligncolondecimal}{6}
+                   0.027778 \\
+                   0.083333 \\
+                   0.138889 \\
+                   0.194444 \\
+                   0.250000 \\
+                   0.305556       
+               \end{aligncolondecimal}
+               &\begin{aligncolondecimal}{7}
+                    0.0046296 \\
+                    0.0324074 \\
+                    0.0879630 \\
+                    0.1712963 \\
+                    0.2824074 \\
+                    0.4212963       
+               \end{aligncolondecimal}
+               &\begin{aligncolondecimal}{8}
+                    0.00077160 \\
+                    0.01157407 \\
+                    0.05015432 \\
+                    0.13503086 \\
+                    0.28472222 \\
+                    0.51774691      
+               \end{aligncolondecimal}
+               &\begin{aligncolondecimal}{8}
+                   0.00012860 \\
+                   0.00398663 \\
+                   0.02713477 \\
+                   0.10043724 \\
+                   0.27019033 \\
+                   0.59812243     
+               \end{aligncolondecimal}
+          \end{array}
+        \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 
+    \cite{Kelton} % , p.~43
+    人们一直关注美国工业是否正从东北部和中北部迁往
+    南部和西部，动因包括更温暖的气候、更低的工资、
+    以及较少的工会组织。
+    下面是电子与电气设备大型企业的
+    转移矩阵。
+    {\setlength\topsep{1pt plus 0.4pt minus 0.25pt}
+    \begin{center}
+      \begin{tabular}{c|ccccc}
+            &\textit{NE}      
+            &\textit{NC}      
+            &\textit{S}      
+            &\textit{W}      
+            &\textit{Z}       \\ \hline
+        \begin{tabular}{l}
+           \textit{NE} \\
+           \textit{NC} \\
+           \textit{S}  \\
+           \textit{W}  \\
+           \textit{Z}  
+        \end{tabular}
+        &$\begin{array}{l}
+           0.787  \\
+           0      \\
+           0      \\
+           0      \\
+           0.021
+         \end{array}$
+        &$\begin{array}{l}
+           0      \\
+           0.966  \\
+           0.063  \\
+           0      \\
+           0.009
+         \end{array}$
+        &$\begin{array}{l}
+           0      \\
+           0.034  \\
+           0.937  \\
+           0.074  \\
+           0.005
+         \end{array}$
+        &$\begin{array}{l}
+           0.111  \\
+           0      \\
+           0      \\
+           0.612  \\
+           0.010
+         \end{array}$
+        &$\begin{array}{l}
+           0.102  \\
+           0      \\
+           0      \\
+           0.314  \\
+           0.954    
+         \end{array}$
+        % breqn
+        % &$\begin{aligncolondecimal}{3}
+        %    0.787  \\
+        %    0      \\
+        %    0      \\
+        %    0      \\
+        %    0.021
+        %  \end{aligncolondecimal}$
+        % &$\begin{aligncolondecimal}{3}
+        %    0      \\
+        %    0.966  \\
+        %    0.063  \\
+        %    0      \\
+        %    0.009
+        %  \end{aligncolondecimal}$
+        % &$\begin{aligncolondecimal}{3}
+        %    0      \\
+        %    0.034  \\
+        %    0.937  \\
+        %    0.074  \\
+        %    0.005
+        %  \end{aligncolondecimal}$
+        % &$\begin{aligncolondecimal}{3}
+        %    0.111  \\
+        %    0      \\
+        %    0      \\
+        %    0.612  \\
+        %    0.010
+        %  \end{aligncolondecimal}$
+        % &$\begin{aligncolondecimal}{3}
+        %    0.102  \\
+        %    0      \\
+        %    0      \\
+        %    0.314  \\
+        %    0.954    
+        %  \end{aligncolondecimal}$
+      \end{tabular}
+    \end{center}}
+    例如，东北部企业下一年位于西部的概率为 $0.111$。
+    （\textit{Z} 项是“生灭”状态。
+     例如，以 $0.102$ 的概率，东北部电子与电气设备大型企业
+     下一年将离开该系统：
+     停业、迁往国外或转入其他企业类别。
+     有 $0.021$ 的概率，某家
+     位于\emph{全国制造业普查}中的企业
+     将进入电子行业、成立或从国外迁入
+     东北部。
+     最后，根据该研究，类别之外的企业以 $0.954$ 的概率
+     仍留在类别之外。）
+    \begin{exparts}
+      \partsitem 马尔可夫模型关于无历史依赖的假设是否
+        合理？
+      \partsitem 设初始分布均匀，但
+        $Z$ 处的值为 $0.9$。
+        计算 $n=1$ 到 $n=4$ 的向量。
+      \partsitem 设初始分布如下。
+        \begin{center}
+          \begin{tabular}{ccccc}
+              \textit{NE}      
+              &\textit{NC}      
+              &\textit{S}       
+              &\textit{W}       
+              &\textit{Z}       \\ \hline
+              $0.0000$ &$0.6522$ &$0.3478$ &$0.0000$ &$0.0000$
+          \end{tabular}
+        \end{center}
+        计算 $n=1$ 到 $n=4$ 的分布。
+      \partsitem 求出 $n=50$ 和 $n=51$ 时的分布。
+        系统是否已趋于平衡？
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+      \partsitem 直觉上合理的是：公司的当前位置应当强烈影响它下一时刻的位置（例如是否留下），而更早阶段的位置影响应当很小。也就是说，公司可能因为当前所在位置而移动或留下，却不太可能因为过去所在的位置而移动或留下。
+      \partsitem 下面是略作编辑的 Octave 会话，输出汇总在末尾的表格中。
+\begin{lstlisting}
+octave:1> M=[.787,0,0,.111,.102;
+>            0,.966,.034,0,0;
+>            0,.063,.937,0,0;
+>            0,0,.074,.612,.314;
+>            .021,.009,.005,.010,.954]
+M =
+  0.78700  0.00000  0.00000  0.11100  0.10200
+  0.00000  0.96600  0.03400  0.00000  0.00000
+  0.00000  0.06300  0.93700  0.00000  0.00000
+  0.00000  0.00000  0.07400  0.61200  0.31400
+  0.02100  0.00900  0.00500  0.01000  0.95400
+octave:2> v0=[.025;.025;.025;.025;.900]
+octave:3> v1=M*v0
+octave:4> v2=M*v1
+octave:5> v3=M*v2
+octave:6> v4=M*v3
+\end{lstlisting}
+        下表总结了结果。
+        \begin{center}
+           \begin{tabular}{c|cccc}
+             $\vec{p}_0$   &$\vec{p}_1$    &$\vec{p}_2$   
+                    &$\vec{p}_3$   &$\vec{p}_4$    \\ \hline
+             $\left(\begin{aligncolondecimal}{6}
+                    0.025000 \\ 
+                    0.025000 \\ 
+                    0.025000 \\ 
+                    0.025000 \\ 
+                    0.900000        
+              \end{aligncolondecimal}\right)$
+             &$\left(\begin{aligncolondecimal}{6}
+                  0.114250 \\
+                  0.025000 \\
+                  0.025000 \\
+                  0.299750 \\
+                  0.859725      
+              \end{aligncolondecimal}\right)$
+             &$\left(\begin{aligncolondecimal}{6}
+                  0.210879 \\
+                  0.025000 \\
+                  0.025000 \\
+                  0.455251 \\
+                  0.825924      
+              \end{aligncolondecimal}\right)$
+             &$\left(\begin{aligncolondecimal}{6}
+                  0.300739 \\
+                  0.025000 \\
+                  0.025000 \\
+                  0.539804 \\
+                  0.797263      
+              \end{aligncolondecimal}\right)$
+             &$\left(\begin{aligncolondecimal}{6}
+                  0.377920 \\
+                  0.025000 \\
+                  0.025000 \\
+                  0.582550 \\
+                  0.772652      
+              \end{aligncolondecimal}\right)$
+           \end{tabular}
+       \end{center} 
+       \partsitem 以下是上一小题 Octave 会话的继续。
+\begin{lstlisting}
+octave:7> p0=[.0000;.6522;.3478;.0000;.0000]
+octave:8> p1=M*p0
+octave:9> p2=M*p1
+octave:10> p3=M*p2
+octave:11> p4=M*p3
+\end{lstlisting}
+        以上概括了输出。
+        \begin{center}
+           \begin{tabular}{c|cccc}
+             $\vec{p}_0$   &$\vec{p}_1$    &$\vec{p}_2$   
+                    &$\vec{p}_3$   &$\vec{p}_4$    \\ \hline
+             $\left(\begin{aligncolondecimal}{5}
+                  0.00000 \\
+                  0.65220 \\
+                  0.34780 \\
+                  0.00000 \\
+                  0.00000       
+              \end{aligncolondecimal}\right)$
+             &$\left(\begin{aligncolondecimal}{5}
+                  0.00000 \\
+                  0.64185 \\
+                  0.36698 \\
+                  0.02574 \\
+                  0.00761       
+              \end{aligncolondecimal}\right)$
+             &$\left(\begin{aligncolondecimal}{7}
+                  0.0036329 \\
+                  0.6325047 \\
+                  0.3842942 \\
+                  0.0452966 \\
+                  0.0151277     
+              \end{aligncolondecimal}\right)$
+             &$\left(\begin{aligncolondecimal}{7}
+                  0.0094301 \\
+                  0.6240656 \\
+                  0.3999315 \\
+                  0.0609094 \\
+                  0.0225751     
+              \end{aligncolondecimal}\right)$
+             &$\left(\begin{aligncolondecimal}{6}
+                  0.016485 \\
+                  0.616445 \\
+                  0.414052 \\
+                  0.073960 \\
+                  0.029960      
+              \end{aligncolondecimal}\right)$
+           \end{tabular}
+       \end{center} 
+        \partsitem 以下是同一 Octave 会话的后续。
+\begin{lstlisting}
+octave:12> M50=M**50
+M50 =
+  0.03992  0.33666  0.20318  0.02198  0.37332
+  0.00000  0.65162  0.34838  0.00000  0.00000
+  0.00000  0.64553  0.35447  0.00000  0.00000
+  0.03384  0.38235  0.22511  0.01864  0.31652
+  0.04003  0.33316  0.20029  0.02204  0.37437
+octave:13> p50=M50*p0
+p50 =
+  0.29024
+  0.54615
+  0.54430
+  0.32766
+  0.28695
+octave:14> p51=M*p50
+p51 =
+  0.29406
+  0.54609
+  0.54442
+  0.33091
+  0.29076
+\end{lstlisting}
+        这已经接近稳态。
+      \end{exparts}
+    \end{answer}
+  \item 
+    \cite{Wickens} % , p.~41).
+    下面给出一种学习过程模型。
+    学习者从未决状态 $s_U$ 开始。
+    最终学习者必须决定采取反应 $A$
+    （即进入状态 $s_A$）或反应 $B$（进入 $s_B$）。
+    但是，学习者不会从未决状态直接跳到
+    确信应采取 $A$（或 $B$）。
+    相反，学习者会在“暂定-$A$”状态停留一段时间，
+    或在“暂定-$B$”状态尝试反应（这里记为
+    $t_A$ and $t_B$).
+    假设一旦作出决定就不会改变，因此一旦进入
+    $s_A$ 或 $s_B$ 就会保持在那里。
+    对其他状态变化，设转移
+    向任一方向的概率均为 $p$。
+    \begin{exparts}
+      \partsitem 构造转移矩阵。
+      \partsitem Take $p=0.25$ and take the initial vector to be $1$ at $s_U$.
+        运行五步。
+        最终到达 $s_A$ 的概率是多少？
+      \partsitem 对 $p=0.20$ 重复上述过程。
+      \partsitem 绘制 $p$ 与最终到达 $s_A$ 概率的关系图。
+        是否存在某个 $p$ 的阈值，使得超过该值后学习者
+        几乎肯定不会超过五步？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 相关方程组如下。
+          \begin{equation*}
+            \begin{linsys}{5}
+              (1-2p)\cdot s_{U}(n)  &+ &p\cdot t_{A}(n)  &+  &p\cdot t_{B}(n)  
+                &  &  &  &
+                &=  &s_{U}(n+1)            \\
+              p\cdot s_{U}(n)  &+  &(1-2p)\cdot t_{A}(n)  &  &  &  &  &  &
+                &=  &t_{A}(n+1)            \\
+              p\cdot s_{U}(n)  &  &  &+  &(1-2p)\cdot t_{B}(n)  &  &  &  &
+                &=  &t_{B}(n+1)            \\
+                &  &p\cdot t_{A}(n)  &  &  &+  &s_{A}(n)  &  &
+                &=  &s_{A}(n+1)            \\
+                &  &  &   &p\cdot t_{B}(n)  &  &  &+  &s_{B}(n)
+                &=  &s_{B}(n+1)            
+            \end{linsys}
+          \end{equation*}
+          因此得到：
+          \begin{equation*}
+            \begin{pmatrix}
+              1-2p &p     &p    &0  &0  \\
+              p    &1-2p  &0    &0  &0  \\
+              p    &0     &1-2p &0  &0  \\
+              0    &p     &0    &1  &0  \\
+              0    &0     &p    &0  &1
+            \end{pmatrix}
+            \colvec{s_{U}(n) \\ t_{A}(n) \\ t_{B}(n) \\ s_{A}(n) \\ s_{B}(n)}
+            =
+            \colvec{s_{U}(n+1) \\ t_{A}(n+1) \\ t_{B}(n+1) 
+                                     \\ s_{A}(n+1) \\ s_{B}(n+1)}
+          \end{equation*}
+        \partsitem 以下是 Octave 代码（省略输出）。
+\begin{lstlisting}
+octave:1> T=[.5,.25,.25,0,0;
+>            .25,.5,0,0,0;
+>            .25,0,.5,0,0;
+>            0,.25,0,1,0;
+>            0,0,.25,0,1]
+T =
+  0.50000  0.25000  0.25000  0.00000  0.00000
+  0.25000  0.50000  0.00000  0.00000  0.00000
+  0.25000  0.00000  0.50000  0.00000  0.00000
+  0.00000  0.25000  0.00000  1.00000  0.00000
+  0.00000  0.00000  0.25000  0.00000  1.00000
+octave:2> p0=[1;0;0;0;0]
+octave:3> p1=T*p0
+octave:4> p2=T*p1
+octave:5> p3=T*p2
+octave:6> p4=T*p3
+octave:7> p5=T*p4
+\end{lstlisting}
+        输出如下。
+        最终到达 $s_A$ 的概率约为 $0.23$。
+        \begin{equation*}
+          \begin{array}{cc|ccccc}
+            &\vec{p}_0 &\vec{p}_1 &\vec{p}_2 &\vec{p}_3 
+                &\vec{p}_4 &\vec{p}_5 \\
+            \hline
+            \begin{array}{c}
+              s_U \\
+              t_A \\
+              t_B \\
+              s_A \\
+              s_B
+            \end{array}
+            &\begin{array}{c}
+               1 \\
+               0 \\
+               0 \\
+               0 \\
+               0
+            \end{array}
+            &\begin{array}{c}
+              0.50000 \\
+              0.25000 \\
+              0.25000 \\
+              0.00000 \\
+              0.00000
+            \end{array}
+            &\begin{array}{c}
+              0.375000 \\
+              0.250000 \\
+              0.250000 \\
+              0.062500 \\
+              0.062500
+            \end{array}
+            &\begin{array}{c}
+              0.31250 \\
+              0.21875 \\
+              0.21875 \\
+              0.12500 \\
+              0.12500
+            \end{array}
+            &\begin{array}{c}
+              0.26562 \\
+              0.18750 \\
+              0.18750 \\
+              0.17969 \\
+              0.17969
+            \end{array}
+            &\begin{array}{c}
+              0.22656 \\
+              0.16016 \\
+              0.16016 \\
+              0.22656 \\
+              0.22656
+            \end{array}
+          \end{array}
+        \end{equation*}
+       \partsitem 将以下文件保存为 \texttt{learn.m} 后
+\begin{lstlisting}
+# Octave script file for learning model.
+function w = learn(p)
+   T = [1-2*p,p,    p,    0, 0;
+        p,    1-2*p,0,    0, 0;  
+        p,    0,    1-2*p,0, 0;
+        0,    p,    0,    1, 0;
+        0,    0,    p,    0, 1]; 
+  T5 = T**5;
+  p5 = T5*[1;0;0;0;0];
+  w = p5(4);
+endfunction
+\end{lstlisting}
+        执行命令 \texttt{octave:1> learn(.20)} 得到
+        \texttt{ans = 0.17664}.
+       \partsitem This Octave session
+\begin{lstlisting}
+octave:1> x=(.01:.01:.50)';
+octave:2> y=(.01:.01:.50)';
+octave:3> for i=.01:.01:.50   
+>           y(100*i)=learn(i);
+>         endfor
+octave:4> z=[x, y];
+octave:5> gplot z
+\end{lstlisting}
+        得到下图。
+        不存在阈值 \Dash 没有某个概率使
+        曲线突然上升。
+        \begin{center}
+          \includegraphics[width=.55\textwidth]{map/pix/learn5.eps}
+        \end{center}
+      \end{exparts}
+    \end{answer}
+  \item 
+     某城镇位于某国（这是一个假设问题）。
+
+     每年有百分之十的城镇居民迁往该国其他地区。
+
+     每年有百分之一的其他地区居民迁入该城镇。
+     设有两个状态：$s_T$ 表示居住在城镇，$s_C$ 表示
+     居住在其他地区。
+     \begin{exparts}
+       \partsitem 构造转移矩阵。
+       \partsitem 从初始分布 $s_T=0.3$、$s_C=0.7$ 开始，求前十年的结果。
+       \partsitem 对 $s_T=0.2$ 重复上述过程。
+       \partsitem 两个结果相同还是不同？
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 由以下方程组
+           \begin{equation*}
+             \begin{linsys}{2}
+               0.90\cdot p_{T}(n)  &+  &0.01\cdot p_{C}(n) &= &p_{T}(n+1)   \\
+               0.10\cdot p_{T}(n)  &+  &0.99\cdot p_{C}(n) &= &p_{C}(n+1)   
+             \end{linsys}
+           \end{equation*}
+           得到该矩阵。
+           \begin{equation*}
+             \begin{pmatrix}
+               0.90  &0.01  \\
+               0.10  &0.99
+             \end{pmatrix}
+             \colvec{p_{T}(n) \\ p_{C}(n)}
+             =
+             \colvec{p_{T}(n+1) \\ p_{C}(n+1)}
+           \end{equation*}
+         \partsitem Octave 的结果如下。
+           \begin{center}
+             \begin{tabular}{c|ccccc}
+               $n=0$ &1  &2  &3  &4  &5  \\ 
+               \hline
+               $\begin{array}{c}  0.30000 \\ 0.70000 \end{array}$
+               &$\begin{array}{c} 0.27700 \\ 0.72300 \end{array}$
+               &$\begin{array}{c}  0.25653 \\ 0.74347 \end{array}$
+               &$\begin{array}{c}  0.23831 \\ 0.76169 \end{array}$
+               &$\begin{array}{c}  0.22210 \\ 0.77790 \end{array}$
+               &$\begin{array}{c}  0.20767 \\ 0.79233 \end{array}$
+             \end{tabular}                                     \\[1ex]
+             \begin{tabular}{|ccccc}
+               6  &7  &8  &9 &10 \\ 
+               \hline
+               $\begin{array}{c}  0.19482 \\ 0.80518 \end{array}$
+               &$\begin{array}{c}  0.18339 \\ 0.81661 \end{array}$
+               &$\begin{array}{c}  0.17322 \\ 0.82678 \end{array}$
+               &$\begin{array}{c}  0.16417 \\ 0.83583 \end{array}$
+               &$\begin{array}{c}  0.15611 \\ 0.84389 \end{array}$
+             \end{tabular}
+           \end{center}
+         \partsitem 这是 $s_T=0.2$ 时的结果。
+           \begin{center}
+             \begin{tabular}{c|ccccc}
+               $n=0$ &1  &2  &3  &4  &5  \\ 
+               \hline
+               $\begin{array}{c}  0.20000 \\ 0.80000 \end{array}$
+               &$\begin{array}{c}   0.18800 \\ 0.81200 \end{array}$
+               &$\begin{array}{c}   0.17732 \\ 0.82268 \end{array}$
+               &$\begin{array}{c}   0.16781 \\ 0.83219 \end{array}$
+               &$\begin{array}{c}   0.15936 \\ 0.84064 \end{array}$
+               &$\begin{array}{c}   0.15183 \\ 0.84817 \end{array}$
+             \end{tabular}                                         \\[1ex]
+             \begin{tabular}{|ccccc}
+               6  &7  &8  &9 &10 \\ 
+               \hline
+               $\begin{array}{c}  0.14513 \\ 0.85487  \end{array}$
+               &$\begin{array}{c}  0.13916 \\ 0.86084  \end{array}$
+               &$\begin{array}{c}  0.13385 \\ 0.86615  \end{array}$
+               &$\begin{array}{c}  0.12913 \\ 0.87087  \end{array}$
+               &$\begin{array}{c}  0.12493 \\ 0.87507  \end{array}$
+             \end{tabular}
+           \end{center}
+          \partsitem Although the probability vectors start $0.1$ apart,
+            二者相差仅 $0.032$。
+            因此二者相似。
+       \end{exparts}
+     \end{answer}  
+  \item 
+    对世界大赛的应用，使用计算机生成
+    $p=0.55$ 和 $p=0.6$ 时的七个向量。
+    \begin{exparts}
+      \partsitem What is the chance of the National League team winning it all,
+        尽管它们每场比赛获胜的概率只有 $0.45$ 或 $0.40$，
+        是否仍可能赢得系列赛？
+      \partsitem Graph the probability $p$ against the chance that the
+        美国联盟球队赢得全部比赛。
+        是否存在阈值 $p$，超过该值后实力更强的球队
+        基本能够确保获胜？
+    \end{exparts}
+    % (Some sample code is included below.)
+    \begin{answer}
+     这些分别是 $p=.55$ 和 $p=0.60$ 时的向量。
+     \begin{center}\footnotesize
+       \begin{tabular}{@{}r@{}cccccccc@{}}
+         &$n=0$  &$n=1$  &$n=2$  &$n=3$  &$n=4$  &$n=5$  &$n=6$  &$n=7$  \\ 
+        \hline
+        \begin{tabular}{@{}c@{}}
+           0-0 \\
+           1-0 \\
+           0-1 \\
+           2-0 \\
+           1-1 \\
+           0-2 \\
+           3-0 \\
+           2-1 \\
+           1-2 \\
+           0-3 \\
+           4-0 \\
+           3-1 \\
+           2-2 \\
+           1-3 \\
+           0-4 \\
+           4-1 \\
+           3-2 \\
+           2-3 \\
+           1-4 \\
+           4-2 \\
+           3-3 \\
+           2-4 \\
+           4-3 \\
+           3-4
+         \end{tabular}
+          &$\begin{aligncolondecimal}{0}
+             1 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 
+           \end{aligncolondecimal}$     
+         &$\begin{aligncolondecimal}{5}
+           0 \\
+           0.55000 \\
+           0.45000 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+           0 \\
+           0 \\
+           0 \\
+           0.30250 \\
+           0.49500 \\
+           0.20250 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0.16638 \\
+           0.40837 \\
+           0.33412 \\
+           0.09112 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0.09151 \\
+           0.29948 \\
+           0.36754 \\
+           0.20047 \\
+           0.04101 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0 \\
+           0
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0.09151 \\
+          0 \\
+          0 \\
+          0 \\
+          0.04101 \\
+          0.16471 \\
+          0.33691 \\
+          0.27565 \\
+          0.09021 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0.09151 \\
+          0 \\
+          0 \\
+          0 \\
+          0.04101 \\
+          0.16471 \\
+          0 \\
+          0 \\
+          0.09021 \\
+          0.18530 \\
+          0.30322 \\
+          0.12404 \\
+          0 \\
+          0
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0.09151 \\
+          0 \\
+          0 \\
+          0 \\
+          0.04101 \\
+          0.16471 \\
+          0 \\
+          0 \\
+          0.09021 \\
+          0.18530 \\
+          0 \\
+          0.12404 \\
+          0.16677 \\
+          0.13645
+         \end{aligncolondecimal}$
+       \end{tabular}                      \\
+       % \end{center}
+       % and these are the $p=.60$ vectors.
+       % \begin{center}\small
+       \begin{tabular}{@{}r@{}cccccccc@{}}
+         &$n=0$  &$n=1$  &$n=2$  &$n=3$  &$n=4$  &$n=5$  &$n=6$  &$n=7$  \\ 
+        \hline
+        \begin{tabular}{@{}c@{}}
+           0-0 \\
+           1-0 \\
+           0-1 \\
+           2-0 \\
+           1-1 \\
+           0-2 \\
+           3-0 \\
+           2-1 \\
+           1-2 \\
+           0-3 \\
+           4-0 \\
+           3-1 \\
+           2-2 \\
+           1-3 \\
+           0-4 \\
+           4-1 \\
+           3-2 \\
+           2-3 \\
+           1-4 \\
+           4-2 \\
+           3-3 \\
+           2-4 \\
+           4-3 \\
+           3-4
+         \end{tabular}
+          &$\begin{aligncolondecimal}{0}
+             1 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 
+           \end{aligncolondecimal}$     
+         &$\begin{aligncolondecimal}{5}
+          0 \\
+          0.60000 \\
+          0.40000 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0 \\
+          0               
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+            0 \\
+            0 \\
+            0 \\
+            0.36000 \\
+            0.48000 \\
+            0.16000 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0         
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0.21600 \\
+            0.43200 \\
+            0.28800 \\
+            0.06400 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0         
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0.12960 \\
+            0.34560 \\
+            0.34560 \\
+            0.15360 \\
+            0.02560 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0         
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0.12960 \\
+             0 \\
+             0 \\
+             0 \\
+             0.02560 \\
+             0.20736 \\
+             0.34560 \\
+             0.23040 \\
+             0.06144 \\
+             0 \\
+             0 \\
+             0 \\
+             0 \\
+             0          
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0.12960 \\
+            0 \\
+            0 \\
+            0 \\
+            0.02560 \\
+            0.20736 \\
+            0 \\
+            0 \\
+            0.06144 \\
+            0.20736 \\
+            0.27648 \\
+            0.09216 \\
+            0 \\
+            0         
+         \end{aligncolondecimal}$
+         &$\begin{aligncolondecimal}{5}
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0 \\
+            0.12960 \\
+            0 \\
+            0 \\
+            0 \\
+            0.02560 \\
+            0.20736 \\
+            0 \\
+            0 \\
+            0.06144 \\
+            0.20736 \\
+            0 \\
+            0.09216 \\
+            0.16589 \\
+            0.11059         
+         \end{aligncolondecimal}$
+       \end{tabular}
+     \end{center}
+     \begin{exparts}
+      \partsitem We can adapt the script from the end of this Topic.
+\begin{lstlisting}
+# Octave script file to compute chance of World Series outcomes.
+function w = markov(p,v)
+  q = 1-p;
+  A=[0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 0-0
+     p,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 1-0
+     q,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 0-1_
+     0,p,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 2-0
+     0,q,p,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 1-1
+     0,0,q,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 0-2__
+     0,0,0,p,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 3-0
+     0,0,0,q,p,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 2-1
+     0,0,0,0,q,p, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 1-2_
+     0,0,0,0,0,q, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 0-3
+     0,0,0,0,0,0, p,0,0,0,1,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 4-0
+     0,0,0,0,0,0, q,p,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 3-1__
+     0,0,0,0,0,0, 0,q,p,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 2-2
+     0,0,0,0,0,0, 0,0,q,p,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 1-3
+     0,0,0,0,0,0, 0,0,0,q,0,0, 0,0,1,0,0,0, 0,0,0,0,0,0;  # 0-4_
+     0,0,0,0,0,0, 0,0,0,0,0,p, 0,0,0,1,0,0, 0,0,0,0,0,0;  # 4-1
+     0,0,0,0,0,0, 0,0,0,0,0,q, p,0,0,0,0,0, 0,0,0,0,0,0;  # 3-2
+     0,0,0,0,0,0, 0,0,0,0,0,0, q,p,0,0,0,0, 0,0,0,0,0,0;  # 2-3__
+     0,0,0,0,0,0, 0,0,0,0,0,0, 0,q,0,0,0,0, 1,0,0,0,0,0;  # 1-4
+     0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,p,0, 0,1,0,0,0,0;  # 4-2
+     0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,q,p, 0,0,0,0,0,0;  # 3-3_
+     0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,q, 0,0,0,1,0,0;  # 2-4
+     0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,p,0,1,0;  # 4-3
+     0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,q,0,0,1]; # 3-4
+  v7 = (A**7) * v;
+  w = v7(11)+v7(16)+v7(20)+v7(23)
+endfunction
+\end{lstlisting}
+       当美国联盟球队
+       $p=0.55$ probability of winning each game then their probability
+       赢得系列赛的概率为 $0.60829$。
+       当其单场获胜概率为 $p=0.6$ 时，
+       其赢得系列赛的概率为
+       $0.71021$.
+      \partsitem From this Octave session and its graph
+\begin{lstlisting}
+octave:1> v0=[1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0];
+octave:2> x=(.01:.01:.99)';
+octave:3> y=(.01:.01:.99)';
+octave:4> for i=.01:.01:.99
+>          y(100*i)=markov(i,v0);
+>         endfor
+octave:5> z=[x, y];
+octave:6> gplot z
+\end{lstlisting}
+       目测判断，当 $p>0.7$ 时球队几乎可以确定
+       的系列赛。
+       \begin{center}
+         \includegraphics[width=0.4\textwidth]{map/pix/ws.eps}
+       \end{center}
+     \end{exparts}
+    \end{answer}
+  \item 
+    上文将转移矩阵定义为：
+    每个元素非负且每列之和为 $1$。
+    \begin{exparts}
+      \item 检查本专题展示的三个转移矩阵是否满足这两个条件。
+        任意转移矩阵是否都满足这两点？
+      \item Observe that if $A\vec{v}_0=\vec{v}_1$ and $A\vec{v}_1=\vec{v}_2$
+        那么 $A^2$ 是从 $\vec{v}_0$ 到 $\vec{v}_2$ 的转移矩阵。证明转移矩阵的幂仍是转移矩阵。
+      \item 将上一小题推广，
+        证明两个维数适当的转移矩阵的乘积
+        仍是转移矩阵。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 它们必须满足该条件，因为状态转移（包括回到
+          原状态）的总概率
+          为 $100\%$。
+        \partsitem 见第三小题答案。
+        \partsitem 我们只证明
+          $\nbyn{2}$ 情形；更高阶情形只是记号
+          更复杂。
+          该乘积
+          \begin{equation*}
+            \begin{pmatrix}
+              a_{1,1}  &a_{1,2}  \\
+              a_{2,1}  &a_{2,2}  
+            \end{pmatrix}
+            \begin{pmatrix}
+              b_{1,1}  &b_{1,2}  \\
+              b_{2,1}  &b_{2,2}  
+            \end{pmatrix}
+            =\begin{pmatrix}
+              a_{1,1}b_{1,1}+a_{1,2}b_{2,1}  &a_{1,1}b_{1,2}+a_{1,2}b_{2,2} \\
+              a_{2,1}b_{1,1}+a_{2,2}b_{2,1}  &a_{2,1}b_{1,2}+a_{2,2}b_{2,2} \\
+            \end{pmatrix}
+           \end{equation*}
+            其两列之和分别为
+            \begin{multline*}
+              (a_{1,1}b_{1,1}+a_{1,2}b_{2,1})
+              +(a_{2,1}b_{1,1}+a_{2,2}b_{2,1})
+              =(a_{1,1}+a_{2,1})\cdot b_{1,1}
+                +(a_{1,2}+a_{2,2})\cdot b_{2,1}            \\
+              =1\cdot b_{1,1}+1\cdot b_{2,1}
+              =1
+            \end{multline*}
+            以及
+            \begin{multline*}
+              (a_{1,1}b_{1,2}+a_{1,2}b_{2,2})
+              +(a_{2,1}b_{1,2}+a_{2,2}b_{2,2})
+              =(a_{1,1}+a_{2,1})\cdot b_{1,2}
+                +(a_{1,2}+a_{2,2})\cdot b_{2,2}              \\
+              =1\cdot b_{1,2}+1\cdot b_{2,2}
+              =1
+            \end{multline*}
+            如所需。
+      \end{exparts}
+    \end{answer}
+\end{exercises}
+
+
+% \announcecomputercode
+% This script \textit{markov.m} for the computer algebra system Octave 
+% generated the table of World Series outcomes.
+% (The hash character \texttt{\#} marks the rest of a line as a comment.)
+% \begin{lstlisting}
+% # Octave script file to compute chance of World Series outcomes.
+% function w = markov(p,v)
+%   q = 1-p;
+%   A=[0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 0-0
+%      p,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 1-0
+%      q,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 0-1_
+%      0,p,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 2-0
+%      0,q,p,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 1-1
+%      0,0,q,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 0-2__
+%      0,0,0,p,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 3-0
+%      0,0,0,q,p,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 2-1
+%      0,0,0,0,q,p, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 1-2_
+%      0,0,0,0,0,q, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 0-3
+%      0,0,0,0,0,0, p,0,0,0,1,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 4-0
+%      0,0,0,0,0,0, q,p,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 3-1__
+%      0,0,0,0,0,0, 0,q,p,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 2-2
+%      0,0,0,0,0,0, 0,0,q,p,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0;  # 1-3
+%      0,0,0,0,0,0, 0,0,0,q,0,0, 0,0,1,0,0,0, 0,0,0,0,0,0;  # 0-4_
+%      0,0,0,0,0,0, 0,0,0,0,0,p, 0,0,0,1,0,0, 0,0,0,0,0,0;  # 4-1
+%      0,0,0,0,0,0, 0,0,0,0,0,q, p,0,0,0,0,0, 0,0,0,0,0,0;  # 3-2
+%      0,0,0,0,0,0, 0,0,0,0,0,0, q,p,0,0,0,0, 0,0,0,0,0,0;  # 2-3__
+%      0,0,0,0,0,0, 0,0,0,0,0,0, 0,q,0,0,0,0, 1,0,0,0,0,0;  # 1-4
+%      0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,p,0, 0,1,0,0,0,0;  # 4-2
+%      0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,q,p, 0,0,0,0,0,0;  # 3-3_
+%      0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,q, 0,0,0,1,0,0;  # 2-4
+%      0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,p,0,1,0;  # 4-3
+%      0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,q,0,0,1]; # 3-4
+%   w = A * v;
+% endfunction
+% \end{lstlisting}
+% \noindent Then the Octave session was this.
+% \begin{lstlisting}
+% > v0=[1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0]
+% > p=.5
+% > v1=markov(p,v0)
+% > v2=markov(p,v1)
+%   ...
+% \end{lstlisting}
+% \noindent Translating to another computer algebra system should be 
+% easy\Dash all 
+% have commands similar to these.
+\index{Markov chain|)}
+\endinput

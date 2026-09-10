@@ -1,0 +1,282 @@
+% pref.tex  See http://joshua.smcvt.edu/linearalgebra
+{\setlength{\parskip}{.7ex}  % note the group-starting open curly
+% \bigskip
+% \vspace*{1.25in plus .2in minus .1in}
+\chapter*{前言}
+本书旨在帮助读者掌握美国大学本科第一门线性代数标准课程的内容。
+
+本书内容之“标准”，在于它覆盖的主题是高斯消元、向量空间、线性映射、
+行列式、特征值与特征向量。
+同样标准的还有本书的读者定位：
+大二或大三学生，通常至少修过一学期的微积分。
+本书给学生的帮助来自循序渐进的编排方式\Dash
+本书的讲解强调动机与自然，
+并辅以大量例题。
+
+循序渐进的编排是本书最值得称道之处，
+所以请允许我展开谈谈。
+数学专业培养方案中低年级的课程较少讲理论而以计算为主；
+后续课程则要求数学上的成熟：~即理解各种类型论证的能力，
+熟悉许多数学研究所依赖的那些基本主题，
+例如集合与函数的初步事实，
+并具备一定的独立阅读与思考能力。
+有些专业专门开设一门课来培养这种成熟；
+但无论如何，一门线性代数课程
+正是完成这一过渡的理想场所。
+它在培养方案中来得足够早，在这里取得的进步会在日后得到回报；
+却又来得足够晚，课堂上坐着的都是
+对数学认真的学生。
+这些材料平易近人、条理连贯而且优美。
+何况，例题十分丰富。
+
+要帮助读者完成这一过渡，
+就必须严肃地对待数学本身。
+本书的所有结果都给出了证明。
+另一方面，我们不能假设学生已然修成正果，
+因此与更高级的教材不同，
+本书充满了对理论的阐释，
+而且往往相当细致。
+
+有些教材假定读者尚不成熟，
+从矩阵乘法与行列式讲起。
+等到向量空间与线性映射终于登场、
+定义与证明开始出现时，
+这种急剧的转变会让学生猛然却步。
+% They've been sent the wrong signals.
+本书虽然从线性消元开始，
+但从一开始我们就不只是在做计算。
+第一章
+就包含了证明，例如“线性化简给出正确且完整的解集”这一证明。
+以此为动机，
+第二章讲实数上的向量空间。
+按照下面的课程表，这发生在第三周的开头。
+
+学生在数学上最大的进步来自做练习。
+本书的习题从常规的检验做起，
+一直到相当有分量的证明。
+% Since instructors often assign about a dozen exercises
+我力求每套题通常安排二十四道，
+从而提供选择的余地。
+其中特别有不少中等偏难的题目，
+能拉伸学习者，又不至于过度。
+难度最高的地方，有几道是选自各种期刊、竞赛或
+习题集的谜题，
+它们以
+`\puzzlemark'\
+标出
+（作为乐趣之一，我努力保留了谜题的原始表述）。
+
+也就是说，正如本书的其余部分一样，
+习题的目标是既培养一种能力，
+也帮助学生体验\emph{做}数学的乐趣。
+学生应当看到这些想法是如何产生的，
+并能够设想自己也在做同类的工作。
+
+
+%\vspace*{.5in}
+\medskip
+\noindent{\bf 应用。}
+%\smallskip
+% The point of view taken here, that students should think of
+% Linear Algebra as about vector spaces
+% and linear maps, is not taken to the complete exclusion of others.
+应用与计算是这门学科有趣而重要的侧面。
+因此，每章都以一组这方面的专题收尾。
+这些专题让读者
+领略学科的滋味，讨论线性代数如何登场，
+指出一些进阶阅读的方向，并给出若干练习。
+它们足够简短，教师既可以在一天的课内讲完一个，
+也可以把它们布置给个人或小组作为项目。
+无论是否正式纳入课程，
+它们都有助于读者亲眼看到：线性代数是从业者
+必须掌握的工具。
+
+
+
+
+\medskip
+\noindent{\bf 获取。}
+本书是自由的（Free）。
+许可条款见
+\url{hefferon.net/linearalgebra}。
+该页面还提供最新版本、
+习题答案、beamer 幻灯片、实验手册、补充材料
+以及 \LaTeX\ 源文件。
+本书也有纸质版，
+可从常规出版渠道以极低的价格购得。
+详见网页。
+
+
+
+\medskip
+\noindent{\bf 致谢。}
+软件开发的一个教训是：
+复杂的项目必有缺陷，
+需要一套流程来修复。
+我感谢来自教师和学生的各类报告。
+我会定期发布修订，并在本书的代码仓库中
+致谢所有被我采纳的报告。
+我目前的联系方式见网页。
+
+我感谢圣迈克尔学院（Saint Michael's College）
+多年来对这一项目的支持，早在开放教育资源的理念
+为人熟知之前便已如此。
+% I also thank Gabriel S Santiago for the cover colors.
+% I also thank Adobe Color~CC user \texttt{claflin61} for the cover colors.
+
+还有，我无法充分感谢我的妻子 Lynne 长期以来不移的鼓励。
+
+
+
+\newcommand{\classday}[1]{\textsc{#1}}
+\newcommand{\colwidth}{1.25in}
+
+%\vspace*{.5in}
+\medskip
+% \noindent{\bf If you are reading this on your own.}
+\noindent{\bf 建议。}
+%\smallskip
+%
+本书对动机与循序渐进的强调，
+加上它易于获取，使它被广泛用于自学。
+如果你是一位独立的学习者，那么很好，我敬佩你的勤奋。
+不过，下面这些建议也许对你有用。
+
+有经验的教师知道什么内容和
+什么节奏适合自己的班级，而这份本学期的课程表
+（承蒙 G~Ashline 惠允分享）
+或许能帮你规划一个合理的进度。
+它假定你已经学过
+第~One.II~节的材料，即向量的初步知识。
+% \begin{center}   % George Ashline's
+%    \begin{tabular}{r|*{2}{p{\colwidth}}l}
+%       \multicolumn{1}{r}{\textit{week}}
+%        &\textit{Monday}
+%        &\textit{Wednesday}
+%        &\textit{Friday}        \\ \hline
+%        1    &One.I.1         &One.I.1, 2        &One.I.2, 3         \\
+%        2    &One.I.3         &One.III.1          &One.III.2         \\
+%        3    &Two.I.1         &Two.I.1, 2         &Two.I.2         \\
+%        4    &Two.II.1         &Two.III.1         &Two.III.2         \\
+%        5    &Two.III.2        &Two.III.2, 3         &Two.III.3        \\
+%        6    &\classday{exam}   &Three.I.1         &Three.I.1       \\
+%        7    &Three.I.2         &Three.I.2          &Three.II.1         \\
+%        8    &Three.II.1        &Three.II.2          &Three.II.2          \\
+%        9    &Three.III.1       &Three.III.2         &Three.IV.1, 2       \\
+%       10    &Three.IV.2, 3   &Three.IV.4          &Three.V.1          \\
+%       11    &Three.V.1       &Three.V.2            &Four.I.1         \\
+%       12    &\classday{exam}  &Four.I.2            &Four.III.1       \\
+%       13    &Five.II.1    &\multicolumn{2}{c}{\classday{--Thanksgiving break--}} \\
+%       14    &Five.II.1, 2     &Five.II.2          &Five.II.3
+%    \end{tabular}
+% \end{center}
+\begin{center}
+   \begin{tabular}{r|l}
+      \multicolumn{1}{r}{\textit{周}}
+       &\textit{所学小节}        \\ \hline
+       1    &One.I.1--2                 \\
+       2    &One.I.3、One.III.1--2      \\
+       3    &Two.I.1--2       \\
+       4    &Two.II.1、Two.III.1--2         \\
+       5    &Two.III.2--3      \\
+       6    &\classday{--考试--}、Three.I.1      \\
+       7    &Three.I.2、Three.II.1         \\
+       8    &Three.II.1--2          \\
+       9    &Three.III.1--2、Three.IV.1--2       \\
+      10    &Three.IV.2--4、Three.V.1          \\
+      11    &Three.V.1--2、Four.I.1         \\
+      12    &\classday{--考试--}、Four.I.2、Four.III.1       \\
+      13    &Five.II.1、\classday{--感恩节假--} \\
+      14    &Five.II.1--3
+   \end{tabular}
+\end{center}
+作为拓展，你可以从实验手册或每章末尾的专题中，
+挑一两个吸引你的额外内容。
+我喜欢“投票悖论”、
+“线性映射的几何”与“耦合振子”这几个专题。
+% (When I teach with this schedule as a target, I often have room
+% for a couple of days of extras.)
+如果你能使用 Sage 这类计算软件
+（可从 \url{http://sagemath.org} 免费获取），
+你将从这些内容中收获更多。
+
+在目录中，
+我把少数几个小节标为选读，
+因为有些教师会跳过它们，把时间花在别处。
+
+注意，
+除了课内考试，
+上表课程的学生还要完成
+包含证明的课后习题集，例如验证
+一个集合是向量空间。
+计算固然重要，论证同样重要。
+
+我的主要建议是：多做练习。
+我已在页边用 \recommendationmark{} 标出了一个不错的抽样。
+不要只是读答案\Dash 你必须
+亲自尝试这些问题，必要时与它们搏斗。
+对于所有练习，你必须以计算或证明
+支撑你的答案。
+要清楚，几乎没有人不经训练就能写出正确的证明；
+设法找一位懂行的人与你一起钻研。
+
+最后，对所有学生——无论是否自学——一句忠告：~我
+怎么强调都不过分：
+“我懂这些内容，只是题目不会做”这种说法
+\spacefactor=1000\ %
+反映了一种误解。
+能够用这些想法去做事，正是它们的全部意义所在。
+下面的引文把这种心情表达得十分精彩
+（我冒昧地把它们排成了诗行）。
+它们既抓住了数学与科学总体上
+之美与力量之精髓，
+也抓住了线性代数的。
+
+
+\medskip
+\par\noindent\begin{tabular}[t]{@{}l@{}}
+  \textit{我不知道还有什么更好的策略，}                     \\
+  \textit{\ 能比得上用精心挑选的实例} \\
+  \textit{\ 去阐明那些令人振奋的原理。}                    \\
+  \hspace*{1in}\textit{--Stephen Jay Gould（斯蒂芬·杰·古尔德）}
+\end{tabular}
+
+\medskip
+\par\noindent
+\begin{tabular}[t]{@{}l@{}}
+\textit{倘若你真心想学会，}                     \\
+   \textit{\ 你就必须跨上那台机器，}  \\
+   \textit{\ 在实际的尝试中} \\
+   \textit{\ 熟悉它的脾性。}                    \\
+   \hspace*{1in}\textit{--Wilbur Wright（威尔伯·莱特）}
+\end{tabular}
+
+% \medskip
+% \par\noindent
+% \begin{tabular}[t]{@{}l@{}}
+% \textit{In the particular}                     \\
+%    \textit{\ is contained the universal.}  \\
+%    \hspace*{1in}\textit{--James Joyce}
+% \end{tabular}
+
+\vspace*{3ex}
+\par\ \hfill\begin{tabular}[t]{@{}l@{}}
+                       Jim Hef{}feron            \\
+                       Mathematics and Statistics \\
+                       Saint Michael's College \\
+                       Colchester, Vermont\ USA 05439  \\
+                       \url{hefferon.net/linearalgebra} \\
+                       \input{publicationdate}  \\
+                       第四版，第2次印刷
+                    \end{tabular}
+
+\vspace{3ex plus 1fill}
+\par\noindent\textit{作者附记。}
+发明一道好习题——既能启人心智，又能检验所学——
+是一种创造性的劳动，也是艰苦的工作。
+发明者理应得到署名。
+但教材传统上并不为习题注明出处。
+凡是我能确证来源的题目，我都在本书中改变了这一惯例。
+若有人能帮我为其余题目正确地注明出处，
+我将乐于听取。
+} % ends the open curly for the parskip from the top of this file

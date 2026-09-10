@@ -1,0 +1,912 @@
+\subsectionoptional{子空间的组合}
+\index{direct sum|(}
+\textit{本小节为选读内容。
+它仅在第三章和第五章的最后几节以及一些零星练习中被用到。
+跳过本小节也不会影响叙述的连贯性。}
+
+% This chapter opened with the definition of a vector space, and the middle
+% consisted of a first analysis of the idea.
+% This subsection closes the chapter by finishing the analysis, in the sense
+% that `analysis' means ``method of determining the \ldots{} essential
+% features of something by separating it into parts'' \cite{MacmillanDict}.
+
+理解一个事物的方式之一，是看它如何由各个
+组成部分构建起来。
+例如，我们有时把 \( \Re^3 \)
+看作由 \( x \)轴、\( y \)轴与 \( z \)轴
+拼合而成的。
+本小节将描述
+如何把一个向量空间分解成它的
+一些子空间的组合。
+在展开子空间组合这一想法的过程中，我们将始终以 $\Re^3$
+这个例子为原型。
+
+子空间是集合，而集合通过并运算来组合。
+但把子空间的组合运算取为简单的集合并运算，并不是我们想要的。
+例如，\( x \)轴、\( y \)轴与 \( z \)轴的并集
+并不是整个 $\Re^3$。
+实际上这个并集不是
+子空间，因为它对加法不封闭：向量
+\begin{equation*}
+  \colvec[r]{1 \\ 0 \\ 0}
+  +
+  \colvec[r]{0 \\ 1 \\ 0}
+  +
+  \colvec[r]{0 \\ 0 \\ 1}
+  =
+  \colvec[r]{1 \\ 1 \\ 1}
+\end{equation*}
+不在三条坐标轴的任何一条上，因而不在这个并集中。
+因此
+要组合子空间，
+除了这些子空间的成员之外，我们至少还必须
+把它们所有的线性组合都包括进来。
+
+\begin{definition}
+设 \( W_1,\dots, W_k \) 是一个向量空间的子空间，它们的
+\definend{和}\index{sum!of subspaces}\index{subspace!sum}
+是其并集的张成
+$W_1+W_2+\dots +W_k=\spanof{W_1\union W_2\union \cdots W_k}$。
+\end{definition}
+
+\noindent 使用记号“\( + \)”符合把这一符号用作自然的累加运算的惯例。
+
+\begin{example} \label{ex:RThreeSumAxes}
+我们的 $\Re^3$ 原型正符合这一点。
+任意向量 $\vec{w}\in\Re^3$ 都是线性组合
+$c_1\vec{v}_1+c_2\vec{v}_2+c_3\vec{v}_3$，其中 $\vec{v}_1$ 取自
+$x$轴，等等，如下所示
+\begin{equation*}
+    \colvec{w_1 \\ w_2 \\ w_3}
+    =1\cdot\colvec{w_1 \\ 0 \\ 0}
+    +1\cdot\colvec{0 \\ w_2 \\ 0}
+    +1\cdot\colvec{0 \\ 0 \\ w_3}
+\end{equation*}
+于是 $\text{$x$轴}+\text{$y$轴}+\text{$z$轴}=\Re^3$。
+\end{example}
+
+\begin{example}
+子空间的和可以小于整个空间。
+在 \( \polyspace_4 \) 中，
+设 \( L \) 是一次多项式构成的子空间
+$\set{a+bx\suchthat a,b\in\Re}$，
+并设 \( C \) 是纯三次多项式构成的子空间
+\( \set{cx^3\suchthat c\in\Re}\)。
+那么 \mbox{$L+C$} 不是整个 $\polyspace_4$。
+相反，
+\( \mbox{$L+C$}=\set{a+bx+cx^3\suchthat a,b,c\in\Re} \)。
+\end{example}
+
+\begin{example} \label{exam:RThreeIsSumXYAndYZ}
+一个空间可以用不止一种方式描述为子空间的组合。
+除了分解
+$\Re^3=\text{$x$轴}+\text{$y$轴}+\text{$z$轴}$，
+我们还可以写成
+$\Re^3=\text{$xy$平面}+\text{$yz$平面}$。
+为验证这一点，注意任意 $\vec{w}\in\Re^3$ 都可以写成
+$xy$平面的一个成员与 $yz$平面的一个成员的线性组合；这里是两个这样的组合。
+\begin{equation*}
+  \colvec{w_1 \\ w_2 \\ w_3}
+  =1\cdot\colvec{w_1 \\ w_2 \\ 0}
+   +1\cdot\colvec{0 \\ 0 \\ w_3}
+  \qquad
+  \colvec{w_1 \\ w_2 \\ w_3}
+  =1\cdot\colvec{w_1 \\ w_2/2 \\ 0}
+   +1\cdot\colvec{0 \\ w_2/2 \\ w_3}
+\end{equation*}
+\end{example}
+
+上述定义给出了一种方式，让我们可以把一个空间
+看作它的某些部分的组合。
+然而，前面的例题表明，我们的基准模型至少有一个有趣的
+性质没有被
+子空间的和的定义所刻画。
+在 $\Re^3$ 的这个熟悉的分解中，
+我们常说一个向量的“$x$~部分”或“$y$~部分”或
+“$z$~部分”。
+也就是说，在我们的原型中，每个向量都有唯一的分解，分解成的各个小块来自构成整个空间的那些部分。
+但在\nearbyexample{exam:RThreeIsSumXYAndYZ}所用的分解中，我们
+无法谈论一个向量的“$xy$~部分”\Dash 下面这三个和
+\begin{equation*}
+  \colvec[r]{1 \\ 2 \\ 3}
+  =\colvec[r]{1 \\ 2 \\ 0}
+  +\colvec[r]{0 \\ 0 \\ 3}
+  =\colvec[r]{1 \\ 0 \\ 0}
+  +\colvec[r]{0 \\ 2 \\ 3}
+  =\colvec[r]{1 \\ 1 \\ 0}
+  +\colvec[r]{0 \\ 1 \\ 3}
+\end{equation*}
+都把该向量描述成由来自第一个平面的某样东西加上来自第二个平面的某样东西构成，但“$xy$~部分”在每个和里都不相同。
+
+%What's happening here, what allows the vector's second entry
+%$2$ to be taken from the $xy$-plane or
+%from the $yz$-plane or from a combination, is that the two planes overlap.
+%Their intersection is the $y$-axis and so the middle component
+%can shift around.
+%In terms of our `analysis', the problem with the sum of subspaces operation is
+%that, while the expression
+%$\Re^3=\text{$xy$-plane}+\text{$yz$-plane}$ describes the space as a
+%combination of its parts, those parts are not separate.
+
+%\begin{lemma}
+%The intersection of subspaces is a subspace.\index{subspace!intersection}
+%\end{lemma}
+
+%\begin{proof}
+%To show that it is a subspace, we need only show that it is nonempty and
+%closed under linear combinations.
+%It is nonempty because it contains the zero vector.
+%For closure, consider a linear combination of vectors from the
+%intersection.
+%We can view that as a linear combination of vectors from the first subspace,
+%because each vector in the intersection is in the first subspace.
+%As all of the vectors are in the first subspace,
+%their combination sums to a vector that is also in the first subspace.
+%In the same way, the combination sums to a vector that is in each subspace,
+%and so is in the intersection.
+%\end{proof}
+
+%Therefore, an intersection of subspaces is never empty; the smallest that it
+%can be is the trivial subspace.
+%So the above reference to subspaces that ``overlap'' must be taken to mean
+%that their intersection is larger than the trivial subspace,
+%not just that their intersection is nonempty.
+
+也就是说，当我们考虑 $\Re^3$ 如何由三条轴拼合而成时，
+我们可能是指“以每个向量
+都至少有一个分解的方式”，这就给出了上面的定义。
+但如果我们把它理解为
+“以每个向量有且仅有一个
+分解的方式”，那么我们就需要对组合再附加一个条件。
+为了看清这个条件是什么，回想一下，
+向量可以用基唯一地表示。
+我们可以利用这一点把一个空间分解成一些子空间的和，
+使得空间中的任意向量都能唯一地分解成这些
+子空间的成员的和。
+
+\begin{example} \label{exam:BenchDirSum}
+考虑 $\Re^3$ 及其标准基
+$\stdbasis_3=\sequence{\vec{e}_1,\vec{e}_2,\vec{e}_3}$。
+以 $B_1=\sequence{\vec{e}_1}$ 为基的子空间是 $x$轴，
+以 $B_2=\sequence{\vec{e}_2}$ 为基的子空间是 $y$轴，而
+以 $B_3=\sequence{\vec{e}_3}$ 为基的子空间是 $z$轴。
+$\Re^3$ 的任意成员都可表示为来自这些子空间的向量的和，这一事实
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+   =\colvec{x \\ 0 \\ 0}
+    +\colvec{0 \\ y \\ 0}
+    +\colvec{0 \\ 0 \\ z}
+\end{equation*}
+反映了 $\stdbasis_3$ 张成该空间这一事实\Dash 这个
+方程
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+   =c_1\colvec[r]{1 \\ 0 \\ 0}
+    +c_2\colvec[r]{0 \\ 1 \\ 0}
+    +c_3\colvec[r]{0 \\ 0 \\ 1}
+\end{equation*}
+对任意 $x,y,z\in\Re$ 都有解。
+而每个这样的表达式都是唯一的这一事实，则反映了 $\stdbasis_3$ 线性无关这一事实，于是任何
+类似上式的方程都有唯一的
+解。
+\end{example}
+
+\begin{example}
+我们不必一次只取一个基向量，
+可以把它们聚合成更大的序列。
+再次考虑空间 $\Re^3$ 以及取自标准基 $\stdbasis_3$ 的向量。
+以 $B_1=\sequence{\vec{e}_1,\vec{e}_3}$ 为基的子空间
+是 $xz$平面。
+以 $B_2=\sequence{\vec{e}_2}$ 为基的子空间是 $y$轴。
+与前面的例题一样，空间的任意成员都以有且仅有一种方式是这两个子空间的
+成员的和，这一事实
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+   =\colvec{x \\ 0 \\ z}
+    +\colvec{0 \\ y \\ 0}
+\end{equation*}
+反映了这些向量构成一个
+基这一事实\Dash 这个方程
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+   =(c_1\colvec[r]{1 \\ 0 \\ 0}
+    +c_3\colvec[r]{0 \\ 0 \\ 1})
+    +c_2\colvec[r]{0 \\ 1 \\ 0}
+\end{equation*}
+对任意 $x,y,z\in\Re$ 都有且仅有一个解。
+\end{example}
+
+% These examples illustrate
+% the natural way to decompose a space into a sum of subspaces so that
+% each vector decomposes uniquely into a sum of vectors from the parts.
+
+\begin{definition}
+序列
+$
+   B_1=\sequence{\vec{\beta}_{1,1},\dots,\vec{\beta}_{1,n_1}}$,
+  \ldots,
+  $B_k=\sequence{\vec{\beta}_{k,1},\dots,\vec{\beta}_{k,n_k}}$
+的\definend{连接}\index{concatenation of sequences}%
+\index{sequence!concatenation}
+把它们并接成一个单独的序列。
+\begin{equation*}
+ \cat{\cat{\cat{B_1}{B_2}}{\cdots}}{B_k}=
+   \sequence{\vec{\beta}_{1,1},\dots,\vec{\beta}_{1,n_1},
+            \vec{\beta}_{2,1},\dots,\vec{\beta}_{k,n_k} }
+\end{equation*}
+\end{definition}
+
+\begin{lemma} \label{le:UniqDecIffBasisDec}
+设 $V$ 是一个向量空间，它是其某些子空间的和
+$V=W_1+\dots+W_k$。
+设 $B_1$, \ldots, $B_k$ 是这些子空间的基。
+以下各条等价。
+\begin{tfae}
+  \item 任意 $\vec{v}\in V$ 的表达式
+     $\vec{v}=\vec{w}_1+\dots+\vec{w}_k$
+     （其中 $\vec{w}_i\in W_i$）是唯一的。
+  \item 连接 $\cat{\cat{B_1}{\cdots}}{B_k}$ 是 $V$ 的一个基。
+  \item 来自不同 $W_i$ 的
+    非零向量之间的任何线性关系都是
+    平凡的。
+% ; that is,
+%     any set of nonzero vectors $\set{\vec{w}_1,\dots,\vec{w}_k}$
+%     with $\vec{w}_i\in W_i$ is linearly independent.
+\end{tfae}
+\end{lemma}
+
+\begin{proof}
+我们将证明 $\text{(1)}\implies\text{(2)}$、
+$\text{(2)}\implies\text{(3)}$，
+最后证明 $\text{(3)}\implies\text{(1)}$。
+为进行这些论证，注意我们可以从 $\vec{w}$ 的组合
+过渡到 $\vec{\beta}$ 的组合
+\begin{align*}
+  d_1\vec{w}_1+\dots+d_k\vec{w}_k
+    &= d_1(c_{1,1}\vec{\beta}_{1,1}+\dots+c_{1,n_1}\vec{\beta}_{1,n_1})   \\
+    &\qquad\hbox{}+\dots
+        +d_k(c_{k,1}\vec{\beta}_{k,1}+\dots+c_{k,n_k}\vec{\beta}_{k,n_k}) \\
+    &= d_1c_{1,1}\cdot\vec{\beta}_{1,1}
+        +\dots
+        +d_kc_{k,n_k}\cdot\vec{\beta}_{k,n_k}
+  \tag{$*$}
+\end{align*}
+反之亦然
+（取每个 $d_i$ 为 $1$，即可由下往上）。
+
+对于 $\text{(1)}\implies\text{(2)}$，
+假设所有分解都是唯一的。
+我们将证明 $\cat{\cat{B_1}{\cdots}}{B_k}$ 张成该
+空间且线性无关。
+它张成该空间，因为假设
+$V=W_1+\dots+W_k$
+意味着每个 $\vec{v}$ 都可表示为
+$\vec{v}=\vec{w}_1+\dots+\vec{w}_k$，再由方程~($*$) 可将其转化为以连接中的 $\vec{\beta}$
+表示的 $\vec{v}$ 的线性组合。
+对于线性无关性，考虑这个线性关系。
+\begin{equation*}
+  \zero=c_{1,1}\vec{\beta}_{1,1}+\dots+c_{k,n_k}\vec{\beta}_{k,n_k}
+\end{equation*}
+如 ($*$) 那样重新分组（即由下往上），得到
+分解 $\zero=\vec{w}_1+\dots+\vec{w}_k$。
+由于零向量显然
+有分解 $\zero=\zero+\dots+\zero$，
+分解唯一的假设表明每个
+$\vec{w}_i$ 都是零向量。
+这意味着
+$c_{i,1}\vec{\beta}_{i,1}+\dots+c_{i,n_i}\vec{\beta}_{i,n_i}=\zero$，而
+由于每个 $B_i$ 都是基，我们就得到想要的结论：所有的
+$c$ 都是零。
+
+对于 $\text{(2)}\implies\text{(3)}$，假设这些基的连接
+是整个空间的一个基。
+考虑来自不同
+$W_i$ 的非零向量之间的一个线性关系。
+它可能涉及也可能不涉及来自 $W_1$ 的向量，或
+来自 $W_2$ 的向量，等等，所以我们把它写成
+$\zero=\mbox{}\cdots+d_i\vec{w}_i+\cdots\mbox{}$。
+如方程~($*$) 那样展开这个向量。
+\begin{align*}
+  \zero
+   &= \mbox{}\dots
+      +d_i(c_{i,1}\vec{\beta}_{i,1}+\dots+c_{i,n_i}\vec{\beta}_{i,n_i})
+      +\cdots\mbox{}                                               \\
+   &= \mbox{}\dots
+      +d_ic_{i,1}\cdot\vec{\beta}_{i,1}
+      +\dots+
+      d_ic_{i,n_i}\cdot\vec{\beta}_{i,n_i}
+      +\cdots\mbox{}
+\end{align*}
+$\cat{\cat{B_1}{\cdots}}{B_k}$ 的线性无关给出：每个
+系数 $d_ic_{i,j}$ 都是零。
+由于 $\vec{w}_i$ 是非零向量，$c_{i,j}$ 中至少有一个
+不为零，于是 $d_i$ 为零。
+这对每个 $d_i$ 都成立，因此该线性关系是平凡的。
+
+最后，对于 $\text{(3)}\implies\text{(1)}$，
+假设来自不同 $W_i$ 的非零向量之间的任何线性
+关系都是平凡的。
+考虑一个向量的两个分解
+$\vec{v}=\mbox{}\cdots+\vec{w}_i+\cdots\mbox{}$
+与 $\vec{v}=\mbox{}\cdots+\vec{u}_j+\cdots\mbox{}$，
+其中 $\vec{w}_i\in W_i$ 且 $\vec{u}_j\in W_j$。
+两式相减得到一个线性关系，形如
+这样（如果没有 $\vec{u}_i$ 或 $\vec{w}_j$，就去掉那些项）。
+\begin{equation*}
+  \zero
+   =\mbox{}\cdots+(\vec{w}_i-\vec{u}_i)
+     +\cdots
+     +(\vec{w}_j-\vec{u}_j)+\cdots\mbox{}
+\end{equation*}
+情形的假设，即命题~(3) 成立，意味着每一项都
+等于零向量
+ $\vec{w}_i-\vec{u}_i=\zero$。
+于是分解是唯一的。
+\end{proof}
+
+\begin{definition}
+由子空间组成的族 \( \set{W_1,\ldots, W_k} \) 是
+\definend{无关的}\index{subspace!independence}，如果来自任一 \( W_i \) 的非零向量都不是
+其他子空间 \( W_1,\dots, W_{i-1},W_{i+1},\dots, W_k \) 中的向量的线性组合。
+\end{definition}
+
+\begin{definition}
+向量空间 \( V \) 是其子空间 \( W_1,\dots, W_k \) 的
+\definend{直和}\index{subspace!direct sum}\index{direct sum!definition}
+（或\definend{内直和}\index{internal direct sum}），如果
+\( V=W_1+W_2+\dots +W_k \)
+且族 \( \set{W_1,\dots, W_k} \) 是无关的。
+我们记 \( V=W_1\directsum W_2\directsum \cdots\directsum W_k \)。
+\end{definition}
+
+\begin{example}
+我们的原型正合适：
+$\Re^3=\text{$x$轴}\directsum\text{$y$轴}\directsum\text{$z$轴}$。
+\end{example}
+
+\begin{example}
+\( \nbyn{2} \) 矩阵构成的空间是这个直和。
+\begin{equation*}
+  \set{\begin{mat}
+         a  &0  \\
+         0  &d
+       \end{mat}  \suchthat a,d\in\Re }
+  \,\mbox{}\directsum\mbox{}\,
+  \set{\begin{mat}
+         0  &b  \\
+         0  &0
+       \end{mat}  \suchthat b\in\Re }
+  \,\mbox{}\directsum\mbox{}\,
+  \set{\begin{mat}
+         0  &0  \\
+         c  &0
+       \end{mat}  \suchthat c\in\Re }
+\end{equation*}
+它还有很多其他方式也是子空间的直和；
+直和分解不是唯一的。
+\end{example}
+
+\begin{corollary} \label{cor:DirSumDimsAdd}
+直和的维数是各直和项的维数之和。
+\end{corollary}
+
+\begin{proof}
+在\nearbylemma{le:UniqDecIffBasisDec}中，
+连接中基向量的个数等于各
+子基中向量个数之和。
+\end{proof}
+
+两个子空间的特殊情形值得单独一提。
+
+\begin{definition}
+当一个向量空间是它的两个子空间的直和时，这两个子空间互为
+\definend{补}。\index{subspace!complementary}%
+\index{complementary subspaces}
+\end{definition}
+
+\begin{lemma}
+\label{le:DirectSumTwoSp}
+向量空间 \( V \) 是
+它的两个子空间 \( W_1 \) 与 \( W_2 \) 的直和\index{direct sum!of two subspaces}，当且仅当它是
+这两个子空间的和 \( V=W_1+W_2 \) 且它们的交是平凡的
+\( W_1\intersection W_2=\set{\zero\,} \)。
+\end{lemma}
+
+\begin{proof}
+先假设 $V=W_1\directsum W_2$。
+由定义，$V$ 是两者的和 $V=W_1+ W_2$。
+为证明它们的交是平凡的，
+设 $\vec{v}$ 是 $W_1\intersection W_2$ 中的一个向量，
+并考虑方程 $\vec{v}=\vec{v}$。
+该方程的左边是 $W_1$ 的一个成员，
+右边是 $W_2$ 的一个成员，我们可以把它看成
+$W_2$ 的成员的线性组合。
+但这两个空间是无关的，
+所以 $W_1$ 的成员能成为来自 $W_2$ 的向量的线性
+组合的唯一方式，是这个成员
+是零向量 $\vec{v}=\zero$。
+
+对于另一个方向，假设 $V$ 是两个交为平凡的
+空间的和。
+为证明 $V$ 是两者的直和，我们只需证明
+这两个空间是无关的\Dash 即第一个空间的任何非零成员都不能
+表示成第二个空间的成员的线性组合，反之亦然。
+这一点成立，因为任何关系式
+$\vec{w}_1=c_1\vec{w}_{2,1}+\dots+c_k\vec{w}_{2,k}$（其中 $\vec{w}_1\in W_1$
+且对所有 $j$ 有 $\vec{w}_{2,j}\in W_2$）都表明左边的向量
+也在 $W_2$ 中，因为右边是 $W_2$ 的成员的组合。
+这两个空间的交是平凡的，所以 $\vec{w}_1=\zero$。
+同样的论证对任意 $\vec{w}_2$ 也适用。
+\end{proof}
+
+%\begin{corollary}
+%\label{cor:CompsIffDimsAndIntTriv}
+%Two subspaces \( W_1,W_2 \) are complements in \( V \) if and only if
+%\( \dim(W_1)+\dim(W_2)=\dim(V) \) and
+%\( W_1\intersection W_2=\set{\zero\,} \).
+%\end{corollary}
+
+%\begin{proof}
+%This follows immediately from
+%\nearbycorollary{cor:DimSumEqDimSummandsMinDimInter}.
+%\end{proof}
+
+\begin{example}
+在 $\Re^2$ 中，\( x \)轴与 \( y \)轴是互补的，
+即 $\Re^2=\text{$x$轴}\directsum\text{$y$轴}$。
+这表明子空间的补与集合的补稍有
+不同；~$x$轴和~$y$轴不是集合的补，
+因为它们的交
+不是空集。
+
+一个空间可以有多于一对互补的子空间；
+~$\Re^2$ 的另一对互补子空间是由
+直线 \( y=x \) 与 \( y=2x \) 构成的子空间。
+\end{example}
+
+\begin{example}
+在空间 \( F=\set{a\cos\theta+b\sin\theta\suchthat a,b\in\Re} \) 中，
+子空间 \( W_1=\set{a\cos\theta\suchthat a\in\Re} \) 与
+\( W_2=\set{b\sin\theta\suchthat b\in\Re} \) 是互补的。
+前面的例题指出，一个空间可以分解成多于
+一对互补子空间。
+另外注意，$F$ 可以有多于一对
+互补的子空间且对中的第一个是 $W_1$\Dash \( W_1 \) 的另一个补是
+\( W_3=\set{b\sin\theta+b\cos\theta \suchthat b\in\Re} \)。
+\end{example}
+
+\begin{example}
+在 \( \Re^3 \) 中，\( xy \)平面与 \( yz \)平面不是
+互补的，这正是\nearbyexample{exam:RThreeIsSumXYAndYZ}之后的讨论的要点。
+\( xy \)平面的一个补是 \( z \)轴。
+% A complement of the \( yz \)-plane is the line through \( (1,1,1) \).
+\end{example}
+
+由\nearbylemma{le:DirectSumTwoSp}引出一个自然的问题：~对
+$k>2$，
+简单和 $V=W_1+\dots+W_k$ 是直和当且仅当
+这些子空间的交是平凡的？
+
+\begin{example}    \label{exam:DirSumThree}
+如果子空间多于两个，那么
+交为平凡不足以
+保证分解唯一（也就是说，不足以确保这些
+空间是无关的）。
+在 \( \Re^3 \) 中，设
+\( W_1 \) 为 \( x \)轴，设 \( W_2 \) 为 \( y \)轴，并设
+$W_3$ 为这个集合。
+\begin{equation*}
+  W_3=\set{\colvec{q \\ q \\ r} \suchthat q,r\in\Re}
+\end{equation*}
+验证 \( \Re^3=W_1+W_2+W_3 \) 很容易。
+交
+\( W_1\intersection W_2\intersection W_3 \)
+是平凡的，但分解不唯一。
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+  =\colvec{0 \\ 0 \\ 0}
+  +\colvec{0 \\ y-x \\ 0}
+  +\colvec{x \\ x \\ z}
+  =\colvec{x-y \\ 0 \\ 0}
+  +\colvec{0 \\ 0 \\ 0}
+  +\colvec{y \\ y \\ z}
+\end{equation*}
+（这个例子也表明这个要求也不
+够：~即子空间的所有两两交都平凡。
+见\nearbyexercise{exer:ThreeSubsPairwseNonTriv}。）
+\end{example}
+
+在本小节中我们看到了把空间看成由
+组成部分构建的两种方式。
+两者都有用；特别地，我们将在第五章末尾使用直和的定义。
+
+%In looking at how this overlap of subspaces interacts with the
+%`$+$' operation, we first consider the simplest case, the two-subspace case.
+%To understand the relationship between the two subspaces $U$ and $W$, their
+%sum $U+W$, and their intersection $U\intersection W$, we can ask about the
+%bases.
+%Note that a basis for the intersection $U\intersection W$ is a linearly
+%independent subset of $U$ and also of $W$.
+%Thus, we can think to expand it to make bases for the larger sets.
+
+%\begin{lemma} \label{le:BasesSumTwoSubs}
+%Let \( U \) and \( W \) be subspaces of a vector space.
+%If the sequence \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_k} \)
+%is a basis for
+%\( U\intersection W \), and
+%the sequence \( \sequence{\vec{\mu}_1,\dots,\vec{\mu}_j,
+%   \vec{\beta}_1,\dots,\vec{\beta}_k} \)
+%is a basis for \( U \), and
+%\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_k,
+%   \vec{\omega}_1,\dots,\vec{\omega}_p} \)
+%is a basis for \( W \), then
+%\begin{equation*}
+%   \sequence{\vec{\mu}_1,\dots,\vec{\mu}_j,
+%             \vec{\beta}_1,\dots,\vec{\beta}_k,
+%             \vec{\omega}_1,\dots,\vec{\omega}_p}
+%\end{equation*}
+%is a basis for \( U+W \).
+%\end{lemma}
+
+%\begin{proof}
+%We write $B_{U\intersection W}$ for the basis for $U\intersection W$,
+%we write $B_U$ for the basis for $U$, we write $B_W$ for the basis for $W$,
+%and we write $B_{U+W}$ for the basis under consideration.
+
+%To see that that $B_{U+W}$ spans $U+W$, observe that
+%any vector $c\vec{u}+d\vec{w}$ from $U+W$ can be written as a linear
+%combination of the vectors in $B_{U+W}$, simply by expressing $\vec{u}$ in
+%terms of $B_U$ and expressing $\vec{w}$ in terms of $B_W$.
+
+%We finish by showing that $B_{U+W}$ is linearly independent.
+%Consider
+%\begin{equation*}
+%  c_1\vec{\mu}_1+\dots+c_{j+1}\vec{\beta}_1+\dots+c_{j+k+p}\vec{\omega}_p=
+%    \zero
+%\end{equation*}
+%which can be rewritten in this way.
+%\begin{equation*}
+%  c_1\vec{\mu}_1+\dots+c_j\vec{\mu}_j=
+%       -c_{j+1}\vec{\beta}_1-\dots-c_{j+k+p}\vec{\omega}_p
+%\end{equation*}
+%Note that the left side sums to a vector in \( U \) while
+%right side sums to a vector in \( W \), and thus both sides sum to
+%a member of $U\intersection W$.
+%Since the left side is a member of $U\intersection W$,
+%it is expressible in terms of the members of $B_{U\intersection W}$,
+%which gives the combination of $\vec{\mu}$'s from the left side above
+%as equal to a combination of $\vec{\beta}$'s.
+%But, the fact that
+%the basis $B_U$ is linearly independent shows that any such combination
+%is trivial, and in particular, the coefficients $c_1$, \ldots,
+%$c_j$ fro the left side above are all zero.
+%Similarly, the coefficients of the \( \vec{\omega} \)'s are all zero.
+%This leaves the above equation as a linear relationship among the
+%\( \vec{\beta} \)'s,
+%but $B_{U\intersection W}$ is linearly independent,
+%and therefore all of the coefficients of the $\vec{\beta}$'s are also zero.
+%\end{proof}
+
+%\begin{example}
+%Label the axes in \( \Re^4 \) with \( x \), \( y \), \( z \), and \( w \).
+%If \( U \) is \( xyz \)-space
+%(that is, the subspace spanned by the \( x \), \( y \), and
+%\( z \) axes), and \( W \) is \( xyw \)-space, then this
+%\begin{equation*}
+%  B_{U\intersection W}
+%     =\sequence{\colvec{1 \\ 0 \\ 0 \\ 0},
+%                \colvec{0 \\ 2 \\ 0 \\ 0} }
+%\end{equation*}
+%is a basis for \( U\intersection W \).
+%It can be extended to these bases
+%\begin{equation*}
+%  B_U=\sequence{\colvec{1 \\ 1 \\ 1 \\ 0},
+%            \colvec{1 \\ 0 \\ 0 \\ 0},
+%            \colvec{0 \\ 2 \\ 0 \\ 0} }
+%  \quad\text{and}\quad
+%  B_W=\sequence{\colvec{1 \\ 0 \\ 0 \\ 0},
+%            \colvec{0 \\ 2 \\ 0 \\ 0},
+%            \colvec{1 \\ 0 \\ 0 \\ -1} }
+%\end{equation*}
+%for \( U \) and \( W \).
+%Then this
+%\begin{equation*}
+%  B_{U+W}
+%   =\sequence{\colvec{1 \\ 1 \\ 1 \\ 0},
+%            \colvec{1 \\ 0 \\ 0 \\ 0},
+%            \colvec{0 \\ 2 \\ 0 \\ 0},
+%            \colvec{1 \\ 0 \\ 0 \\ -1} }
+%\end{equation*}
+%is a basis for \( U+W=\Re^4 \).
+%\end{example}
+
+%\begin{corollary}
+%\label{cor:DimSumEqDimSummandsMinDimInter}
+%For any subspaces \( U \) and \( W \) of a vector space,
+%\begin{equation*}
+%  \dim(U+W)=\dim(U)+\dim(W)-\dim(U\intersection W).
+%\end{equation*}
+%\end{corollary}
+
+%\begin{proof}
+%Using the notation from the lemma, $\dim (U\intersection W)=k$,
+%and $\dim(U)=j+k$, and $\dim(W)=k+p$, and $\dim (U+W)=j+k+p$.
+%\end{proof}
+
+%\begin{example}
+%In the prior example, $\dim (U\intersection W)=2$,
+%and $\dim(U)=3$, and $\dim (W)=3$, and $\dim (U+W)=\dim(\Re^4)=4$,
+%and so the equation becomes $4=3+3-2$.
+%\end{example}
+
+%\begin{example}
+%In \nearbyexample{exam:RThreeIsSumXYAndYZ} the equation gives
+%$\dim(\Re^3)=\dim(\text{$xy$-plane})+\dim(\text{$yz$-plane})
+%    -\dim(\text{$y$-axis})$ which is, of course, simply $3=2+2-1$.
+%\end{example}
+
+%The lemma gives us a way to ensure that every vector $\vec{v}\in U+W$ has a
+%unique decomposition as the sum of a vector from $U$ and a vector from $W$.
+%Recall that vectors are uniquely represented in terms of a basis.
+%If $B_{U\intersection W}$ is the empty basis (that is, if the intersection of
+%$U$ and $W$ is trivial) then in the representation
+%$\vec{v}=c_1\vec{\mu}_1+\dots+c_{j+p}\vec{\omega}_{j+p}$ we can take
+%$\vec{u}$ to be $c_1\vec{\mu}_1+\dots+c_{j}\vec{\mu}_{j}$
+%and take $\vec{w}$ to be
+%$c_{j+1}\vec{\omega}_{j+1}+\dots+c_{j+p}\vec{\omega}_{j+p}$
+%to have a unique $\vec{v}=\vec{u}+\vec{w}$.
+
+%\begin{definition}
+%\label{def:DirectSumTwoSp}
+%A vector space \( V \) is the
+%\definend{direct sum}\index{subspace!direct sum}%
+%\index{direct sum!of two subspaces}
+%of two of its subspaces \( W_1 \) and \( W_2 \), written
+%$V=W_1\directsum W_2$, if
+%\( W_1+W_2=V \) and~\( W_1\intersection W_2=\set{\zero\,} \).
+%The two subspaces are
+%\definend{complements} %
+%\index{subspace!complementary}\index{complementary subspaces}
+%in \( V \).
+%\end{definition}
+
+%\begin{corollary}
+%\label{cor:CompsIffDimsAndIntTriv}
+%Two subspaces \( W_1,W_2 \) are complements in \( V \) if and only if
+%\( \dim(W_1)+\dim(W_2)=\dim(V) \) and
+%\( W_1\intersection W_2=\set{\zero\,} \).
+%\end{corollary}
+
+%\begin{proof}
+%This follows immediately from
+%\nearbycorollary{cor:DimSumEqDimSummandsMinDimInter}.
+%\end{proof}
+
+%\begin{example}
+%The \( x \)-axis and the \( y \)-axis are complements in \( \Re^2 \),
+%that is, $\Re^2=\text{$x$-axis}\directsum\text{$y$-axis}$.
+%A space can have more than one pair of complementary subspaces;
+%another pair here are the subspaces consisting of the
+%lines \( y=x \) and \( y=2x \).
+%\end{example}
+
+%\begin{example}
+%In the space \( F=\set{a\cos\theta+b\sin\theta\suchthat a,b\in\Re} \),
+%the subspaces \( W_1=\set{a\cos\theta\suchthat a\in\Re} \) and
+%\( W_2=\set{b\sin\theta\suchthat b\in\Re} \) are complements.
+%In addition to the fact that a space like $F$ can have more than one pair of
+%complementary subspaces, inside of the space a single subspace like $W_1$ can
+%have more than one subspace that is a complement to it---another
+%complement to \( W_1 \) is
+%\( W_3=\set{b\sin\theta+c\cos\theta \suchthat b,c\in\Re} \).
+%\end{example}
+
+%\begin{example}
+%In \( \Re^3 \), the \( xy \)-plane and the \( yz \)-planes are not
+%complements, because they have a nontrivial intersection.
+%One complement of the \( xy \)-plane is the \( z \)-axis.
+%A complement of the \( yz \)-plane is the line through \( (1,1,1) \).
+%\end{example}
+
+%\begin{lemma}
+%For a space $V$ and two subspaces $W_1$, $W_2$, every vector $\vec{v}$ in the
+%space has a decomposition $\vec{v}=\vec{u}+\vec{w}$ that is unique (where
+%$\vec{u}\in U$ and $\vec{w}\in W$) if and only if the space is the direct sum
+%of the subspaces.
+%\end{lemma}
+
+%\begin{proof}
+%The `if' direction is handled as discussed before the definition.
+%If $V=W_1\directsum W_2$ then the intersection of the two spaces is trivial
+%and so \nearbylemma{le:BasesSumTwoSubs} shows that there is a basis for
+%the sum $W_1+W_2=V$ consisting of a basis for $W_1$ with a basis for $W_2$
+%adjoined.
+%The representation of any $\vec{v}\in V$ with respect to this basis is unique,
+%and we can regroup inside of this representation to have a unique expression
+%$\vec{v}=\vec{w}_1+\vec{w}_2$.
+
+%For the `only if' direction, we assume that decompositions exist and are
+%unique.
+%The fact that for every $\vec{v}\in V$ a decomposition exists shows that
+%the space is the sum of the subspaces.
+%To show that the intersection of the spaces is trivial,
+%consider a member of the intersection \ldots
+
+%\end{proof}
+
+%We finish this subsection by going to the case of more than two subspaces.
+%This is a bit trickier that the two-subspace case; the right notion of
+%``do not overlap'' is perhaps not evident.
+%That is, we are looking for a definition of a space as a direct sum of its
+%subspaces where the first condition is that the space be the sum of those
+%subspaces, and the second condition is strong enough to give that each vector
+%in the space has a unique decomposition into parts, one from each subspace.
+
+%A natural first guess at the second condition, based on the material above,
+%is to require that the spaces have a trivial intersection.
+%The next example shows that this guess is, however, not enough to guarantee
+%unique decomposition.
+
+%\begin{example}    \label{exam:DirSumThree}
+%In \( \Re^3 \), let
+%\( W_1 \) be the \( x \)-axis, let \( W_2 \) be the \( y \)-axis, and let
+%\begin{equation*}
+%  W_3=\set{\colvec{q \\ q \\ r} \suchthat q,r\in\Re}.
+%\end{equation*}
+%The check that \( \Re^3=W_1+W_2+W_3 \) is easy.
+%The intersection of all three is trivial
+%\( W_1\intersection W_2\intersection W_3=\set{\zero} \) but
+%decompositions aren't unique.
+%\begin{equation*}
+%  \colvec{x \\ y \\ z}
+%  =\colvec{0 \\ 0 \\ 0}
+%  +\colvec{0 \\ y-x \\ 0}
+%  +\colvec{x \\ x \\ z}
+%  =\colvec{x-y \\ 0 \\ 0}
+%  +\colvec{0 \\ 0 \\ 0}
+%  +\colvec{y \\ y \\ z}
+%\end{equation*}
+%(This example also shows that this requirement is also not
+%enough:~that all pairwise intersections of the subspaces be trivial.
+%See \nearbyexercise{exer:ThreeSubsPairwseNonTriv}.)
+%\end{example}
+
+%To ensure that each vector in the sum has a unique decomposition,
+%we need a still stronger condition.
+
+%\begin{definition}
+%A collection of subspaces \( \set{W_1,\ldots, W_k} \) is
+%{\em independent\/}\index{subspace!independence}
+%if no nonzero vector from any \( W_i \) is a linear combination of
+%vectors from the other subspaces \( W_1,\dots, W_{i-1},W_{i+1},\dots, W_k \).
+%\end{definition}
+
+%\begin{definition}
+%A vector space \( V \) is the
+%{\em direct sum\/}\index{subspace!direct sum}\index{direct sum!definition}
+%(or {\em internal direct sum\/}) of its subspaces \( W_1,\dots, W_k \) if
+%\( W_1+W_2+\dots +W_k=V \)
+%and the collection \( \set{W_1,\dots, W_k} \) is independent.
+%We write \( V=W_1\directsum W_2\directsum \dots\directsum W_k \).
+%\end{definition}
+
+%\begin{example}
+%The benchmark example fits under this definition:
+%$\Re^3=\text{$x$-axis}\directsum\text{$y$-axis}\directsum\text{$z$-axis}$
+%\end{example}
+
+%\begin{example}
+%The space of \( \nbyn{2} \) matrices is this direct sum
+%\begin{equation*}
+%  \set{\begin{mat}
+%         a  &0  \\
+%         0  &d
+%       \end{mat}  \suchthat a,d\in\Re }
+%  \,\mbox{}\directsum\mbox{}\,
+%  \set{\begin{mat}
+%         0  &b  \\
+%         0  &0
+%       \end{mat}  \suchthat b\in\Re }
+%  \,\mbox{}\directsum\mbox{}\,
+%  \set{\begin{mat}
+%         0  &0  \\
+%         c  &0
+%       \end{mat}  \suchthat c\in\Re }
+%\end{equation*}
+%(it is the direct sum of subspaces in many other ways also; as with the case
+%of only two subspaces, direct sum decompositions into three or more
+%subspaces need not be unique).
+%\end{example}
+
+%Of course, following the work in this subsection, that definition will only be
+%justified if we support it with a result saying that under those conditions,
+%each vector in the summation has a unique decomposition into a sum of vectors,
+%one from each summand.
+%For that,
+%we will relate the decomposion a vector space into a direct sum
+%to a decomposition of some basis for that space.
+%We already know that uniqueness of decomposition relates to bases.
+
+%\begin{definition}
+%The sequence {\em concatenation\/}\index{concatenation} of
+%\( B_1=\sequence{\vec{\beta}_{1,1},\dots,\vec{\beta}_{1,n_1}} \),
+%\dots, \( B_k=\sequence{\vec{\beta}_{k,1},\dots,\vec{\beta}_{k,n_k}} \) is
+%\(
+% \cat{\cat{B_1}{\cdots}}{B_k}=
+%  \sequence{\vec{\beta}_{1,1},\dots,\vec{\beta}_{1,n_1},
+%            \vec{\beta}_{2,1},\dots,\vec{\beta}_{k,n_k} }.
+%\)
+%\end{definition}
+
+%\begin{corollary}
+%\label{cor:DirSumIffBasesCat}
+%If \( V \) has subspaces \( W_1,\dots, W_k \)
+%with bases \( B_1,\dots, B_k \)
+%then \( W_1\directsum\dots\directsum W_k=V \) if and only if
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \) is a basis for \( V \).
+%\end{corollary}
+
+%\begin{proof}
+%We will show that
+%the sum \( W_1+\dots+W_k \) equals \( V \)
+%if and only if \( \cat{\cat{B_1}{\cdots}}{B_k} \) spans \( V \), and that
+%the set \( \set{W_1,\dots, W_k} \) is independent if and only if
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \) is linearly independent.
+%These two halves prove the `if and only if' equivalence.
+
+%First~(1).
+%Left to right:
+%assume the subspaces sum to \( V \) so any vector in \( V \) can be represented
+%as \( \vec{v}=\vec{w}_1+\dots+\vec{w}_k \),
+%rewrite each \( \vec{w}_i \) as a sum of basis elements and
+%conclude \( \cat{\cat{B_1}{\cdots}}{B_k} \) spans \( V \).
+%Right to left: if \( \cat{\cat{B_1}{\cdots}}{B_k} \) spans \( V \)
+%then any \( \vec{v}\in V \) is a linear combination of vectors from
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \).
+%Inside that combination commute to put vectors from \( B_1 \) first,
+%followed from vectors from \( B_2 \), etc.
+%Sum to first part to some \( \vec{w}_1\in W_1\), sum the second part to
+%a \( \vec{w}_2\in W_2 \), etc.
+%The result has the desired form.
+
+%Now we prove item~(2).
+%`If' is easy.
+%For `only if' suppose the set of subspaces is independent and consider a linear
+%relationship among vectors in
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \).
+%Rewrite that relationship so all the vectors from \( B_1 \) are on one side and
+%the other vectors are on the other side.
+%This expresses some member of \( W_1 \) as a linear combination of members of
+%the other subspaces, and independence of the set of subspaces then implies
+%this linear combination of members of \( B_1 \) is \( \zero \).
+%Thus, in this relationship, all the scalars associated with members of
+%\( B_1 \) are \( 0 \).
+%Similarly every scalar in the combination is \( 0 \).
+%\end{proof}
+
+%Hence, as mentioned above, each direct sum decomposition of a vector space is
+%associated with a decomposition of one of that space's bases.
+
+%\begin{corollary}
+%\label{cor:DirectSumIffUniqueSum}
+%Where \( W_1,\dots, W_k \) are subspaces,
+%\( V=W_1\directsum\dots\directsum W_k \) if and
+%only if every vector \( \vec{v}\in V \) has one and only one representation
+%\( \vec{v}=\vec{w}_1+\dots+\vec{w}_k \) where \( \vec{w}_i\in W_i \).
+%\end{corollary}
+
+%\begin{proof}
+%A chain of double implications works:
+%\( V=W_1\directsum\dots\directsum W_k \)
+%if and only if
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \) is a basis for \( V \),
+%which is true if and only if each vector in \( V \)
+%has a unique representation as a sum of vectors from
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \).
+%\end{proof}
+
+%\begin{corollary}
+%The dimension of a direct sum is the sum of the dimensions of its summands.
+%\end{corollary}
+
+

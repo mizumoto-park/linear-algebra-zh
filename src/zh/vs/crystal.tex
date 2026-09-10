@@ -1,0 +1,237 @@
+% Chapter 2, Topic _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-11
+\topic{晶体}
+\index{crystals|(}
+人人都注意到，
+食盐\index{salt}
+是小立方体形状的。
+\begin{center}
+  \includegraphics[height=1.25in]{vs/pix/salt.jpg} %1.25in tall
+\end{center}
+这种整齐的外观源于整齐的内部\Dash 
+原子的排布方式也是立方形的，
+这些立方体整齐地按行与列堆叠，而食盐的晶面
+往往恰好就是立方体的最外层。
+下面展示了一个由原子构成的立方体。
+食盐是氯化钠，图中
+小球表示钠原子，大球表示氯原子。
+为了简化视图，图中只画出了前侧、
+顶部与右侧的钠原子和氯原子。
+\begin{center}
+  \includegraphics{vs/mp/ch2.1}
+\end{center}
+我们在上图中看到的盐粒
+是这种基本单元的多次重复。
+像食盐这样的固体，
+若具有规则的内部结构，就称为\definend{晶体}。
+
+我们可以把注意力限制在前表面上。
+在那里，一个正方形被重复了很多次，形成原子的晶格。
+\begin{center}
+  \includegraphics{vs/mp/ch2.9}
+\end{center}
+每个正方形晶胞沿边的距离约为
+$3.34$~埃
+（一埃是 $10^{-10}$~米）。
+当我们要指称晶格中的原子时，这个数用起来很不方便，
+于是我们
+取正方形的边长作为单位。
+也就是说，我们自然地采用下面这个基。
+\begin{equation*}
+  \sequence{\colvec{ 3.34 \\ 0},\colvec{0 \\ 3.34}}
+\tag*{}\end{equation*}
+现在，比如说，我们可以把上面晶格图中右上角的原子
+描述为
+$3\vec{\beta}_1+2\vec{\beta}_2$，而不是“向右 $10.02$~埃、
+向上 $6.68$~埃”。
+
+来自日常经验的另一种晶体是铅笔芯。
+它是\definend{石墨}，\index{graphite} 
+由碳原子按下图的形状排列而成。
+\begin{center}  %graphite
+  \includegraphics{vs/mp/ch2.10}
+\end{center}
+这是石墨的一个单独平面，称为\definend{石墨烯}。
+一块石墨由许多这样的平面层叠而成。
+平面之间的化学键
+比平面内部的键弱得多，这解释了铅笔为什么能写字\Dash 
+石墨可以被剪切，使这些平面滑脱
+并留在纸上。
+
+我们可以用如下方法得到一个方便的长度单位：把六边形环分解成三个区域，
+它们都是这个\definend{原胞} 的旋转。\index{crystals!unit cell} 
+\begin{center}  %graphite
+  \includegraphics{vs/mp/ch2.11}
+\qquad\qquad
+\includegraphics{vs/mp/ch2.12}
+\end{center}
+构成该原胞各条边的向量
+组成了一个方便的基。
+底边与斜边的长度都是 $1.42$~埃，
+所以
+\begin{equation*}
+  \sequence{\colvec{1.42 \\ 0}, \colvec{0.71 \\ 1.23}}
+\tag*{}\end{equation*}   
+是一个很好的基。
+
+另一种由碳形成的、我们熟悉的晶体是金刚石。\index{diamond}
+与食盐一样，它也由立方体构成，但每个立方体
+内部的结构更加复杂。
+除了每个角上各有一个碳原子之外，
+\begin{center}
+  \includegraphics{vs/mp/ch2.13}
+\end{center}
+每个面的中央还有碳原子。
+\begin{center}
+  \includegraphics{vs/mp/ch2.14}
+\end{center}
+（为了清楚地显示新出现的面心碳原子，
+角上的碳原子被缩小成了点。）
+立方体内部还有四个碳原子，
+其中两个位于自底面向上四分之一处，
+另两个位于自顶面向下四分之一处。
+\begin{center}
+  \includegraphics{vs/mp/ch2.15}  
+\end{center}
+（与前面一样，之前出现过的碳原子在这里被缩小成了点。）
+立方体任意一条棱的长度都是 $2.18$~埃。
+于是，描述碳原子的位置
+以及它们之间化学键的一个自然基就是下面这个。
+\begin{equation*}
+  \sequence{\colvec{2.18 \\ 0 \\ 0}, 
+            \colvec{0 \\ 2.18 \\ 0}, 
+            \colvec{0 \\ 0 \\ 2.18}}
+\tag*{}\end{equation*}   
+
+这里的例子表明，
+晶体结构相当复杂，需要某种有条理的体系来给出原子的位置
+以及它们如何化学键合。
+实现这种组织的一个工具就是方便的基。
+基的这个应用虽然简单，却展示了一个
+科学背景，
+这个想法在其中自然地出现。
+% The work in this chapter just takes this simple idea and develops it.
+
+\begin{exercises}
+  \item 
+    一粒盐的一个面上有多少个基本区域？
+   （用直尺我们可以估计出，该面是一个边长为 $0.1$~cm 的正方形。）
+   \begin{answer}
+     每个基本单元是 $3.34\times 10^{-10}$~cm，所以这样的单元约有
+     $0.1/(3.34\times 10^{-10})$ 个。
+     这给出 $2.99\times 10^{8}$，因此差不多有
+     $300,000,000$（三亿）个区域。     
+   \end{answer}
+  \item 
+    在石墨的图中，假设我们关注这样一点：它位于从原点出发
+    向右 $5.67$~埃、向上 $3.14$~埃处。
+    \begin{exparts}
+      \partsitem 用针对石墨给出的基来表示该点。
+      \partsitem 这个点距离原点有多少个六边形？
+      \partsitem 用第二个基来表示该点，
+        其中第一个基向量与原来相同，但第二个基向量
+        与第一个垂直（沿平面向上）且长度相同。
+    \end{exparts} 
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 我们求解
+          \begin{equation*}
+            c_1\colvec{1.42 \\ 0}+c_2\colvec{0.71 \\ 1.23}
+              =\colvec{5.67 \\ 3.14}
+            \quad\implies\quad
+            \begin{linsys}{2}
+              1.42c_1  &+  &0.71c_2  &=  &5.67  \\
+                       &   &1.23c_2  &=  &3.14
+            \end{linsys}
+          \tag*{}\end{equation*}
+          解得 $c_1\approx 2.74$ 与 $c_2\approx 2.55$。
+        \partsitem 下面是这个点在晶格中的定位。
+          在左图中，原胞上叠加了
+          两个基向量 $\vec{\beta}_1$ 与 $\vec{\beta}_2$， 
+          以及一个标出偏移量
+          $2.55\vec{\beta}_1+2.72\vec{\beta}_2$ 的方框。
+          右图显示的是它在晶体晶格内部出现的位置，这里取
+          左下角那个六边形的左下顶点作为原点。
+          \begin{center}  %graphite
+            \includegraphics{vs/mp/ch2.17}
+            \qquad
+            \includegraphics{vs/mp/ch2.18}
+       \end{center}
+       所以这个点向右移过两列六边形，
+       向上移过一行六边形。
+      \partsitem 这第二个基
+          \begin{equation*}
+            \sequence{\colvec{1.42 \\ 0},\colvec{0 \\ 1.42}}
+          \tag*{}\end{equation*}
+          使计算更容易
+          \begin{equation*}
+            c_1\colvec{1.42 \\ 0}+c_2\colvec{0 \\ 1.42}
+              =\colvec{5.67 \\ 3.14}
+            \quad\implies\quad
+            \begin{linsys}{2}
+              1.42c_1  &   &         &=  &5.67  \\
+                       &   &1.42c_2  &=  &3.14
+            \end{linsys}
+          \tag*{}\end{equation*}
+          （我们得到 $c_2\approx 2.21$ 与 $c_1\approx 3.99$），但它似乎
+          与我们正在研究的物理结构没有多大关系。
+      \end{exparts}
+    \end{answer}
+  \item 
+    用基以及用埃两种方式给出金刚石立方体中各原子的位置。
+    \begin{answer}
+      用基表示时，角上原子的位置是
+      $(0,0,0)$、$(1,0,0)$、\ldots{}、$(1,1,1)$。
+      面上原子的位置是 $(0.5,0.5,1)$、$(1,0.5,0.5)$、
+      $(0.5,1,0.5)$、$(0,0.5,0.5)$、$(0.5,0,0.5)$ 以及 $(0.5,0.5,0)$。
+      自顶面向下四分之一处的原子的位置
+      是 $(0.75,0.75,0.75)$ 与 $(0.25,0.25,0.25)$。
+      自底面向上四分之一处的原子
+      位于 $(0.75,0.25,0.25)$ 与 $(0.25,0.75,0.25)$。
+      换算成埃很容易。
+    \end{answer}
+  \item 
+    这说明了我们如何从一种物质结晶的形状
+    计算出原胞的尺寸
+    （\cite{Ebbing}，第~462~页）。
+    \begin{exparts}
+      \partsitem 回顾一下，每摩尔有 $6.022\times 10^{23}$ 个原子
+        （这就是阿伏伽德罗数）。
+        由此，再加上铂每摩尔质量为 $195.08$ 克
+        这一事实，计算每个原子的质量。
+      \partsitem 铂以面心立方晶格的形式结晶，
+        每个格点上都有一个原子，
+        也就是说，它看起来像上面金刚石晶体插图中的
+        中间那幅。
+        求每个原胞中铂原子的个数
+        （提示：~把位于单个晶胞内部的各部分铂原子
+        所占的份额加起来）。
+      \partsitem 由此求出一个原胞的质量。
+      \partsitem 铂晶体的
+        密度为每立方厘米 $21.45$ 克。
+        由此以及一个原胞的质量，计算
+        一个原胞的体积。
+      \partsitem 求每条棱的长度。
+      \partsitem 描述一个自然的三维基。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem $195.08/6.02\times 10^{23}=3.239\times 10^{-22}$
+        \partsitem 每个面中央的铂原子
+          由两个立方体分摊，所以到这里共有 $6/2=3$ 个原子。
+          每个角上的原子由八个立方体分摊，所以
+          又增加 $8/8=1$~个原子，因此总数是 $4$。
+        \partsitem $4\cdot 3.239\times 10^{-22}=1.296\times 10^{-21}$
+        \partsitem $1.296\times 10^{-21}/21.45=6.042\times 10^{-23}$ 立方
+           厘米
+        \partsitem $3.924\times 10^{-8}$ 厘米。
+        \partsitem 
+            $\sequence{\colvec{3.924\times 10^{-8} \\ 0 \\ 0},
+                       \colvec{0 \\ 3.924\times 10^{-8} \\ 0},
+                       \colvec{0 \\ 0 \\ 3.924\times 10^{-8}}}$
+      \end{exparts}
+    \end{answer}
+\end{exercises}
+\index{crystals|)}
+\endinput

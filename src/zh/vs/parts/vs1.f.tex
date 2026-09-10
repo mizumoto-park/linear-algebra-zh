@@ -1,0 +1,540 @@
+      第~(2) 条有五个条件。
+      第一条是封闭性：若 \( c\in\Re \) 且 \( \vec{s}\in S \)，则
+      \( c\cdot\vec{s}\in S \)，因为
+      \( c\cdot\vec{s}=c\cdot\vec{s}+0\cdot\zero \)。
+      第二，因为 \( S \) 中的运算继承自 \( V \)，所以对 \( c,d\in\Re \) 与 \( \vec{s}\in S \)，
+      \( S \) 中的标量乘积 \( (c+d)\cdot\vec{s}\, \) 等于 \( V \) 中的乘积
+      \( (c+d)\cdot\vec{s}\, \)，而它等于 \( V \) 中的
+      \( c\cdot\vec{s}+d\cdot\vec{s}\, \)，进而等于 \( S \) 中的
+      \( c\cdot\vec{s}+d\cdot\vec{s}\, \)。
+
+      第三、第四和第五个条件的验证与刚才给出的第二个条件的验证类似。
+    \end{answer}
+  \item 
+    证明每个向量空间只有一个平凡子空间。
+    \begin{answer}
+      前一小节的一道练习证明了每个向量空间只有一个零向量（也就是说，只有
+      一个向量是该空间的加法单位元）。
+      而平凡空间只有一个元素，且该元素必是这个（唯一的）零向量。
+    \end{answer}
+  \item 
+    证明对向量空间的任意子集 \( S \)，张成的张成等于张成
+    \( \spanof{ \spanof{S} }=\spanof{S} \)。
+    （\textit{提示。}
+    $\spanof{S}$ 的成员是 $S$ 的成员的线性组合。
+    $\spanof{\spanof{S}}$ 的成员是 $S$ 的成员的线性组合的
+    线性组合。）
+    \begin{answer}
+      如提示所言，根本的原因是第一章的线性组合引理。
+      为给出完整证明，我们将证明这两个集合互相包含。
+
+      第一个包含关系 \( \spanof{ \spanof{S} }\supseteq\spanof{S}  \)
+      是一个更一般且显然的事实的特例：对向量空间的任意子集
+      \( T \)，都有 \( \spanof{T}\supseteq T \)。
+
+      对于另一个包含关系，
+      即 \( \spanof{ \spanof{S} }\subseteq\spanof{S} \)，
+      从 \( \spanof{S} \) 中取 $m$ 个向量，即
+      \( c_{1,1}\vec{s}_{1,1}+\cdots+c_{1,n_1}\vec{s}_{1,n_1} \)、\ldots、
+      \( c_{1,m}\vec{s}_{1,m}+\cdots+c_{1,n_m}\vec{s}_{1,n_m} \)，
+      并注意它们的任意线性组合
+      \begin{equation*}
+         r_1(c_{1,1}\vec{s}_{1,1}+\cdots+c_{1,n_1}\vec{s}_{1,n_1})+\cdots
+        +r_m(c_{1,m}\vec{s}_{1,m}+\cdots+c_{1,n_m}\vec{s}_{1,n_m})
+      \end{equation*}
+      是 \( S \) 中元素的线性组合
+      \begin{equation*}
+        = (r_1c_{1,1})\vec{s}_{1,1}+\cdots+(r_1c_{1,n_1})\vec{s}_{1,n_1}+\cdots
+        +(r_mc_{1,m})\vec{s}_{1,m}+\cdots+(r_mc_{1,n_m})\vec{s}_{1,n_m}
+      \end{equation*}
+      因而在 \( \spanof{S} \) 中。
+      也就是说，只需回想：线性组合的线性组合（$S$ 中成员的）
+      仍是线性组合（同样还是 $S$ 中成员的）。
+    \end{answer}
+  \item 
+    我们见过的所有子空间都在其描述中以某种方式用到了零。
+    例如，\nearbyexample{ex:SubspacesRTwo} 中的子空间由 $\Re^2$ 中
+    第二个分量为零的所有向量组成。
+    相比之下，
+    $\Re^2$ 中第二个分量为 1 的向量集合
+    不构成子空间（它对标量乘法不封闭）。
+    另一个例子是 \nearbyexample{ex:PlaneSubspRThree}，其中对向量的条件
+    是三个分量之和为零。
+    如果那里的条件
+    改为三个分量之和为 1，
+    那么它就不是子空间
+    （同样，它不封闭）。
+    不过，对零的依赖并非严格必需。
+    考虑集合
+    \begin{equation*}
+       \set{\colvec{x \\ y \\ z}\suchthat x+y+z=1}
+    \end{equation*}
+    在这些运算下。
+    \begin{equation*}
+       \colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2}
+       =\colvec{x_1+x_2-1 \\ y_1+y_2 \\ z_1+z_2}
+       \qquad
+       r\colvec{x \\ y \\ z}=\colvec{rx-r+1 \\ ry \\ rz}
+    \end{equation*}
+    \begin{exparts}
+      \partsitem 证明它不是 $\Re^3$ 的子空间。
+         （\textit{提示。}   参见 \nearbyexample{ex:OperNotInherit}）。
+      \partsitem 证明它是一个向量空间。         
+         注意由前一问，
+         \nearbylemma{th:SubspIffClosed} 不能适用。  
+      \partsitem 证明 $\Re^3$ 的任何子空间必定经过原点，
+         因此 $\Re^3$ 的任何子空间在其描述中必定涉及零。
+         逆命题成立吗？  
+          $\Re^3$ 的任何包含原点的子集，
+          在给定继承的运算后会成为子空间吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 它不是子空间，因为这些运算不是继承来的运算。  
+           例如，在这个空间中，
+           \begin{equation*}
+             0\cdot\colvec{x \\ y \\ z}=\colvec[r]{1 \\ 0 \\ 0}
+           \end{equation*}
+           而这当然在 $\Re^3$ 中不成立。
+         \partsitem 我们可以把证明对加法封闭的论证
+           与证明对标量乘法封闭的论证合并成
+           一个证明对两个向量的线性组合封闭的单一论证。
+           若 $r_1,r_2,x_1,x_2,y_1,y_2,z_1,z_2$ 都属于 $\Re$，则      
+           \begin{multline*}
+              r_1\colvec{x_1 \\ y_1 \\ z_1}
+              +r_2\colvec{x_2 \\ y_2 \\ z_2}
+              =\colvec{r_1x_1-r_1+1 \\ r_1y_1 \\ r_1z_1}
+               +\colvec{r_2x_2-r_2+1 \\ r_2y_2 \\ r_2z_2}                 \\
+            =\colvec{r_1x_1-r_1+r_2x_2-r_2+1 \\ r_1y_1+r_2y_2 \\ r_1z_1+r_2z_2}
+           \end{multline*} 
+           （注意这个空间中加法的定义是：第一个分量按
+           $(r_1x_1-r_1+1)+(r_2x_2-r_2+1)-1$ 的方式合并，
+           所以最后一个向量的第一个分量并非表示
+           `$\hbox{}+2$'）。
+           将最后一个向量的三个分量相加得
+           $r_1(x_1-1+y_1+z_1)+r_2(x_2-1+y_2+z_2)+1=r_1\cdot0+r_2\cdot0+1=1$。
+
+           其余大部分条件的验证都很容易（尽管这些运算的古怪之处
+           使它们无法按常规进行）。
+           加法的交换律如下。
+           \begin{equation*}
+             \colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2}
+             =\colvec{x_1+x_2-1 \\ y_1+y_2 \\ z_1+z_2}
+             =\colvec{x_2+x_1-1 \\ y_2+y_1 \\ z_2+z_1}
+             =\colvec{x_2 \\ y_2 \\ z_2}+\colvec{x_1 \\ y_1 \\ z_1}
+           \end{equation*}
+           加法的结合律则是
+           \begin{equation*}
+             (\colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2})
+              +\colvec{x_3 \\ y_3 \\ z_3}
+             =\colvec{(x_1+x_2-1)+x_3-1 \\ (y_1+y_2)+y_3 \\ (z_1+z_2)+z_3}
+           \end{equation*}
+           而
+           \begin{equation*}
+             \colvec{x_1 \\ y_1 \\ z_1}
+             +(\colvec{x_2 \\ y_2 \\ z_2}+\colvec{x_3 \\ y_3 \\ z_3})
+             =\colvec{x_1+(x_2+x_3-1)-1 \\ y_1+(y_2+y_3) \\ z_1+(z_2+z_3)}
+           \end{equation*}
+           且两者相等。
+           关于这个加法运算的单位元 
+           如下
+           \begin{equation*}
+             \colvec{x \\ y \\ z}+\colvec[r]{1 \\ 0 \\ 0}
+             =\colvec{x+1-1 \\ y+0 \\ z+0}
+             =\colvec{x \\ y \\ z}
+           \end{equation*}
+           加法逆元类似。
+           \begin{equation*}
+             \colvec{x \\ y \\ z}+\colvec{-x+2 \\ -y \\ -z}
+             =\colvec{x+(-x+2)-1 \\ y-y \\ z-z}
+             =\colvec[r]{1 \\ 0 \\ 0}
+           \end{equation*}
+
+           关于标量乘法的那些条件也容易验证。
+           对第一个条件，
+           \begin{equation*}
+             (r+s)\colvec{x \\ y \\ z}
+             =\colvec{(r+s)x-(r+s)+1 \\ (r+s)y \\ (r+s)z}
+           \end{equation*}
+           而
+           \begin{multline*}
+             r\colvec{x \\ y \\ z}+s\colvec{x \\ y \\ z}
+             =\colvec{rx-r+1 \\ ry \\ rz}+\colvec{sx-s+1 \\ sy \\ sz}  \\
+             =\colvec{(rx-r+1)+(sx-s+1)-1 \\ ry+sy \\ rz+sz}
+           \end{multline*}
+           两者相等。
+           第二个条件比较
+           \begin{equation*}
+             r\cdot(\colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2})
+             =r\cdot\colvec{x_1+x_2-1 \\ y_1+y_2 \\ z_1+z_2}
+             =\colvec{r(x_1+x_2-1)-r+1 \\ r(y_1+y_2) \\ r(z_1+z_2)}
+           \end{equation*}
+           与
+           \begin{multline*}
+             r\colvec{x_1 \\ y_1 \\ z_1}+r\colvec{x_2 \\ y_2 \\ z_2}
+             =\colvec{rx_1-r+1 \\ ry_1 \\ rz_1}
+                     +\colvec{rx_2-r+1 \\ ry_2 \\ rz_2}                  \\
+             =\colvec{(rx_1-r+1)+(rx_2-r+1)-1 \\ ry_1+ry_2 \\ rz_1+rz_2}
+           \end{multline*}
+           且它们相等。
+           对第三个条件，
+           \begin{equation*}
+             (rs)\colvec{x \\ y \\ z}
+             =\colvec{rsx-rs+1 \\ rsy \\ rsz}
+           \end{equation*}
+           而
+           \begin{equation*}
+             r(s\colvec{x \\ y \\ z})
+             =r(\colvec{sx-s+1 \\ sy \\ sz})
+             =\colvec{r(sx-s+1)-r+1 \\ rsy \\ rsz}
+           \end{equation*}
+           两者相等。
+           对于被 $1$ 的标量乘法，我们有下式。
+           \begin{equation*}
+             1\cdot\colvec{x \\ y \\ z}
+             =\colvec{1x-1+1 \\ 1y \\ 1z}
+             =\colvec{x \\ y \\ z}
+           \end{equation*}
+           这样，这两个运算满足向量空间的所有条件。
+
+           \textit{注记。}
+           理解这个向量空间的一种方式是把它看作 $\Re^3$ 中的平面
+           \begin{equation*}
+             P=\set{\colvec{x \\ y \\ z}\suchthat x+y+z=0}
+           \end{equation*}
+           沿 $x$ 轴离开原点平移 $1$ 所得的平面。
+           于是加法变成：~要加上这个空间的两个成员
+           \begin{equation*}
+             \colvec{x_1 \\ y_1 \\ z_1},\;\colvec{x_2 \\ y_2 \\ z_2}
+           \end{equation*}
+           （其中 $x_1+y_1+z_1=1$ 且 $x_2+y_2+z_2=1$）
+           先把它们移回 $1$ 放入 $P$，再按通常方式相加，
+           \begin{equation*}
+             \colvec{x_1-1 \\ y_1 \\ z_1}+\colvec{x_2-1 \\ y_2 \\ z_2}
+             =\colvec{x_1+x_2-2 \\ y_1+y_2 \\ z_1+z_2}
+             \qquad\text{（在 $P$ 中）}
+           \end{equation*}
+           然后把结果沿 $x$ 轴再移出 $1$。
+           \begin{equation*}
+             \colvec{x_1+x_2-1 \\ y_1+y_2 \\ z_1+z_2}.
+           \end{equation*}
+           标量乘法类似。
+         \partsitem 为使该子空间对继承的标量
+           乘法封闭，设 $\vec{v}$ 是该子空间的一个成员，
+           \begin{equation*}
+             0\cdot\vec{v}=\colvec[r]{0 \\ 0 \\ 0}
+           \end{equation*}
+           它也必须是成员。
+
+           逆命题不成立。
+           下面是 $\Re^3$ 的一个包含原点的子集
+           \begin{equation*}
+             \set{\colvec[r]{0 \\ 0 \\ 0},\colvec[r]{1 \\ 0 \\ 0}}
+           \end{equation*}
+           （这个子集只有两个元素）但它不是子空间。
+       \end{exparts}
+     \end{answer}
+  \item 
+    我们可以为“零个向量之和等于零向量”这一约定给出一个理由。
+    考虑三个向量的和 $\vec{v}_1+\vec{v}_2+\vec{v}_3$。
+    \begin{exparts}
+      \partsitem 这个三个向量的和与这三个中前两个的和之差是什么？
+      \partsitem 前一个和与仅第一个向量的和之差是什么？
+      \partsitem 前一个只含一个向量的和与零个向量的和之差应当是什么？
+      \partsitem 那么零个向量的和应当定义为什么？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \item $(\vec{v}_1+\vec{v}_2+\vec{v}_3)-(\vec{v}_1+\vec{v}_2)
+                 =\vec{v}_3$
+        \item $(\vec{v}_1+\vec{v}_2)-(\vec{v}_1)
+                 =\vec{v}_2$
+        \item 显然，$\vec{v}_1$。
+        \item 取那个只含一项的和再相减，得
+          （$\vec{v}_1)-\vec{v}_1=\zero$。
+      \end{exparts}
+    \end{answer}
+  \item 
+    一个空间由它的子空间决定吗？
+    也就是说，如果两个向量空间有相同的子空间，这两个空间是否必定相等？
+    \begin{answer}
+      是的；任何空间都是它自身的子空间，所以每个空间都包含另一个。  
+    \end{answer}
+  \item 
+     \begin{exparts}
+      \partsitem 给出一个对标量乘法封闭
+        但对加法不封闭的集合。
+      \partsitem 给出一个对加法封闭但对标量乘法
+        不封闭的集合。
+      \partsitem 给出一个对两者都不封闭的集合。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \( \Re^2 \) 中 \( x \) 轴与 \( y \) 轴的并就是一例。
+        \partsitem 整数集，作为 \( \Re^1 \) 的子集，就是一例。
+        \partsitem \( \Re^2 \) 的子集 \( \set{\vec{v}} \) 就是一例，
+          其中 $\vec{v}$ 是任意非零向量。
+      \end{exparts}  
+     \end{answer}
+  \item 
+    证明一组向量的张成不依赖于列举这些向量时的顺序，即
+    该集合中向量被列举的顺序。
+    \begin{answer}
+      由于向量空间加法是交换的，重新排列被加项不会改变线性组合。  
+    \end{answer}
+  \item  
+    空集的张成是哪个平凡子空间？
+    是
+    \begin{equation*}
+      \set{\colvec[r]{0 \\ 0 \\ 0}}\subseteq \Re^3,
+      \quad\text{或}\quad
+      \set{0+0x}\subseteq \polyspace_1,
+    \end{equation*}
+    还是某个别的子空间？
+    \begin{answer}
+      我们总是在一个包围空间的背景下考虑这个张成。  
+    \end{answer}
+  \item   
+    证明若一个向量在某个集合的张成中，则把该向量加进集合
+    不会使张成变大。
+    这在“仅当”方向上也成立吗？
+    \begin{answer}
+      “当”与“仅当”两个方向都成立。
+
+      对于“当”的方向，
+      设 \( S \) 是向量空间 \( V \) 的子集，并假设
+      \( \vec{v}\in S \) 满足
+      \( \vec{v}=c_1\vec{s}_1+\dots+c_n\vec{s}_n \)，其中
+      \( c_1,\ldots,c_n \) 是标量，且
+      \( \vec{s}_1,\ldots,\vec{s}_n\in S \)。
+      我们必须证明 \( \spanof{S\union\set{\vec{v}} }=\spanof{S} \)。
+
+      一侧的包含关系，
+      \( \spanof{S}\subseteq\spanof{S\union\set{\vec{v}} } \) 是显然的。
+      对于另一个方向，
+      \( \spanof{S\union\set{\vec{v}} }\subseteq\spanof{S} \)，注意若一个
+      向量属于左边的集合，则它形如
+      \( d_0\vec{v}+d_1\vec{t}_1+\dots+d_m\vec{t}_m \)，其中诸 \( d \) 是
+      标量，诸 \( \vec{t}\, \) 属于 \( S \)。
+      把它改写为
+      \( d_0(c_1\vec{s}_1+\dots+c_n\vec{s}_n)
+      +d_1\vec{t}_1+\cdots+d_m\vec{t}_m \)，并注意
+      该结果是 \( S \) 的张成中的一个成员。
+
+      “仅当”显然成立\Dash 加入 \( \vec{v} \) 
+      会把张成扩大到至少包含 \( \vec{v} \)。
+    \end{answer}
+  \recommended \item
+    子空间是子集，所以我们自然会考虑“是……的子空间”这一关系
+    与通常的集合运算如何相互作用。
+    \begin{exparts}
+      \partsitem 若 \( A,B \) 是向量空间的子空间，它们的交
+        \( A\intersection B \) 必是子空间吗？
+        总是？有时？从不？
+      \partsitem 并 \( A\union B \) 必是子空间吗？
+      \partsitem 若 \( A \) 是某个~$V$ 的子空间，它的补集 $V-A$
+        必是子空间吗？
+    \end{exparts}
+    （\textit{提示。}   试用 \nearbyexample{ex:SubspRThree} 中
+    的一些试验性子空间。）
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 总是。
+
+          设 \( A,B \) 是 \( V \) 的子空间。
+          注意 
+          它们的交不空，因为两者都包含零向量。
+          若 \( \vec{w},\vec{s}\in A\intersection B \) 且 \( r,s \) 是
+          标量，则 \( r\vec{v}+s\vec{w}\in A \)，因为
+          每个向量都属于 \( A \)，所以线性组合属于 \( A \)，
+          出于同样的理由 \(r\vec{v}+s\vec{w}\in B \)。
+          于是这个交是封闭的。
+          这时 \nearbylemma{th:SubspIffClosed} 适用。
+        \partsitem 有时（更准确地说，仅当 \( A\subseteq B \) 或
+          \( B\subseteq A \)）。
+
+          为看出答案不是“总是”，取 \( V \) 为 \( \Re^3 \)，
+          取 \( A \) 为 $x$ 轴，\( B \) 为
+          \( y \) 轴。
+          注意
+          \begin{equation*}
+            \colvec[r]{1 \\ 0}\in A \text{ 且 }\colvec[r]{0 \\ 1}\in B
+            \quad\text{而}\quad
+            \colvec[r]{1 \\ 0}+\colvec[r]{0 \\ 1}\not\in A\union B
+          \end{equation*}
+          因为该和既不在 \( A \) 中也不在 \( B \) 中。
+
+          答案不是“从不”，因为若 \( A\subseteq B \) 或
+          \( B\subseteq A \)，则显然 \( A\union B \) 是子空间。
+
+          为证明 \( A\union B \) 是子空间仅当一个子空间
+          包含另一个，我们假设 \( A\not\subseteq B \)
+          且 \( B\not\subseteq A \)，并证明 
+          该并不是子空间。
+          \( A \) 不是 \( B \) 的子集这一假设意味着存在 
+          \( \vec{a}\in A \) 且 \( \vec{a}\not\in B \)。
+          另一假设给出一个 \( \vec{b}\in B \)，满足
+          \( \vec{b}\not\in A \)。
+          考虑 \( \vec{a}+\vec{b} \)。
+          注意该和不是 \( A \) 的元素，否则 
+          \( (\vec{a}+\vec{b})-\vec{a} \) 将属于 \( A \)，但它不属于。
+          类似地，该和也不是 \( B \) 的元素。
+          因此该和不是 \( A\union B \) 的元素，所以该并
+          不是子空间。
+        \partsitem 从不。
+          由于 \( A \) 是子空间，它包含零向量，因此
+          作为 $A$ 的补集的集合 $V-A$ 不包含它。
+          没有零向量，这个补集不可能是向量空间。
+      \end{exparts}  
+    \end{answer}
+  \item 
+    一个集合的张成依赖于包围它的空间吗？
+    也就是说，若 \( W \) 是 \( V \) 的子空间，\( S \) 是
+    \( W \) 的子集（因而也是 \( V \) 的子集），那么 \( S \) 在
+    \( W \) 中的张成可能不同于 \( S \) 在 \( V \) 中的张成吗？
+    \begin{answer}
+      一个集合的张成不依赖于包围它的空间。
+      \( S \) 中向量的线性组合给出同样的和，
+      无论我们把运算视为 \( W \) 的还是 \( V \) 的，
+      因为 \( W \) 的运算继承自 \(  V \)。  
+    \end{answer}
+  \item 
+    “是……的子空间”这一关系是传递的吗？
+    也就是说，若 $V$ 是 $W$ 的子空间，$W$ 是 $X$ 的
+    子空间，$V$ 必是 $X$ 的子空间吗？ 
+    \begin{answer}
+      是传递的；
+      应用 \nearbylemma{th:SubspIffClosed}。
+      （你必须考虑下面这一点。
+      设 \( B \) 是向量空间 \( V \) 的子空间，再设
+      \( A\subseteq B\subseteq V \) 是一个子空间。
+      \( A \) 从哪个空间继承它的运算？
+      答案是这无关紧要\Dash 两种情形下 \( A \) 继承的
+      都是相同的运算。）  
+    \end{answer}
+  \item
+    由于“张成”是集合上的一种运算，我们自然会考虑
+    它与通常的集合运算如何相互作用。
+    \begin{exparts}
+      \partsitem 若 \( S\subseteq T \) 是向量空间的子集，是否有
+        \( \spanof{S}\subseteq\spanof{T} \)？
+        总是？有时？从不？
+      \partsitem 若 \( S,T \) 是向量空间的子集，是否有
+        \( \spanof{S\union T}=\spanof{S}\union\spanof{T} \)？
+      \partsitem 若 \( S,T \) 是向量空间的子集，是否有
+        \( \spanof{S\intersection T}=\spanof{S}\intersection\spanof{T} \)？
+      \partsitem 补集的张成等于张成的补吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 总是；
+           若 \( S\subseteq T \)，则 \( S \) 中元素的线性组合
+           也是 \( T \) 中元素的线性组合。
+         \partsitem 有时（更准确地说，当且仅当 
+           \( S\subseteq T \) 或 \( T\subseteq S \)）。
+
+           答案不是“总是”，\( \Re^3 \) 中的这个例子
+           表明了这一点
+           \begin{equation*}
+             S=\set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 1 \\ 0}},\quad
+             T=\set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 0 \\ 1}}
+           \end{equation*}
+           因为有下式。
+           \begin{equation*}
+             \colvec[r]{1 \\ 1 \\ 1}\in\spanof{S\union T}
+             \qquad
+             \colvec[r]{1 \\ 1 \\ 1}\not\in\spanof{S}\union \spanof{T}
+           \end{equation*}
+
+           答案不是“从不”，因为若其中一个集合包含另一个，
+           则等式显然成立。
+           我们可以通过假设 \( S\not\subseteq T \)（意味着存在
+           向量 \( \vec{s}\in S \) 满足 
+           \( \vec{s}\not\in T \)）
+           且 \( T\not\subseteq S \)（给出一个 \( \vec{t}\in T \)，满足
+           \( \vec{t}\not\in S \)），并注意
+           \( \vec{s}+\vec{t}\in\spanof{S\union T} \)，
+           再证明 
+           \( \vec{s}+\vec{t}\not\in\spanof{S}\union\spanof{T} \)，
+           来刻画等式仅在其中一个集合包含另一个时才发生。
+         \partsitem 有时。
+
+           显然
+           \( \spanof{S\intersection T}
+             \subseteq\spanof{S}\intersection\spanof{T} \)
+           因为来自 
+           \( S\intersection T \)
+           的向量的任何线性组合既是 \( S \) 中向量的组合，也是
+           \( T \) 中向量的组合。
+
+           反方向的包含并不总成立。
+           例如，在 \( \Re^2 \) 中，取
+           \begin{equation*}
+             S=\set{\colvec[r]{1 \\ 0},\colvec[r]{0 \\ 1}},\quad
+             T=\set{\colvec[r]{2 \\ 0}}
+           \end{equation*}
+           于是 \( \spanof{S}\intersection\spanof{T} \) 是 \( x \) 轴，
+           但 \( \spanof{S\intersection T}  \) 是平凡子空间。
+
+           要精确刻画等式何时成立并不容易。
+           显然若其中一个集合包含另一个则等式成立，但由 \( \Re^3 \) 中的这个例子
+           可知那不是“仅当”的。
+           \begin{equation*}
+             S=\set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 1 \\ 0}},
+             \quad
+             T=\set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 0 \\ 1}}
+           \end{equation*}
+         \partsitem 从不，因为补集的张成是子空间，而
+           张成的补不是（它不包含零 
+           向量）。
+      \end{exparts}  
+     \end{answer}
+  % \item 
+  %   Reprove \nearbylemma{le:SpanIsASubsp} without doing the
+  %   empty set separately.
+  %   \begin{answer}
+  %     Call the subset \( S \).
+  %     By \nearbylemma{th:SubspIffClosed},
+  %     we need to check that 
+  %     \( \spanof{S} \) is closed under linear combinations.
+  %     If \( c_1\vec{s}_1+\dots+c_n\vec{s}_n,
+  %       c_{n+1}\vec{s}_{n+1}+\dots+c_m\vec{s}_m\in\spanof{S} \) then
+  %     for any \( p,r\in\Re \) we have
+  %     \begin{multline*}
+  %       p\cdot(c_1\vec{s}_1+\cdots+c_n\vec{s}_n)+
+  %            r\cdot(c_{n+1}\vec{s}_{n+1}+\cdots+c_m\vec{s}_m)        \\
+  %       =
+  %       pc_1\vec{s}_1+\cdots+pc_n\vec{s}_n
+  %         +rc_{n+1}\vec{s}_{n+1}+\cdots+rc_m\vec{s}_m
+  %     \end{multline*}
+  %     which is an element of \( \spanof{S} \).
+  %     % (\textit{Remark.}
+  %     % If the set $S$ is empty, then that
+  %     % `if \ldots\ then \ldots' statement is vacuously true.)  
+  %   \end{answer}
+  \item 找一个对线性组合封闭 
+    然而却不是向量空间的结构。
+    % (\textit{Remark.} 
+    % This is a bit of a trick question.)
+    \begin{answer}
+      要出现这种情况，保证加法与标量乘法运算合理性的条件中
+      必须有一个被违反。
+      考虑带这些运算的 \( \Re^2 \)。
+      \begin{equation*}
+        \colvec{x_1 \\ y_1}
+        +\colvec{x_2 \\ y_2}
+        =\colvec[r]{0 \\ 0}
+        \qquad
+        r\colvec{x \\ y}
+        =\colvec[r]{0 \\ 0}
+      \end{equation*}
+      集合 $\Re^2$ 对这些运算封闭。 
+      但它不是向量空间。
+      \begin{equation*}
+        1\cdot\colvec[r]{1 \\ 1}
+        \neq\colvec[r]{1 \\ 1}
+      \end{equation*}  
+    \end{answer}
+\index{subspace|)}
+\index{vector space|)}
+\end{exercises}

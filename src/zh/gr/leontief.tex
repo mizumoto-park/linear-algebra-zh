@@ -1,0 +1,528 @@
+% Chapter 1, Topic from _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linalg.html
+%  2001-Jun-09
+\topic{投入产出分析}
+\index{Input-Output Analysis|(}
+一种经济体系是一张极其复杂的相互依存之网。
+其中一处的变化会波及并影响到其他部分。
+经济学家们一直努力去描述这样的复杂对象，并对其做出预测。
+使用线性方程组的数学模型
+是一种关键工具。
+其中一个例子就是投入产出分析，其开创者
+W.~Leontief（里昂惕夫）\index{Leontief, W.}
+荣获了1973年诺贝尔经济学奖。
+
+考虑一个由许多部分组成的经济体系，其中两个部分是钢铁业和汽车业。
+这两个行业紧密相互作用，
+都努力满足来自经济体系其他部分、即钢铁与汽车部门之外的使用者
+对其产品的需求。
+例如，若汽车的外部需求上升，
+则会增加汽车业对钢材的用量。
+而若钢材的外部需求下降，则会减少钢铁业对卡车的采购。
+我们这里考察的模型接收这些外部需求，
+并预测这两个行业如何相互作用以满足这些需求。
+
+我们从生产与消费的统计数据开始。
+（这些数字以百万美元为单位，取自描述1958年美国经济的
+\cite{Leontief1965}。
+由于通货膨胀以及各行业的技术变化，今天的统计数字会有所不同。）
+\begin{center}
+  \begin{tabular}{r|rrrr}
+         \multicolumn{1}{c}{\ }  %put the | in the right place
+         &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                \textit{使用方} \\[-.65ex] \textit{钢铁业} 
+                             \end{tabular}}
+         &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                \textit{使用方} \\[-.65ex] \textit{汽车业} 
+                             \end{tabular}}
+         &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                \textit{使用方} \\[-.65ex] \textit{其他部门} 
+                              \end{tabular}}
+         &\textit{总计}                                                \\
+         \cline{2-5}
+    \begin{tabular}{r} \textit{钢材} \\[-.65ex] \textit{的价值} \end{tabular}
+         &$5\,395$  &$2\,664$  &     &$25\,448$                          \\
+    \begin{tabular}{r} \textit{汽车} \\[-.65ex] \textit{的价值} \end{tabular}
+         &$48$      &$9\,030$  &     &$30\,346$                          
+  \end{tabular}
+\end{center}
+例如，今年汽车业使用的钢材的价值为$2,664$百万美元。
+注意，各行业可能会消耗其自身的一部分产出。
+
+我们可以填入外部需求。
+今年其他部门使用的钢材的价值为$17,389$，
+而汽车的外部价值为$21,268$。
+至此，对于汽车与钢铁如何相互作用以满足需求，
+我们已有完整的描述。
+
+现在设想钢材的外部需求近来每年上升$200$，
+于是我们估计明年将为$17,589$。
+我们还估计明年汽车的外部需求将下降$25$，降至$21,243$。
+我们希望预测明年的总产出。
+
+这一预测并不像在今年的钢材总数上加$200$、
+从今年的汽车总数中减去$25$那样简单。
+一方面，钢材的增加会使钢铁业对汽车的需求上升，
+这将缓解汽车外部需求的损失。
+另一方面，汽车外部需求的下降会使汽车业减少钢材用量，
+从而在一定程度上减缓钢材业务的升势。
+简言之，这两个行业构成一个系统。
+我们必须预测整个系统最终会稳定在哪里。
+
+以下是方程。
+\begin{align*}
+  \text{明年钢材的产量}
+     &=\text{明年钢铁业使用的钢材}   \\[-.8ex]
+     &\quad\hbox{}+\text{明年汽车业使用的钢材}  \\[-.8ex]  
+     &\quad\hbox{}+\text{明年其他部门使用的钢材} \\
+  \text{明年汽车的产量}
+     &=\text{明年钢铁业使用的汽车}   \\[-.8ex]
+     &\quad\hbox{}+\text{明年汽车业使用的汽车}  \\[-.8ex] 
+     &\quad\hbox{}+\text{明年其他部门使用的汽车} 
+\end{align*}
+对于左边，令$s$为明年钢材的总产量，
+令$a$为明年汽车的总产出。
+对于右边，如上所述，
+我们的外部需求估计为$17,589$与$21,243$。
+
+对于明年钢铁业使用的钢材，注意今年钢铁业
+使用了$5,395$单位的钢材投入来生产$25,448$单位的
+钢材产出。
+因此明年，当钢铁业将产出$s$个单位时，
+我们推测这将耗费$s\cdot (5\,395)/(25\,448)$
+个单位的钢材投入\Dash 这正是投入与产出成正比的假设。 
+（我们假定投入与产出之比随时间保持不变；
+在实际中，模型可能会设法考虑这些比值的变化趋势。）
+
+明年汽车业使用的钢材与此类似。
+今年汽车业使用$2,664$单位的钢材投入来生产
+$30,346$单位的汽车产出。
+因此明年，当汽车业的总产出为$a$时，我们预计它将
+消耗$a\cdot (2\,664)/(30\,346)$个单位的钢材。
+
+用同样的方式填入另一个方程，就得到如下线性方程组。
+\begin{equation*}
+  \begin{linsys}{3}
+    (5\,395/25\,448)\cdot s 
+      &+ &(2\,664/30\,346)\cdot a &+ &17\,589 
+         &= &s \\ 
+    (48/25\,448)\cdot s     
+      &+ &(9\,030/30\,346)\cdot a &+ &21\,243 
+         &= &a
+  \end{linsys}
+\end{equation*}
+把变量移到一边、常数移到另一边，
+\begin{equation*}
+  \begin{linsys}{2}
+      (20\,053/25\,448)s &- &(2\,664/30\,346)a &= &17\,589 \\ 
+     -(48/25\,448)s      &+ &(21\,316/30\,346)a &= &21\,243 
+  \end{linsys}
+\end{equation*}
+再应用高斯消元法，或如下面这样使用\textit{Sage}
+\begin{lstlisting}
+sage: var('a,s')
+(a, s)
+sage: eqns=[(20053/25448)*s - (2664/30346)*a == 17589,  
+....:        (-48/25448)*s + (21316/30346)*a == 21243] 
+sage: solve(eqns, s, a)
+[[s == (2745320544312/106830469), a == (6476293881123/213660938)]]
+sage: n(2745320544312/106830469)
+25697.9171767186
+sage: n(6476293881123/213660938)
+30311.0804517904
+\end{lstlisting}
+就给出我们的预测：
+$s=25,698$与$a=30,311$。
+
+前面我们讨论过，对明年总数的预测
+并不像在去年的钢材总数上加$200$、
+从去年的汽车总数中减去$25$那样简单。
+把这些预测与今年的数字
+比较可知，钢铁业的总产量应上升~$250$，
+而
+汽车的总数下降$35$。
+钢材外部需求的增加引起钢铁业内部需求的增加，
+虽然汽车的下降使其略有缓解，
+但最终总数的增幅仍超过
+$200$。
+类似地，尽管有来自钢铁方面的帮助，
+汽车总数的下降仍超过~$25$。
+
+拥有数学模型的一个优点是我们可以
+提出"如果……会怎样？"的问题。
+例如，我们可以问：
+"如果我们对明年外部需求的估计稍有偏差会怎样？"
+为了了解模型的预测会随估计的变化而改变多少，
+我们可以把明年钢材外部需求的估计从$17,589$下调到
+$17,489$，同时保持明年汽车外部需求固定在$21,243$
+的假设不变。
+所得的方程组
+\begin{equation*}
+  \begin{linsys}{2}
+        (20\,053/25\,448)s &- &(2\,664/30\,346)a &= &17\,489 \\ 
+      -(48/25\,448)s      &+ &(21\,316/30\,346)a &= &21\,243 
+  \end{linsys}
+\end{equation*}
+给出$s=25,571$与$a=30,311$。
+% sage: var('a,s')                                        
+% (a, s)
+% sage: eqns=[(20053/25448)*s - (2664/30346)*a == 17489, 
+% ....:        (-48/25448)*s + (21316/30346)*a == 21243] 
+% sage: solve(eqns, s, a)                             
+% [[s == (2731759305112/106830469), a == (6476221050723/213660938)]]
+% sage: n(2731759305112/106830469)                    
+% 25570.9754968126
+% sage: n(6476221050723/213660938)
+% 30310.7395827449
+这就是\definend{敏感性分析}。
+我们在考察模型的预测对假设的准确性
+有多敏感。
+
+自然，我们可以考虑更大的模型，
+以详细刻画一个经济体中更多部门之间的相互作用；
+这类模型通常在计算机上求解。
+同样自然的是，单一模型并不适合所有情形，
+而要确保模型背后的假设对于某个具体预测是合理的，
+则需要专家的判断。
+不过虽有这些告诫，
+该模型在实践中已被证明是经济分析的一个有用而精确的工具。
+欲进一步阅读，可参阅\cite{Leontief1951}与\cite{Leontief1965}。 
+
+\begin{exercises}
+  \item 
+    使用上面给出的钢铁–汽车系统，估计下列各种情形下明年的总产量。
+    \begin{exparts}
+      \partsitem 明年钢材的外部需求比今年上升$200$，汽车的外部需求不变。
+      \partsitem 明年钢材的外部需求上升$100$，汽车的外部需求上升$200$。
+      \partsitem 明年钢材的外部需求上升$200$，汽车的外部需求上升$200$。
+    \end{exparts} 
+    \begin{answer}
+      这些答案来自\textit{Octave}。
+      \begin{exparts}
+        \partsitem \Sage{} 得到$s\approx 25\,952$与$a\approx 30\,312$。
+\begin{lstlisting}
+sage: var('s,a')
+(s, a)
+sage: system = [(20053/25448)*s -  (2664/30346)*a == 17789,
+....:             -(48/25448)*s + (21316/30346)*a == 21243]
+sage: solve(system, s,a)
+[[s == (2772443022712/106830469), a == (6476439541923/213660938)]]
+sage: n(2772443022712/106830469), n(6476439541923/213660938)
+(25951.8005365305, 30311.7621898814)          
+\end{lstlisting}
+        \partsitem \Sage{} 得到$s\approx 25\,857$与$a\approx 30\,596$。
+\begin{lstlisting}
+sage: system = [(20053/25448)*s -  (2664/30346)*a == 17689,
+....:             -(48/25448)*s + (21316/30346)*a == 21443]
+sage: solve(system, s,a)
+[[s == (2762271457112/106830469), a == (6537219545323/213660938)]]
+sage: n(2762271457112/106830469), n(6537219545323/213660938)
+(25856.5883213711, 30596.2316112410)
+\end{lstlisting}
+        \partsitem \Sage{} 得到$s\approx 25\,984$与$a\approx 30\,597$。
+\begin{lstlisting}
+sage: system = [(20053/25448)*s -  (2664/30346)*a == 17789,
+....:             -(48/25448)*s + (21316/30346)*a == 21443]
+sage: solve(system, s,a)
+[[s == (2775832696312/106830469), a == (6537292375723/213660938)]]
+sage: n(2775832696312/106830469), n(6537292375723/213660938)
+(25983.5300012771, 30596.5724802865)          
+\end{lstlisting}
+      \end{exparts}
+    \end{answer}
+  \item 
+    对于钢铁–汽车系统，采用上面讨论的外部需求估计$17,589$与$21,243$，
+    钢铁业使用的钢材的价值、汽车业使用的钢材的价值等各是多少？
+    \begin{answer}
+      下面的\textit{Sage}会话
+\begin{lstlisting}
+sage: var('a,s')
+(a, s)
+sage: eqns=[(20053/25448)*s - (2664/30346)*a == 17589,
+....:       (-48/25448)*s + (21316/30346)*a == 21243] 
+sage: solve(eqns, s, a)
+[[s == (2745320544312/106830469), a == (6476293881123/213660938)]]
+sage: s_by_s = (5395/25448)*2745320544312/106830469
+sage: s_by_s
+582010544505/106830469
+sage: n(s_by_s)
+5447.98267716114
+sage: s_by_a = (2664/30346)*6476293881123/213660938  
+sage: n(s_by_a)
+2660.93449955743
+sage: a_by_s = (48/25448)*2745320544312/106830469
+sage: n(a_by_s)
+48.4713936058822
+sage: a_by_a = (9030/30346)*6476293881123/213660938
+sage: n(a_by_a)
+9019.60905818451        
+\end{lstlisting}
+      给出此表。
+      \begin{center}
+        \begin{tabular}{r|rrrr}
+         \multicolumn{1}{c}{\ }  %put the | in the right place
+         &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                \textit{使用方} \\[-.65ex] \textit{钢铁业} 
+                             \end{tabular}}
+         &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                \textit{使用方} \\[-.65ex] \textit{汽车业} 
+                             \end{tabular}}
+         &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                \textit{使用方} \\[-.65ex] \textit{其他部门} 
+                              \end{tabular}}
+         &\textit{总计}                                                \\
+         \cline{2-5}
+         \begin{tabular}{r} \textit{钢材} \\[-.65ex] \textit{的价值} \end{tabular}
+           &$5\,448$  &$2\,661$  &$17\,589$     &$25\,698$                          \\
+         \begin{tabular}{r} \textit{汽车} \\[-.65ex] \textit{的价值} \end{tabular}
+           &$48$      &$9\,020$  &$21\,243$     &$30\,311$                          
+        \end{tabular}
+      \end{center}
+      作为比较，这里是原来的表。
+      \begin{center}
+        \begin{tabular}{r|rrrr}
+         \multicolumn{1}{c}{\ }  %put the | in the right place
+         &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                \textit{使用方} \\[-.65ex] \textit{钢铁业} 
+                             \end{tabular}}
+         &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                \textit{使用方} \\[-.65ex] \textit{汽车业} 
+                             \end{tabular}}
+         &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                \textit{使用方} \\[-.65ex] \textit{其他部门} 
+                              \end{tabular}}
+         &\textit{总计}                                                \\
+         \cline{2-5}
+         \begin{tabular}{r} \textit{钢材} \\[-.65ex] \textit{的价值} \end{tabular}
+           &$5\,395$  &$2\,664$  &$17\,389$     &$25\,448$                          \\
+         \begin{tabular}{r} \textit{汽车} \\[-.65ex] \textit{的价值} \end{tabular}
+           &$48$      &$9\,030$  &$21\,268$     &$30\,346$                          
+        \end{tabular}
+      \end{center}
+    \end{answer}
+  \item 
+    在钢铁–汽车系统中，汽车业使用钢材的比值为
+    $2,664/30,346$，约为$0.0878$。
+    设想一种制造汽车的新工艺使这一比值降到$.0500$。
+    \begin{exparts}
+      \partsitem 与上面讨论的第一个例子（即取明年钢材的外部需求为
+        $17,589$、汽车的外部需求为$21,243$）相比，
+        对明年总产量的预测会有什么变化？
+      \partsitem 再若由于新汽车更便宜，汽车的外部需求
+        升至$21,500$，预测明年的总数。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \Sage{} 给出$s=24,244$、$a=30,307$。
+\begin{lstlisting}
+ sage: var('s,a')
+(s, a)
+sage: system = [(20053/25448)*s -  0.0500*a == 17589,
+....:             -(48/25448)*s + (21316/30346)*a == 21243]
+sage: solve(system, s,a)
+[[s == (12951731858499/534221147), a == (32381469405615/1068442294)]]
+sage: n(12951731858499/534221147), n(32381469405615/1068442294)
+(24244.1392131918, 30307.1767071166)         
+\end{lstlisting}
+        \partsitem Sage 给出$s=24,267$、$a=30,673$。
+\begin{lstlisting}
+sage: system = [(20053/25448)*s -  0.0500*a == 17589,
+....:             -(48/25448)*s + (21316/30346)*a == 21500]
+sage: solve(system, s,a)
+[[s == (12964136043940/534221147), a == (16386224431390/534221147)]]
+sage: n(12964136043940/534221147), n(16386224431390/534221147)
+(24267.3584090448, 30673.1107957993)          
+\end{lstlisting}
+      \end{exparts}
+    \end{answer}
+  \item 
+    下表给出汽车–钢铁系统在另一个年份、即1947年的
+    数字（见\cite{Leontief1951}）。
+    这里的单位是1947年的十亿美元。
+    \begin{center}
+      \begin{tabular}{r|rrrr}
+             \multicolumn{1}{c}{\ }  % omit the | 
+             &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                   \textit{使用方} \\[-.65ex] \textit{钢铁业} 
+                                 \end{tabular}}
+             &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                   \textit{使用方} \\[-.65ex] \textit{汽车业} 
+                                 \end{tabular}}
+             &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                   \textit{使用方} \\[-.65ex] \textit{其他部门} 
+                                 \end{tabular}}
+             &\multicolumn{1}{r}{\textit{总计}}             \\ \cline{2-5}
+        \begin{tabular}{r} \textit{钢材} \\[-.65ex] 
+                           \textit{的价值} 
+            \end{tabular}
+            &$6.90$  &$1.28$  &   &$18.69$                              \\
+        \begin{tabular}{r} \textit{汽车} \\[-.65ex] \textit{的价值} 
+            \end{tabular}
+            &$0$     &$4.40$  &   &$14.27$ 
+      \end{tabular}
+    \end{center}
+    \begin{exparts}
+      \partsitem 若明年的外部需求为：钢材的需求上升$10$\%，
+         汽车的需求上升$15$\%，求总产出。
+      \partsitem 这些比值与上面讨论1958年经济时
+         给出的比值相比如何？
+      \partsitem 用1958年的外部需求求解1947年的方程组
+         （注意单位差异；1947年的1美元大约能买到
+         1958年的\$$1.30$所能买到的东西）。
+         对总产出的预测偏差有多大？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+          方程如下。
+	  \begin{equation*}
+	    \begin{linsys}{2}
+	       (11.79/18.69)s   &-   &(1.28/14.27)a &= &10.51 \\ 
+	       -(0/18.69)s   &+   &(9.87/14.27)a &= &9.87 
+	    \end{linsys}
+	  \end{equation*}
+          \textit{Sage}给出如下结果（含一个初始检验）。
+\begin{lstlisting}
+sage: var('a,s')
+(a, s)
+sage: eqns=[(11.79/18.69)*s - (1.28/14.27)*a == 10.51,
+....:       (-0)*s         + (9.87/14.27)*a == 9.87]
+sage: solve(eqns,s,a)
+[[s == (1869/100), a == (1427/100)]]
+sage: n(1869/100)
+18.6900000000000
+sage: n(1427/100)
+14.2700000000000
+sage: eqns=[(11.79/18.69)*s - (1.28/14.27)*a == 11.561,
+....:       (-0)*s         + (9.87/14.27)*a == 11.3505]
+sage: solve(eqns,s,a)
+[[s == (8119559/393000), a == (32821/2000)]]
+sage: n(8119559/393000)
+20.6604554707379
+sage: n(32821/2000)
+16.4105000000000            
+\end{lstlisting}
+	\partsitem
+          下面是1947年的比值，取三位小数。
+	  \begin{center}
+            \begin{tabular}{r|cc}
+               1947   &\textit{钢铁业使用}  &\textit{汽车业使用}  \\ \hline
+               \textit{钢材的使用}  &$(6.90/18.69)=0.369$ &$(1.28/14.27)=0.090$  \\
+               \textit{汽车的使用}  &$(0/18.69)=0.00$ &$(4.40/14.27)=0.308$  
+            \end{tabular}
+          \end{center}
+          下面是1958年的比值。
+          \begin{center}
+            \begin{tabular}{r|cc}
+               1958           &\textit{钢铁业使用}  &\textit{汽车业使用}  \\ \hline
+               \textit{钢材的使用}  &$(5395/25448)=0.212$ &$(2664/30346)=0.088$  \\
+               \textit{汽车的使用}  &$(48/25448)=0.002$ &$(9030/30346)=0.298$  
+            \end{tabular}
+          \end{center}
+	\partsitem
+          1958年的外部需求为$17.589$与~$21.243$，
+          单位是1958年的十亿美元。
+          按1948年的美元计，它们为$(17.589/1.3)=13.53$与
+          $(21.243/1.3)=16.34$。 
+          \textit{Sage}给出这些数字。
+\begin{lstlisting}
+sage: eqns=[(11.79/18.69)*s - (1.28/14.27)*a == 13.53,
+....:       (-0)*s         + (9.87/14.27)*a == 16.34]
+sage: solve(eqns,s,a)
+[[s == (137466107/5541300), a == (1165859/49350)]]
+sage: n(137466107/5541300)
+24.8075554472777
+sage: n(1165859/49350)
+23.6242958459980            
+\end{lstlisting}
+      乘以$1.3$换回1958年的美元，得到
+      $32.25$与~$30.71$。
+      \end{exparts}
+    \end{answer}
+  \item 
+    预测下面所示假想经济中三个部门
+    各自明年的总产量
+    \begin{center}
+      \begin{tabular}{r|rrrrr}
+             \multicolumn{1}{c}{\ }  % omit the |
+             &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                     \textit{使用方} \\[-.65ex] \textit{农业} 
+                                 \end{tabular}}
+             &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                    \textit{使用方} \\[-.65ex] \textit{铁路} 
+                                 \end{tabular}}
+             &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                    \textit{使用方} \\[-.65ex] 
+                                    \textit{航运} 
+                                 \end{tabular}}
+             &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                   \textit{使用方} \\[-.65ex] \textit{其他部门} 
+                                 \end{tabular}}
+             &\textit{总计}                                                \\
+             \cline{2-6}
+        \begin{tabular}{r} \textit{农业} \\[-.65ex] \textit{的价值} 
+             \end{tabular}
+             &$25$  &$50$  &$100$ &     &$800$             \\
+        \begin{tabular}{r} \textit{铁路} \\[-.65ex] \textit{的价值} 
+             \end{tabular}
+             &$25$  &$50$  &$50$  &     &$300$             \\
+        \begin{tabular}{r} \textit{航运} \\[-.65ex] \textit{的价值} 
+             \end{tabular}
+             &$15$  &$10$  &$0$   &     &$500$                          
+      \end{tabular}
+    \end{center}
+    若明年的外部需求如题所述。
+    \begin{exparts}
+      \partsitem 农业为$625$，铁路为$200$，航运为$475$ 
+      \partsitem 农业为$650$，铁路为$150$，航运为$450$ 
+    \end{exparts}
+  \item 
+      下表给出一个经济体三个部门之间的相互关系
+      （见\cite{BangorRpt}）。
+      \begin{center}
+        \begin{tabular}{r|rrrrr}
+             \multicolumn{1}{c}{\ }  % omit the |
+             &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                    \textit{使用方} \\[-.65ex] \textit{食品业} 
+                                 \end{tabular}}
+             &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                   \textit{使用方} \\[-.65ex] 
+                                   \textit{批发业} 
+                                 \end{tabular}}
+             &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                    \textit{使用方} \\[-.65ex] \textit{零售业} 
+                                 \end{tabular}}
+             &\multicolumn{1}{r}{\begin{tabular}[b]{@{}c@{}} 
+                                    \textit{使用方} \\[-.65ex] \textit{其他部门} 
+                                 \end{tabular}}
+             &\textit{总计}                                             \\
+          \cline{2-6}
+          \begin{tabular}[b]{r} \textit{食品业} \\[-.65ex] \textit{的价值} 
+              \end{tabular}
+              &$0$    &$2\,318$   &$4\,679$   &     &$11\,869$   \\
+          \begin{tabular}[b]{r} \textit{批发业} \\[-.65ex] \textit{的价值}
+              \end{tabular}
+              &$393$  &$1\,089$   &$22\,459$  &     &$122\,242$   \\
+          \begin{tabular}[b]{r} \textit{零售业} \\[-.65ex] \textit{的价值} 
+              \end{tabular}
+              &$3$    &$53$       &$75$       &     &$116\,041$   \\
+        \end{tabular}
+      \end{center}
+      我们将对该系统进行投入产出分析。
+      \begin{exparts}
+        \partsitem 填入今年外部需求的数字。
+        \partsitem 建立线性方程组，将明年的外部需求留空。
+        \partsitem 求解该方程组，其中明年的外部需求取今年的外部需求
+          并上调$10$\%。
+          三个部门的总业务量都增加$10$\%吗？
+          它们的增长速度甚至都相同吗？ 
+        \partsitem 求解该方程组，其中明年的外部需求取今年的外部需求
+          并下调$7$\%。
+          （这些数字所出自的那项研究断言，
+          由于当地一处军事设施关闭，
+          该地区的个人收入总体将下降$7$\%，因此这或许
+          是对实际情况的一个初步猜测。）
+      \end{exparts}
+\end{exercises}
+\index{Input-Output Analysis|)}
+\endinput

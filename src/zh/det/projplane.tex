@@ -1,0 +1,878 @@
+% Chapter 4, Topic _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\topic{射影几何}
+\index{projective geometry|(}
+除了我们所熟悉的欧几里得几何之外，还有其他的几何。
+其中一种几何源于画家们的观察：观看者所看到的东西，未必就是实际存在的东西。
+作为一个例子，这里给出 Leonardo da Vinci 的
+\textit{最后的晚餐}。\index{da Vinci, Leonardo}\index{Last Supper@\textit{Last Supper}}
+% From http://upload.wikimedia.org/wikipedia/commons/7/77/DaVinci_LastSupper_high_res_2_nowatmrk.jpg
+\begin{center} 
+  \includegraphics[width=.6\textwidth]{det/pix/LastSupper.jpg}
+\end{center}
+请注意天花板与左右两面墙相接之处。
+在真实的房间里，那些线是平行的，但
+da~Vinci 画的这些线如果延长出去就会相交。
+这个交点就是
+\definend{消失点}。\index{vanishing point}\index{projection!central!vanishing point}
+透视的这一特点是我们所熟悉的：铁轨看起来就在地平线处汇聚成一点。
+
+Da~Vinci 采用了一个关于我们如何观看的模型。
+% of how
+% we project the three dimensional scene to a two dimensional image.
+设想一个人在观察一个房间。
+从这个人的眼睛出发，沿每一个方向
+引出一条射线，直至它与某个物体相交，比如
+与墙和天花板相接的直线上的某一点相交。
+这第一个交点就是这个人在该方向上看到的东西。
+总体而言，这个人看到的是三维交点的集合
+投影到一张共同的二维图像上。
+\begin{center}
+  \includegraphics[scale=.8]{det/mp/ch4.5}
+\end{center}
+这是一个从单点出发的
+\emph{中心投影}\index{projection!central}\index{central projection}。
+正如图中所示，这一投影不同于我们前面见过的那些正交投影，
+因为从观看者到~$C$ 的连线
+与图像平面并不正交。
+（这个模型只是一种近似\Dash 它没有考虑诸如
+我们具有双眼视觉，
+或者大脑的处理过程会极大地影响我们所感知到的内容等因素。
+尽管如此，这个模型仍然是有趣的，
+无论在艺术上还是在数学上都是如此。）
+
+中心投影这一操作保持某些几何性质，
+例如直线投影后仍是直线。
+然而，它不能保持另外一些性质。
+一个例子是，等长的线段可以投影成不等长的线段
+（上图中，$AB$ 比 $BC$ 长，因为
+投影成 $AB$ 的那条线段离观看者更近，
+而越近的东西看起来越大）。
+对中心投影的效果的研究就是射影几何。
+
+中心投影有三种情形。
+第一种是电影放映机所做的投影。
+\begin{center}
+  \includegraphics{det/mp/ch4.6}
+\end{center}
+我们可以认为每个源点被从定义域平面~$S$
+向外推到图像平面~$I$ 上。
+第二种投影情形是画家
+把源拉回到画布上。
+\begin{center}
+  \includegraphics{det/mp/ch4.7}
+\end{center}
+这两种情形是不同的，因为第一种情形 $S$ 在中间，
+第二种情形 $I$ 在中间。
+还可能出现第三种构型，即 $P$ 在中间。
+这样的一个例子是，我们用小孔把日食的像
+投射到一张纸上。
+\begin{center}
+  \includegraphics{det/mp/ch4.8}
+\end{center}
+
+虽然这三种情形并不完全相同，
+但它们是相似的。
+我们可以说，
+每一种都是从 $P$ 出发将 $S$ 投影到 $I$ 的中心投影。
+下面我们来看中心投影的三个模型，
+它们一个比一个抽象，
+但也一个比一个统一。
+最后一个模型将把线性代数呈现出来。
+
+%To illustrate some of the geometric effects of these projections,  
+再次考虑铁轨看起来汇聚于一点的效果。
+用定义域平面~$S$ 中的平行线
+以及经由 $P$ 到陪域平面~$I$ 的投影来为它建模。
+（图中所示的灰线与 $S$ 平面及~$I$ 平面都平行。）
+\begin{center}
+  \includegraphics{det/mp/ch4.9}
+\end{center}
+这一幅图同时展示了全部三种投影情形。
+下面第一幅图显示 $P$ 充当电影放映机，
+把点从 $S$ 的一部分推到 $I$ 下半部分上的像点。
+中间一幅图显示 $P$ 充当画家，
+把点从 $S$ 的另一部分拉回到
+$I$ 中部的像点。
+在第三幅图中，$P$ 充当小孔，把点从 $S$
+投影到 $I$ 的上部。
+第三幅图是最难看懂的\Dash 投影到消失点附近的那些点，
+正是 $S$ 上位于左下方远处的点。
+$S$ 中靠近竖直灰线的点
+被送到 $I$ 上很高的地方。
+\begin{center}
+  \includegraphics{det/mp/ch4.10}
+\hfil
+  \includegraphics{det/mp/ch4.11}
+\hfil
+  \includegraphics{det/mp/ch4.12}
+\end{center}
+
+这里有 两处别扭之处。
+第一，定义域中离竖直灰线最近的那两个点（见下图）没有像，
+因为从这两个点出发的投影沿着那条
+与陪域平面平行的灰线
+（我们说这两个点被投影到无穷远）。
+第二，$I$ 中的消失点
+不是 $S$ 中任何一点的像，
+因为投影到这个点得沿着那条
+与定义域平面平行的灰线
+（我们说消失点是来自无穷远的投影的像）。
+\begin{center}
+  \includegraphics{det/mp/ch4.13}
+\end{center}
+
+为了得到一个消除这些别扭之处的模型，
+给放映机 $P$ 罩上一个半球形的穹顶。
+沿任何由过原点的直线所确定的方向，
+把该方向上的任何东西投影到穹顶上这条线与它相交的那一点。
+这包括像电影放映机那样，
+投影位于 $P$ 与穹顶之间的直线上的东西，如 $Q_1$；
+也包括像画家那样，
+投影位于这条直线上比穹顶离 $P$ 更远处的东西，如 $Q_2$；
+更微妙的是，它还包括像小孔那样，
+投影位于 $P$ 背后的东西，如 $Q_3$。
+\begin{center} 
+  \includegraphics{det/mp/ch4.14}
+  % \includegraphics{det/mp/ch4.59}
+\end{center}
+更正式地说，
+对任意非零向量 $\vec{v}\in\Re^3$，令与之相伴的
+\definend{射影平面中的点 $v$}\index{point!in projective plane} 
+为集合 $\set{k\vec{v}\suchthat \text{$k\in\Re$ and $k\neq 0$}}$，
+即与 $\vec{v}$ 位于同一条过原点的直线上的
+非零向量的集合。
+要描述一个射影点，我们可以给出这条直线上任意一个代表元，于是
+上面所示的射影点
+可以用以下三种方式中的任何一种来表示。
+\begin{equation*}
+  \colvec[r]{1 \\ 2 \\ 3}
+  \qquad
+  \colvec{1/3 \\ 2/3 \\ 1}
+  \qquad
+  \colvec[r]{-2 \\ -4 \\ -6}
+\end{equation*} 
+其中每一个都是点~$\ell$ 的
+\definend{齐次坐标向量}\index{coordinates!homogeneous}%
+\index{homogeneous coordinate vector}\index{vector!homogeneous coordinate}。
+
+这幅图与这个定义
+澄清了中心投影，
+但穹顶模型仍有不尽如人意之处：当 $P$ 朝下看时会怎样？
+考虑上图 中 $P$ 的视线中
+朝我们迎面而来、伸出页面的那一部分。
+设想视线的这一部分下落，
+落到赤道及赤道以下。
+现在，直线~$\ell$ 与穹顶相交的部分就跑到页面背后去了。
+
+也就是说，随着
+视线继续下落越过赤道，
+射影点会突然从穹顶的前面移到穹顶的后面。
+（这表明穹顶并不包括整条赤道，
+否则当观看者恰好沿赤道方向观看时，
+这条直线上就会有两个点同时落在穹顶上。
+于是我们把穹顶定义为只包含赤道上 $y$ 坐标为正的点，
+以及 $y=0$ 且 $x$ 为正的那个点。）
+这种不连续性意味着
+我们常常不得不把赤道上的点当作单独的情形来处理。
+因此，虽然中心投影的铁轨模型有三种情形，
+穹顶模型却只有两种。
+
+我们可以做得更好，我们可以化归为只有一种情形的模型。
+考虑一个以原点为中心的球面。
+任何过原点的直线都与球面交于两点，这两点被称为
+对径点。\index{antipodal points}
+因为我们把每条过原点的直线
+与射影
+平面中的一点联系起来，所以我们可以在球面上把这样的点画成一对对径的点。
+下图中，我们用一条虚线连接这两个对径点，
+以强调它们并非两个
+不同的点：这一对点合在一起构成一个射影点。
+\begin{center}
+  \includegraphics{det/mp/ch4.15}
+\end{center}
+把一个点画成球面上一对对径点，不像穹顶模型那样一个点对应一个点那么直观，
+但另一方面，
+穹顶模型的别扭之处在这里消失了，因为
+当视线从北滑向南时，
+不会发生任何突变。
+这个中心投影模型是统一的。
+
+到目前为止，我们描述了射影几何中的点。
+那么直线呢？
+位于原点的观看者~$P$ 看成一条直线的东西，在下图中显示为
+一个大圆，即模型球面与一个过原点的平面的交线。
+\begin{center}
+  \includegraphics{det/mp/ch4.16}
+\end{center}
+（我们在这条线上标出了一个射影点，
+以揭示一个微妙之处。
+因为一对对径点合起来构成一个单一的射影点，
+所以大圆在纸背后的部分与它在纸前面的部分
+是同一批射影点。）
+正如我们对每个射影点所做的那样，
+我们也可以用三个实数来描述一条射影直线。
+例如，$\Re^3$ 中这个过原点的平面里的成员
+\begin{equation*}
+  %\set{y\colvec[r]{1 \\ -1 \\ 0}+z\colvec[r]{1 \\ 0 \\ 1}\suchthat y,z\in\Re}=
+  \set{\colvec{x \\ y \\ z}\suchthat x+y-z=0}
+\end{equation*} 
+投影成一条直线，我们可以用
+$\rowvec{1 &1 &-1}$ 来描述它
+（用行向量在排版上区分直线与点）。
+一般地，对任意非零的三宽行向量 $\smash{\vec{L}}$，
+我们定义与之相伴的
+\definend{射影平面中的直线}，\index{projective plane!lines}%
+\index{line!in projective plane} 
+为集合 $L=\set{k\vec{L}\suchthat \text{$k\in\Re$ and $k\neq 0$}}$。
+
+把直线描述成三元组之所以方便，原因在于：
+在射影平面中，点 $v$ 与直线 $L$ 是
+\definend{关联的} \Dash  即
+点落在直线上、直线经过该点 \Dash  当且仅当
+它们的代表元的点积
+$v_1L_1+v_2L_2+v_3L_3$ 为零
+（\nearbyexercise{exer:IncidentIndReps} 证明这与代表元
+$\smash{\vec{v}}$ 和 $\smash{\vec{L}}$ 的选取无关）。
+例如，上面用分量为 $1$、$2$、$3$ 的列向量描述的射影点
+落在由 $\rowvec{1 &1 &-1}$ 描述的射影直线上，
+这仅仅是因为 $\Re^3$ 中分量之比
+为 $1\mathbin :2\mathbin :3$ 的任何向量
+都落在方程形如
+$k\cdot x+k\cdot y-k\cdot z=0$（$k$ 为任意非零数）的过原点的平面内。
+也就是说，关联公式是从 $v$ 与 $L$ 所投影自的
+三维空间中的直线与平面那里继承来的。
+
+有了这些，我们就可以做解析射影几何了。
+例如，射影
+直线 $L=\rowvec{1 &1 &-1}$ 具有方程
+$1v_1+1v_2-1v_3=0$，
+意思是：对与该直线关联的任何射影点~$v$，$v$ 的任何一个
+代表齐次坐标向量都
+满足该方程。
+这之所以成立，仅仅是因为那些向量都落在那个三维空间的平面内。
+与欧几里得解析几何的一个不同之处是，
+在射影几何中除了谈论直线的方程之外，
+我们还谈论点的方程。
+对固定点
+\begin{equation*}
+  v=\colvec[r]{1 \\ 2 \\ 3}
+\end{equation*}
+刻画与该点关联的直线的性质是：任何代表元的分量都满足
+$1L_1+2L_2+3L_3=0$，
+因而这就是 $v$ 的方程。
+
+关于直线与点的陈述的这种对称性，就是
+射影几何的
+\definend{对偶原理}\index{Duality Principle, of projective geometry}：
+在任何真命题中，把「点」与「直线」互换
+就得到另一个真命题。
+例如，正如两个不同的点确定唯一的一条直线，
+在射影平面中两条不同的直线确定唯一的一个点。
+下面这幅图显示两条射影
+直线相交于对径点，从而
+
+交于一个射影点。
+\begin{center}
+  \hfill
+  \begin{tabular}{@{}c@{}}\includegraphics{det/mp/ch4.17}\end{tabular}
+   \hfill\llap{($*$)} 
+\end{center}
+与此形成对照的是欧几里得几何：两条不重合的直线
+可能有唯一的交点，也可能平行。
+就这样，射影几何比欧几里得几何
+更简单、更统一。
+
+这种简单性之所以有意义，是因为这两个空间之间存在一种
+关系：我们可以把
+射影平面看成欧几里得平面的扩张。
+把射影平面的球面模型画成 $\Re^3$ 中的单位球面。
+把欧几里得 $2$ 维空间取为平面 $z=1$。
+如下图所示，欧几里得平面上的所有点
+都是球面上对径点的投影。
+反过来，我们可以把射影平面中的某些点
+看成对应于欧几里得空间中的点。
+（注意，赤道上的射影点不对应欧几里得平面上的点；我们说这些点投影到无穷远。）
+\begin{center}
+ \hfill
+  \begin{tabular}{@{}c@{}}\includegraphics{det/mp/ch4.18}\end{tabular}
+ \hfill\llap{($**$)}
+\end{center}
+因此我们可以认为射影空间由欧几里得平面
+外加一些添加上去的点构成\Dash  
+欧几里得平面嵌入射影平面之中。
+射影空间中的这些额外的点，即赤道上的点，
+被称为\definend{理想点}\index{ideal!point}%
+\index{projective plane!ideal point} 
+或\definend{无穷远点}\index{point!at infinity}，
+而赤道被称为
+\definend{理想直线}\index{ideal!line}%
+\index{projective plane!ideal line} 或
+\definend{无穷远线}\index{line at infinity}
+（它不是欧几里得直线，而是一条射影直线）。
+
+从欧几里得平面到射影平面的这种扩张，
+其好处是欧几里得几何的某些不统一性消失了。
+例如，上图~($*$) 中所示的两条射影直线
+相交于对径点，即一个单一的射影点。
+如果我们把这两条直线放到~($**$) 中，那么它们对应于
+平行的欧几里得直线。
+也就是说，从欧几里得平面移动到射影平面，
+我们从有两种情形——
+不同的直线要么相交要么平行——
+变成只有一种情形：不同的直线相交（可能交于一个无穷远点）。
+
+射影平面的一个缺点是我们对它
+不像对欧几里得平面那样熟悉。
+在射影平面中做解析几何会有所帮助，
+因为方程会引导我们得出正确的结论。
+解析射影几何使用线性代数。
+例如，对射影平面的三个点
+$t$、$u$、~$v$，
+通过为每个点固定一个代表向量来建立方程，可以表明：
+这三点共线当且仅当所得的三方程方程组
+有无穷多个行向量解，
+它们表示它们的直线。
+而这又当且仅当这个行列式为零。
+\begin{equation*}
+  \begin{vmat}
+    t_1  &u_1  &v_1  \\
+    t_2  &u_2  &v_2  \\
+    t_3  &u_3  &v_3  
+  \end{vmat}
+\end{equation*}
+于是，射影平面中的三点共线当且仅当
+任何三个代表列向量线性相关。
+类似地，由对偶性，
+射影平面中的三条直线交于一个单点
+当且仅当表示它们的任何三个行向量线性相关。
+
+下面这个结果是射影平面几何之优美性的又一证据。
+这两个三角形
+从点 $O$ 看
+是\definend{透视的}\index{perspective, triangles}，
+因为它们对应的顶点共线。
+\begin{center}
+  \includegraphics{det/mp/ch4.19}
+\end{center}
+考虑各对应边的配对：
+边 $T_1U_1$ 与 $T_2U_2$，
+边 $T_1V_1$ 与 $T_2V_2$，
+以及边 $U_1V_1$ 与 $U_2V_2$。
+\definend{Desargues 定理}\index{Desargue's Theorem}
+（德萨格定理）说的是：当我们延长这三对对应边时，它们会相交
+（图中显示为点 $TU$、$TV$ 和 $UV$）。
+不仅如此，这三个交点还是共线的。
+\begin{center}
+  \includegraphics{det/mp/ch4.23}
+\end{center}
+我们将用射影几何来证明它。
+
+（我们画的是欧几里得图形，因为那是更熟悉的图像。
+要把它们当作射影图形来看，
+我们可以设想：虽然图中所示的线段是大圆的一部分，因而是弯曲的，
+但模型的半径相对于
+图形的大小来说非常之大，以至于这些边在我们的草图中看起来是直的。）
+
+为了证明，我们需要一个预备引理 \cite{Coxeter}：若
+$W$、$X$、$Y$、$Z$ 是射影平面中的四个点，
+其中任何三点都不共线，
+则存在这些射影点的齐次坐标
+向量 $\vec{w}$、$\vec{x}$、$\vec{y}$、$\vec{z}$，
+以及 $\Re^3$ 的一个基 $B$，
+满足下式。
+\begin{equation*}
+  \rep{\vec{w}}{B}=\colvec[r]{1 \\ 0 \\ 0}
+  \quad
+  \rep{\vec{x}}{B}=\colvec[r]{0 \\ 1 \\ 0}
+  \quad
+  \rep{\vec{y}}{B}=\colvec[r]{0 \\ 0 \\ 1}
+  \quad
+  \rep{\vec{z}}{B}=\colvec[r]{1 \\ 1 \\ 1}
+\end{equation*}
+为证明这个引理，
+注意因为 $W$、$X$、$Y$ 不在同一条射影直线上，任何
+齐次坐标向量
+$\vec{w}_0$、$\vec{x}_0$、$\vec{y}_0$ 都不落在 $\Re^3$ 中
+同一个过原点的平面内，因而构成 $\Re^3$ 的一个
+张成集。
+于是 $Z$ 的任何齐次坐标向量都是一个组合
+$\vec{z}_0=a\cdot\vec{w}_0+b\cdot\vec{x}_0+c\cdot\vec{y}_0$。
+然后取基为 $B=\sequence{\vec{w},\vec{x},\vec{y}}$，并取
+$\vec{w}=a\cdot\vec{w}_0$、
+$\vec{x}=b\cdot\vec{x}_0$、
+$\vec{y}=c\cdot\vec{y}_0$、
+$\vec{z}=\vec{z}_0$。
+
+为证明 Desargues 定理，用这个引理来固定齐次
+坐标向量与基。
+\begin{equation*}
+  \rep{\vec{t}_1}{B}=\colvec[r]{1 \\ 0 \\ 0}
+  \quad
+  \rep{\vec{u}_1}{B}=\colvec[r]{0 \\ 1 \\ 0}
+  \quad
+  \rep{\vec{v}_1}{B}=\colvec[r]{0 \\ 0 \\ 1}
+  \quad
+  \rep{\vec{o}}{B}=\colvec[r]{1 \\ 1 \\ 1}    
+\end{equation*}
+射影点 $T_2$ 与射影直线 $OT_1$ 关联，
+所以 $T_2$ 的任何齐次坐标向量都落在 $\Re^3$ 中由
+$O$ 与 $T_1$ 的齐次坐标向量
+所张成的过原点的平面内：
+\begin{equation*}
+  \rep{\vec{t}_2}{B}=a\colvec[r]{1 \\ 1 \\ 1}
+                           +b\colvec[r]{1 \\ 0 \\ 0}
+\end{equation*}
+其中 $a$、$b$ 为标量。
+因此直线
+$OT_1$ 上的成员 $T_2$ 的齐次坐标向量都形如下方左边。 
+$U_2$ 与 $V_2$ 的形式类似。
+\begin{equation*}
+  \rep{\vec{t}_2}{B}=\colvec{t_2 \\ 1 \\ 1}
+  \qquad
+  \rep{\vec{u}_2}{B}=\colvec{1 \\ u_2 \\ 1}
+  \qquad
+  \rep{\vec{v}_2}{B}=\colvec{1 \\ 1 \\ v_2}
+\end{equation*}
+射影直线 $T_1U_1$ 是 $\Re^3$ 中一个过原点的
+平面的投影。
+得到它方程的一个方法是注意平面中的任何向量
+都与 $T_1$ 和
+$U_1$ 的向量线性相关，因而这个行列式为零。
+\begin{equation*}
+  \begin{vmat}
+    1  &0  &x  \\
+    0  &1  &y  \\
+    0  &0  &z
+  \end{vmat}=0
+  \qquad
+  \Longrightarrow
+  \qquad
+  z=0
+\end{equation*}
+$\Re^3$ 中以射影直线 $T_2U_2$ 为像的那个
+平面的方程是下面这个。
+\begin{equation*}
+  \begin{vmat}
+    t_2  &1    &x  \\
+    1    &u_2  &y  \\
+    1    &1    &z
+  \end{vmat}=0
+  \qquad
+  \Longrightarrow
+  \qquad
+  (1-u_2)\cdot x+(1-t_2)\cdot y+(t_2u_2-1)\cdot z=0
+\end{equation*}
+求两者的交点是常规计算。
+\begin{equation*}
+  T_1U_1\,\intersection\, T_2U_2
+  =\colvec{t_2-1 \\ 1-u_2 \\ 0}
+\end{equation*}
+（这当然是一个射影点的齐次坐标向量。）
+另外两个交点类似。
+\begin{equation*}
+  T_1V_1\,\intersection\, T_2V_2
+  =\colvec{1-t_2 \\ 0 \\ v_2-1}
+  \qquad
+  U_1V_1\,\intersection\, U_2V_2
+  =\colvec{0 \\ u_2-1 \\ 1-v_2}
+\end{equation*}
+最后注意到
+这些射影点在同一条射影直线上，因为
+这三个齐次坐标向量之和为零，证明即告完成。
+
+每个射影定理都有一个译成欧几里得版本的翻译，尽管
+欧几里得版本的结果可能陈述与证明起来更麻烦。
+Desargues 定理正说明了这一点。
+在翻译到欧几里得空间时，我们必须单独处理
+$O$ 落在理想直线上的情形，因为此时直线
+$T_1T_2$、$U_1U_2$、$V_1V_2$ 是平行的。
+
+Desargues 定理陈述之后的评注
+提示我们把那些欧几里得图形
+看成射影几何中半径非常大的球面模型上的图形。
+也就是说，
+正如世界上的一小片区域在住在那里的人看来是平的，
+射影平面在局部上是欧几里得的。
+
+最后我们再描述射影平面的一件事。
+虽然它的局部性质是熟悉的，但射影平面
+有一个也许不熟悉的整体性质。
+下面的图显示一个射影点。
+正如我们上面所描述的，它由两个对径点
+$Q_1$ 与~$Q_2$ 构成，但它是射影平面中的一个单点。
+在该点处我们画了笛卡儿坐标轴，即 $xy$ 轴。
+这些轴在图中出现于两个对径点处，
+一个在 $Q_1$ 处的北半球，另一个在
+$Q_2$ 处的南半球。
+注意
+在北半球，正~$x$ 轴指向右方。
+也就是说，一个人把
+右手放在球面上、手掌朝下、拇指放在
+$y$~轴上，其手指就会指向正 $x$ 轴的方向。
+% But the antipodal axes give the opposite:~if a person puts their
+% right hand on the southern hemisphere spot on the sphere,  palm on the 
+% sphere's surface, 
+% with their fingers pointing toward positive infinity on the $x$-axis, then
+% their thumb points on the $y$-axis toward negative infinity.
+% Instead, 
+% to have their fingers point positively on the $x$-axis and their thumb
+% point positively on the $y$, a person must use their left hand.
+% Briefly, the projective plane is not orientable\Dash in this geometry,
+% left and right handedness are not fixed properties of figures.
+\begin{center}
+  \includegraphics{det/mp/ch4.24}
+\end{center}
+下面的系列图片
+展示了沿这条射影直线绕这个空间旅行一圈的过程：$Q_1$ 
+向上越过北极，最后停在
+球面的另一侧，而它的同伴~$Q_2$ 来到前面。
+（要小心：这次旅行并不是绕射影平面半圈。
+它是完整的一圈。
+虚线两端的对径点构成一个单一的
+射影点。
+所以到第三幅图时，这次旅行已经基本上
+回到了它出发时的那个射影点。）
+\begin{center}
+  \begin{tabular}{@{}c@{}}\includegraphics{det/mp/ch4.25}\end{tabular}
+\qquad\mbox{$\Longrightarrow$}\qquad
+  \begin{tabular}{@{}c@{}}\includegraphics{det/mp/ch4.26}\end{tabular}
+\qquad\mbox{$\Longrightarrow$}\qquad
+  \begin{tabular}{@{}c@{}}\includegraphics{det/mp/ch4.27}\end{tabular}
+\end{center}
+在这圈旅行结束时，
+$xy$ 轴的 $x$~部分伸向了另一个方向。
+也就是说，一个人要把拇指放在 $y$ 轴上
+并让手指指向正 $x$ 轴的方向，就必须
+使用左手。
+射影平面是不可定向的\Dash 在这种几何中，
+左手性与右手性并不是图形的固定属性。
+例如，
+我们无法把一条螺线描述为顺时针的
+还是逆时针的。
+
+对这种不可定向空间之存在的展示，
+引出了我们的宇宙是否可定向的问题。
+一位宇航员离开地球时是右撇子，
+回来时会变成左撇子吗？
+\cite{Gardner} 是一篇非技术性的参考资料。
+\cite{Clarke} 是一篇关于定向反转的经典科幻小说。
+
+射影几何的概述可参见 \cite{CourantRobbins}。
+我们在这里采用的方法，即解析的方法，
+能快速得到定理，% \Dash  most importantly for us \Dash 
+并展示了
+线性代数的力量；参见 \cite{Hanes}、\cite{Ryan} 与
+\cite{Eggar}。
+但另一种方法，
+即从公理体系出发推导结论的综合方法，
+既极其优美，
+又是历史上发展的路线。
+这一方法的两个很好的文献来源是 \cite{Coxeter} 与 \cite{Seidenberg}。
+一个简单而有趣的应用见 \cite{Davies}。
+
+\begin{exercises}
+  \item 
+    这个点的方程是什么？
+    \begin{equation*}
+       \colvec[r]{1 \\ 0 \\ 0}
+    \end{equation*}
+    \begin{answer}
+      由点积
+      \begin{equation*}
+        0=\colvec[r]{1 \\ 0 \\ 0}\dotprod\rowvec{L_1 &L_2 &L_3}
+         =L_1
+      \end{equation*}
+      我们得到方程为 $L_1=0$。
+    \end{answer}
+  \item 
+    \begin{exparts}
+      \partsitem 求射影平面中与这些点关联的直线。
+          \begin{equation*}
+            \colvec[r]{1 \\ 2 \\ 3},\,\colvec[r]{4 \\ 5 \\ 6}
+          \end{equation*}
+      \partsitem 求与这两条
+          射影直线都关联的点。
+          \begin{equation*}
+            \rowvec{1 &2 &3},\,\rowvec{4 &5 &6}
+          \end{equation*} 
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这个行列式
+          \begin{equation*}
+            0=\begin{vmat}
+              1  &4  &x \\
+              2  &5  &y \\
+              3  &6  &z
+            \end{vmat}
+            =-3x+6y-3z
+          \end{equation*}
+          表明这条直线是 $L=\rowvec{-3 &6 &-3}$。
+        \partsitem $\colvec[r]{-3 \\ 6 \\ -3}$
+      \end{exparts}
+    \end{answer}
+  \item
+    求与两个射影点关联的直线的公式。
+    求与两条射影直线关联的点的公式。
+    \begin{answer}
+      与
+      \begin{equation*}
+        u=\colvec{u_1 \\ u_2 \\ u_3}
+        \qquad
+        v=\colvec{v_1 \\ v_2 \\ v_3}
+      \end{equation*}
+      关联的直线来自这个行列式方程。
+      \begin{equation*}
+        0=\begin{vmat}
+          u_1  &v_1  &x  \\
+          u_2  &v_2  &y  \\
+          u_3  &v_3  &z
+        \end{vmat}
+        =(u_2v_3-u_3v_2)\cdot x 
+          + (u_3v_1-u_1v_3)\cdot y 
+          + (u_1v_2-u_2v_1)\cdot z
+      \end{equation*}
+      与两条直线关联的点的方程与此相同。
+    \end{answer}
+  \item \label{exer:IncidentIndReps}
+    证明关联的定义与 $p$ 和 $L$ 的代表元的选取
+    无关。
+    也就是说，若 $p_1$、$p_2$、$p_3$ 与 $q_1$、$q_2$、$q_3$ 是 $p$ 的两个三元组
+    齐次坐标，而
+    $L_1$、$L_2$、$L_3$ 与 $M_1$、$M_2$、$M_3$ 是 $L$ 的两个三元组
+    齐次坐标，证明
+    $p_1L_1+p_2L_2+p_3L_3=0$ 当且仅当
+    $q_1M_1+q_2M_2+q_3M_3=0$。
+    \begin{answer}
+      若 $p_1$、$p_2$、$p_3$ 与 $q_1$、$q_2$、$q_3$ 是 $p$ 的两个三元组
+      齐次坐标，则这两个列向量
+      成比例，也就是说，落在同一条过
+      原点的直线上。
+      类似地，两个行向量也成比例。
+      \begin{equation*}
+        k\cdot\colvec{p_1 \\ p_2 \\ p_3}
+          =\colvec{q_1 \\ q_2 \\ q_3}
+        \qquad
+        m\cdot\rowvec{L_1 &L_2 &L_3}
+          =\rowvec{M_1 &M_2 &M_3}
+      \end{equation*}
+      于是相乘即得答案
+      $(km)\cdot (p_1L_1+p_2L_2+p_3L_3)=q_1M_1+q_2M_2+q_3M_3=0$。
+    \end{answer}
+  \item 
+    画图说明中心投影不保持圆，即圆可能投影成椭圆。
+    （非圆的）椭圆能投影成圆吗？
+    %Must it (in the sense that for any ellipse there is a projection
+    %such that it would project to a circle)? 
+    \begin{answer}
+      日食的那幅图\Dash 除非
+      图像平面恰好垂直于
+      从太阳穿过小孔的连线\Dash 显示太阳的圆
+      投影成一个椭圆的像。
+      （另一个例子是，在本
+      专题的许多图中，我们把作为球面赤道的圆画成了椭圆，
+      也就是说，观看这幅图的人把圆看成了椭圆。）
+      
+      日食的那幅图也展示了其逆命题。
+      如果我们把投影设想成从左到右
+      穿过小孔，
+      那么椭圆 $I$ 穿过 $P$ 投影成一个圆~$S$。
+    \end{answer}
+  \item \label{exer:CorrProjPlaneEucPl} 
+    给出射影平面的对径模型中
+    非赤道部分与平面 $z=1$ 之间
+    对应关系的公式。
+    \begin{answer}
+      单位球面上的一个点
+      \begin{equation*}
+        \colvec{p_1 \\ p_2 \\ p_3} 
+      \end{equation*}
+      是非赤道的当且仅当 $p_3\neq 0$。
+      在那种情形，它对应于 $z=1$ 平面上的这个点
+      \begin{equation*}
+        \colvec{p_1/p_3 \\ p_2/p_3  \\ 1}
+      \end{equation*}
+      因为那就是包含该向量的直线与该
+      平面的交点。
+    \end{answer}
+%  \item \label{exer:ELinesCorrPLines} 
+%    Consider the correspondence between the non-ideal points in
+%    the projective plane and the Euclidean plane.
+%    \begin{exparts}
+%      \item Show that any Euclidean line corresponds to a projective line.
+%      \item Show that parallel Euclidean lines correspond to projective
+%        lines that meet at an ideal point.
+%      \item Prove the converses of those two statements.
+%    \end{exparts}
+%  \item \label{exer:EuclidDesarg}
+%    Give a statement of Desargue's Theorem for Euclidean geometry.
+%  \item  \label{exer:DesarAntipPict}
+%    Draw a picture illustrating Desargue's Theorem on the antipodal model. 
+  \item 
+    （Pappus 定理）
+    设 $T_0$、$U_0$、$V_0$ 共线，且
+    $T_1$、$U_1$、$V_1$ 共线。
+    考虑以下三个点：
+    (i)~直线 $T_0U_1$ 与 $T_1U_0$ 的交点 $V_2$，
+    (ii)~直线 $T_0V_1$ 与 $T_1V_0$ 的交点 $U_2$，以及
+    (iii)~$U_0V_1$ 与 $U_1V_0$ 的交点 $T_2$。
+    \begin{exparts}
+      \partsitem 画一幅（欧几里得的）图。
+      \partsitem 应用 Desargues 定理中所用的引理，
+        为这些 $T$ 与 $V_0$ 得到简单的齐次坐标向量。
+      \partsitem 求出各 $U$ 的相应的齐次坐标向量
+        （其中每一个都必须含一个参数，因为例如 $U_0$ 可以
+        位于 $T_0V_0$ 直线上的任何地方）。
+      \partsitem 求出 $V_1$ 的相应的齐次坐标向量。
+        （\textit{提示：}~它涉及两个参数。）
+      \partsitem 求出 $V_2$ 的相应的齐次坐标向量。
+        （它也涉及两个参数。）
+      \partsitem 证明三个参数的乘积是 $1$。
+      \partsitem 验证 $V_2$ 在 $T_2U_2$ 直线上。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 其他的图也是可能的，但这是其中之一。
+          \begin{center}
+            \includegraphics{det/mp/ch4.54}
+          \end{center}
+          各交点
+          $
+              T_0U_1\,\intersection T_1U_0=V_2
+          $、$
+              T_0V_1\,\intersection T_1V_0=U_2
+          $ 与 $
+              U_0V_1\,\intersection U_1V_0=T_2
+          $
+          这样标记，使得每条直线上都有一个 $T$、一个 $U$ 和一个 $V$。
+        \partsitem Desargues 定理中所用的引理给出了一个
+          基 $B$，关于这个基各点具有以下
+          齐次坐标向量。
+          \begin{equation*}
+            \rep{\vec{t}_0}{B}=\colvec[r]{1 \\ 0 \\ 0}
+            \quad
+            \rep{\vec{t}_1}{B}=\colvec[r]{0 \\ 1 \\ 0}
+            \quad
+            \rep{\vec{t}_2}{B}=\colvec[r]{0 \\ 0 \\ 1}
+            \quad
+            \rep{\vec{v}_0}{B}=\colvec[r]{1 \\ 1 \\ 1}
+          \end{equation*}
+        \partsitem
+          首先，$T_0V_0$ 上的任何 $U_0$
+          \begin{equation*}
+            \rep{\vec{u}_0}{B}=a\colvec[r]{1 \\ 0 \\ 0}
+                               +b\colvec[r]{1 \\ 1 \\ 1}
+                              =\colvec{a+b \\ b \\ b}
+          \end{equation*}
+          都具有这种形式的齐次坐标向量
+          \begin{equation*}
+            \colvec{u_0 \\ 1 \\ 1}      
+          \end{equation*}
+          （$u_0$ 是一个参数；它取决于点 $U_0$ 在 $T_0V_0$ 直线上的位置，
+          但那条直线上的任何点都具有某个 $u_0\in\Re$ 的
+          这种形式的齐次坐标向量）。
+          类似地，$U_2$ 在 $T_1V_0$ 上
+          \begin{equation*}
+            \rep{\vec{u}_2}{B}=c\colvec[r]{0 \\ 1 \\ 0}
+                                +d\colvec[r]{1 \\ 1 \\ 1}
+                              =\colvec{d \\ c+d \\ d}
+          \end{equation*}
+          因而具有这个齐次坐标向量。
+          \begin{equation*}
+            \colvec{1 \\ u_2 \\ 1}
+          \end{equation*}
+          同样类似地，$U_1$ 与 $T_2V_0$ 关联
+          \begin{equation*}
+            \rep{\vec{u}_1}{B}=e\colvec[r]{0 \\ 0 \\ 1}
+                                +f\colvec[r]{1 \\ 1 \\ 1}
+                              =\colvec{f \\ f \\ e+f}  
+          \end{equation*}
+          并具有这个齐次坐标向量。
+          \begin{equation*}
+            \colvec{1 \\ 1 \\ u_1}
+          \end{equation*}
+        \partsitem
+          因为 $V_1$ 是 $T_0U_2\,\intersection\,U_0T_2$，我们有下式。
+          \begin{equation*}
+            g\colvec[r]{1 \\ 0 \\ 0}+h\colvec{1 \\ u_2 \\ 1}
+            =i\colvec{u_0 \\ 1 \\ 1}+j\colvec[r]{0 \\ 0 \\ 1}
+            \qquad\Longrightarrow\qquad
+            \begin{aligned}
+              g+h  &= iu_0 \\
+              hu_2 &= i    \\
+              h    &= i+j
+            \end{aligned}
+          \end{equation*}
+          把 $hu_2$ 代入第一个方程中的 $i$
+          \begin{equation*}
+            \colvec{hu_0u_2 \\ hu_2 \\ h}
+          \end{equation*}
+          可知 $V_1$ 具有这个
+          双参数的齐次坐标向量。
+          \begin{equation*}
+            \colvec{u_0u_2 \\ u_2 \\ 1}
+          \end{equation*}
+        \partsitem
+           由于 $V_2$ 是交点
+           $T_0U_1\,\intersection\,T_1U_0$，
+           \begin{equation*}
+             k\colvec[r]{1 \\ 0 \\ 0}+l\colvec{1 \\ 1 \\ u_1}
+              =m\colvec[r]{0 \\ 1 \\ 0}+n\colvec{u_0 \\ 1 \\ 1}
+             \qquad\Longrightarrow\qquad
+             \begin{aligned}
+               k+l  &= nu_0 \\
+               l    &= m+n    \\
+               lu_1 &= n
+             \end{aligned}
+            \end{equation*}
+           把 $lu_1$ 代入第一个方程中的 $n$
+           \begin{equation*}
+             \colvec{lu_0u_1 \\ l \\ lu_1}
+           \end{equation*}
+           可得
+           $V_2$ 具有这个双参数的齐次坐标向量。
+           \begin{equation*}
+             \colvec{u_0u_1 \\ 1 \\ u_1}
+           \end{equation*}
+        \partsitem
+           因为 $V_1$ 在 $T_1U_1$ 直线上，它的
+           齐次坐标向量具有形式
+           \begin{equation*}
+             p\colvec[r]{0 \\ 1 \\ 0}+q\colvec{1 \\ 1 \\ u_1}
+             =\colvec{q \\ p+q \\ qu_1}
+           \tag*{($*$)}\end{equation*}
+           而本题前一小问已经确立了 $V_1$ 的
+           齐次坐标向量具有形式
+           \begin{equation*}
+            \colvec{u_0u_2 \\ u_2 \\ 1}             
+           \end{equation*}
+           于是下面这是 $V_1$ 的一个齐次坐标向量。
+           \begin{equation*}
+             \colvec{u_0u_1u_2 \\ u_1u_2 \\ u_1}             
+           \tag*{($**$)}\end{equation*}
+           由 ($*$) 与 ($**$)，三个参数之间存在一个
+           关系：$u_0u_1u_2=1$。
+         \partsitem  
+           $V_2$ 的齐次坐标向量可以这样写出。
+           \begin{equation*}
+             \colvec{u_0u_1u_2 \\ u_2 \\ u_1u_2}
+             =\colvec{1 \\ u_2 \\ u_1u_2}
+           \end{equation*}
+           现在，$T_2U_2$ 直线由齐次
+           坐标具有这种形式的点组成。
+           \begin{equation*}
+             r\colvec[r]{0 \\ 0 \\ 1}+s\colvec{1 \\ u_2 \\ 1}
+             =\colvec{s \\ su_2 \\ r+s}
+           \end{equation*}
+           取 $s=1$ 与 $r=u_1u_2-1$ 即表明
+           $V_2$ 的齐次坐标向量具有这种形式。
+      \end{exparts}
+      %\textit{Author's note.}
+      % Good thing that there are no more parts because we've used all of the 
+      % lower-case letters.
+    \end{answer}
+\end{exercises}
+\index{projective geometry|)}
+\endinput

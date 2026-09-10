@@ -1,0 +1,470 @@
+% 翻译状态：专题标题已译；正文待继续翻译与校对。
+% Chapter 3, Topic _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\topic{标准正交矩阵}
+\index{orthonormal matrix|(}
+\index{matrix!orthonormal|(}
+在《几何原本》中，\index{Euclid}欧几里得认为两个图形
+若两个图形大小和形状相同，则它们相同。
+也就是说，尽管下面的三角形不是同一个点集，
+
+但在欧几里得看来它们本质上
+无法区分，
+因为我们可以设想
+拿起平面，
+将其平移并稍微旋转，
+但不扭曲或拉伸，
+然后放回原处，使第一个图形与
+第二个图形重合。
+（欧几里得从未明确陈述这一原则，
+但经常使用它 \cite{Casey}。）
+\begin{center}
+  \includegraphics{map/mp/ch3.61}
+\end{center}
+在现代术语中，“拿起平面~\ldots”
+就是取一个
+从平面到自身的映射。 
+欧几里得只考虑
+可以平移或旋转平面、但不弯曲或拉伸平面的变换。
+因此，将映射$\map{f}{\Re^2}{\Re^2}$ 定义为
+\definend{保持距离}\index{distance-preserving map}%
+\index{map!distance-preserving}\index{function!distance-preserving} 
+或\definend{刚性运动}\index{rigid motion} 或\definend{等距变换}\index{isometry}
+若对所有点$P_1,P_2\in\Re^2$,
+从 $f(P_1)$ 到 $f(P_2)$ 的距离等于从 $P_1$ 到 $P_2$ 的距离。 
+我们还将平面\definend{图形}\index{plane figure} 
+定义为平面中的点集。
+若存在
+\definend{全等}\index{congruent plane figures}%
+\index{plane figure!congruence} 从平面到自身的保持距离映射将一个图形映到另一个图形上，
+则称两个图形
+全等。
+
+欧几里得几何的许多结论
+都可由这些定义轻易推出。
+一些结论包括：(i) 共线性在任意保持距离映射下不变；(ii) “介于其间”关系不变；(iii) “是三角形”这一性质不变；(iv) “是圆”这一性质也不变。1872 年，F.~Klein\index{Klein, F.} 建议将欧几里得几何定义为研究在这些映射下保持不变的性质。（这属于 Klein 的 Erlanger\index{Erlanger Program} 纲领：每种几何——欧几里得几何、射影几何等——都可描述为研究在某个变换群下不变的性质。这里“群”的含义不只是“集合”，但这超出本书范围。）
+
+我们可以用线性代数刻画平面上的保持距离映射。
+
+
+首先注意，
+平面上存在并非线性的保持距离变换。
+显然的例子是\emph{平移}。\index{translation}
+\begin{equation*}
+  \colvec{x \\ y}
+  \quad\mapsto\quad
+  \colvec{x \\ y}+\colvec[r]{1 \\ 0}=\colvec{x+1 \\ y}
+\end{equation*}
+然而，
+事实证明这是唯一的非线性情形：
+若 $f$ 保持距离且将 $\zero$ 映到 $\vec{v}_0$， 
+于是映射 $\vec{v}\mapsto f(\vec{v})-\vec{v}_0$ 是线性的。
+这立即由以下陈述得到：一个将
+保持距离且将 $\zero$ 映到自身的映射是线性的。
+证明这个等价陈述。考虑标准基，并设
+\begin{equation*}
+  t(\vec{e}_1)=\colvec{a \\ b}
+  \qquad
+  t(\vec{e}_2)=\colvec{c \\ d}
+\end{equation*}
+其中 $a,b,c,d\in\Re$。
+要证明 $t$ 线性，只需证明它可由矩阵表示，即对所有 $x,y\in\Re$ 都有以下作用：
+\begin{equation*}
+  \vec{v}=\colvec{x  \\  y}
+  \mapsunder{t}
+  \colvec{ax+cy  \\  bx+dy}
+\tag*{\text{($*$)}}\end{equation*}
+回忆，固定三个不共线点后，
+即可由该点到这三个点的距离确定平面中的任意点。
+由到这三个点的距离确定。
+因此可由定义域中的点 $\vec{v}$ 到
+$\zero$、$\vec{e}_1$ 和 $\vec{e}_2$ 的距离确定。 
+同理，可由点$t(\vec{v})$ 
+由陪域中到
+三个固定点 $t(\zero)$、$t(\vec{e}_1)$ 和 $t(\vec{e}_2)$ 的距离确定。
+（这三点不共线，因为如上所述，
+共线性保持不变，而
+$\zero$、$\vec{e}_1$ 和 $\vec{e}_2$ 不共线）。
+由于 $t$ 保持距离，还可断言：
+平面中的点 $\vec{v}$ 由下列距离确定：
+到 $\zero$ 的距离 $d_0$，
+到 $\vec{e}_1$ 的距离 $d_1$，以及到 $\vec{e}_2$ 的距离 $d_2$，  
+其像 $t(\vec{v})$ 必须是陪域中唯一的点，
+即到 $t(\zero)$ 的距离为 $d_0$，
+$d_1$ from $t(\vec{e}_1)$, 
+，以及到 $t(\vec{e}_2)$ 的距离 $d_2$。
+由唯一性，
+验证（*）在 $d_0$、$d_1$ 和 $d_2$ 三种情形下成立
+\begin{equation*}
+  \dist(\colvec{x \\ y},\zero) 
+  =\dist(t(\colvec{x \\ y}),t(\zero))
+  =\dist(\colvec{ax+cy \\ bx+dy},\zero)
+\end{equation*}
+（假设 $t$ 将 $\zero$ 映到自身）
+\begin{equation*}
+  \dist(\colvec{x \\ y},\vec{e}_1)
+  =\dist(t(\colvec{x \\ y}),t(\vec{e}_1))
+  =\dist(\colvec{ax+cy \\ bx+dy},\colvec{a \\ b})  
+\end{equation*}
+并且
+\begin{equation*}
+  \dist(\colvec{x \\ y},\vec{e}_2)
+  =\dist(t(\colvec{x \\ y}),t(\vec{e}_2))
+  =\dist(\colvec{ax+cy \\ bx+dy},\colvec{c \\ d})
+\end{equation*}
+即可证明（*）描述了 $t$。
+这些验证是直接的。
+
+因此任意保持距离的$\map{f}{\Re^2}{\Re^2}$ 都是线性映射
+加上平移，
+$f(\vec{v})=t(\vec{v})+\vec{v}_0$，其中 $\vec{v}_0$ 为常向量，且 $t$ 为保持距离的线性映射。.
+因此要理解保持距离映射，只需
+理解保持距离的线性映射。
+
+并非所有线性映射都保持距离。
+例如，
+$\vec{v}\mapsto 2\vec{v}$ 不保持距离。
+
+但有一个简洁的刻画：平面上的线性变换 $t$
+平面上的线性变换保持距离，当且仅当
+$\norm{t(\vec{e}_1)}=\norm{t(\vec{e}_2)}=1$, 
+且 $t(\vec{e}_1)$ 与 $t(\vec{e}_2)$ 正交。
+“仅当”部分很容易\Dash 因为 $t$
+保持距离，所以保持向量长度；
+又因为 $t$ 保持距离，勾股定理表明它
+必须保持正交性。
+证明“如果”部分时，只需验证映射保持向量长度；
+这样对任意
+$\vec{p}$ 和 $\vec{q}$ 之间的距离也保持不变：
+$\norm{t(\vec{p}-\vec{q}\,)}=\norm{t(\vec{p})-t(\vec{q}\,)}
+=\norm{\vec{p}-\vec{q}\,}$.
+为验证这一点，设
+\begin{equation*}
+  \vec{v}=\colvec{x \\ y} 
+  \quad 
+  t(\vec{e}_1)=\colvec{a \\ b}
+  \quad
+  t(\vec{e}_2)=\colvec{c \\ d}
+\end{equation*}
+在“如果”部分的假设
+$a^2+b^2=c^2+d^2=1$ 且 $ac+bd=0$，则：
+\begin{align*}
+  \norm{t(\vec{v}\,)}^2
+  &= (ax+cy)^2+(bx+dy)^2  \\
+  &= a^2x^2+2acxy+c^2y^2+b^2x^2+2bdxy+d^2y^2 \\
+  &= x^2(a^2+b^2)+y^2(c^2+d^2)+2xy(ac+bd)  \\
+  &= x^2 + y^2 \\
+  &= \norm{\vec{v}\,}^2
+\end{align*}
+
+这个刻画的一个优点是，
+我们很容易识别
+相对于标准基表示该类映射的矩阵：其各列
+各列
+长度均为 1 且彼此正交。
+这称为
+\definend{正交归一矩阵}\index{orthonormal matrix}%
+\index{matrix!orthonormal}
+（非正式地也称为
+\definend{正交矩阵}\index{orthogonal matrix}\index{matrix!orthogonal}
+因为人们常用该术语表示列向量不仅
+彼此正交且长度为 1）。 
+
+利用这一刻画可以
+理解
+保持距离映射的几何作用。
+Because $\norm{t(\vec{v}\,)}=\norm{\vec{v}\,}$, the map~$t$ 
+会将任意 $\vec{v}$ 映到以原点为圆心、半径等于 $\vec{v}$ 长度的圆上。
+特别地，
+$\vec{e}_1$ 和 $\vec{e}_2$ 都映到单位圆。
+此外，%由于正交限制，
+一旦确定单位向量 $\vec{e}_1$ 映到
+分量为 $a,b$ 的向量，就只有两种可能。  
+若要使 $\vec{e}_2$ 的像垂直于第一个向量的像，则 $\vec{e}_2$ 只有两种去向：它可以顺时针转四分之一圆，从 $\vec{e}_1$ 的位置到达
+\begin{center}
+  \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.62}\end{tabular}
+  \qquad
+  $\rep{t}{\stdbasis_2,\stdbasis_2}=
+  \begin{mat}
+    a  &-b  \\
+    b  &a
+  \end{mat}$ 
+\end{center}
+或者逆时针转四分之一圆。
+\begin{center}
+  \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.63}\end{tabular}
+  \qquad
+  $\rep{t}{\stdbasis_2,\stdbasis_2}=
+  \begin{mat}
+    a  &b  \\
+    b  &-a
+  \end{mat}$
+\end{center}
+
+这两种情形的几何描述很简单。
+设 $\theta$ 为
+$x$ 轴与 $\vec{e}_1$ 的像之间的逆时针夹角。
+上面的第一个矩阵相对于标准基表示平面上的
+a \definend{rotation}\index{rotation}\index{linear map!rotation} 
+平面旋转 $\theta$ 弧度。
+\begin{center}
+  \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.62}\end{tabular}
+  \qquad
+  $\colvec{x \\ y}
+  \mapsunder{t}
+  \colvec{x\cos\theta-y\sin\theta  \\ x\sin\theta+y\cos\theta}$ 
+\end{center}
+上面的第二个矩阵表示
+a \definend{reflection}\index{reflection}\index{linear map!reflection} 
+表示平面关于
+平分 $\vec{e}_1$ 与 $t(\vec{e}_1)$ 夹角的直线反射。
+\begin{center}
+  \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.64}\end{tabular}
+  \qquad
+  $\colvec{x \\ y}\mapsunder{t}
+  \colvec{x\cos\theta+y\sin\theta  \\  x\sin\theta-y\cos\theta}$ 
+\end{center}
+（图中 $\vec{e}_1$ 被反射到第一
+象限，$\vec{e}_2$ 被反射到第四象限。）
+
+注意：在定义域中，
+$\vec{e}_1$ 与 $\vec{e}_2$ 的夹角按逆时针方向，
+在上面的第一个映射中，从
+$t(\vec{e}_1)$ 到 $t(\vec{e}_2)$ 的夹角也是逆时针方向，
+因此保持夹角的方向。
+但第二个映射反转方向。
+保持距离的映射称为
+\definend{正向}\index{direct map}\index{orientation preserving map} 若其
+保持方向
+，而\definend{反向}\index{opposite map}\index{orientation reversing map} 
+若其reverses orientation.
+
+至此，我们刻画了欧几里得几何对全等的研究。
+对于平面图形，它研究在以下变换组合下不变的性质：
+(i) 旋转后平移，
+或 (ii) 反射后平移
+（反射后再进行非平凡
+平移称为\definend{滑动反射}\index{reflection!glide}).
+
+初等几何中的另一个概念是，
+除了图形全等外，
+若图形
+\definend{相似}\index{similar triangles}\index{triangles, similar} 
+在改变尺度后全等，则称它们 
+下面两个三角形相似，因为第二个与第一个
+形状相同但大小为其 $3/2$。
+\begin{center}
+  \includegraphics{map/mp/ch3.65}
+\end{center}
+由上述工作可知，图形相似当且仅当存在正交归一矩阵 $T$，使一个图形上的点 $\vec{q}$ 是另一个图形上点 $\vec{v}$ 的像，满足 $\vec{q}=(kT)\vec{v}+\vec{p}_0$，其中 $k$ 为非零实数，$\vec{p}_0$ 为常向量。
+
+这些思想虽源自欧几里得，但数学跨越时代，
+至今仍在使用。 
+上述映射在计算机图形学中有应用。
+例如，可将立方体俯视图的旋转制作成动画：
+把旋转过程的帧组合起来，这是一种刚性运动。 
+\begin{center}
+  \begin{tabular}{ccc}
+    \includegraphics{map/mp/ch3.66}
+    &\includegraphics{map/mp/ch3.67}
+    &\includegraphics{map/mp/ch3.68}                       \\
+    Frame 1      &Frame 2       &Frame 3       
+  \end{tabular}
+\end{center}
+还可以通过制作立方体缩小的帧，使它看起来逐渐远离我们；
+所得图形彼此相似。
+\begin{center}
+  \begin{tabular}{ccc}
+    \includegraphics{map/mp/ch3.69}
+    &\includegraphics{map/mp/ch3.70}
+    &\includegraphics{map/mp/ch3.71}                       \\
+    Frame 1:        &Frame 2:       &Frame 3:        
+  \end{tabular}
+\end{center}
+计算机图形学还在许多方面采用
+线性代数技术（见习题 \nearbyexercise{exer:HomoCrds}）。
+
+% So the analysis above of distance-preserving maps
+% is useful as well as interesting.
+关于这一领域的一本优秀著作是 \cite{Weyl}。
+关于变换群及其他群的内容可参阅任何
+现代代数教材，例如 \cite{BirkhoffMaclane}。
+关于 Klein 和 Erlanger 纲领的内容见 \cite{Yaglom}。
+ 
+
+\begin{exercises}
+  \item 
+    判断下列矩阵是否为正交归一矩阵。
+    \begin{exparts}
+      \partsitem $\begin{mat}[r]
+                    1/\sqrt{2} &-1/\sqrt{2}  \\
+                   -1/\sqrt{2} &-1/\sqrt{2}
+                  \end{mat}$
+      \partsitem $\begin{mat}[r]
+                    1/\sqrt{3} &-1/\sqrt{3}  \\
+                   -1/\sqrt{3} &-1/\sqrt{3}
+                  \end{mat}$
+      \partsitem $\begin{mat}[r]
+                    1/\sqrt{3} &-\sqrt{2}/\sqrt{3}  \\
+                   -\sqrt{2}/\sqrt{3} &-1/\sqrt{3}
+                  \end{mat}$
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem Yes.
+        \partsitem No, the columns do not have length one.
+        \partsitem Yes.
+      \end{exparts}
+    \end{answer}
+  \item 
+    写出下列保持距离映射的几何作用公式。
+    \begin{exparts}  
+      \partsitem 将向量旋转 $\pi/6$ 弧度，然后
+        平移 $\vec{e}_2$
+      \partsitem 关于直线 $y=2x$ 反射的映射
+      \partsitem 关于 $y=-2x$ 反射，再向右
+        、向上各平移 $1$
+    \end{exparts}
+    \begin{answer}
+      其中一些是非线性的，
+      因为包含非平凡平移。
+      \begin{exparts}
+        \partsitem 
+          $\colvec{x \\ y}
+           \mapsto
+           \begin{mat}
+             x\cdot\cos(\pi/6)-y\cdot\sin(\pi/6) \\
+             x\cdot\sin(\pi/6)+y\cdot\cos(\pi/6) 
+           \end{mat}
+           +\colvec[r]{0 \\ 1}
+           =\begin{mat}
+             x\cdot(\sqrt{3}/2)-y\cdot(1/2)+0 \\
+             x\cdot(1/2)+y\cdot\cos(\sqrt{3}/2)+1 
+           \end{mat}$
+        \partsitem The line $y=2x$ makes an angle of $\arctan(2/1)$
+          with the $x$-axis.
+          因此 $\sin\theta=2/\sqrt{5}$，$\cos\theta=1/\sqrt{5}$。
+          \begin{equation*}
+          \colvec{x \\ y}
+           \mapsto
+           \begin{mat}
+             x\cdot(1/\sqrt{5})-y\cdot(2/\sqrt{5}) \\
+             x\cdot(2/\sqrt{5})+y\cdot(1/\sqrt{5}) 
+           \end{mat}
+           \end{equation*}
+        \partsitem           
+           $\colvec{x \\ y}
+           \mapsto
+           \begin{mat}
+             x\cdot(1/\sqrt{5})-y\cdot(-2/\sqrt{5}) \\
+             x\cdot(-2/\sqrt{5})+y\cdot(1/\sqrt{5}) 
+           \end{mat}
+           +\colvec[r]{1 \\ 1}
+           =\begin{mat}
+             x/\sqrt{5}+2y/\sqrt{5}+1 \\
+             -2x/\sqrt{5}+y/\sqrt{5}+1 
+           \end{mat}$
+      \end{exparts}
+    \end{answer}
+  \item \label{exer:IsometryFacts}
+     \begin{exparts}
+       \partsitem 证明保持距离且
+         将零向量映到自身的映射同时是
+         一一且满射
+         （定义域中由 $d_0$、$d_1$ 和 $d_2$ 确定的点
+         对应于陪域中由这三个距离确定的点
+         ）。
+         因此任意保持距离映射都有逆映射。
+         证明逆映射也保持距离。
+       \partsitem 证明全等关系是平面图形之间的等价关系
+         。
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem Let $f$ be distance-preserving ，而consider $f^{-1}$.
+           陪域中任意两点可写成 $f(P_1)$ 和
+           $f(P_2)$.
+           因为 $f$ 保持距离，从 $f(P_1)$
+           到 $f(P_2)$ 的距离等于从 $P_1$ 到 $P_2$ 的距离。
+           这正是 $f^{-1}$
+           保持距离所需的条件。
+         \partsitem 任意平面图形 $F$ 通过显然保持距离的单位映射 $\map{\identity}{\Re^2}{\Re^2}$ 与自身全等。若 $F_1$ 通过某个 $f$ 与 $F_2$ 全等，则 $F_2$ 通过保持距离的 $f^{-1}$ 与 $F_1$ 全等。最后，若 $F_1$ 通过 $f$ 与 $F_2$ 全等且 $F_2$ 通过 $g$ 与 $F_3$ 全等，则 $F_1$ 通过 $\composed{g}{f}$ 与 $F_3$ 全等，且该复合映射保持距离。
+       \end{exparts}
+     \end{answer}
+  \item \label{exer:HomoCrds}
+    实际上，保持距离的线性变换矩阵与平移常合并为一个矩阵。
+    验证以下两种计算得到相同的前两个分量。
+        \begin{equation*}
+           \begin{mat}
+             a  &c  \\
+             b  &d
+           \end{mat}
+           \colvec{x  \\ y}
+           +\colvec{e \\ f}
+           \qquad
+           \begin{mat}
+             a  &c  &e \\
+             b  &d  &f \\
+             0  &0  &1
+           \end{mat}
+           \colvec{x  \\ y \\ 1}
+        \end{equation*}
+    （这些称为
+     \definend{homogeneous coordinates}\index{homogeneous coordinates}；见“射影几何”专题）。
+     \begin{answer}
+       两种计算的前两个分量分别为 $ax+cy+e$ 和 $bx+dy+f$。
+     \end{answer}
+  \item \label{exer:GeomInvDistPre}
+    \begin{exparts}
+     \partsitem 验证本专题第二段所述
+       在保持距离映射下不变的性质
+       确实保持不变。
+     \partsitem 再给出两个
+       你在欧几里得几何学习中了解到的
+       且在保持距离映射下不变的性质。
+     \partsitem 给出一个在欧几里得几何中并不重要、
+       且在保持距离映射下不保持不变的性质。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem The Pythagorean Theorem gives that
+          三点
+          collinear 当且仅当
+          （按某种顺序记为 $P_1$、$P_2$、$P_3$）共线，当且仅当
+          $\dist(P_1,P_2)+\dist(P_2,P_3)=\dist(P_1,P_3)$.
+          当然，当 $f$ 保持距离时，这等价于
+          $\dist(f(P_1),f(P_2))+\dist(f(P_2),f(P_3))=\dist(f(P_1),f(P_3))$,
+          根据勾股定理，这又等价于
+          $f(P_1)$、$f(P_2)$ 和 $f(P_3)$ 共线。
+        
+          对“介于其间”关系的论证类似（上式中 $P_2$ 位于
+          $P_1$ 与 $P_3$ 之间）。
+
+          若图形 $F$ 是三角形，则它是三条
+          线段 $P_1P_2$、$P_2P_3$ 和 $P_1P_3$ 的并。
+          前两段论证共同表明，线段这一性质保持不变。
+          因此 $f(F)$ 是三条线段的并，也是
+          三角形。
+
+          以 $P$ 为圆心、半径为 $r$ 的圆 $C$ 是集合
+          $\dist(P,Q)=r$ 的所有点 $Q$。
+          应用保持距离映射 $f$，其像
+          $f(C)$ 是满足条件
+          $\dist(P,Q)=r$.
+          由于 $\dist(P,Q)=\dist(f(P),f(Q))$，集合 $f(C)$ 也是
+          圆，圆心为 $f(P)$、半径为 $r$。
+        \partsitem 以下两个性质容易验证：(i)
+          是直角三角形；(ii)
+          两条直线平行。
+        \partsitem 本节提到的一个性质是图形的“方向”。
+
+          顶点按顺时针顺序为 $P_1$、$P_2$、$P_3$ 的三角形
+          在保持距离映射下可能映到一个
+          顶点按逆时针顺序为 $P_1$、$P_2$、$P_3$ 的三角形。
+      \end{exparts}
+    \end{answer}
+\end{exercises}
+\index{matrix!orthonormal|)}
+\index{orthonormal matrix|)}
+\endinput

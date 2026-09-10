@@ -1,0 +1,870 @@
+\begin{exercises}
+  \recommended \item 
+    判断下列矩阵是否行等价。
+    \begin{exparts*}
+       \partsitem \(
+           \begin{mat}[r]
+             1  &2  \\
+             4  &8
+           \end{mat}, 
+           \begin{mat}[r]
+             0  &1  \\
+             1  &2
+           \end{mat} \)
+       \partsitem \(
+           \begin{mat}[r]
+             1  &0  &2  \\
+             3  &-1 &1  \\
+             5  &-1 &5
+           \end{mat},  
+           \begin{mat}[r]
+             1  &0  &2  \\
+             0  &2  &10 \\
+             2  &0  &4
+           \end{mat} \)
+       \partsitem \(
+           \begin{mat}[r]
+             2  &1  &-1 \\
+             1  &1  &0  \\
+             4  &3  &-1
+           \end{mat},  
+           \begin{mat}[r]
+             1  &0  &2  \\
+             0  &2  &10 \\
+           \end{mat} \)
+       \partsitem \(
+           \begin{mat}[r]
+             1  &1  &1  \\
+            -1  &2  &2
+           \end{mat},  
+           \begin{mat}[r]
+             0  &3  &-1 \\
+             2  &2  &5
+           \end{mat} \)
+       \partsitem \(
+           \begin{mat}[r]
+             1  &1  &1  \\
+             0  &0  &3
+           \end{mat},  
+           \begin{mat}[r]
+             0  &1  &2  \\
+             1  &-1 &1
+           \end{mat} \)
+    \end{exparts*}
+    \begin{answer}
+      把每个矩阵都化成简化阶梯形，然后进行比较。
+      \begin{exparts}
+        \partsitem 第一个给出
+          \begin{equation*}
+            \grstep{-4\rho_1+\rho_2}
+            \begin{mat}[r]
+              1  &2  \\
+              0  &0
+            \end{mat}
+          \end{equation*}
+          而第二个给出
+          \begin{equation*}
+            \grstep{\rho_1\leftrightarrow\rho_2}
+            \begin{mat}[r]
+              1  &2  \\
+              0  &1
+            \end{mat}
+            \grstep{-2\rho_2+\rho_1}
+            \begin{mat}[r]
+              1  &0  \\
+              0  &1
+            \end{mat}
+          \end{equation*}
+          两个简化阶梯形矩阵并不相同，因此
+          原来的矩阵不行等价。
+        \partsitem 第一个如下。
+          \begin{equation*}
+            \grstep[-5\rho_1+\rho_3]{-3\rho_1+\rho_2}
+            \begin{mat}[r]
+              1  &0  &2  \\
+              0  &-1 &-5 \\
+              0  &-1 &-5
+            \end{mat}
+            \grstep{-\rho_2+\rho_3}
+            \begin{mat}[r]
+              1  &0  &2  \\
+              0  &-1 &-5 \\
+              0  &0  &0
+            \end{mat}
+            \grstep{-\rho_2}
+            \begin{mat}[r]
+              1  &0  &2  \\
+              0  &1  &5  \\
+              0  &0  &0
+            \end{mat}
+          \end{equation*}
+          第二个如下。
+          \begin{equation*}
+            \grstep{-2\rho_1+\rho_3}
+            \begin{mat}[r]
+              1  &0  &2  \\
+              0  &2  &10 \\
+              0  &0  &0
+            \end{mat}
+            \grstep{(1/2)\rho_2}
+            \begin{mat}[r]
+              1  &0  &2  \\
+              0  &1  &5  \\
+              0  &0  &0
+            \end{mat}
+          \end{equation*}
+          这两个矩阵行等价。
+        \partsitem 这两个矩阵不行等价，因为它们的
+          尺寸不同。
+        \partsitem 第一个，
+          \begin{equation*}
+            \grstep{\rho_1+\rho_2}
+            \begin{mat}[r]
+              1  &1  &1  \\
+              0  &3  &3
+            \end{mat}
+            \grstep{(1/3)\rho_2}
+            \begin{mat}[r]
+              1  &1  &1  \\
+              0  &1  &1
+            \end{mat}
+            \grstep{-\rho_2+\rho_1}
+            \begin{mat}[r]
+              1  &0  &0  \\
+              0  &1  &1
+            \end{mat}
+          \end{equation*}
+          而第二个，
+          \begin{equation*}
+            \grstep{\rho_1\leftrightarrow\rho_2}
+            \begin{mat}[r]
+              2  &2  &5  \\
+              0  &3  &-1
+            \end{mat}
+            \grstep[(1/3)\rho_2]{(1/2)\rho_1}
+            \begin{mat}[r]
+              1  &1  &5/2 \\
+              0  &1  &-1/3
+            \end{mat}
+            \grstep{-\rho_2+\rho_1}
+            \begin{mat}[r]
+              1  &0  &17/6 \\
+              0  &1  &-1/3
+            \end{mat}
+          \end{equation*}
+          这两个矩阵不行等价。
+        \partsitem 这里第一个是
+          \begin{equation*}
+            \grstep{(1/3)\rho_2}
+            \begin{mat}[r]
+              1  &1  &1  \\
+              0  &0  &1
+            \end{mat}
+            \grstep{-\rho_2+\rho_1}
+            \begin{mat}[r]
+              1  &1  &0  \\
+              0  &0  &1
+            \end{mat}
+          \end{equation*}
+          而这是第二个。
+          \begin{equation*}
+            \grstep{\rho_1\leftrightarrow\rho_2}
+            \begin{mat}[r]
+              1  &-1 &1  \\
+              0  &1  &2
+            \end{mat}
+            \grstep{\rho_2+\rho_1}
+            \begin{mat}[r]
+              1  &0  &3  \\
+              0  &1  &2
+            \end{mat}
+          \end{equation*}
+          这两个矩阵不行等价。
+       \end{exparts}  
+     \end{answer}
+  \item 
+    这些矩阵中哪些相互行等价？
+    \begin{exparts*}
+      \partsitem
+         \(\begin{mat}
+             1 &3 \\
+             2 &4
+           \end{mat}\)
+      \partsitem
+         \(\begin{mat}
+             1 &5 \\
+             2 &10
+           \end{mat}\)
+      \partsitem
+         \(\begin{mat}
+             1 &-1 \\
+             3 &0
+           \end{mat}\)
+      \partsitem
+         \(\begin{mat}
+             2 &6 \\
+             4 &10
+           \end{mat}\)
+      \partsitem
+         \(\begin{mat}
+             0  &1 \\
+             -1 &0
+           \end{mat}\)
+      \partsitem
+         \(\begin{mat}
+             3 &3 \\
+             2 &2
+           \end{mat}\)
+    \end{exparts*}
+    \begin{answer}
+      对每一个作高斯–若尔当消元。
+      两个矩阵行等价当且仅当它们具有相同的
+      简化阶梯形。
+      下面是每个矩阵的简化形式。 
+      % sage: M = matrix(QQ, [[1,3], [2,4]])
+      % sage: gauss_jordan(M)
+      % [1 3]
+      % [2 4]
+      %  take -2 times row 1 plus row 2
+      % [ 1  3]
+      % [ 0 -2]
+      %  take -1/2 times row 2
+      % [1 3]
+      % [0 1]
+      %  take -3 times row 2 plus row 1
+      % [1 0]
+      % [0 1]
+      % sage: M = matrix(QQ, [[1,5], [2,10]])
+      % sage: gauss_jordan(M)
+      % [ 1  5]
+      % [ 2 10]
+      %  take -2 times row 1 plus row 2
+      % [1 5]
+      % [0 0]
+      % sage: M = matrix(QQ, [[1,-1], [3,0]])
+      % sage: gauss_jordan(M)
+      % [ 1 -1]
+      % [ 3  0]
+      %  take -3 times row 1 plus row 2
+      % [ 1 -1]
+      % [ 0  3]
+      %  take 1/3 times row 2
+      % [ 1 -1]
+      % [ 0  1]
+      %  take 1 times row 2 plus row 1
+      % [1 0]
+      % [0 1]
+      % sage: M = matrix(QQ, [[2,6], [4,10]])
+      % sage: gauss_jordan(M)
+      % [ 2  6]
+      % [ 4 10]
+      %  take -2 times row 1 plus row 2
+      % [ 2  6]
+      % [ 0 -2]
+      %  take 1/2 times row 1
+      %  take -1/2 times row 2
+      % [1 3]
+      % [0 1]
+      %  take -3 times row 2 plus row 1
+      % [1 0]
+      % [0 1]
+      % sage: M = matrix(QQ, [[0,1], [-1,0]])
+      % sage: gauss_jordan(M)
+      % [ 0  1]
+      % [-1  0]
+      %  swap row 1 with row 2
+      % [-1  0]
+      % [ 0  1]
+      %  take -1 times row 1
+      % [1 0]
+      % [0 1]
+      % sage: M = matrix(QQ, [[3,3], [2,2]])
+      % sage: gauss_jordan(M)
+      % [3 3]
+      % [2 2]
+      %  take -2/3 times row 1 plus row 2
+      % [3 3]
+      % [0 0]
+      %  take 1/3 times row 1
+      % [1 1]
+      % [0 0]
+      \begin{exparts*}
+        \partsitem
+          \(\begin{mat}
+              1  &0  \\
+              0  &1
+            \end{mat} \)
+        \partsitem
+          \(\begin{mat}
+              1  &5  \\
+              0  &0
+            \end{mat} \)
+        \partsitem
+          \(\begin{mat}
+             1   &0  \\
+             0   &1
+            \end{mat} \)
+        \partsitem
+          \(\begin{mat}
+             1   &0  \\
+             0   &1
+            \end{mat} \)
+        \partsitem
+          \(\begin{mat}
+             1   &0  \\
+             0   &1
+            \end{mat} \)
+        \partsitem
+          \(\begin{mat}
+             1   &1  \\
+             0   &0
+            \end{mat} \)
+      \end{exparts*}
+    \end{answer}
+ \item 写出另外三个与所给矩阵行等价的矩阵。
+   \begin{exparts*}
+     \partsitem 
+       \(\begin{mat}
+           1 &3 \\
+           4 &-1
+         \end{mat}\)
+     \partsitem
+       \(\begin{mat}
+           0 &1 &2 \\
+           1 &1 &1  \\
+           2 &3 &4
+         \end{mat}\)
+   \end{exparts*}
+   \begin{answer}
+     对每个小题，只需对起始矩阵作一些行
+     变换即可。
+      \begin{exparts}
+        \partsitem
+          把第一行乘以~$3$，得到下式。
+          \begin{equation*}
+            \begin{mat}
+              3 &9  \\
+              4 &-1
+            \end{mat}
+          \end{equation*}
+          （这个行变换的选择并没有什么讲究；它 
+          只是脑海中想到的第一个而已。）
+          另外两个行变换是行对换 $\rho_1\leftrightarrow\rho_2$ 
+          和倍加 $\rho_1+\rho_2$。
+          \begin{equation*}
+            \begin{mat}
+              4 &-1  \\
+              1 &3
+            \end{mat}
+            \quad
+            \begin{mat}
+              1 &3  \\
+              5 &2
+            \end{mat}
+          \end{equation*}
+        \partsitem 作同样的三个任意行变换，得到
+          这三个。
+          \begin{equation*}
+           \begin{mat} 
+            0 &3 &6 \\
+            1 &1 &1  \\
+            2 &3 &4  
+           \end{mat}
+           \quad         
+           \begin{mat} 
+            1 &1 &1  \\
+            0 &1 &2 \\
+            2 &3 &4  
+           \end{mat}
+           \quad         
+           \begin{mat} 
+            0 &1 &2 \\
+            1 &2 &3  \\
+            2 &3 &4  
+           \end{mat}
+           \quad         
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item 对这个矩阵施行高斯消元法。
+    把最终矩阵的每一行表示成起始矩阵
+    各行的线性组合。
+    \begin{equation*}
+      \begin{mat}
+        1 &2   &1 \\
+        3 &-1  &0 \\
+        0 &4   &0
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      高斯化简是常规计算。
+      % sage: load("gauss_method.sage")
+      % sage: M = matrix (QQ, [[1,2,1], [3,-1,0], [0,4,0]])
+      % sage: gauss_method(M)
+      % [ 1  2  1]
+      % [ 3 -1  0]
+      % [ 0  4  0]
+      %  take -3 times row 1 plus row 2
+      % [ 1  2  1]
+      % [ 0 -7 -3]
+      % [ 0  4  0]
+      %  take 4/7 times row 2 plus row 3
+      % [    1     2     1]
+      % [    0    -7    -3]
+      % [    0     0 -12/7]
+      \begin{equation*}
+        \begin{mat}
+          1 &2   &1 \\
+          3 &-1  &0 \\
+          0 &4   &0
+        \end{mat}
+        \grstep{-3\rho_1+\rho_2}    
+        \begin{mat}
+          1 &2   &1 \\
+          0 &-7  &-3 \\
+          0 &4   &0
+        \end{mat}
+        \grstep{(4/7)\rho_2+\rho_3}    
+        \begin{mat}
+          1 &2   &1 \\
+          0 &-7  &-3 \\
+          0 &0   &-12/7
+        \end{mat}
+      \end{equation*}
+      把这三个矩阵分别记为 $A$、$D$ 和~$B$，则有下式。
+      \begin{align*}
+        \begin{mat}
+          \alpha_1 \\
+          \alpha_2 \\
+          \alpha_3
+        \end{mat}
+        &\grstep{-3\rho_1+\rho_2}    
+        \begin{mat}
+          \delta_1=\alpha_1 \\
+          \delta_2=-3\alpha_1+\alpha_2 \\
+          \delta_3=\alpha_3
+        \end{mat}                                   \\
+        & \grstep{(4/7)\rho_2+\rho_3}
+        \begin{mat}
+          \beta_1=\alpha_1  \\
+          \beta_2=-3\alpha_1+\alpha_2 \\
+          \beta_3=-(12/7)\alpha_1+(4/7)\alpha_2+\alpha_3
+        \end{mat}
+      \end{align*}
+    \end{answer}
+  \item 
+     描述
+     \nearbyexample{ex:RowEqClassTwoTwoMats} 所展示的各个等价类中的矩阵。
+     \begin{answer}
+       首先，与全
+       \( 0 \) 矩阵行等价的矩阵只有它自己（因为行变换对它没有效果）。
+
+       其次，能化简为 
+       \begin{equation*}
+         \begin{mat}
+           1  &a  \\
+           0  &0
+         \end{mat}
+       \end{equation*}
+       的矩阵形如
+       \begin{equation*}
+         \begin{mat}
+           b  &ba \\
+           c  &ca
+         \end{mat}
+       \end{equation*}
+       （其中 \( a,b,c\in\Re \)，且 \(b\) 与 \(c\) 不全为零）。  
+
+       再次，能化简为 
+       \begin{equation*}
+         \begin{mat}[r]
+           0  &1  \\
+           0  &0
+         \end{mat}
+       \end{equation*}
+       的矩阵形如
+       \begin{equation*}
+         \begin{mat}
+           0  &a \\
+           0  &b
+         \end{mat}
+       \end{equation*}
+       （其中 \( a,b\in\Re \)，且不全为零）。  
+
+       最后，能化简为 
+       \begin{equation*}
+         \begin{mat}[r]
+           1  &0  \\
+           0  &1
+         \end{mat}
+       \end{equation*}
+       的矩阵是非奇异的矩阵。
+       这是因为以这个矩阵为系数矩阵的线性方程组将有唯一解，而这正是
+       非奇异的定义。
+       （换一种说法：它们不属于上面的任何一个等价类。）
+     \end{answer}
+  \item 
+    描述与下列矩阵
+    同一行等价类中的所有矩阵。
+    \begin{exparts*}
+       \partsitem  \(
+           \begin{mat}[r]
+             1  &0  \\
+             0  &0
+           \end{mat}  \)
+       \partsitem  \(
+           \begin{mat}[r]
+             1  &2      \\
+             2  &4
+           \end{mat} \)
+       \partsitem \(
+           \begin{mat}[r]
+             1  &1      \\
+             1  &3
+           \end{mat} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 它们形如
+          \begin{equation*}
+            \begin{mat}
+              a  &0  \\
+              b  &0
+            \end{mat}
+          \end{equation*}
+          其中 \( a,b\in\Re \) 至少有一个不为零。
+        \partsitem 它们具有如下形式 
+          \begin{equation*}
+            \begin{mat}
+             a  &2a \\
+             b  &2b
+            \end{mat}
+          \end{equation*}
+          其中 \( a,b\in\Re \) 至少有一个不为零。
+        \partsitem 所给矩阵是非奇异的。
+          所以该行等价类由所有非奇异的 $\nbyn{2}$
+          矩阵组成。
+          （给出公式的话，它们形如
+          \begin{equation*}
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+          \end{equation*}
+          其中 \( a,b,c,d\in\Re \)）且 \( ad-bc\neq 0 \)。
+          我们将在第四章看到，这个公式 
+          判定了 \( \nbyn{2} \) 矩阵
+          何时非奇异。）
+      \end{exparts}  
+    \end{answer}
+  \item 
+    行等价类有多少个？
+    \begin{answer}
+       有无穷多个。
+       例如，在 
+       \begin{equation*}
+         \begin{mat}
+           1  &k  \\
+           0  &0
+         \end{mat}
+       \end{equation*}
+       中，每个 $k\in\Re$ 给出一个不同的等价类。  
+    \end{answer}
+  \item 
+    行等价类能包含不同尺寸的矩阵吗？
+    \begin{answer}
+      不能。
+      行变换不改变矩阵的尺寸。  
+    \end{answer}
+  \item 
+    行等价类有多大？
+    \begin{exparts} 
+      \partsitem 证明：对任意全零矩阵，其等价类是有限的。
+      \partsitem 还有别的等价类只含有限多个成员吗？
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+      \partsitem 对全零矩阵作行变换没有效果。
+        因此每个这样的矩阵在它的行等价类中只有自己。  
+      \partsitem 没有。
+        任何非零元都可以倍乘。
+     \end{exparts}
+    \end{answer}
+  \recommended \item 
+    给出两个首主元位于相同列的
+    简化阶梯形矩阵，
+    但它们并不行等价。
+    \begin{answer}
+      这里有两个。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &1  &0  \\
+          0  &0  &1
+        \end{mat}
+        \quad\text{和}\quad
+        \begin{mat}[r]
+          1  &0  &0  \\
+          0  &0  &1
+        \end{mat}
+      \end{equation*}  
+     \end{answer}
+  \recommended \item 
+    证明任意两个 \( \nbyn{n} \) 非奇异矩阵
+    是行等价的。
+    任意两个奇异矩阵也行等价吗？
+    \begin{answer}
+      任意两个 \( \nbyn{n} \) 非奇异矩阵具有
+      相同的简化阶梯形，即除对角线上
+      为 \( 1 \) 之外全为 \( 0 \) 的那个矩阵。
+      \begin{equation*}
+        \begin{mat}
+          1  &0  &       &0  \\
+          0  &1  &       &0  \\
+             &   &\ddots &   \\
+          0  &0  &       &1
+        \end{mat}
+      \end{equation*}
+
+      两个同尺寸的奇异矩阵未必行等价。
+      例如，这两个 \( \nbyn{2} \) 奇异矩阵
+      不行等价。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &1  \\
+          0  &0
+        \end{mat}
+        \quad\text{和}\quad
+        \begin{mat}[r]
+          1  &0  \\
+          0  &0
+        \end{mat}
+      \end{equation*}  
+    \end{answer}
+  \recommended \item 
+    描述包含下列矩阵的所有行等价类。
+    \begin{exparts*}
+      \partsitem \( \nbyn{2} \)~矩阵
+      \partsitem \( \nbym{2}{3} \)~矩阵
+      \partsitem \( \nbym{3}{2} \)~矩阵
+      \partsitem \( \nbyn{3} \)~矩阵
+    \end{exparts*}
+    \begin{answer}
+      由于每个等价类中有且仅有一个简化阶梯形矩阵，
+      我们只需列出所有可能的简化阶梯形矩阵。
+
+      这份清单参见 \nearbyexercise{exer:PossRedEchFrms} 的答案。 
+    \end{answer}
+  \item  
+     \begin{exparts}
+          \partsitem 证明：向量 $\vec{\beta}_0$ 是集合 $\set{\vec{\beta}_1,\ldots,\vec{\beta}_n}$
+            中成员的线性组合当且仅当存在线性关系 
+            $\zero=c_0\vec{\beta}_0+\cdots+c_n\vec{\beta}_n$
+            其中 $c_0$ 不为零。
+            （\textit{提示。}   当心 $\vec{\beta}_0=\zero$ 的情形。）
+          \partsitem 利用它来简化 
+             \nearbylemma{le:EchFormNoLinCombo} 的证明。   
+       \end{exparts}
+       \begin{answer}
+          \begin{exparts}
+           \partsitem 如果存在 $c_0$ 不为零的线性关系
+             那么我们可以从两边减去 $c_0\vec{\beta}_0$ 再除以 $-c_0$，
+             把 $\vec{\beta}_0$ 表示成其余向量的线性
+             组合。
+             （注：  
+             如果集合中没有其他向量\Dash 即关系式
+             是 $\zero=3\cdot\zero$\Dash 那么该命题仍然成立，因为
+             按定义零向量是空向量集 
+             的和。）
+
+             反之，如果 $\vec{\beta}_0$ 是其余向量的组合 
+             $\vec{\beta}_0=c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n$
+             那么从两边减去
+             $\vec{\beta}_0$ 就给出一个系数
+             不全为零的线性关系；即
+             $\vec{\beta}_0$ 前面的 $-1$。
+           \partsitem 第一行不是其余各行的线性组合，
+             理由
+             如证明中所述：~在包含第一行首主元的那一列
+             的分量等式中，唯一非零的元素
+             是来自第一行的首主元，因此
+             它的系数必为零。
+             于是，由本题前面的小题，第一行与其
+             余各行没有线性关系。
+
+             因此，在考虑第二行能否与其余各行有线性 
+             关系时，
+             我们可以不考虑第一行。
+             但这时刚才对第一行的论证也将适用于
+             第二行。
+             （也就是说，我们这里是用归纳法论证的。）             
+         \end{exparts}
+      \end{answer}
+  % \item 
+  %   Why, in the proof of \nearbytheorem{th:ReducedEchelonFormIsUnique},
+  %   do we bother to restrict to the nonzero rows?
+  %   Why not just stick to the relationship that we began with,
+  %   $\beta_i=c_{i,1}\delta_1+\dots+c_{i,m}\delta_m$, with $m$ instead of $r$,
+  %   and argue using it that the only nonzero coefficient
+  %   is \( c_{i,i}  \), which is \( 1 \)?
+  %   \begin{answer}
+  %      The zero rows could have nonzero coefficients, and
+  %      so the statement would not be true.
+  %   \end{answer}
+  \recommended \item 
+   \cite{Trono}
+   三位卡车司机走进一家路边咖啡馆。
+   一位卡车司机买了四个三明治、一杯咖啡和十个 
+   甜甜圈，花了 \$$8.45$。
+   另一位司机买了三个三明治、一杯咖啡和七个
+   甜甜圈，花了 \$$6.30$。
+   第三位卡车司机买一个三明治、一杯咖啡和 
+   一个甜甜圈要付多少钱？
+    \begin{answer}
+      我们知道 $4s+c+10d=8.45$ 与 $3s+c+7d=6.30$，而且想知道
+      $s+c+d$ 是多少。
+      幸运的是，$s+c+d$ 是 $4s+c+10d$ 与 $3s+c+7d$ 的线性组合。
+      把未知的价格记为 $p$，我们有如下化简过程。
+      \begin{align*}
+        \begin{amat}{3}
+          4  &1  &10  &8.45 \\
+          3  &1  &7   &6.30 \\
+          1  &1  &1   &p
+        \end{amat}
+        &\grstep[-(1/4)\rho_1+\rho_3]{-(3/4)\rho_1+\rho_2}
+        \begin{amat}{3}
+          4  &1    &10     &8.45      \\
+          0  &1/4  &-1/2   &-0.037\,5 \\
+          0  &3/4  &-3/2   &p-2.112\,5
+        \end{amat}                                      \\
+        &\grstep{-3\rho_2+\rho_3}
+        \begin{amat}{3}
+          4  &1    &10     &8.45      \\
+          0  &1/4  &-1/2   &-0.037\,5 \\
+          0  &0    &0      &p-2.00
+        \end{amat}
+     \end{align*}
+     所付的价钱是 \$$2.00$。
+   \end{answer}
+   % \item
+   %  The fact that Gaussian reduction disallows multiplication of
+   %  a row by zero is needed for the proof of uniqueness of reduced echelon form,
+   %  or else every matrix would
+   %  be row equivalent to a matrix of all zeros.
+   %  Where is it used?
+   %  \begin{answer}
+   %    If multiplication of a row by zero were allowed then
+   %    \nearbylemma{le:EquivMatsSameForm}
+   %    would not hold.
+   %    That is, where
+   %    \begin{equation*}
+   %      \begin{mat}[r]
+   %        1  &3  \\
+   %        2  &1
+   %      \end{mat}
+   %      \grstep{0\rho_2}
+   %      \begin{mat}[r]
+   %        1  &3  \\
+   %        0  &0
+   %      \end{mat}
+   %    \end{equation*}
+   %    all the rows of the second matrix can be expressed as linear combinations
+   %    of the rows of the first, but the converse does not hold.
+   %    The second row of the first matrix is not a linear combination of the
+   %    rows of the second matrix.  
+   %  \end{answer}
+  \item 
+   线性组合引理说的是，对给定的线性方程组作
+   高斯消元能得到哪些方程。
+   \begin{enumerate}
+     \item 写出一个不被这个方程组蕴含的方程。
+       \begin{equation*}
+         \begin{linsys}{2}
+           3x  &+  &4y  &=  &8 \\
+           2x  &+  & y  &=  &3 
+         \end{linsys}
+       \end{equation*}
+     \item 从无解的方程组能导出任何方程吗？
+   \end{enumerate}
+   \begin{answer}
+     \begin{enumerate}
+        \item 一个容易的答案是这个。
+          \begin{equation*}
+            0=3
+          \end{equation*}
+          想要一个不那么抬杠的答案，求解该方程组：
+          \begin{equation*}
+            \begin{amat}[r]{2}
+              3  &4  &8  \\
+              2  &1   &3
+            \end{amat}
+            \grstep{-(2/3)\rho_1+\rho_2}
+            \begin{amat}[r]{2}
+              3  &4    &8    \\
+              0  &-5/3 &-7/3
+            \end{amat}
+          \end{equation*}
+          得到 \( y=7/5 \) 与 \( x=4/5 \)。
+          于是任何不被 \( (7/5,4/5) \) 满足的方程都可以，
+          例如 \( 5x+5y=10 \)。
+        \item 从无解的方程组可以导出每一个方程。
+          例如，下面演示如何从
+          \( 0=5 \) 导出 \( 3x+2y=4 \)。
+          首先，
+          \begin{equation*}
+            0=5
+            \grstep{(3/5)\rho_1}
+            0=3
+            \grstep{x\rho_1}
+            0=3x
+          \end{equation*}
+          （\( x=0 \) 情形的有效性需要另外论证，但很显然）。
+          类似地，\( 0=2y \)。
+          对 \( 0=4 \) 亦然。
+          而现在，\( 0+0=0 \) 便给出 \( 3x+2y=4 \)。
+     \end{enumerate}  
+    \end{answer}
+  \item 
+    \cite{HoffmanKunze}
+    把行等价的定义推广到线性方程组。
+    在你的定义下，等价的方程组有相同的解集吗？
+    \begin{answer}
+      定义：若它们的增广
+      矩阵行等价，则称线性方程组等价。
+      等价方程组有相同解集的证明很容易。  
+    \end{answer}
+  \item 
+    在这个矩阵
+    \begin{equation*}
+      \begin{mat}[r]
+        1  &2  &3  \\
+        3  &0  &3  \\
+        1  &4  &5
+      \end{mat}
+    \end{equation*}
+    中，第一列与第二列之和等于第三列。
+    \begin{exparts}
+      \partsitem 证明在任何行变换下这一点仍然成立。
+      \partsitem 提出一个猜想。
+      \partsitem 证明它成立。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 三种可能的行对换很容易， 
+          三种可能的倍乘也是如此。
+          六种可能的倍加之一是 \( k\rho_1+\rho_2 \)：
+          \begin{equation*}
+            \begin{mat}
+              1           &2           &3  \\
+              k\cdot 1+3  &k\cdot 2+0  &k\cdot 3+3  \\
+              1           &4           &5
+            \end{mat}
+          \end{equation*}
+          此时第一列与第二列之和仍等于第三列。
+          其余五种倍加类似。
+        \partsitem 显然的猜想是：行变换不改变
+          列之间的线性关系。
+        \partsitem 逐情形的
+          证明按照第一小题给出的思路进行。
+      \end{exparts}  
+   \end{answer}
+\end{exercises}

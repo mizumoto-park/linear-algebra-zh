@@ -1,0 +1,845 @@
+\begin{exercises}
+  \recommended \item 
+    求代数余子式。
+    \begin{equation*}
+      T=\begin{mat}[r]
+           1  &0  &2  \\
+          -1  &1  &3  \\
+           0  &2  &-1
+         \end{mat}
+    \end{equation*}
+    \begin{exparts*}
+       \partsitem \( T_{2,3} \)
+       \partsitem \( T_{3,2} \)
+       \partsitem \( T_{1,3} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+       \partsitem \( (-1)^{2+3}\begin{vmat}[r]
+                            1  &0  \\
+                            0  &2
+                          \end{vmat}=-2  \)
+       \partsitem \( (-1)^{3+2}\begin{vmat}[r]
+                            1  &2  \\
+                           -1  &3
+                          \end{vmat}=-5  \)
+       \partsitem \( (-1)^{4}\begin{vmat}[r]
+                           -1  &1  \\
+                            0  &2
+                          \end{vmat}=-2  \)
+      \end{exparts*}  
+    \end{answer}
+  \recommended \item 
+    求该矩阵的伴随矩阵。
+    \begin{equation*}
+      T=\begin{mat}[r]
+           1  &0  &2  \\
+          -1  &1  &3  \\
+           0  &2  &-1
+         \end{mat}
+    \end{equation*}
+    \begin{answer}
+      % sage: M = matrix(QQ, [[1,0,2], [-1,1,3], [0,2,-1]])
+      % sage: M.adjoint()
+      % [-7  4 -2]
+      % [-1 -1 -5]
+      % [-2 -2  1] 
+      {\renewcommand{\arraystretch}{1.2}
+      \begin{equation*} 
+        \adj(T)=
+        \begin{mat}
+          \begin{vmatrix}
+            1 &3 \\
+            2 &-1
+          \end{vmatrix}
+          &-\begin{vmatrix}
+            0 &2 \\ 
+            2 &-1
+          \end{vmatrix}
+          &\begin{vmatrix}
+             0 &2 \\
+              1 &3
+           \end{vmatrix}                  \\
+          -\begin{vmatrix}
+             -1 &3 \\
+             0 &-1
+           \end{vmatrix}
+          &\begin{vmatrix}
+            1 &2 \\
+            0 &-1
+           \end{vmatrix}
+          &-\begin{vmatrix}
+            1 &2 \\
+            -1 &3
+           \end{vmatrix}                  \\
+          \begin{vmatrix}
+            -1 &1 \\ 
+            0 &2
+          \end{vmatrix}
+          &-\begin{vmatrix}
+            1  &0 \\
+            0 &2
+           \end{vmatrix}
+          &\begin{vmatrix}
+            1 &0 \\
+            -1 &1
+           \end{vmatrix}                  
+        \end{mat}
+        =
+        \begin{mat}
+          -7 &4 &-2 \\
+          -1  &-1 &-5 \\
+          -2 &-2 &1 
+        \end{mat}
+      \end{equation*}}
+    \end{answer}
+  \item 这个行列式等于 $0$。请按第一行展开计算它。
+    \begin{equation*}
+      \begin{vmat}[r]
+         1  &2  &3  \\
+         4  &5  &6  \\
+         7  &8  &9
+      \end{vmat}
+    \end{equation*}
+    \begin{answer}
+      \begin{equation*}
+        \begin{vmat}[r]
+          1  &2  &3  \\
+          4  &5  &6  \\
+          7  &8  &9
+        \end{vmat}=
+        1\cdot(+1)\cdot
+          \begin{vmatrix}
+            5 &6 \\
+            8 &9
+          \end{vmatrix}
+        +2\cdot(-1)\cdot
+          \begin{vmatrix}
+            4 &6 \\
+            7 &9
+          \end{vmatrix}
+        +3\cdot(+1)\cdot
+          \begin{vmatrix}
+            4 &5 \\
+            7 &8
+          \end{vmatrix}
+      \end{equation*}
+      $\nbyn{2}$ 矩阵的公式给出
+      $1\cdot (-3)-2\cdot (-6)+3\cdot(-3)=0$。
+    \end{answer}
+  \recommended \item 
+    按指定方式展开求行列式
+    \begin{equation*}
+      \begin{vmat}[r]
+         3  &0  &1  \\
+         1  &2  &2  \\
+        -1  &3  &0
+      \end{vmat}
+    \end{equation*}
+    \begin{exparts*}
+      \partsitem 沿第一行展开
+      \partsitem 沿第二行展开
+      \partsitem 沿第三列展开。
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem \( 3\cdot(+1)\begin{vmat}[r]
+                          2  &2  \\
+                          3  &0
+                       \end{vmat}
+                 +0\cdot (-1)\begin{vmat}[r]
+                          1  &2  \\
+                         -1  &0
+                       \end{vmat}
+                 +1\cdot (+1)\begin{vmat}[r]
+                          1  &2  \\
+                         -1  &3
+                       \end{vmat} =-13 \)
+         \partsitem \( 1\cdot (-1)\begin{vmat}[r]
+                          0  &1  \\
+                          3  &0
+                       \end{vmat}
+                 +2\cdot (+1)\begin{vmat}[r]
+                          3  &1  \\
+                         -1  &0
+                       \end{vmat}
+                 +2\cdot (-1)\begin{vmat}[r]
+                          3  &0  \\
+                         -1  &3
+                       \end{vmat} =-13 \)
+         \partsitem \( 1\cdot (+1)\begin{vmat}[r]
+                          1  &2  \\
+                         -1  &3
+                       \end{vmat}
+                 +2\cdot (-1)\begin{vmat}[r]
+                          3  &0  \\
+                         -1  &3
+                       \end{vmat}
+                 +0\cdot (+1)\begin{vmat}[r]
+                          3  &0  \\
+                          1  &2
+                       \end{vmat} =-13 \)
+       \end{exparts}  
+     \end{answer}
+  \item 
+    求\nearbyexample{ex:ExpLaPlace}中矩阵的伴随矩阵。
+    \begin{answer}
+      这就是 $\adj(T)$。
+      \begin{align*}
+         \begin{mat}
+           T_{1,1}  &T_{2,1}  &T_{3,1} \\
+           T_{1,2}  &T_{2,2}  &T_{3,2} \\
+           T_{1,3}  &T_{2,3}  &T_{3,3}   
+         \end{mat}
+         &=\begin{mat}
+            \begin{vmat}
+               5  &6  \\ 8  &9
+            \end{vmat}
+            &-\begin{vmat}
+               2  &3  \\  8  &9
+            \end{vmat}
+            &+\begin{vmat}
+               2  &3  \\  5  &6
+            \end{vmat}        \\[2.5ex]
+            -\begin{vmat}
+               4  &6  \\  7  &9
+            \end{vmat}
+            &+\begin{vmat}
+               1  &3  \\  7  &9
+            \end{vmat}
+            &-\begin{vmat}
+               1  &3  \\  4  &6
+            \end{vmat}        \\[2.5ex]
+            +\begin{vmat}
+               4  &5  \\  7  &8
+            \end{vmat}
+            &-\begin{vmat}
+               1  &2  \\  7  &8
+            \end{vmat}
+            &+\begin{vmat}
+               1  &2  \\  4  &5
+            \end{vmat}
+         \end{mat}                                   \\
+         &=\begin{mat}[r]
+          -3  &6   &-3 \\
+           6  &-12 &6  \\
+          -3  &6   &-3
+         \end{mat}
+      \end{align*}
+    \end{answer}
+  \recommended \item 
+    求与下列每个矩阵伴随的矩阵。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                 2   &1  &4  \\
+                -1   &0  &2  \\
+                 1   &0  &1
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                 3  &-1  \\
+                 2  &4
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                 1   &1  \\
+                 5   &0
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                 1   &4  &3  \\
+                -1   &0  &3  \\
+                 1   &8  &9
+               \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这就是伴随矩阵。 
+          \begin{align*}
+          \begin{mat}
+            T_{1,1}  &T_{2,1}  &T_{3,1} \\ 
+            T_{1,2}  &T_{2,2}  &T_{3,2} \\ 
+            T_{1,3}  &T_{2,3}  &T_{3,3} 
+          \end{mat}
+          &=\begin{mat}
+            \begin{vmat}[r]
+              0  &2  \\
+              0  &1 
+            \end{vmat}
+            &-\begin{vmat}[r]
+               1  &4  \\
+               0  &1
+            \end{vmat}
+            &\begin{vmat}[r]
+               1  &4  \\
+               0  &2 
+            \end{vmat}        \\[2.5ex]
+            -\begin{vmat}[r]
+              -1  &2  \\
+               1  &1
+            \end{vmat}
+            &\begin{vmat}[r]
+               2  &4  \\
+               1  &1
+            \end{vmat}
+            &-\begin{vmat}[r]
+               2  &4  \\ 
+              -1  &2
+            \end{vmat}         \\[2.5ex]
+            \begin{vmat}[r]
+              -1  &0  \\
+               1  &0
+            \end{vmat} 
+            &-\begin{vmat}[r]
+               2  &1  \\
+               1  &0
+            \end{vmat}
+            &\begin{vmat}[r]
+               2  &1  \\
+              -1  &0
+            \end{vmat}
+          \end{mat}                         \\
+          &=\begin{mat}[r]
+             0  &-1  &2  \\
+             3  &-2  &-8 \\
+             0  &1   &1            
+          \end{mat}
+          \end{align*}
+        \partsitem 子式是 $\nbyn{1}$ 的。
+          $\begin{mat}
+             T_{1,1}  &T_{2,1} \\
+             T_{1,2}  &T_{2,2}  
+          \end{mat}
+          =
+          \begin{mat}
+            \begin{vmat}
+              4              
+            \end{vmat}
+            &-\begin{vmat}
+              -1
+            \end{vmat}        \\[1.5ex]
+            -\begin{vmat}
+               2              
+            \end{vmat}
+            &\begin{vmat}
+               3
+            \end{vmat}
+          \end{mat}
+          =
+          \begin{mat}[r]
+            4  &1  \\
+           -2  &3
+          \end{mat}$
+        \partsitem 
+          $\begin{mat}[r]
+               0  &-1 \\
+              -5  &1
+          \end{mat}$
+        \partsitem 子式是 $\nbyn{2}$ 的。
+          \begin{align*}
+          \begin{mat}
+            T_{1,1}  &T_{2,1}  &T_{3,1} \\ 
+            T_{1,2}  &T_{2,2}  &T_{3,2} \\ 
+            T_{1,3}  &T_{2,3}  &T_{3,3} 
+          \end{mat}
+          &=\begin{mat}
+            \begin{vmat}[r]
+              0  &3  \\
+              8  &9
+            \end{vmat}
+            &-\begin{vmat}[r]
+              4  &3  \\
+              8  &9
+            \end{vmat}
+            &\begin{vmat}[r]
+              4  &3  \\
+              0  &3 
+            \end{vmat}       \\[2.5ex]
+            -\begin{vmat}[r]
+              -1  &3  \\
+               1  &9
+            \end{vmat}
+            &\begin{vmat}[r]
+               1  &3  \\
+               1  &9              
+            \end{vmat}
+            &-\begin{vmat}[r]
+               1  &3 \\
+              -1  &3              
+            \end{vmat}        \\[2.5ex]
+            \begin{vmat}[r]
+               -1  &0  \\
+                1  &8              
+            \end{vmat}
+            &-\begin{vmat}[r]
+                1  &4 \\
+                1  &8              
+            \end{vmat}
+            &\begin{vmat}[r]
+                1  &4  \\
+               -1  &0              
+            \end{vmat}
+          \end{mat}                       \\
+          &=
+          \begin{mat}[r]
+            -24  &-12  &12  \\
+             12  &6    &-6   \\
+             -8  &-4   &4
+          \end{mat}
+        \end{align*}
+      \end{exparts}
+    \end{answer}
+\recommended \item
+    用\nearbytheorem{th:MatTimesAdjEqDiagDets}求前一题中每个矩阵的逆矩阵。
+    \begin{answer}
+      \begin{exparts}
+        \partsitem $(1/3)\cdot 
+           \begin{mat}[r]
+             0  &-1  &2  \\
+             3  &-2  &-8 \\
+             0  &1   &1            
+          \end{mat}          
+          =
+          \begin{mat}[r]
+            0  &-1/3  &2/3  \\
+            1  &-2/3  &-8/3 \\ 
+            0  &1/3   &1/3
+          \end{mat}$
+        \partsitem $(1/14)\cdot 
+          \begin{mat}[r]
+            4  &1  \\
+           -2  &3
+          \end{mat}
+          =
+          \begin{mat}[r]
+            2/7  &1/14  \\
+           -1/7  &3/14
+          \end{mat}$
+        \partsitem $(1/-5)\cdot 
+          \begin{mat}[r]
+               0  &-1 \\
+              -5  &1
+          \end{mat}
+          =
+          \begin{mat}[r]
+            0  &1/5 \\
+            1  &-1/5
+          \end{mat}$
+        \partsitem 该矩阵的行列式为零，因此没有逆矩阵。
+      \end{exparts}
+    \end{answer}
+  \item 
+    求与下面这个矩阵伴随的矩阵。
+    \begin{equation*}
+      \begin{mat}[r]
+        2  &1  &0  &0  \\
+        1  &2  &1  &0  \\
+        0  &1  &2  &1  \\
+        0  &0  &1  &2
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      $\begin{mat}
+        T_{1,1}  &T_{2,1}  &T_{3,1}  &T_{4,1}  \\ 
+        T_{1,2}  &T_{2,2}  &T_{3,2}  &T_{4,2}  \\ 
+        T_{1,3}  &T_{2,3}  &T_{3,3}  &T_{4,3}  \\ 
+        T_{1,4}  &T_{2,4}  &T_{3,4}  &T_{4,4}  
+      \end{mat}
+      =
+      \begin{mat}[r]
+        4  &-3  &2  &-1  \\
+       -3  &6   &-4 &2   \\
+        2  &-4  &6  &-3  \\
+        -1 &2  &-3  &4
+      \end{mat}$
+    \end{answer}
+  \recommended \item
+    沿第一行展开，推导 \( \nbyn{2}  \) 矩阵的行列式公式。
+    \begin{answer}
+       行列式
+       \begin{equation*}
+         \begin{vmat}
+           a  &b  \\
+           c  &d
+         \end{vmat}
+       \end{equation*} 
+       按第一行展开给出    
+       \( a\cdot (+1)\deter{d}+b\cdot (-1)\deter{c}=ad-bc \)
+       （注意那两个 $\nbyn{1}$ 子式）。
+     \end{answer}
+  \recommended \item
+    沿第一行展开，推导 \( \nbyn{3} \) 矩阵的行列式公式。
+    \begin{answer}
+       矩阵
+       \begin{equation*}
+         \begin{mat}
+           a  &b  &c  \\
+           d  &e  &f  \\
+           g  &h  &i
+         \end{mat}
+       \end{equation*}
+       的行列式如下。
+       \begin{equation*}
+         a\cdot \begin{vmat}
+             e  &f  \\
+             h  &i
+          \end{vmat}
+         -b\cdot \begin{vmat}
+             d  &f  \\
+             g  &i
+          \end{vmat}
+         +c\cdot \begin{vmat}
+             d  &e  \\
+             g  &h
+          \end{vmat}
+         =a(ei-fh)-b(di-fg)+c(dh-eg)
+       \end{equation*}  
+    \end{answer}
+  \recommended \item 
+   \begin{exparts}
+     \partsitem 给出 \( \nbyn{2} \) 矩阵的伴随矩阵的公式。
+     \partsitem 利用它推导逆矩阵的公式。
+   \end{exparts} 
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          $\begin{mat}
+             T_{1,1}  &T_{2,1}  \\
+             T_{1,2}  &T_{2,2}
+            \end{mat}
+            =\begin{mat}
+            \begin{vmat}
+              t_{2,2}
+            \end{vmat}
+           &-\begin{vmat}
+               t_{1,2}
+             \end{vmat}       \\
+           -\begin{vmat}
+               t_{2,1}
+            \end{vmat}
+           &\begin{vmat}
+              t_{1,1} 
+            \end{vmat}
+          \end{mat}
+          =\begin{mat}
+             t_{2,2}  &-t_{1,2}  \\
+            -t_{2,1} &t_{1,1}
+           \end{mat}$
+        \partsitem
+          $(1/t_{1,1}t_{2,2}-t_{1,2}t_{2,1})\cdot
+          \begin{mat}
+             t_{2,2}  &-t_{1,2}  \\
+            -t_{2,1} &t_{1,1}
+           \end{mat}$
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    我们能沿对角线展开来计算行列式吗？
+    \begin{answer}
+      不能。
+      下面这个行列式的值
+      \begin{equation*}
+        \begin{vmat}[r]
+          1  &0  &0  \\
+          0  &1  &0  \\
+          0  &0  &1
+        \end{vmat}=1
+      \end{equation*}
+      并不等于沿对角线展开的结果。
+      \begin{equation*}
+        1\cdot (+1)\begin{vmat}[r]
+               1  &0  \\
+               0  &1
+             \end{vmat}
+       +1\cdot (+1)\begin{vmat}[r]
+               1  &0  \\
+               0  &1
+             \end{vmat}
+       +1\cdot (+1)\begin{vmat}[r]
+               1  &0  \\
+               0  &1
+             \end{vmat}=3
+      \end{equation*}  
+    \end{answer}
+  \item 
+    给出对角矩阵的伴随矩阵的公式。
+    \begin{answer}
+      考虑这个对角矩阵。
+      \begin{equation*}
+        D=
+        \begin{mat}
+          d_1  &0   &0   &\ldots    \\
+          0    &d_2 &0   &          \\
+          0    &0   &d_3            \\
+               &    &    &\ddots    \\
+               &    &    &      &d_n   
+        \end{mat}
+      \end{equation*}
+      若 $i\neq j$，那么 $i,j$~子式是一个 $\nbyn{(n-1)}$ 矩阵，
+      其中只有 $n-2$ 个非零元，因为我们同时删去了 $d_i$ 与 $d_j$。
+      于是，该子式至少有一行或一列全为零，所以代数余子式 $D_{i,j}$ 为零。
+      若 $i=j$，那么该子式是对角元为
+      $d_1$, \ldots, $d_{i-1}$, $d_{i+1}$, \ldots, $d_n$ 的对角矩阵。
+      它的行列式显然等于 $(-1)^{i+j}=(-1)^{2i}=1$ 
+      乘以这些元的乘积。
+      \begin{equation*}
+        \adj(D)
+        =
+        \begin{mat}
+          d_2\cdots d_n    &0                 &      &0    \\
+          0                &d_1d_3\cdots d_n  &      &0    \\
+                           &                  &\ddots      \\
+                           &                  &       &d_1\cdots d_{n-1} 
+        \end{mat}
+      \end{equation*}
+
+      顺便说一下，\nearbytheorem{th:MatTimesAdjEqDiagDets} 提供了
+      一种更简洁的方法来推导这个结论。
+    \end{answer}
+  \recommended \item
+    证明伴随矩阵的转置等于转置的伴随矩阵。
+    \begin{answer}
+      只需注意，若 $S=\trans{T}$，则代数余子式
+      $S_{j,i}$ 等于代数余子式 $T_{i,j}$，这是因为 $(-1)^{j+i}=(-1)^{i+j}$，
+      并且两个子式互为转置（而转置的行列式等于原矩阵的行列式）。
+    \end{answer}
+  \item 
+    证明或证伪：\( \adj(\adj(T))=T \)。
+    \begin{answer}
+      该命题不成立；这里有一个例子。
+      \begin{equation*}
+         T=\begin{mat}[r]
+           1  &2   &3  \\
+           4  &5   &6  \\
+           7  &8   &9
+         \end{mat}
+         \qquad
+         \adj(T)=\begin{mat}[r]
+          -3  &6   &-3 \\
+           6  &-12 &6  \\
+          -3  &6   &-3
+         \end{mat}
+         \qquad
+         \adj(\adj(T))=\begin{mat}[r]
+           0  &0   &0  \\
+           0  &0   &0  \\
+           0  &0   &0
+         \end{mat}
+      \end{equation*}
+    \end{answer}
+\item
+    若方阵的每个 \( i,j \) 元在对角线上方的部分为零，即当 \( i>j \) 时为零，
+    则称它是\definend{上三角矩阵}\index{matrix!triangular}。
+    \begin{exparts}
+      \partsitem
+        上三角矩阵的伴随矩阵必定是上三角的吗？
+        是下三角的吗？
+      \partsitem 证明：若上三角矩阵存在逆矩阵，
+        则其逆矩阵是上三角的。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 例子 
+          \begin{equation*}
+             M=
+            \begin{mat}[r]
+              1  &2  &3  \\
+              0  &4  &5  \\
+              0  &0  &6
+            \end{mat}
+          \end{equation*}
+          提示了正确的答案。
+          \begin{align*}
+            \adj(M)=
+            \begin{mat}
+             M_{1,1}  &M_{2,1}  &M_{3,1}  \\
+             M_{1,2}  &M_{2,2}  &M_{3,2}  \\
+             M_{1,3}  &M_{2,3}  &M_{3,3}  
+            \end{mat}
+            &=\begin{mat}
+              \begin{vmat}
+                4  &5 \\ 0 &6
+              \end{vmat}
+              &-\begin{vmat}
+                2  &3  \\  0  &6
+              \end{vmat}
+              &\begin{vmat}
+                2  &3  \\  4  &5 
+              \end{vmat}          \\[1.5ex]
+              -\begin{vmat}
+                0  &5  \\  0  &6
+              \end{vmat}
+              &\begin{vmat}
+                1  &3  \\  0  &6
+              \end{vmat}
+              &-\begin{vmat}
+                1  &3  \\  0  &5  
+              \end{vmat}           \\[1.5ex]
+              \begin{vmat}
+                0  &4  \\  0  &0
+              \end{vmat}
+              &-\begin{vmat}
+                1  &2  \\  0  &0
+              \end{vmat}
+              &\begin{vmat}
+                1  &2  \\  0  &4
+              \end{vmat}
+            \end{mat}                                \\
+            &=
+            \begin{mat}[r]
+              24  &-12 &-2 \\
+               0  &6   &-5  \\
+               0  &0   &4
+            \end{mat}
+          \end{align*}
+          结果确实是上三角的。
+
+          这项检验是细致的，但并不难。
+          伴随矩阵上三角部分的元是
+          $M_{a,b}$，其中 $a>b$。
+          我们需要验证：若 $a>b$，则代数余子式 $M_{a,b}$ 为零。
+          当 $a>b$ 时，把 $M$ 的第~$a$ 行与第~$b$ 列
+          \begin{equation*}
+            \begin{mat}
+              m_{1,1} &\ldots   &m_{1,b}  &\ldots       &        \\
+              m_{2,1} &\ldots   &m_{2,b}  &       &        \\
+              \vdots  &         &\vdots   &       &        \\
+              m_{a,1} &\ldots   &m_{a,b}  &\ldots &m_{a,n} \\
+              \vdots        &         &\vdots   &       &        \\
+                      &         &m_{n,b}  &       &                   
+            \end{mat}
+          \end{equation*}
+          删去后，得到一个上三角的子式，
+          这是因为该子式的第~$i,j$ 元，要么是 $M$ 的第~$i,j$ 元
+          （当 $a>i$ 且~$b>j$ 时发生这种情形；
+          此时 $i<j$ 蕴含该元为零），
+          要么是 $M$ 的第~$i,j+1$ 元（当 $i<a$ 且
+          $j>b$ 时发生这种情形；此时 $i<j$ 蕴含 $i<j+1$，从而
+          该元为零），要么是 $M$ 的第~$i+1,j+1$ 元
+          （最后这种情形在 $i>a$ 且~$j>b$ 时发生；显然这里
+          $i<j$ 蕴含 $i+1<j+1$，所以该元为零）。 
+          于是该子式的行列式就是沿对角线的乘积。
+          注意，$M$ 的 $a-1,a$ 元就是该子式的
+          $a-1,a-1$~元（由于关系 $a>b$ 是严格的，所以它
+          不会被删去）。
+          但这个元为零，因为 $M$ 是上三角的且
+          $a-1<a$。
+          因此该代数余子式为零，伴随矩阵是上三角的。
+          （下三角的情形类似。）  
+        \partsitem 利用\nearbytheorem{th:MatTimesAdjEqDiagDets}，
+          这可由前一小问立即得出。
+      \end{exparts}
+    \end{answer}
+  \item 
+    \label{exer:LaplaceProof}
+    \textit{本题需要选读小节「行列式的存在性」中的内容。}
+    用置换展开证明\nearbytheorem{th:LaPlaceExp}。
+    \begin{answer}
+      我们将证明每个行列式都可以沿第~\( i \) 行展开。
+      对第~$j$ 列的论证是类似的。
+
+      置换展开中的每一项恰好含有来自每一行的一个元。
+      如\nearbyexample{ex:ExpThreeFirstRow}那样，
+      把每个第~$i$ 行的元提出来，得到
+      \( \deter{T}
+           =t_{i,1}\cdot\hat{T}_{i,1}+\dots+t_{i,n}\cdot\hat{T}_{i,n} \)，
+      其中每个 \( \hat{T}_{i,j} \) 是一些不含第 \( i \) 行任何元素的项之和。
+      我们将证明 \( \hat{T}_{i,j} \) 就是 \( i,j \) 代数余子式。
+
+      先考虑 \( i,j=n,n \) 的情形：
+      \begin{equation*}
+        t_{n,n}\cdot\hat{T}_{n,n}
+        =t_{n,n}\cdot
+            \sum_{\phi}t_{1,\phi(1)}t_{2,\phi(2)}\dots\,t_{n-1,\phi(n-1)}
+                      \sgn(\phi)
+      \end{equation*}
+      其中求和取遍所有满足
+      \( \phi(n)=n \) 的 \( n \)-置换 \( \phi \)。
+      为了证明
+      \( \hat{T}_{i,j} \) 是子式 \( T_{i,j} \)，我们只需证明：
+      若 \( \phi \) 是满足 
+      \( \phi(n)=n \) 的 \( n \)-置换，
+      且 \( \sigma \) 是满足
+      \( \sigma(1)=\phi(1) \), \ldots, \( \sigma(n-1)=\phi(n-1) \)
+      的 \( n-1 \)-置换，
+      则 \( \sgn(\sigma)=\sgn(\phi) \)。
+      但这是成立的，因为 $\phi$ 与 $\sigma$ 
+      有相同数目的逆序。
+
+      回到一般的 \( i,j \) 情形。
+      对换相邻的行，直到第 \( i \) 行变为最后一行；再对换相邻的列，
+      直到第 \( j \) 列变为最后一列。
+      注意，第 \( i,j \) 个子式的行列式不受这些相邻
+      对换的影响，因为逆序被保持（由于该子式
+      略去了第 \( i \) 行与第 \( j \) 列）。
+      另一方面，\( \deter{T} \) 与 \( \hat{T}_{i,j} \) 的符号
+      改变了 \( n-i \) 加 \( n-j \) 次。
+      于是 \( \hat{T}_{i,j}=(-1)^{n-i+n-j}\deter{T_{i,j}}
+                =(-1)^{i+j}\deter{T_{i,j}} \)。  
+    \end{answer}
+  \item 
+    利用 Laplace 展开以及对矩阵阶数的归纳，
+    证明矩阵的行列式等于其转置的行列式。
+    \begin{answer}
+      对 \( \nbyn{1} \) 的基准情形，这是显然的。
+
+      归纳的情形：
+      假设对所有 \( \nbyn{1} \), \ldots, \( \nbyn{(n-1)} \)
+      矩阵，矩阵的行列式都等于其转置的行列式。
+      沿第~\( i \) 行展开给出
+      \( \deter{T}=t_{i,1}T_{i,1}+\dots\,+t_{i,n}T_{i,n} \)，
+      而沿第~\( i \) 列展开给出
+      \( \deter{\trans{T}}=t_{1,i}(\trans{T})_{1,i}
+           +\dots+t_{n,i}(\trans{T})_{n,i} \)。
+      由于 \( (-1)^{i+j}=(-1)^{j+i} \)，两个和式中的符号是相同的。
+      由于 \( \trans{T} \) 的 \( j,i \) 子式是 \( T \) 的 \( i,j \) 子式的转置，
+      归纳假设给出 \( \deter{(\trans{T})_{i,j}}=\deter{T_{i,j}} \)。  
+    \end{answer}
+  \puzzle \item 
+    证明
+    \begin{equation*}
+      F_n=
+      \begin{vmat}
+        1  &-1  &1  &-1  &1  &-1  &\ldots  \\
+        1  &1   &0  &1   &0  &1   &\ldots  \\
+        0  &1   &1  &0   &1  &0   &\ldots  \\
+        0  &0   &1  &1   &0  &1   &\ldots  \\
+        .  &.   &.  &.   &.  &.   &\ldots
+      \end{vmat}
+    \end{equation*}
+    其中 \( F_n \) 是
+    \( 1,1,2,3,5,\dots,x,y,x+y,\ldots\, \)——Fibonacci 数列——的第 \( n \) 项，
+    且该行列式的阶为 \( n-1 \)。
+    \cite{Monthly49p409}
+    \begin{answer}
+      \answerasgiven %
+      把上面的行列式记作 \( D_n \)，可以看到
+      \( D_2=1 \)，\( D_3=2 \)。
+      剩下要证明的是 \( D_n=D_{n-1}+D_{n-2},\; n\geq 4 \)。
+      在 \( D_n \) 中，从第 \( (n-1) \) 列减去第 \( (n-3) \) 列，
+      从第 \( (n-2) \) 列减去第 \( (n-4) \) 列，\ldots，从第三列减去
+      第一列，得到
+      \begin{equation*}
+        F_n=
+        \begin{vmat}
+          1  &-1  &0  &0   &0  &0   &\ldots  \\
+          1  &1   &-1 &0   &0  &0   &\ldots  \\
+          0  &1   &1  &-1  &0  &0   &\ldots  \\
+          0  &0   &1  &1   &-1 &0   &\ldots  \\
+          .  &.   &.  &.   &.  &.   &\ldots
+        \end{vmat}.
+      \end{equation*}
+      按第一行展开这个行列式，即得所要的关系式。  
+    \end{answer}
+%  \recommended \item 
+%    Prove that a square matrix is singular if and only if its adjoint is
+%    singular.
+%  \item 
+%    Prove that if \( T \) is an \( \nbyn{n} \) matrix then
+%    \( \det(\adj(T))=(\det(T))^{n-1} \).
+%    \begin{answer}
+%      By \nearbytheorem{th:MatTimesAdjEqDiagDets}, 
+%      $\deter{\adj(T)\cdot T}=\deter{T}^n$ because 
+%      $\deter{T}\cdot I$ is a diagonal matrix.
+%      Then $\deter{T}^n=\deter{\adj(T)\cdot T}
+%                         =\deter{\adj(T)}\cdot \deter{T}$.
+%    \end{answer}
+\end{exercises}
+\index{Laplace determinant expansion|)}

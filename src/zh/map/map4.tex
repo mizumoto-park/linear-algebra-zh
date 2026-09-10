@@ -1,0 +1,4966 @@
+% 翻译状态：主要正文已初译；待继续翻译与校对。
+% Chapter 3, Section 4 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\section{矩阵运算}
+上一节说明了矩阵如何表示线性映射。现在考察这种表示与已知运算之间的关系。
+先考察线性映射的数乘 $r\cdot f$ 的表示与 $f$ 的表示有何关系，以及和 $f+g$ 的表示与两个加项的表示有何关系。
+随后对映射的复合与求逆运算作同样的比较。
+
+
+
+
+\subsection{和与数乘}
+
+\begin{example}
+设线性函数 \( \map{f}{V}{W} \) 相对于某些基由以下矩阵表示。
+\begin{equation*}
+  \rep{f}{B,D}
+  =
+    \begin{mat}[r]
+      1  &0  \\
+      1  &1
+    \end{mat}
+\end{equation*}
+考虑数乘映射 $\map{5f}{V}{W}$。我们来联系 $\rep{5f}{B,D}$ 与 $\rep{f}{B,D}$。
+
+设 $f$ 将 $\vec{v}\mapsto \vec{w}$，其表示如下。
+\begin{equation*}
+  \rep{\vec{v}}{B}
+  =\colvec{v_1 \\ v_2}
+  \qquad
+  \rep{\vec{w}}{D}
+  =\colvec{w_1 \\ w_2}
+\end{equation*}
+若陪域的基为 $D=\sequence{\vec{\delta}_1,\vec{\delta}_2}$，则由表示可知，输出向量为
+$\vec{w}=w_1\vec{\delta}_1+w_2\vec{\delta}_2$。
+
+映射 $5f$ 的作用为 $\vec{v}\mapsto 5\vec{w}$，且
+$5\vec{w}=5\cdot(w_1\vec{\delta}_1+w_2\vec{\delta}_2)=(5w_1)\vec{\delta}_1+(5w_2)\vec{\delta}_2$。
+因此，$5f$ 将输入向量 $\vec{v}$ 对应到具有以下表示的输出向量。
+\begin{equation*}
+  \rep{5\vec{w}}{D}
+  =\colvec{5w_1 \\ 5w_2}
+\end{equation*}
+从映射 $f$ 变为 $5f$，会使输出向量的表示中的每个元素乘以 $5$。
+
+因此，\( \rep{5f}{B,D} \) 为以下矩阵。
+\begin{equation*}
+  \rep{5f}{B,D}\cdot\colvec{v_1 \\ v_2}
+  =
+   \colvec{5v_1 \\ 5v_1+5v_2}
+  \qquad  
+  \rep{5f}{B,D}
+  =
+    \begin{mat}[r]
+      5  &0  \\
+      5  &5
+    \end{mat}
+\end{equation*}
+所以，从 $f$ 的表示矩阵得到 $5f$ 的表示矩阵，只需将所有矩阵元素乘以 $5$。
+\end{example}
+
+\begin{example}
+对两个映射的和也可作类似探究。设具有相同定义域和陪域的两个线性映射
+\( \map{f,g}{\Re^2}{\Re^2} \) 相对于基 $B$ 和~$D$ 由以下矩阵表示。
+\begin{equation*}
+  \rep{f}{B,D}=
+    \begin{mat}
+       1  &3  \\
+       2  &0 
+    \end{mat}
+  \qquad
+  \rep{g}{B,D}=
+    \begin{mat}[r]
+      -2  &-1 \\
+       2  &4
+    \end{mat}
+\end{equation*}
+回顾和的定义：若 $f$ 将 $\vec{v}\mapsto\vec{u}$，$g$ 将 $\vec{v}\mapsto\vec{w}$，
+则 $f+g$ 的作用为 $\vec{v}\mapsto\vec{u}+\vec{w}$。设输入、输出向量的表示如下。
+\begin{equation*}
+  \rep{\vec{v}}{B}=\colvec{v_1 \\ v_2}
+  \qquad
+  \rep{\vec{u}}{D}=\colvec{u_1 \\ u_2}
+  \quad
+  \rep{\vec{w}}{D}=\colvec{w_1 \\ w_2}
+\end{equation*}
+若 $D=\sequence{\vec{\delta}_1,\vec{\delta}_2}$，则
+$\vec{u}+\vec{w}=(u_1\vec{\delta}_1+u_2\vec{\delta}_2)
+  +(w_1\vec{\delta}_1+w_2\vec{\delta}_2)
+  =(u_1+w_1)\vec{\delta}_1+(u_2+w_2)\vec{\delta}_2$，
+因此向量和的表示如下。
+\begin{equation*}
+  \rep{\vec{u}+\vec{w}}{D}=\colvec{u_1+w_1 \\ u_2+w_2}
+\end{equation*}
+由于以下等式表示映射 $f$ 和~$g$ 对输入~$\vec{v}$ 的作用，
+\begin{equation*}
+    \begin{mat}
+       1  &3  \\
+       2  &0 
+    \end{mat}
+    \colvec{v_1 \\ v_2}
+    =\colvec{v_1+3v_2   \\ 2v_1}
+  \qquad
+    \begin{mat}
+      -2  &-1 \\
+       2  &4
+    \end{mat}
+    \colvec{v_1 \\ v_2}
+    =\colvec{-2v_1-v_2   \\ 2v_1+4v_2}  
+\end{equation*}
+将相应元素相加，就表示映射 $f+g$ 的作用。
+\begin{equation*}
+  \rep{f+g}{B,D}\cdot\colvec{v_1 \\ v_2}
+  =
+  \colvec{-v_1+2v_2 \\ 4v_1+4v_2}
+\end{equation*}
+因此，将表示两个函数的矩阵逐项相加，就得到表示函数和的矩阵。
+\begin{equation*} 
+    \rep{f+g}{B,D}=
+    \begin{mat}
+       -1  &2  \\
+        4  &4 
+    \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{definition} \label{def:SumScalarProdMats}
+%<*df:SumScalarProdMats>
+矩阵的\definend{数乘}\index{scalar multiple!matrix}%
+\index{matrix!scalar multiple}是逐项作标量乘法的结果。
+两个相同大小的矩阵的\definend{和}\index{sum!of matrices}\index{matrix!sum}是它们逐项相加的结果。
+%</df:SumScalarProdMats>
+\end{definition}
+
+这些运算推广了第一章中向量的加法和数乘。
+
+需要一个结果来证明，这些矩阵运算确实具有例子所提示的作用。
+
+\begin{theorem}  \label{th:MatOpsRepMapOps}
+%<*th:MatOpsRepMapOps>
+设线性映射 \( \map{h,g}{V}{W} \) 相对于基 \( B,D \) 分别由矩阵 \( H \) 和 \( G \) 表示，$r$ 为标量。
+则相对于 \( B,D \)，映射 \( \map{r\cdot h}{V}{W} \) 由 \( rH \) 表示，映射 \( \map{h+g}{V}{W} \) 由 \( H+G \) 表示。
+%</th:MatOpsRepMapOps>
+\end{theorem}
+
+\begin{proof}
+推广上述例子即可。这是 \nearbyexercise{exer:CorrspMapMatOps}。
+\end{proof}
+
+\begin{remark}
+这两个矩阵运算很简单，但采用这样的定义并不是因为简单，而是因为它们表示函数加法和函数数乘。
+也就是说，我们的做法是参照函数运算来定义矩阵运算；简单只是额外的好处。
+
+% We can express this program in another way.
+% Recall Theorem~III.\ref{th:MatMultRepsFuncAppl},
+% which says that matrix-vector 
+% multiplication represents the application of a linear map.
+% Following it, Remark~III.\ref{rem:NotSurprising} notes that 
+% the theorem
+% justifies the definition of matrix-vector multiplication
+% and so in some sense the theorem must hold\Dash if  
+% the theorem didn't hold
+% then we would adjust the definition until it did.
+% The above \nearbytheorem{th:MatOpsRepMapOps} 
+% is another example of such a result.
+% It justifies the given definition of the matrix operations. 
+
+下一小节定义矩阵乘法时还会看到这一点。
+刚刚把矩阵数乘与加法定义为逐项运算，可能会自然地想到将矩阵乘法也定义为逐项相乘。
+理论上当然可以任意定义，但我们将从实用出发，按能够表示函数复合的方式组合矩阵元素。
+\end{remark}
+
+数乘的一个特例是乘以零。对任意映射，$0\cdot h$ 都是零同态；对任意矩阵，$0\cdot H$ 都是所有元素为零的矩阵。
+
+\begin{definition} \label{df:ZeroMatrix}
+%<*df:ZeroMatrix>
+\definend{零矩阵}\index{zero matrix}\index{matrix!zero} %
+的所有元素均为 $0$。记为 $Z_{\nbym{n}{m}}$，或简记为 $Z$（另一种常见记号是 $0_{\nbym{n}{m}}$ 或 $0$）。
+%</df:ZeroMatrix>
+\end{definition}
+
+\begin{example}
+从任意三维空间到任意二维空间的零映射，都由 \( \nbym{2}{3} \) 零矩阵
+\begin{equation*}
+   Z=\begin{mat}[r]
+     0  &0  &0  \\
+     0  &0  &0
+   \end{mat}
+\end{equation*}
+表示，与定义域和陪域选用的基无关。
+\end{example}
+
+
+
+\begin{exercises}
+  \recommended \item
+计算下列运算；若无定义，指出“没有定义”。
+    \begin{exparts}
+      \partsitem \( \begin{mat}[r]
+                 5  &-1  &2  \\
+                 6  &1   &1
+               \end{mat}
+               +
+               \begin{mat}[r]
+                 2  &1   &4  \\
+                 3  &0   &5
+               \end{mat}    \)
+      \partsitem \( 6\cdot\begin{mat}[r]
+                 2  &-1  &-1 \\
+                 1  &2   &3
+               \end{mat}   \)
+      \partsitem \( \begin{mat}[r]
+                 2  &1  \\
+                 0  &3
+               \end{mat}
+               +
+               \begin{mat}[r]
+                 2  &1  \\
+                 0  &3
+               \end{mat} \)
+      \partsitem \( 4\begin{mat}[r]
+                 1  &2  \\
+                 3  &-1
+               \end{mat}
+               +
+               5\begin{mat}[r]
+                -1  &4  \\
+                -2  &1
+               \end{mat} \)
+      \partsitem \( 3\begin{mat}[r]
+                 2  &1  \\
+                 3  &0
+               \end{mat}
+               +2
+               \begin{mat}[r]
+                 1  &1  &4 \\
+                 3  &0  &5
+               \end{mat} \)
+    \end{exparts}
+    \begin{answer} 
+      \begin{exparts*}
+        \partsitem \( \begin{mat}[r]
+                   7  &0  &6  \\
+                   9  &1  &6
+                 \end{mat}  \)
+        \partsitem \( \begin{mat}[r]
+                  12  &-6 &-6 \\
+                   6  &12 &18
+                 \end{mat}  \)
+        \partsitem \( \begin{mat}[r]
+                   4  &2  \\
+                   0  &6
+                 \end{mat}  \)
+        \partsitem \( \begin{mat}[r]
+                  -1  &28 \\
+                   2  &1
+                 \end{mat}  \)
+        \partsitem Not defined.
+      \end{exparts*}  
+   \end{answer}
+\item 给出从 $\Re^4$ 到 $\Re^2$ 的零映射相对于标准基的表示矩阵。
+   \begin{answer}
+基的选择无关紧要，只需使大小正确。
+     \begin{equation*}
+       \begin{mat}
+         0 &0 &0 &0 \\
+         0 &0 &0 &0
+       \end{mat}
+     \end{equation*}
+   \end{answer}
+  \item \label{exer:CorrspMapMatOps}
+证明 \nearbytheorem{th:MatOpsRepMapOps}。
+    \begin{exparts}
+\partsitem 证明矩阵加法表示线性映射的加法。
+\partsitem 证明矩阵数乘表示线性映射的数乘。
+    \end{exparts}
+    \begin{answer}
+照常相对于基 $B,D$ 表示定义域向量 $\vec{v}\in V$ 及映射 $\map{g,h}{V}{W}$。
+      \begin{exparts}
+\partsitem $(g+h)\,(\vec{v})=g(\vec{v})+h(\vec{v})$ 的表示
+        \begin{multline*}
+          \bigl( (g_{1,1}v_1+\dots+g_{1,n}v_n)\vec{\delta}_1  
+                  +\cdots                     
+                  +(g_{m,1}v_1+\dots+g_{m,n}v_n)\vec{\delta}_m \bigr) \\ 
+           +\bigl( (h_{1,1}v_1+\cdots+h_{1,n}v_n)\vec{\delta}_1    
+                   +\cdots                                  
+                   +(h_{m,1}v_1+\dots+h_{m,n}v_n)\vec{\delta}_m \bigr) 
+         \end{multline*}
+重新组合为
+         \begin{multline*}
+          =((g_{1,1}+h_{1,1})v_1+\dots+
+                 (g_{1,1}+h_{1,n})v_n)\cdot\vec{\delta}_1              \\       
+            +\cdots                            
+           +((g_{m,1}+h_{m,1})v_1+\dots+
+                 (g_{m,n}+h_{m,n})v_n)\cdot\vec{\delta}_m
+        \end{multline*} 
+即 \( g(\vec{v}) \) 与 \( h(\vec{v}) \) 的表示逐项相加。
+\partsitem $(r\cdot h)\,(\vec{v})=r\cdot \bigl(h(\vec{v})\bigr)$ 的表示
+        \begin{align*}
+          r\cdot 
+             &\bigl(
+               (h_{1,1}v_1+h_{1,2}v_2+\dots+h_{1,n}v_n)\vec{\delta}_1   \\  
+             &\quad +\dots      
+             +(h_{m,1}v_1+h_{m,2}v_2+\dots+h_{m,n}v_n)\vec{\delta}_m\bigr)   \\
+             &=(rh_{1,1}v_1+\dots+rh_{1,n}v_n)\cdot\vec{\delta}_1         \\ 
+             &\quad+\dots                                    
+              +(rh_{m,1}v_1+\dots+rh_{m,n}v_n)\cdot\vec{\delta}_m
+        \end{align*}
+由 \( r \) 与 \( h \) 的表示逐项相乘得到。
+     \end{exparts}  
+   \end{answer}
+  \recommended \item
+设所有运算有定义，证明以下各式。其中 \( G \)、\( H \)、\( J \) 为矩阵，\( Z \) 为零矩阵，\( r \)、\( s \) 为标量。
+    \begin{exparts}
+\partsitem 矩阵加法满足交换律 \( G+H=H+G \)。
+\partsitem 矩阵加法满足结合律 \( G+(H+J)=(G+H)+J \)。
+\partsitem 零矩阵是加法单位元 \( G+Z=G \)。
+\partsitem \( 0\cdot G=Z \)
+\partsitem \( (r+s)G=rG+sG \)
+\partsitem 矩阵有加法逆元 \( G+(-1)\cdot G=Z \)。
+\partsitem \( r(G+H)=rG+rH \)
+\partsitem \( (rs)G=r(sG) \)
+    \end{exparts}
+    \begin{answer}
+首先，各性质都容易逐项验证。例如，写成
+      \begin{equation*}
+        G=
+        \begin{mat}
+          g_{1,1}  &\ldots  &g_{1,n}  \\
+          \vdots   &        &\vdots   \\
+          g_{m,1}  &\ldots  &g_{m,n}       
+        \end{mat}
+        \qquad
+        H=
+        \begin{mat}
+          h_{1,1}  &\ldots  &h_{1,n}  \\
+          \vdots   &        &\vdots   \\
+          h_{m,1}  &\ldots  &h_{m,n}       
+        \end{mat}
+      \end{equation*}
+由定义有
+      \begin{equation*}
+        G+H=
+        \begin{mat}
+          g_{1,1}+h_{1,1}  &\ldots  &g_{1,n}+h_{1,n}  \\
+          \vdots           &        &\vdots           \\
+          g_{m,1}+h_{m,1}  &\ldots  &g_{m,n}+h_{m,n}       
+        \end{mat}
+      \end{equation*}
+以及
+      \begin{equation*}
+        H+G=
+        \begin{mat}
+          h_{1,1}+g_{1,1}  &\ldots  &h_{1,n}+g_{1,n}  \\
+          \vdots           &        &\vdots           \\
+          h_{m,1}+g_{m,1}  &\ldots  &h_{m,n}+g_{m,n}       
+        \end{mat}
+      \end{equation*}
+两者相等，因为对应元素相等：$g_{i,j}+h_{i,j}=h_{i,j}+g_{i,j}$。
+也就是说，仅使用 \nearbydefinition{def:SumScalarProdMats} 就容易验证各式。
+
+不过，结合定义与 \nearbytheorem{th:MatOpsRepMapOps}，从所表示的映射出发也容易理解每个性质。
+      \begin{exparts}
+\partsitem 映射 $g+h$ 与 $h+g$ 相等，因为任意向量空间中的加法都满足交换律，故
+$g(\vec{v})+h(\vec{v})=h(\vec{v})+g(\vec{v})$。映射相同，表示必定相同。
+\partsitem 与上一问相同，只是改用向量空间加法的结合律。
+\partsitem 与前面相同，注意 $g(\vec{v})+z(\vec{v})=g(\vec{v})+\zero=g(\vec{v})$。
+\partsitem 利用 $0\cdot g(\vec{v})=\zero=z(\vec{v})$。
+\partsitem 利用 $(r+s)\cdot g(\vec{v})=r\cdot g(\vec{v})+s\cdot g(\vec{v})$。
+\partsitem 在前两问中取 $r=1$、$s=-1$。
+\partsitem 利用 $r\cdot (g(\vec{v})+h(\vec{v}))=r\cdot g(\vec{v})+r\cdot h(\vec{v})$。
+\partsitem 利用 $(rs)\cdot g(\vec{v})=r\cdot(s\cdot g(\vec{v}))$。
+      \end{exparts}
+    \end{answer}
+  \item 
+固定定义域和陪域。一般而言，同一个矩阵相对于不同的基可以表示许多不同的映射。
+不过，证明零矩阵只表示零映射。还有其他具有这种性质的矩阵吗？
+    \begin{answer}
+对任意具有基 \( B,D \) 的 \( V,W \)，大小适当的零矩阵表示以下映射。
+      \begin{equation*}
+        \vec{\beta}_1\mapsto 0\cdot\vec{\delta}_1+\dots+0\cdot\vec{\delta}_m
+        \quad\cdots\quad
+        \vec{\beta}_n\mapsto 0\cdot\vec{\delta}_1+\dots+0\cdot\vec{\delta}_m
+      \end{equation*}
+这就是零映射。
+
+不存在其他只表示一个映射的矩阵。设 \( H \) 不是零矩阵，则它有非零元素，不妨设 \( h_{i,j}\neq 0 \)。
+相对于基 $B,D$，它表示 \( \map{h_1}{V}{W} \)，其作用为
+      \begin{equation*}
+        \vec{\beta}_j\mapsto
+        h_{1,j}\vec{\delta}_1+\dots+h_{i,j}\vec{\delta}_i
+          +\dots+h_{m,j}\vec{\delta}_m
+      \end{equation*}
+相对于 $B,2\cdot D$，它又表示 \( \map{h_2}{V}{W} \)，其作用为
+      \begin{equation*}
+        \vec{\beta}_j\mapsto
+        h_{1,j}\cdot(2\vec{\delta}_1)+\dots+h_{i,j}\cdot(2\vec{\delta}_i)
+          +\dots+h_{m,j}\cdot(2\vec{\delta}_m)
+      \end{equation*}
+（记号 $2\cdot D$ 表示将 $D$ 中所有元素加倍）。容易看出这两个映射不同。
+     \end{answer}
+  \recommended \item \label{exer:LinMapsIsoMatSp}
+设向量空间 \( V \) 和 \( W \) 的维数分别为 \( n \) 和 \( m \)。
+证明从 \( V \) 到 \( W \) 的线性映射空间 \( \linmaps{V}{W} \) 同构于 \( \matspace_{\nbym{m}{n}} \)。
+    \begin{answer}
+固定 \( V \) 和 \( W \) 的基 \( B \) 和 \( D \)，考虑映射
+\( \map{\mbox{Rep}_{B,D}}{\linmaps{V}{W}}{\matspace_{\nbym{m}{n}}} \)，将每个线性映射对应到其表示矩阵：$h\mapsto \rep{h}{B,D}$。
+由上一节可知，固定基之后，矩阵与线性映射一一对应，所以表示映射既是单射又是满射。
+它保持线性运算由 \nearbytheorem{th:MatOpsRepMapOps} 保证。
+    \end{answer}
+  \recommended \item 
+证明由上一题可推出：对任意六个变换 \( \map{t_1,\dots,t_6}{\Re^2}{\Re^2} \)，存在不全为零的标量 \( c_1,\dots,c_6\in\Re \)，使 \( c_1t_1+\dots+c_6t_6 \) 为零映射。
+（\textit{提示：}数字六略有误导性。）
+    \begin{answer}
+固定基，将这些变换用 \( \nbyn{2} \) 矩阵表示。矩阵空间 \( \matspace_{\nbyn{2}} \) 的维数为四，所以任意六个元素必线性相关。
+由上一题，这给出映射之间的线性相关关系。
+（误导性只在于给了六个变换而非五个，比保证线性相关所需的更多。）
+    \end{answer}
+  \item 
+方阵的\definend{迹}\index{trace}\index{matrix!trace}是主对角线上各元素之和（即 \( 1,1 \) 元素加 \( 2,2 \) 元素等；第五章将介绍迹的意义）。
+证明 \( \mbox{trace}(H+G)=\mbox{trace}(H)+\mbox{trace}(G) \)。数乘是否有类似结果？
+    \begin{answer}
+和的迹等于迹的和，因为 \( \text{trace}(H+G) \) 与 \( \text{trace}(H)+\text{trace}(G) \)
+都是 \( h_{1,1}+g_{1,1} \)、\( h_{2,2}+g_{2,2} \) 等的和。
+对于数乘，有 \( \mbox{trace}(r\cdot H)=r\cdot\mbox{trace}(H) \)，证明很简单。
+因此，迹映射是从 $\matspace_{\nbyn{n}}$ 到 $\Re$ 的同态。
+    \end{answer}
+  \item 
+回顾，矩阵 $M$ 的\definend{转置}\index{matrix!transpose}%
+\index{transpose!interaction with sum and scalar multiplication}
+是一个新矩阵，其 $i,j$ 元素为 $M$ 的 $j,i$ 元素。验证以下恒等式。
+    \begin{exparts}
+      \partsitem \( \trans{(G+H)}=\trans{G}+\trans{H} \)
+      \partsitem \( \trans{(r\cdot H)}=r\cdot\trans{H} \)
+    \end{exparts}
+    \begin{answer} 
+      \begin{exparts}
+\partsitem \( \trans{(G+H)} \) 的 \( i,j \) 元素为 \( g_{j,i}+h_{j,i} \)，也就是 \( \trans{G}+\trans{H} \) 的 \( i,j \) 元素。
+\partsitem \( \trans{(r\cdot H)} \) 的 \( i,j \) 元素为 \( rh_{j,i} \)，也就是 \( r\cdot\trans{H} \) 的 \( i,j \) 元素。
+      \end{exparts}  
+   \end{answer}
+  \recommended \item 
+若方阵的每个 \( i,j \) 元素都等于 \( j,i \) 元素，即矩阵等于其转置，则称它为\definend{对称矩阵}\index{matrix!symmetric}%
+\index{symmetric matrix}。
+    \begin{exparts}
+\partsitem 证明对任意方阵~$H$，矩阵 \( H+\trans{H} \) 都对称。每个对称矩阵都有这种形式吗？
+\partsitem 证明 \( \nbyn{n} \) 对称矩阵的集合是 \( \matspace_{\nbyn{n}} \) 的子空间。
+    \end{exparts}
+    \begin{answer}  
+      \begin{exparts}
+\partsitem \( H+\trans{H} \) 的 \( i,j \) 元素为 \( h_{i,j}+h_{j,i} \)，\( j,i \) 元素为 \( h_{j,i}+h_{i,j} \)。两者相等，因此 \( H+\trans{H} \) 对称。
+
+每个对称矩阵确实都有这种形式，因为可写成 \( H=(1/2)\cdot(H+\trans{H}) \)。
+\partsitem 对称矩阵的集合包含零矩阵，所以非空。
+显然，对称矩阵的标量倍数仍对称。两个对称矩阵的和 \( H+G \) 也对称，因为
+\( h_{i,j}+g_{i,j}=h_{j,i}+g_{j,i} \)（由 \( h_{i,j}=h_{j,i} \) 和 \( g_{i,j}=g_{j,i} \)）。
+因此，该子集非空且对继承的运算封闭，故为子空间。
+      \end{exparts} 
+    \end{answer}
+  \recommended \item 
+    \begin{exparts}
+\partsitem 矩阵的秩与数乘有何关系\Dash 秩为 \( n \) 的矩阵乘以标量后，秩可能小于 \( n \) 吗？可能大于吗？
+\partsitem 矩阵的秩与加法有何关系\Dash 秩为 \( n \) 的矩阵相加，秩可能小于 \( n \) 吗？可能大于吗？
+    \end{exparts}
+    \begin{answer}  
+      \begin{exparts}
+\partsitem 除乘以零会使秩变为零以外，数乘不改变矩阵的秩。
+（这由本书第一个定理推出：一行乘以非零标量，不改变相应线性方程组的解集。）
+\partsitem 秩为 \( n \) 的矩阵的和，秩可以小于 \( n \)。例如，对任意矩阵 \( H \)，和 \( H+(-1)\cdot H \) 的秩为零。
+
+秩为 \( n \) 的矩阵的和，秩也可以大于 \( n \)。以下两个秩为一的矩阵相加，得到秩为二的矩阵。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &0  \\
+              0  &0
+            \end{mat}
+            +\begin{mat}[r]
+              0  &0  \\
+              0  &1
+            \end{mat}
+            =\begin{mat}[r]
+              1  &0  \\
+              0  &1
+            \end{mat}
+          \end{equation*}
+      \end{exparts}  
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+\subsection{矩阵乘法}
+上一小节表示了线性映射的加法和数乘，接下来很自然地考察函数复合。
+
+\begin{lemma} \label{lm:CompositionOfLinearMapsIsLinear}
+%<*lm:CompositionOfLinearMapsIsLinear>
+线性映射的复合仍为线性映射。
+%</lm:CompositionOfLinearMapsIsLinear>
+\end{lemma}
+
+\begin{proof}
+（\textit{注：}这一论证已在定理~I.\ref{th:IsoEquivRel} 的证明中出现。）
+%<*pf:CompositionOfLinearMapsIsLinear>
+设 $\map{h}{V}{W}$ 和 $\map{g}{W}{U}$ 为线性映射。计算
+\begin{multline*}
+  \composed{g}{h}\,\bigl(c_1\cdot\vec{v}_1+c_2\cdot\vec{v}_2\bigr)
+     =g\bigl(\,h(c_1\cdot \vec{v}_1+c_2\cdot\vec{v}_2)\,\bigr)        
+     =g\bigl(\,c_1\cdot h(\vec{v}_1)+c_2\cdot h(\vec{v}_2)\,\bigr) \\ 
+     =c_1\cdot g\bigl(h(\vec{v}_1))+c_2\cdot g(h(\vec{v}_2)\bigr)  
+     =c_1\cdot (\composed{g}{h})(\vec{v}_1)
+                   +c_2\cdot (\composed{g}{h})(\vec{v}_2)
+\end{multline*}
+说明 $\map{\composed{g}{h}}{V}{U}$ 保持线性组合，所以是线性的。
+%</pf:CompositionOfLinearMapsIsLinear>
+\end{proof}
+
+与矩阵加法和数乘一样，先通过例子考察复合映射的表示与参与复合的各映射的表示之间的关系。
+
+\begin{example} \label{ex:RepCompLinMaps}
+设 $\map{h}{\Re^4}{\Re^2}$、$\map{g}{\Re^2}{\Re^3}$，固定基
+\( B\subset\Re^4 \)、\( C\subset\Re^2 \)、\( D\subset\Re^3 \)，其表示如下。
+\begin{equation*}
+  H=\rep{h}{B,C}
+  =\begin{mat}[r]
+       4  &6  &8  &2  \\
+       5  &7  &9  &3
+    \end{mat}_{B,C}
+  \quad
+  G=\rep{g}{C,D}
+  =\begin{mat}[r]
+       1  &1  \\
+       0  &1  \\
+       1  &0
+    \end{mat}_{C,D}
+\end{equation*}
+为表示复合 \( \map{\composed{g}{h}}{\Re^4}{\Re^3} \)，从 $\vec{v}$ 出发，先表示 $h(\vec{v})$，再表示它在 $g$ 下的像。
+$h(\vec{v})$ 的表示是 $h$ 的矩阵与 $\vec{v}$ 的向量的乘积。
+\begin{equation*}
+  \rep{\,h(\vec{v})\,}{C}
+  =
+  \begin{mat}[r]
+    4  &6  &8  &2  \\
+    5  &7  &9  &3
+  \end{mat}_{B,C}
+  \colvec{v_1 \\ v_2 \\ v_3 \\ v_4}_B  
+  =
+  \colvec{4v_1+6v_2+8v_3+2v_4 \\ 5v_1+7v_2+9v_3+3v_4}_C
+\end{equation*}
+$g(\,h(\vec{v})\,)$ 的表示是 $g$ 的矩阵与 $h(\vec{v})$ 的表示向量的乘积。
+\begin{multline*}
+  \rep{\,g(h(\vec{v}))\,}{D}\!
+  =\begin{mat}[r]
+      1  &1  \\
+      0  &1  \\
+      1  &0
+   \end{mat}_{C,D}
+   \colvec{4v_1+6v_2+8v_3+2v_4 \\ 5v_1+7v_2+9v_3+3v_4}_C    \\
+  =\colvec{1\cdot(4v_1+6v_2+8v_3+2v_4)+1\cdot(5v_1+7v_2+9v_3+3v_4) \\ 
+               0\cdot(4v_1+6v_2+8v_3+2v_4)+1\cdot(5v_1+7v_2+9v_3+3v_4) \\
+               1\cdot(4v_1+6v_2+8v_3+2v_4)+0\cdot(5v_1+7v_2+9v_3+3v_4)}_D
+\end{multline*}
+展开并按各个 $v$ 重新组合，得到
+\begin{equation*}
+  =
+  \colvec{(1\cdot4+1\cdot5)v_1+
+                (1\cdot6+1\cdot7)v_2+
+                (1\cdot8+1\cdot9)v_3+
+                (1\cdot2+1\cdot3)v_4 \\
+                (0\cdot4+1\cdot5)v_1+
+                (0\cdot6+1\cdot7)v_2+
+                (0\cdot8+1\cdot9)v_3+
+                (0\cdot2+1\cdot3)v_4 \\
+                (1\cdot4+0\cdot5)v_1+
+                (1\cdot6+0\cdot7)v_2+
+                (1\cdot8+0\cdot9)v_3+
+                (1\cdot2+0\cdot3)v_4}_D
+\end{equation*}
+即以下矩阵与向量的乘积。
+\begin{equation*}
+  =
+  \begin{mat}
+    1\cdot4+1\cdot5  &1\cdot6+1\cdot7  &1\cdot8+1\cdot9  &1\cdot2+1\cdot3 \\
+    0\cdot4+1\cdot5  &0\cdot6+1\cdot7  &0\cdot8+1\cdot9  &0\cdot2+1\cdot3 \\
+    1\cdot4+0\cdot5  &1\cdot6+0\cdot7  &1\cdot8+0\cdot9  &1\cdot2+0\cdot3
+  \end{mat}_{B,D}
+  \colvec{v_1 \\ v_2 \\ v_3 \\ v_4}_B
+\end{equation*}
+表示 $\composed{g}{h}$ 的矩阵，是将 $G$ 的各行与 $H$ 的各列组合而成的。
+\end{example}
+
+\begin{definition}  \label{def:MatMult}
+%<*df:MatMult>
+\( \nbym{m}{r} \) 矩阵~\( G \) 与 \( \nbym{r}{n} \) 矩阵~\( H \) 的
+\definend{矩阵乘积}%
+\index{matrix!multiplication}\index{multiplication!matrix-matrix}
+是 \( \nbym{m}{n} \) 矩阵~\( P \)，其中
+\begin{equation*}
+  p_{i,j}
+  =
+  g_{i,1}h_{1,j}+g_{i,2}h_{2,j}+\dots+g_{i,r}h_{r,j}
+\end{equation*}
+即乘积的 \( i,j \) 元素是第一个矩阵的第 \( i \) 行与第二个矩阵的第 \( j \) 列的点积。
+\begin{equation*}
+    GH=
+    \begin{mat}
+              &\vdots                     \\
+      g_{i,1} &g_{i,2} &\cdots  &g_{i,r}  \\
+              &\vdots
+    \end{mat}
+    \begin{mat}
+              &h_{1,j}           \\
+      \cdots  &h_{2,j} &\cdots   \\
+              &\vdots            \\
+              &h_{r,j}
+    \end{mat}
+  =
+    \begin{mat}
+              &\vdots            \\
+      \cdots  &p_{i,j}  &\cdots  \\
+              &\vdots
+    \end{mat}
+\end{equation*}
+%</df:MatMult>
+\end{definition}
+
+\begin{example}
+\begin{equation*}
+  \begin{mat}[r]
+     2  &0  \\
+     4  &6  \\
+     8  &2
+  \end{mat}
+  \begin{mat}[r]
+    1  &3  \\
+    5  &7
+  \end{mat}
+  =
+  \begin{mat}
+   2\cdot 1+0\cdot 5  &2\cdot 3+0\cdot 7  \\
+   4\cdot 1+6\cdot 5  &4\cdot 3+6\cdot 7  \\
+   8\cdot 1+2\cdot 5  &8\cdot 3+2\cdot 7
+  \end{mat}
+  =
+  \begin{mat}[r]
+    2  &6  \\
+   34  &54 \\
+   18  &38
+  \end{mat}
+\end{equation*}
+\end{example}
+
+
+\begin{example}  \label{ex:PairTwoByTwoMult}
+有些乘积没有定义，例如 $\nbym{2}{3}$ 矩阵与 $\nbyn{2}$ 矩阵的乘积，因为第一个矩阵的列数必须等于第二个矩阵的行数。
+但两个 $\nbyn{n}$ 矩阵的乘积总有定义。下面是两个 $\nbyn{2}$ 矩阵。
+\begin{equation*}
+  \begin{mat}[r]
+     1  &2  \\
+     3  &4  
+  \end{mat}
+  \begin{mat}[r]
+    -1  &0  \\
+    2   &-2
+  \end{mat}
+  =
+  \begin{mat}
+   1\cdot (-1)+2\cdot 2  &1\cdot 0+2\cdot (-2)  \\
+   3\cdot (-1)+4\cdot 2  &3\cdot 0+4\cdot (-2)  
+  \end{mat}
+  =
+  \begin{mat}[r]
+    3  &-4  \\
+    5  &-8 
+  \end{mat}
+\end{equation*}
+\end{example}
+
+
+\begin{example}
+\nearbyexample{ex:RepCompLinMaps} 中的矩阵按如下方式相乘。
+\begin{multline*}
+  \begin{mat}[r]
+       1  &1  \\
+       0  &1  \\
+       1  &0
+    \end{mat}               
+  \begin{mat}[r]
+       4  &6  &8  &2  \\
+       5  &7  &9  &3
+    \end{mat}  \\
+   \begin{aligned}
+     &=\begin{mat}
+      1\cdot4+1\cdot5  &1\cdot6+1\cdot7  &1\cdot8+1\cdot9  &1\cdot2+1\cdot3 \\
+      0\cdot4+1\cdot5  &0\cdot6+1\cdot7  &0\cdot8+1\cdot9  &0\cdot2+1\cdot3 \\
+      1\cdot4+0\cdot5  &1\cdot6+0\cdot7  &1\cdot8+0\cdot9  &1\cdot2+0\cdot3
+      \end{mat}               \\
+     &=\begin{mat}[r]
+        9  &13  &17  &5  \\
+        5  &7   &9   &3  \\
+        4  &6   &8   &2
+      \end{mat}
+    \end{aligned}
+\end{multline*}
+\end{example}
+
+% We next verify that our
+% definition of the matrix-matrix multiplication operation
+% does what we intend.
+
+\begin{theorem}  \label{th:MatMultRepComp}
+%<*th:MatMultRepComp>
+\index{function!composition}\index{homomorphism!composition}
+线性映射的复合由其表示矩阵的乘积表示。
+%</th:MatMultRepComp>
+\end{theorem}
+
+\begin{proof}
+本论证推广 \nearbyexample{ex:RepCompLinMaps}。
+%<*pf:MatMultRepComp0>
+设 \( \map{h}{V}{W} \) 和 \( \map{g}{W}{X} \) 相对于基
+\( B\subset V \)、\( C\subset W \)、\( D\subset X \) 分别由 \( H \)、\( G \) 表示，三组基的大小分别为 \( n \)、\( r \)、\( m \)。
+对任意 \( \vec{v}\in V \)，\( \rep{\,h(\vec{v})\,}{C} \) 的第 \( k \) 个分量为
+\begin{equation*}
+  h_{k,1}v_1+\cdots+h_{k,n}v_n
+\end{equation*}
+所以，\( \rep{\,\composed{g}{h}\,(\vec{v})\,}{D} \) 的第 \( i \) 个分量如下。
+\begin{multline*}
+  g_{i,1}\cdot(h_{1,1}v_1+\dots+h_{1,n}v_n)
+  +g_{i,2}\cdot(h_{2,1}v_1+\dots+h_{2,n}v_n)  \\
+  +\dots                                 
+  +g_{i,r}\cdot(h_{r,1}v_1+\dots+h_{r,n}v_n)
+\end{multline*}
+展开并按各个 \( v \) 重新组合。
+\begin{multline*}
+  =(g_{i,1} h_{1,1}+g_{i,2} h_{2,1}+\dots+g_{i,r}h_{r,1})\cdot v_1    \\
+   +\dots
+   +(g_{i,1} h_{1,n}+g_{i,2} h_{2,n}
+           +\dots+g_{i,r} h_{r,n})\cdot v_n
+\end{multline*}
+%</pf:MatMultRepComp0>
+%<*pf:MatMultRepComp1>
+最后注意，每个 \( v_j \) 的系数
+\begin{equation*}
+  g_{i,1}h_{1,j}+g_{i,2}h_{2,j}+\dots+g_{i,r}h_{r,j}
+\end{equation*}
+正是乘积 \( GH \) 的 \( i,j \) 元素的定义。
+%</pf:MatMultRepComp1>
+\end{proof}
+
+%<*MatMultArrowDiag0>
+以下\definend{箭头图}\index{arrow diagram}展示映射与矩阵之间的关系
+（“wrt”是“with respect to”，即“相对于”的缩写）。
+%</MatMultArrowDiag0>
+%\medskip
+\begin{center}
+  \includegraphics{map/mp/ch3.20}
+  %\quad
+  %\includegraphics{map/mp/ch3.19}  
+\end{center}
+%\medskip
+%<*MatMultArrowDiag1>
+箭头上方的映射说明，从 \( V \) 到 \( X \) 的两条路径——直接通过复合，或经 \( W \) 分两步——具有相同的效果，
+\begin{equation*}
+  \vec{v}\mapsunder{g\circ h}g(h(\vec{v}))
+  \qquad
+  \vec{v}\mapsunder{h}h(\vec{v})\mapsunder{g}g(h(\vec{v}))
+\end{equation*}
+（这就是复合的定义）。箭头下方的矩阵说明，用 $GH$ 乘列向量 $\rep{\vec{v}}{B}$，与先用 $H$ 乘该列向量、再用 $G$ 乘所得结果，效果相同。
+\begin{equation*}
+   \rep{\composed{g}{h}}{B,D}
+   =GH
+   \qquad
+   \rep{g}{C,D}\;\rep{h}{B,C}=GH
+\end{equation*}
+%</MatMultArrowDiag1>
+
+如 \nearbyexample{ex:PairTwoByTwoMult} 所述，由于左矩阵的列数不等于右矩阵的行数，以下 $\nbym{2}{3}$ 矩阵与 $\nbyn{2}$ 矩阵的乘积没有定义。
+\begin{equation*}
+     \begin{mat}[r]
+       -1  &2  &0  \\
+        0  &10 &1.1
+     \end{mat}
+     \begin{mat}[r]
+        0  &0  \\
+        0  &2
+     \end{mat}
+\end{equation*}
+定义要求大小匹配，是为了保证相应的函数复合有意义。
+\begin{equation*}
+  \text{dimension \( n \) space}
+  \;\stackrel{h}{\longrightarrow}\;
+  \text{dimension \( r \) space}
+  \;\stackrel{g}{\longrightarrow}\;
+  \text{dimension \( m \) space}
+  \tag{$*$}
+\end{equation*}
+因此，矩阵乘法将 $\nbym{m}{r}$ 矩阵~$G$ 与 $\nbym{r}{n}$ 矩阵~$F$ 组合，得到 $\nbym{m}{n}$ 矩阵~$GF$。
+简记为：$\nbym{m}{r}\text{ 乘 }\nbym{r}{n}\text{ 得 }\nbym{m}{n}$。
+
+\begin{remark}
+维数的顺序可能令人困惑。在“$\nbym{m}{r}\text{ 乘 }\nbym{r}{n}\text{ 得 }\nbym{m}{n}$”中，最先写的是~$m$，
+而上面描述映射维数的式~($*$) 中，$m$ 最后出现，其他维数的顺序也相反。
+这是因为虽然先作用 $h$、后作用 $g$，我们却将复合写为 $\composed{g}{h}$，把 $g$ 放在左边（源于记号 $g(h(\vec{v}))$）。
+% (Some people try to lessen confusion by reading 
+% `$\composed{g}{h}$' aloud as ``$g$ following $h$.'')
+矩阵也沿用这一顺序，因此 $\composed{g}{h}$ 由 $GH$ 表示。
+\end{remark}
+
+研究元素如何组合，可以加深对矩阵乘法的理解。
+例如，大小必须匹配的另一个解释是：左矩阵的一行与右矩阵的一列必须具有相同数目的元素，否则某个元素在另一矩阵中没有配对元素。
+
+矩阵乘法中，定义 $i,j$ 元素的求和还有一个特点，可通过框出相同下标来突出显示。
+\begin{equation*} % \setlength{\fboxsep}{.15em}
+  p_{i,j}
+  =
+  g_{i,\text{\highlight{$1 $}}}h_{\text{\highlight{$1 $}},j}
+   +g_{i,\text{\highlight{$2 $}}}h_{\text{\highlight{$2 $}},j}
+   +\dots+g_{i,\text{\highlight{$r $}}}h_{\text{\highlight{$r $}},j}
+\end{equation*}
+$g$ 中框出的下标是列指标，$h$ 中框出的是行指标。
+也就是说，求和对 $G$ 的列进行，却对 $H$ 的行进行\Dash 定义对左右矩阵的处理不同。
+所以，有理由猜测 \( GH \) 可能不等于 \( HG \)。
+
+\begin{example}   \label{ex:MatMultNoCommute}
+矩阵乘法不满足交换律。
+\begin{equation*}
+    \begin{mat}[r]
+      1  &2  \\
+      3  &4
+    \end{mat}
+    \begin{mat}[r]
+      5  &6  \\
+      7  &8
+    \end{mat}
+  =
+    \begin{mat}[r]
+      19  &22  \\
+      43  &50
+    \end{mat}
+  \qquad
+    \begin{mat}[r]
+      5  &6  \\
+      7  &8
+    \end{mat}
+    \begin{mat}[r]
+      1  &2  \\
+      3  &4
+    \end{mat}
+  =
+    \begin{mat}[r]
+      23  &34  \\
+      31  &46
+    \end{mat}
+\end{equation*}
+% In fact, matrix multiplication hardly ever commutes, in that if we use
+% multiply randomly chosen matrices both ways.
+\end{example}
+
+\begin{example}  \label{ex:MatMultNoCommuteII}
+交换律还可能以更明显的方式失效：
+\begin{equation*}
+    \begin{mat}[r]
+      5  &6  \\
+      7  &8
+    \end{mat}
+    \begin{mat}[r]
+      1  &2  &0 \\
+      3  &4  &0
+    \end{mat}
+  =
+    \begin{mat}[r]
+      23  &34  &0  \\
+      31  &46  &0
+    \end{mat}
+\end{equation*}
+而
+\begin{equation*}
+    \begin{mat}[r]
+      1  &2  &0 \\
+      3  &4  &0
+    \end{mat}
+    \begin{mat}[r]
+      5  &6  \\
+      7  &8
+    \end{mat}
+\end{equation*}
+甚至没有定义。
+\end{example}
+
+\begin{remark}
+矩阵乘法不满足交换律，初看可能奇怪，因为以往课程中的多数数学运算都满足交换律。
+但矩阵乘法表示函数复合，而函数复合不满足交换律：若
+\( f(x)=2x \)、\( g(x)=x+1 \)，则 \( \composed{g}{f}(x)=2x+1 \)，而 \( \composed{f}{g}(x)=2(x+1)=2x+2 \)。
+% (True, this \( g \) is not linear and we might have hoped that linear functions
+% would commute but this shows that the failure of commutativity for
+% matrix multiplication fits into a larger context.)
+\end{remark}
+
+除了不满足交换律，矩阵乘法的代数性质很好。下一个结果列出一些良好性质，更多性质见
+\nearbyexercise{exer:NicePropsMatMult} 和 \nearbyexercise{exer:MoreNicePropsMatMult}。
+
+\begin{theorem}  \label{th:MatMultWellBehaved}
+%<*th:MatMultWellBehaved>
+若 \( F \)、\( G \)、\( H \) 为矩阵，且相应乘积有定义，则矩阵乘法满足结合律
+$(FG)H=F(GH)$，并对加法满足分配律 $F(G+H)=FG+FH$ 和 $(G+H)F=GF+HF$。
+%</th:MatMultWellBehaved>
+\end{theorem}
+
+\begin{proof}
+%<*pf:MatMultWellBehaved0>
+结合律成立，是因为矩阵乘法表示函数复合，而函数复合满足结合律：
+映射 \( \composed{(\composed{f}{g})}{h} \) 与 \( \composed{f}{(\composed{g}{h})} \) 相等，因为它们都将 \( \vec{v} \) 映到 \( f(g(h(\vec{v}))) \)。
+%</pf:MatMultWellBehaved0>
+
+%<*pf:MatMultWellBehaved1>
+分配律类似。例如，第一个等式由
+\( \composed{f}{(g+h)}\,(\vec{v})
+    =f\bigl(\,(g+h)(\vec{v})\,\bigr)
+    =f\bigl(\,g(\vec{v})+h(\vec{v})\,\bigr)
+    =f(g(\vec{v}))+f(h(\vec{v}))
+    =\composed{f}{g}(\vec{v})+\composed{f}{h}(\vec{v}) \)
+得到（第三个等号使用了 $f$ 的线性性）。右分配律同理。
+%</pf:MatMultWellBehaved1>
+\end{proof}
+
+\begin{remark} 
+也可以用繁琐的下标计算来证明。例如，结合律中 \( (FG)H \) 的 \( i,j \) 元素为
+\begin{align*}
+   \MoveEqLeft (f_{i,1}g_{1,1}+f_{i,2}g_{2,1}+\dots+f_{i,r}g_{r,1})h_{1,j}         \\
+   &+(f_{i,1}g_{1,2}+f_{i,2}g_{2,2}+\dots+f_{i,r}g_{r,2})h_{2,j}   \\
+   &\vdotswithin{+}                                       \\
+   &+(f_{i,1}g_{1,s}+f_{i,2}g_{2,s}+\dots+f_{i,r}g_{r,s})h_{s,j}
+\end{align*}
+其中 \( F \)、\( G \)、\( H \) 分别为 \( \nbym{m}{r} \)、\( \nbym{r}{s} \)、\( \nbym{s}{n} \) 矩阵。展开得
+\begin{align*}
+   \MoveEqLeft f_{i,1}g_{1,1}h_{1,j}+f_{i,2}g_{2,1}h_{1,j}+
+            \dots+f_{i,r}g_{r,1}h_{1,j}                  \\ 
+   &+f_{i,1}g_{1,2}h_{2,j}+f_{i,2}g_{2,2}h_{2,j}+
+          \dots+f_{i,r}g_{r,2}h_{2,j}                      \\
+   &\vdotswithin{+}                                           \\
+   &+f_{i,1}g_{1,s}h_{s,j}+f_{i,2}g_{2,s}h_{s,j}+\dots
+        +f_{i,r}g_{r,s}h_{s,j}
+\end{align*}
+再按各个 \( f \) 重新组合，
+\begin{align*}
+   \MoveEqLeft f_{i,1}(g_{1,1}h_{1,j}+g_{1,2}h_{2,j}+\dots+g_{1,s}h_{s,j})     \\
+   &+f_{i,2}(g_{2,1}h_{1,j}+g_{2,2}h_{2,j}+\dots+g_{2,s}h_{s,j})   \\
+   &\vdotswithin{+}                                       \\
+   &+f_{i,r}(g_{r,1}h_{1,j}+g_{r,2}h_{2,j}+\dots+g_{r,s}h_{s,j})
+\end{align*}
+得到 \( F(GH) \) 的 \( i,j \) 元素。
+
+比较这两种证明。大量下标的论证虽然容易逐步核查，却难以理解，因为算式似乎没有联系到任何思想。
+前一个证明更短，也解释了性质成立的真正原因。
+这印证了向量空间一章开头的评述\Dash 至少有时，借助更高层次概念的论证更清楚。
+\end{remark}
+
+现在已经知道如何表示线性映射的复合。下一小节将继续探究这个运算。
+
+\begin{exercises}
+  \recommended \item 
+计算，或指出“没有定义”。
+    \begin{exparts*}
+      \partsitem
+        $\begin{mat}[r]
+          3  &1  \\
+          -4 &2 
+        \end{mat}
+        \begin{mat}[r]
+          0  &5  \\
+          0  &0.5
+        \end{mat}$
+      \partsitem \(
+        \begin{mat}[r]
+          1  &1  &-1  \\
+          4  &0  &3
+        \end{mat}
+        \begin{mat}[r]
+          2  &-1 &-1  \\
+          3  &1  &1   \\
+          3  &1  &1
+        \end{mat}   \)
+      \partsitem \(
+        \begin{mat}[r]
+          2  &-7 \\
+          7  &4
+        \end{mat}
+        \begin{mat}[r]
+          1  &0  &5   \\
+         -1  &1  &1   \\
+          3  &8  &4
+        \end{mat}   \)
+      \partsitem \(
+        \begin{mat}[r]
+          5  &2  \\
+          3  &1
+        \end{mat}
+        \begin{mat}[r]
+          -1  &2   \\
+           3  &-5
+        \end{mat} \)
+    \end{exparts*}
+    \begin{answer} 
+      \begin{exparts*}
+        \partsitem
+          $\begin{mat}[r]
+            0  &15.5  \\
+            0  &-19
+          \end{mat}$
+        \partsitem \(
+          \begin{mat}[r]
+            2  &-1  &-1  \\
+           17  &-1  &-1
+          \end{mat} \)
+        \partsitem Not defined.
+        \partsitem \( \begin{mat}[r]
+                   1  &0  \\
+                   0  &1
+                 \end{mat}  \)
+      \end{exparts*}  
+    \end{answer}
+  \recommended \item  
+设
+    \begin{equation*}
+      A=
+       \begin{mat}[r]
+         1  &-1  \\
+         2  &0   \\
+       \end{mat}
+      \quad
+      B=
+       \begin{mat}[r]
+         5  &2   \\
+         4  &4   \\
+       \end{mat}
+      \quad
+      C=
+       \begin{mat}[r]
+        -2  &3   \\
+        -4  &1   \\
+       \end{mat}
+    \end{equation*}
+计算，或指出“没有定义”。
+    \begin{exparts*}
+      \partsitem \( AB \)
+      \partsitem \( (AB)C \)
+      \partsitem \( BC \)
+      \partsitem \( A(BC) \)
+    \end{exparts*}
+    \begin{answer}  
+      \begin{exparts*}
+        \partsitem \(
+          \begin{mat}[r]
+            1  &-2   \\
+            10 &4
+          \end{mat}  \)
+        \partsitem \( 
+          \begin{mat}[r]
+            1  &-2   \\
+            10 &4
+          \end{mat}
+          \begin{mat}[r]
+            -2 &3    \\
+            -4 &1
+          \end{mat}=
+          \begin{mat}[r]
+            6  &1    \\
+           -36 &34
+          \end{mat}  \)
+        \partsitem \(
+          \begin{mat}[r]
+           -18 &17   \\
+           -24 &16
+          \end{mat}  \)
+        \partsitem \(
+          \begin{mat}[r]
+            1  &-1  \\
+            2  &0
+          \end{mat}
+          \begin{mat}[r]
+           -18 &17   \\
+           -24 &16
+          \end{mat}=
+          \begin{mat}[r]
+            6  &1    \\
+           -36 &34
+          \end{mat}  \)
+      \end{exparts*}  
+    \end{answer}
+  \item  
+哪些乘积有定义？
+    \begin{exparts*}
+\partsitem \( \nbym{3}{2} \) 乘 \( \nbym{2}{3} \)
+\partsitem \( \nbym{2}{3} \) 乘 \( \nbym{3}{2} \)
+\partsitem \( \nbym{2}{2} \) 乘 \( \nbym{3}{3} \)
+\partsitem \( \nbym{3}{3} \) 乘 \( \nbym{2}{2} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+\partsitem 有。
+\partsitem 有。
+\partsitem 无。
+\partsitem 无。
+      \end{exparts*}
+    \end{answer}
+  \recommended \item 
+给出乘积的大小，或指出“没有定义”。
+    \begin{exparts}
+\partsitem \( \nbym{2}{3} \) 矩阵乘 \( \nbym{3}{1} \) 矩阵
+\partsitem \( \nbym{1}{12} \) 矩阵乘 \( \nbym{12}{1} \) 矩阵
+\partsitem \( \nbym{2}{3} \) 矩阵乘 \( \nbym{2}{1} \) 矩阵
+\partsitem \( \nbym{2}{2} \) 矩阵乘 \( \nbym{2}{2} \) 矩阵
+    \end{exparts}
+    \begin{answer}  
+      \begin{exparts*}
+\partsitem \( \nbym{2}{1} \)
+\partsitem \( \nbym{1}{1} \)
+\partsitem 没有定义。
+\partsitem \( \nbym{2}{2} \)
+      \end{exparts*}  
+     \end{answer}
+  \recommended \item 
+对以下方程组
+    \begin{equation*}
+      \begin{linsys}{3}
+        h_{1,1}x_1  &+  &h_{1,2}x_2  &+  &h_{1,3}x_3  &=  &d_1  \\
+        h_{2,1}x_1  &+  &h_{2,2}x_2  &+  &h_{2,3}x_3  &=  &d_2  
+       \end{linsys}
+    \end{equation*}
+作下列变量变换（即代换），求所得方程组。
+    \begin{equation*}
+      \begin{linsys}{2}
+        x_1  &=  &g_{1,1}y_1  &+  &g_{1,2}y_2  \\
+        x_2  &=  &g_{2,1}y_1  &+  &g_{2,2}y_2  \\
+        x_3  &=  &g_{3,1}y_1  &+  &g_{3,2}y_2  
+      \end{linsys}
+    \end{equation*}
+    \begin{answer}
+有
+      \begin{equation*}
+        \begin{linsys}{3}
+            h_{1,1}\cdot(g_{1,1}y_1+g_{1,2}y_2)  
+               &+  &h_{1,2}\cdot (g_{2,1}y_1+g_{2,2}y_2)  
+               &+  &h_{1,3}\cdot (g_{3,1}y_1+g_{3,2}y_2)  
+               &=  &d_1  \\
+            h_{2,1}\cdot(g_{1,1}y_1+g_{1,2}y_2)  
+               &+  &h_{2,2}\cdot (g_{2,1}y_1+g_{2,2}y_2)  
+               &+  &h_{2,3}\cdot (g_{3,1}y_1+g_{3,2}y_2)  
+               &=  &d_2  
+         \end{linsys}
+      \end{equation*}
+展开并按各个 $y$ 重新组合，得到
+      \begin{equation*}
+        \begin{linsys}{2}
+            (h_{1,1}g_{1,1}+h_{1,2}g_{2,1}+h_{1,3}g_{3,1})y_1
+              &+  &(h_{1,1}g_{1,2}+h_{1,2}g_{2,2}+h_{1,3}g_{3,2})y_2  
+               &=  &d_1  \\
+            (h_{2,1}g_{1,1}+h_{2,2}g_{2,1}+h_{2,3}g_{3,1})y_1
+              &+  &(h_{2,1}g_{1,2}+h_{2,2}g_{2,2}+h_{2,3}g_{3,2})y_2  
+               &=  &d_2
+         \end{linsys}
+      \end{equation*}
+可用矩阵语言表示原方程组和用于代换的方程组，分别为
+      \begin{equation*}
+        \begin{mat}
+          h_{1,1}  &h_{1,2}  &h_{1,3}  \\
+          h_{2,1}  &h_{2,2}  &h_{2,3}
+        \end{mat}
+        \colvec{x_1 \\ x_2 \\ x_3}
+        =H\colvec{x_1 \\ x_2 \\ x_3}=\colvec{d_1 \\ d_2}
+      \end{equation*}
+以及
+      \begin{equation*}
+        \begin{mat}
+          g_{1,1}  &g_{1,2}  \\
+          g_{2,1}  &g_{2,2}  \\
+          g_{3,1}  &g_{3,2}
+        \end{mat}
+        \colvec{y_1 \\ y_2}
+        =G\colvec{y_1 \\ y_2}=\colvec{x_1 \\ x_2 \\ x_3}
+      \end{equation*}
+于是代换可写成 $\vec{d}=H\vec{x}=H(G\vec{y})=(HG)\vec{y}$。
+    \end{answer}
+\recommended \item 考虑以下两个线性函数 $\map{h}{\Re^3}{\polyspace_2}$ 和 $\map{g}{\polyspace_2}{\matspace_{\nbyn{2}}}$。
+    \begin{equation*}
+      \colvec{a \\ b \\ c}\mapsto (a+b)x^2+(2a+2b)x+c
+      \qquad
+      px^2+qx+r\mapsto
+      \begin{mat}
+        p &p-2q \\
+        q &0
+      \end{mat}
+    \end{equation*}
+为各空间使用以下基。
+    \begin{gather*}
+      B=\sequence{\colvec{1 \\ 1 \\ 1}, 
+                  \colvec{0 \\ 1 \\ 1}, 
+                  \colvec{0 \\ 0 \\ 1}}
+     \qquad
+     C=\sequence{1+x,1-x,x^2}
+     \\
+     D=\sequence{
+       \begin{mat}
+         1 &0 \\
+         0 &0
+       \end{mat},
+       \begin{mat}
+         0 &2 \\
+         0 &0
+       \end{mat},
+       \begin{mat}
+         0 &0 \\
+         3 &0
+       \end{mat},
+       \begin{mat}
+         0 &0 \\
+         0 &4
+       \end{mat}}
+    \end{gather*}
+    \begin{exparts}
+\partsitem 直接由上述定义求复合映射 $\map{\composed{g}{h}}{\Re^3}{\matspace_{\nbyn{2}}}$ 的公式。
+\partsitem 相对于适当的基表示 $h$ 和~$g$。
+\partsitem 相对于适当的基表示第一问求出的映射 $\composed{g}{h}$。
+\partsitem 验证第二问中两个矩阵的乘积等于第三问中的矩阵。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+根据定义得到
+          \begin{align*}
+            \colvec{a \\ b \\ c}
+            &\mapsto 
+            (a+b)x^2+(2a+2b)x+c                   \\
+            &\mapsto
+            \begin{mat}
+              a+b &(a+b)-2(2a+2b) \\
+              2a+2b &0
+            \end{mat}    
+            =
+            \begin{mat}
+              a+b   &-3a-3b  \\
+              2a+2b &0
+            \end{mat}    
+          \end{align*}
+        \partsitem
+因为
+          \begin{equation*}
+            \colvec{1 \\ 1 \\ 1}\mapsto 2x^2+4x+1
+            \quad
+            \colvec{0 \\ 1 \\ 1}\mapsto x^2+2x+1
+            \quad
+            \colvec{0 \\ 0 \\ 1}\mapsto 0x^2+0x+1   
+          \end{equation*}
+得到~$h$ 的以下表示。
+          \begin{equation*}
+            \rep{h}{B,C}
+            =
+            \begin{mat}
+              5/2 &3/2  &1/2  \\ 
+             -3/2 &-1/2 &1/2  \\
+              2   &1    &0
+            \end{mat}
+          \end{equation*}
+类似地，因为
+          \begin{equation*}
+            1+x\mapsto
+            \begin{mat}
+              0 &-2 \\
+              1 &0
+            \end{mat}
+            \quad
+            1-x\mapsto
+            \begin{mat}
+              0 &2 \\
+              -1 &0
+            \end{mat}
+            \quad
+            x^2\mapsto
+            \begin{mat}
+              1 &1 \\
+              0 &0
+            \end{mat}
+          \end{equation*}
+得到~$g$ 的以下表示。
+          \begin{equation*}
+            \rep{g}{C,D}=
+            \begin{mat}
+              0  &0    &1  \\
+             -1  &1    &1/2 \\
+             1/3 &-1/3 &0   \\
+              0  &0    &0
+            \end{mat}
+          \end{equation*}
+        \partsitem
+$\composed{g}{h}$ 在定义域基上的作用如下。
+          \begin{equation*}
+            \colvec{1 \\ 1 \\ 1}\mapsto 
+              \begin{mat}
+                2 &-6 \\
+                4 &0
+              \end{mat}
+            \quad
+            \colvec{0 \\ 1 \\ 1}\mapsto
+              \begin{mat}
+                1 &-3 \\
+                2 &0
+              \end{mat}
+            \quad
+            \colvec{0 \\ 0 \\ 1}\mapsto
+              \begin{mat}
+                0 &0 \\
+                0 &0
+              \end{mat}
+          \end{equation*}
+于是得到
+          \begin{equation*}
+            \rep{\composed{g}{h}}{B,D}=
+            \begin{mat}
+               2   &1    &0  \\  
+              -3   &-3/2 &0  \\
+             4/3   &2/3  &0  \\
+               0   &0    &0
+            \end{mat}
+          \end{equation*}
+        \partsitem 
+矩阵乘法按常规计算即可，只需注意顺序。
+          \begin{equation*}
+            \begin{mat}
+              0  &0    &1  \\
+             -1  &1    &1/2 \\
+             1/3 &-1/3 &0   \\
+              0  &0    &0
+            \end{mat}
+            \begin{mat}
+              5/2 &3/2  &1/2  \\ 
+             -3/2 &-1/2 &1/2  \\
+              2   &1    &0
+            \end{mat}
+            =        
+            \begin{mat}
+               2   &1    &0  \\  
+              -3   &-3/2 &0  \\
+             4/3   &2/3  &0  \\
+               0   &0    &0
+           \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 
+如 \nearbydefinition{def:MatMult} 所指出，矩阵乘法推广了点积。
+\( \nbym{1}{n} \) 行向量与 \( \nbym{n}{1} \) 列向量的点积，是否与它们的矩阵乘积相同？
+    \begin{answer}
+严格说，不同。点积得到标量，矩阵乘积得到 $\nbyn{1}$ 矩阵。不过通常会忽略这个区别。
+    \end{answer}
+  \recommended \item 
+相对于 \( B,B \) 表示 \( \polyspace_n \) 上的求导映射，其中 \( B \) 是自然基 \( \sequence{1,x,\ldots,x^n} \)。
+说明这个矩阵与自身的乘积有定义；它表示什么映射？
+    \begin{answer}
+$d/dx$ 在 $B$ 上的作用为 $1\mapsto0$、$x\mapsto 1$、$x^2\mapsto 2x$、\ldots，因此其 $\nbyn{(n+1)}$ 矩阵表示如下。
+      \begin{equation*}
+        \rep{\frac{d}{dx}}{B,B}=
+        \begin{mat}
+          0  &1 &0  &  &0  \\
+          0  &0 &2  &  &0  \\
+             &  &   &\ddots\\
+          0  &0 &0  &  &n  \\
+          0  &0 &0  &  &0
+        \end{mat}
+      \end{equation*}
+这个矩阵是方阵，所以与自身的乘积有定义。
+      \begin{equation*}
+        \begin{mat}
+          0  &1 &0  &  &0  \\
+          0  &0 &2  &  &0  \\
+             &  &   &\ddots\\
+          0  &0 &0  &  &n  \\
+          0  &0 &0  &  &0
+        \end{mat}^2
+        =
+        \begin{mat}
+          0  &0 &2  &0  &        &0       \\
+          0  &0 &0  &6  &        &0       \\
+             &  &   &   &\ddots  &        \\
+          0  &0 &0  &  &         &n(n-1)  \\
+          0  &0 &0  &  &         &0       \\
+          0  &0 &0  &  &         &0
+        \end{mat}
+      \end{equation*}
+所得矩阵表示复合
+      \begin{equation*}
+        p\;\mapsunder{\frac{d}{dx}}\;\frac{d\,p}{dx}
+         \;\mapsunder{\frac{d}{dx}}\;\frac{d^2\,p}{dx^2}
+      \end{equation*}
+即二阶求导运算。
+     \end{answer}
+  \item 
+\cite{Cleary}
+将每类矩阵与所有适用的描述配对；若均不适用，回答“无”：
+(i)~可与其转置相乘得到 $\nbyn{1}$ 矩阵，
+    % (ii)~is similar to the $\nbyn{3}$ matrix of all zeros,
+(ii)~可表示从 $\Re^3$ 到 $\Re^2$ 的非满射线性映射，
+(iii)~可表示从 $\Re^3$ 到 $\polyspace^2$ 的同构。
+    \begin{exparts}
+\item 秩为~$1$ 的 $\nbym{2}{3}$ 矩阵
+\item 非奇异 $\nbyn{3}$ 矩阵
+\item 奇异 $\nbyn{2}$ 矩阵
+\item $\nbym{n}{1}$ 列向量
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\item ii
+\item iii
+\item 无
+\item 无；若也允许从左边乘，则为 (i)。
+      \end{exparts}
+    \end{answer}
+  \item  
+证明 \( \Re^1 \) 上线性变换的复合满足交换律。对任意一维空间也成立吗？
+    \begin{answer}
+对所有一维空间都成立。设 $f$、$g$ 是一维空间上的变换。需证明对所有向量都有
+$\composed{g}{f}\,(\vec{v})=\composed{f}{g}\,(\vec{v})$。
+固定空间的一组基 $B$，则这些变换由 $\nbyn{1}$ 矩阵表示。
+      \begin{equation*}
+        F=\rep{f}{B,B}=\begin{mat}
+                        f_{1,1}
+                     \end{mat}
+        \qquad
+        G=\rep{g}{B,B}=\begin{mat}
+                        g_{1,1}
+                     \end{mat}
+      \end{equation*}
+所以复合分别由 $GF$ 和 $FG$ 表示。
+      \begin{equation*}
+        GF=\rep{\composed{g}{f}}{B,B}=\begin{mat}
+                        g_{1,1}f_{1,1}
+                     \end{mat}
+        \qquad
+        FG=\rep{\composed{f}{g}}{B,B}=\begin{mat}
+                        f_{1,1}g_{1,1}
+                     \end{mat}
+      \end{equation*}
+两个矩阵相等，因此两个复合在空间中每个向量上的作用相同。
+     \end{answer}
+  \item  
+为什么不把矩阵乘法定义成逐项相乘？那样更简单，而且还满足交换律。
+    \begin{answer}
+那样就无法表示线性映射的复合，\nearbytheorem{th:MatMultRepComp} 将不成立。
+    \end{answer}
+  \item \label{exer:NicePropsMatMult} 
+    \begin{exparts}
+\partsitem 对正整数 \( p,q \)，证明 $H^pH^q=H^{p+q}$ 和 $(H^p)^q=H^{pq}$。
+\partsitem 对任意正整数 \( p \) 和标量 \( r\in\Re \)，证明 $(rH)^p=r^p\cdot H^p$。
+    \end{exparts}
+    \begin{answer}
+各式都容易由对应的映射性质推出。例如，先作用 $q$ 次变换 $h$，再作用 $p$ 次，就是总共作用 $p+q$ 次。
+    \end{answer}
+  \recommended \item \label{exer:MoreNicePropsMatMult} 
+    \begin{exparts}
+\partsitem 矩阵乘法与数乘有何关系：\( r(GH)=(rG)H \) 是否成立？\( G(rH)=r(GH) \) 呢？
+\partsitem 矩阵乘法与线性组合有何关系：\( F(rG+sH)=r(FG)+s(FH) \) 是否成立？$(rF+sG)H=rFH+sGH$ 呢？
+    \end{exparts}
+    \begin{answer}  
+虽然可以逐项计算，但从所表示的映射理解更好。固定空间和基，使这些矩阵表示线性映射 $f,g,h$。
+       \begin{exparts}
+\partsitem 均成立，因为
+$r\cdot (\composed{g}{h})\,(\vec{v})=r\cdot g(\,h(\vec{v})\,)=\composed{(r\cdot g)}{h}\,(\vec{v})$，且
+$\composed{g}{(r\cdot h)}\,(\vec{v})=g(\,r\cdot h(\vec{v})\,)=r\cdot g(h(\vec{v}))=r\cdot (\composed{g}{h})\,(\vec{v})$
+（第二个等号由 $g$ 的线性性得到）。
+\partsitem 均成立。首先，$\composed{f}{(rg+sh)}$ 与
+$r\cdot(\composed{f}{g})+s\cdot(\composed{f}{h})$ 都将 $\vec{v}$ 映到
+$r\cdot f(g(\vec{v}))+s\cdot f(h(\vec{v}))$；计算与上一问相同（前者使用 $f$ 的线性性）。
+其次，$\composed{(rf+sg)}{h}$ 与 $r\cdot(\composed{f}{h})+s\cdot(\composed{g}{h})$ 都将
+$\vec{v}$ 映到 $r\cdot f(h(\vec{v}))+s\cdot g(h(\vec{v}))$。
+      \end{exparts}  
+    \end{answer}
+  \item \label{exer:TranspAndMult} 
+还可以考察矩阵乘法与转置运算的关系。
+    \begin{exparts}  
+\partsitem 证明 \( \trans{(GH)}=\trans{H}\trans{G} \)。
+\partsitem 若方阵的每个 \( i,j \) 元素等于 \( j,i \) 元素，即等于自身的转置，则称为\definend{对称矩阵}\index{symmetric matrix}%
+\index{matrix!symmetric}。证明 \( H\trans{H} \) 和 \( \trans{H}H \) 都是对称矩阵。
+      %\partsitem Is every symmetric matrix of that form?
+    \end{exparts}
+    \begin{answer}
+尚未从映射角度解释转置运算，因此通过考察元素来验证。
+      \begin{exparts}
+\partsitem \( \trans{GH} \) 的 \( i,j \) 元素是 $GH$ 的 $j,i$ 元素，即 \( G \) 的第 \( j \) 行与 \( H \) 的第 \( i \) 列的点积。
+\( \trans{H}\trans{G} \) 的 \( i,j \) 元素是 \( \trans{H} \) 的第 \( i \) 行与 \( \trans{G} \) 的第 \( j \) 列的点积，
+即 \( H \) 的第 \( i \) 列与 \( G \) 的第 \( j \) 行的点积。点积满足交换律，所以两者相等。
+\partsitem 由上一问，两者都等于自身的转置，例如
+$\trans{(H\trans{H})}=\trans{\trans{H}}\trans{H}=H\trans{H}$。
+      \end{exparts}  
+    \end{answer}
+  \recommended \item
+将 \( \Re^3 \) 中的向量绕一条轴旋转，是线性映射。从几何上说明旋转不可交换，以此证明线性映射不可交换。
+    \begin{answer}
+      Consider \( \map{r_x,r_y}{\Re^3}{\Re^3} \) rotating all vectors
+      \( \pi/2 \)~radians
+      绕 \( x \) 轴和 \( y \) 轴逆时针旋转 
+      (counterclockwise in the sense that a person whose head is at
+      \( \vec{e}_1 \) or \( \vec{e}_2 \) and whose feet are at the origin
+      从该方向朝向原点观察时，旋转看起来是
+      逆时针）。
+      \begin{center}  \small
+        \includegraphics{map/mp/ch3.78}
+        \qquad
+        \includegraphics{map/mp/ch3.79}
+      \end{center}
+先作 $r_x$ 再作 $r_y$，与先作 $r_y$ 再作 $r_x$ 不同。
+具体地，$r_x(\vec{e}_3)=-\vec{e}_2$，所以 $\composed{r_y}{r_x}(\vec{e}_3)=-\vec{e}_2$；
+而 $r_y(\vec{e}_3)=\vec{e}_1$，所以 $\composed{r_x}{r_y}(\vec{e}_3)=\vec{e}_1$。
+因此，这些映射不可交换。
+    \end{answer}
+  \item \label{exer:MatProdPropsSpAndBas}
+\nearbytheorem{th:MatMultWellBehaved} 的证明用了一些映射。它们的定义域和陪域是什么？
+    \begin{answer}
+只要空间维数适当，具体选择无关紧要。
+
+对于结合律，设 $F$ 为 $\nbym{m}{r}$，$G$ 为 $\nbym{r}{n}$，$H$ 为 $\nbym{n}{k}$。
+可取任意 $r$ 维、$m$ 维、$n$ 维、$k$ 维空间\Dash 例如 $\Re^r$、$\Re^m$、$\Re^n$、$\Re^k$，并为它们任取基 $A$、$B$、$C$、$D$。
+于是，矩阵 $H$ 相对于 $C,D$ 表示线性映射 $h$，$G$ 相对于 $B,C$ 表示 $g$，$F$ 相对于 $A,B$ 表示 $f$。
+证明中可以使用这些映射。
+      
+第二部分类似，只是由于要将 $G$ 与 $H$ 相加，必须让它们表示定义域、陪域均相同的映射。
+    \end{answer}
+  \item \label{exer:RankProdLeqRankFacts}
+矩阵的秩与矩阵乘法有何关系？
+    \begin{exparts}
+\partsitem 秩为 \( n \) 的矩阵的乘积，秩可能小于 \( n \) 吗？可能大于吗？
+\partsitem 证明两个矩阵乘积的秩，小于或等于各因子秩的最小值。
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+\partsitem 秩为 \( n \) 的矩阵的乘积，秩可以小于或等于 \( n \)，但不能大于 \( n \)。
+
+为说明秩可以降低，考虑向坐标轴的投影 \( \map{\pi_x,\pi_y}{\Re^2}{\Re^2} \)。
+两者的秩均为一，但复合 $\composed{\pi_x}{\pi_y}$ 是零映射，秩为零。
+转成表示这些映射的矩阵，就得到
+        \begin{equation*}
+          \rep{\pi_x}{\stdbasis_2,\stdbasis_2}\cdot\rep{\pi_y}{\stdbasis_2,\stdbasis_2}=
+          \begin{mat}[r]
+            1  &0  \\
+            0  &0
+          \end{mat}
+          \begin{mat}[r]
+            0  &0  \\
+            0  &1
+          \end{mat}=
+          \begin{mat}[r]
+            0  &0  \\
+            0  &0
+          \end{mat}
+        \end{equation*}
+
+为证明乘积的秩不能大于 \( n \)，可以使用线性相关向量组的像仍线性相关这一性质。
+若 \( \map{h}{V}{W} \) 和 \( \map{g}{W}{X} \) 的秩均为 \( n \)，则值域
+\( \rangespace{\composed{g}{h}} \) 中多于 \( n \) 个元素的集合，是 \( W \) 中多于 \( n \) 个元素的集合在 \( g \) 下的像；原像集合线性相关，因为 \( h \) 的秩为 \( n \)。
+线性相关向量组的像仍线性相关，所以复合值域中任何多于 \( n \) 个元素的集合都线性相关。
+（顺便注意，论证没有用到 \( g \) 的秩，参见下一问。）
+\partsitem 固定空间和基，考虑相应线性映射 \( f \) 和 \( g \)。回顾，映射像的维数（映射的秩）不超过定义域维数，并考虑箭头图。
+          \begin{equation*}
+            \begin{matrix}
+              V &\mapsunder{f} &\rangespace{f} &\mapsunder{g}
+                &\rangespace{\composed{g}{f}}
+            \end{matrix}
+          \end{equation*}
+首先，由刚才的结论，\( \rangespace{f} \) 的像的维数不超过 \( \rangespace{f} \) 的维数。
+另一方面，\( \rangespace{f} \) 是 \( g \) 的定义域的子集，因此其像的维数不超过 \( g \) 的定义域的维数。
+结合两者，复合的秩不超过两个秩的最小值。
+
+矩阵的结论立即得到。
+     \end{exparts}
+    \end{answer}
+  \item 
+在 $\nbyn{n}$ 矩阵之间，“可交换”是等价关系吗？
+    \begin{answer}
+“可交换”关系具有自反性和对称性，但不具有传递性。例如，取
+      \begin{equation*}
+        G=\begin{mat}[r]
+          1  &2  \\
+          3  &4
+        \end{mat}
+        \quad
+        H=\begin{mat}[r]
+          1  &0  \\
+          0  &1
+        \end{mat}
+        \quad
+        J=\begin{mat}[r]
+          5  &6  \\
+          7  &8
+        \end{mat}
+      \end{equation*}
+则 $G$ 与 $H$ 可交换，$H$ 与 $J$ 可交换，但 $G$ 与 $J$ 不可交换。
+    \end{answer}
+  \item \label{exer:ZeroDivisor}
+\textit{（逆矩阵的练习中将使用本题。）}
+矩阵乘法还有一个初看可能令人困惑的性质。
+    \begin{exparts}
+\partsitem 证明向 \( x \) 轴和 \( y \) 轴的投影 \( \map{\pi_x,\pi_y}{\Re^3}{\Re^3} \) 均不是零映射，但其复合是零映射。
+\partsitem 证明求导映射 \( \map{d^2/dx^2,\,d^3/dx^3}{\polyspace_4}{\polyspace_4} \) 均不是零映射，但其复合是零映射。
+\partsitem 给出表示第一个事实的矩阵等式。
+\partsitem 给出表示第二个事实的矩阵等式。
+    \end{exparts}
+两个非零对象相乘得到零时，称它们为\definend{零因子}。\index{zero divisor}%
+    % \index{zero!divisor}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 以下两种顺序均可。
+          \begin{equation*}
+            \colvec{x \\ y \\ z}
+              \mapsunder{\pi_x}
+            \colvec{x \\ 0 \\ 0}
+              \mapsunder{\pi_y}
+            \colvec[r]{0 \\ 0 \\ 0}
+            \qquad
+            \colvec{x \\ y \\ z}
+              \mapsunder{\pi_y}
+            \colvec{0 \\ y \\ 0}
+              \mapsunder{\pi_x}
+            \colvec[r]{0 \\ 0 \\ 0}
+          \end{equation*}
+\partsitem 复合是在次数不超过四的多项式空间上的五阶求导映射 $d^5/dx^5$。
+\partsitem 相对于自然基，
+          \begin{equation*}
+            \rep{\pi_x}{\stdbasis_3,\stdbasis_3}=\begin{mat}[r]
+              1  &0  &0  \\
+              0  &0  &0  \\
+              0  &0  &0
+            \end{mat}
+            \qquad
+            \rep{\pi_y}{\stdbasis_3,\stdbasis_3}=\begin{mat}[r]
+              0  &0  &0  \\
+              0  &1  &0  \\
+              0  &0  &0
+            \end{mat}
+          \end{equation*}
+它们无论以何种顺序相乘，都得到零矩阵。
+\partsitem 取 \( B=\sequence{1,x,x^2,x^3,x^4} \)，有
+          \begin{equation*}
+            \rep{\frac{d^2}{dx^2}}{B,B}=\begin{mat}[r]
+              0  &0  &2  &0  &0  \\
+              0  &0  &0  &6  &0  \\
+              0  &0  &0  &0  &12 \\
+              0  &0  &0  &0  &0  \\
+              0  &0  &0  &0  &0
+            \end{mat}
+            \qquad
+            \rep{\frac{d^3}{dx^3}}{B,B}=\begin{mat}[r]
+              0  &0  &0  &6  &0  \\
+              0  &0  &0  &0  &24 \\
+              0  &0  &0  &0  &0  \\
+              0  &0  &0  &0  &0  \\
+              0  &0  &0  &0  &0
+            \end{mat}
+          \end{equation*}
+它们无论以何种顺序相乘，都得到零矩阵。
+      \end{exparts}  
+    \end{answer}
+  \item 
+说明对方阵而言，\( (S+T)(S-T) \) 不一定等于 \( S^2-T^2 \)。
+    \begin{answer}
+注意 \( (S+T)(S-T)=S^2-ST+TS-T^2 \)，因此可尝试寻找不可交换的矩阵，使 $-ST$ 与 $TS$ 不能抵消。取
+      \begin{equation*}
+        S=\begin{mat}[r]
+            1  &2  \\
+            3  &4
+          \end{mat}
+        \quad
+        T=\begin{mat}[r]
+            5  &6  \\
+            7  &8
+          \end{mat}
+      \end{equation*}
+便得到所需的不等式。
+      \begin{equation*}
+        (S+T)(S-T)=\begin{mat}[r]
+            -56  &-56  \\
+            -88  &-88
+          \end{mat}
+        \qquad
+        S^2-T^2=\begin{mat}[r]
+            -60  &-68  \\
+            -76  &-84
+          \end{mat}
+      \end{equation*}    
+    \end{answer}
+  \recommended \item \label{exer:IdMat} 
+对任意基 $B$，相对于 $B,B$ 表示恒等变换 $\map{\identity}{V}{V}$。所得矩阵为\definend{单位矩阵}\index{matrix!identity} $I$。
+证明它在矩阵乘法中的作用与数 $1$ 在实数乘法中的作用相同：$HI=IH=H$（对所有使乘积有定义的矩阵 $H$）。
+    \begin{answer}
+由于恒等映射在基 $B$ 上的作用为 $\vec{\beta}_1\mapsto\vec{\beta}_1$、\ldots、$\vec{\beta}_n\mapsto\vec{\beta}_n$，其表示如下。
+      \begin{equation*}
+        \begin{mat}
+          1  &0  &0  &  &0 \\
+          0  &1  &0  &  &0 \\
+          0  &0  &1  &  &0 \\
+             &   &   &\ddots  \\
+          0  &0  &0  &  &1
+        \end{mat}
+      \end{equation*}
+第二部分由 \nearbytheorem{th:MatMultRepComp} 显然得到。
+    \end{answer}
+  \item 
+    \begin{exparts}
+\partsitem 证明对任意 \( \nbyn{2} \) 矩阵 \( T \)，存在不全为 $0$ 的标量 \( c_0,\dots,c_4 \)，使
+$c_4T^4+c_3T^3+c_2T^2+c_1T+c_0I$ 为零矩阵
+（$I$ 为 $\nbyn{2}$ 单位矩阵，$1,1$ 和 $2,2$ 位置为 $1$，其余为零；参见 \nearbyexercise{exer:IdMat}）。
+\partsitem 设多项式 \( p(x)=c_nx^n+\dots+c_1x+c_0 \)。
+若 \( T \) 为方阵，定义 \( p(T) \) 为矩阵 \( c_nT^n+\dots+c_1T+c_0I \)（$I$ 为大小适当的单位矩阵）。
+证明对任意方阵，都存在多项式使 \( p(T) \) 为零矩阵。
+\partsitem 方阵的\definend{最小多项式}\index{minimal polynomial}%
+\index{matrix!minimal polynomial} $m(x)$，是使 \( m(T) \) 为零矩阵的首项系数为 \( 1 \)、次数最低的多项式。
+求以下矩阵的最小多项式。
+        \begin{equation*}
+          \begin{mat}[r]
+            \sqrt{3}/2  &-1/2       \\
+            1/2         &\sqrt{3}/2
+          \end{mat}
+        \end{equation*}
+（这是逆时针旋转 $\pi/6$ 弧度相对于标准基 $\stdbasis_2,\stdbasis_2$ 的表示。）
+    \end{exparts}
+    \begin{answer} 
+      \begin{exparts}
+\partsitem 向量空间 \( \matspace_{\nbyn{2}} \) 的维数为四。\( \set{T^4,\dots,T,I} \) 给出五个元素，所以它们线性相关。
+\partsitem 若 \( T \) 为 \( \nbyn{n} \) 矩阵，推广上一问的论证可知，存在这样的多项式，其次数不超过 \( n^2 \)，因为
+\( \set{T^{n^2},\dots,T,I} \) 给出了 $n^2$ 维空间 $\matspace_{\nbyn{n}}$ 中的 \( n^2+1 \) 个元素。
+\partsitem 先计算各次幂，
+           \begin{equation*}
+              T^2=
+              \begin{mat}[r]
+                 1/2         &-\sqrt{3}/2  \\
+                 \sqrt{3}/2  &1/2
+              \end{mat} 
+              \qquad
+              T^3=
+              \begin{mat}[r]
+                 0           &-1           \\
+                 1           &0
+              \end{mat}
+             \qquad
+              T^4=
+              \begin{mat}[r]
+                 -1/2        &-\sqrt{3}/2  \\
+                 \sqrt{3}/2  &-1/2
+              \end{mat}
+           \end{equation*}
+（注意，旋转 $\pi/6$ 三次相当于旋转 $\pi/2$，确实是 $T^3$ 所表示的变换）。
+再令 \( c_4T^4+c_3T^3+c_2T^2+c_1T+c_0I \) 等于零矩阵，
+           \begin{multline*}
+             \begin{mat}[r]
+                 -1/2        &-\sqrt{3}/2  \\
+                 \sqrt{3}/2  &-1/2
+              \end{mat}c_4
+              +\begin{mat}[r]
+                 0           &-1           \\
+                 1           &0
+              \end{mat}c_3
+              +\begin{mat}[r]
+                 1/2         &-\sqrt{3}/2  \\
+                 \sqrt{3}/2  &1/2
+              \end{mat}c_2                                     \\
+              +\begin{mat}[r]
+                 \sqrt{3}/2  &-1/2       \\
+                 1/2         &\sqrt{3}/2
+               \end{mat}c_1
+              +\begin{mat}[r]
+                 1  &0  \\
+                 0  &1 
+               \end{mat}c_0                          
+               =\begin{mat}[r]
+                  0  &0  \\
+                  0  &0 
+               \end{mat}                     
+           \end{multline*}
+得到以下线性方程组。
+           \begin{equation*}
+             \begin{linsys}{5}
+                -(1/2)c_4         &  &  &+ &(1/2)c_2
+                    &+ &(\sqrt{3}/2)c_1  &+  &c_0  &=  &0      \\
+                -(\sqrt{3}/2)c_4  &- &c_3 &- &(\sqrt{3}/2)c_2
+                    &- &(1/2)c_1         &   &          &=  &0        \\
+                 (\sqrt{3}/2)c_4  &+ &c_3 &+ &(\sqrt{3}/2)c_2
+                    &+ &(1/2)c_1  &   &            &=  &0      \\
+                -(1/2)c_4              &  &  &+ &(1/2)c_2
+                    &+ &(\sqrt{3}/2)c_1  &+  &c_0  &=  &0
+              \end{linsys} 
+           \end{equation*}
+作高斯消元。
+           \begin{align*}
+             &\grstep{-\rho_1+\rho_4}
+             \repeatedgrstep{\rho_2+\rho_3}
+             \begin{linsys}{5}
+                -(1/2)c_4         &  &  &+ &(1/2)c_2
+                    &+ &(\sqrt{3}/2)c_1  &+  &c_0  &=  &0      \\
+                -(\sqrt{3}/2)c_4  &- &c_3 &- &(\sqrt{3}/2)c_2
+                    &- &(1/2)c_1         &   &          &=  &0   \\
+                                  &  &  &  &     
+                    &  &                 &   &0    &=  &0      \\
+                                  &  &  &  &     
+                    &  &                 &   &0    &=  &0      
+             \end{linsys}                                               \\
+             &\grstep{-\sqrt{3}\rho_1+\rho_2}                   
+             \begin{linsys}{5}
+                -(1/2)c_4         &  &  &+ &(1/2)c_2
+                    &+ &(\sqrt{3}/2)c_1  &+  &c_0  &=  &0      \\
+                                  &- &c_3 &- &\sqrt{3}c_2
+                    &- &2c_1             &-  &\sqrt{3}c_0  &=  &0   \\
+                                  &  &  &  &     
+                    &  &                 &   &0    &=  &0      \\
+                                  &  &  &  &     
+                    &  &                 &   &0    &=  &0      
+              \end{linsys} 
+           \end{align*}
+令 \( c_4 \)、\( c_3 \)、\( c_2 \) 为零，则 \( c_1 \)、\( c_0 \) 也为零，所以一次或零次多项式均不符合要求。
+令 \( c_4 \)、\( c_3 \) 为零，$c_2$ 为一，得到线性方程组
+           \begin{equation*}
+             \begin{linsys}{3}
+               (1/2)     &+  &(\sqrt{3}/2)c_1  &+  &c_0          &=  &0 \\
+               -\sqrt{3} &-  &2c_1             &-  &\sqrt{3}c_0  &=  &0
+             \end{linsys}
+           \end{equation*}
+其解为 $c_1=-\sqrt{3}$、$c_0=1$。
+所以，$m(x)=x^2-\sqrt{3}x+1$ 是矩阵 $T$ 的最小多项式。
+      \end{exparts}  
+    \end{answer}
+  \item 
+所有有限次多项式组成的无穷维空间 $\polyspace$，给出了一个令人印象深刻的线性映射不可交换的例子。
+设 \( \map{d/dx}{\polyspace}{\polyspace} \) 为通常的求导映射，\( \map{s}{\polyspace}{\polyspace} \) 为\definend{移位}映射。
+    \begin{equation*}
+      a_0+a_1x+\dots+a_nx^n
+      \;\mapsunder{s}\;
+      0+a_0x+a_1x^2+\dots+a_nx^{n+1}
+    \end{equation*}
+证明两映射不可交换：\( \composed{d/dx}{s}\neq \composed{s}{d/dx} \)。
+实际上，\( (\composed{d/dx}{s})-(\composed{s}{d/dx}) \) 不仅不是零映射，而且正是恒等映射。
+    \begin{answer}
+按常规方法验证：
+      \begin{equation*}
+        a_0+a_1x+\dots+a_nx^n\mapsunder{s}a_0x+a_1x^2+\dots+a_nx^{n+1}
+                  \mapsunder{d/dx} a_0+2a_1x+\dots+(n+1)a_nx^n
+      \end{equation*}
+而
+      \begin{equation*}
+        a_0+a_1x+\dots+a_nx^n
+                  \mapsunder{d/dx} a_1+\dots+na_nx^{n-1}
+                  \mapsunder{s}a_1x+\dots+a_nx^n
+      \end{equation*}
+所以，映射 $(\composed{d/dx}{s})-(\composed{s}{d/dx})$ 的作用为
+$a_0+a_1x+\dots+a_nx^n\mapsto a_0+a_1x+\dots+a_nx^n$。
+    \end{answer}
+  \item 
+回顾数列 \( a_1, a_2, \dots, a_n \) 的求和记号。
+    \begin{equation*}
+      \sum_{i=1}^{n}a_i=a_1+a_2+\dots+a_n
+    \end{equation*}
+用此记号，\( G \) 与 \( H \) 的乘积的 \( i,j \) 元素如下。
+    \begin{equation*}
+       p_{i,j}=\sum_{k=1}^{r} g_{i,k}h_{k,j}
+    \end{equation*}
+使用这一记号，
+    \begin{exparts}
+\partsitem 重新证明矩阵乘法满足结合律；
+\partsitem 重新证明 \nearbytheorem{th:MatMultRepComp}。
+    \end{exparts}
+    \begin{answer}
+       \begin{exparts}
+\partsitem 按照本小节末尾的评注，\( (FG)H \) 的 \( i,j \) 元素如下，
+           \begin{multline*}
+             \sum_{t=1}^s\bigl(\sum_{k=1}^{r} f_{i,k}g_{k,t}\bigr)h_{t,j}
+             =\sum_{t=1}^s\sum_{k=1}^{r} (f_{i,k}g_{k,t})h_{t,j} 
+             =\sum_{t=1}^s\sum_{k=1}^{r} f_{i,k}(g_{k,t}h_{t,j})  \\ 
+             =\sum_{k=1}^{r}\sum_{t=1}^s f_{i,k}(g_{k,t}h_{t,j}) 
+             =\sum_{k=1}^{r}f_{i,k}\bigl(\sum_{t=1}^s g_{k,t}h_{t,j}\bigr)
+           \end{multline*}
+（第一个等号利用分配律将 $h$ 乘进去；第二个用实数结合律；第三个用实数交换律；第四个用分配律提出 $f$），这就是 \( F(GH) \) 的 \( i,j \) 元素。
+\partsitem \( h(\vec{v})\) 的第 \( k \) 个分量为
+           \begin{equation*}
+             \sum_{j=1}^n h_{k,j}v_j
+           \end{equation*}
+所以，\( \composed{g}{h}\,(\vec{v}) \) 的第 \( i \) 个分量如下，
+           \begin{multline*}
+              \sum_{k=1}^r g_{i,k}\bigl(\sum_{j=1}^n h_{k,j}v_j\bigr) 
+              =\sum_{k=1}^r \sum_{j=1}^n g_{i,k}h_{k,j}v_j   
+              =\sum_{k=1}^r \sum_{j=1}^n (g_{i,k}h_{k,j})v_j
+                                                              \\ 
+              =\sum_{j=1}^n \sum_{k=1}^r (g_{i,k}h_{k,j})v_j 
+              =\sum_{j=1}^n (\sum_{k=1}^r g_{i,k}h_{k,j})\,v_j
+           \end{multline*}
+（第一个等号利用分配律将 $g$ 乘进去；第二个用实数结合律；第三个用实数交换律；第四个用分配律提出 $v$）。
+       \end{exparts} 
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{矩阵乘法的运算机制}
+可以暂时不考虑矩阵所代表的映射，将矩阵乘法看成一个机械的计算过程。
+
+这个运算最显著的特点，是行与列的组合方式。矩阵乘积的 \( i,j \) 元素，是左矩阵第~$i$ 行与右矩阵第~$j$ 列的点积。
+例如，下面用第二行与第三列算出 $2,3$ 元素。
+\begin{equation*}
+\setlength{\fboxsep}{1.5pt}
+    \begin{mat}
+       \begin{array}{@{}cc@{}} 1  &1 \end{array}                         \\ 
+       \text{\highlight{\( \begin{array}{@{}cc@{}}  0  &1  \end{array} \)}}   \\  
+       \begin{array}{@{}cc@{}} 1  &0 \end{array}
+    \end{mat}
+    \begin{mat}
+      \begin{array}{@{}c@{}}  4  \\  5  \end{array}
+      &\begin{array}{@{}c@{}}  6  \\  7  \end{array}
+      &\text{\highlight{ \(\begin{array}{@{}c@{}}  8  \\  9  \end{array}\) }}
+      &\begin{array}{@{}c@{}}  2  \\  3  \end{array}
+    \end{mat}
+  =
+    \begin{mat}[r]
+      9  &13   &17                      &5  \\
+      5  &7    &\text{\highlight{ \(9\) }}   &3  \\
+      4  &6    &8                       &2
+    \end{mat}
+\end{equation*}
+可以看成左矩阵用各行乘右矩阵的各列，也可以看成右矩阵用各列作用于左矩阵的各行。
+下面考察一些简单矩阵从左边、右边相乘的作用。
+
+最简单的是零矩阵。
+
+\begin{example}
+从左边或右边乘零矩阵，结果都是零矩阵。
+\begin{equation*}
+    \begin{mat}[r]
+       0  &0  \\
+       0  &0
+    \end{mat}
+    \begin{mat}[r]
+       1  &3  &2   \\
+      -1  &1  &-1
+    \end{mat}
+  =
+    \begin{mat}[r]
+       0  &0  &0   \\
+       0  &0  &0
+    \end{mat}
+    \qquad
+    \begin{mat}[r]
+       2  &3  \\
+       1  &4
+    \end{mat}
+    \begin{mat}[r]
+       0  &0  \\
+       0  &0
+    \end{mat}
+  =
+    \begin{mat}[r]
+       0  &0  \\
+       0  &0
+    \end{mat}
+\end{equation*}
+\end{example}
+
+其次简单的是只有一个非零元素的矩阵。
+
+\begin{definition}  \label{df:UnitMatrix}
+%<*df:UnitMatrix>
+除 \( i,j \) 元素为 $1$ 外，其余元素均为 $0$ 的矩阵，称为 \( i,j \) \definend{矩阵单位}\index{matrix!unit}\index{unit matrix}
+（也称\definend{单位元矩阵}）。\index{matrix!unit}
+%</df:UnitMatrix>
+\end{definition}
+
+\begin{example}
+下面是三行两列的 \( 1,2\, \) 矩阵单位从左边相乘的作用。
+\begin{equation*}
+    \begin{mat}[r]
+       0  &1  \\
+       0  &0  \\
+       0  &0
+    \end{mat}
+    \begin{mat}[r]
+       5  &6  \\
+       7  &8
+    \end{mat}
+  =
+    \begin{mat}[r]
+       7  &8  \\
+       0  &0  \\
+       0  &0
+    \end{mat}
+\end{equation*}
+从左边乘 \( i,j \) 矩阵单位，会将被乘矩阵的第 \( j \) 行复制到结果的第 \( i \) 行。
+从右边乘，则将被乘矩阵的第 \( i \) 列复制到结果的第 \( j \) 列。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &2  &3  \\
+       4  &5  &6  \\
+       7  &8  &9
+    \end{mat}
+    \begin{mat}[r]
+       0  &1  \\
+       0  &0  \\
+       0  &0
+    \end{mat}
+  =
+    \begin{mat}[r]
+       0  &1  \\
+       0  &4  \\
+       0  &7
+    \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{example}
+将矩阵单位乘以标量，只会让结果也乘以同一标量。下面的左乘矩阵是上一例矩阵的两倍。
+\begin{equation*}
+    \begin{mat}[r]
+       0  &2  \\
+       0  &0  \\
+       0  &0
+    \end{mat}
+    \begin{mat}[r]
+       5  &6  \\
+       7  &8
+    \end{mat}
+  =
+    \begin{mat}[r]
+      14  &16 \\
+       0  &0  \\
+       0  &0
+    \end{mat}
+\end{equation*}
+% And this is the action of the matrix that is $-3$~times the one 
+% above.
+% \begin{equation*}
+%     \begin{mat}[r]
+%        1  &2  &3  \\
+%        4  &5  &6  \\
+%        7  &8  &9
+%     \end{mat}
+%     \begin{mat}[r]
+%        0  &-3 \\
+%        0  &0  \\
+%        0  &0
+%     \end{mat}
+%   =
+%     \begin{mat}[r]
+%        0  &-3  \\
+%        0  &-12 \\
+%        0  &-21
+%     \end{mat}
+% \end{equation*}
+\end{example}
+
+再复杂一点的是有两个非零元素的矩阵。
+
+\begin{example}
+有两种情形。如果左乘矩阵的非零元素位于不同行，它们的作用互不影响。
+\begin{align*}
+    \begin{mat}[r]
+       1  &0  &0  \\
+       0  &0  &2  \\
+       0  &0  &0
+    \end{mat}
+    \begin{mat}[r]
+       1  &2  &3  \\
+       4  &5  &6  \\
+       7  &8  &9
+    \end{mat}
+  &=(  \begin{mat}[r]
+          1  &0  &0  \\
+          0  &0  &0  \\
+          0  &0  &0
+       \end{mat}
+    +
+       \begin{mat}[r]
+          0  &0  &0  \\
+          0  &0  &2  \\
+          0  &0  &0
+       \end{mat}     )
+      \begin{mat}[r]
+         1  &2  &3  \\
+         4  &5  &6  \\
+         7  &8  &9
+      \end{mat}                      \\
+  &=\begin{mat}[r]
+       1  &2  &3  \\
+       0  &0  &0  \\
+       0  &0  &0
+    \end{mat}
+  +
+    \begin{mat}[r]
+       0  &0  &0  \\
+      14  &16 &18 \\
+       0  &0  &0
+    \end{mat}                        \\
+  &=\begin{mat}[r]
+       1  &2  &3  \\
+      14  &16 &18 \\
+       0  &0  &0
+    \end{mat}
+\end{align*}
+如果非零元素位于同一行，则结果的该行是一个线性组合。
+\begin{align*}
+    \begin{mat}[r]
+       1  &0  &2  \\
+       0  &0  &0  \\
+       0  &0  &0
+    \end{mat}
+    \begin{mat}[r]
+       1  &2  &3  \\
+       4  &5  &6  \\
+       7  &8  &9
+    \end{mat}
+  &=(  \begin{mat}[r]
+          1  &0  &0  \\
+          0  &0  &0  \\
+          0  &0  &0
+       \end{mat}
+    +
+       \begin{mat}[r]
+          0  &0  &2  \\
+          0  &0  &0  \\
+          0  &0  &0
+       \end{mat}     )
+      \begin{mat}[r]
+         1  &2  &3  \\
+         4  &5  &6  \\
+         7  &8  &9
+      \end{mat}                     \\
+  &=\begin{mat}[r]
+       1  &2  &3  \\
+       0  &0  &0  \\
+       0  &0  &0
+    \end{mat}
+  +
+    \begin{mat}[r]
+      14  &16 &18 \\
+       0  &0  &0  \\
+       0  &0  &0
+    \end{mat}                      \\
+  &=\begin{mat}[r]
+      15  &18 &21 \\
+       0  &0  &0  \\
+       0  &0  &0
+    \end{mat}
+\end{align*}
+\end{example}
+
+\par\noindent 右乘的作用类似，只是作用于列。
+
+
+\begin{lemma} \label{lm:ColsAndRowsInMatrixMult}
+%<*lm:ColsAndRowsInMatrixMult>
+两个矩阵 $G$ 和 $H$ 的乘积 $GH$ 的各列，由 $G$ 乘 $H$ 的各列得到，
+    \begin{equation*}
+      G\cdot \begin{pmat}{c@{\hspace{1em}}c@{\hspace{1em}}c}
+         % \MTFlushSpaceAbove
+         % \vdotswithin{\vec{h}_1}       &        &\vdotswithin{\vec{h}_n}   
+         % \MTFlushSpaceBelow
+         \vdots       &        &\vdots   \\
+         \vec{h}_1    &\cdots  &\vec{h}_n \\ 
+         \vdots       &        &\vdots 
+       \end{pmat}
+      =\begin{pmat}{c@{\hspace{1em}}c@{\hspace{1em}}c}
+         \vdots             &        &\vdots    \\
+         G\cdot \vec{h}_1   &\cdots  &G\cdot\vec{h}_n \\ 
+         \vdots             &        &\vdots 
+       \end{pmat}
+    \end{equation*}
+$GH$ 的各行，由 $G$ 的各行乘 $H$ 得到。
+    \begin{equation*}
+      \begin{pmat}{c}
+        \cdots\; \vec{g}_1 \;\cdots \rule[-1.25ex]{0pt}{2ex} \\ 
+         % \hline
+         \vdots \\[.5ex]  
+         % \hline
+        \rule{0pt}{2.5ex}\cdots\; \vec{g}_r \;\cdots 
+       \end{pmat}\cdot H
+      =\begin{pmat}{c}
+         \cdots\; \vec{g}_1\cdot H \;\cdots\rule[-1.25ex]{0pt}{2ex} \\ 
+        % \hline
+         \vdots\rule[-1ex]{0pt}{2ex} \\[.5ex]   
+        % \hline
+         \rule{0pt}{2.5ex}\cdots\; \vec{g}_r\cdot H \;\cdots
+       \end{pmat}
+    \end{equation*}
+% (ignoring the extra parentheses).
+%</lm:ColsAndRowsInMatrixMult>
+\end{lemma}
+
+\begin{proof}
+%<*pf:ColsAndRowsInMatrixMult>
+我们验证两个 $\nbyn{2}$ 矩阵相乘时，乘积的各行等于~$G$ 的各行乘整个矩阵~$H$；其他情形相同。
+\begin{align*}
+  \begin{mat}
+    g_{1,1}  &g_{1,2}    \\
+    g_{2,1}  &g_{2,2}    
+  \end{mat}
+  \begin{mat}
+    h_{1,1}  &h_{1,2}    \\
+    h_{2,1}  &h_{2,2}    
+  \end{mat}
+  &=\begin{mat}
+    \rowvec{g_{1,1}  &g_{1,2}}H  \\ 
+    \rowvec{g_{2,1}  &g_{2,2}}H    
+  \end{mat}          \\
+  &=
+  \begin{mat}
+    \rowvec{g_{1,1}h_{1,1}+g_{1,2}h_{2,1}  &g_{1,1}h_{1,2}+g_{1,2}h_{2,2}}    \\ 
+    \rowvec{g_{2,1}h_{1,1}+g_{2,2}h_{2,1}  &g_{2,1}h_{1,2}+g_{2,2}h_{2,2}} 
+  \end{mat}
+\end{align*}
+（忽略多余的括号。）
+%</pf:ColsAndRowsInMatrixMult>
+\end{proof}
+
+\begin{example}
+考虑两个 $\nbyn{2}$ 矩阵的乘积的各列。
+\begin{equation*}
+  \begin{mat}
+    g_{1,1}  &g_{1,2}    \\
+    g_{2,1}  &g_{2,2}    
+  \end{mat}
+  \begin{mat}
+    h_{1,1}  &h_{1,2}    \\
+    h_{2,1}  &h_{2,2}    
+  \end{mat}   
+  =
+  \begin{mat}
+    g_{1,1}h_{1,1}+g_{1,2}h_{2,1}  &g_{1,1}h_{1,2}+g_{1,2}h_{2,2} \\
+    g_{2,1}h_{1,1}+g_{2,2}h_{2,1}  &g_{2,1}h_{1,2}+g_{2,2}h_{2,2} 
+  \end{mat}
+\end{equation*}
+每一列都是 $G$ 乘 $H$ 的对应列的结果。
+\begin{equation*}
+  G\colvec{h_{1,1} \\ h_{2,1}}  
+  =
+  \colvec{g_{1,1}h_{1,1}+g_{1,2}h_{2,1} \\ g_{2,1}h_{1,1}+g_{2,2}h_{2,1}}
+  \quad
+  G\colvec{h_{1,2}  \\ h_{2,2}}    
+  =\colvec{g_{1,1}h_{1,2}+g_{1,2}h_{2,2} \\ g_{2,1}h_{1,2}+g_{2,2}h_{2,2}} 
+\end{equation*}
+\end{example}
+
+这些观察的一个应用是：存在一个矩阵，其作用只是原样复制各行或各列。
+
+\begin{definition}  \label{df:MainDiagonal}
+%<*df:MainDiagonal>
+方阵的\definend{主对角线}\index{matrix!main diagonal}（也简称\definend{对角线}）从左上延伸到右下。
+%</df:MainDiagonal>
+\end{definition}
+
+\begin{definition} \label{df:IdentityMatrix}
+%<*df:IdentityMatrix>
+\definend{单位矩阵}\index{identity!matrix}\index{matrix!identity}是主对角线上全为 $1$、其余元素全为 $0$ 的方阵。
+\begin{equation*}
+   I_{\nbyn{n}}=
+      \begin{mat}
+        1  &0  &\ldots  &0  \\
+        0  &1  &\ldots  &0  \\
+           &\vdots          \\
+        0  &0  &\ldots  &1
+      \end{mat}
+\end{equation*}
+%</df:IdentityMatrix>
+\end{definition}
+
+\begin{example}
+下面的 \( \nbyn{2} \) 单位矩阵从右边相乘，使被乘矩阵保持不变。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &-2 \\
+       0  &-2 \\
+       1  &-1 \\
+       4  &3
+    \end{mat}
+    \begin{mat}[r]
+       1  &0  \\
+       0  &1  \\
+    \end{mat}
+  =
+    \begin{mat}[r]
+       1  &-2 \\
+       0  &-2 \\
+       1  &-1 \\
+       4  &3
+    \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{example}
+下面的 \( \nbyn{3} \) 单位矩阵，无论从左边相乘，
+\begin{equation*}
+    \begin{mat}[r]
+       1  &0  &0  \\
+       0  &1  &0  \\
+       0  &0  &1
+    \end{mat}
+    \begin{mat}[r]
+       2  &3  &6  \\
+       1  &3  &8  \\
+      -7  &1  &0
+    \end{mat}
+  =
+    \begin{mat}[r]
+       2  &3  &6  \\
+       1  &3  &8  \\
+      -7  &1  &0
+    \end{mat}
+\end{equation*}
+还是从右边相乘，都使被乘矩阵保持不变。
+\begin{equation*}
+    \begin{mat}[r]
+       2  &3  &6  \\
+       1  &3  &8  \\
+      -7  &1  &0
+    \end{mat}
+    \begin{mat}[r]
+       1  &0  &0  \\
+       0  &1  &0  \\
+       0  &0  &1
+    \end{mat}
+  =
+    \begin{mat}[r]
+       2  &3  &6  \\
+       1  &3  &8  \\
+      -7  &1  &0
+    \end{mat}
+\end{equation*}
+\end{example}
+
+\noindent 因此，单位矩阵是 $\nbyn{n}$ 矩阵集合关于矩阵乘法的单位元。
+
+将单位矩阵中的一放宽为任意实数，就得到一种推广。所得矩阵会将整行或整列乘以标量。
+
+\begin{definition}  \label{df:DiagonalMatrix}
+%<*df:DiagonalMatrix>
+\definend{对角矩阵}\index{matrix!diagonal}\index{diagonal matrix}是主对角线以外的元素全为 $0$ 的方阵。
+\begin{equation*}
+    \begin{mat}
+       a_{1,1}  &0        &\ldots     &0     \\
+       0        &a_{2,2}  &\ldots     &0     \\
+                &\vdots                      \\
+       0        &0        &\ldots     &a_{n,n}
+    \end{mat}
+\end{equation*}
+%</df:DiagonalMatrix>
+\end{definition}
+
+\begin{example}
+从左边乘对角矩阵，会将各行分别乘以标量。
+\begin{equation*}
+    \begin{mat}[r]
+       2  &0   \\
+       0  &-1
+    \end{mat}
+    \begin{mat}[r]
+       2  &1  &4  &-1  \\
+      -1  &3  &4  &4
+    \end{mat}
+  =
+    \begin{mat}[r]
+       4  &2  &8  &-2  \\
+       1  &-3 &-4 &-4
+    \end{mat}
+\end{equation*}
+从右边乘，则将各列分别乘以标量。
+\begin{equation*}
+     \begin{mat}[r]
+        1  &2  &1  \\
+        2  &2  &2
+     \end{mat}
+    \begin{mat}[r]
+      3  &0  &0  \\
+      0  &2  &0  \\
+      0  &0  &-2
+    \end{mat}
+  =
+     \begin{mat}[r]
+        3  &4  &-2 \\
+        6  &4  &-4
+     \end{mat}
+\end{equation*}
+\end{example}
+
+还可以把单位矩阵推广为每行、每列恰有一个一，但这些一不一定在对角线上的矩阵。
+
+\begin{definition}  \label{df:PermutationMatrix}
+%<*df:PermutationMatrix>
+\definend{置换矩阵}%
+\index{permutation!matrix}\index{matrix!permutation}是每行、每列恰有一个~$1$、其余元素全为 $0$ 的方阵。
+%</df:PermutationMatrix>
+\end{definition}
+
+\begin{example}
+从左边乘这些矩阵会置换各行。
+\begin{equation*}
+     \begin{mat}[r]
+        0  &0  &1  \\
+        1  &0  &0  \\
+        0  &1  &0
+     \end{mat}
+     \begin{mat}[r]
+        1  &2  &3  \\
+        4  &5  &6  \\
+        7  &8  &9
+     \end{mat}
+  =
+     \begin{mat}[r]
+        7  &8  &9  \\
+        1  &2  &3  \\
+        4  &5  &6
+     \end{mat}
+\end{equation*}
+从右边乘会置换各列。
+\begin{equation*}
+     \begin{mat}[r]
+        1  &2  &3  \\
+        4  &5  &6  \\
+        7  &8  &9
+     \end{mat}
+     \begin{mat}[r]
+        0  &0  &1  \\
+        1  &0  &0  \\
+        0  &1  &0
+     \end{mat}
+  =
+     \begin{mat}[r]
+        2  &3  &1  \\
+        5  &6  &4  \\
+        8  &9  &7
+     \end{mat}
+\end{equation*}
+\end{example}
+
+本小节最后应用这些观察，构造实现高斯消元和高斯–若尔当消元的矩阵。
+已经知道如何构造将某行乘以标量、以及交换两行的矩阵。
+
+\begin{example}
+乘以下矩阵，将第二行乘以三。
+\begin{equation*}
+    \begin{mat}[r]
+      1  &0  &0  \\
+      0  &3  &0  \\
+      0  &0  &1
+    \end{mat}
+    \begin{mat}[r]
+      0  &2    &1  &1  \\
+      0  &1/3  &1  &-1 \\
+      1  &0    &2  &0
+    \end{mat}
+  =
+    \begin{mat}[r]
+      0  &2    &1  &1  \\
+      0  &1    &3  &-3 \\
+      1  &0    &2  &0
+    \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{example}
+以下乘法交换第一行与第三行。
+\begin{equation*}
+    \begin{mat}[r]
+      0  &0  &1  \\
+      0  &1  &0  \\
+      1  &0  &0
+    \end{mat}
+    \begin{mat}[r]
+      0  &2    &1  &1  \\
+      0  &1    &3  &-3 \\
+      1  &0    &2  &0
+    \end{mat}
+  =
+    \begin{mat}[r]
+      1  &0    &2  &0  \\
+      0  &1    &3  &-3 \\
+      0  &2    &1  &1
+    \end{mat}
+\end{equation*}
+\end{example}
+
+为说明如何实现行组合，观察上述两个例子。将第二行乘以三的矩阵，可由单位矩阵按如下方式得到。
+\begin{equation*}
+    \begin{mat}[r]
+      1  &0  &0  \\
+      0  &1  &0  \\
+      0  &0  &1
+    \end{mat}
+  \grstep{3\rho_2}
+    \begin{mat}[r]
+      1  &0  &0  \\
+      0  &3  &0  \\
+      0  &0  &1
+    \end{mat}
+\end{equation*}
+类似地，交换第一行与第三行的矩阵按如下方式得到。
+\begin{equation*}
+    \begin{mat}[r]
+      1  &0  &0  \\
+      0  &1  &0  \\
+      0  &0  &1
+    \end{mat}
+  \grstep{\rho_1\leftrightarrow\rho_3}
+    \begin{mat}[r]
+      0  &0  &1  \\
+      0  &1  &0  \\
+      1  &0  &0
+    \end{mat}
+\end{equation*}
+
+\begin{example}
+按以下方式得到的 \( \nbyn{3} \) 矩阵，
+\begin{equation*}
+    \begin{mat}[r]
+      1  &0  &0  \\
+      0  &1  &0  \\
+      0  &0  &1
+    \end{mat}
+  \grstep{-2\rho_2+\rho_3}
+    \begin{mat}[r]
+      1  &0  &0  \\
+      0  &1  &0  \\
+      0  &-2 &1
+    \end{mat}
+\end{equation*}
+从左边相乘时，会执行组合运算 \( -2\rho_2+\rho_3 \)。
+\begin{equation*}
+    \begin{mat}[r]
+      1  &0  &0  \\
+      0  &1  &0  \\
+      0  &-2 &1
+    \end{mat}
+    \begin{mat}[r]
+      1  &0    &2  &0  \\
+      0  &1    &3  &-3 \\
+      0  &2    &1  &1
+    \end{mat}
+  =
+    \begin{mat}[r]
+      1  &0    &2  &0  \\
+      0  &1    &3  &-3 \\
+      0  &0    &-5 &7
+    \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{definition}   \label{df:ElementaryReductionMatrices}
+%<*df:ElementaryReductionMatrices>
+\definend{初等消元矩阵}%
+\index{matrix!elementary reduction}\index{elementary reduction matrix}
+（简称\definend{初等矩阵}）\index{elementary matrix}%
+\index{matrix!elementary}是对单位矩阵作一次高斯消元运算得到的矩阵。
+\begin{enumerate}
+\item \( I\grstep{k\rho_i}M_i(k) \)，其中 \( k\neq 0 \)
+\item \( I\grstep{\rho_i\leftrightarrow\rho_j}P_{i,j} \)，其中 \( i\neq j \)
+\item \( I\grstep{k\rho_i+\rho_j}C_{i,j}(k) \)，其中 \( i\neq j \)
+\end{enumerate}
+%</df:ElementaryReductionMatrices>
+\end{definition}
+
+\begin{lemma}   \label{GrByMatMult}
+%<*lm:GrByMatMult>
+矩阵乘法可以实现高斯消元。\index{elementary reduction operations!by matrix multiplication}\index{elementary row operations!by matrix multiplication}\index{Gauss's Method!by matrix multiplication}
+\begin{enumerate}
+\item 若 \( H\grstep{k\rho_i}G \)，则 \( M_i(k)H=G \)。
+\item 若 \( H\grstep{\rho_i\leftrightarrow\rho_j}G \)，则 \( P_{i,j}H=G \)。
+\item 若 \( H\grstep{k\rho_i+\rho_j}G \)，则 \( C_{i,j}(k)H=G \)。
+\end{enumerate}
+%</lm:GrByMatMult>
+\end{lemma}
+
+\begin{proof}
+显然。
+\end{proof}
+
+\begin{example}
+这是第一章中首次使用高斯消元求解的方程组。
+\begin{equation*}
+  \begin{linsys}{3}
+             &   &      &   &3x_3  &=  &9  \\
+        x_1  &+  &5x_2  &-  &2x_3  &=  &2  \\
+   (1/3)x_1  &+  &2x_2  &   &      &=  &3 
+  \end{linsys}
+\end{equation*}
+可以用矩阵乘法消元。先交换第一行与第三行，
+\begin{equation*}
+    \begin{mat}[r]
+       0  &0  &1  \\
+       0  &1  &0  \\
+       1  &0  &0
+    \end{mat}
+    \begin{amat}[r]{3}
+       0    &0    &3   &9   \\
+       1    &5    &-2  &2   \\
+      1/3   &2    &0   &3
+    \end{amat}
+  =
+    \begin{amat}[r]{3}
+      1/3   &2    &0   &3   \\
+       1    &5    &-2  &2   \\
+       0    &0    &3   &9
+    \end{amat}
+\end{equation*}
+将第一行乘以三，
+\begin{equation*}
+    \begin{mat}[r]
+       3  &0  &0  \\
+       0  &1  &0  \\
+       0  &0  &1
+    \end{mat}
+    \begin{amat}[r]{3}
+      1/3   &2    &0   &3   \\
+       1    &5    &-2  &2   \\
+       0    &0    &3   &9
+    \end{amat}
+  =
+    \begin{amat}[r]{3}
+       1    &6    &0   &9   \\
+       1    &5    &-2  &2   \\
+       0    &0    &3   &9
+    \end{amat}
+\end{equation*}
+再将第一行的 \( -1 \) 倍加到第二行。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &0  &0  \\
+      -1  &1  &0  \\
+       0  &0  &1
+    \end{mat}
+    \begin{amat}[r]{3}
+       1    &6    &0   &9   \\
+       1    &5    &-2  &2   \\
+       0    &0    &3   &9
+    \end{amat}
+  =
+    \begin{amat}[r]{3}
+       1    &6    &0   &9   \\
+       0    &-1   &-2  &-7  \\
+       0    &0    &3   &9
+    \end{amat}
+\end{equation*}
+现在回代即可得到解。
+\end{example}
+
+\begin{example}
+高斯–若尔当消元同样如此。对上一例最后的矩阵，先把主元化为一，
+\begin{equation*}
+    \begin{mat}[r]
+       1  &0  &0  \\
+       0  &-1 &0  \\
+       0  &0  &1/3
+    \end{mat}
+    \begin{amat}[r]{3}
+       1    &6    &0   &9   \\
+       0    &-1   &-2  &-7  \\
+       0    &0    &3   &9
+    \end{amat}
+  =
+    \begin{amat}[r]{3}
+       1    &6    &0   &9   \\
+       0    &1    &2   &7   \\
+       0    &0    &1   &3
+    \end{amat}
+\end{equation*}
+再消去第三列中的其他元素，然后处理第二列。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &-6 &0  \\
+       0  &1  &0  \\
+       0  &0  &1
+    \end{mat}
+    \begin{mat}[r]
+       1  &0  &0  \\
+       0  &1  &-2 \\
+       0  &0  &1
+    \end{mat}
+    \begin{amat}[r]{3}
+       1    &6    &0   &9   \\
+       0    &1    &2   &7   \\
+       0    &0    &1   &3
+    \end{amat}
+  =
+    \begin{amat}[r]{3}
+       1    &0    &0   &3   \\
+       0    &1    &0   &1   \\
+       0    &0    &1   &3
+    \end{amat}
+\end{equation*}
+\end{example}
+
+% We have observed the following result
+% that we shall use in the next subsection.
+
+\begin{corollary} \label{cor:ReducViaMatrices}
+%<*co:ReducViaMatrices>
+对任意矩阵 \( H \)，存在初等消元矩阵 \( R_1 \)、\ldots、\( R_r \)，使
+\( R_r\cdot R_{r-1}\cdots R_1\cdot H \) 为简化阶梯形。
+%</co:ReducViaMatrices>
+\end{corollary}
+
+至此，我们一直把向量空间及其间的映射作为主要研究对象，似乎仅为方便计算才引入矩阵。本小节说明，这并不是全部。
+
+通过元素组合的机制理解矩阵运算，同样很有用。本书后面仍将重点放在映射上，但也会采取务实的态度\Dash 如果矩阵观点能使思想更清楚，就使用它。
+
+
+\begin{exercises}
+  \recommended \item
+预测以下各个与置换矩阵相乘的结果，再实际相乘验证。
+    \begin{exparts*}
+      \partsitem 
+        $\begin{mat}
+           0 &1 \\
+           1 &0
+        \end{mat}
+        \begin{mat}
+           1 &2 \\
+           3 &4
+        \end{mat}$
+      \partsitem 
+        $\begin{mat}
+          1 &2  \\
+          3 &4
+        \end{mat}
+        \begin{mat}
+          0 &1 \\
+          1 &0
+        \end{mat}$
+      \partsitem 
+        $\begin{mat}
+           1 &0 &0 \\
+           0 &0 &1 \\
+           0 &1 &0
+        \end{mat}
+        \begin{mat}
+           1 &2 &3 \\
+           4 &5 &6 \\
+           7 &8 &9
+        \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem  Acting from the left, the $P_{1,2}$ matrix swaps the 
+          第一、二行。
+          $\begin{mat}
+             3 &4 \\
+             1 &2
+           \end{mat}$
+        \partsitem 
+          从右侧作用时，$P_{1,2}$ 交换第一、二 
+          columns.
+          $\begin{mat}
+             2 &1 \\
+             4 &3
+           \end{mat}$
+        \partsitem From the left, $P_{2,3}$ swaps the second and third
+          rows.
+          $\begin{mat}
+             1 &2 &3 \\
+             7 &8 &9 \\
+             4 &5 &6    
+           \end{mat}$
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+预测以下各个与初等消元矩阵相乘的结果，再实际相乘验证。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                 3  &0  \\
+                 0  &1
+               \end{mat}
+               \begin{mat}[r]
+                 1  &2  \\
+                 3  &4
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 1  &0  \\
+                 0  &2
+               \end{mat}
+               \begin{mat}[r]
+                 1  &2  \\
+                 3  &4
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 1  &0  \\
+                -2  &1
+               \end{mat}
+               \begin{mat}[r]
+                 1  &2  \\
+                 3  &4
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 1  &2  \\
+                 3  &4
+               \end{mat}
+               \begin{mat}[r]
+                 1  &-1 \\
+                 0  &1
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 1  &2  \\
+                 3  &4
+               \end{mat}
+               \begin{mat}[r]
+                 0  &1  \\
+                 1  &0
+               \end{mat} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 第二个矩阵的第一行乘以 \( 3 \)。
+          \begin{equation*}
+            \begin{mat}[r]
+              3  &6  \\
+              3  &4
+            \end{mat}
+          \end{equation*}
+\partsitem 第二个矩阵的第二行乘以 \( 2 \)。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  \\
+              6  &8
+            \end{mat}
+          \end{equation*}
+\partsitem 第二个矩阵执行行组合：将第一行的 \( -2 \) 倍加到第二行。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  \\
+              1  &0
+            \end{mat}
+          \end{equation*}
+\partsitem 第一个矩阵执行列运算：将第一列的 $-1$ 倍加到第二列。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &1  \\
+              3  &1
+            \end{mat}
+          \end{equation*}
+\partsitem 第一个矩阵的两列交换。
+          \begin{equation*}
+            \begin{mat}[r]
+              2  &1  \\
+              4  &3
+            \end{mat}
+          \end{equation*}
+      \end{exparts}   
+    \end{answer}
+  \item
+预测以下各个与对角矩阵相乘的结果，再实际相乘验证。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                 -3  &0  \\
+                 0  &0
+               \end{mat}
+               \begin{mat}[r]
+                 1  &2  \\
+                 3  &4
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 4  &0  \\
+                 0  &2
+               \end{mat}
+               \begin{mat}[r]
+                 1  &2  \\
+                 3  &4
+               \end{mat} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 第二个矩阵的第一行乘以 \( -3 \)，第二行乘以 \( 0 \)。
+          \begin{equation*}
+            \begin{mat}[r]
+              -3  &-6  \\
+               0  &0
+            \end{mat}
+          \end{equation*}
+\partsitem 第二个矩阵的第一行乘以 \( 4 \)，第二行乘以 \( 2 \)。
+          \begin{equation*}
+            \begin{mat}[r]
+              4  &8  \\
+              6  &8
+            \end{mat}
+          \end{equation*}
+      \end{exparts}   
+    \end{answer}
+\item 构造以下矩阵。
+    \begin{exparts}
+\partsitem 从左边相乘时交换第一行与第二行的 $\nbyn{3}$ 矩阵
+\partsitem 从右边相乘时交换第一列与第二列的 $\nbyn{2}$ 矩阵
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 这个矩阵交换第一行与第三行。
+          \begin{equation*}
+            \begin{mat}
+              0  &1 &0 \\
+              1  &0 &0 \\
+              0  &0 &1
+            \end{mat}
+            \begin{mat}
+              a &b &c \\
+              d &e &f \\
+              g &h &i
+            \end{mat}
+            =
+            \begin{mat}
+              d &e &f \\
+              a &b &c \\
+              g &h &i
+            \end{mat}         
+          \end{equation*}
+\partsitem 这个矩阵交换第一列与第二列。
+          \begin{equation*}
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            \begin{mat}
+              0  &1  \\
+              1  &0   
+            \end{mat}
+            =
+            \begin{mat}
+              b  &a  \\
+              d  &c
+            \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+\recommended \item 说明如何用矩阵乘法将以下矩阵化为阶梯形。
+    \begin{equation*}
+      \begin{mat}
+        1 &2 &1  &0   \\
+        2 &3 &1  &-1  \\
+        7 &11 &4 &-3
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+依次乘 $C_{1,2}(-2)$、$C_{1,3}(-7)$、$C_{2,3}(-3)$，注意从右向左的顺序。
+      \begin{multline*}
+        \begin{mat}
+          1  &0 &0 \\
+          0  &1 &0 \\
+          0  &-3 &1    
+        \end{mat}
+        \begin{mat}
+          1  &0 &0 \\
+          0  &1 &0 \\
+          -7 &0 &1    
+        \end{mat}
+        \begin{mat}
+          1 &0 &0 \\
+         -2 &1 &0 \\
+          0 &0 &1
+        \end{mat}
+          \begin{mat}
+            1 &2 &1  &0   \\
+            2 &3 &1  &-1  \\
+            7 &11 &4 &-3
+          \end{mat}                 \\
+        =
+          \begin{mat}
+            1 &2 &1  &0   \\
+            0 &-1 &-1  &-1  \\
+            0 &0  &0 &0
+          \end{mat}
+      \end{multline*}     
+    \end{answer}
+  \item 
+求以下矩阵与其转置的乘积。
+    \begin{equation*}
+      \begin{mat}
+        \cos\theta  &-\sin\theta  \\
+        \sin\theta  &\cos\theta
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+乘积为单位矩阵（回顾 $\cos^2\theta+\sin^2\theta =1$）。
+其原因是：给定矩阵相对于标准基表示 \( \Re^2 \) 中旋转 \( \theta \) 弧度，而转置表示旋转 \( -\theta \) 弧度，两者相互抵消。
+     \end{answer}
+  \item 
+实际中经常需要对数表的行和列取线性组合。例如，下面是佛蒙特州和纽约州部分地区的地图。
+    %\typeout{Ignore the overfull box here; it is bogus.}
+    \begin{center}
+      \parbox{2in}{In part because of Lake Champlain, there are
+                      有些城镇之间没有直接道路相连。
+                      例如，从
+                      Winooski 到 Grand Isle 必须经过其他城镇，无法直接到达。
+                      Colchester.
+                      (To simplify the graph many other roads and towns
+                      已省略。
+                      在此图中，从上到下表示
+                      约四十英里。）}
+      \quad
+      \parbox{2in}{\includegraphics{map/mp/ch3.99}}
+    \end{center}
+    \begin{exparts}
+\partsitem 地图的\definend{邻接矩阵}\index{adjacency matrix}%
+\index{matrix!adjacency}是一个方阵，其 \( i,j \) 元素为城市 \( i \) 到城市 \( j \) 的道路数（所有 $(i,i)$ 元素为~$0$）。
+按城市名称的字母顺序，写出这幅地图的邻接矩阵。
+\partsitem 等于自身转置的矩阵称为\definend{对称矩阵}\index{matrix!symmetric}。
+证明邻接矩阵对称。（这里都是双向道路，佛蒙特州的单行道不多。）
+\partsitem 邻接矩阵的平方有何含义？立方呢？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 邻接矩阵如下（例如，第一行表明伯灵顿只有一条连接道路，即通往威努斯基的道路）。
+          \begin{equation*}
+            \begin{mat}[r]
+              0  &0  &0  &0  &1  \\
+              0  &0  &1  &1  &1  \\
+              0  &1  &0  &1  &0  \\
+              0  &1  &1  &0  &0  \\
+              1  &1  &0  &0  &0
+            \end{mat}
+          \end{equation*}
+\partsitem 因为道路是双向的，连接城市~\( i \) 与城市~\( j \) 的道路，也连接城市~\( j \) 与城市~\( i \)。
+\partsitem 邻接矩阵的平方给出各城市之间经过两条道路的行程数。
+      \end{exparts}  
+   \end{answer}
+  \recommended \item
+下表给出各位工人的正常工作、加班时数以及相应工资标准。用矩阵计算应付工资。
+    \begin{center}
+      \begin{tabular}[t]{l|cc}
+        \multicolumn{1}{c}{\ }  
+         &\multicolumn{1}{c}{\textit{regular}} 
+         &\multicolumn{1}{c}{\textit{overtime}}  \\
+        \cline{2-3}
+        Alan      &40        &12        \\
+        Betty     &35        &6         \\  
+        Catherine &40        &18         \\  
+        Donald    &28        &0         %\\  \cline{2-3}
+      \end{tabular}
+      \qquad
+      \begin{tabular}[t]{l|c}
+        \multicolumn{1}{c}{\ }   &\multicolumn{1}{c}{\textit{wage}}   \\
+        \cline{2-2}
+        regular   &$\$ 25.00$  \\
+        overtime  &$\$ 45.00$  %\\  \cline{2-2}
+      \end{tabular}
+    \end{center}
+\textit{评注。}这个例子说明，实际中经常需要计算行和列的线性组合，而并不关心任何相应的线性映射。
+    \begin{answer}
+两数组的矩阵乘积给出每个人的应付工资。
+    \end{answer}
+\item 将以下非奇异矩阵表示为初等消元矩阵的乘积。
+  \begin{equation*}
+    T=\begin{mat}
+      1 &2  &0 \\
+      2 &-1 &0 \\
+      3 &1 &2
+    \end{mat}
+  \end{equation*}
+  \begin{answer}
+按常规方法作高斯–若尔当消元。
+    \begin{equation*}
+        \begin{mat}
+          1 &2  &0 \\
+          2 &-1 &0 \\
+          3 &1 &2
+        \end{mat}
+      \grstep[-3\rho_1+\rho_3]{-2\rho_1+\rho_2}
+      \grstep{-\rho_2+\rho_3}
+      \grstep[(1/2)\rho_3]{-(1/5)\rho_2}
+      \grstep{-2\rho_2+\rho_1}
+      \begin{mat}
+        1 &0 &0 \\
+        0 &1 &0 \\
+        0 &0 &1
+      \end{mat}
+    \end{equation*}
+于是得到初等消元矩阵 $R_1,\ldots,R_6$，使 $R_6\cdot R_5\cdots R_1\cdot T=I$。
+将这些矩阵移到另一边，注意顺序。例如，先在两边左乘 $R_6^{-1}$，得
+$(R_6^{-1}R_6)\cdot R_5\cdots R_1\cdot T=R_6^{-1}I$，化简为
+$R_5\cdots R_1\cdot T=R_6^{-1}$，依此类推。
+    \begin{align*}
+      T=
+      &\begin{mat}
+        1 &0 &0 \\
+        -2 &1 &0 \\
+        0 &0 &1 
+      \end{mat}^{-1}
+      \begin{mat}
+        1 &0 &0 \\
+        0 &1 &0 \\
+        -3 &0 &1 
+      \end{mat}^{-1}
+      \begin{mat}
+        1 &0 &0 \\
+        0 &1 &0 \\
+        0 &-1 &1 
+      \end{mat}^{-1}          \\
+      &\qquad\cdot
+      \begin{mat}
+        1 &0 &0 \\
+        0 &-1/5 &0 \\
+        0 &0 &1 
+      \end{mat}^{-1}
+      \begin{mat}
+        1 &0 &0 \\
+        0 &1 &0 \\
+        0 &0 &1/2 
+      \end{mat}^{-1}
+      \begin{mat}
+        1 &-2 &0 \\
+        0 &1 &0 \\
+        0 &0 &1 
+      \end{mat}^{-1}             
+    \end{align*}
+初等消元矩阵的逆很容易求。例如，要撤销将第~$i$ 行的 $k$ 倍加到第~$j$ 行的操作，只需将第~$i$ 行的 $-k$ 倍加到第~$j$ 行。
+由引理~\ref{GrByMatMult}，$C_{i,j}(k)^{-1}=C_{i,j}(-k)$。
+    \begin{equation*}
+      =
+      \begin{mat}
+        1 &0 &0 \\
+        2 &1 &0 \\
+        0 &0 &1
+      \end{mat}
+      \begin{mat}
+        1 &0 &0 \\
+        0 &1 &0 \\
+        3 &0 &1
+      \end{mat}
+      \begin{mat}
+        1 &0 &0 \\
+        0 &1 &0 \\
+        0 &1 &1
+      \end{mat}
+      \begin{mat}
+        1 &0 &0 \\
+        0 &-5 &0 \\
+        0 &0 &1
+      \end{mat}
+      \begin{mat}
+        1 &0 &0 \\
+        0 &1 &0 \\
+        0 &0 &2
+      \end{mat}
+      \begin{mat}
+        1 &2 &0 \\
+        0 &1 &0 \\
+        0 &0 &1
+      \end{mat}
+    \end{equation*}    
+    \end{answer}
+  \item 
+将
+    \begin{equation*}
+      \begin{mat}[r]
+        1   &0  \\
+        -3  &3
+      \end{mat}
+    \end{equation*}
+表示为两个初等消元矩阵的乘积。
+    \begin{answer}
+由单位矩阵得到此矩阵的一种方法是作列运算：先将第二列乘以三，再将所得第二列的相反数加到第一列。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &0  \\
+          0  &1
+        \end{mat}
+        \grstep{}
+        \begin{mat}[r]
+          1  &0  \\
+          0  &3
+        \end{mat}
+        \grstep{}
+        \begin{mat}[r]
+          1  &0  \\
+          -3  &3
+        \end{mat}
+      \end{equation*}
+与行运算不同，列运算按从左到右的顺序书写，因此以下矩阵乘积表示上述两个操作。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &0  \\
+          0  &3
+        \end{mat}
+        \begin{mat}[r]
+          1  &0  \\
+         -1  &1
+        \end{mat}
+      \end{equation*}
+\textit{评注。}也可以用行运算得到所需矩阵：从单位矩阵出发，先将第一行的相反数加到第二行，再将第二行乘以三。
+由于连续行运算的矩阵乘积按从右到左书写，这两个行运算由同一个矩阵乘积表示。
+    \end{answer}
+  \recommended \item 
+证明对角矩阵构成 \( \matspace_{\nbyn{n}} \) 的子空间。其维数是多少？
+    \begin{answer}
+零矩阵是对角矩阵，所以该集合非空。显然它对数乘与加法封闭，因此是子空间。
+维数为 \( n \)，以下是一组基。
+      \begin{equation*}
+        \set{\begin{mat}
+               1  &0  &\ldots    \\
+               0  &0             \\
+                  &   &\ddots    \\
+               0  &0  &      &0
+             \end{mat},\ldots,
+             \begin{mat}
+               0  &0  &\ldots    \\
+               0  &0             \\
+                  &   &\ddots    \\
+               0  &0  &      &1
+             \end{mat}  }
+      \end{equation*} 
+    \end{answer}
+  \item 
+两组基不同时，单位矩阵还表示恒等映射吗？
+    \begin{answer}
+不。在 \( \polyspace_1 \) 中，相对于不同的基 \( B=\sequence{1,x} \) 和 \( D=\sequence{1+x,1-x} \)，恒等变换由以下矩阵表示。
+      \begin{equation*}
+         \rep{\text{id}}{B,D}=
+         \begin{mat}[r]
+           1/2  &1/2  \\
+           1/2  &-1/2
+         \end{mat}_{B,D}
+      \end{equation*}   
+    \end{answer}
+  \item 
+证明单位矩阵的任意倍数都与所有方阵可交换。还有其他与所有方阵可交换的矩阵吗？
+    \begin{answer}
+对任意标量 \( r \) 和方阵 \( H \)，有
+\( (rI)H=r(IH)=rH=r(HI)=(Hr)I=H(rI) \)。
+
+没有其他这样的矩阵。下面对 $\nbyn{2}$ 矩阵的论证很容易推广到 $\nbyn{n}$。
+若一个矩阵与所有矩阵可交换，它就与以下矩阵单位可交换。
+      \begin{equation*}
+        \begin{mat}
+          0  &a  \\
+          0  &c 
+        \end{mat}
+        =\begin{mat}
+          a  &b  \\
+          c  &d   
+        \end{mat}
+        \begin{mat}[r]
+          0  &1  \\
+          0  &0
+        \end{mat}
+        =\begin{mat}[r]
+          0  &1  \\
+          0  &0
+        \end{mat}
+        \begin{mat}
+          a  &b  \\
+          c  &d   
+        \end{mat}
+        =\begin{mat}
+          c  &d  \\
+          0  &0 
+        \end{mat}
+      \end{equation*}
+由此首先得到左上元素~$a$ 必须等于右下元素~$d$，还得到左下元素~$c$ 为零。
+对右上元素~$b$ 的论证类似。
+    \end{answer}
+  \item 
+证明或否证：非奇异矩阵可交换。
+    \begin{answer}
+错误。以下两个矩阵不可交换。
+      \begin{equation*}
+         \begin{mat}[r]
+           1  &2  \\
+           3  &4
+         \end{mat}
+         \qquad
+         \begin{mat}[r]
+           5  &6  \\
+           7  &8
+         \end{mat}
+      \end{equation*}  
+    \end{answer}
+  \recommended \item \label{exer:PermTimesTransEqId}
+证明置换矩阵与其转置的乘积为单位矩阵。
+    \begin{answer}
+置换矩阵每行、每列恰有一个一，其余元素全为零。
+固定这样的矩阵。设第 \( i \) 行的一位于第 \( j \) 列，则其他行在第 \( j \) 列都为零。
+因此，第 \( i \) 行与其他任意一行的点积为零。
+
+乘积的第 \( i \) 行由原矩阵第 \( i \) 行与转置各列的点积组成。
+由上一段，这些点积除了第 \( i \) 个为一外，其余全为零。
+    \end{answer}
+  \item 
+证明若 \( G \) 的第一行与第二行相同，则 \( GH \) 的第一行与第二行也相同。推广此结论。
+    \begin{answer}
+推广为第 $i_1$ 行与第 $i_2$ 行即可。\( GH \) 的第~$i$ 行由 \( G \) 的第~$i$ 行与 \( H \) 各列的点积组成。
+因此，若 \( G \) 的第 \( i_1 \)、\( i_2 \) 行相同，则 \( GH \) 的对应两行也相同。
+    \end{answer}
+  \item 
+描述两个对角矩阵的乘积。
+    \begin{answer}
+若两个对角矩阵的乘积有定义\Dash 即两者均为 $\nbyn{n}$\Dash 则乘积的对角线由对应对角元素的乘积组成：
+对相同大小的对角矩阵 \( G,H \)，\( GH \) 除 \( i,i \) 元素为 \( g_{i,i}h_{i,i} \) 外，其余均为零。
+    \end{answer}
+  \recommended \item 
+证明若 \( G \) 有一行全为零，则 \( GH \)（若有定义）也有一行全为零。对列也成立吗？
+    \begin{answer}
+\( GH \) 的第 \( i \) 行由 \( G \) 的第 \( i \) 行与 \( H \) 各列的点积组成。
+零行与任意列的点积都为零。
+
+对列需正确表述：若 \( H \) 有一列全为零，则 \( GH \)（若有定义）也有一列全为零。证明很简单。
+    \end{answer}
+  \item 
+证明矩阵单位的集合构成 \( \matspace_{\nbym{n}{m}} \) 的一组基。
+    \begin{answer}
+最简单的方法可能是证明每个 \( \nbym{n}{m} \) 矩阵都能唯一地写为矩阵单位的线性组合：
+      \begin{equation*}
+        c_1\begin{mat}
+             1  &0  &\ldots  \\
+             0  &0           \\
+             \vdots
+           \end{mat}
+        +\dots+
+        c_{n,m}\begin{mat}
+             0  &0      &\ldots  \\
+             \vdots              \\
+             0  &\ldots &       &1
+           \end{mat}
+        =\begin{mat}
+           a_{1,1} &a_{1,2} &\ldots          \\
+           \vdots                            \\
+           a_{n,1} &\ldots  &      &a_{n,m} 
+         \end{mat}
+      \end{equation*}
+具有唯一解 \( c_1=a_{1,1} \)、\( c_2=a_{1,2} \)，依此类推。
+    \end{answer}
+  \item  
+求以下矩阵的 $n$ 次幂公式。
+    \begin{equation*}
+      \begin{mat}[r]
+        1  &1  \\
+        1  &0
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+将该矩阵记为 \( F \)。有
+      \begin{equation*}
+        F^2=\begin{mat}[r]
+          2  &1  \\
+          1  &1
+        \end{mat}
+        \quad
+        F^3=\begin{mat}[r]
+          3  &2  \\
+          2  &1
+        \end{mat}
+        \quad
+        F^4=\begin{mat}[r]
+          5  &3  \\
+          3  &2
+        \end{mat}
+      \end{equation*}
+一般地，
+      \begin{equation*}
+        F^n=\begin{mat}
+          f_{n+1} &f_n  \\
+          f_n     &f_{n-1}
+        \end{mat}
+      \end{equation*}
+其中 \( f_i \) 是第 \( i \) 个斐波那契数，满足 \( f_i=f_{i-1}+f_{i-2} \)、\( f_0=0 \)、\( f_1=1 \)。
+根据以下等式可用归纳法验证。
+      \begin{equation*}
+        \begin{mat}
+          f_{i-1}  &f_{i-2} \\
+          f_{i-2}  &f_{i-3}
+        \end{mat}
+        \begin{mat}[r]
+          1  &1  \\
+          1  &0
+        \end{mat}
+        =\begin{mat}
+           f_i     &f_{i-1}  \\
+           f_{i-1} &f_{i-2}
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+  \recommended \item
+方阵的\definend{迹}\index{trace}\index{matrix!trace}是对角线上元素之和（其意义将在第五章介绍）。证明 \( \trace (GH)=\trace (HG) \)。
+   \begin{answer}
+\textit{第五章将给出一个不那么依赖计算的原因\Dash 矩阵的迹是特征多项式的第二个系数\Dash 目前先使用下标。}有
+     \begin{align*}
+       \trace (GH)
+       &=(g_{1,1}h_{1,1}+g_{1,2}h_{2,1}+\dots+g_{1,n}h_{n,1})  \\
+       &\text{}\quad+(g_{2,1}h_{1,2}+g_{2,2}h_{2,2}+\dots+g_{2,n}h_{n,2}) \\
+       &\text{}\quad
+        +\cdots+(g_{n,1}h_{1,n}+g_{n,2}h_{2,n}+\dots+g_{n,n}h_{n,n})
+     \end{align*}
+而
+     \begin{align*}
+       \trace (HG)
+       &=(h_{1,1}g_{1,1}+h_{1,2}g_{2,1}+\dots+h_{1,n}g_{n,1})  \\
+       &\text{}\quad+(h_{2,1}g_{1,2}+h_{2,2}g_{2,2}+\dots+h_{2,n}g_{n,2}) \\
+       &\text{}\quad
+         +\cdots+(h_{n,1}g_{1,n}+h_{n,2}g_{2,n}+\dots+h_{n,n}g_{n,n})
+     \end{align*}
+两者相等。
+    \end{answer}
+  \item
+若方阵的非零元素仅位于对角线上或其上方，则称为\definend{上三角矩阵}\index{triangular matrix}%
+\index{matrix!triangular}。
+证明两个上三角矩阵的乘积仍为上三角矩阵。对下三角矩阵也成立吗？
+    \begin{answer}
+矩阵为上三角矩阵，当且仅当 \( i>j \) 时其 $i,j$ 元素为零。
+因此，若 \( G,H \) 为上三角矩阵，则 \( i>j \) 时 \( h_{i,j} \) 与 \( g_{i,j} \) 都为零。
+乘积元素 \( p_{i,j}=g_{i,1}h_{1,j}+\dots+g_{i,n}h_{n,j} \) 要非零，至少有一项非零，
+即至少对某个加项 \( g_{i,r}h_{r,j} \)，同时有 \( i\leq r \) 和 \( r\leq j \)。
+当 \( i>j \) 时不可能如此，所以两个上三角矩阵的乘积仍为上三角矩阵。（下三角矩阵的论证类似。）
+   \end{answer}
+ \item 
+若方阵各元素均在零与一之间，且每行元素之和为一，则称为\definend{马尔可夫矩阵}\index{matrix!Markov}。
+证明马尔可夫矩阵的乘积仍为马尔可夫矩阵。
+   \begin{answer}
+乘积第 \( i \) 行的元素之和如下。
+     \begin{align*}
+       p_{i,1}+\cdots+p_{i,n}
+       &=(h_{i,1}g_{1,1}+h_{i,2}g_{2,1}+\dots+h_{i,n}g_{n,1})  \\
+       &\text{}\quad+(h_{i,1}g_{1,2}+h_{i,2}g_{2,2}+\dots+h_{i,n}g_{n,2}) \\
+       &\text{}\quad
+        +\dots+(h_{i,1}g_{1,n}+h_{i,2}g_{2,n}+\dots+h_{i,n}g_{n,n})  \\
+       &=h_{i,1}(g_{1,1}+g_{1,2}+\dots+g_{1,n})  \\
+       &\text{}\quad+h_{i,2}(g_{2,1}+g_{2,2}+\dots+g_{2,n}) \\
+       &\text{}\quad
+        +\dots+h_{i,n}(g_{n,1}+g_{n,2}+\dots+g_{n,n})  \\
+       &=h_{i,1}\cdot 1+\dots+h_{i,n}\cdot 1  \\
+       &=1
+     \end{align*}  
+    \end{answer}
+  \item
+举出两个大小、秩均相同，而平方的秩不同的矩阵。
+    \begin{answer}
+固定基 $B=\sequence{\vec{\beta}_1, \vec{\beta}_2}$。表示以下映射的矩阵，
+      \begin{equation*}
+        \vec{\beta}_1 \mapsunder{h} \vec{\beta}_1
+        \quad
+        \vec{\beta}_2 \mapsunder{h} \zero
+      \end{equation*}
+以及
+      \begin{equation*}
+        \vec{\beta}_1 \mapsunder{g} \vec{\beta}_2
+        \quad
+        \vec{\beta}_2 \mapsunder{g} \zero
+      \end{equation*}
+就符合要求。例如，使用标准基得到以下矩阵。
+      \begin{equation*}
+        H=
+        \begin{mat}
+          1 &0 \\
+          0 &0
+        \end{mat}
+        \qquad
+        G=
+        \begin{mat}
+          0 &1 \\
+          0 &0
+        \end{mat}
+      \end{equation*}
+注意 $H^2$ 的秩为~$1$，而 $G^2$ 的秩为~$0$。
+    \end{answer}
+  % 2014-Dec-19 This exercise and answer are good; I trimmed to make pages fit better.
+  % \item 
+  %   Combine the two generalizations of the identity matrix,
+  %   the one allowing entries to be other than ones, and the one allowing the
+  %   single one in each row and column to be off the diagonal.
+  %   What is the action of this type of matrix?
+  %   \begin{answer}
+  %     The combination is to have all entries of the matrix be zero
+  %     except for one (possibly) nonzero entry in each row and column.
+  %     We can write such a matrix as the product of a permutation matrix and
+  %     a diagonal matrix, e.g.,
+  %     \begin{equation*}
+  %       \begin{mat}[r]
+  %         0  &4  &0  \\
+  %         2  &0  &0  \\
+  %         0  &0  &-5
+  %       \end{mat}
+  %       =\begin{mat}[r]
+  %         0  &1  &0  \\
+  %         1  &0  &0  \\
+  %         0  &0  &1
+  %       \end{mat}
+  %       \begin{mat}[r]
+  %         4  &0  &0  \\
+  %         0  &2  &0  \\
+  %         0  &0  &-5
+  %       \end{mat}
+  %     \end{equation*}
+  %     and its action is thus to rescale the rows and permute them.
+  %   \end{answer}
+  \item 
+计算机经常执行矩阵乘法。为了解并改进其性能，研究者会统计所需运算次数。
+    \begin{exparts}
+\partsitem \nearbydefinition{def:MatMult} 给出
+        % a formula for 
+        % entry~$i,j$.
+        % \begin{equation*}
+          $p_{i,j}
+          =
+          g_{i,1}h_{1,j}+g_{i,2}h_{2,j}+\dots+g_{i,r}h_{r,j}$.
+        % \end{equation*}
+这个表达式中有多少次实数乘法？据此，计算 \( \nbym{m}{r} \) 矩阵与 \( \nbym{r}{n} \) 矩阵的乘积需要多少次实数乘法？
+      \partsitem 
+矩阵乘法满足结合律，所以计算 $H_1H_2H_3H_4$ 时，无论如何加括号，结果都相同。
+但乘法次数会不同。对于大小依次为 \( \nbym{5}{10} \)、\( \nbym{10}{20} \)、\( \nbym{20}{5} \)、\( \nbym{5}{1} \) 的四个矩阵，
+求实数乘法次数最少的结合方式。使用上一问的公式。
+\partsitem \textit{（很难。）}找出仅用七次实数乘法计算两个 \( \nbyn{2} \) 矩阵乘积的方法，而不是按上述方法需要的八次。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 每个元素 \(p_{i,j}=g_{i,1}h_{1,j}+\dots+g_{1,r}h_{r,1} \) 需要 \( r \) 次乘法，共有 \( m\cdot n \) 个元素，
+所以共需 \( m\cdot n\cdot r \) 次乘法。
+\partsitem 设 \( H_1 \) 为 \( \nbym{5}{10} \)，\( H_2 \) 为 \( \nbym{10}{20} \)，\( H_3 \) 为 \( \nbym{20}{5} \)，\( H_4 \) 为 \( \nbym{5}{1} \)。则
+           \begin{center}
+             \begin{tabular}{l|l}
+               \multicolumn{1}{c}{\textit{this association}}  
+                &\multicolumn{1}{c}{\textit{uses this many multiplications}}\\ 
+               \hline
+               \( ((H_1H_2)H_3)H_4 \)     &\( 1000+500+25=1525 \)  \\
+               \( (H_1(H_2H_3))H_4 \)     &\( 1000+250+25=1275 \)  \\
+               \( (H_1H_2)(H_3H_4) \)     &\( 1000+100+100=1200 \)  \\
+               \( H_1(H_2(H_3H_4)) \)     &\( 100+200+50=350    \)  \\
+               \( H_1((H_2H_3)H_4) \)     &\( 1000+50+50=1100    \)
+             \end{tabular}
+           \end{center}
+由表可知哪种最省。
+\partsitem 下面是 S.~Winograd 对 V.~Strassen 公式的改进：令 \( w=aA-(a-c-d)(A-C+D) \)，则
+           \begin{equation*}
+               \begin{mat}
+                 a  &b  \\
+                 c  &d
+               \end{mat}
+               \begin{mat}
+                 A  &B  \\
+                 C  &D
+                 \end{mat}    \\
+               =
+               \begin{mat}
+                 \alpha  &\beta  \\
+                 \gamma  &\delta
+               \end{mat}
+               \end{equation*}
+其中 $\alpha=aA+bB$，$\beta=w+(c+d)(C-A)+(a+b-c-d)D$，
+$\gamma=w+(a-c)(D-C)-d(A-B-C+D)$，$\delta=w+(a-c)(D-C)+(c+d)(C-A)$。
+               % \begin{mat}
+               %    aA+bB
+               %    &w+(c+d)(C-A)+(a+b-c-d)D \\
+               %    w+(a-c)(D-C)-d(A-B-C+D)
+               %    &w+(a-c)(D-C)+(c+d)(C-A)
+               % \end{mat}
+这需要七次乘法和十五次加法（保存中间结果）。
+      \end{exparts}  
+    \end{answer}
+\puzzle \item
+\cite{Putnam90A5}
+若 \( A \)、\( B \) 是同阶方阵，且 \( ABAB=0 \)，能否推出 \( BABA=0 \)？
+    \begin{answer}
+\answerasgiven
+不能。设 \( A \)、\( B \) 相对于标准基表示 \( \Re^3 \) 上的以下变换。
+      \begin{equation*}
+        \colvec{x \\ y \\ z}\mapsunder{a}\colvec{x \\ y \\ 0}
+        \qquad
+        \colvec{x \\ y \\ z}\mapsunder{b}\colvec{0 \\ x \\ y}
+      \end{equation*}
+注意
+      \begin{equation*}
+        \colvec{x \\ y \\ z}\mapsunder{abab}\colvec[r]{0 \\ 0 \\ 0}
+        \quad\text{but}\quad
+        \colvec{x \\ y \\ z}\mapsunder{baba}\colvec{0 \\ 0 \\ x}.
+      \end{equation*} 
+    \end{answer}
+  \item  
+\cite{Monthly66p1114}
+证明以下四个断言，从而给出列秩等于行秩的另一种证明。
+    \begin{exparts}
+\partsitem \( \vec{y}\cdot\vec{y}=0 \) 当且仅当 \( \vec{y}=\zero \)。
+\partsitem \( A\vec{x}=\zero \) 当且仅当 \( \trans{A}A\vec{x}=\zero \)。
+\partsitem \( \dim(\rangespace{A})=\dim(\rangespace{\trans{A}A}) \)。
+\partsitem \( \text{列秩}(A)=\text{列秩}(\trans{A})=\text{行秩}(A) \)。
+    \end{exparts}
+    \begin{answer}
+      \answerasgiven
+      \begin{exparts}
+\partsitem 显然。
+\partsitem 若 \( \trans{A}A\vec{x}=\zero \)，则 \( \vec{y}\cdot\vec{y}=0 \)，其中 \( \vec{y}=A\vec{x} \)。由 (a)，\( \vec{y}=\zero \)。
+
+逆命题显然成立。
+\partsitem 由 (b)，\( A\vec{x}_1 \)、\ldots、\( A\vec{x}_n \) 线性无关，当且仅当
+\( \trans{A}A\vec{x}_1 \)、\ldots、\( \trans{A}A\vec{x}_n \) 线性无关。
+\partsitem 有
+          \begin{multline*}
+            \text{col rank}(A)=\text{col rank}(\trans{A}A)
+            =\dim\set{\trans{A}(A\vec{x})\suchthat \text{all \(\vec{x}\)} }  \\
+            \leq \dim\set{\trans{A}\vec{y}\suchthat \text{all \(\vec{y}\)} }
+            =\text{col rank}(\trans{A}).
+          \end{multline*}
+因此也有 \( \text{列秩}(\trans{A})\leq\text{列秩}(\trans{\trans{A}}) \)，所以
+\( \text{列秩}(A)=\text{列秩}(\trans{A})=\text{行秩}(A) \)。
+      \end{exparts} 
+    \end{answer}
+  \item  
+\cite{Monthly55p721}
+证明 \( \dim(\rangespace{A}\intersection\nullspace{A})=\dim(\rangespace{A})-\dim(\rangespace{A^2}) \)，
+其中 \( A \) 为 \( \nbyn{n} \) 矩阵，因此相对于 \( B,B \) 定义任意 \( n \) 维空间 \( V \) 上的变换，\( B \) 是其基。由此推出
+    \begin{exparts}
+\partsitem \( \nullspace{A}\subset\rangespace{A} \) 当且仅当
+\( \dim(\nullspace{A})=\dim(\rangespace{A})-\dim(\rangespace{A^2}) \)；
+\partsitem \( \rangespace{A}\subseteq\nullspace{A} \) 当且仅当 \( A^2=0 \)；
+\partsitem \( \rangespace{A}=\nullspace{A} \) 当且仅当 \( A^2=0 \) 且 \( \dim(\nullspace{A})=\dim(\rangespace{A}) \)；
+\partsitem \( \dim(\rangespace{A}\intersection\nullspace{A})=0 \) 当且仅当 \( \dim(\rangespace{A})=\dim(\rangespace{A^2}) \)；
+\partsitem \textit{（需要选读的“直和”小节。）}
+\( V=\rangespace{A}\directsum\nullspace{A} \) 当且仅当 \( \dim(\rangespace{A})=\dim(\rangespace{A^2}) \)。
+    \end{exparts}
+    \begin{answer}
+\answerasgiven
+设 \( \sequence{\vec{z}_1,\dots,\vec{z}_k} \) 是 \( \rangespace{A}\intersection\nullspace{A} \) 的一组基（\( k \) 可以为 \( 0 \)）。
+取 \( \vec{x}_1,\dots,\vec{x}_k\in V \) 使 \( A\vec{x}_i=\vec{z}_i \)。
+注意 \( \set{A\vec{x}_1,\dots,A\vec{x}_k} \) 线性无关，将其扩充为 \( \rangespace{A} \) 的基
+\( A\vec{x}_1,\ldots,A\vec{x}_k,A\vec{x}_{k+1},\dots,A\vec{x}_{r_1} \)，其中 \( r_1=\dim(\rangespace{A}) \)。
+
+任取 \( \vec{x}\in V \)，写成
+      \begin{equation*}
+        A\vec{x}=a_1(A\vec{x}_1)+\dots+a_{r_1}(A\vec{x}_{r_1})
+      \end{equation*}
+所以
+      \begin{equation*}
+        A^2\vec{x}=a_1(A^2\vec{x}_1)+\dots+a_{r_1}(A^2\vec{x}_{r_1}).
+      \end{equation*}
+但 \( A\vec{x}_1,\dots,A\vec{x}_k\in\nullspace{A} \)，所以 \( A^2\vec{x}_1=\zero,\dots,A^2\vec{x}_k=\zero \)。于是知道
+      \begin{equation*}
+        A^2\vec{x}_{k+1},\dots,A^2\vec{x}_{r_1}
+      \end{equation*}
+张成 \( \rangespace{A^2} \)。
+
+为说明 \( \set{A^2\vec{x}_{k+1},\dots,A^2\vec{x}_{r_1}} \) 线性无关，写出
+      \begin{align*}
+        b_{k+1}A^2\vec{x}_{k+1}+\dots+b_{r_1}A^2\vec{x}_{r_1}
+        &=\zero                                                 \\
+        A[b_{k+1}A\vec{x}_{k+1}+\dots+b_{r_1}A\vec{x}_{r_1}]
+        &=\zero
+      \end{align*}
+由于 \( b_{k+1}A\vec{x}_{k+1}+\dots+b_{r_1}A\vec{x}_{r_1}\in\nullspace{A} \)，除非它为 \( \zero \)，否则产生矛盾
+（显然它也在 \( \rangespace{A} \) 中，而 \( A\vec{x}_1,\ldots,A\vec{x}_k \) 是 \( \rangespace{A}\intersection\nullspace{A} \) 的基）。
+
+因此 \( \dim(\rangespace{A^2})=r_1-k=\dim(\rangespace{A})-\dim(\rangespace{A}\intersection\nullspace{A}) \)。
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{逆矩阵}
+\index{matrix!inverse|(}
+%<*FunctionInverseReview0>
+本节最后考察如何表示线性映射的逆。
+%</FunctionInverseReview0>
+%<*FunctionInverseReview1>
+先回顾关于逆的一些知识。% \appendrefs{function inverses}\spacefactor=1000
+% Some functions have no inverse, or have an inverse on the left side 
+%or right side only.
+% 
+% \begin{example}  \label{ex:ProjLeftInvOfEmbed}
+设 \( \map{\pi}{\Re^3}{\Re^2} \) 为投影映射，\( \map{\iota}{\Re^2}{\Re^3} \) 为嵌入，
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+    \mapsunder{\pi}
+  \colvec{x \\ y}
+  \qquad
+  \colvec{x \\ y}
+    \mapsunder{\iota}
+  \colvec{x \\ y \\ 0}
+\end{equation*}
+则复合 $\composed{\pi}{\iota}$ 是 $\Re^2$ 上的恒等映射：$\composed{\pi}{\iota}=\identity$。
+\begin{equation*}
+  %\composed{\pi}{\eta}:\qquad
+  \colvec{x \\ y}
+    \mapsunder{\iota}
+  \colvec{x \\ y \\ 0}
+    \mapsunder{\pi}
+  \colvec{x \\ y}
+\end{equation*}
+称 $\iota$ 为 $\pi$ 的\definend{右逆}\index{function!right inverse}，等价地，称 $\pi$ 为 $\iota$ 的\definend{左逆}\index{function!left inverse}。
+%</FunctionInverseReview1>
+%<*FunctionInverseReview2>
+但另一顺序的复合 $\composed{\iota}{\pi}$ 不是恒等映射\Dash 以下向量在 $\composed{\iota}{\pi}$ 下并不映到自身。
+\begin{equation*}
+  %\composed{\eta}{\pi}:\qquad
+  \colvec[r]{0 \\ 0 \\ 1}
+    \mapsunder{\pi}
+  \colvec[r]{0 \\ 0}
+    \mapsunder{\iota}
+  \colvec[r]{0 \\ 0 \\ 0}
+\end{equation*}
+%</FunctionInverseReview2>
+%<*FunctionInverseReview3>
+事实上，$\pi$ 根本没有左逆。因为若 $f$ 是 $\pi$ 的左逆，就必须有
+\begin{equation*}
+  %\composed{f}{\pi}:\qquad
+  \colvec{x \\ y \\ z}
+    \mapsunder{\pi}
+  \colvec{x \\ y}
+    \mapsunder{f}
+  \colvec{x \\ y \\ z}
+\end{equation*}
+对无穷多个 $z$ 都成立。但函数~$f$ 不能把同一个自变量 $\binom{x}{y}$ 映到多个值。
+% \end{example}
+
+因此，函数可能有右逆而没有左逆，或有左逆而没有右逆，也可能左右逆都没有；例如 $\Re^2$ 上的零变换。
+%</FunctionInverseReview3>
+
+
+%<*FunctionInverseReview4>
+有些函数有\definend{双侧逆}\index{function!two-sided inverse}，即某个函数同时是它的左逆和右逆。
+例如，$\vec{v}\mapsto 2\cdot \vec{v}$ 的双侧逆为 $\vec{v}\mapsto (1/2)\cdot\vec{v}$。
+% In this subsection we will focus on two-sided inverses.
+% 
+附录证明了：函数有双侧逆当且仅当它既是单射又是满射；还证明了若函数 $f$ 有双侧逆，则双侧逆唯一，因此称为它的逆函数\index{inverse function}\index{function!inverse}，记为 $f^{-1}$。
+%</FunctionInverseReview4>
+
+%<*FunctionInverseReview5>
+另外，回顾定理~II.\ref{th:OOHomoEquivalence}：线性映射若有双侧逆，则逆映射也是线性的。
+%</FunctionInverseReview5>
+
+%<*FunctionInverseReview6>
+因此，本小节的目标是：在线性映射 $h$ 有逆时，找出 $\rep{h}{B,D}$ 与 $\rep{h^{-1}}{D,B}$ 的关系。
+%</FunctionInverseReview6>
+
+\begin{definition} \label{df:MatrixInverse}
+%<*df:MatrixInverse>
+若 \( GH \) 为单位矩阵，则矩阵 \( G \) 称为 \( H \) 的\definend{左逆矩阵}\index{inverse!left}；
+若 \( HG \) 为单位矩阵，则称为\definend{右逆矩阵}\index{inverse!right}。
+具有双侧逆的矩阵 $H$ 称为\definend{可逆矩阵}，其双侧逆记为 \( H^{-1} \)。\index{inverse}\index{matrix!inverse, definition}
+%</df:MatrixInverse>
+\end{definition}
+
+由线性映射与矩阵的对应关系，关于逆映射的结论可转成关于逆矩阵的结论。
+
+\begin{lemma}     \label{le:LeftAndRightInvEqual}
+%<*lm:LeftAndRightInvEqual>
+若矩阵同时具有左逆和右逆，则两者相等。
+%</lm:LeftAndRightInvEqual>
+\end{lemma}
+
+\begin{theorem}   \label{th:MatrixInvertibleIffNonsingular}
+\index{inverse!exists}\index{nonsingular}
+%<*th:MatrixInvertibleIffNonsingular>
+矩阵可逆当且仅当它非奇异。
+%</th:MatrixInvertibleIffNonsingular>
+\end{theorem}
+
+\begin{proof}
+%<*pf:MatrixInvertibleIffNonsingular>
+\textit{（同时证明两个结果。）}
+给定矩阵 $H$，固定维数适当的定义域、陪域及其基。
+相对于这些基，$H$ 表示映射 $h$。上述结论对映射成立，因此对矩阵也成立。
+%</pf:MatrixInvertibleIffNonsingular>
+\end{proof}
+
+\begin{lemma} \label{lem:ProdInvIsInv}
+%<*lm:ProdInvIsInv>
+可逆矩阵的乘积可逆：若 \( G \)、\( H \) 可逆且 \( GH \) 有定义，则 \( GH \) 可逆，且 \( (GH)^{-1}=H^{-1}G^{-1} \)。
+%</lm:ProdInvIsInv>
+\end{lemma}
+
+\begin{proof}
+% \textit{(This is just like the prior proof except that it requires two maps.)}
+%<*pf:ProdInvIsInv0>
+两矩阵可逆，所以都是方阵；乘积有定义，所以两者必定都是 $\nbyn{n}$。
+固定空间和基\Dash 例如 $\Re^n$ 及其标准基\Dash 得到对应映射 $\map{g,h}{\Re^n}{\Re^n}$，其中
+$G=\rep{g}{\stdbasis_n,\stdbasis_n}$，$H=\rep{h}{\stdbasis_n,\stdbasis_n}$。
+%</pf:ProdInvIsInv0>
+
+%<*pf:ProdInvIsInv1>
+考虑 $h^{-1}g^{-1}$。由上一段，该复合有定义。它是 \( gh \) 的双侧逆，因为
+\(
+(h^{-1}g^{-1})(gh)=h^{-1}(\identity)h=h^{-1}h=\identity
+\)
+且
+\(
+(gh)(h^{-1}g^{-1})=g(\identity)g^{-1}=gg^{-1}=\identity
+\)。
+表示这些映射的矩阵也反映了上述等式。
+%</pf:ProdInvIsInv1>
+\end{proof}
+
+以下箭头图\index{arrow diagram}给出逆映射与逆矩阵的关系。
+它是函数复合与矩阵乘法关系图的特例。
+\smallskip
+\begin{center}
+    \includegraphics{map/mp/ch3.21}
+\end{center}
+
+除了表示映射运算这一目标外，我们关心逆的另一个原因来自线性方程组。
+线性方程组等价于矩阵方程，例如
+\begin{equation*}
+  \begin{linsys}{2}
+    x_1  &+  &x_2  &=  &3  \\
+   2x_1  &-  &x_2  &=  &2  
+  \end{linsys}
+  \quad\Longleftrightarrow\quad
+  \begin{mat}[r]
+       1  &1  \\
+       2  &-1
+    \end{mat}
+  \colvec{x_1 \\ x_2}
+  =
+  \colvec[r]{3 \\ 2}
+ % \tag*{($*$)}
+\end{equation*}
+固定空间和基（例如 $\Re^2,\Re^2$ 及其标准基），就可把矩阵 $H$ 看成映射 $h$ 的表示。
+矩阵方程于是成为以下线性映射方程。
+\begin{equation*}
+  h(\vec{x})=\vec{d}
+  % \tag*{($**$)}
+\end{equation*}
+若有左逆映射~$g$，就可将它作用于两边，得 $\composed{g}{h}(\vec{x})=g(\vec{d})$，从而 $\vec{x}=g(\vec{d})$。
+改用矩阵表述，即计算逆矩阵乘积 $\rep{g}{C,B}\cdot\rep{\vec{d}}{C}$，得到 $\rep{\vec{x}}{B}$。
+
+\begin{example}  \label{ex:InverseByLinSys}
+可为刚才的矩阵寻找左逆，
+\begin{equation*}
+    \begin{mat}
+       m  &n  \\
+       p  &q
+    \end{mat}
+    \begin{mat}[r]
+       1  &1  \\
+       2  &-1
+    \end{mat}
+  =
+    \begin{mat}[r]
+       1  &0  \\
+       0  &1
+    \end{mat}
+\end{equation*}
+利用高斯消元求解所得线性方程组。
+\begin{equation*}
+  \begin{linsys}{4}
+     m  &+  &2n  &    &   &   &    &=  &1     \\
+     m  &-  &n   &    &   &   &    &=  &0     \\
+        &   &    &    &p  &+  &2q  &=  &0     \\
+        &   &    &    &p  &-  &q   &=  &1     
+     \end{linsys}
+\end{equation*}
+答案为 \( m=1/3 \)、\( n=1/3 \)、\( p=2/3 \)、\( q=-1/3 \)。
+（这个矩阵实际上是 $H$ 的双侧逆，容易验证。）利用它可解上一例的方程组。
+\begin{equation*}
+  \colvec{x \\ y}
+  =\begin{mat}[r]
+       1/3  &1/3  \\
+       2/3  &-1/3
+    \end{mat}
+  \colvec[r]{3 \\ 2}          
+  =\colvec[r]{5/3 \\ 4/3}
+\end{equation*}
+\end{example}
+
+\begin{remark}
+既然有高斯消元，为什么还要用逆矩阵解方程组？
+% takes less arithmetic
+% (this assertion can be made precise by counting the 
+% number of arithmetic operations,
+% as computer algorithm designers do)? 
+除了能表示逆映射运算这一概念上的优点，这种解法还有两个好处。
+
+首先，一旦求出逆矩阵，求解系数相同、常数不同的方程组就很快：如果改变上述方程组右边的常数，得到相关问题，
+\begin{equation*}
+    \begin{mat}[r]
+       1  &1  \\
+       2  &-1
+    \end{mat}
+  \colvec{x \\ y}
+  =
+  \colvec[r]{5 \\ 1}
+\end{equation*}
+就能用逆矩阵方法迅速求解。
+\begin{equation*}
+  \colvec{x \\ y}
+  =
+    \begin{mat}[r]
+       1/3  &1/3  \\
+       2/3  &-1/3
+    \end{mat}
+  \colvec[r]{5 \\ 1}
+  =
+  \colvec[r]{2 \\ 3}
+\end{equation*}
+% In applications we often must solve many systems with the same matrix of
+% coefficients.
+
+其次，逆矩阵可用来研究方程组对常数变化的敏感程度。例如，将上一例方程组右边的 $3$ 微调为
+\begin{equation*}
+    \begin{mat}[r]
+       1  &1  \\
+       2  &-1
+    \end{mat}
+  \colvec{x_1 \\ x_2}
+  =
+  \colvec[l]{3.01 \\ 2}
+\end{equation*}
+再用逆矩阵求解，
+\begin{equation*}
+    \begin{mat}[r]
+       1/3  &1/3  \\
+       2/3  &-1/3
+    \end{mat}
+  \colvec[l]{3.01 \\ 2}
+  =
+  \colvec{(1/3)(3.01)+(1/3)(2) \\ (2/3)(3.01)-(1/3)(2)}
+\end{equation*}
+可知解的第一个分量的改变量为微调量的 \( 1/3 \)，第二个分量的改变量为其 \( 2/3 \)。
+这称为\definend{敏感性分析}\index{sensitivity analysis}。
+可以据此决定线性模型的数据需要精确到什么程度，才能保证解具有要求的精度。
+\end{remark}
+
+% We finish by describing the computational procedure
+% that we shall use to find the inverse matrix.
+
+\begin{lemma} \label{lem:ComputeInvMat}
+%<*lm:ComputeInvMat>
+矩阵 $H$ 可逆，当且仅当它能写成初等消元矩阵的乘积。
+将对 $H$ 作高斯–若尔当消元的行运算，按同样顺序作用于单位矩阵，就可求出逆矩阵。
+%</lm:ComputeInvMat>
+\end{lemma}
+
+\begin{proof}
+%<*pf:ComputeInvMat0>
+矩阵 $H$ 可逆，当且仅当它非奇异，因而可用高斯–若尔当消元化为单位矩阵。
+由 \nearbycorollary{cor:ReducViaMatrices}，可用初等矩阵完成此消元。
+\begin{equation*} 
+   R_r\cdot R_{r-1}\dots R_1\cdot H=I 
+   \tag{$*$}
+\end{equation*}
+%</pf:ComputeInvMat0>
+
+%<*pf:ComputeInvMat1>
+对于结论的第一句，注意初等行运算可逆，所以初等矩阵可逆，且其逆仍为初等矩阵。
+在 ($*$) 两边依次左乘 $R_r^{-1}$、$R_{r-1}^{-1}$ 等，得到
+$H=R_1^{-1}\cdots R_r^{-1}\cdot I$，将 $H$ 写成初等矩阵的乘积。（其中的 $I$ 包含了 $r=0$ 的情形。）
+%</pf:ComputeInvMat1>
+
+%<*pf:ComputeInvMat2>
+对于第二句，将~($*$) 结合为 $(R_r\cdot R_{r-1}\dots R_1)\cdot H=I$，认出括号中的矩阵就是逆矩阵：
+$H^{-1}=R_r\cdot R_{r-1}\dots R_1\cdot I$。
+换言之，依次将 $R_1$、$R_2$ 等作用于单位矩阵，就得到 $H$ 的逆。
+%</pf:ComputeInvMat2>
+\end{proof}
+
+\begin{example}
+为求以下矩阵的逆，
+\begin{equation*}
+    \begin{mat}[r]
+       1  &1  \\
+       2  &-1
+    \end{mat}
+\end{equation*}
+作高斯–若尔当消元，同时对单位矩阵作相同操作。
+为方便记录，将原矩阵与单位矩阵并排写出，一起执行消元步骤。
+\begin{align*}
+    \begin{pmat}{rr|rr}
+       1  &1   &1  &0  \\
+       2  &-1  &0  &1
+    \end{pmat}
+  &\grstep{-2\rho_1+\rho_2}
+  \begin{pmat}{rr|rr}
+        1  &1   &1  &0  \\
+        0  &-3  &-2 &1
+     \end{pmat}                 \\
+  &\grstep{-1/3\rho_2}
+  \begin{pmat}{rr|rr}
+        1  &1   &1   &0     \\
+        0  &1   &2/3 &-1/3
+     \end{pmat}                   \\
+  &\grstep{-\rho_2+\rho_1}
+  \begin{pmat}{rr|rr}
+        1  &0   &1/3 &1/3  \\
+        0  &1   &2/3 &-1/3
+     \end{pmat}
+\end{align*}
+这个计算求出了逆矩阵。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &1  \\
+       2  &-1
+    \end{mat}^{-1}
+  =
+    \begin{mat}[r]
+       1/3 &1/3  \\
+       2/3 &-1/3
+    \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{example} \label{exam:ThreeByThreeMatInv}
+下面一例恰好从交换行开始。
+\begin{align*}
+     \begin{pmat}{rrr|rrr}
+        0  &3  &-1  &1  &0  &0  \\
+        1  &0  &1   &0  &1  &0  \\
+        1  &-1 &0   &0  &0  &1
+     \end{pmat}
+  &\grstep{\rho_1\leftrightarrow\rho_2}
+  \begin{pmat}{rrr|rrr}
+         1  &0  &1   &0  &1  &0  \\
+         0  &3  &-1  &1  &0  &0  \\
+         1  &-1 &0   &0  &0  &1
+      \end{pmat}                             \\
+  &\grstep{-\rho_1+\rho_3}
+  \begin{pmat}{rrr|rrr}
+         1  &0  &1   &0  &1  &0  \\
+         0  &3  &-1  &1  &0  &0  \\
+         0  &-1 &-1  &0  &-1 &1
+      \end{pmat}                             \\
+  &\quad\vdotswithin{\longrightarrow}                        \\
+  &\;\grstep{}
+  \begin{pmat}{rrr|rrr}
+         1  &0  &0   &1/4  &1/4  &3/4  \\
+         0  &1  &0   &1/4  &1/4  &-1/4 \\
+         0  &0  &1   &-1/4 &3/4  &-3/4
+      \end{pmat}
+\end{align*}
+\end{example}
+
+\begin{example}
+如果左半部分不能化为单位矩阵，这个算法就检测出矩阵不可逆。
+\begin{equation*}
+    \begin{pmat}{rr|rr}
+       1  &1   &1  &0  \\
+       2  &2   &0  &1
+    \end{pmat}
+  \grstep{-2\rho_1+\rho_2}
+   \begin{pmat}{rr|rr}
+       1  &1   &1  &0  \\
+       0  &0   &-2 &1
+    \end{pmat}
+\end{equation*}
+\end{example}
+
+用此方法可得到一般 $\nbyn{2}$ 矩阵的求逆公式，值得记住。
+% But larger matrices have more complex formulas so 
+% we will wait for more explanation in the next chapter.
+
+\begin{corollary} \label{cor:TwoByTwoInv}
+%<*co:TwoByTwoInv>
+\( \nbyn{2} \) 矩阵的逆存在且等于
+\begin{equation*}
+  \begin{mat}
+    a  &b  \\
+    c  &d
+  \end{mat}^{-1}
+  =
+  \frac{1}{ad-bc}
+  \begin{mat}
+    d  &-b \\
+   -c  &a
+  \end{mat}
+\end{equation*}
+当且仅当 \( ad-bc\neq 0 \)。
+%</co:TwoByTwoInv>
+\end{corollary}
+\begin{proof}
+%<*pf:TwoByTwoInv>
+此计算见 \nearbyexercise{exer:TwoByTwoInv}。
+%</pf:TwoByTwoInv>
+\end{proof}
+
+与“矩阵乘法的运算机制”小节一样，本小节展示了如何利用线性映射与矩阵的对应关系。
+映射和矩阵都值得研究，可在两种观点之间转换，选择更方便的一种。
+
+整个这一节建立了一套矩阵代数。与熟悉的实数代数比较，矩阵加减法的方式基本相同，只是仅能对相同大小的矩阵进行。
+数乘在某种意义上推广了实数乘法。矩阵乘法及其求逆也与实数中的相应运算有些相似之处，例如结合律和对加法的分配律；但也有差异，例如不满足交换律。
+本节说明，通常的实数代数之外，其他代数系统也可以既有趣又有用。
+
+
+\begin{exercises}
+  \item 
+补出 \nearbyexample{exam:ThreeByThreeMatInv} 的中间步骤。
+    \begin{answer}
+以下是一种做法。先作
+      \begin{equation*}
+       \grstep{\rho_1\leftrightarrow\rho_2}
+       \begin{pmat}{rrr|rrr}
+              1  &0  &1   &0  &1  &0  \\
+              0  &3  &-1  &1  &0  &0  \\
+              1  &-1 &0   &0  &0  &1
+           \end{pmat}                          
+       \grstep{-\rho_1+\rho_3}
+       \begin{pmat}{rrr|rrr}
+              1  &0  &1   &0  &1  &0  \\
+              0  &3  &-1  &1  &0  &0  \\
+              0  &-1 &-1  &0  &-1 &1
+           \end{pmat}                        
+       \end{equation*}
+再作
+       \begin{align*}
+         &\grstep{(1/3)\rho_2+\rho_3}
+         \begin{pmat}{rrr|rrr}
+                1  &0  &1     &0   &1  &0  \\
+                0  &3  &-1    &1   &0  &0  \\
+                0  &0  &-4/3  &1/3 &-1 &1
+             \end{pmat}                                           \\ 
+         &\grstep[-(3/4)\rho_3]{(1/3)\rho_2}
+         \begin{pmat}{rrr|rrr}
+                1  &0  &1     &0    &1   &0    \\
+                0  &1  &-1/3  &1/3  &0   &0    \\
+                0  &0  &1     &-1/4 &3/4 &-3/4
+             \end{pmat}                                  \\
+         &\grstep[-\rho_3+\rho_1]{(1/3)\rho_3+\rho_2}
+         \begin{pmat}{rrr|rrr}
+                1  &0  &0     &1/4  &1/4 &3/4  \\
+                0  &1  &0     &1/4  &1/4 &-1/4 \\
+                0  &0  &1     &-1/4 &3/4 &-3/4
+             \end{pmat}                         
+    \end{align*} 
+从右半部分读出答案。
+   \end{answer}
+ \recommended \item 
+用 \nearbycorollary{cor:TwoByTwoInv} 判断各矩阵是否有逆。
+    \begin{exparts*}
+      \partsitem
+        $\begin{mat}[r]
+           2  &1  \\
+          -1  &1          
+        \end{mat}$
+      \partsitem
+        $\begin{mat}[r]
+          0  &4  \\
+          1  &-3
+        \end{mat}$
+      \partsitem
+        $\begin{mat}[r]
+          2  &-3  \\
+         -4  &6
+        \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+\partsitem 有逆，因为 $ad-bc=2\cdot 1-1\cdot(-1)\neq 0$。
+\partsitem 有。
+\partsitem 无。
+      \end{exparts*}
+    \end{answer}
+  \recommended \item  
+对上一题中每个可逆矩阵，使用 \nearbycorollary{cor:TwoByTwoInv} 求逆。
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 
+           $\displaystyle \frac{1}{2\cdot 1-1\cdot (-1)}
+            \cdot\begin{mat}[r]
+             1  &-1  \\
+             1  &2
+           \end{mat}
+          =\frac{\displaystyle 1}{\displaystyle 3}\cdot\begin{mat}[r]
+             1  &-1  \\
+             1  &2
+           \end{mat}
+          =\begin{mat}[r]
+             1/3  &-1/3  \\
+             1/3  &2/3
+           \end{mat}$
+         \partsitem 
+           $\displaystyle \frac{1}{0\cdot (-3)-4\cdot 1}
+           \cdot\begin{mat}[r]
+             -3  &-4  \\
+             -1  &0
+           \end{mat}
+           =\begin{mat}[r]
+             3/4  &1  \\
+             1/4  &0
+           \end{mat}$
+         \partsitem The prior question shows that no inverse exists.
+       \end{exparts}
+     \end{answer}
+  \recommended \item
+用高斯–若尔当消元法求逆，若不存在则说明。对 $\nbyn{2}$ 矩阵，用 \nearbycorollary{cor:TwoByTwoInv} 核对答案。
+    \begin{exparts*}
+      \partsitem $\begin{mat}[r]
+                   3  &1  \\
+                   0  &2
+                 \end{mat}$
+      \partsitem \( \begin{mat}[r]
+                 2   &1/2  \\
+                 3   &1
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 2   &-4   \\
+                -1   &2
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 1   &1  &3  \\
+                 0   &2  &4  \\
+                 -1  &1  &0
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 0   &1  &5  \\
+                 0   &-2 &4  \\
+                 2   &3  &-2
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 2   &2  &3  \\
+                 1   &-2 &-3 \\
+                 4   &-2 &-3
+               \end{mat} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 按常规消元。
+          \begin{align*}
+            \begin{pmat}{rr|rr}
+              3  &1  &1  &0 \\
+              0  &2  &0  &1
+            \end{pmat}
+            &\grstep[(1/2)\rho_2]{(1/3)\rho_1}
+            \begin{pmat}{rr|rr}
+              1  &1/3  &1/3  &0   \\
+              0  &1    &0    &1/2
+            \end{pmat}                                 \\
+            &\grstep{-(1/3)\rho_2+\rho_1}
+            \begin{pmat}{rr|rr}
+              1  &0    &1/3  &-1/6 \\
+              0  &1    &0    &1/2
+            \end{pmat}
+          \end{align*}
+与核对所得答案一致。
+          \begin{equation*}
+            \begin{mat}[r]
+              3  &1  \\
+              0  &2
+            \end{mat}^{-1}
+            =\frac{1}{3\cdot 2-0\cdot 1}\cdot
+            \begin{mat}[r]
+              2  &-1  \\
+              0  &3
+            \end{mat}
+            =\frac{1}{6}\cdot
+            \begin{mat}[r]
+              2  &-1  \\
+              0  &3
+            \end{mat}
+          \end{equation*}
+\partsitem 消元很简单。
+          \begin{multline*}
+            \begin{pmat}{rr|rr}
+              2  &1/2  &1  &0  \\
+              3  &1    &0  &1
+            \end{pmat}
+            \grstep{-(3/2)\rho_1+\rho_2}
+            \begin{pmat}{rr|rr}
+              2  &1/2  &1     &0  \\
+              0  &1/4  &-3/2  &1
+            \end{pmat}                       \\
+            \grstep[4\rho_2]{(1/2)\rho_1}
+            \begin{pmat}{rr|rr}
+              1  &1/4   &1/2   &0  \\
+              0  &1     &-6    &4
+            \end{pmat}                         
+            \grstep{-(1/4)\rho_2+\rho_1}
+            \begin{pmat}{rr|rr}
+              1  &0     &2     &-1 \\
+              0  &1     &-6    &4
+            \end{pmat}
+          \end{multline*}
+核对结果一致。
+          \begin{equation*}
+            \frac{1}{2\cdot 1-3\cdot (1/2)}\cdot
+            \begin{mat}[r]
+              1  &-1/2  \\
+              -3 &2
+            \end{mat}
+            =2\cdot
+            \begin{mat}[r]
+              1  &-1/2  \\
+              -3 &2
+            \end{mat}
+          \end{equation*}
+\partsitem 尝试高斯–若尔当消元，
+          \begin{equation*}
+            \begin{pmat}{rr|rr}
+              2  &-4  &1  &0  \\
+             -1  &2   &0  &1 
+            \end{pmat}
+            \grstep{(1/2)\rho_1+\rho_2}
+            \begin{pmat}{rr|rr}
+              2  &-4  &1   &0  \\
+              0  &0   &1/2 &1 
+            \end{pmat}
+          \end{equation*}
+发现左半部分不能化为单位矩阵，所以逆不存在。
+核对 $ad-bc=2\cdot 2-(-4)\cdot (-1)=0$，结论一致。
+\partsitem 以下计算得到逆矩阵。
+          \begin{multline*}
+            \begin{pmat}{rrr|rrr}
+              1  &1  &3  &1  &0  &0  \\ 
+              0  &2  &4  &0  &1  &0  \\
+             -1  &1  &0  &0  &0  &1 
+            \end{pmat}  
+            \grstep{\rho_1+\rho_3}
+            \begin{pmat}{rrr|rrr}
+              1  &1  &3  &1  &0  &0  \\ 
+              0  &2  &4  &0  &1  &0  \\
+              0  &2  &3  &1  &0  &1 
+            \end{pmat}                                             \\
+           \begin{aligned}
+            &\grstep{-\rho_2+\rho_3}
+            \begin{pmat}{rrr|rrr}
+              1  &1  &3  &1  &0  &0  \\ 
+              0  &2  &4  &0  &1  &0  \\
+              0  &0  &-1 &1  &-1 &1 
+            \end{pmat}             
+           \grstep[-\rho_3]{(1/2)\rho_2}
+            \begin{pmat}{rrr|rrr}
+              1  &1  &3  &1  &0   &0  \\ 
+              0  &1  &2  &0  &1/2 &0  \\
+              0  &0  &1  &-1 &1   &-1
+            \end{pmat}                                        \\
+            &\grstep[-3\rho_3+\rho_1]{-2\rho_3+\rho_2}
+            \begin{pmat}{rrr|rrr}
+              1  &1  &0  &4  &-3   &3  \\ 
+              0  &1  &0  &2  &-3/2 &2  \\
+              0  &0  &1  &-1 &1    &-1
+            \end{pmat}                                         \\
+            &\grstep{-\rho_2+\rho_1}
+            \begin{pmat}{rrr|rrr}
+              1  &0  &0  &2  &-3/2 &1  \\ 
+              0  &1  &0  &2  &-3/2 &2  \\
+              0  &0  &1  &-1 &1    &-1
+            \end{pmat}
+           \end{aligned} 
+          \end{multline*}
+\partsitem 以下是一种消元方法。
+          \begin{multline*}
+            \begin{pmat}{rrr|rrr}
+              0  &1  &5  &1  &0  &0  \\
+              0  &-2 &4  &0  &1  &0  \\ 
+              2  &3  &-2 &0  &0  &1
+            \end{pmat}
+            \grstep{\rho_3\leftrightarrow\rho_1}\;
+            \begin{pmat}{rrr|rrr}
+              2  &3  &-2 &0  &0  &1  \\
+              0  &-2 &4  &0  &1  &0  \\ 
+              0  &1  &5  &1  &0  &0  
+            \end{pmat}                                            \\
+            \begin{aligned}
+              &\grstep{(1/2)\rho_2+\rho_3}
+              \begin{pmat}{rrr|rrr}
+                2  &3  &-2 &0  &0   &1  \\
+                0  &-2 &4  &0  &1   &0  \\ 
+                0  &0  &7  &1  &1/2 &0  
+              \end{pmat}                                             \\
+              &\grstep[-(1/2)\rho_2 \\ (1/7)\rho_3]{(1/2)\rho_1}
+              \begin{pmat}{rrr|rrr}
+                1  &3/2  &-1 &0    &0     &1/2  \\
+                0  &1    &-2 &0    &-1/2  &0    \\ 
+                0  &0    &1  &1/7  &1/14  &0  
+              \end{pmat}                                   \\
+              &\grstep[\rho_3+\rho_1]{2\rho_3+\rho_2}
+              \begin{pmat}{rrr|rrr}
+                1  &3/2  &0  &1/7  &1/14  &1/2  \\
+                0  &1    &0  &2/7  &-5/14 &0    \\ 
+                0  &0    &1  &1/7  &1/14  &0  
+              \end{pmat}                                   \\
+              &\grstep{-(3/2)\rho_2+\rho_1}
+              \begin{pmat}{rrr|rrr}
+                1  &0    &0  &-2/7 &17/28 &1/2  \\
+                0  &1    &0  &2/7  &-5/14 &0    \\ 
+                0  &0    &1  &1/7  &1/14  &0  
+              \end{pmat}
+            \end{aligned}
+          \end{multline*}
+\partsitem 逆不存在。
+          \begin{align*}
+            \begin{pmat}{rrr|rrr}
+              2  &2  &3  &1  &0  &0  \\
+              1  &-2 &-3 &0  &1  &0  \\
+              4  &-2 &-3 &0  &0  &1
+            \end{pmat}
+            &\grstep[-2\rho_1+\rho_3]{-(1/2)\rho_1+\rho_2}
+            \begin{pmat}{rrr|rrr}
+              2  &2  &3    &1     &0  &0  \\
+              0  &-3 &-9/2 &-1/2  &1  &0  \\
+              0  &-6 &-9   &-2    &0  &1
+            \end{pmat}                                          \\
+            &\grstep{-2\rho_2+\rho_3}
+            \begin{pmat}{rrr|rrr}
+              2  &2  &3    &1     &0   &0  \\
+              0  &-3 &-9/2 &-1/2  &1   &0  \\
+              0  &0  &0    &-1    &-2  &1
+            \end{pmat}
+          \end{align*}
+核对可知，原矩阵的第三列是第二列的 $3/2$ 倍，确实奇异，因此无逆。
+      \end{exparts}
+    \end{answer}
+  \recommended \item 
+哪个矩阵的逆是以下矩阵？
+    \begin{equation*}
+      \begin{mat}[r]
+        1  &3  \\
+        2  &5
+       \end{mat}
+     \end{equation*}
+     \begin{answer}
+可使用 \nearbycorollary{cor:TwoByTwoInv}。
+       \begin{equation*}
+         \frac{1}{1\cdot 5-2\cdot 3}\cdot
+         \begin{mat}[r]
+           5  &-3  \\
+          -2  &1
+         \end{mat}
+         =\begin{mat}[r]
+           -5  &3  \\
+            2  &-1
+         \end{mat}
+       \end{equation*}  
+      \end{answer}
+  \item 
+求逆与矩阵数乘、加法有何关系？
+   \begin{exparts}
+\partsitem \( rH \) 的逆是什么？
+\partsitem \( (H+G)^{-1}=H^{-1}+G^{-1} \) 成立吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 容易证明逆为 \( r^{-1}H^{-1}=(1/r)\cdot H^{-1} \)（当然，须假定矩阵可逆）。
+\partsitem 不成立。首先，$H+G$ 有逆并不意味着 $H$ 或 $G$ 有逆。以下两个矩阵均不可逆，但其和可逆。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &0  \\
+              0  &0
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              0  &0  \\
+              0  &1
+            \end{mat}
+          \end{equation*}
+其次，$H$ 和 $G$ 各自有逆，也不意味着 $H+G$ 有逆，例如
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &0  \\
+              0  &1
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              -1  &0  \\
+               0  &-1
+            \end{mat}
+          \end{equation*}
+第三，即使两个矩阵及其和都有逆，也不意味着等式成立：
+          \begin{equation*}
+            \begin{mat}[r]
+              2  &0  \\
+              0  &2
+            \end{mat}^{-1}
+            =\begin{mat}[r]
+              1/2  &0  \\
+              0    &1/2
+            \end{mat}^{-1}
+            \qquad
+            \begin{mat}[r]
+              3  &0  \\
+              0  &3
+            \end{mat}^{-1}
+            =\begin{mat}[r]
+              1/3  &0  \\
+              0    &1/3
+            \end{mat}^{-1}
+          \end{equation*}
+但
+          \begin{equation*}
+            \begin{mat}[r]
+              5  &0  \\
+              0  &5
+            \end{mat}^{-1}
+            =\begin{mat}[r]
+              1/5  &0  \\
+              0    &1/5
+            \end{mat}^{-1}
+          \end{equation*}
+而 $(1/2)_+(1/3)$ 不等于 $1/5$。
+      \end{exparts}  
+    \end{answer}
+  \recommended \item 
+\( (T^k)^{-1}=(T^{-1})^k \) 成立吗？
+    \begin{answer}
+成立：\( T^k(T^{-1})^k=(TT\cdots T)\cdot (T^{-1}T^{-1}\cdots T^{-1})=T^{k-1}(TT^{-1})(T^{-1})^{k-1}=\dots=I \)。
+    \end{answer}
+  \item 
+\( H^{-1} \) 可逆吗？
+    \begin{answer}
+可逆，\( H^{-1} \) 的逆就是 \( H \)。
+    \end{answer}
+  \item 
+对每个实数 \( \theta \)，设 \( \map{t_\theta}{\Re^2}{\Re^2} \) 相对于标准基由以下矩阵表示。
+    \begin{equation*}
+      \begin{mat}
+         \cos\theta  &-\sin\theta  \\
+         \sin\theta  &\cos\theta
+      \end{mat}
+    \end{equation*}
+证明 \( t_{\theta_1+\theta_2}=t_{\theta_1}\cdot t_{\theta_2} \)，并证明 \( {t_{\theta}}^{-1}=t_{-\theta} \)。
+    \begin{answer}
+第一个等式可用三角函数的和角公式验证。
+      \begin{multline*}
+        \begin{mat}
+          \cos(\theta_1+\theta_2) &-\sin(\theta_1+\theta_2)  \\
+          \sin(\theta_1+\theta_2) &\cos(\theta_1+\theta_2)
+        \end{mat}                                                 \\
+        \begin{aligned}
+        &=\begin{mat}
+          \cos\theta_1\cos\theta_2-\sin\theta_1\sin\theta_2
+            &-\sin\theta_1\cos\theta_2-\cos\theta_1\sin\theta_2  \\
+          \sin\theta_1\cos\theta_2+\cos\theta_1\sin\theta_2
+            &\cos\theta_1\cos\theta_2-\sin\theta_1\sin\theta_2
+        \end{mat}                                                    \\
+        &=\begin{mat}
+          \cos\theta_1 &-\sin\theta_1  \\
+          \sin\theta_1 &\cos\theta_1
+        \end{mat}
+        \begin{mat}
+          \cos\theta_2 &-\sin\theta_2  \\
+          \sin\theta_2 &\cos\theta_2
+        \end{mat}
+        \end{aligned}
+      \end{multline*}
+第二个等式也可类似地验证。
+
+当然，回顾 $t_\theta$ 是将向量绕原点旋转 \( \theta \) 弧度的映射，就不仅能验证这些等式，还能理解它们。
+    \end{answer}
+  \item \label{exer:TwoByTwoInv}
+完成 \nearbycorollary{cor:TwoByTwoInv} 证明中的计算。
+    \begin{answer}
+分两种情形。第一种假设 \( a \) 非零，则
+      \begin{equation*}
+        \grstep{-(c/a)\rho_1+\rho_2}
+        \begin{pmat}{cc|cc}
+           a   &b           &1     &0   \\
+           0   &-(bc/a)+d   &-c/a  &1
+         \end{pmat}
+        =\begin{pmat}{cc|cc}
+           a   &b           &1     &0   \\
+           0   &(ad-bc)/a   &-c/a  &1
+         \end{pmat}
+      \end{equation*}
+说明在 \( a\neq 0 \) 时，矩阵可逆当且仅当 \( ad-bc\neq 0 \)。为求逆，继续完成若尔当消元部分。
+      \begin{align*}
+        &\grstep[(a/ad-bc)\rho_2]{(1/a)\rho_1}
+        \begin{pmat}{cc|cc}
+           1   &b/a     &1/a         &0   \\
+           0   &1       &-c/(ad-bc)  &a/(ad-bc)
+         \end{pmat}                                       \\   
+        &\grstep{-(b/a)\rho_2+\rho_1}
+        \begin{pmat}{cc|cc}
+           1   &0       &d/(ad-bc)   &-b/(ad-bc)   \\
+           0   &1       &-c/(ad-bc)  &a/(ad-bc)
+         \end{pmat}                                
+      \end{align*}
+
+另一种情形为 \( a=0 \)。交换两行，将 $c$ 移到 $1,1$ 位置。
+      \begin{equation*}
+        \grstep{\rho_1\leftrightarrow\rho_2}
+        \begin{pmat}{cc|cc}
+          c  &d  &0  &1  \\
+          0  &b  &1  &0
+        \end{pmat}
+      \end{equation*}
+此矩阵非奇异当且仅当 \( b \)、\( c \) 均非零（在 \( a=0 \) 的假设下，等价于 \( ad-bc\neq 0 \)）。
+为求逆，完成若尔当消元部分。
+      \begin{equation*}
+        \grstep[(1/b)\rho_2]{(1/c)\rho_1}
+        \begin{pmat}{cc|cc}
+          1  &d/c  &0       &1/c  \\
+          0  &1    &1/b     &0
+        \end{pmat}                        
+        \grstep{-(d/c)\rho_2+\rho_1}
+        \begin{pmat}{cc|cc}
+          1  &0  &-d/bc  &1/c  \\
+          0  &1  &1/b    &0
+        \end{pmat}
+      \end{equation*}
+（注意，这正是所需结果，因为 \( a=0 \) 时 \( ad-bc=-bc \)。）
+    \end{answer}
+  \item 
+证明以下矩阵
+    \begin{equation*}
+      H=\begin{mat}[r]
+          1  &0   &1  \\
+          0  &1   &0
+        \end{mat}
+    \end{equation*}
+有无穷多个右逆，并证明它没有左逆。
+    \begin{answer}
+$H$ 为 $\nbym{2}{3}$ 矩阵。要找到 $G$ 使 $HG$ 为 $\nbyn{2}$ 单位矩阵，$G$ 必须为 $\nbym{3}{2}$。
+列出方程
+      \begin{equation*}
+          \begin{mat}[r]
+             1  &0   &1  \\
+             0  &1   &0
+           \end{mat}
+          \begin{mat}
+             m  &n  \\
+             p  &q  \\
+             r  &s
+          \end{mat}
+        =
+          \begin{mat}[r]
+             1  &0  \\
+             0  &1
+          \end{mat}
+      \end{equation*}
+并求解相应线性方程组，
+      \begin{equation*}
+        \begin{linsys}{6}
+           m  &   &   &   &+r &   &=    &1  \\
+              &n  &   &   &   &+s &=    &0  \\
+              &   &p  &   &   &   &=    &0  \\
+              &   &   &q  &   &   &=    &1
+         \end{linsys}
+      \end{equation*}
+得到无穷多个解。
+      \begin{equation*}
+        \set{\colvec{m \\ n \\ p \\ q \\ r \\ s}
+              =\colvec[r]{1 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0}
+              +r\cdot \colvec[r]{-1 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0}
+              +s\cdot \colvec[r]{0 \\ -1 \\ 0 \\ 0 \\ 0 \\ 1}
+             \suchthat r,s\in\Re}
+      \end{equation*}
+所以 $H$ 有无穷多个右逆。
+
+对于左逆，方程
+      \begin{equation*}
+         \begin{mat}
+            a  &b  \\
+            c  &d
+         \end{mat}
+         \begin{mat}[r]
+             1  &0   &1  \\
+             0  &1   &0
+          \end{mat}
+          =\begin{mat}[r]
+             1  &0  &0  \\
+             0  &1  &0  \\
+             0  &0  &1
+           \end{mat}
+      \end{equation*}
+给出一个含九个方程、四个未知数的线性方程组。
+      \begin{equation*}
+        \begin{linsys}{6}
+          a & & & & & & & & & & &= &1 \\
+            & &b& & & & & & & & &= &0 \\
+          a & & & & & & & & & & &= &0 \\
+            & & & &c& & & & & & &= &0 \\
+            & & & & & &d& & & & &= &1 \\
+            & & & &c& & & & & & &= &0 \\
+            & & & & & & & &e& & &= &0 \\
+            & & & & & & & & & &f&= &0 \\
+            & & & & & & & &e& & &= &1 
+        \end{linsys}
+      \end{equation*}
+该方程组不相容（第一、第三个方程冲突，第七、第九个也冲突），所以没有左逆。
+    \end{answer}
+  \item 
+在本小节开头回顾逆的例子中，% \nearbyexample{ex:ProjLeftInvOfEmbed},
+\( \iota \) 有多少个左逆？
+    \begin{answer}
+相对于标准基，有
+      \begin{equation*}
+        \rep{\iota}{\stdbasis_2,\stdbasis_3}
+        =\begin{mat}[r]
+          1  &0  \\
+          0  &1  \\
+          0  &0 
+        \end{mat}
+      \end{equation*}
+列出求左逆矩阵的方程，
+      \begin{equation*}
+        \begin{mat}
+          a &b &c \\
+          d &e &f
+        \end{mat}
+        \begin{mat}[r]
+          1 &0  \\
+          0 &1  \\
+          0 &0
+        \end{mat}
+        =\begin{mat}[r]
+          1 &0  \\
+          0 &1 
+        \end{mat}
+        =\rep{\identity}{\stdbasis_2,\stdbasis_2}
+      \end{equation*}
+得到线性方程组。
+      \begin{equation*}
+        \begin{linsys}{6}
+          a & & & & & & & & & & &= &1 \\
+            & &b& & & & & & & & &= &0 \\
+            & & & & & &d& & & & &= &0 \\
+            & & & & & & & &e& & &= &1 
+        \end{linsys}
+      \end{equation*}
+关于 $a,\ldots,f$，方程组有无穷多个解，因为其中两个变量完全不受限制，
+      \begin{equation*}
+        \set{\colvec{a \\ b \\ c \\ d \\ e \\ f}
+             =\colvec[r]{1 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0}
+              +c\cdot \colvec[r]{0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0}
+              +f\cdot \colvec[r]{0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1}
+             \suchthat c,f\in\Re}
+      \end{equation*}
+所以矩阵方程有无穷多个解。
+      \begin{equation*}
+        \set{\begin{mat}
+               1  &0  &c  \\
+               0  &1  &f
+             \end{mat}
+             \suchthat c,f\in\Re}
+      \end{equation*}
+基仍固定为 $\stdbasis_2,\stdbasis_2$，例如取 $c=2$、$f=3$，所得矩阵表示以下映射。
+      \begin{equation*}
+        \colvec{x \\ y \\ z}
+        \;\mapsunder{f_{2,3}}\;
+        \colvec{x+2z \\ y+3z}
+      \end{equation*}
+容易验证 $\composed{f_{2,3}}{\iota}$ 是 $\Re^2$ 上的恒等映射。
+    \end{answer}
+  \item  
+若矩阵有无穷多个右逆，它可能有无穷多个左逆吗？是否必须有？
+    \begin{answer}
+由 \nearbylemma{le:LeftAndRightInvEqual}，不可能有无穷多个左逆，因为同时具有左右逆的矩阵，两种逆各自唯一，而且相等\Dash 即同时是左逆和右逆。
+    \end{answer}
+\item 设 $\map{g}{V}{W}$ 为线性映射。以下两个断言一真一假，分别是哪一个？
+    \begin{exparts}
+\partsitem 若 $\map{f}{W}{V}$ 是 $g$ 的左逆，则 $f$ 必为线性映射。
+\partsitem 若 $\map{f}{W}{V}$ 是 $g$ 的右逆，则 $f$ 必为线性映射。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 真。它必须线性，如定理~II.\ref{th:OOHomoEquivalence} 的证明所示。
+\partsitem 假。它可能线性，但不一定。考虑本小节开头的投影 $\map{\pi}{\Re^3}{\Re^2}$，定义 $\map{\eta}{\Re^2}{\Re^3}$ 如下。
+          \begin{equation*}
+            \colvec{x  \\  y}\mapsto\colvec{x  \\ y \\ 1}
+          \end{equation*}
+它是 $\pi$ 的右逆，因为 $\composed{\pi}{\eta}$ 的作用为
+          \begin{equation*}
+            \colvec{x  \\  y}\mapsto\colvec{x  \\ y \\ 1}\mapsto\colvec{x \\ y}
+          \end{equation*}
+但它不线性，因为没有将零向量映到零向量。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+设 \( H \) 可逆，且 \( HG \) 为零矩阵。证明 \( G \) 为零矩阵。
+    \begin{answer}
+由矩阵乘法结合律，\( H^{-1}(HG)=H^{-1}Z=Z \)，同时
+\( H^{-1}(HG)=(H^{-1}H)G=IG=G \)。
+    \end{answer}
+  \item 
+证明若 \( H \) 可逆，则其逆与矩阵 \( G \) 可交换，即 \( GH^{-1}=H^{-1}G \)，当且仅当 $H$ 与该矩阵可交换，即 \( GH=HG \)。
+    \begin{answer}
+在第一个等式两边分别乘 $H$。
+    \end{answer}
+  \recommended \item
+证明若 \( T \) 为方阵且 \( T^4 \) 为零矩阵，则 \( (I-T)^{-1}=I+T+T^2+T^3 \)。推广此结论。
+    \begin{answer}
+在 $T^4$ 为零矩阵的假设下，容易验证该表达式从左边或右边乘 $I-T$，结果均为单位矩阵。
+显然可推广为：若 \( T^n \) 为零矩阵，则 \( (I-T)^{-1}=I+T+T^2+\cdots+T^{n-1} \)，同样容易验证。
+    \end{answer}
+  \recommended \item 
+设 \( D \) 为对角矩阵。描述 \( D^2 \)、\( D^3 \)、\ldots\thinspace，以及 \( D^{-1} \)、\( D^{-2} \)、\ldots\thinspace。
+适当地定义 \( D^0 \)。
+    \begin{answer}
+矩阵的幂由对角元素的相应幂构成。即 \( D^2 \) 除对角元素 \( {d_{1,1}}^2 \)、\( {d_{2,2}}^2 \) 等以外，其余均为零。
+这提示将 \( D^0 \) 定义为单位矩阵。
+    \end{answer}
+  \item
+证明与可逆矩阵行等价的任意矩阵也可逆。
+    \begin{answer}
+设 $B$ 与 $A$ 行等价，且 $A$ 可逆。由行等价，存在一系列行运算将一者化为另一者。
+这些行运算可用矩阵实现，例如 $B=R_n\cdots R_1A$。
+此式将 $B$ 表为可逆矩阵的乘积，由 \nearbylemma{lem:ProdInvIsInv}，$B$ 也可逆。
+    \end{answer}
+  \item 
+\textit{以下第一问已作为 \nearbyexercise{exer:RankProdLeqRankFacts} 出现。}
+    \begin{exparts}
+\partsitem 证明两个矩阵乘积的秩不超过各自秩的最小值。
+\partsitem 证明若 \( T \)、\( S \) 为方阵，则 \( TS=I \) 当且仅当 \( ST=I \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 参见 \nearbyexercise{exer:RankProdLeqRankFacts} 的答案。
+\partsitem 我们将说明两个条件都等价于两矩阵非奇异。
+
+由于 \( T \)、\( S \) 为方阵且乘积有定义，它们同阶，设均为 \( \nbyn{n} \)。
+考虑 \( TS=I \)。由上一问，\( I \) 的秩不超过 \( T \)、\( S \) 秩的最小值。
+但 \( I \) 的秩为 \( n \)，所以 \( T \)、\( S \) 的秩均为 \( n \)，因而均非奇异。
+
+同样的论证说明 \( ST=I \) 蕴含两者均非奇异。
+      \end{exparts}  
+    \end{answer}
+  \item 
+证明置换矩阵的逆等于其转置。
+    \begin{answer}
+逆唯一，所以只需验证转置满足要求。该验证见前面的 \nearbyexercise{exer:PermTimesTransEqId}。
+    \end{answer}
+  \item 
+    % \textit{The first two parts of this question appeared as
+    % \nearbyexercise{exer:TranspAndMult}.}
+    \begin{exparts}
+\partsitem 证明 \( \trans{(GH)}=\trans{H}\trans{G} \)。
+\partsitem 方阵若每个 \( i,j \) 元素都等于 \( j,i \) 元素（即矩阵等于其转置），称为{\em 对称矩阵}。
+证明 \( H\trans{H} \) 和 \( \trans{H}H \) 均对称。
+\partsitem 证明转置的逆等于逆的转置。
+\partsitem 证明对称矩阵的逆仍对称。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 参见 \nearbyexercise{exer:TranspAndMult} 的答案。
+\partsitem 参见 \nearbyexercise{exer:TranspAndMult} 的答案。
+\partsitem 对 \( I=AA^{-1} \) 应用第一问，得 $I=\trans{I}=\trans{(AA^{-1})}=\trans{(A^{-1})}\trans{A}$。
+\partsitem 由于 \( A \) 对称，在上一问中使用 \( \trans{A}=A \)。
+      \end{exparts}  
+    \end{answer}
+  \recommended \item
+    % \textit{The items starting this question appeared as
+    % \nearbyexercise{exer:ZeroDivisor}.}
+    \begin{exparts}
+\partsitem 证明投影 \( \map{\pi_x,\pi_y}{\Re^3}{\Re^3} \) 均不是零映射，但其复合是零映射。
+\partsitem 证明求导映射 \( \map{d^2/dx^2,\,d^3/dx^3}{\polyspace_4}{\polyspace_4} \) 均不是零映射，但其复合是零映射。
+\partsitem 给出表示前两问的矩阵等式。
+    \end{exparts}
+两个非零对象相乘得到零时，称它们为\definend{零因子}。\index{zero division}
+证明零因子不可逆。
+    \begin{answer}
+前半部分各问的答案见 \nearbyexercise{exer:ZeroDivisor}。
+对于后半部分，设 $A$ 是零因子，则存在非零矩阵 $B$ 使 $AB=Z$（或 $BA=Z$，论证类似）。
+若 $A$ 可逆，则 $A^{-1}(AB)=(A^{-1}A)B=IB=B$，同时 $A^{-1}(AB)=A^{-1}Z=Z$，与 $B$ 非零矛盾。
+    \end{answer}
+  \item 
+在实数代数中，二次方程至多有两个解。矩阵代数则不同。
+证明 \( \nbyn{2} \) 矩阵方程 \( T^2=I \) 有多于两个解。
+    \begin{answer}
+平方为单位矩阵的 $\nbyn{2}$ 矩阵 $T$ 有无穷多个。以下是四个。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &0  \\
+          0      &1
+        \end{mat}
+        \quad
+        \begin{mat}[r]
+          -1  &0  \\
+          0   &-1
+        \end{mat}
+        \quad
+        \begin{mat}[r]
+          1  &0  \\
+          0  &-1
+        \end{mat}
+        \quad
+        \begin{mat}[r]
+          -1  &0  \\
+          0    &1
+        \end{mat}
+      \end{equation*}
+另外两个为
+      \begin{equation*}
+        \begin{mat}[r]
+          0  &1  \\
+          1  &0
+        \end{mat}
+        \quad
+        \begin{mat}[r]
+          0  &-1  \\
+          -1 &0
+        \end{mat}      
+      \end{equation*}
+还有一个为
+      \begin{equation*}
+        \frac{1}{5}
+        \begin{mat}[r]
+          3  &4  \\
+          4  &-3
+        \end{mat}
+      \end{equation*}
+（最后一个例子的规律涉及勾股三元组，即满足 $r^2+s^2=t^2$ 的数 $r,s,t\in\R$）。
+\textit{评注：}另见 \url{https://en.wikipedia.org/wiki/Square_root_of_a_2_by_2_matrix}。
+    \end{answer}
+  \item 
+“是其双侧逆”关系具有传递性吗？自反性呢？对称性呢？
+   \begin{answer}
+它不具有自反性，例如
+     \begin{equation*}
+       H=\begin{mat}[r]
+         1  &0  \\
+         0  &2
+       \end{mat}
+     \end{equation*}
+就不是自身的双侧逆。同一例子还说明不具有传递性。该矩阵的双侧逆为
+     \begin{equation*}
+       G=\begin{mat}[r]
+         1  &0  \\
+         0  &1/2
+       \end{mat}
+     \end{equation*}
+虽然 \( H \) 是 \( G \) 的双侧逆，\( G \) 是 \( H \) 的双侧逆，但 \( H \) 不是自身的双侧逆。
+不过该关系具有对称性：若 \( G \) 是 \( H \) 的双侧逆，则 \( GH=I=HG \)，所以 \( H \) 也是 \( G \) 的双侧逆。
+   \end{answer}
+  \item  
+\cite{Monthly51p614}
+证明：若方阵每行的元素之和均为 \( k \)，则逆矩阵每行的元素之和均为 \( 1/k \)。
+    \begin{answer}
+\answerasgiven %
+设 \( A \) 为满足所述性质的 \( \nbyn{m} \) 非奇异矩阵，\( B \) 为其逆。对 \( n\leq m \)，有
+      \begin{equation*}
+        1
+        =\sum_{r=1}^{m}\delta_{nr}
+        =\sum_{r=1}^{m}\sum_{s=1}^{m}b_{ns}a_{sr}
+        =\sum_{s=1}^{m}\sum_{r=1}^{m}b_{ns}a_{sr}
+        =k\sum_{s=1}^{m}b_{ns}
+      \end{equation*}
+（若 \( k=0 \)，则 \( A \) 奇异）。
+   \end{answer}
+\end{exercises}
+\index{matrix!inverse|)}
+
+
+
+
+
+

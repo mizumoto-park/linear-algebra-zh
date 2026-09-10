@@ -1,0 +1,6148 @@
+% Chapter 2, Section 3 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-10
+\section{基与维数}
+\index{basis|(}
+前一节的结尾指出：张成集在它线性无关时是最小的，
+而线性无关集在它张成整个空间时是最大的。
+所以“最小张成集”与“最大无关集”这两个概念恰好重合。
+本节将给这个想法命名，并研究它的性质。
+
+
+
+
+
+\subsection{基}
+\begin{definition} \label{def:basis}
+%<*df:basis>
+向量空间的\definend{基}\index{basis!definition}\index{vector space!basis}
+是由线性无关且张成该空间的向量组成的序列。
+%</df:basis>
+\end{definition}
+
+%<*BasisNotation>
+由于基是一个序列，
+也就是说，
+两组基即使所含元素相同而次序不同，
+也算不同的基，
+% the 
+% order of the elements is significant,
+所以我们用尖括号来记它：
+\( \sequence{\vec{\beta}_1,\vec{\beta}_2,\ldots} \).\appendrefs{sequences}\@ %\spacefactor=1000{}
+%</BasisNotation>
+（若由序列的元素构成的重集是无关的，则称该序列是线性无关的。
+类似地，
+若序列的元素构成的集合张成该空间，
+则称该序列张成该空间。）
+
+\begin{example}  \label{ex:FstBasisRTwo}
+这是 \( \Re^2 \) 的一个基。
+\begin{equation*}
+  \sequence{ \colvec{2 \\ 4},\colvec{1 \\ 1} }
+\end{equation*}
+它是线性无关的
+\begin{equation*}
+  c_1\colvec{2 \\ 4}+c_2\colvec{1 \\ 1}=\colvec{0 \\ 0}
+  \quad\implies\quad
+  \begin{linsys}{2}
+     2c_1  &+  &1c_2  &=  &0  \\
+     4c_1  &+  &1c_2  &=  &0  
+   \end{linsys}
+  \quad\implies\quad
+  c_1=c_2=0
+\end{equation*}
+并且它张成 \( \Re^2 \)。
+\begin{equation*}
+  \begin{linsys}{2}
+    2c_1  &+  &1c_2  &=  &x  \\
+    4c_1  &+  &1c_2  &=  &y  
+  \end{linsys}
+  \quad\implies\quad
+  c_2=2x-y\text{\ 而\ } c_1=(y-x)/2
+\end{equation*}
+\end{example}
+
+\begin{example}
+\( \Re^2 \) 的这个基与前面那个不同
+\begin{equation*}
+  \sequence{\colvec[r]{1 \\ 1},\colvec[r]{2 \\ 4}}
+\end{equation*}
+这是因为其中元素的次序不同。
+验证它是一个基，做法与前面的例题完全相同。
+\end{example}
+
+\begin{example}
+空间 \( \Re^2 \) 有许多基。
+另一个是这样的。
+\begin{equation*}
+  \sequence{ \colvec[r]{1 \\ 0},\colvec[r]{0 \\ 1} }
+\end{equation*}
+验证很容易。
+\end{example}
+
+\begin{definition} \label{df:StandardBasis}
+%<*df:StandardBasis>
+对任意 \( \Re^n \)
+\begin{equation*}
+   \stdbasis_n=\sequence{
+     \colvec[r]{1 \\ 0 \\ \vdotswithin{0} \\ 0},
+     \colvec[r]{0 \\ 1 \\ \vdotswithin{0} \\ 0},
+     \dots,\,
+     \colvec[r]{0 \\ 0 \\ \vdotswithin{0} \\ 1}}
+\end{equation*}
+是\definend{标准}\index{standard basis}%
+\index{basis!standard}基（也称为\definend{自然}基）。
+我们把这些向量记为 \( \vec{e}_1,\dots,\vec{e}_n \)。
+%</df:StandardBasis>
+\end{definition}
+
+\noindent 
+微积分教材把 $\Re^2$ 的标准基向量记作
+\( \vec{\imath} \) 和 \( \vec{\jmath} \)，而不是 $\vec{e}_1$
+和 $\vec{e}_2$；并把 \( \Re^3 \) 的标准基向量记作
+\( \vec{\imath} \)、\( \vec{\jmath} \) 和 \( \vec{k} \)，
+而不是 $\vec{e}_1$、$\vec{e}_2$ 和 $\vec{e}_3$。
+注意 \( \vec{e}_1 \) 在讨论 \( \Re^3 \) 时的含义
+与在讨论 \( \Re^2 \) 时的含义不同。
+
+\begin{example}  \label{ex:BasisForCosPlusSin}
+考虑由实变量 $\theta$ 的函数组成的空间
+\( \set{a\cdot\cos\theta+b\cdot\sin\theta\suchthat a,b\in\Re} \)。
+它的一个自然基是
+$ \sequence{\cos\theta, \sin\theta}=\sequence{1\cdot\cos\theta+0\cdot\sin\theta,
+             0\cdot\cos\theta+1\cdot\sin\theta}
+    $。
+这个空间一个更一般的基是
+\( \sequence{\cos\theta-\sin\theta,
+             2\cos\theta+3\sin\theta} \)。
+这两个都是基的验证见
+\nearbyexercise{exer:VerifBasesCosPlusSin}。
+\end{example}
+
+\begin{example}
+三次多项式向量空间 \( \polyspace_3 \) 的一个自然基是
+\( \sequence{1,x,x^2,x^3} \)。
+这个空间的另外两个基是 \( \sequence{x^3,3x^2,6x,6} \)
+和 \( \sequence{1,1+x,1+x+x^2,1+x+x^2+x^3} \)。
+验证它们各自都线性无关且张成整个空间，这很容易。
+\end{example}
+
+\begin{example}
+平凡空间\index{trivial space}\index{vector space!trivial} 
+$\set{\zero}$ 只有一个基，即空的基
+\( \sequence{} \)。
+\end{example}
+
+\begin{example}
+由有限次多项式构成的空间有一个含有无穷多个元素的基
+\( \sequence{1,x,x^2,\ldots} \)。
+\end{example}
+
+\begin{example}
+基我们以前就见过。
+在第一章中，对于诸如这样的齐次方程组
+\begin{equation*}
+   \begin{linsys}{4}
+      x  &+  &y  &   &   &-   &w   &=  &0  \\
+         &   &   &   &z  &+   &w   &=  &0  
+   \end{linsys}
+\end{equation*}
+我们通过参数化来描述其解集。
+\begin{equation*}
+  \set{\colvec[r]{-1 \\ 1 \\ 0 \\ 0}y
+       +\colvec[r]{1 \\ 0 \\ -1 \\ 1}w
+       \suchthat y,w\in\Re }
+\end{equation*}
+于是，解的向量空间就是
+一个二元集合的张成。
+这个由两个向量组成的集合也是线性无关的，这容易验证。
+因此，解集是 \( \Re^4 \) 的一个子空间，以上面这两个向量
+组成它的一个基。
+\end{example}
+
+\begin{example}
+参数化不仅能求出齐次方程组解集的基，
+也能求出其他向量空间的基。
+为求 $\matspace_{\nbyn{2}}$ 的这个子空间的基
+\begin{equation*}
+  \set{\begin{mat}
+         a  &b  \\
+         c  &0
+       \end{mat} \suchthat a+b-2c=0}
+\end{equation*}
+我们把条件改写为 $a=-b+2c$。
+\begin{equation*}
+  \set{\begin{mat}
+         -b+2c  &b  \\
+          c     &0
+       \end{mat} \suchthat b,c \in \Re}
+  =\set{b\begin{mat}[r]
+         -1  &1  \\
+          0  &0
+       \end{mat}+
+       c\begin{mat}[r]
+          2  &0  \\
+          1  &0
+       \end{mat} \suchthat b,c \in \Re}
+\end{equation*}
+于是，下面是一个自然的候选基。
+\begin{equation*}
+  \sequence{\begin{mat}[r]
+         -1  &1  \\
+          0  &0
+       \end{mat},
+       \begin{mat}[r]
+          2  &0  \\
+          1  &0
+       \end{mat} }
+\end{equation*}
+上面的推导表明它张成该空间。
+它的线性无关性也容易证明。
+\end{example}
+
+再考虑 \nearbyexample{ex:FstBasisRTwo}。
+% To verify linearly independence we looked at 
+% linear combinations of the set's members that total to
+% the zero vector 
+% $c_1\vec{\beta}_1+c_2\vec{\beta}_2=\binom{0}{0}$.
+% The resulting 
+% calculation shows that such a combination is unique,
+% that $c_1$ must be $0$ and $c_2$ must be $0$.
+为了验证该集合张成空间，我们考察其和为空间中
+一个成员的线性组合
+$c_1\vec{\beta}_1+c_2\vec{\beta}_2=\binom{x}{y}$。
+在那个例子中我们只指出这样的组合存在，即对每个 $x,y$
+都存在 $c_1,c_2$，但事实上那个计算还表明这个组合是
+唯一的：~$c_1$ 必定是 $(y-x)/2$ 而 $c_2$ 必定是 $2x-y$。
+ 
+\begin{theorem} \label{th:BasisIffUniqueRepWRT}
+%<*th:BasisIffUniqueRepWRT>
+在任何向量空间中，一个子集是基\index{basis}
+当且仅当空间中的每个向量都可以按一种且仅一种方式
+表示为该子集元素的线性组合。
+%</th:BasisIffUniqueRepWRT>
+\end{theorem}
+
+\noindent 如果两个线性组合具有相同的加项而只是次序不同，
+或者仅在添加或删去形如
+“\( 0\cdot\vec{\beta} \)”的项上有差别，
+我们就认为它们是相同的。
+
+
+\begin{proof}
+%<*pf:BasisIffUniqueRepWRT0>
+一个序列是基，当且仅当其中的向量构成一个张成的且线性无关的集合。
+一个子集是张成集，当且仅当空间中的每个向量都可以按至少一种方式
+表示为该子集元素的线性组合。
+所以我们只需证明：
+一个张成的子集是线性无关的，当且仅当空间中的每个向量
+都可以按至多一种方式表示为该子集元素的线性组合。
+%</pf:BasisIffUniqueRepWRT0>
+
+%<*pf:BasisIffUniqueRepWRT1>
+考虑把一个向量表示为子集成员的线性组合的两种方式。
+将两个和式重排，并在必要时添加一些 \( 0\cdot\vec{\beta}_i \) 项，
+使得两个和式按相同的次序组合相同的 \( \vec{\beta} \)：
+\( \vec{v}=\lincombo{c}{\vec{\beta}} \) 与
+\( \vec{v}=\lincombo{d}{\vec{\beta}} \)。
+于是
+\begin{equation*}
+   \lincombo{c}{\vec{\beta}}=\lincombo{d}{\vec{\beta}}
+\end{equation*}
+成立当且仅当
+\begin{equation*}
+   (c_1-d_1)\vec{\beta}_1+\dots+(c_n-d_n)\vec{\beta}_n=\zero
+\end{equation*}
+成立。
+所以，断言下面方程中每个系数都为零，
+就等价于断言对每个 \( i \) 都有 \( c_i=d_i \)，
+也就是说，每个向量都可以按唯一的方式表示为
+这些 \( \vec{\beta} \) 的线性组合。
+%</pf:BasisIffUniqueRepWRT1>
+\end{proof}
+
+\begin{definition} \label{def:RepresentingVectors}
+%<*df:RepresentingVectors>
+在以 $B$ 为基的向量空间中，
+\definend{\( \vec{v} \) 关于 \( B \) 的表示}%
+\index{representation!of a vector}\index{vector!representation of} 是
+用来把 $\vec{v}$ 表示为基向量的线性组合的系数
+所构成的列向量：
+\begin{equation*}
+  \rep{\vec{v}}{B}
+  =
+  \colvec{c_1 \\ c_2 \\ \vdots \\ c_n}_{B}
+\end{equation*}
+其中
+\( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 且
+\( \vec{v}=\lincombo{c}{\vec{\beta}} \)。
+这些 \( c \) 称为
+\definend{\( \vec{v} \) 关于 \( B \) 的坐标}%
+\index{coordinates!with respect to a basis}。
+%</df:RepresentingVectors>
+\end{definition}
+
+\begin{example}  \label{ex:RepPolyWRTA Basis}
+在 \( \polyspace_3 \) 中，关于基
+\( B=\sequence{1,2x,2x^2,2x^3} \)，
+\( x+x^2 \) 的表示是
+\begin{equation*}
+  \rep{x+x^2}{B}=\colvec[r]{0 \\ 1/2 \\ 1/2 \\ 0}_B
+\end{equation*}
+这是因为 $x+x^2=0\cdot 1+(1/2)\cdot 2x+(1/2)\cdot 2x^2+0\cdot 2x^3$。
+而关于另一个基 \( D=\sequence{1+x,1-x,x+x^2,x+x^3} \)，
+表示就不同了。
+\begin{equation*}
+  \rep{x+x^2}{D}=\colvec[r]{0 \\ 0 \\ 1 \\ 0}_D
+\end{equation*}
+\end{example}
+
+\begin{remark}
+\nearbydefinition{def:basis} 要求基是一个序列，
+这样我们才能按某个次序写出这些坐标。
+\end{remark}
+
+当只涉及一个基时，我们常常省略标明该基的下标。
+
+\begin{example}
+在 \( \Re^2 \) 中，为求向量 $\vec{v}=\binom{3}{2}$ 关于基
+\begin{equation*}
+  B=\sequence{
+              \colvec[r]{1 \\ 1},
+              \colvec[r]{0 \\ 2} }
+\end{equation*}
+的坐标，求解
+\begin{equation*}
+  c_1\colvec[r]{1 \\ 1}
+  +c_2\colvec[r]{0 \\ 2}
+  =
+  \colvec[r]{3 \\ 2}
+\end{equation*}
+得到 $c_1=3$ 与 $c_2=-1/2$。
+\begin{equation*}
+  \rep{\vec{v}}{B}=\colvec[r]{3 \\ -1/2}
+\end{equation*}
+\end{example}
+
+把表示写成一列，推广了熟悉的情况：~在 \( \Re^n \) 中，
+关于标准基 \( \stdbasis_n \)，
+起点在原点、终点在
+\( (v_1,\dots,v_n) \) 的向量就有这样的表示。
+\begin{equation*}
+  \rep{\colvec{v_1 \\ \vdots \\ v_n}}{\stdbasis_n}
+    =
+  \colvec{v_1 \\ \vdots \\ v_n}_{\stdbasis_n}
+\end{equation*}
+下面是一个例子。
+\begin{equation*}
+  \rep{\colvec{-1 \\ 1}}{\stdbasis_{n}}
+  =\colvec{-1 \\ 1}
+\end{equation*}
+
+\begin{remark}  \label{rem:RepNotation}
+$\rep{\vec{v}}{B}$ 这个记号不是标准的。
+最常见的记号是 $[\vec{v}]_B$，但 $\rep{\vec{v}}{B}$
+有一个优点：不容易被误解或被忽视。
+\end{remark}
+
+说这个列表示该向量，其含义是：
+一组向量之间成立某个线性关系，
+当且仅当这组表示之间成立该线性关系。
+
+\begin{lemma}  \label{lem:LinearRelRepresented}
+%<*lm:LinearRelRepresented>
+设 $B$ 是一个有 $n$~个元素的基，则对任意一组向量，
+$a_1\vec{v}_1+\cdots+a_k\vec{v}_k=\vec{0}_{V}$ 当且仅当
+$a_1\rep{\vec{v}_1}{B}+\cdots+a_k\rep{\vec{v}_k}{B}=\vec{0}_{\Re^n}$。
+%</lm:LinearRelRepresented>
+\end{lemma}
+
+\begin{proof}
+取定一个基 \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)，
+并设
+\begin{equation*}
+  \rep{\vec{v}_1}{B}=\colvec{c_{1,1} \\ \vdots \\ c_{n,1}}
+  \quad\ldots\quad
+  \rep{\vec{v}_k}{B}=\colvec{c_{1,k} \\ \vdots \\ c_{n,k}}
+\end{equation*}
+于是 $\vec{v}_1=c_{1,1}\vec{\beta}_1+\dots+c_{n,1}\vec{\beta}_n$，等等。
+那么 $a_1\vec{v}_1+\dots+a_k\vec{v}_k=\vec{0}$ 就等价于下面这些式子。
+\begin{align*}
+  \vec{0}
+  &=a_1\cdot(c_{1,1}\vec{\beta}_1+\dots+c_{n,1}\vec{\beta}_n)
+    +\dots+
+    a_k\cdot(c_{1,k}\vec{\beta}_1+\dots+c_{n,k}\vec{\beta}_n)  \\
+  &=(a_1c_{1,1}+\dots+a_kc_{1,k})\cdot\vec{\beta}_1
+    +\dots+
+    (a_1c_{n,1}+\dots+a_kc_{n,k})\cdot\vec{\beta}_n 
+\end{align*}
+显然，若这些系数为零，则下面的方程成立。  
+但由于 \( B \) 是一个基，\nearbytheorem{th:BasisIffUniqueRepWRT}
+表明：下面的方程成立当且仅当这些系数为零。
+所以这个关系等价于
+\begin{align*}
+    a_1c_{1,1}+\dots+a_kc_{1,k} &=0    \\
+                               &\alignedvdots \\ 
+    a_1c_{n,1}+\dots+a_kc_{n,k} &=0
+\end{align*}
+这就是等价地改写成的列向量形式。
+\begin{equation*}
+  a_1\colvec{c_{1,1} \\ \vdots \\ c_{n,1}}
+  +\dots+
+  a_k\colvec{c_{1,k} \\ \vdots \\ c_{n,k}}
+  =\colvec{0 \\ \vdots \\ 0}
+\end{equation*}
+注意，不仅一个关系对一组向量成立当且仅当它对另一组成立，
+而且这是同一个关系\Dash 这些 \( a_i \) 是相同的。
+\end{proof}
+
+\begin{example}
+\nearbyexample{ex:RepPolyWRTA Basis} 求出了
+\( x+x^2\in\polyspace_3 \) 关于
+\( B=\sequence{1,2x,2x^2,2x^3} \) 的表示。
+\begin{equation*}
+  \rep{x+x^2}{B}=\colvec[r]{0 \\ 1/2 \\ 1/2 \\ 0}_B
+\end{equation*}
+关系式
+\begin{equation*}
+  2\cdot(x+x^2)-1\cdot(2x)-2\cdot(x^2) = 0+0x+0x^2+0x^3
+\end{equation*}
+由下面这个式子表示。
+\begin{equation*}
+  2\cdot\rep{x+x^2}{B}-\rep{2x}{B}-2\cdot\rep{x^2}{B}
+  =2\cdot\colvec{0 \\ 1/2 \\ 1/2 \\ 0}
+   -\colvec{0 \\ 1 \\ 0 \\ 0}
+   -2\cdot\colvec{0 \\ 0 \\ 1/2 \\ 0}
+  =\colvec{0 \\ 0 \\ 0 \\ 0}
+\end{equation*}
+
+\end{example}
+
+表示的主要用途要到后面才出现，但这个定义放在这里，
+是因为每个向量都可以按唯一的方式表示为基向量的线性组合，
+这一事实是基的一个关键性质，
+同时也是为了帮助阐明一个观点。
+除其他用途外，为了计算坐标，我们将把注意力
+限制在基只含有限多个元素的空间上。
+这将从下一小节开始。
+
+\begin{exercises}
+  \recommended \item 判断下列每个集合是否为 $\polyspace_2$ 的基。
+    \begin{exparts*}
+      \partsitem $\sequence{x^2-x+1, 2x+1, 2x-1}$
+      \partsitem $\sequence{x+x^2, x-x^2}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这是 $\polyspace_2$ 的一个基。
+           为证明它张成该空间，考虑一个一般的
+           $a_2x^2+a_1x+a_0\in\polyspace_2$，寻找
+           满足
+           $a_2x^2+a_1x+a_0=c_1\cdot(x^2-x+1) +c_2\cdot(2x+1) +c_3(2x-1)$
+           的标量 $c_1, c_2, c_3\in\Re$。
+           由此得到的线性方程组如下。
+            \begin{equation*}
+              \begin{linsys}{3}
+                c_1  &\spaceforemptycolumn  &     &  &     &=  &a_2 \\
+                     &  &2c_2 &+ &2c_3 &=  &a_1 \\
+                     &  &c_2  &- &c_3   &=  &a_0
+              \end{linsys}
+              \grstep{(-1/2)\rho_2+\rho_3}
+              \begin{linsys}{3}
+                c_1  &\spaceforemptycolumn  &     &  &     &=  &a_2\hfill\hbox{} \\
+                     &  &2c_2 &+ &2c_3    &=  &a_1\hfill\hbox{} \\
+                     &  &     &  &-2c_3   &=  &a_0-(1/2)a_1
+              \end{linsys}
+            \end{equation*}
+           于是，给定任意一组 $a_i$，我们都能据此算出 $c_j$：
+           $c_1=a_2$，$c_2=(1/4)a_1+(1/2)a_0$，以及 $c_3=(1/4)a_1-(1/2)a_0$。
+           因此 $\polyspace_2$ 的每个元素都是给定的
+           $x^2-x+1$、$2x+1$ 与~$2x-1$ 的组合。
+
+           为证明所给三个元素构成的集合线性无关，可以建立方程
+           $0x^2+0x+0=c_1\cdot(x^2-x+1) +c_2\cdot(2x+1) +c_3(2x-1)$
+           并求解，它将给出 $c_1=0$、$c_2=0$、$c_3=0$。
+           或者，我们也可以换一种方式，
+           注意到上一段中的解是唯一的，
+           并引用 \nearbytheorem{th:BasisIffUniqueRepWRT}。
+        \partsitem 这不是基。
+           它不张成该空间，因为 $c_1\cdot (x+x^2) +c_2\cdot (x-x^2)$
+           这两个元素的任何组合都不能合成多项式
+           $3\in\polyspace_2$。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    判断下列每个集合是否为 \( \Re^3 \) 的基。
+    \begin{exparts*}
+      \partsitem \( \sequence{
+                 \colvec[r]{1 \\ 2 \\ 3},
+                 \colvec[r]{3 \\ 2 \\ 1},
+                 \colvec[r]{0 \\ 0 \\ 1}}  \)
+      \partsitem \( \sequence{
+                 \colvec[r]{1 \\ 2 \\ 3},
+                 \colvec[r]{3 \\ 2 \\ 1}}  \)
+      \partsitem \( \sequence{
+                 \colvec[r]{0 \\ 2 \\ -1},
+                 \colvec[r]{1 \\ 1 \\ 1},
+                 \colvec[r]{2 \\ 5 \\ 0}}  \)
+      \partsitem \( \sequence{
+                 \colvec[r]{0 \\ 2 \\ -1},
+                 \colvec[r]{1 \\ 1 \\ 1},
+                 \colvec[r]{1 \\ 3 \\ 0}}  \)
+    \end{exparts*}
+    \begin{answer}
+      由 \nearbytheorem{th:BasisIffUniqueRepWRT}，每一个是基当且仅当
+      我们能以唯一的方式把空间中的每个向量表示为
+      所给向量的线性组合。
+      \begin{exparts}
+        \partsitem 是的，这是一个基。
+          关系式
+          \begin{equation*}
+            c_1\colvec[r]{1 \\ 2 \\ 3}
+            +c_2\colvec[r]{3 \\ 2 \\ 1}
+            +c_3\colvec[r]{0 \\ 0 \\ 1}
+            =\colvec{x \\ y \\ z}
+          \end{equation*}
+          给出
+          \begin{equation*}
+            \begin{amat}{3}
+              1  &3  &0  &x  \\
+              2  &2  &0  &y  \\
+              3  &1  &1  &z
+            \end{amat}
+            \grstep[-3\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \repeatedgrstep{-2\rho_2+\rho_3}
+            \begin{amat}{3}
+              1  &3  &0  &x \hfill\hbox{}  \\
+              0  &-4 &0  &-2x+y \hfill\hbox{}  \\
+              0  &0  &1  &x-2y+z
+            \end{amat}
+          \end{equation*}
+          它有唯一的解
+          \( c_3=x-2y+z \)、\( c_2=x/2-y/4 \)
+          以及 \( c_1=-x/2+3y/4 \)。
+        \partsitem 这不是基。
+          按照上一小题的方式建立关系式
+          \begin{equation*}
+            c_1\colvec[r]{1 \\ 2 \\ 3}
+            +c_2\colvec[r]{3 \\ 2 \\ 1}
+            =\colvec{x \\ y \\ z}
+          \end{equation*}
+          得到一个线性方程组，其求解过程为
+          \begin{equation*}
+            \begin{amat}{2}
+              1  &3  &x  \\
+              2  &2  &y  \\
+              3  &1  &z
+            \end{amat}
+            \grstep[-3\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \repeatedgrstep{-2\rho_2+\rho_3}
+            \begin{amat}{2}
+              1  &3  &x\hfill\hbox{}  \\
+              0  &-4 &-2x+y\hfill\hbox{}  \\
+              0  &0  &x-2y+z
+            \end{amat}
+          \end{equation*}
+          当且仅当这个三元向量的分量
+          $x$、$y$、$z$ 满足 $x-2y+z=0$ 时，求解才可能。
+          例如，当 $x=1$、$y=1$、$z=1$ 时，
+          我们能找到起作用的系数 $c_1$ 与 $c_2$。
+          然而，对于 $x=1$、$y=1$、$z=2$，
+          则不存在起作用的 $c$。
+          因此这不是基；它不张成该空间。
+        \partsitem 是的，这是一个基。
+         建立关系式后得到如下化简
+          \begin{equation*}
+            \begin{amat}{3}
+              0  &1  &2  &x \hfill\hbox{} \\
+              2  &1  &5  &y \hfill\hbox{} \\
+             -1  &1  &0  &z
+            \end{amat}
+            \grstep{\rho_1\swap\rho_3}
+            \repeatedgrstep{2\rho_1+\rho_2}
+            \repeatedgrstep{-(1/3)\rho_2+\rho_3}
+            \begin{amat}{3}
+             -1  &1  &0   &z  \hfill\hbox{} \\
+              0  &3  &5   &y+2z \hfill\hbox{} \\
+              0  &0  &1/3 &x-y/3-2z/3
+            \end{amat}
+          \end{equation*}
+          对于每一组分量
+          $x$、$y$、$z$，它都有唯一的解。
+        \partsitem 不，这不是基。
+          化简过程
+          \begin{equation*}
+            \begin{amat}{3}
+              0  &1  &1  &x   \\
+              2  &1  &3  &y   \\
+             -1  &1  &0  &z
+            \end{amat}
+            \grstep{\rho_1\swap\rho_3}
+            \repeatedgrstep{2\rho_1+\rho_2}
+            \repeatedgrstep{(-1/3)\rho_2+\rho_3}
+            \begin{amat}{3}
+             -1  &1  &0  &z  \hfill\hbox{} \\
+              0  &3  &3  &y+2z  \hfill\hbox{} \\
+              0  &0  &0  &x-y/3-2z/3
+            \end{amat}
+          \end{equation*}
+          它并非对每一组三元 $x$、$y$、$z$ 都有解。
+          恰恰相反，所给集合的张成
+          只包含那些满足 \( x=y/3+2z/3 \) 的三元向量。
+      \end{exparts}
+     \end{answer}
+  \recommended \item
+    求向量关于该基的表示。
+    \begin{exparts}
+      \partsitem \( \colvec[r]{1 \\ 2} \),
+        \( B=\sequence{\colvec[r]{1 \\ 1},\colvec[r]{-1 \\ 1}}\subseteq\Re^2 \)
+      \partsitem \( x^2+x^3 \),
+        \( D=\sequence{1,1+x,1+x+x^2,1+x+x^2+x^3}\subseteq\polyspace_3 \)
+      \partsitem \( \colvec[r]{0 \\ -1 \\ 0 \\ 1} \),
+        \( \stdbasis_4\subseteq\Re^4 \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 我们求解
+          \begin{equation*}
+            c_1\colvec[r]{1 \\ 1}
+            +c_2\colvec[r]{-1 \\ 1}
+            =\colvec[r]{1 \\ 2}
+          \end{equation*}
+          其过程为
+          \begin{equation*}
+             \begin{amat}[r]{2}
+               1  &-1  &1  \\
+               1  &1   &2
+             \end{amat}
+             \grstep{-\rho_1+\rho_2}
+             \begin{amat}[r]{2}
+               1  &-1  &1  \\
+               0  &2   &1
+             \end{amat}
+          \end{equation*}
+          并由此得出 \( c_2=1/2 \)，从而 \( c_1=3/2 \)。
+          于是，表示如下。
+          \begin{equation*}
+            \rep{\colvec[r]{1 \\ 2}}{B}=\colvec[r]{3/2 \\ 1/2}_B
+          \end{equation*}
+        \partsitem 关系式
+           $c_1\cdot(1)+c_2\cdot(1+x)+c_3\cdot(1+x+x^2)+c_4\cdot(1+x+x^2+x^3)
+             =x^2+x^3$
+           一眼即可解出：$c_4=1$，$c_3=0$，$c_2=-1$，
+           以及 $c_1=0$。
+            \begin{equation*}
+               \rep{x^2+x^3}{D}=\colvec[r]{0 \\ -1 \\ 0 \\ 1}_D
+            \end{equation*}
+        \partsitem \( \rep{\colvec[r]{0 \\ -1 \\ 0 \\ 1}}{\stdbasis_4}
+                     =\colvec[r]{0 \\ -1 \\ 0 \\ 1}_{\stdbasis_4} \)
+      \end{exparts}
+    \end{answer}
+  \item  求向量关于下面两个基各自的表示。
+    \begin{equation*}
+      \vec{v}=\colvec{3  \\ -1}
+      \quad
+      B_1=\sequence{\colvec{1  \\ -1}, \colvec{1  \\ 1}},\;
+      B_2=\sequence{\colvec{1 \\ 2}, \colvec{1 \\ 3}}
+    \end{equation*}
+    \begin{answer}
+       求解
+      \begin{equation*}
+        \colvec{3 \\ -1}=\colvec{1 \\ -1}\cdot c_1
+                         +\colvec{1 \\ 1}\cdot c_2
+      \end{equation*}
+      给出 $c_1=2$ 与~$c_2=1$。
+      \begin{equation*}
+        \rep{\colvec{3 \\ -1}}{B_1}
+           =\colvec{2 \\ 1}_{B_1}
+      \end{equation*}
+      类似地，求解
+      \begin{equation*}
+        \colvec{3 \\ -1}=\colvec{1 \\ 2}\cdot c_1
+                         +\colvec{1 \\ 3}\cdot c_2
+      \end{equation*}
+      给出下式。
+      \begin{equation*}
+        \rep{\colvec{3 \\ -1}}{B_2}
+           =\colvec{10 \\ -7}_{B_2}
+      \end{equation*}
+    \end{answer}
+  \item
+    求出 \(  \polyspace_2 \)（全体二次多项式构成的空间）
+    的一个基。
+    这样的基是否必定含有每个次数的
+    多项式：~零次、
+    一次以及二次？
+    \begin{answer}
+      一个自然的基是 \( \sequence{1,x,x^2} \)。
+      $\polyspace_2$ 的有些基不含有任何
+      一次或零次多项式。
+      例如 \( \sequence{1+x+x^2,x+x^2,x^2} \)。
+      （不过，每个基都至少含有一个二次多项式。）
+    \end{answer}
+  \item
+    求此方程组解集的一个基。
+    \begin{equation*}
+      \begin{linsys}{4}
+         x_1  &-  &4x_2  &+  &3x_3  &-  &x_4  &=  &0  \\
+        2x_1  &-  &8x_2  &+  &6x_3  &-  &2x_4 &=  &0
+      \end{linsys}
+    \end{equation*}
+    \begin{answer}
+      化简
+      \begin{equation*}
+        \begin{amat}[r]{4}
+          1  &-4  &3  &-1  &0  \\
+          2  &-8  &6  &-2  &0
+        \end{amat}
+        \grstep{-2\rho_1+\rho_2}
+        \begin{amat}[r]{4}
+          1  &-4  &3  &-1  &0  \\
+          0  &0   &0  &0   &0
+        \end{amat}
+      \end{equation*}
+      给出：唯一的条件是
+      $x_1=4x_2-3x_3+x_4$。
+      解集为
+      \begin{multline*}
+        \set{\colvec{4x_2-3x_3+x_4 \\ x_2 \\ x_3 \\ x_4}
+               \suchthat x_2,x_3,x_4\in\Re}                          \\
+        =\set{x_2\colvec[r]{4 \\ 1 \\ 0 \\ 0}
+             +x_3\colvec[r]{-3 \\ 0 \\ 1 \\ 0}
+             +x_4\colvec[r]{1 \\ 0 \\ 0 \\ 1} \suchthat x_2,x_3,x_4\in\Re}
+      \end{multline*}
+      因此，基的显然候选就是下面这个。
+      \begin{equation*}
+       \sequence{\colvec[r]{4 \\ 1 \\ 0 \\ 0},
+                   \colvec[r]{-3 \\ 0 \\ 1 \\ 0},
+                   \colvec[r]{1 \\ 0 \\ 0 \\ 1}  }
+      \end{equation*}
+      我们已经证明它张成该空间，而证明它还线性无关
+      则是例行的。
+    \end{answer}
+  \recommended \item
+    求出 \( \matspace_{\nbyn{2}} \)（\( \nbyn{2} \) 矩阵构成的空间）
+    的一个基。
+    \begin{answer}
+      基有很多。
+      下面是一个自然的基。
+      \begin{equation*}
+        \sequence{
+           \begin{mat}[r]
+             1  &0  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &1  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             1  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat}  }
+      \end{equation*}
+    \end{answer}
+  \recommended \item
+      为下面每一个求出一个基。
+      \begin{exparts}
+        \partsitem $\polyspace_2$ 的子空间
+          $\set{a_2x^2+a_1x+a_0\suchthat a_2-2a_1=a_0}$
+        \partsitem 由第一个分量与第二个分量
+          之和为零的三元行向量构成的空间
+        \partsitem $\nbyn{2}$ 矩阵的这个子空间
+          \begin{equation*}
+            \set{\begin{mat}
+                   a  &b  \\
+                   0  &c
+                 \end{mat} \suchthat c-2b=0}
+          \end{equation*}
+      \end{exparts}
+      \begin{answer}
+        对每一小题，都有多种可能的答案。
+        \begin{exparts}
+          \partsitem 一种做法是参数化：把 $a_2$ 表示为另外两个的组合，
+            即 $a_2=2a_1+a_0$。
+            于是
+            $a_2x^2+a_1x+a_0$ 即为 $(2a_1+a_0)x^2+a_1x+a_0$，而
+            \begin{multline*}
+              \set{(2a_1+a_0)x^2+a_1x+a_0\suchthat a_1,a_0\in\Re}          \\
+              =\set{a_1\cdot(2x^2+x)+a_0\cdot(x^2+1)\suchthat a_1,a_0\in\Re}
+            \end{multline*}
+            提示了
+            $\sequence{2x^2+x,x^2+1}$。
+            这只表明它张成该空间，但验证它线性无关
+            是例行的。
+          \partsitem 对 $\set{\rowvec{a  &b  &c}\suchthat a+b=0}$ 参数化
+            得到 $\set{\rowvec{-b &b &c}\suchthat b,c\in\Re}$，这提示我们
+            使用序列 $\sequence{\rowvec{-1 &1 &0},\rowvec{0 &0 &1}}$。
+            我们已证明它张成该空间，而验证它线性无关
+            也容易。
+          \partsitem 改写
+            \begin{equation*}
+              \set{\begin{mat}
+                     a  &b  \\
+                     0  &2b
+                   \end{mat}\suchthat a,b\in\Re}
+              =\set{a\cdot\begin{mat}[r]
+                     1  &0  \\
+                     0  &0
+                   \end{mat}
+                  +b\cdot\begin{mat}[r]
+                           0  &1  \\
+                           0  &2
+                          \end{mat} \suchthat a,b\in\Re}
+            \end{equation*}
+            提示了下面这个基。
+            \begin{equation*}
+              \sequence{\begin{mat}[r]
+                          1  &0  \\
+                          0  &0
+                        \end{mat},
+                        \begin{mat}[r]
+                          0  &1  \\
+                          0  &2
+                        \end{mat}}
+            \end{equation*}
+         \end{exparts}
+      \end{answer}
+  \item 对每个空间求一个基，并验证它是基。
+    \begin{exparts}
+      \partsitem
+        $\polyspace_3$ 的子空间
+        $M=\set{a+bx+cx^2+dx^3\suchthat a-2b+c-d=0}$。
+      \partsitem  $\matspace_{\nbyn{2}}$ 的这个子空间。
+         \begin{equation*}
+           W=\set{
+             \begin{mat}
+               a  &b  \\
+               c  &d
+             \end{mat}
+             \suchthat a-c=0}
+         \end{equation*}
+
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          将 $a-2b+c-d=0$ 参数化为 $a=2b-c+d$，$b=b$，$c=c$，以及~$d=d$，得到
+          把 $M$ 描述为一个三元集合的张成。
+          \begin{equation*}
+            M=\set{
+             (2+x)\cdot b+(-1+x^2)\cdot c+(1+x^3)\cdot d
+             \suchthat b,c,d\in\Re
+             }
+          \end{equation*}
+          为证明这个三元集合是基，剩下只需
+          验证它线性无关。
+          \begin{equation*}
+             0+0x+0x^2+0x^3=(2+x)\cdot c_1+(-1+x^2)\cdot c_2+(1+x^3)\cdot c_3
+          \end{equation*}
+          由 $x$~项可知 $c_1=0$。
+          由 $x^2$~项可知 $c_2=0$。
+          $x^3$~项给出 $c_3=0$。
+       \partsitem
+         先把该描述参数化
+         （注意，$b$ 与~$d$ 未在 $W$ 的
+         描述中被提到
+         并不意味着
+         它们为零或不存在，而是意味着它们不受限制）。
+         \begin{equation*}
+           W=\set{
+             \begin{mat}
+               0 &1 \\
+               0 &0
+             \end{mat}\cdot b
+             +
+             \begin{mat}
+               1 &0 \\
+               1 &0
+             \end{mat}\cdot c
+             +
+             \begin{mat}
+               0 &0 \\
+               0 &1
+             \end{mat}\cdot d
+             \suchthat b,c,d\in\Re}
+         \end{equation*}
+         这就把 $W$ 给成了一个三元集合的张成。
+         若再证明该集合线性无关，我们就完成了。
+         \begin{equation*}
+             \begin{mat}
+               0 &0 \\
+               0 &0
+             \end{mat}
+             =
+             \begin{mat}
+               0 &1 \\
+               0 &0
+             \end{mat}\cdot c_1
+             +
+             \begin{mat}
+               1 &0 \\
+               1 &0
+             \end{mat}\cdot c_2
+             +
+             \begin{mat}
+               0 &0 \\
+               0 &1
+             \end{mat}\cdot c_3
+         \end{equation*}
+         用右上角的元素可知 $c_1=0$。
+         左上角的元素给出 $c_2=0$，而左下角的元素
+         表明 $c_3=0$。
+     \end{exparts}
+   \end{answer}
+  \item \label{exer:VerifBasesCosPlusSin}
+    验证 \nearbyexample{ex:BasisForCosPlusSin}。
+    \begin{answer}
+      我们将证明第二个是基；第一个类似。
+      我们将直接从基的定义出发来证明，
+      因为这个例子出现在
+      \nearbytheorem{th:BasisIffUniqueRepWRT} 之前。
+
+      为看出它线性无关，
+      我们建立
+      \( c_1\cdot(\cos\theta-\sin\theta)+c_2\cdot(2\cos\theta+3\sin\theta)=
+        0\cos\theta+0\sin\theta \)。
+      取 \( \theta=0 \) 与 \( \theta=\pi/2 \) 给出这个方程组
+      \begin{equation*}
+        \begin{linsys}{2}
+          c_1\cdot 1    &+  &c_2\cdot 2   &=  &0  \\
+          c_1\cdot (-1) &+  &c_2\cdot 3   &=  &0
+        \end{linsys}
+        \grstep{\rho_1+\rho_2}
+        \begin{linsys}{2}
+          c_1  &+  &2c_2   &=  &0  \\
+               &+  &5c_2   &=  &0
+        \end{linsys}
+      \end{equation*}
+      它表明 $c_1=0$ 与 $c_2=0$。
+
+      张成的计算也不难；对任意 $x,y\in\Re$，
+      我们有
+      \( c_1\cdot(\cos\theta-\sin\theta)+c_2\cdot(2\cos\theta+3\sin\theta)=
+        x\cos\theta+y\sin\theta \)
+      给出 \( c_2=x/5+y/5 \) 与 \( c_1=3x/5-2y/5 \)，
+      因此张成就是整个空间。
+    \end{answer}
+  \recommended \item
+    求每个集合的张成，然后为该张成求一个基。
+    \begin{exparts*}
+       \partsitem $\set{1+x,1+2x}$（在 $\polyspace_2$ 中）
+       \partsitem $\set{2-2x,3+4x^2}$（在 $\polyspace_2$ 中）
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 问哪些 $a_0+a_1x+a_2x^2$ 可以表示为
+           $c_1\cdot (1+x)+c_2\cdot (1+2x)$，
+           就产生三个线性方程，
+           分别比较 $x^2$ 的系数、$x$ 的系数与常数项。
+           \begin{equation*}
+             \begin{linsys}{2}
+               c_1 &+ &c_2  &= &a_0 \\
+               c_1 &+ &2c_2 &= &a_1 \\
+                   &  &0    &= &a_2
+             \end{linsys}
+           \end{equation*}
+           带回代的高斯消元法表明，
+           只要 $a_2=0$，就有 $c_2=-a_0+a_1$
+           与 $c_1=2a_0-a_1$。
+           于是，当 $a_2=0$ 时，对任意 $a_0$ 和 $a_1$，
+           我们都能算出合适的
+           $c_1$ 与 $c_2$。
+           所以张成就是全体一次多项式
+           $\set{a_0+a_1x\suchthat a_0,a_1\in\Re}$。
+           将该集合参数化为
+           $\set{a_0\cdot 1+a_1\cdot x\suchthat a_0,a_1\in\Re}$
+           提示了一个基 $\sequence{1,x}$
+           （我们已证明它张成；验证线性无关也容易）。
+        \partsitem 利用
+          \begin{equation*}
+            a_0+a_1x+a_2x^2
+            =c_1\cdot(2-2x)+c_2\cdot(3+4x^2)
+            =(2c_1+3c_2)+(-2c_1)x+(4c_2)x^2
+          \end{equation*}
+          我们得到这个方程组。
+           \begin{equation*}
+             \begin{linsys}{2}
+               2c_1  &+ &3c_2  &= &a_0 \\
+               -2c_1 &  &      &= &a_1 \\
+                     &  &4c_2  &= &a_2
+              \end{linsys}
+             \grstep{\rho_1+\rho_2}
+             \repeatedgrstep{(-4/3)\rho_2+\rho_3}
+             \begin{linsys}{2}
+               2c_1  &+ &3c_2  &= &a_0\hfill\hbox{} \\
+                     &  &3c_2  &= &a_0+a_1\hfill\hbox{} \\
+                     &  &0     &= &(-4/3)a_0-(4/3)a_1+a_2
+              \end{linsys}
+           \end{equation*}
+           于是，有相应 $c$ 的二次多项式 $a_0+a_1x+a_2x^2$
+           只有那些满足
+           $0=(-4/3)a_0-(4/3)a_1+a_2$ 的。
+           因此张成如下。
+           \begin{equation*}
+             \set{(-a_1+(3/4)a_2)+a_1x+a_2x^2\suchthat a_1,a_2\in\Re}
+           \end{equation*}
+           参数化给出
+           $\set{a_1\cdot (-1+x)+a_2\cdot ((3/4)+x^2)\suchthat a_1,a_2\in\Re}$，
+           这提示了 $\sequence{-1+x,(3/4)+x^2}$
+           （验证它线性无关是例行的）。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    为三次多项式空间
+    $\polyspace_3$ 的下列子空间各求一个基。
+    \begin{exparts}
+      \partsitem  由满足 $p(7)=0$ 的三次多项式 $p(x)$
+        构成的子空间
+      \partsitem  由满足 $p(7)=0$ 且 $p(5)=0$
+        的多项式 $p(x)$ 构成的子空间
+      \partsitem  由满足 $p(7)=0$、$p(5)=0$ 且~$p(3)=0$
+        的多项式 $p(x)$ 构成的子空间
+      \partsitem  由满足 $p(7)=0$、$p(5)=0$、$p(3)=0$ 且~$p(1)=0$
+        的多项式 $p(x)$ 构成的空间
+    \end{exparts}
+    \begin{answer}
+       \begin{exparts}
+        \partsitem 该子空间如下。
+          \begin{equation*}
+             \set{a_0+a_1x+a_2x^2+a_3x^3 \suchthat a_0+7a_1+49a_2+343a_3=0 }
+          \end{equation*}
+          改写 $a_0=-7a_1-49a_2-343a_3$ 给出下式。
+          \begin{equation*}
+             \set{(-7a_1-49a_2-343a_3)+a_1x+a_2x^2+a_3x^3
+               \suchthat a_1,a_2,a_3\in\Re }
+          \end{equation*}
+          分离出
+          各参数后，这提示 \( \sequence{-7+x,-49+x^2,-343+x^3} \)
+          可作基（容易验证）。
+        \partsitem 所给子空间是三次多项式
+          $p(x)=a_0+a_1x+a_2x^2+a_3x^3$ 的全体，其中 $a_0+7a_1+49a_2+343a_3=0$
+          且 $a_0+5a_1+25a_2+125a_3=0$。
+          高斯消元法
+          \begin{equation*}
+            \begin{linsys}{4}
+              a_0  &+  &7a_1  &+  &49a_2  &+  &343a_3  &=  &0  \\
+              a_0  &+  &5a_1  &+  &25a_2  &+  &125a_3  &=  &0
+            \end{linsys}
+            \grstep{-\rho_1+\rho_2}
+            \begin{linsys}{4}
+              a_0  &+  &7a_1  &+  &49a_2  &+  &343a_3  &=  &0  \\
+                   &   &-2a_1 &-  &24a_2  &-  &218a_3  &=  &0
+            \end{linsys}
+          \end{equation*}
+          给出 $a_1=-12a_2-109a_3$ 与 $a_0=35a_2+420a_3$。
+          把 $(35a_2+420a_3)+(-12a_2-109a_3)x+a_2x^2+a_3x^3$
+          改写为 $a_2\cdot(35-12x+x^2)+a_3\cdot(420-109x+x^3)$
+          提示了基 $\sequence{35-12x+x^2,420-109x+x^3}$。
+          上面已证明它张成该空间。
+          验证它线性无关是例行的。
+          （\textit{评注。}
+          一个值得做的检验是验证基中的两个多项式
+          都以七和五为根。）
+        \partsitem 这里对三次多项式有三个条件：
+          $a_0+7a_1+49a_2+343a_3=0$，$a_0+5a_1+25a_2+125a_3=0$，
+          以及 $a_0+3a_1+9a_2+27a_3=0$。
+          高斯消元法
+          \begin{equation*}
+            \begin{linsys}{4}
+              a_0  &+  &7a_1  &+  &49a_2  &+  &343a_3  &=  &0  \\
+              a_0  &+  &5a_1  &+  &25a_2  &+  &125a_3  &=  &0  \\
+              a_0  &+  &3a_1  &+  &9a_2   &+  &27a_3   &=  &0
+            \end{linsys}
+            \grstep[-\rho_1+\rho_3]{-\rho_1+\rho_2}
+            \repeatedgrstep{-2\rho_2+\rho_3}
+            \begin{linsys}{4}
+              a_0  &+  &7a_1  &+  &49a_2  &+  &343a_3  &=  &0  \\
+                   &   &-2a_1 &-  &24a_2  &-  &218a_3  &=  &0  \\
+                   &   &      &   &8a_2   &+  &120a_3  &=  &0
+            \end{linsys}
+          \end{equation*}
+          给出唯一的自由变量 $a_3$，其中
+          $a_2=-15a_3$，$a_1=71a_3$，$a_0=-105a_3$。
+          参数化如下。
+          \begin{multline*}
+            \set{(-105a_3)+(71a_3)x+(-15a_3)x^2+(a_3)x^3\suchthat a_3\in\Re} \\
+            =
+            \set{a_3\cdot(-105+71x-15x^2+x^3)\suchthat a_3\in\Re}
+          \end{multline*}
+          因此，基的一个自然候选是
+          $\sequence{-105+71x-15x^2+x^3}$。
+          由上面的推导可知它张成该空间。
+          它显然线性无关，因为它是单元素
+          集合（且那个唯一的元素不是该空间的零对象）。
+          于是，过三点 $(7,0)$、$(5,0)$ 和
+          $(3,0)$ 的任何三次多项式都是它的倍数。
+          （\textit{评注。}
+          与前一题一样，
+          一个值得做的检验是验证把七、五、三
+          代入这个多项式每次都得到零。）
+        \partsitem 这是 $\polyspace_3$ 的平凡子空间。
+          因此，基为空 $\sequence{}$。
+      \end{exparts}
+      \noindent\textit{注。}
+      另外，我们也可以通过展开 $(x-7)(x-5)(x-3)$
+      来导出第三小题中的多项式。
+     \end{answer}
+  \item
+     我们已经看到，重排一个基的结果可能是另一个基。
+     一定如此吗？
+    \begin{answer}
+      是的。
+      线性无关与张成都不会因重排而改变。
+    \end{answer}
+  \item
+    基可以包含零向量吗？
+    \begin{answer}
+      线性无关的集合都不包含零向量。
+    \end{answer}
+  \recommended \item
+    设 \( \sequence{\vec{\beta}_1,\vec{\beta}_2,\vec{\beta}_3} \)
+    是一个向量空间的基。
+    \begin{exparts}
+      \partsitem 证明：
+        当 \( c_1, c_2, c_3\neq 0 \) 时，
+        \( \sequence{c_1\vec{\beta}_1,c_2\vec{\beta}_2,c_3\vec{\beta}_3} \)
+        是基。
+        当至少一个 \( c_i \) 为 $0$ 时会怎样？
+      \partsitem 证明：
+        \( \sequence{\vec{\alpha}_1,\vec{\alpha}_2,\vec{\alpha}_3} \)
+        是基，其中 \( \vec{\alpha}_i=\vec{\beta}_1+\vec{\beta}_i \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 为证明它线性无关，注意如果
+           \( d_1(c_1\vec{\beta}_1)+d_2(c_2\vec{\beta}_2)+d_3(c_3\vec{\beta}_3)
+               =\zero \)，
+           那么
+           \( (d_1c_1)\vec{\beta}_1+(d_2c_2)\vec{\beta}_2+(d_3c_3)\vec{\beta}_3
+               =\zero \)，而这转而
+           蕴含每个 \( d_ic_i \) 都是零。
+           但由 \( c_i\neq 0 \)，这意味着每个 \( d_i \) 都是零。
+           证明它张成该空间也大体相同；
+           由于 $\sequence{\vec{\beta}_1,\vec{\beta}_2,\vec{\beta}_3}$
+           是基，从而张成该空间，故对任意 $\vec{v}$ 我们可写成
+           \( \vec{v}=d_1\vec{\beta}_1+d_2\vec{\beta}_2+d_3\vec{\beta}_3 \)，
+           进而
+           \( \vec{v}=(d_1/c_1)(c_1\vec{\beta}_1)
+               +(d_2/c_2)(c_2\vec{\beta}_2)+(d_3/c_3)(c_3\vec{\beta}_3) \)。
+
+           如果这些标量中有零，那么结果不是基，
+           因为它不线性无关。
+         \partsitem 证明
+           $\sequence{2\vec{\beta}_1,\vec{\beta}_1+\vec{\beta}_2,
+             \vec{\beta}_1+\vec{\beta}_3}$ 线性无关是容易的。
+           为证明它张成该空间，设
+           \( \vec{v}=d_1\vec{\beta}_1+d_2\vec{\beta}_2+d_3\vec{\beta}_3 \)。
+           那么，我们可以把同一个 \( \vec{v} \) 关于
+           \( \sequence{2\vec{\beta}_1,\vec{\beta}_1+\vec{\beta}_2,
+                         \vec{\beta}_1+\vec{\beta}_3} \)
+           这样表示：
+           $\vec{v}=(1/2)(d_1-d_2-d_3)(2\vec{\beta}_1)
+           +d_2(\vec{\beta}_1+\vec{\beta}_2)+d_3(\vec{\beta}_1+\vec{\beta}_3)$。
+      \end{exparts}
+    \end{answer}
+  \item
+    找出一个向量 $\vec{v}$，使下列每一个都成为该空间
+    的基。
+    \begin{exparts*}
+      \partsitem $\sequence{\colvec[r]{1 \\ 1},\vec{v}}$（在 $\Re^2$ 中）
+      \partsitem $\sequence{\colvec[r]{1 \\ 1 \\ 0},
+                            \colvec[r]{0 \\ 1 \\ 0},\vec{v}}$（在 $\Re^3$ 中）
+      \partsitem $\sequence{x,1+x^2,\vec{v}}$（在 $\polyspace_2$ 中）
+    \end{exparts*}
+    \begin{answer}
+      如果我们略去 $\vec{v}$，每一个都构成线性无关的集合。
+      为保持线性无关，我们必须扩大每一个的张成。
+      也就是说，我们必须确定每一个的张成（把 $\vec{v}$ 排除在外），
+      然后选取一个位于该张成之外的 $\vec{v}$。
+      最后，我们还必须检验结果张成整个所给的
+      空间。
+      这些检验都是例行的。
+      \begin{exparts}
+        \partsitem 任何不是所给向量的倍数的向量，
+          即任何不在直线 $y=x$ 上的向量，在这里都可以。
+          例如 $\vec{v}=\vec{e}_1$。
+        \partsitem 通过观察，我们注意到向量 $\vec{e}_3$
+          不在所给两个向量构成的集合的张成中。
+          检验所得集合是 $\Re^3$ 的基
+          是例行的。
+        \partsitem 对张成
+          $\set{c_1\cdot(x)+c_2\cdot(1+x^2)\suchthat c_1,c_2\in\Re}$ 中的任何元素，
+          $x^2$ 的系数都等于常数项。
+          所以，如果我们添加一个不具此性质的二次多项式，
+          比如 $\vec{v}=1-x^2$，就能扩大张成。
+          检验结果是 $\polyspace_2$ 的基是容易的。
+      \end{exparts}
+    \end{answer}
+  \recommended \item 考虑 \( 2+4x^2, 1+3x^2, 1+5x^2 \in\polyspace_2\)。
+    \begin{exparts}
+      \partsitem 求出三者之间的一个线性关系。
+      \partsitem 关于
+        $B=\sequence{1-x,1+x,x^2}$ 表示它们。
+      \partsitem 检验同样的线性关系在
+        各表示之间也成立，如
+        \nearbylemma{lem:LinearRelRepresented} 中那样。
+    \end{exparts}
+    \begin{answer}
+    \begin{exparts}
+      \partsitem $1\cdot(2+4x^2)-3\cdot(1+3x^2)+1\cdot(1+5x^2)=0+0x+0x^2$
+      \partsitem 简单的计算给出下式。
+        \begin{equation*}
+          \rep{2+4x^2}{B}=\colvec{1 \\ 1 \\ 4}
+          \quad
+          \rep{1+3x^2}{B}=\colvec{1/2 \\ 1/2 \\ 3}
+          \quad
+          \rep{1+5x^2}{B}=\colvec{1/2 \\ 1/2 \\ 5}
+        \end{equation*}
+      \partsitem 检验是直截了当的。
+        \begin{equation*}
+          1\cdot\colvec{1 \\ 1 \\ 4}
+          -3\cdot\colvec{1/2 \\ 1/2 \\ 3}
+          +1\cdot\colvec{1/2 \\ 1/2 \\ 5}
+          =\colvec{0 \\ 0 \\ 0}
+        \end{equation*}
+    \end{exparts}
+    \end{answer}
+  \recommended \item
+    设
+    \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_n } \)
+    是一个基，证明在方程
+    \begin{equation*}
+       c_1\vec{\beta}_1+\dots+c_k\vec{\beta}_k
+       =
+       c_{k+1}\vec{\beta}_{k+1}+\dots+c_n\vec{\beta}_n
+    \end{equation*}
+    中每个 \( c_i \) 都是零。
+    并加以推广。
+    \begin{answer}
+      为证明每个标量都是零，只需作差：
+      \( c_1\vec{\beta}_1+\dots+c_k\vec{\beta}_k
+          -c_{k+1}\vec{\beta}_{k+1}-\dots-c_n\vec{\beta}_n=\zero \)。
+      显然的推广是：在任何只含
+      \( \vec{\beta} \) 且其中每个 \( \vec{\beta} \) 只出现
+      一次的方程中，每个标量都是零。
+      例如，一个方程右端是偶数编号基向量的组合
+      （即 $\vec{\beta}_2$、$\vec{\beta}_4$ 等），左端是
+      奇数编号基向量的组合，也同样给出
+      所有系数都是零的结论。
+    \end{answer}
+  \item
+    基包含向量空间中的一部分向量；它能
+    包含全部向量吗？
+    \begin{answer}
+      不能；线性无关的集合都不包含零向量。
+    \end{answer}
+  \item
+    \nearbytheorem{th:BasisIffUniqueRepWRT} 表明，关于一个
+    基，每个线性组合都是唯一的。
+    如果一个子集不是基，线性组合可以不唯一吗？
+    如果可以，它们必定不唯一吗？
+    \begin{answer}
+      这是 $\Re^2$ 的一个不是基的子集，以及它的元素的
+      两个不同的线性组合，二者都合成为同一个向量。
+      \begin{equation*}
+        \set{\colvec[r]{1 \\ 2},\colvec[r]{2 \\ 4}}
+        \qquad
+        2\cdot\colvec[r]{1 \\ 2}+0\cdot\colvec[r]{2 \\ 4}
+        =0\cdot\colvec[r]{1 \\ 2}+1\cdot\colvec[r]{2 \\ 4}
+      \end{equation*}
+      于是，当子集不是基时，可能出现
+      其线性组合不唯一的情形。
+
+      但子集不是基并不意味着
+      它的组合必定不唯一。
+      例如，这个集合
+      \begin{equation*}
+        \set{\colvec[r]{1 \\ 2}}
+      \end{equation*}
+      确实具有如下性质：
+      \begin{equation*}
+        c_1\cdot\colvec[r]{1 \\ 2}
+        =
+        c_2\cdot\colvec[r]{1 \\ 2}
+      \end{equation*}
+      蕴含 $c_1=c_2$。
+      这里的要点是，这个子集之所以不是基，是因为它
+      不张成该空间；该定理的证明建立了
+      线性组合唯一当且仅当该子集线性
+      无关。
+     \end{answer}
+  \item
+    方阵是\definend{对称的}\index{matrix!symmetric}%
+    \index{symmetric matrix}，如果
+    对所有下标 \( i \) 与
+    \( j \)，\( i,j \) 处的元素等于 \( j,i \) 处的元素。
+    \begin{exparts}
+      \partsitem 求出对称 \( \nbyn{2} \) 矩阵
+        构成的向量空间的一个基。
+      \partsitem 求出对称 \( \nbyn{3} \)
+        矩阵构成的空间的一个基。
+      \partsitem 求出对称 \( \nbyn{n} \)
+        矩阵构成的空间的一个基。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 把该向量空间描述为
+          \begin{equation*}
+             \set{\begin{mat}
+                     a  &b  \\
+                     b  &c
+                  \end{mat}  \suchthat a,b,c\in\Re}
+          \end{equation*}
+          提示了下面这个基。
+          \begin{equation*}
+            \sequence{
+              \begin{mat}[r]
+                1  &0  \\
+                0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  \\
+                0  &1
+              \end{mat},
+              \begin{mat}[r]
+                0  &1  \\
+                1  &0
+              \end{mat}  }
+          \end{equation*}
+          容易验证。
+        \partsitem 这是一个可能的基。
+          \begin{equation*}
+            \sequence{
+              \begin{mat}[r]
+                1  &0  &0  \\
+                0  &0  &0  \\
+                0  &0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  &0  \\
+                0  &1  &0  \\
+                0  &0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  &0  \\
+                0  &0  &0  \\
+                0  &0  &1
+              \end{mat},
+              \begin{mat}[r]
+                0  &1  &0  \\
+                1  &0  &0  \\
+                0  &0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  &1  \\
+                0  &0  &0  \\
+                1  &0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  &0  \\
+                0  &0  &1  \\
+                0  &1  &0
+              \end{mat}  }
+          \end{equation*}
+         \partsitem 与前两题一样，我们可以用两类
+           矩阵构成一个基。
+           第一类是只有一个对角元为 1、
+           其余元素全为零的矩阵（这样的矩阵有 \( n \) 个）。
+           第二类是两个相对的非对角元素为 1、
+           其余元素全为零的矩阵。
+           （也就是说，$M$ 中除 $m_{i,j}$ 与 $m_{j,i}$ 为 1 外，
+           其余元素全为零。）
+      \end{exparts}
+    \end{answer}
+  \item
+     我们可以证明 $\Re^3$ 的每个基都包含相同
+     数目的向量。
+     \begin{exparts}
+       \partsitem 证明 $\Re^3$ 的任何线性无关子集
+          至多包含三个向量。
+       \partsitem 证明
+          $\Re^3$ 的任何张成子集至少包含三个向量。
+          \textit{提示：}
+          回想如何计算一个集合的张成，并证明
+          这种方法
+          在用于少于
+          三个向量时，不能给出整个 $\Re^3$。
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 来自 $\Re^3$ 的任意四个向量都是线性相关的，因为
+           向量方程
+           \begin{equation*}
+             c_1\colvec{x_1 \\ y_1 \\ z_1}
+             +c_2\colvec{x_2 \\ y_2 \\ z_2}
+             +c_3\colvec{x_3 \\ y_3 \\ z_3}
+             +c_4\colvec{x_4 \\ y_4 \\ z_4}
+             =\colvec[r]{0 \\ 0 \\ 0}
+           \end{equation*}
+           产生一个线性方程组
+           \begin{equation*}
+             \begin{linsys}{4}
+                x_1c_1  &+  &x_2c_2  &+  &x_3c_3  &+  &x_4c_4  &=  &0 \\
+                y_1c_1  &+  &y_2c_2  &+  &y_3c_3  &+  &y_4c_4  &=  &0 \\
+                z_1c_1  &+  &z_2c_2  &+  &z_3c_3  &+  &z_4c_4  &=  &0
+             \end{linsys}
+           \end{equation*}
+           它是齐次的（因而有解），且有
+           四个未知数却只有三个方程，
+           因而有非平凡解。
+           （当然，这个论证适用于 $\Re^3$ 的任何
+           含有四个或更多向量的子集。）
+         \partsitem 我们只做两个向量的情形。
+           给定 $x_1$、\ldots、$z_2$，
+           \begin{equation*}
+             S=\set{\colvec{x_1 \\ y_1 \\ z_1},
+             \colvec{x_2 \\ y_2 \\ z_2}}
+           \end{equation*}
+           为判定哪些向量
+           \begin{equation*}
+             \colvec{x \\ y \\ z}
+           \end{equation*}
+           在 $S$ 的张成中，建立
+           \begin{equation*}
+             c_1\colvec{x_1 \\ y_1 \\ z_1}
+             +c_2\colvec{x_2 \\ y_2 \\ z_2}
+             =\colvec{x \\ y \\ z}
+           \end{equation*}
+           并对所得方程组作行化简。
+           \begin{equation*}
+             \begin{linsys}{2}
+                x_1c_1  &+  &x_2c_2   &=  &x \\
+                y_1c_1  &+  &y_2c_2   &=  &y \\
+                z_1c_1  &+  &z_2c_2   &=  &z
+             \end{linsys}
+           \end{equation*}
+           只有两个
+           变量 $c_1$ 和 $c_2$，却有三个方程，因此
+           当高斯消元法结束时，最后一
+           行上会有某个形如
+           $0=m_1x+m_2y+m_3z$ 的关系式。
+           因此，二元集合 $S$ 的张成中的向量
+           必须满足某种限制。
+           因此该张成不是整个 $\Re^3$。
+       \end{exparts}
+    \end{answer}
+  \item
+    子空间小节中的一道练习表明，集合
+    \begin{equation*}
+      \set{\colvec{x \\ y \\ z}\suchthat x+y+z=1}
+    \end{equation*}
+    在这些运算下是一个向量空间。
+    \begin{equation*}
+      \colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2}
+      =\colvec{x_1+x_2-1 \\ y_1+y_2 \\ z_1+z_2}
+      \qquad
+      r\colvec{x \\ y \\ z}=\colvec{rx-r+1 \\ ry \\ rz}
+    \end{equation*}
+    求一个基。
+    \begin{answer}
+      我们有（小心地使用这些古怪的运算）
+      \begin{multline*}
+        \set{\colvec{1-y-z \\ y \\ z}\suchthat y,z\in\Re}
+         =\set{\colvec{-y+1 \\ y \\ 0}
+               +\colvec{-z+1 \\ 0 \\ z}
+              \suchthat y,z\in\Re}                           \\
+         =\set{y\cdot\colvec{0 \\ 1 \\ 0}
+               +z\cdot\colvec{0 \\ 0 \\ 1}
+              \suchthat y,z\in\Re}
+      \end{multline*}
+      因此基的一个自然候选是下面这个。
+      \begin{equation*}
+        \sequence{\colvec[r]{0 \\ 1 \\ 0},\colvec[r]{0 \\ 0 \\ 1}}
+      \end{equation*}
+      为检验线性无关，我们建立
+      \begin{equation*}
+         c_1\colvec[r]{0 \\ 1 \\ 0}+c_2\colvec[r]{0 \\ 0 \\ 1}
+         =\colvec[r]{1 \\ 0 \\ 0}
+      \end{equation*}
+      （右边的向量是这个空间中的零对象）。
+      这给出线性方程组
+      \begin{equation*}
+        \begin{linsys}{3}
+          (-c_1+1)  &+  &(-c_2+1)  &-  &1  &=  &1  \\
+             c_1    &   &          &   &   &=  &0  \\
+                    &   &c_2       &   &   &=  &0
+        \end{linsys}
+      \end{equation*}
+      它仅有解 $c_1=0$ 与 $c_2=0$。
+      检验张成也是类似的。
+   \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{维数}
+前一小节定义了向量空间的基，并证明了空间可以有许多不同的基。
+% For example, following the definition of a basis, we saw three
+% different bases for $\Re^2$.
+因此，我们不能谈论向量空间的“那个”基。
+诚然，某些向量空间有一些基，在我们看来比其他的基更为自然，例如 $\Re^2$ 的基 $\stdbasis_2$
+% or $\Re^3$'s basis $\stdbasis_3$
+或者 $\polyspace_2$ 的基 $\sequence{1,x,x^2}$。
+但对于
+向量空间 $\set{a_2x^2+a_1x+a_0\suchthat 2a_2-a_0=a_1}$ 而言，
+没有任何一个基会因其自然而从众多基中脱颖而出。
+一般而言，我们无法给一个空间配上任何一个最能刻画它的单独的基。
+
+然而，我们能找到基的某种性质，它是唯一地与空间相联系的。
+本小节将证明，
+一个空间的任意两个基含有相同数目的元素。
+于是对每个空间我们可以配上一个数，
+即它的任一基中向量的个数。
+
+在开始之前，我们首先
+把注意力限制在至少有一个基仅含有限多个成员的空间上。
+
+\begin{definition} \label{df:FiniteDimensional}
+%<*df:FiniteDimensional>
+如果一个向量空间有一个仅含有限多个向量的基，则称它是\definend{有限维的\/}%
+\index{vector space!finite dimensional}\index{finite-dimensional vector space}
+。
+%</df:FiniteDimensional>
+\end{definition}
+
+\noindent 一个非有限维的空间是实系数多项式全体的集合，
+\nearbyexample{ex:PolysOfAllFiniteDegrees}。
+它不能由任何有限子集张成，因为那样的子集会含有一个次数最大的多项式，而这个空间却拥有所有次数的多项式。
+这样的空间有趣且重要，但我们将专注于另一个方向。
+从现在起我们只研究有限维的向量空间。
+在本书的其余部分，我们把“向量空间”理解为
+“有限维的向量空间”。
+
+% \begin{remark}
+% One reason for sticking to finite-dimensional spaces is so that 
+% the representation of a vector with respect to a 
+% basis is a finitely-tall vector and we can easily write it.
+% Another reason is that 
+% the statement `any infinite-dimensional vector space has a basis'
+% is equivalent to a statement called the Axiom of Choice
+% \cite{Blass84} and so covering this would 
+% move us far past this book's scope.
+% (A discussion of the Axiom of Choice is in the
+% Frequently Asked Questions list for \texttt{sci.math}, and
+% another accessible one is \cite{Rucker}.)  
+% \end{remark}
+
+% \begin{theorem} \label{th:AllBasesSameSize}
+% %<*th:AllBasesSameSizeCoord>
+% In any finite-dimensional vector space, all 
+% bases have the same number of elements.\index{basis}
+% %</th:AllBasesSameSizeCoord>
+% \end{theorem}
+
+% \begin{proof}
+% Fix a vector space with at least one finite basis.
+% From among all of this space's bases, choose
+% one \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) of minimal size.
+% We will show that any other basis
+% \( D=\smash{\sequence{\vec{\delta}_1,\vec{\delta}_2,\ldots}} \)
+% has the same number of members, $n$.
+% Because \( B \) has minimal size, \( D \) has no fewer than \( n \) vectors.
+% We will argue that it cannot have more than \( n \) vectors.
+
+% So suppose that
+% $\vec{\delta}_1$, \ldots{}, $\vec{\delta}_{n+1}$ are distinct.
+% The assumption that $D$ is linearly independent gives that
+% the only relationship
+% $a_1\vec{\delta}+1+\dots+a_{n+1}\vec{\delta}_{n+1}=\vec{0}$
+% is the one where each $a_i$ is zero.
+% We shall get a contradiction by finding that 
+% there are nontrivial relationships among these~$n+1$ vectors.
+
+% Represent them with respect to~$B$.
+% \begin{equation*}
+%   \rep{\vec{\delta}_1}{B}=\colvec{c_{1,1} \\ \vdots \\ c_{n,1}}
+%   \quad\cdots\quad
+%   \rep{\vec{\delta}_{n+1}}{B}=\colvec{c_{1,n+1} \\ \vdots \\ c_{n,n+1}}  
+% \end{equation*}
+% \nearbylemma{lem:LinearRelRepresented} says that a relationship
+% holds among the vectors
+% $a_1\vec{\delta}_1+\dots+a_{n+1}\vec{\delta}_{n+1}=\vec{0}$ 
+% if and only if the same relationship holds among the representations.
+% \begin{equation*}
+%   a_1\colvec{c_{1,1} \\ \vdots \\ c_{n,1}}
+%   +\cdots+
+%   a_{n+1}\colvec{c_{1,n+1} \\ \vdots \\ c_{n,n+1}}
+%   =\colvec{0 \\ \vdots \\ 0}  
+% \end{equation*}
+% Here the $c_{i,j}$ are fixed, since they are the coefficients in the 
+% representations of the given vectors, while we are looking for the~$a_i$.
+% Thus the above is a homogeneous linear system
+% \begin{equation*}
+%   \begin{linsys}{3}
+%     c_{1,1}a_1 &+ &\cdots &+ &c_{1,n+1}a_{n+1} &= &0 \\ 
+%               &  &        &  &               &\vdots \\ 
+%     c_{n,1}a_1 &+ &\cdots &+ &c_{n,n+1}a_{n+1} &= &0 
+%   \end{linsys}
+% \end{equation*}
+% with more unknowns, $n+1$, than equations.
+% Such a system does not have only one solution, it has infinitely many solutions.
+% \end{proof}
+
+
+为证明主定理，我们将使用一个技术性的结果——交换引理。
+我们先用一个例子来说明它。
+
+\begin{example}
+这是 $\Re^3$ 的一个基，以及一个表示为该基中成员的线性组合的向量。
+\begin{equation*}
+  B=\sequence{\colvec[r]{1 \\ 0  \\ 0},
+              \colvec[r]{1 \\ 1 \\ 0},
+              \colvec[r]{0 \\ 0 \\ 2}}
+  \qquad
+  \colvec[r]{1 \\ 2 \\ 0}
+  =(-1)\cdot\colvec[r]{1 \\ 0  \\ 0}
+   +2\colvec[r]{1 \\ 1 \\ 0}
+   +0\cdot\colvec[r]{0 \\ 0 \\ 2}
+\end{equation*}
+其中有两个基向量的系数非零。
+任取其中一个，比如第一个。
+用我们已表示为该组合的那个向量替换它
+\begin{equation*}
+  \hat{B}=\sequence{\colvec[r]{1 \\ 2  \\ 0},
+              \colvec[r]{1 \\ 1 \\ 0},
+              \colvec[r]{0 \\ 0 \\ 2}}
+\end{equation*}
+结果得到 \( \Re^3 \) 的另一个基。
+\end{example}
+
+\begin{lemma}[交换引理] \label{lm:ExchangeLemma}
+%<*lm:ExchangeLemma>
+设
+\( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 是向量空间的一个基，并且对于向量 \( \vec{v} \)，关系式 \( \vec{v}=\lincombo{c}{\vec{\beta}} \)
+中 \( c_i\neq 0 \)。
+那么用 \( \vec{v} \) 替换 \( \vec{\beta}_i \) 就得到该空间的另一个
+基。
+%</lm:ExchangeLemma>
+\end{lemma}
+
+\begin{proof}
+%<*pf:ExchangeLemma0>
+把交换的结果记为
+\( \hat{B}=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_{i-1},\vec{v},
+                       \vec{\beta}_{i+1},\dots,\vec{\beta}_n}  \)。
+
+我们先证明 $\hat{B}$ 线性无关。
+$\hat{B}$ 的成员之间的任意关系
+\( d_1\vec{\beta}_1+\dots+d_i\vec{v}+\dots+d_n\vec{\beta}_n=\zero \)，
+在代入 $\vec{v}$ 之后，
+\begin{equation*}
+  d_1\vec{\beta}_1+\dots
+    +d_i\cdot(c_1\vec{\beta}_1+\dots+c_i\vec{\beta}_i+\dots+c_n\vec{\beta}_n)
+    +\dots+d_n\vec{\beta}_n
+  =\zero
+\tag*{($*$)}\end{equation*}
+给出了 $B$ 的成员之间的一个线性关系。
+基 $B$ 线性无关，所以 $\vec{\beta}_i$ 的系数 $d_ic_i$
+为零。
+由于我们假设了 $c_i$ 非零，故 $d_i=0$。
+把它用于方程~$(*)$ 可知，其余的 $d$ 也都
+为零。
+因此 $\hat{B}$ 线性无关。
+%</pf:ExchangeLemma0>
+
+%<*pf:ExchangeLemma1>
+最后我们证明 $\hat{B}$ 与 $B$ 有相同的张成空间。
+论证的一半，即 $\spanof{\smash{\hat{B}}}\subseteq\spanof{B}$，
+是容易的；$\spanof{\smash{\hat{B}}}$ 的任意成员
+$d_1\vec{\beta}_1+\dots+d_i\vec{v}+\dots+d_n\vec{\beta}_n$
+可以写成
+$
+  d_1\vec{\beta}_1+\dots
+    +d_i\cdot(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)
+    +\dots+d_n\vec{\beta}_n
+$，
+它是 $B$ 的成员的线性组合的线性组合，因而属于 $\spanof{B}$。
+对于论证的另一半 $\spanof{B}\subseteq\spanof{\smash{\hat{B}}}$，
+回忆一下，如果
+$\vec{v}=c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n$ 而 $c_i\neq 0$，
+那么我们可以把方程变形为
+$\vec{\beta}_i=(-c_1/c_i)\vec{\beta}_1+\dots+(1/c_i)\vec{v}+\dots
+    +(-c_n/c_i)\vec{\beta}_n$。
+现在，考虑 $\spanof{B}$ 的任意成员
+$d_1\vec{\beta}_1+\dots+d_i\vec{\beta}_i+\dots+d_n\vec{\beta}_n$，
+把 $\vec{\beta}_i$ 替换为它作为 $\hat{B}$ 的成员的线性组合的表达式，
+并像本论证的前一半那样看出，
+结果是 $\hat{B}$ 的成员的线性组合的线性组合，因而属于
+$\spanof{\smash{\hat{B}}}$。
+%</pf:ExchangeLemma1>
+\end{proof}
+
+\begin{theorem} \label{th:AllBasesSameSize}
+%<*th:AllBasesSameSize>
+在任意有限维的向量空间中，所有
+基都含有相同数目的元素。
+%</th:AllBasesSameSize>
+\end{theorem}\index{basis}
+
+\begin{proof}
+%<*pf:AllBasesSameSize0>
+取定一个至少有一个有限基的向量空间。
+从该空间的所有基中，
+选一个规模最小的 \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)。
+我们将证明任何其他的基
+\( D=\smash{\sequence{\vec{\delta}_1,\vec{\delta}_2,\ldots}} \)
+也有相同数目的成员，即 $n$ 个。
+由于 \( B \) 的规模最小，\( D \) 含有不少于 \( n \) 个向量。
+我们将论证它不可能有多于 \( n \) 个向量。
+%</pf:AllBasesSameSize0>
+
+%<*pf:AllBasesSameSize1>
+基 \( B \) 张成该空间，而 \( \vec{\delta}_1 \) 在该空间中，
+所以 \( \vec{\delta}_1 \) 是 \( B \) 的元素的一个非平凡线性组合。
+由交换引理，我们可以用 \( \vec{\delta}_1 \) 换掉来自 \( B \) 的一个
+向量，得到基 \( B_1 \)，它的一个元素是
+\( \vec{\delta}_1 \)，而其余 \( n-1 \) 个元素
+都是 \( \vec{\beta} \)。
+%</pf:AllBasesSameSize1>
+
+%<*pf:AllBasesSameSize2>
+前一段构成了归纳论证的基础步骤。
+归纳步骤从一个基 \( B_k \)（其中 \( 1\leq k<n \)）开始，它包含
+\( D \) 的 \( k \) 个成员和 \( B \) 的 \( n-k \) 个成员。
+我们知道 \( D \) 至少有 \( n \) 个成员，所以存在
+\( \vec{\delta}_{k+1} \)。
+把它表示为 \( B_k \) 的元素的线性组合。
+关键点：~在该表示中，至少有一个非零标量必定与某个
+\( \vec{\beta}_i \) 相关联，否则那个表示将成为线性无关集
+\( D \) 的元素之间的一个非平凡线性关系。
+把 \( \vec{\beta}_i \) 换成 \( \vec{\delta}_{k+1} \)，得到新基
+\( B_{k+1} \)，与前面的基 \( B_k \) 相比，它多了一个
+\( \vec{\delta} \)，少了一个 \( \vec{\beta} \)。
+%</pf:AllBasesSameSize2>
+
+%<*pf:AllBasesSameSize3>
+重复这一步，直到没有 \( \vec{\beta} \) 剩下，于是
+\( B_n \) 包含
+$\vec{\delta}_1,\dots,\vec{\delta}_n$。
+现在，\( D \) 不可能有多于这 \( n \) 个的向量，因为
+剩下的任何 \( \vec{\delta}_{n+1} \) 都将属于
+\( B_n \) 的张成空间（因为它是基），
+从而将是其他 $\vec{\delta}$ 的线性组合，
+这与 $D$ 线性无关矛盾。
+%</pf:AllBasesSameSize3>
+\end{proof}
+
+\begin{definition}  \label{df:Dimension}
+%<*df:Dimension>
+向量空间的\definend{维数}\index{dimension}\index{vector space!dimension}
+是它的任一基中向量的个数。
+%</df:Dimension>
+\end{definition}
+
+\begin{example}
+\( \Re^n \) 的任何基都含有 \( n \) 个向量，因为标准基
+\( \stdbasis_n \) 有 \( n \) 个向量。
+于是，“维数”的这个定义推广了该词
+最常见的用法，即 $\Re^n$ 是 $n$ 维的。
+\end{example}
+
+\begin{example}
+由次数至多为 $n$ 的多项式组成的空间 \( \polyspace_n \)
+的维数是 \( n+1 \)。
+我们可以通过展示任意一个基\Dash 例如想到的
+$\sequence{1,x,\dots,x^n}$\Dash 并数一数其成员的个数来证明这一点。
+\end{example}
+
+\begin{example}
+实变量 $\theta$ 的函数组成的空间
+$\set{a\cdot\cos\theta+b\cdot\sin\theta\suchthat a,b\in\Re}$
+的维数是~$2$，因为这个空间有基
+$\sequence{\cos\theta,\sin\theta}$。
+\end{example}
+
+\begin{example}
+平凡空间是零维的，因为它的基是空的。
+\end{example}
+
+再者，尽管我们有时为强调而说“有限维的”，但从现在起
+我们把所有向量空间都取为有限维的。
+因此在下面的结果中，“空间”一词
+指“有限维的向量空间”。
+
+\begin{corollary} \label{cor:NoLiSetGreatDim}
+%<*co:NoLiSetGreatDim>
+没有哪个线性无关集的规模会大于
+包含它的空间的维数。
+%</co:NoLiSetGreatDim>
+\end{corollary}
+
+\begin{proof}
+%<*pf:NoLiSetGreatDim>
+\nearbytheorem{th:AllBasesSameSize} 的证明
+从未用到 \( D \) 张成该空间，
+只用到了它是线性无关的。
+%</pf:NoLiSetGreatDim>
+\end{proof}
+
+
+\begin{example} \label{ex:RefSubSpDiagram}
+回忆例 I.\ref{ex:SubspRThree} 中展示
+\( \Re^3 \) 的子空间的那幅图。
+每个子空间都用一个极小张成集，即一个基来描述。
+整个空间有一个含三个成员的基，
+平面子空间有含两个成员的基，
+直线子空间有含一个成员的基，
+而平凡子空间有含零个成员的基。
+
+在那一节中我们还不能证明这些就是
+\( \Re^3 \) 仅有的子空间。
+现在我们可以证明这一点了。
+前面的推论证明了，
+三维空间中不会有，比如说，五维的子空间。
+此外，由\nearbydefinition{df:Dimension}，每个空间的维数
+都是整数，所以 $\Re^3$ 中不存在那种介于直线与平面之间、
+不知怎么就是 $1.5$ 维的子空间。
+于是我们给出的子空间清单是完备的；
+\( \Re^3 \) 仅有的子空间要么是三\hbox{}维的、二\hbox{}维的、
+一\hbox{}维的，要么是零维的。
+\end{example}
+
+
+\begin{corollary} \label{cor:LIExpBas}
+%<*co:LIExpBas>
+任何线性无关集都可以扩充成一个基。
+%</co:LIExpBas>
+\end{corollary}
+
+\begin{proof}
+%<*pf:LIExpBas>
+如果一个线性无关集本身还不是基，那么它必定不张成该空间。
+向该集合添加一个不在张成空间中的向量，
+由引理 II.\ref{lm:AddVecLiSetIsLiIffVecNotInSpan} 将保持线性无关。
+不断添加，直到所得的集合确实张成该空间，
+而前面的推论
+表明这只需有限多步就会发生。
+%</pf:LIExpBas>
+\end{proof}
+
+\begin{corollary}  \label{co:SpanningSetShrinksToABasis}
+%<*co:SpanningSetShrinksToABasis>
+任何张成集都可以缩减成一个基。
+%</co:SpanningSetShrinksToABasis>
+\end{corollary}
+
+\begin{proof}
+%<*pf:SpanningSetShrinksToABasis>
+把该张成集记为 \( S \)。
+如果 \( S \) 为空，那么它已经是一个基（此时该空间必是平凡
+空间）。
+如果 \( S=\set{\zero} \)，那么可以把它缩减为空基，
+从而使之线性无关，而不改变其张成空间。
+
+否则，$S$ 包含一个向量 $\vec{s}_1$，$\vec{s}_1\neq\zero$，
+我们可以构造基 \( B_1=\sequence{\vec{s}_1} \)。
+如果 \( \spanof{B_1}=\spanof{S} \)，那么就完成了。
+如果不是，那么存在 \( \vec{s}_2\in\spanof{S} \) 使得
+\( \vec{s}_2\not\in\spanof{B_1} \)。
+令 \( B_2=\sequence{\vec{s}_1,\vec{s_2}} \)；
+由引理~II.\ref{lm:AddVecLiSetIsLiIffVecNotInSpan}，它是线性无关的，
+所以如果 \( \spanof{B_2}=\spanof{S} \)，那么就完成了。
+
+我们可以重复这一过程，直到两个张成空间相等，
+而这必定在至多有限多步内发生。
+%</pf:SpanningSetShrinksToABasis>
+\end{proof}
+
+
+\begin{corollary} \label{cor:NVecsRNSpanIffLI}
+%<*co:NVecsRNSpanIffLI>
+在 \( n \) 维空间中，由 \( n \) 个向量组成的集合线性
+无关当且仅当它张成该空间。
+%</co:NVecsRNSpanIffLI>
+\end{corollary}
+
+\begin{proof}
+%<*pf:NVecsRNSpanIffLI>
+首先我们将
+证明一个含 \( n \) 个向量的子集线性无关当且
+仅当它是一个基。
+“若”的部分平凡地成立\Dash 基是线性无关的。
+“仅当”成立，
+因为线性无关集可以扩充成一个基，而基有
+\( n \) 个元素，所以这个扩充实际上就是
+我们开始时的那个集合。
+
+为完成证明，我们将证明任何含 \( n \) 个向量的子集张成该空间
+当且仅当它是一个基。
+同样，“若”是平凡的。
+“仅当”
+成立，因为任何张成集都可以缩减成一个基，而基有
+\( n \) 个元素，所以这个缩减后的集合正是
+我们开始时的那个集合。
+%</pf:NVecsRNSpanIffLI>
+\end{proof}
+
+本小节的主要结果，即有限维的
+向量空间中所有
+基都含有相同数目的元素，是本书中最重要的一条
+结果。
+正如\nearbyexample{ex:RefSubSpDiagram}
+所表明的，它刻画了可能存在怎样的向量空间与子空间。
+
+一个直接的推论把我们带回到
+考虑“极小张成集”一词可能有的两种含义的时候。
+当时我们把“极小”定义为线性无关，
+但我们指出过，
+该词另一个合理的解释是
+当一个张成集在所有具有相同张成空间的集合中元素个数最少时，它是“极小的”。
+既然我们已经证明了所有的基都有相同数目的元素，我们知道
+“极小”的这两种意义是等价的。
+
+
+\begin{exercises}
+  \item[{\em 除非另有说明，假设所有空间都是有限维的。}]
+  \recommended \item  
+    求 \(  \polyspace_2 \) 的一个基及其维数。
+    \begin{answer}
+      一个基是 \( \sequence{1,x,x^2} \)，于是
+      维数是三。
+    \end{answer}
+  \item 
+    求该方程组的
+    解集的一个基及其维数。
+    \begin{equation*}
+      \begin{linsys}{4}
+         x_1  &-  &4x_2  &+  &3x_3  &-  &x_4  &=  &0  \\
+        2x_1  &-  &8x_2  &+  &6x_3  &-  &2x_4 &=  &0  
+      \end{linsys}
+    \end{equation*}
+    \begin{answer}
+      解集为
+      \begin{equation*}
+        \set{\colvec{4x_2-3x_3+x_4 \\ x_2 \\ x_3 \\ x_4}
+               \suchthat x_2,x_3,x_4\in\Re}
+      \end{equation*}
+      于是一个自然的基是这个
+      \begin{equation*}
+       \sequence{\colvec[r]{4 \\ 1 \\ 0 \\ 0},
+                   \colvec[r]{-3 \\ 0 \\ 1 \\ 0},
+                   \colvec[r]{1 \\ 0 \\ 0 \\ 1}  }
+      \end{equation*}  
+      （检验线性无关是容易的）。
+      于是维数是三。
+    \end{answer}
+  \recommended \item 求下面每个空间的一个基及其维数。
+    \begin{exparts}
+      \partsitem
+        $
+          \set{\colvec{x \\ y \\ z \\ w}\in\Re^4
+               \suchthat x-w+z=0}
+        $
+      \partsitem 仅有的非零元都
+        在对角线上的 $\nbym{5}{5}$ 矩阵组成的集合（例如，在 $1,1$ 元与 $2,2$ 元等处）
+      \partsitem 
+        $\set{a_0+a_1x+a_2x^2+a_3x^3\suchthat 
+            \text{$a_0+a_1=0$ 且 $a_2-2a_3=0$}}\subseteq\polyspace_3$ 
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          参数化，得到该空间的如下描述。
+          \begin{equation*}
+            \set{\colvec{w-z \\ y \\ z \\ w}
+                 =\colvec{0 \\ 1 \\ 0 \\ 0}y+
+                 \colvec{-1 \\ 0 \\ 1 \\ 0}z+
+                 \colvec{1 \\ 0 \\ 0 \\ 1}w
+                 \suchthat y,z,w\in\Re}
+          \end{equation*}
+          这把该空间表示为那个由三个向量组成的集合的张成空间。
+          为证明这个三向量集构成一个基，我们检验它是
+          线性无关的。
+          \begin{equation*}
+             \colvec{0 \\ 0 \\ 0 \\ 0}
+                 =\colvec{0 \\ 1 \\ 0 \\ 0}c_1+
+                 \colvec{-1 \\ 0 \\ 1 \\ 0}c_2+
+                 \colvec{1 \\ 0 \\ 0 \\ 1}c_3
+          \end{equation*}
+          第二个分量给出 $c_1=0$，第三、第四个
+          分量给出 $c_2=0$ 和~$c_3=0$。
+          于是一个基是这个。
+          \begin{equation*}
+              \sequence{
+                 \colvec{0 \\ 1 \\ 0 \\ 0},
+                 \colvec{-1 \\ 0 \\ 1 \\ 0},
+                 \colvec{1 \\ 0 \\ 0 \\ 1} 
+              } 
+          \end{equation*}
+          维数是基中向量的个数：$3$。
+        \partsitem
+          自然的参数化是这个。
+          \begin{multline*}
+            \set{
+              \begin{mat}
+                a &0 &0 &0 &0 \\
+                0 &b &0 &0 &0 \\
+                0 &0 &c &0 &0 \\
+                0 &0 &0 &d &0 \\
+                0 &0 &0 &0 &e 
+              \end{mat}
+              \suchthat a,\ldots,e\in\Re}   \\
+            \set{
+              \begin{mat}
+                1 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 
+              \end{mat}\cdot a
+              +\begin{mat}
+                0 &0 &0 &0 &0 \\
+                0 &1 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 
+              \end{mat}\cdot b
+              +\cdots
+              \suchthat a,\ldots,e\in\Re}
+          \end{multline*}
+          检验这个五元集线性无关是平凡的。
+          所以这是一个基；维数是 $5$。
+          \begin{equation*}
+            \sequence{
+              \begin{mat}
+                1 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 
+              \end{mat},
+              \begin{mat}
+                0 &0 &0 &0 &0 \\
+                0 &1 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 
+              \end{mat},
+              \,\ldots\,,
+              \begin{mat}
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &1 
+              \end{mat}
+          }
+          \end{equation*}
+        \partsitem
+          这些约束条件构成一个两个方程、四个未知数的线性方程组。
+          将该方程组参数化，用自由变量表示
+          首变量，得到 $a_0=-a_1$、$a_1=a_1$、$a_2=2a_3$ 以及~$a_3=a_3$。
+          \begin{multline*}
+            \set{-a_1+a_1x+2a_3x^2+a_3x^3\suchthat a_1,a_3\in\Re}         \\
+            =\set{(-1+x)\cdot a_1+(2x^2+x^3)\cdot a_3\suchthat a_1,a_3\in\Re}
+          \end{multline*}
+          该描述表明这个空间是二元集
+          $\set{-1+x,x^2+x^3}$ 的张成空间。
+          只要证明该集合线性无关即完成证明。
+          关系式
+          \begin{equation*}
+            0+0x+0x^2+0x^3=(-1+x)\cdot c_1+(2x^2+x^3)\cdot c_2
+          \end{equation*}
+          由常数项给出 $c_1=0$，由
+          三次项给出 $c_2=0$。
+          该空间的一个基是 $\sequence{-1+x,2x^2+x^3}$。
+          这是一个二维空间。
+
+      \end{exparts}
+    \end{answer}
+  \item
+    求 \( \matspace_{\nbyn{2}} \) 的一个基及其维数，
+    即 \( \nbyn{2} \) 矩阵组成的向量空间。
+    \begin{answer}
+      对这个空间
+      \begin{multline*}
+        \set{\begin{mat}
+               a  &b  \\
+               c  &d
+             \end{mat} \suchthat a,b,c,d\in\Re}            \\
+        =\set{a\cdot\begin{mat}[r]
+             1  &0  \\
+             0  &0
+           \end{mat}
+           +\dots+
+           d\cdot\begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat} \suchthat a,b,c,d\in\Re}
+      \end{multline*}
+      这是一个自然的基。
+      \begin{equation*}
+        \sequence{
+           \begin{mat}[r]
+             1  &0  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &1  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             1  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat}  }
+      \end{equation*}
+      维数是四。 
+    \end{answer}
+  \item 
+    求矩阵
+    \begin{equation*}
+      \begin{mat}
+        a  &b  \\
+        c  &d
+      \end{mat}
+    \end{equation*}
+    所组成的向量空间分别满足下列各条件时的维数。
+    \begin{exparts}
+      \item $a, b, c, d\in\Re$ 
+      \item $a-b+2c=0$ 且~$d\in\Re$
+      \item $a+b+c=0$，$a+b-c=0$，以及~$d\in\Re$
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+      \partsitem 与前面的练习一样，不加限制的矩阵空间 $\matspace_{\nbyn{2}}$ 
+        有这个基
+        \begin{equation*}
+         \sequence{
+           \begin{mat}[r]
+             1  &0  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &1  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             1  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat}  }
+        \end{equation*}
+        于是维数是四。
+      \partsitem 对这个空间
+        \begin{multline*}
+         \set{\begin{mat}
+               a  &b  \\
+               c  &d
+             \end{mat} \suchthat \text{$a=b-2c$ 且 $d\in\Re$}}     \\
+         =\set{b\cdot\begin{mat}[r]
+             1  &1  \\
+             0  &0
+           \end{mat}
+           +c\cdot\begin{mat}[r]
+             -2  &0  \\
+              1  &0
+           \end{mat}
+           +d\cdot\begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat} \suchthat b,c,d\in\Re}
+        \end{multline*}
+        这是一个自然的基。
+        \begin{equation*}
+          \sequence{
+            \begin{mat}[r]
+              1  &1  \\
+              0  &0
+            \end{mat},
+            \begin{mat}[r]
+              -2  &0  \\
+               1  &0
+            \end{mat},
+            \begin{mat}[r]
+              0  &0  \\
+              0  &1
+            \end{mat}  }
+        \end{equation*}
+        维数是三。 
+      \partsitem 对该两个方程的线性方程组应用高斯消元法，得到
+        $c=0$ 以及 $a=-b$。
+        于是，我们有这个描述
+        \begin{equation*}
+         \set{\begin{mat}
+               -b  &b  \\
+                0  &d
+             \end{mat} \suchthat b,d\in\Re}
+         =\set{b\cdot\begin{mat}[r]
+             -1  &1  \\
+             0  &0
+           \end{mat}
+           +d\cdot\begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat} \suchthat b,d\in\Re}
+        \end{equation*}
+        因此这是一个自然的基。
+        \begin{equation*}
+          \sequence{
+            \begin{mat}[r]
+              -1  &1  \\
+               0  &0
+            \end{mat},
+            \begin{mat}[r]
+              0  &0  \\
+              0  &1
+            \end{mat}  }
+        \end{equation*}
+        维数是二。 
+     \end{exparts} 
+    \end{answer}
+  \recommended \item
+    求这个 $\Re^2$ 的子空间的维数。
+    \begin{equation*}
+      S=\set{\colvec{a+b \\ a+c}\suchthat a,b,c\in\Re}
+    \end{equation*}
+    \begin{answer}
+      我们不能简单地数参数的个数。
+      也就是说，答案不是~$3$。
+      相反，注意我们可以把每个成员
+      $\binom{x}{y}\in\Re^2$ 表示成
+      \begin{equation*}
+        \colvec{x \\ y}=\colvec{a+b \\ a+c}  
+      \end{equation*}
+      的形式，其中取 $a=0$、$b=x$ 和 $c=y$ 
+      （其他取法也是可能的）。
+      所以 $S$ 就是集合 $S=\Re^2$。
+      它的维数是~$2$。
+    \end{answer}
+  \recommended \item 
+    求各自的维数。
+    \begin{exparts}
+      \partsitem  满足 $p(7)=0$ 的
+        三次多项式 $p(x)$ 组成的空间
+      \partsitem  满足 $p(7)=0$ 且~$p(5)=0$ 的
+        三次多项式 $p(x)$ 组成的空间
+      \partsitem  满足 $p(7)=0$、$p(5)=0$ 以及~$p(3)=0$ 的
+        三次多项式 $p(x)$ 组成的空间
+      \partsitem  满足 $p(7)=0$、$p(5)=0$、$p(3)=0$ 以及~$p(1)=0$ 的
+        三次多项式 $p(x)$ 组成的空间
+    \end{exparts}
+    \begin{answer}
+      这些空间的基已
+      在前一小节的答案集中导出。
+      \begin{exparts}
+        \partsitem 一个基是 \( \sequence{-7+x,-49+x^2,-343+x^3} \)。
+          维数是三。
+        \partsitem 一个基是 $\sequence{35-12x+x^2,420-109x+x^3}$，于是
+          维数是二。
+        \partsitem 一个基是 $\set{-105+71x-15x^2+x^3}$。
+          维数是一。
+        \partsitem 这是 $\polyspace_3$ 的平凡子空间，因此
+          基是空的。
+          维数是零。
+      \end{exparts}  
+    \end{answer}
+  \item 
+     集合 $\set{\cos^2\theta,\sin^2\theta,\cos2\theta,\sin2\theta}$
+     的张成空间的维数是多少？
+     这个张成空间是一个实变量的所有实值函数组成的
+     空间的一个子空间。
+     \begin{answer}
+       先回忆 $\cos2\theta=\cos^2\theta-\sin^2\theta$，所以
+       从该集合中去掉 $\cos2\theta$ 不会改变张成空间。
+       剩下的，即集合
+       $\set{\cos^2\theta,\sin^2\theta,\sin2\theta}$，线性无关
+       （考虑关系式
+       $c_1\cos^2\theta+c_2\sin^2\theta+c_3\sin2\theta=Z(\theta)$，
+       其中 $Z$ 是零函数，然后取
+       $\theta=0$、$\theta=\pi/4$ 和 $\theta=\pi/2$，
+       即可断定每个 $c$ 都是零）。
+       因此它是其张成空间的一个基。
+       这表明该张成空间是一个维数为三的向量空间。
+     \end{answer}
+  \item  
+    求 \( \C^{47} \)，即由 $47$ 元复数组组成的向量空间，
+    的维数。
+    \begin{answer}
+      这是一个基
+      \begin{equation*}
+        \sequence{(1+0i,0+0i,\dots,0+0i),\,
+                  (0+1i,0+0i,\dots,0+0i),(0+0i,1+0i,\dots,0+0i),\ldots }
+      \end{equation*}   
+      于是维数是 \( 2\cdot 47=94 \)。
+    \end{answer}
+  \item  
+    \( \nbym{3}{5} \) 矩阵组成的向量空间 $\matspace_{\nbym{3}{5}}$ 
+    的维数是多少？
+    \begin{answer}
+      一个基是
+      \begin{equation*}
+        \sequence{
+          \begin{mat}[r]
+            1  &0  &0  &0  &0  \\
+            0  &0  &0  &0  &0  \\
+            0  &0  &0  &0  &0
+          \end{mat},
+          \begin{mat}[r]
+            0  &1  &0  &0  &0  \\
+            0  &0  &0  &0  &0  \\
+            0  &0  &0  &0  &0
+          \end{mat},
+          \ldots,
+          \begin{mat}[r]
+            0  &0  &0  &0  &0  \\
+            0  &0  &0  &0  &0  \\
+            0  &0  &0  &0  &1
+          \end{mat}  }
+      \end{equation*}
+      于是维数是 \( 3\cdot 5=15 \)。  
+    \end{answer}
+  \recommended \item 
+    证明这是 $\Re^4$ 的一个基。
+    \begin{equation*}
+      \sequence{\colvec[r]{1 \\ 0 \\ 0 \\ 0},
+        \colvec[r]{1 \\ 1 \\ 0 \\ 0},
+        \colvec[r]{1 \\ 1 \\ 1 \\ 0},
+        \colvec[r]{1 \\ 1 \\ 1 \\ 1} }
+    \end{equation*}
+    （我们可以利用本小节的结果来简化这项工作。）
+    \begin{answer}
+       在四维空间中，由四个向量组成的集合线性
+       无关当且仅当它张成该空间。
+       这些向量的形式使线性无关容易证明
+       （先看第四个分量的方程，再看第三个分量的
+       方程，等等）。  
+    \end{answer}
+  \item 判断下面每个集合是否是 $\polyspace_{2}$ 的基。
+    \begin{exparts*}
+      \partsitem $\set{1,x^2,x^2-x}$
+      \partsitem $\set{x^2+x,x^2-x}$
+      \partsitem $\set{2x^2+x+1,2x+1,2}$
+      \partsitem $\set{3x^2,-1,3x,x^2-x}$
+    \end{exparts*}
+    \begin{answer}
+      由本节的结果，因为 $\polyspace_2$ 的维数是~$3$，
+      要证明一个线性无关集是一个基，我们只需
+      观察到它有三个成员。 
+      要证明一个集合不是基，我们
+      只需观察到它没有三个成员（此时
+      我们不必担心线性无关）。 
+      \begin{exparts}
+        \partsitem  这是一个基；一眼即可看出它线性无关
+           （第一个元素没有二次项或一次项，第二个有
+           二次项但没有一次项，第三个有一次项），
+           并且它有三个元素。
+        \partsitem 这不是基，因为它只有两个元素。
+        \partsitem 这个三元素集是一个基。
+        \partsitem 这不是基，因为它有四个元素。
+      \end{exparts}
+    \end{answer}
+  \item 
+     参看\nearbyexample{ex:RefSubSpDiagram}。
+     \begin{exparts}
+       \partsitem 为 $\polyspace_2$ 画一幅类似的子空间图。
+       \partsitem 为 $\matspace_{\nbyn{2}}$ 画一幅。
+     \end{exparts}
+     \begin{answer}
+      \begin{exparts}
+       \partsitem $\polyspace_2$ 的图有四层。
+          最顶层有唯一的三维子空间，
+          即 $\polyspace_2$ 本身。
+          下一层包含二维子空间
+          （\emph{并非}只有一次多项式；任何二维
+          子空间都行，比如形如 $ax^2+b$ 的多项式）。
+          再下面是一维子空间。
+          最后，当然是唯一的零维子空间，
+          即平凡子空间。
+        \partsitem 对 $\matspace_{\nbyn{2}}$，图有五层，
+          包括维数从四到零的子空间。
+     \end{exparts}
+    \end{answer}
+  \recommended \item \label{exer:DimDomToR}
+    设 \( S \) 是一个集合，函数
+    \( \map{f}{S}{\Re} \) 在自然运算下构成一个向量空间：
+    和 $f+g$ 是由
+    \( f+g\,(s)=f(s)+g(s) \) 给出的函数，而标量乘积是
+    \( r\cdot f \, (s)=r\cdot f(s) \)。
+    对每个定义域，所得空间的维数是多少？
+    \begin{exparts*}
+      \partsitem \( S=\set{1} \)
+      \partsitem \( S=\set{1,2} \)
+      \partsitem \( S=\set{1,\ldots,n} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem 一
+        \partsitem 二
+        \partsitem \( n \)
+      \end{exparts*}  
+    \end{answer}
+  \item  
+    （参见\nearbyexercise{exer:DimDomToR}。）
+    证明下面的空间是无限维的：
+    所有函数 \( \map{f}{\Re}{\Re} \) 组成的集合，在自然
+    运算之下。
+    \begin{answer}
+      我们只需给出一个无限的线性无关集。
+      一个这样的序列是 \( \sequence{f_1,f_2,\ldots} \)，其中
+      \( \map{f_i}{\Re}{\Re} \)
+      为
+      \begin{equation*}
+         f_i(x)=\begin{cases}
+                   1  &\text{若 \( x=i \)}  \\
+                   0  &\text{其他情形}
+                \end{cases}
+      \end{equation*}  
+      即仅在 $x=i$ 处取值 $1$ 的函数。
+    \end{answer}
+  \item  
+    （参见\nearbyexercise{exer:DimDomToR}。）
+    函数 $\map{f}{S}{\Re}$ 在自然运算下组成的向量空间，
+    当定义域 $S$ 是空集时，其维数是多少？
+    \begin{answer}
+      函数是有序对
+      $(x,f(x))$ 组成的集合。
+      所以以空集为定义域的函数只有一个，即空集本身。
+      只含一个元素的向量空间是平凡向量空间，
+      其维数是零。
+    \end{answer}
+  \item  
+    证明
+    \( \Re^2 \) 中任何由四个向量组成的集合都线性相关。
+    \begin{answer}
+      应用\nearbycorollary{cor:NoLiSetGreatDim}。
+    \end{answer}
+  \item  
+    证明
+    \( \sequence{\vec{\alpha}_1,\vec{\alpha}_2,\vec{\alpha}_3}\subset\Re^3 \)
+    是一个基当且仅当没有过原点的平面
+    包含所有这三个向量。
+    \begin{answer}
+      平面具有
+      $\set{\vec{p}+t_1\vec{v}_1+t_2\vec{v}_2\suchthat t_1,t_2\in\Re}$ 的形式。
+      （第一章也把它称为“$2$-平坦集”，其中
+      还讨论了为什么这等价于微积分中常采用的描述，即
+      满足形如 $ax+by+cz=d$ 的条件的点 $(x,y,z)$
+      组成的集合）。
+      当平面过原点时，我们可以取特向量
+      $\vec{p}$ 为 $\zero$。
+      于是，用本章建立的语言来说，过原点的平面是
+      由两个向量组成的集合的张成空间。
+
+      下面给出陈述。
+      断言这三个向量不共面，就等同于断言没有向量落在另外两个向量的张成之中\Dash 没有向量是另两个向量的线性组合。
+      这恰恰就是断言这个三元集合是线性无关的。
+       由\nearbycorollary{cor:NVecsRNSpanIffLI}可知，这等价于断言该集合是 $\Re^3$ 的一个基（更精确地说，由该集合的元素构成的任何序列都是一个基）。
+    \end{answer}
+  \item 
+    % \begin{exparts}
+      % \partsitem Prove that any subspace of a finite dimensional space
+      %   has a basis. 
+        证明有限维空间的任何子空间都是有限维的。
+    % \end{exparts}
+    \begin{answer}
+      设空间 $V$ 是有限维的，且 $S$ 是 $V$ 的一个子空间。
+
+      若 $S$ 不是有限维的，那么它有一个无穷的线性无关集（从空集出发，不断添加不与该集合线性相关的向量；这一过程可以持续无穷多步，否则 $S$ 就会是有限维的）。
+      但 $S$ 的任何线性无关子集也是 $V$ 的线性无关子集，这与\nearbycorollary{cor:NoLiSetGreatDim}矛盾
+      % \begin{exparts}
+      %   \partsitem The empty set is a linearly independent subset of $S$.
+      %     By \nearbycorollary{cor:LIExpBas}, it can be expanded to a basis
+      %     for the vector space $S$. 
+      %   \partsitem Any basis for the subspace $S$ is a linearly independent 
+      %     set in the superspace $V$.
+      %     Hence it can be expanded to a basis for the superspace, which is
+      %     finite dimensional.
+      %     Therefore it has only finitely many members.  
+      % \end{exparts}
+    \end{answer}
+  \item  
+    在\nearbytheorem{th:AllBasesSameSize}中，\( B \) 的有限性在哪里被用到？
+    \begin{answer}
+      它保证我们能穷尽 \( \vec{\beta} \) 中的各个向量。也就是说，它为最后一段的第一句话提供了依据。
+    \end{answer}
+  \item
+    证明：若 \( U \) 与 \( W \) 都是 \( \Re^5 \) 的三维子空间，则 \( U\intersection W \) 是非平凡的。试加以推广。
+    \begin{answer}
+       设 \( B_U \) 是 \( U \) 的一个基，\( B_W \) 是 \( W \) 的一个基。
+       考虑将这两个基的序列首尾相连。
+       若有重复出现的元素，则交 \( U\intersection W \) 是非平凡的。
+       否则，
+       集合 \( B_U\union B_W \) 是线性相关的，因为它是五维空间 \( \Re^5 \) 的一个六元子集。
+       无论哪种情形，\( B_W \) 中总有某个成员落在 \( B_U \) 的张成之中，于是 \( U\intersection W \) 就不只是平凡空间 \( \set{\zero\,} \)。
+
+       推广：
+       若 \( U,W \) 是维数为 \( n \) 的向量空间的子空间，且 \( \dim(U)+\dim(W)>n \)，则它们的交是非平凡的。
+    \end{answer}
+  \item 
+    一个空间的基由该空间的元素组成。
+    于是我们自然会问：“是基”这一性质与运算 $\subseteq$、$\cap$、$\cup$ 是如何相互作用的。
+    （当然，基实际上是一个有序的序列，但这些运算有一种自然的推广。）
+    \begin{exparts}
+      \partsitem 先考虑基之间可能如何通过 $\subseteq$ 相联系。
+        设 \( U,W \) 是某个向量空间的子空间，且 \( U\subseteq W \)。
+        是否存在 \( U \) 的基 \( B_U \) 与 \( W \) 的基 \( B_W \)，使得 \( B_U\subseteq B_W \)？
+        这样的基是否必定存在？
+
+        对 \( U \) 的任意一个基 \( B_U \)，是否必有 \( W \) 的某个基 \( B_W \)，使得 \( B_U\subseteq B_W \)？
+
+        对 \( W \) 的任意一个基 \( B_W \)，是否必有 \( U \) 的某个基 \( B_U \)，使得 \( B_U\subseteq B_W \)？
+
+        对 \( U \) 与 \( W \) 的任意两个基 \( B_U, B_W \)，是否必有 \( B_U \) 是 \( B_W \) 的子集？
+      \partsitem 基的 $\cap$ 是基吗？
+        对哪个空间而言？
+      \partsitem 基的 $\cup$ 是基吗？
+        对哪个空间而言？
+      \partsitem 那么补运算呢？
+     \end{exparts}
+     （\textit{提示。}用 \( \Re^3 \) 的某些子空间来检验你提出的任何猜想。）
+     \begin{answer}
+       首先注意，一个集合是某个空间的基当且仅当它是线性无关的，因为此时它是自身张成空间的基。
+       \begin{exparts}
+         \partsitem 第二段中问题的答案是“是的”
+           （这意味着第一段中两个问题的答案也都是“是的”）。
+           若 \( B_U \) 是 \( U \) 的一个基，则 \( B_U \) 是 \( W \) 的一个线性无关子集。
+           用\nearbycorollary{cor:LIExpBas}把它扩充为 \( W \) 的一个基。
+           那就是所求的 \( B_W \)。
+
+           第三段中问题的答案是“不是”，这意味着第四段问题的答案是“不是”。
+           下面举例说明：超空间的一个基，可以没有任何子基构成子空间的基——在 \( W=\Re^2 \) 中，考虑标准基 \( \stdbasis_2 \)。
+           $\stdbasis_2$ 的任何子基都不能构成 $\Re^2$ 中直线 \( y=x \) 这个子空间 \( U \) 的基。
+         \partsitem 它是一个基（是其张成空间的基），因为线性无关集的交是线性无关的（交是其中每一个线性无关集的子集）。
+
+           然而，它并不是这些空间的交的基。
+           例如，下面是 \( \Re^2 \) 的基：
+            \begin{equation*}
+              B_1=\sequence{\colvec[r]{1 \\ 0},\colvec[r]{0 \\ 1}}
+              \quad\text{和}\quad
+              B_2=\sequence[r]{\colvec{2 \\ 0},\colvec[r]{0 \\ 2}}
+            \end{equation*}
+            而 \( \Re^2\intersection\Re^2=\Re^2 \)，但 \( B_1\intersection B_2 \) 为空。
+            我们只能说，基的 $\cap$ 是这些空间的交的某个子集的基。
+         \partsitem 基的 $\cup$ 未必是基：在 \( \Re^2 \) 中
+            \begin{equation*}
+              B_1=\sequence{\colvec[r]{1 \\ 0},\colvec[r]{1 \\ 1}}
+              \quad\text{和}\quad
+              B_2=\sequence{\colvec[r]{1 \\ 0},\colvec[r]{0 \\ 2}}
+            \end{equation*}
+            \( B_1\union B_2 \) 不是线性无关的。
+            两个基的 $\cup$ 为基的一个充要条件是
+            \begin{equation*}
+              B_1\union B_2 \text{ 线性无关 }
+              \quad\iff\quad
+              \spanof{B_1\intersection B_2}=\spanof{B_1}\intersection
+                                             \spanof{B_2}
+            \end{equation*}
+            证明它足够容易（但应用起来或许很难）。
+          \partsitem 一个基的补不可能是一个基，因为它包含零向量。
+        \end{exparts}  
+      \end{answer}
+   \recommended \item 
+     考虑“维数”与“子集”如何相互作用。
+     设 \( U \) 与 \( W \) 是某个向量空间的子空间，且 \( U\subseteq W \)。
+    \begin{exparts}
+      \partsitem 证明 \( \dim (U)\leq\dim (W) \)。
+      \partsitem 证明维数相等当且仅当 \( U=W \)。
+      \partsitem 证明当它们是无限维的时候，上一小题不成立。
+    \end{exparts}
+    \begin{answer}
+       \begin{exparts}
+          \partsitem \( U \) 的一个基是 \( W \) 中的线性无关集，因此可以用\nearbycorollary{cor:LIExpBas}把它扩充为 \( W \) 的一个基。
+            第二个基的成员至少与第一个基一样多。
+          \partsitem 一个方向是清楚的：若 \( V=W \)，则二者维数相同。
+            反之，设 \( B_U \) 是 \( U \) 的一个基。
+            它是 \( W \) 的一个线性无关子集，因此可以扩充为 \( W \) 的一个基。
+            若 \( \dim(U)=\dim(W) \)，则 \( W \) 的这个基的成员不会比 \( B_U \) 多，于是它就等于 \( B_U \)。
+            由于 \( U \) 与 \( W \) 有相同的基，所以它们相等。
+          \partsitem 设 \( W \) 是次数有限的多项式构成的空间，\( U \) 是只含偶数次幂项的多项式构成的子空间。
+             \begin{equation*}
+                U=\set{a_0+a_1x^2+a_2x^4+\dots+a_nx^{2n}\suchthat
+                           a_0,\ldots,a_n\in\Re} 
+             \end{equation*}
+            两个空间都是无限维的，但 \( U \) 是真子空间。
+        \end{exparts}  
+      \end{answer}
+    \item 下面给出本节主要结果
+      \nearbytheorem{th:AllBasesSameSize}的另一种证明。
+      先是一个例子，然后是一条引理，最后是定理。
+      \begin{exparts}
+        \partsitem 将这个来自 $\Re^3$ 的向量
+          表示为该基的成员的线性组合。
+         \begin{equation*}
+           B=\sequence{\colvec[r]{1 \\ 0  \\ 0},
+             \colvec[r]{1 \\ 1 \\ 0},
+             \colvec[r]{0 \\ 0 \\ 2}}
+           \qquad
+           \vec{v}=\colvec[r]{1 \\ 2 \\ 0}
+         \end{equation*}
+        \partsitem 在该组合中取一个系数非零的基向量。
+          通过用那个基向量替换~$\vec{v}$来改动~$B$，得到新的序列~$\hat{B}$。
+          检验$\hat{B}$也是~$\Re^3$的一个基。
+        \partsitem （交换引理）
+          设
+          \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 是一个向量空间的基，且对向量 \( \vec{v} \)
+          而言，关系式 \( \vec{v}=\lincombo{c}{\vec{\beta}} \)
+          中有 \( c_i\neq 0 \)。
+          证明用 \( \vec{v} \) 替换 \( \vec{\beta}_i \)
+          后得到该空间的另一个基。
+        \partsitem 利用它，结合归纳法，证明
+          \nearbytheorem{th:AllBasesSameSize}。
+      \end{exparts}
+      \begin{answer}
+      \begin{exparts}
+        \partsitem
+          $\colvec[r]{1 \\ 2 \\ 0}
+             =(-1)\cdot\colvec[r]{1 \\ 0  \\ 0}
+              +2\colvec[r]{1 \\ 1 \\ 0}
+              +0\cdot\colvec[r]{0 \\ 0 \\ 2}$
+         \partsitem 有两个基向量带有非零系数。
+            比如我们可以取第一个。
+            \begin{equation*}
+              \hat{B}=\sequence{\colvec[r]{1 \\ 2  \\ 0},
+                \colvec[r]{1 \\ 1 \\ 0},
+                \colvec[r]{0 \\ 0 \\ 2}}
+            \end{equation*}
+            验证它是 \( \Re^3 \) 的另一个基是常规的。
+         \partsitem  
+          称交换的结果为
+          \( \hat{B}=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_{i-1},\vec{v},
+            \vec{\beta}_{i+1},\dots,\vec{\beta}_n}  \)。
+          我们先证明 $\hat{B}$ 是线性无关的。
+          $\hat{B}$ 的成员之间的任一关系
+          \( d_1\vec{\beta}_1+\dots+d_i\vec{v}+\dots+d_n\vec{\beta}_n=\zero \)，
+          在代入 $\vec{v}$ 之后，
+          \begin{equation*}
+          d_1\vec{\beta}_1+\dots
+          +d_i\cdot(c_1\vec{\beta}_1+\dots+c_i\vec{\beta}_i+\dots+c_n\vec{\beta}_n)
+          +\dots+d_n\vec{\beta}_n
+          =\zero
+          \tag*{($*$)}\end{equation*}
+          就给出 $B$ 的成员之间的一个线性关系。
+          基 $B$ 是线性无关的，所以 $\vec{\beta}_i$ 的系数 $d_ic_i$ 为零。
+          由于我们假设了 $c_i$ 非零，故 $d_i=0$。
+          把它用于方程~$(*)$ 可知，其余的 $d$ 也全为零。
+          因此 $\hat{B}$ 是线性无关的。
+
+          最后我们证明 $\hat{B}$ 与 $B$ 有相同的张成。
+          这个论证的一半，即
+          $\spanof{\smash{\hat{B}}}\subseteq\spanof{B}$，
+          是容易的；我们可以把 $\spanof{\smash{\hat{B}}}$ 的任一成员
+          $d_1\vec{\beta}_1+\dots+d_i\vec{v}+\dots+d_n\vec{\beta}_n$
+          写成
+          $
+          d_1\vec{\beta}_1+\dots
+          +d_i\cdot(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)
+          +\dots+d_n\vec{\beta}_n
+          $，
+          它是 $B$ 的成员的线性组合的线性组合，从而属于 $\spanof{B}$。
+          对于论证的另一半 $\spanof{B}\subseteq\spanof{\smash{\hat{B}}}$，回忆一下：若
+          $\vec{v}=c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n$ 且 $c_i\neq 0$，
+          则可以把该等式改写为
+          $\vec{\beta}_i=(-c_1/c_i)\vec{\beta}_1+\dots+(1/c_i)\vec{v}+\dots
+          +(-c_n/c_i)\vec{\beta}_n$。
+          现在，考虑 $\spanof{B}$ 的任一成员
+          $d_1\vec{\beta}_1+\dots+d_i\vec{\beta}_i+\dots+d_n\vec{\beta}_n$，
+          把 $\vec{\beta}_i$ 替换为它关于 $\hat{B}$ 的成员的线性组合表达式，并像本论证的前一半那样看出，
+          结果是 $\hat{B}$ 的成员的线性组合的线性组合，
+          从而属于 $\spanof{\smash{\hat{B}}}$。
+         \partsitem 取定一个至少有一个有限基的向量空间。
+           从这个空间的所有基中，选出一个规模最小的
+           \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)。
+           我们将证明任何其他的基
+           \( D=\smash{\sequence{\vec{\delta}_1,\vec{\delta}_2,\ldots}} \)
+           也有相同的成员数 $n$。
+           因为 \( B \) 规模最小，\( D \) 有不少于 \( n \)~个向量。
+           我们将论证它不可能有多于 \( n \) 个向量。
+
+           基 \( B \) 张成该空间，而 \( \vec{\delta}_1 \)
+           在该空间中，
+           所以 \( \vec{\delta}_1 \) 是 \( B \) 的元素的一个非平凡线性组合。
+           由交换引理，可以把 \( B \) 中的一个向量换成
+           \( \vec{\delta}_1 \)，得到基 \( B_1 \)，
+           其中一个元素是
+           \( \vec{\delta}_1 \)，
+           而其余 \( n-1 \) 个元素都是 \( \vec{\beta} \)。
+
+           上一段构成归纳论证的基础步骤。
+           归纳步骤从一个基 \( B_k \)（其中 \( 1\leq k<n \)）开始，
+           它包含 \( D \) 的 \( k \) 个成员与 \( B \) 的 \( n-k \) 个成员。
+           我们知道 \( D \) 至少有 \( n \) 个成员，所以存在
+           \( \vec{\delta}_{k+1} \)。
+           把它表示为 \( B_k \) 的元素的线性组合。
+           关键点：在那个表示中，
+           至少有一个非零标量必须与某个 \( \vec{\beta}_i \) 相关联，
+           否则该表示就会是线性无关集 \( D \) 的元素之间的一个
+           非平凡线性关系。
+           用 \( \vec{\delta}_{k+1} \) 换掉 \( \vec{\beta}_i \)，
+           得到新的基
+           \( B_{k+1} \)，与前面的基 \( B_k \) 相比，它多一个 \( \vec{\delta} \)、少一个
+           \( \vec{\beta} \)。
+
+           重复这一步，直到没有 \( \vec{\beta} \) 剩下，
+           于是 \( B_n \) 包含  
+           $\vec{\delta}_1,\dots,\vec{\delta}_n$。
+           现在，\( D \) 不可能有多于这 \( n \) 个的向量，因为
+           剩下的任何 \( \vec{\delta}_{n+1} \) 都会落在
+           \( B_n \)（因为它是一个基）的张成中，
+           从而是其余 $\vec{\delta}$ 的线性组合，
+           这与 $D$ 线性无关矛盾。
+      \end{exparts}
+      \end{answer}
+  \puzzle \item 
+    \cite{Sheffer}
+    一个图书馆有 $n$ 本书和 $n+1$ 位订户。
+    每位订户都从该图书馆至少读过一本书。
+    证明必存在两个不相交的订户集合，他们读过的书完全相同
+    （也就是说，每个集合中的订户读过的书的并集是相同的）。
+    \begin{answer}
+      （这个解答来自网站上 Yuzhou Gu 的一条评论。）
+      给每个人指定一个向量 $\vec{v}_i\in\R^n$，
+      若此人读过该书，则相应分量为 $1$，否则为 $0$。
+      由于这些向量线性相关，我们将得到一个形如 $\sum a_i v_i = 0$ 的等式。
+      那么，使 $a_i>0$ 的那些 $i$ 构成的集合与使
+      $a_i<0$ 的那些 $i$ 构成的集合，就是两个不相交的集合，且读过的书的并集相同。
+    \end{answer}
+  \puzzle \item 
+    \cite{Wohascum47}
+    对 $\Re^n$ 中任意向量 $\vec{v}$ 以及数 $1$、$2$、\ldots、$n$ 的任意置换 $\sigma$
+    （也就是说，$\sigma$ 是把这些数重排成新次序的一个排列），
+    定义 $\sigma(\vec{v})$ 为分量为
+    $v_{\sigma(1)}$、$v_{\sigma(2)}$、\ldots{}、$v_{\sigma(n)}$ 的向量
+    （其中 $\sigma(1)$ 是重排后的第一个数，等等）。
+    现在取定 $\vec{v}$，令 $V$ 为
+    $\set{\sigma(\vec{v})\suchthat \mbox{$\sigma$ 置换 $1$, \ldots, $n$}}$ 的张成。
+    $V$ 的维数有哪些可能？
+    \begin{answer}
+      $V$ 的维数的可能是 $0$、$1$、$n-1$
+      和 $n$。
+
+      为看到这一点，先考虑 $\vec{v}$ 的所有坐标都相等的情形。
+      \begin{equation*}
+         \vec{v}=\colvec{z \\ z \\ \vdots \\ z}
+      \end{equation*}
+      那么对每个置换 $\sigma$ 都有 $\sigma(\vec{v})=\vec{v}$，
+      所以 $V$ 就是 $\vec{v}$ 的张成，
+      依 $\vec{v}$ 是否为 $\zero$ 而定，其维数为 $0$ 或 $1$。
+
+      现在假设 $\vec{v}$ 的坐标不全相等；设 $x$
+      与 $y$（$x\neq y$）是 $\vec{v}$ 的坐标中的两个。
+      那么我们可以找到置换 $\sigma_1$ 与 $\sigma_2$，使得
+      \begin{equation*}
+        \sigma_1(\vec{v})=\colvec{x \\ y \\ a_3 \\ \vdots \\ a_n}
+        \quad\text{和}\quad
+        \sigma_2(\vec{v})=\colvec{y \\ x \\ a_3 \\ \vdots \\ a_n}
+      \end{equation*}
+      其中 $a_3,\ldots,a_n\in\Re$。
+      因此，
+      \begin{equation*}
+        \frac{1}{y-x}\bigl(\sigma_1(\vec{v})-\sigma_2(\vec{v})\bigr)=
+        \colvec[r]{-1 \\ 1 \\ 0 \\ \vdotswithin{-1} \\ 0}
+      \end{equation*}
+      属于 $V$。
+      也就是说，$\vec{e}_2-\vec{e}_1\in V$，其中 $\vec{e}_1$、$\vec{e}_2$、
+      \ldots、$\vec{e}_n$ 是 $\Re^n$ 的标准基。
+      类似地，$\vec{e}_3-\vec{e}_2$、\ldots、$\vec{e}_n-\vec{e}_1$
+      都在 $V$ 中。
+      容易看出，向量
+      $\vec{e}_2-\vec{e}_1$、$\vec{e}_3-\vec{e}_2$、\ldots、
+      $\vec{e}_n-\vec{e}_1$ 是线性无关的（也就是说，构成一个线性无关集），
+      所以 $\dim V\geq n-1$。
+
+      最后，我们可以写出
+      \begin{align*}
+        \vec{v} &=x_1\vec{e}_1+x_2\vec{e}_2+\dots+x_n\vec{e}_n  \\
+                &=(x_1+x_2+\dots+x_n)\vec{e}_1+x_2(\vec{e}_2-\vec{e}_1)+\dots
+                   +x_n(\vec{e}_n-\vec{e}_1)
+      \end{align*}
+      这表明，若 $x_1+x_2+\dots+x_n=0$，则 $\vec{v}$ 落在
+      $\vec{e}_2-\vec{e}_1$、\ldots、$\vec{e_n}-\vec{e}_1$ 的张成中
+      （也就是说，落在这些向量构成的集合的张成中）；
+      类似地，每个 $\sigma(\vec{v})$
+      也在这个张成中，所以 $V$ 就等于这个张成，且 $\dim V=n-1$。
+      另一方面，若 $x_1+x_2+\cdots+x_n\neq 0$，则上面的等式
+      表明 $\vec{e}_1\in V$，从而 $\vec{e}_1,\dots,\vec{e}_n\in V$，
+      所以 $V=\Re^n$ 且 $\dim V=n$。
+    \end{answer}
+\end{exercises}
+\index{basis|)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{向量空间与线性系统}
+我们现在重新考察线性方程组与高斯消元法，
+所借助的是本章的工具与术语。
+我们要说明三点。
+
+先说第一点，
+回想第一章中的一个洞见：
+高斯消元法的工作方式是对行取
+线性组合\Dash 若两个矩阵
+通过行变换
+$A\longrightarrow\cdots\longrightarrow B$ 相联系，则
+$B$ 的每一行都是 $A$ 的各行的线性组合。
+因此，研究一般的行变换、
+特别是高斯消元法的合适框架，是下述向量空间。
+
+\begin{definition} \label{df:RowSpace}
+%<*df:RowSpace>
+矩阵的\definend{行空间\/}\index{matrix!row space}\index{row space}
+是其行集合的张成。
+\definend{行秩\/}\index{row!rank}\index{matrix!row rank}\index{row rank}
+是这个空间的维数，即线性无关的行的数目。
+%</df:RowSpace>
+\end{definition}
+
+\begin{example}
+若
+\begin{equation*}
+  A=\begin{mat}[r]
+          2  &3  \\
+          4  &6
+       \end{mat}
+\end{equation*}
+则 \( \rowspace{A} \) 是二分量行向量空间中
+的这个子空间。
+\begin{equation*}
+   \set{c_1\cdot\rowvec{2 &3}+c_2\cdot\rowvec{4  &6}
+          \suchthat c_1,c_2\in\Re }
+\end{equation*}
+第二个行向量线性依赖于第一个，
+因此可以把上面的描述化简为
+$\set{c\cdot\rowvec{2 &3}\suchthat c\in\Re }$。
+\end{example}
+
+\begin{lemma}     \label{le:RowSpUnchByGR}
+%<*lm:RowSpUnchByGR>
+若两个矩阵 \( A \) 与 \( B \) 通过一次行变换
+\begin{equation*}
+  A\grstep{\rho_i\leftrightarrow\rho_j}B
+  \quad\text{或}\quad
+  A\grstep{k\rho_i}B
+  \quad\text{或}\quad
+  A\grstep{k\rho_i+\rho_j}B
+\end{equation*}
+（其中 $i\neq j$ 且 $k\neq 0$）相联系，则它们的行空间相等。
+从而，行等价的矩阵有相同的行空间，因此
+也有相同的行秩。
+%</lm:RowSpUnchByGR>
+\end{lemma}
+
+\begin{proof}
+%<*pf:RowSpUnchByGR0>
+推论 One.III.\ref{cor:RowsOfEqMatsLinCombos}
+表明，当 \mbox{$A\longrightarrow B$} 时，$B$ 的每一行
+都是 \( A \) 的各行的线性组合。
+也就是说，按上面的术语，\( B \) 的每一行
+都是 $A$ 的行空间中的元素。
+于是 $\rowspace{B}\subseteq\rowspace{A}$ 成立，因为集合
+$\rowspace{B}$ 的成员是 $B$ 的各行的线性组合，从而它是
+$A$ 的各行的组合的组合，
+再由线性组合引理，它也是 $\rowspace{A}$ 的成员。
+%</pf:RowSpUnchByGR0>
+
+%<*pf:RowSpUnchByGR1>
+对于另一个方向的包含关系，
+回想引理 One.III.\ref{le:RowOpsRev}：行变换是可逆的，
+所以
+\mbox{$A\longrightarrow B$} 当且仅当
+\mbox{$B\longrightarrow A$}。
+于是与上一段同样地可得
+$\rowspace{A}\subseteq\rowspace{B}$。
+%</pf:RowSpUnchByGR1>
+% Thus the two sets are equal.
+\end{proof}
+
+当然，高斯消元法系统地执行这些行变换，
+其目标就是阶梯形。
+
+\begin{lemma}  \label{le:RowsEchMatLI}
+%<*lm:RowsEchMatLI>
+阶梯形矩阵的非零行
+构成一个线性无关的集合。
+%</lm:RowsEchMatLI>
+\end{lemma}
+
+\begin{proof}
+%<*pf:RowsEchMatLI>
+引理~One.III.\ref{le:EchFormNoLinCombo}
+说的是，阶梯形矩阵的任一非零行都不是
+其余各行的线性组合。
+这个结果用本章的术语重述了该结论。
+%</pf:RowsEchMatLI>
+\end{proof}
+
+于是，用本章的语言来说，
+高斯消去法的工作方式是消除各行之间的线性相关关系，
+而保持张成不变，直到非零行之间
+不再剩下非平凡的线性关系。
+简言之，高斯消元法给出行空间的一个基。
+
+\begin{example}
+对任一矩阵，我们可以这样得到行空间的一个基：
+执行高斯消元法，然后取所得的阶梯形
+矩阵的非零行。
+例如，
+\begin{equation*}
+  \begin{mat}[r]
+    1  &3  &1  \\
+    1  &4  &1  \\
+    2  &0  &5
+  \end{mat}
+  \grstep[-2\rho_1+\rho_3]{-\rho_1+\rho_2}
+  \repeatedgrstep{6\rho_2+\rho_3}
+  \begin{mat}[r]
+    1  &3  &1  \\
+    0  &1  &0  \\
+    0  &0  &3
+  \end{mat}
+\end{equation*}
+就给出行空间的基 $\sequence{\rowvec{1 &3 &1},
+            \rowvec{0 &1 &0},
+            \rowvec{0 &0 &3} }$。
+它既是起始矩阵的也是终止矩阵的行空间的基，
+因为这两个行空间相等。
+\end{example}
+
+利用这一技巧，我们还能对那些不直接涉及行向量的
+张成求出基。
+
+\begin{definition} \label{df:ColumnSpace}
+%<*df:ColumnSpace>
+矩阵的\definend{列空间}\index{column!space}\index{matrix!column space}
+是其列集合的张成。
+\definend{列秩}\index{column!rank}\index{rank!column}
+是列空间的维数，即线性无关
+列的数目。
+%</df:ColumnSpace>
+\end{definition}
+
+我们对列空间的兴趣源于对线性方程组的研究。
+一个例子是，方程组
+\begin{equation*}
+  \begin{linsys}{3}
+    c_1  &+  &3c_2  &+  &7c_3  &=  &d_1  \\
+   2c_1  &+  &3c_2  &+  &8c_3  &=  &d_2  \\
+         &   &c_2   &+  &2c_3  &=  &d_3  \\
+   4c_1  &   &      &+  &4c_3  &=  &d_4
+  \end{linsys}
+\end{equation*}
+有解当且仅当 \( d \) 组成的向量是其余各列向量的
+线性组合，
+\begin{equation*}
+  c_1\colvec[r]{1 \\ 2 \\ 0 \\ 4}
+  +c_2\colvec[r]{3 \\ 3 \\ 1 \\ 0}
+  +c_3\colvec[r]{7 \\ 8 \\ 2 \\ 4}
+  =\colvec{d_1 \\ d_2 \\ d_3 \\ d_4}
+\end{equation*}
+也就是说，\( d \) 组成的向量位于系数矩阵的
+列空间中。
+
+\begin{example}   \label{ex:BasisForColSpace}
+给定这个矩阵，
+\begin{equation*}
+  \begin{mat}[r]
+    1  &3  &7  \\
+    2  &3  &8  \\
+    0  &1  &2  \\
+    4  &0  &4
+  \end{mat}
+\end{equation*}
+为求列空间的一个基，
+先暂时把列变成行并作化简。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &2  &0  &4  \\
+       3  &3  &1  &0  \\
+       7  &8  &2  &4
+    \end{mat}
+  \grstep[-7\rho_1+\rho_3]{-3\rho_1+\rho_2}
+  \repeatedgrstep{-2\rho_2+\rho_3}
+  \begin{mat}[r]
+     1  &2  &0  &4  \\
+     0  &-3 &1  &-12\\
+     0  &0  &0  &0
+  \end{mat}
+\end{equation*}
+现在再把行变回列。
+\begin{equation*}
+  \sequence{
+     \colvec[r]{1 \\ 2 \\ 0 \\ 4},
+     \colvec[r]{0 \\ -3 \\ 1 \\ -12} }
+\end{equation*}
+结果就是所给矩阵的列空间的一个基。
+\end{example}
+
+\begin{definition} \label{df:Transpose}
+%<*df:Transpose>
+矩阵的\definend{转置}\index{transpose}\index{matrix!transpose}
+是把它的行与列互换
+所得的结果，使得
+矩阵 \( A \) 的第~\( j \) 列是 \( \trans{A} \) 的第~\( j \)
+行，反之亦然。
+%</df:Transpose>
+\end{definition}
+\noindent 于是我们可以把前面的例题总结为「转置，
+化简，再转置回来」。
+
+我们甚至可以——以容忍向量空间「相同」
+这一尚且模糊的想法为代价——
+用高斯消元法来求其他类型的向量空间中张成的基。
+
+\begin{example}
+为求空间 \( \polyspace_4 \) 中
+\( \set{x^2+x^4,2x^2+3x^4,-x^2-3x^4} \) 的张成的一个基，
+把这三个多项式
+看成与行向量 \( \rowvec{0 &0 &1 &0 &1} \)、
+\( \rowvec{0 &0 &2 &0 &3} \) 及
+\( \rowvec{0 &0 &-1 &0 &-3} \) 「相同」，并应用高斯消元法
+\begin{equation*}
+  \begin{mat}[r]
+    0  &0  &1  &0  &1  \\
+    0  &0  &2  &0  &3  \\
+    0  &0  &-1 &0  &-3
+  \end{mat}
+  \grstep[\rho_1+\rho_3]{-2\rho_1+\rho_2}
+  \repeatedgrstep{2\rho_2+\rho_3}
+  \begin{mat}[r]
+    0  &0  &1  &0  &1  \\
+    0  &0  &0  &0  &1  \\
+    0  &0  &0  &0  &0
+  \end{mat}
+\end{equation*}
+然后再翻译回去，得到基
+\( \sequence{x^2+x^4,x^4} \)。
+（正如前面提到的，
+我们将在下一章的开头把「相同」
+这个说法讲清楚。）
+\end{example}
+
+这样，本小节的第一点就是
+本章的工具让我们对高斯消去法
+有了更具概念性的理解。
+
+至于第二点，
+注意到对矩阵作行变换可能会改变其列空间。
+\begin{equation*}
+  \begin{mat}[r]
+    1  &2  \\
+    2  &4
+  \end{mat}
+  \grstep{-2\rho_1+\rho_2}
+  \begin{mat}[r]
+    1  &2  \\
+    0  &0
+  \end{mat}
+\end{equation*}
+左边矩阵的列空间包含第二个分量
+非零的向量，
+而右边矩阵的列空间
+只包含第二个分量为零的向量，所以这两个空间
+是不同的。
+这一观察使得接下来的结果出人意料。
+
+\begin{lemma} \label{le:RowOpsNoChngColRnk}
+%<*lm:RowOpsNoChngColRnk>
+行变换不改变列秩。
+%</lm:RowOpsNoChngColRnk>
+\end{lemma}
+
+\begin{proof}
+%<*pf:RowOpsNoChngColRnk>
+换个说法，若 $A$ 化简为 $B$，
+则 $B$ 的列秩等于 $A$ 的列秩。
+
+如果我们能证明行变换不影响各列之间的线性关系，
+这个证明即告完成，因为列秩就是
+最大的无关列集合的大小。
+也就是说，我们将证明：各列之间存在某个关系
+（例如第五列等于第二列的
+两倍加上第四列）当且仅当在行变换之后
+该关系仍然存在。
+而这正是本书的第一个定理，
+定理 One.I.\ref{th:GaussMethod}：~在各列间的
+关系
+\begin{equation*}
+  c_1\cdot\colvec{a_{1,1} \\ a_{2,1} \\ \vdots \\ a_{m,1}}
+   +\dots+
+  c_n\cdot \colvec{a_{1,n} \\ a_{2,n} \\ \vdots \\ a_{m,n}}
+   =\colvec[r]{0 \\ 0 \\ \vdotswithin{0} \\ 0}
+\end{equation*}
+中，行变换使解集 \( (c_1,\ldots,c_n) \) 保持不变。
+%</pf:RowOpsNoChngColRnk>
+\end{proof}
+
+要说明高斯消元法不仅对行空间、
+也对列空间能有所断言，
+另一种方式是高斯–若尔当消元。
+它终止于矩阵的
+简化阶梯形，如下所示。
+\begin{equation*}
+  \begin{mat}[r]
+    1  &3  &1  &6  \\
+    2  &6  &3  &16 \\
+    1  &3  &1  &6
+  \end{mat}
+  \grstep{}\cdots\grstep{}
+  \begin{mat}[r]
+    1  &3  &0  &2  \\
+    0  &0  &1  &4  \\
+    0  &0  &0  &0
+  \end{mat}
+\end{equation*}
+考虑这个结果的行空间与列空间。
+
+本小节前面讲的第一点告诉我们，
+为求行空间的一个基，只需收集那些含有
+首主元的行。
+然而，由于这是简化阶梯形，
+求列空间的一个基同样容易：~收集那些含有首主元的
+列，
+\( \sequence{\vec{e}_1,\vec{e}_2} \)。
+% (Linear independence is obvious.
+% As to span, the other columns are in the span
+% since they all have a third component of zero.)
+于是，对简化阶梯形矩阵，
+我们可以用本质上相同的方法求出行空间与列空间的基，
+即取矩阵中含有首主元的
+那些部分——行或列。
+
+\begin{theorem} \label{th:RowRankEqualsColumnRank}
+%<*th:RowRankEqualsColumnRank>
+对任意矩阵，
+行秩与列秩相等。
+%</th:RowRankEqualsColumnRank>
+\end{theorem}
+
+\begin{proof}
+%<*pf:RowRankEqualsColumnRank0>
+把矩阵化成简化阶梯形。
+此时
+行秩等于首主元的个数，因为它等于
+非零行的数目。
+同时，首主元的个数
+也等于列秩，因为含有首主元的那些列组成的集合
+是标准基中的一些 \( \vec{e}_i \)，
+并且该集合线性无关，且张成
+全体列所成的集合。
+因此，在简化阶梯形矩阵中，行秩等于列
+秩，因为二者都等于首主元的个数。
+%</pf:RowRankEqualsColumnRank0>
+
+%<*pf:RowRankEqualsColumnRank1>
+但引理 \nearbylemma{le:RowSpUnchByGR} 与 \nearbylemma{le:RowOpsNoChngColRnk}
+表明，用行变换化成简化阶梯形时，行秩与列秩
+都不改变。
+从而，原矩阵的行秩与列秩也相等。
+%</pf:RowRankEqualsColumnRank1>
+\end{proof}
+
+\begin{definition} \label{df:Rank}
+%<*df:Rank>
+矩阵的\definend{秩\/}\index{rank}就是它的行秩或列秩。
+%</df:Rank>
+\end{definition}
+
+于是，我们在本小节中提出的第二点就是：
+矩阵的列空间与行
+空间有相同的维数。
+
+我们的最后一点是：在研究向量空间时
+自然出现的那些概念，
+恰恰就是我们在研究线性方程组时已考察过的那些。
+
+\begin{theorem}  \label{th:RankVsSoltnSp}
+%<*tm:RankVsSoltnSp>
+对于 \( n \) 个未知数、系数矩阵为
+\( A \) 的线性方程组，下述命题
+\begin{tfae}
+   \item \( A \) 的秩为 \( r \)
+   \item 相应齐次方程组的解空间具有
+     维数 \( n-r \)
+\end{tfae}
+是等价的。
+%</tm:RankVsSoltnSp>
+\end{theorem}
+
+\par\noindent 于是，若方程组至少有一个特解，
+则对于解
+集而言，参数的个数等于 $n-r$，即变量个数
+减去系数矩阵的秩。
+
+\begin{proof}
+%<*pf:RankVsSoltnSp>
+\( A \) 的秩为 \( r \) 当且仅当对 \( A \) 作高斯消去法
+最终得到 \( r \) 个非零行。
+这当且仅当与 \( A \) 行等价的阶梯形矩阵
+有 \( r \) 个首变量时成立。
+而这又当且仅当有 \( n-r \) 个自由变量时成立。
+%</pf:RankVsSoltnSp>
+\end{proof}
+
+\begin{corollary} \label{co:EquivToNonsingular}
+%<*co:EquivToNonsingular>
+设矩阵 $A$ 为 \( \nbyn{n} \)，下述命题
+\begin{tfae}
+  \item \( A \) 的秩为 \( n \)
+  \item \( A \) 非奇异
+  \item \( A \) 的各行构成线性无关的集合
+  \item \( A \) 的各列构成线性无关的集合
+  \item 系数矩阵为 \( A \) 的任何线性方程组都有且
+    仅有一个解
+\end{tfae}
+是等价的。
+%</co:EquivToNonsingular>
+\end{corollary}
+
+\begin{proof}
+%<*pf:EquivToNonsingular>
+显然 \( \text{(1)}\iff\text{(2)}\iff\text{(3)}\iff\text{(4)} \)。
+最后一条，\( \text{(4)}\iff\text{(5)} \)，成立是因为 \( n \)
+个列向量构成的集合线性无关当且仅当它是
+\( \Re^n \) 的一个基，而方程组
+\begin{equation*}
+  c_1\colvec{a_{1,1} \\ a_{2,1} \\ \vdots \\ a_{m,1}}
+   +\dots+
+  c_n\colvec{a_{1,n} \\ a_{2,n} \\ \vdots \\ a_{m,n}}
+   =\colvec{d_1 \\ d_2 \\ \vdots \\ d_m}
+\end{equation*}
+对所有 \( d_1,\dots,d_n\in\Re \) 的选取都有唯一解，当且仅当
+左边由诸 \( a \) 构成的向量组成一个基。
+%</pf:EquivToNonsingular>
+\end{proof}
+
+\begin{remark}\cite{Munkres}  \label{rem:MunkresCommment}
+有时，人们会把本小节的结果
+误记为：\( m \)~个方程、\( n \)~个未知数的方程组的通解
+使用 \( n-m \) 个参数。
+方程的个数并不是相关的数；真正要紧的
+是独立方程的个数，即极大无关
+集中方程的个数。
+当有 \( r \) 个独立方程时，通解用到
+\( n-r \) 个参数。
+\end{remark}
+
+
+\begin{exercises}
+  \item
+    转置以下各矩阵。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                 2  &1  \\
+                 3  &1
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                 2  &1  \\
+                 1  &3
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                 1  &4  &3 \\
+                 6  &7  &8
+               \end{mat}  \)
+      \partsitem \( \colvec[r]{0 \\ 0 \\ 0} \)
+      \partsitem \( \rowvec{-1 &-2} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( \begin{mat}[r]
+                   2  &3  \\
+                   1  &1
+                 \end{mat}  \)
+        \partsitem \( \begin{mat}[r]
+                   2  &1  \\
+                   1  &3
+                 \end{mat}  \)
+        \partsitem \( \begin{mat}[r]
+                   1  &6  \\
+                   4  &7  \\
+                   3  &8
+                 \end{mat}  \)
+        \partsitem \( \rowvec{0 &0 &0} \)
+        \partsitem \( \colvec[r]{-1 \\ -2} \)
+      \end{exparts*}
+    \end{answer}
+  \recommended \item
+    判断该向量是否在矩阵的行空间中。
+    \begin{exparts*}
+       \partsitem \( \begin{mat}[r]
+                  2  &1  \\
+                  3  &1
+                \end{mat}  \),
+             \( \rowvec{1 &0} \)
+       \partsitem \( \begin{mat}[r]
+                  0  &1  &3  \\
+                 -1  &0  &1  \\
+                 -1  &2  &7
+                \end{mat}  \),
+             \( \rowvec{1 &1 &1} \)
+    \end{exparts*}
+    \begin{answer}
+       \begin{exparts}
+         \partsitem 是的。
+           为判断是否存在 $c_1$ 与 $c_2$ 使得
+           \( c_1\cdot\rowvec{2 &1}+c_2\cdot\rowvec{3 &1}=\rowvec{1 &0} \)，
+           我们求解
+           \begin{equation*}
+              \begin{linsys}{2}
+                 2c_1  &+  &3c_2  &=  &1  \\
+                  c_1  &+  &c_2   &=  &0
+              \end{linsys}
+           \end{equation*}
+           解得 \( c_1=-1 \) 与 \( c_2=1 \)。
+           因此该向量在行空间中。
+         \partsitem 否。
+           方程
+           \( c_1\rowvec{0 &1 &3}
+              +c_2\rowvec{-1 &0 &1}
+              +c_3\rowvec{-1 &2 &7}
+              =\rowvec{1 &1 &1} \)
+           无解。
+           \begin{equation*}
+             \begin{amat}[r]{3}
+               0  &-1  &-1  &1  \\
+               1  &0   &2   &1  \\
+               3  &1   &7   &1
+             \end{amat}
+             \grstep{\rho_1\leftrightarrow\rho_2}
+             \grstep{-3\rho_1+\rho_3}
+             \repeatedgrstep{\rho_2+\rho_3}
+             \begin{amat}[r]{3}
+               1  &0   &2   &1  \\
+               0  &-1  &-1  &1  \\
+               0  &0   &0   &-1
+             \end{amat}
+           \end{equation*}
+           因此，该向量不在行空间中。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    判断该向量是否在列空间中。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                 1  &1  \\
+                 1  &1
+               \end{mat}  \),
+            \( \colvec[r]{1 \\ 3} \)
+      \partsitem \( \begin{mat}[r]
+                 1  &3  &1 \\
+                 2  &0  &4 \\
+                 1  &-3 &-3
+               \end{mat}  \),
+            \( \colvec[r]{1 \\ 0 \\ 0} \)
+    \end{exparts*}
+    \begin{answer}
+       \begin{exparts}
+          \partsitem 否。
+            为判断是否存在 \( c_1,c_2\in\Re \) 使得
+            \begin{equation*}
+              c_1\colvec[r]{1 \\ 1}
+              +c_2\colvec[r]{1 \\ 1}
+              =\colvec[r]{1 \\ -3}
+            \end{equation*}
+            我们可以对由此得到的线性方程组使用高斯消元法。
+            \begin{equation*}
+              \begin{linsys}{2}
+                 c_1  &+  &c_2  &=  &1  \\
+                 c_1  &+  &c_2  &=  &3
+              \end{linsys}
+              \grstep{-\rho_1+\rho_2}
+              \begin{linsys}{2}
+                 c_1  &+  &c_2  &=  &1  \\
+                      &   &0    &=  &2
+              \end{linsys}
+            \end{equation*}
+            该方程组无解，因此该向量不在列空间中。
+          \partsitem 是的。
+            由关系式
+            \begin{equation*}
+              c_1\colvec[r]{1 \\ 2 \\ 1}
+              +c_2\colvec[r]{3 \\ 0 \\ -3}
+              +c_3\colvec[r]{1 \\ 4 \\ -3}
+              =\colvec[r]{1 \\ 0 \\ 0}
+            \end{equation*}
+            我们得到一个线性方程组，对其使用高斯消元法，
+            \begin{equation*}
+              \begin{amat}[r]{3}
+                1  &3  &1  &1  \\
+                2  &0  &4  &0  \\
+                1  &-3 &-3 &0
+              \end{amat}
+              \grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+              \repeatedgrstep{-\rho_2+\rho_3}
+              \begin{amat}[r]{3}
+                1  &3  &1  &1  \\
+                0  &-6 &2  &-2 \\
+                0  &0  &-6 &1
+              \end{amat}
+            \end{equation*}
+            即得一个解。
+            因此，该向量在列空间中。
+% sage: load('gauss_method.sage')
+% sage: M = matrix(QQ, [[1,3, 1, 1], [2, 0, 4, 0], [1, -3, -3, 0]])
+% sage: M
+% [ 1  3  1  1]
+% [ 2  0  4  0]
+% [ 1 -3 -3  0]
+% sage: gauss_method(M)
+% [ 1  3  1  1]
+% [ 2  0  4  0]
+% [ 1 -3 -3  0]
+% (' take', -2, 'times row', 1, 'plus row', 2)
+% (' take', -1, 'times row', 1, 'plus row', 3)
+% [ 1  3  1  1]
+% [ 0 -6  2 -2]
+% [ 0 -6 -4 -1]
+% (' take', -1, 'times row', 2, 'plus row', 3)
+% [ 1  3  1  1]
+% [ 0 -6  2 -2]
+% [ 0  0 -6  1]
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    判断该向量是否在矩阵的列空间中。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                   2  &1  \\
+                   2  &5
+                 \end{mat} \),~\( \colvec[r]{1 \\ -3}  \)
+      \partsitem \( \begin{mat}[r]
+                   4  &-8 \\
+                   2  &-4
+                 \end{mat} \),~\( \colvec[r]{0 \\ 1}  \)
+      \partsitem \( \begin{mat}[r]
+                   1  &-1  &1  \\
+                   1  &1   &-1 \\
+                  -1  &-1  &1
+                \end{mat} \),~\( \colvec[r]{2 \\ 0 \\ 0}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 是的；
+          我们问的是是否存在标量 \( c_1 \) 与 \( c_2 \) 使得
+          \begin{equation*}
+            c_1\colvec[r]{2 \\ 2}+c_2\colvec[r]{1 \\ 5}=\colvec[r]{1 \\ -3}
+          \end{equation*}
+          由此得到线性方程组
+          \begin{equation*}
+            \begin{linsys}{2}
+              2c_1  &+  &c_2  &=  &1  \\
+              2c_1  &+  &5c_2 &=  &-3
+            \end{linsys}
+            \grstep{-\rho_1+\rho_2}
+            \begin{linsys}{2}
+              2c_1  &+  &c_2  &=  &1  \\
+                    &   &4c_2 &=  &-4
+            \end{linsys}
+          \end{equation*}
+          高斯消元法给出 \( c_2=-1 \) 与 \( c_1=1 \)。
+          也就是说，确实存在这样一对标量，因此该向量
+          确实在矩阵的列空间中。
+        \partsitem 否；
+          我们问的是是否存在标量 $c_1$ 与 $c_2$
+          使得
+          \begin{equation*}
+            c_1\colvec[r]{4 \\ 2}+c_2\colvec[r]{-8 \\ -4}=\colvec[r]{0 \\ 1}
+          \end{equation*}
+          一种做法是考虑由此得到的线性方程组
+          \begin{equation*}
+            \begin{linsys}{2}
+              4c_1  &-  &8c_2  &=  &0  \\
+              2c_1  &-  &4c_2  &=  &1
+            \end{linsys}
+          \end{equation*}
+          容易看出它无解。
+          另一种做法是注意到
+          左边各列的任意线性组合
+          其第二个分量都是第一个分量的一半，
+          而右边的向量不满足这一条件。
+        \partsitem 是的；我们可以直接观察到该向量
+          是第一列减去第二列。
+          或者，若一时看不出，可以写出各列之间的关系
+          \begin{equation*}
+            c_1\colvec[r]{1 \\ 1 \\ -1}
+             +c_2\colvec[r]{-1 \\ 1 \\ -1}
+             +c_3\colvec[r]{1 \\ -1 \\ 1}
+             =\colvec[r]{2 \\ 0 \\ 0}
+          \end{equation*}
+          并考虑由此得到的线性方程组
+          \begin{equation*}
+            \begin{linsys}{3}
+              c_1  &-  &c_2  &+  &c_3  &=  &2  \\
+              c_1  &+  &c_2  &-  &c_3  &=  &0  \\
+             -c_1  &-  &c_2  &+  &c_3  &=  &0
+            \end{linsys}
+            \grstep[\rho_1+\rho_3]{-\rho_1+\rho_2}
+            \begin{linsys}{3}
+              c_1  &-  &c_2  &+  &c_3  &=  &2  \\
+                   &   &2c_2 &-  &2c_3 &=  &-2  \\
+                   &   &-2c_2&+  &2c_3 &=  &2
+            \end{linsys}
+            \grstep{\rho_2+\rho_3}
+            \begin{linsys}{3}
+              c_1  &-  &c_2  &+  &c_3  &=  &2  \\
+                   &   &2c_2 &-  &2c_3 &=  &-2  \\
+                   &   &     &   &0    &=  &0
+            \end{linsys}
+          \end{equation*}
+          给出了额外的信息（除了解至少存在一个之外）：有无穷多解。
+          参数化给出 $c_2=-1+c_3$ 与 $c_1=1$，取 $c_3$ 为
+          零即得一个特解 $c_1=1$，$c_2=-1$，
+          $c_3=0$（这当然就是开头所作的观察）。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    求此矩阵行空间的一个基。
+    \begin{equation*}
+      \begin{mat}[r]
+         2  &0  &3  &4  \\
+         0  &1  &1  &-1 \\
+         3  &1  &0  &2  \\
+         1  &0  &-4 &-1
+       \end{mat}
+    \end{equation*}
+    \begin{answer}
+     % Using Sage:
+     % M = matrix(QQ, [[2,0,3,4], [0,1,1,-1], [3,1,0,2], [1,0,-4,-1]])
+     % M1 = M.with_added_multiple_of_row(2,0,-3/2)
+     % M2 = M1.with_added_multiple_of_row(3,0,-1/2)
+     % M3 = M2.with_added_multiple_of_row(2,1,-1)
+     % M4 = M3.with_added_multiple_of_row(3,2,-1)
+     常规的高斯消去
+     \begin{equation*}
+       \begin{mat}[r]
+         2  &0  &3 &4   \\
+         0  &1  &1  &-1 \\
+         3  &1  &0  &2  \\
+         1  &0  &-4  &-1
+       \end{mat}
+       \grstep[-(1/2)\rho_1+\rho_4]{-(3/2)\rho_1+\rho_3}
+       \grstep{-\rho_2+\rho_3}
+       \repeatedgrstep{-\rho_3+\rho_4}
+       \begin{mat}[r]
+         2  &0  &3      &4   \\
+         0  &1  &1      &-1 \\
+         0  &0  &-11/2  &-3  \\
+         0  &0  &0      &0
+       \end{mat}
+     \end{equation*}
+     提示了这个基
+     $\sequence{\rowvec{2 &0 &3 &4},
+         \rowvec{0 &1 &1 &-1},\rowvec{0 &0 &-11/2 &-3}}$。
+
+      另一个或许更方便的做法是先对换两行，
+      % From Sage
+      % M = matrix(QQ, [[2,0,3,4], [0,1,1,-1], [3,1,0,2], [1,0,-4,-1]])
+      % M1 = M.with_swapped_rows(0,3)
+      % M2 = M1.with_added_multiple_of_row(2,0,-3)
+      % M3 = M2.with_added_multiple_of_row(3,0,-2)
+      % M4 = M3.with_added_multiple_of_row(2,1,-1)
+      % M5 = M4.with_added_multiple_of_row(3,2,-1)
+      \begin{equation*}
+        \grstep{\rho_1\swap\rho_4}
+        \repeatedgrstep[-2\rho_1+\rho_4]{-3\rho_1+\rho_3}
+        \repeatedgrstep{-\rho_2+\rho_3}
+        \repeatedgrstep{-\rho_3+\rho_4}
+        \begin{mat}[r]
+           1  &0  &-4 &-1 \\
+           0  &1  &1  &-1 \\
+           0  &0  &11 &6  \\
+           0  &0  &0  &0
+         \end{mat}
+      \end{equation*}
+      从而得到基
+      \( \sequence{\rowvec{1 &0 &-4 &-1},\rowvec{0 &1 &1 &-1},
+                   \rowvec{0 &0 &11 &6}} \)。
+    \end{answer}
+  \recommended \item
+    求每个矩阵的秩。
+    \begin{exparts*}
+      \partsitem \(
+        \begin{mat}[r]
+          2  &1  &3  \\
+          1  &-1 &2  \\
+          1  &0  &3
+        \end{mat}  \)
+      \partsitem \(
+        \begin{mat}[r]
+          1  &-1 &2  \\
+          3  &-3 &6  \\
+         -2  &2  &-4
+        \end{mat}  \)
+      \partsitem \(
+        \begin{mat}[r]
+          1  &3  &2  \\
+          5  &1  &1  \\
+          6  &4  &3
+        \end{mat}  \)
+      \partsitem \(
+        \begin{mat}[r]
+          0  &0  &0  \\
+          0  &0  &0  \\
+          0  &0  &0
+        \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 这一化简
+           \begin{equation*}
+             \mbox{}
+             \grstep[-(1/2)\rho_1+\rho_3]{-(1/2)\rho_1+\rho_2}
+             \repeatedgrstep{-(1/3)\rho_2+\rho_3}
+             \begin{mat}[r]
+               2  &1     &3     \\
+               0  &-3/2  &1/2   \\
+               0  &0     &4/3
+             \end{mat}
+           \end{equation*}
+           表明行秩（从而秩）为三。
+         \partsitem 观察各列可见其余各列都是第一列的倍数（观察各行也可看出同样的结论）。
+           因此秩为一。
+
+           或者，化简
+           \begin{equation*}
+             \begin{mat}[r]
+               1  &-1  &2  \\
+               3  &-3  &6  \\
+               -2 &2   &-4
+             \end{mat}
+             \grstep[2\rho_1+\rho_3]{-3\rho_1+\rho_2}
+             \begin{mat}[r]
+               1  &-1  &2  \\
+               0  &0   &0  \\
+               0  &0   &0
+             \end{mat}
+           \end{equation*}
+           也表明同样的事实。
+         \partsitem 这一计算
+           \begin{equation*}
+             \begin{mat}[r]
+               1  &3  &2  \\
+               5  &1  &1  \\
+               6  &4  &3
+             \end{mat}
+             \grstep[-6\rho_1+\rho_3]{-5\rho_1+\rho_2}
+             \repeatedgrstep{-\rho_2+\rho_3}
+             \begin{mat}[r]
+               1  &3   &2  \\
+               0  &-14 &-9 \\
+               0  &0   &0
+             \end{mat}
+           \end{equation*}
+           表明秩为二。
+         \partsitem 秩为零。
+       \end{exparts}
+     \end{answer}
+  \item 给出此矩阵列空间的一个基。
+    给出该矩阵的秩。
+    \begin{equation*}
+      \begin{mat}
+        1 &3 &-1 &2 \\
+        2 &1 &1  &0 \\
+        0 &1 &1  &4
+      \end{mat}
+    \end{equation*}
+  \begin{answer}
+    我们要求这个张成空间的一个基。
+    \begin{equation*}
+      \spanof{\colvec{1 \\ 2 \\ 0},
+              \colvec{3 \\ 1 \\ 1},
+              \colvec{-1 \\ 1 \\ 1},
+              \colvec{2 \\ 0 \\ 4}}\subseteq\Re^3
+    \end{equation*}
+    最直接的做法
+    是把这些列转置成行，用高斯消元法求出这些行的张成空间的一个基，
+    然后再把它们转置回
+    列。
+    \begin{equation*}
+      \begin{mat}
+        1 &2 &0 \\
+        3 &1 &1 \\
+       -1 &1 &1 \\
+        2 &0 &4
+      \end{mat}
+      \grstep[\rho_1+\rho_3 \\ -2\rho_1+\rho_4]{-3\rho_1+\rho_2}
+      \grstep[-(4/5)\rho_2+\rho_4]{(3/5)\rho_2+\rho_3}
+      \grstep{-2\rho_3+\rho_4}
+      \begin{mat}
+        1 &2  &0 \\
+        0 &-5 &1 \\
+        0 &0  &8/5 \\
+        0 &0  &0
+      \end{mat}
+    \end{equation*}
+    舍去零向量（它表明初始向量之间存在冗余），得到列空间的这个基。
+    \begin{equation*}
+      \sequence{
+        \colvec{1 \\ 2 \\ 0},
+        \colvec{0 \\ -5 \\ 1},
+        \colvec{0 \\ 0 \\ 8/5}
+        }
+    \end{equation*}
+    矩阵的秩是其列空间的维数，所以为三。
+    （它也等于其行空间的维数。）
+  \end{answer}
+  \recommended \item
+    求以下每个集合的张成空间的一个基。
+    \begin{exparts}
+      \partsitem \(
+        \set{\rowvec{1 &3},
+          \rowvec{-1 &3},
+          \rowvec{1 &4},
+          \rowvec{2 &1}  }\subseteq\matspace_{\nbym{1}{2}} \)
+      \partsitem \(
+         \set{\colvec[r]{1 \\2 \\1},
+           \colvec[r]{3 \\ 1 \\ -1},
+           \colvec[r]{1 \\ -3 \\ -3}  }\subseteq\Re^3  \)
+      \partsitem \(  \set{1+x,1-x^2,3+2x-x^2}\subseteq\polyspace_3  \)
+      \partsitem \( \set{
+          \begin{mat}[r]
+            1  &0  &1  \\
+            3  &1  &-1
+          \end{mat},
+          \begin{mat}[r]
+            1  &0  &3  \\
+            2  &1  &4
+          \end{mat},
+          \begin{mat}[r]
+           -1  &0  &-5 \\
+           -1  &-1 &-9
+          \end{mat}  }  \subseteq\matspace_{\nbym{2}{3}}  \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这一化简
+          \begin{equation*}
+             \begin{mat}[r]
+               1  &3  \\
+              -1  &3  \\
+               1  &4  \\
+               2  &1
+             \end{mat}
+             \grstep[-\rho_1+\rho_3 \\ -2\rho_1+\rho_4]{\rho_1+\rho_2}
+             \grstep[(5/6)\rho_2+\rho_4]{-(1/6)\rho_2+\rho_3}
+             \begin{mat}[r]
+               1  &3  \\
+               0  &6  \\
+               0  &0  \\
+               0  &0
+             \end{mat}
+          \end{equation*}
+          给出 \( \sequence{\rowvec{1 &3},\rowvec{0 &6}} \)。
+        \partsitem 转置并化简
+          \begin{equation*}
+             \begin{mat}[r]
+               1  &2  &1  \\
+               3  &1  &-1 \\
+               1  &-3 &-3
+             \end{mat}
+             \grstep[-\rho_1+\rho_3]{-3\rho_1+\rho_2}
+             \begin{mat}[r]
+               1  &2  &1  \\
+               0  &-5 &-4 \\
+               0  &-5 &-4
+             \end{mat}
+             \grstep{-\rho_2+\rho_3}
+             \begin{mat}[r]
+               1  &2  &1  \\
+               0  &-5 &-4 \\
+               0  &0  &0
+             \end{mat}
+          \end{equation*}
+          再转置回去，得到这个基。
+          \begin{equation*}
+            \sequence{\colvec[r]{1 \\ 2 \\ 1},
+              \colvec[r]{0 \\ -5 \\ -4}   }
+          \end{equation*}
+        \partsitem 首先注意外围空间是
+          $\polyspace_3$，而不是 $\polyspace_2$。
+          然后，把第一个多项式 $1+1\cdot x+0\cdot x^2+0\cdot x^3$
+          取作与行向量 $\rowvec{1 &1 &0 &0}$“相同”，等等，
+          就得到
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &1  &0  &0 \\
+              1  &0  &-1 &0 \\
+              3  &2  &-1 &0
+            \end{mat}
+            \grstep[-3\rho_1+\rho_3]{-\rho_1+\rho_2}
+            \repeatedgrstep{-\rho_2+\rho_3}
+            \begin{mat}[r]
+              1  &1  &0  &0 \\
+              0  &-1 &-1 &0 \\
+              0  &0  &0  &0
+            \end{mat}
+          \end{equation*}
+          由此得到基 \( \sequence{1+x,-x-x^2} \)。
+        \partsitem 这里“相同”的做法给出
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &0  &1  &3  &1  &-1  \\
+              1  &0  &3  &2  &1  &4   \\
+             -1  &0  &-5  &-1 &-1 &-9
+            \end{mat}
+            \grstep[\rho_1+\rho_3]{-\rho_1+\rho_2}
+            \repeatedgrstep{2\rho_2+\rho_3}
+            \begin{mat}[r]
+              1  &0  &1  &3  &1  &-1  \\
+              0  &0  &2  &-1 &0  &5   \\
+              0  &0  &0  &0  &0  &0
+            \end{mat}
+          \end{equation*}
+          从而得到这个基。
+          \begin{equation*}
+            \sequence{
+            \begin{mat}[r]
+              1  &0  &1  \\
+              3  &1  &-1
+            \end{mat},
+            \begin{mat}[r]
+              0  &0  &2  \\
+             -1  &0  &5
+            \end{mat}  }
+          \end{equation*}
+      \end{exparts}
+     \end{answer}
+  \item 在自然的向量空间中，给出以下每个集合的张成空间的一个基。
+    \begin{exparts}
+      \partsitem
+         $\set{\colvec{1 \\ 1 \\ 3},
+              \colvec{-1 \\ 2 \\ 0},
+              \colvec{0  \\ 12 \\ 6}}$
+      \partsitem $\set{x+x^2, 2-2x, 7, 4+3x+2x^2}$
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          把这些列转置成行，化为阶梯形
+          （然后去掉零行），再转置回列。
+          \begin{equation*}
+            \begin{mat}
+              1 &1  &3 \\
+             -1 &2  &0 \\
+              0 &12 &6
+            \end{mat}
+            \grstep{\rho_1+\rho_2}
+            \grstep{-4\rho_2+\rho_3}
+            \begin{mat}
+              1 &1  &3 \\
+              0 &3  &3 \\
+              0 &0  &-6
+            \end{mat}
+          \end{equation*}
+          该张成空间的一个基如下。
+          \begin{equation*}
+            \sequence{
+              \colvec{1 \\ 1 \\ 3},
+              \colvec{0 \\ 3 \\ 3},
+              \colvec{0 \\ 0 \\ -6}
+          }
+          \end{equation*}
+       \partsitem
+          与前一小区一样，我们把它们看作行，
+          以利用高斯消元法已完成的工作。
+          \begin{multline*}
+            \begin{mat}
+              0 &1  &1 \\
+              2 &-2 &0 \\
+              7 &0 &0 \\
+              4 &3  &2
+            \end{mat}
+            \grstep{\rho_1\leftrightarrow\rho_2}
+            \grstep[2\rho_1+\rho_4]{-(7/2)\rho_1+\rho_3}
+            \grstep[-7\rho_2+\rho_4]{-7\rho_2+\rho_3}          \\
+            \grstep{-(5/7)\rho_3+\rho_4}
+            \begin{mat}
+              2 &-2  &0 \\
+              0 &1 &1 \\
+              0 &0  &-7 \\
+              0 &0 &0
+            \end{mat}
+          \end{multline*}
+          该集合的张成空间的一个基是
+          $\sequence{2-2x, x+x^2, -5x^2}$。
+      \end{exparts}
+    \end{answer}
+  \item
+    哪些矩阵的秩为零？
+    秩为一的呢？
+    \begin{answer}
+      只有零矩阵的秩为零。
+      秩为一的矩阵仅有如下形式
+      \begin{equation*}
+        \begin{mat}
+           k_1\cdot \rho  \\
+            \vdots  \\
+           k_m\cdot \rho
+        \end{mat}
+      \end{equation*}
+      其中 \( \rho \) 是某个非零行向量，且诸 \( k_i \) 不全为零。
+      （\textit{注}：
+      我们不能简单地说所有行都是第一行的倍数，因为第一行可能是零行。
+      \textit{再注}：
+      上述结论在把“行”换成“列”后同样适用。）
+    \end{answer}
+  \recommended \item
+    已知 \( a,b,c\in\Re \)，要取什么样的 \( d \) 才能使这个矩阵
+    的秩为一？
+    \begin{equation*}
+      \begin{mat}
+         a  &b  \\
+         c  &d
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      若 \( a\neq 0 \)，则取 \( d=(c/a)b \) 可使第二行是第一行的倍数，
+      具体地说，是第一行的 \( c/a \) 倍。
+      若 \( a=0 \) 且 \( b=0 \)，则 \( d \) 取任意非 \( 0 \) 值都能保证
+      第二行非零。
+      若 \( a=0 \) 且 \( b\neq 0 \) 且 \( c=0 \)，则 \( d \) 取任何值都行，
+      因为该矩阵自动具有秩一（即使取 $d=0$）。
+      最后，若 \( a=0 \) 且 \( b\neq 0 \) 且 \( c\neq 0 \)，则 \( d \) 取
+      任何值都不够，因为该矩阵必定有秩二。
+    \end{answer}
+  \item
+    求这个矩阵的列秩。
+    \begin{equation*}
+      \begin{mat}[r]
+        1  &3  &-1  &5  &0  &4  \\
+        2  &0  &1   &0  &4  &1
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      列秩是二。
+      一种看法是直接观察\Dash 列空间由高度为二的列组成，因而其维数
+      至少可以是二，而且我们容易找到两列，它们合起来组成一个
+      线性无关的集合（例如第四列与第五列）。
+      另一种看法是回忆列秩等于行秩，然后施行高斯消元法，
+      结果剩下两个非零行。
+    \end{answer}
+  \item
+    证明：一个至少有一个解的线性方程组至多有一个解当且仅当
+    其系数矩阵的秩等于其列数。
+    \begin{answer}
+      我们应用\nearbytheorem{th:RankVsSoltnSp}。
+      线性方程组的系数矩阵 $A$ 的列数等于未知数的个数 $n$。
+      一个至少有一个解的线性方程组至多有一个解当且仅当相应的
+      齐次方程组的解空间维数为零（回忆：~在
+      “$\text{通解}=\text{特解}+\text{齐次解}$”这一方程
+       $\vec{v}=\vec{p}+\vec{h}$ 中，只要这样的 $\vec{p}$ 存在，
+       解 $\vec{v}$ 唯一当且仅当向量 $\vec{h}$ 唯一，即 $\vec{h}=\zero$）。
+       而由该定理，这意味着 $n=r$。
+    \end{answer}
+  \recommended \item
+    如果一个矩阵是 \( \nbym{5}{9} \) 的，它的行集合与列集合当中，
+    哪一个必定是线性相关的？
+    \begin{answer}
+      列的集合必定是线性相关的，因为该矩阵的秩至多是五，而列却有
+      九个。
+    \end{answer}
+  \item
+    举一个例子，说明尽管两者维数相同，一个矩阵的行空间与列空间
+    却不必相等。
+    它们有可能相等吗？
+    \begin{answer}
+      它们几乎没有相等的可能，因为行空间是行向量的集合，而列空间是
+      列向量的集合（除非该矩阵是 \( \nbyn{1} \) 的，此时两个空间
+      必定相等）。
+
+      \textit{注记。}
+      考察
+      \begin{equation*}
+        A=\begin{mat}[r]
+            1  &3  \\
+            2  &6
+          \end{mat}
+      \end{equation*}
+      并注意行空间是 \( \rowvec{1 &3} \) 的所有倍数组成的集合，
+      而列空间由以下列向量的倍数组成
+      \begin{equation*}
+        \colvec[r]{1 \\ 2}
+      \end{equation*}
+      所以我们也不能论证说这两个空间必定恰好互为转置。
+    \end{answer}
+  \item
+    证明集合
+    \( \set{(1,-1,2,-3),(1,1,2,0),(3,-1,6,-6)} \) 与
+    \( \set{(1,0,1,0),(0,2,0,3)} \) 的张成不相同。
+    顺便问一句，这里的向量空间是什么？
+    \begin{answer}
+      首先，该向量空间是在自然运算下的实数四元组的集合。
+      尽管这不是四宽的行向量的集合，但差别不大\Dash 它与那个集合
+      是“相同的”。
+      所以我们把四元组当作四宽的向量来处理。
+
+      有了这一点，要看出 \( (1,0,1,0) \) 不在第一个集合的张成中，
+      一种办法是注意这个化简
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &-1  &2  &-3  \\
+          1  &1   &2  &0   \\
+          3  &-1  &6  &-6
+        \end{mat}
+        \grstep[-3\rho_1+\rho_3]{-\rho_1+\rho_2}
+        \repeatedgrstep{-\rho_2+\rho_3}
+        \begin{mat}[r]
+          1  &-1  &2  &-3  \\
+          0  &2   &0  &3   \\
+          0  &0   &0  &0
+        \end{mat}
+      \end{equation*}
+      以及这个化简
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &-1  &2  &-3  \\
+          1  &1   &2  &0   \\
+          3  &-1  &6  &-6  \\
+          1  &0   &1  &0
+        \end{mat}
+        \grstep[-3\rho_1+\rho_3 \\ -\rho_1+\rho_4]{-\rho_1+\rho_2}
+        \repeatedgrstep[-(1/2)\rho_2+\rho_4]{-\rho_2+\rho_3}
+        \repeatedgrstep{\rho_3\leftrightarrow\rho_4}
+        \begin{mat}[r]
+          1  &-1  &2  &-3  \\
+          0  &2   &0  &3   \\
+          0  &0   &-1 &3/2 \\
+          0  &0   &0  &0
+        \end{mat}
+      \end{equation*}
+      得到的矩阵在秩上不同。
+      这意味着把 $(1,0,1,0)$ 添加到前三个四元组的集合中会增大该
+      集合的秩，从而增大其张成。
+      因此 $(1,0,1,0)$ 原本就不在这个张成中。
+    \end{answer}
+  \recommended \item
+    证明这个列向量的集合
+    \begin{equation*}
+      \set{\colvec{d_1 \\ d_2 \\ d_3}
+           \suchthat
+           \text{存在 $x$、$y$ 与 $z$ 使得：\ }
+           \begin{linsys}{3}
+             3x  &+  &2y  &+  &4z  &=   &d_1   \\
+              x  &   &    &-  &z   &=   &d_2   \\
+             2x  &+  &2y  &+  &5z  &=   &d_3
+           \end{linsys}
+           }
+    \end{equation*}
+    是 \( \Re^3 \) 的一个子空间。
+    求一个基。
+    \begin{answer}
+      它是子空间，因为它是系数矩阵
+      \begin{equation*}
+        \begin{mat}[r]
+          3  &2  &4  \\
+          1  &0  &-1 \\
+          2  &2  &5
+        \end{mat}
+      \end{equation*}
+      的列空间。
+      为了求列空间的一个基，
+      \begin{equation*}
+        \set{c_1\colvec[r]{3 \\ 1 \\ 2}
+             +c_2\colvec[r]{2 \\ 0 \\ 2}
+             +c_3\colvec[r]{4 \\ -1 \\ 5}
+             \suchthat c_1,c_2,c_3\in\Re}
+      \end{equation*}
+      我们通过转置、化简
+      \begin{equation*}
+         \begin{mat}[r]
+           3  &1  &2  \\
+           2  &0  &2  \\
+           4  &-1 &5
+         \end{mat}
+         \grstep[-(4/3)\rho_1+\rho_3]{-(2/3)\rho_1+\rho_2}
+         \repeatedgrstep{-(7/2)\rho_2+\rho_3}
+         \begin{mat}[r]
+           3  &1     &2  \\
+           0  &-2/3  &2/3  \\
+           0  &0     &0
+         \end{mat}
+      \end{equation*}
+      并略去零行，再转置回去，来消去张成集中三个列向量之间的
+      线性关系。
+      \begin{equation*}
+        \sequence{ \colvec[r]{3 \\ 1 \\ 2},
+                   \colvec[r]{0 \\ -2/3 \\ 2/3}  }
+      \end{equation*}
+    \end{answer}
+  \item
+    证明转置运算是
+    线性的：\index{transpose!is linear}
+    \begin{equation*}
+      \trans{(rA+sB)}  = r\trans{A}+s\trans{B}
+    \end{equation*}
+    其中 \( r,s\in\Re \) 且 \( A,B\in\matspace_{\nbym{m}{n}} \)。
+    \begin{answer}
+      我们可以通过直接的计算来完成。
+      \begin{align*}
+        \trans{(rA+sB)}
+        &=\trans{\begin{mat}
+             ra_{1,1}+sb_{1,1}  &\ldots &ra_{1,n}+sb_{1,n} \\
+                          &\vdots            \\
+             ra_{m,1}+sb_{m,1}  &\ldots &ra_{m,n}+sb_{m,n}
+                \end{mat}  }  \\
+        &=\begin{mat}
+           ra_{1,1}+sb_{1,1}  &\ldots &ra_{m,1}+sb_{m,1}  \\
+                            &\vdots                           \\
+           ra_{1,n}+sb_{1,n}  &\ldots &ra_{m,n}+sb_{m,n}
+         \end{mat}           \\
+        &=\begin{mat}
+           ra_{1,1}  &\ldots &ra_{m,1}  \\
+                    &\vdots                       \\
+           ra_{1,n}  &\ldots &ra_{m,n}
+         \end{mat}
+        +\begin{mat}
+           sb_{1,1}  &\ldots &sb_{m,1}  \\
+                    &\vdots                       \\
+           sb_{1,n}  &\ldots &sb_{m,n}
+         \end{mat}           \\
+        &=r\trans{A}+s\trans{B}
+      \end{align*}
+    \end{answer}
+  \recommended \item
+    在本小节中我们已经证明高斯化简能求出行空间的一个基。
+    \begin{exparts}
+      \partsitem 证明这个基不是唯一的\Dash 不同的化简可能给出
+        不同的基。
+      \partsitem 构造行空间相等但行数不相等的矩阵。
+      \partsitem 证明两个矩阵有相同的行空间当且仅当经过
+        高斯–若尔当消元后它们有相同的非零行。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这些化简给出不同的基。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  &0  \\
+              1  &2  &1
+            \end{mat}
+            \grstep{-\rho_1+\rho_2}
+            \begin{mat}[r]
+              1  &2  &0  \\
+              0  &0  &1
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              1  &2  &0  \\
+              1  &2  &1
+            \end{mat}
+            \grstep{-\rho_1+\rho_2}
+            \repeatedgrstep{2\rho_2}
+            \begin{mat}[r]
+              1  &2  &0  \\
+              0  &0  &2
+            \end{mat}
+          \end{equation*}
+        \partsitem 一个简单的例子是这个。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  &1  \\
+              3  &1  &4
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              1  &2  &1  \\
+              3  &1  &4  \\
+              0  &0  &0
+            \end{mat}
+          \end{equation*}
+          这是一个稍微不那么简单的例子。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  &1  \\
+              3  &1  &4
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              1  &2  &1  \\
+              3  &1  &4  \\
+              2  &4  &2  \\
+              4  &3  &5
+            \end{mat}
+          \end{equation*}
+        \partsitem
+          % We give two proofs.
+          % The first is a bit lower-level but more constructive.
+          % The second is higher level.
+
+          % \textit{First proof.}
+          % Assume that \( A \) and \( B \) are matrices with equal row spaces.
+          % Construct a matrix \( C \) with the rows of \( A \) above the rows
+          % of \( B \), and another matrix \( D \) with the rows of \( B \)
+          % above the rows of \( A \).
+          % \begin{equation*}
+          %   C=\begin{mat}
+          %        A \\ B
+          %     \end{mat}
+          %   \qquad
+          %   D=\begin{mat}
+          %        B \\ A
+          %     \end{mat}
+          % \end{equation*}
+          % Observe that \( C \) and \( D \) are row-equivalent (via a sequence
+          % of row-swaps) and so Gauss-Jordan reduce to the same reduced
+          % echelon form matrix.
+
+          % Because the row spaces are equal, the rows of \( B \)
+          % are linear combinations of the rows of \( A \) so Gauss-Jordan
+          % reduction on \( C \) simply turns the rows of \( B \) to zero rows
+          % and thus the nonzero rows of $C$ are just the nonzero rows obtained
+          % by Gauss-Jordan reducing \( A \).
+          % The same can be said for the matrix \( D \)\Dash Gauss-Jordan
+          % reduction on \( D \) gives the same non-zero rows as are produced
+          % by reduction on \( B \) alone.
+          % Therefore,
+          % \( A \) yields the same nonzero rows as \( C  \), which yields
+          % the same nonzero rows as \( D \), which yields the same nonzero
+          % rows as \( B \).
+
+          % \textit{Second proof (N~Schenker).}
+          由于 \( A \) 与 \( B \) 的行空间相等，所以二者行等价。
+          由于每个行等价类都包含唯一的简化阶梯形
+          （定理 One.III.\ref{th:ReducedEchelonFormIsUnique}），
+          \( A \) 的简化阶梯形必定等于 \( B \) 的简化阶梯形。
+      \end{exparts}
+    \end{answer}
+  \item
+    对于 \nearbyremark{rem:MunkresCommment}，在 \( r \) 大于 \( n \) 的
+    情形下为什么不成问题？
+    \begin{answer}
+      它不可能更大。
+    \end{answer}
+  \item
+    证明 \( \nbym{m}{n} \) 矩阵的行秩至多是 \( m \)。
+    有更好的界吗？
+    \begin{answer}
+      极大线性无关集合中行的个数不会超过行的个数。
+      一个更好的界（一般情形下这是最佳可能的界）是 \( m \) 与 \( n \)
+      中的最小者，因为行秩等于列秩。
+     \end{answer}
+  \item
+    证明一个矩阵的秩等于其转置的秩。
+    \begin{answer}
+      由于矩阵 \( A \) 的行是 \( \trans{A} \) 的列，所以 \( A \) 的
+      行空间的维数等于 \( \trans{A} \) 的列空间的维数。
+      而 \( A \) 的行空间的维数就是 \( A \) 的秩，并且 \( \trans{A} \) 的
+      列空间的维数就是 \( \trans{A} \) 的秩。
+      于是这两个秩相等。
+    \end{answer}
+  \item
+    判断真假：~一个矩阵的列空间等于其转置的行空间。
+    \begin{answer}
+      假的。
+      前者是列的集合，而后者是行的集合。
+
+      然而这个例子
+      \begin{equation*}
+         A=\begin{mat}[r]
+             1  &2  &3  \\
+             4  &5  &6
+           \end{mat},
+         \qquad
+         \trans{A}=\begin{mat}[r]
+             1  &4  \\
+             2  &5  \\
+             3  &6
+           \end{mat}
+      \end{equation*}
+      表明，一旦我们对“相同”有了形式化的含义，就可以在这里应用它：
+      \begin{equation*}
+        \colspace{A}=\spanof{\set{
+                        \colvec[r]{1 \\ 4},
+                        \colvec[r]{2 \\ 5},
+                        \colvec[r]{3 \\ 6} }  }
+      \end{equation*}
+      而
+      \begin{equation*}
+         \rowspace{\trans{A}}=\spanof{\set{
+                                 \rowvec{1 &4},
+                                 \rowvec{2 &5},
+                                 \rowvec{3 &6} }  }
+      \end{equation*}
+      彼此是“相同的”。
+    \end{answer}
+  \recommended \item
+    我们已经看到行变换可能改变列空间。
+    它必定会吗？
+    \begin{answer}
+      不会。
+      这里，高斯消元法没有改变列空间。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &0  \\
+          3  &1
+        \end{mat}
+        \grstep{-3\rho_1+\rho_2}
+        \begin{mat}[r]
+          1  &0  \\
+          0  &1
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+  \item
+    证明一个线性方程组有解当且仅当该方程组的系数矩阵与
+    其增广矩阵有相同的秩。
+    \begin{answer}
+      线性方程组
+      \begin{equation*}
+        c_1\vec{a}_1+\dots+c_n\vec{a}_n=\vec{d}
+      \end{equation*}
+      有解当且仅当 \( \vec{d} \) 在集合 \( \set{\vec{a}_1,\dots,\vec{a}_n} \)
+      的张成中。
+      这成立当且仅当增广矩阵的列秩等于系数矩阵的列秩。
+      由于秩等于列秩，方程组有解当且仅当其增广矩阵的秩等于其
+      系数矩阵的秩。
+    \end{answer}
+  \item
+    一个 \( \nbym{m}{n} \) 矩阵具有
+    \definend{行满秩}\index{full row rank}\index{row rank!full}，
+    若其行秩
+    为 \( m \)；它具有
+    \definend{列满秩}\index{full column rank}\index{column!rank!full}，
+    若其列秩为 \( n \)。
+    \begin{exparts}
+      \partsitem 证明一个矩阵能同时有行满秩与列满秩仅当它是方阵。
+      \partsitem 证明：系数矩阵为 \( A \) 的线性方程组对右侧任意的
+        \( d_1 \)、\ldots、\( d_n \) 都有解当且仅当 \( A \) 行满秩。
+      \partsitem 证明齐次方程组有唯一解当且仅当其系数矩阵
+        $A$ 列满秩。
+      \partsitem 证明命题
+       “若系数矩阵为 \( A \) 的方程组有任何解则它有唯一解”成立
+        当且仅当 \( A \) 列满秩。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 行秩等于列秩，所以二者各自至多是行数与列数的
+          最小者。
+          因此只有当行数等于列数时二者才能都满。
+          （当然，逆命题不成立：~方阵不必行满秩或列满秩。）
+        \partsitem 若 \( A \) 行满秩，则无论右侧是什么，对增广矩阵施行
+          高斯消元法结束时每一行都有一个首主元一，并且这些首主元一
+          没有一个位于最右边的列（“增广”列）。
+          回代随即给出一个解。
+
+          另一方面，如果该线性方程组对某个右侧没有解，只可能是因为
+          高斯消元法留下某行，使得它在“增广”竖线左边全为零，
+          而在右边有非零元。
+          于是，如果 $A$ 对某些右侧没有解，那么 \( A \) 不具有
+          行满秩，因为它的某些行已被消去。
+        \partsitem 矩阵 \( A \) 列满秩当且
+          仅当其列
+          组成一个线性无关的集合。
+          这等价于诸列之间只存在平凡的线性关系，于是方程组唯一的解是
+          每个变量都取 $0$ 的情形。
+        \partsitem 矩阵 \( A \) 列满秩当且
+          仅当其列的集合是线性无关的，从而构成其张成的一个基。
+          这等价于该张成中的所有向量都有唯一的线性表示。
+          这就证明了它，
+          因为张成中一个向量的任何线性表示都是
+          该线性方程组的解。
+      \end{exparts}
+    \end{answer}
+  \item
+    如果把高斯消元法改成允许用零去乘某一行，
+    \nearbylemma{le:RowSpUnchByGR} 的结论会如何改变？
+    \begin{answer}
+      行空间不再相同，$B$ 的行空间将是 $A$ 的行空间的一个子空间
+      （有可能相等）。
+    \end{answer}
+  \item
+    \( \rank(A) \) 与 \( \rank(-A) \) 之间有什么关系？
+    \( \rank(A) \) 与 \( \rank(kA) \) 之间呢？
+    \( \rank(A) \)、\( \rank(B) \) 与 \( \rank(A+B) \) 之间，
+    如果有关系的话，是什么关系？
+    \begin{answer}
+      显然 \( \rank(A)=\rank(-A) \)，因为高斯消元法允许我们把一个
+      矩阵的所有行乘以 \( -1 \)。
+      同样地，当 \( k\neq 0 \) 时我们有 \( \rank(A)=\rank(kA) \)。
+
+      加法更有意思。
+      和的秩可以比各加数的秩小。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &2  \\
+          3  &4
+        \end{mat}
+        +
+        \begin{mat}[r]
+         -1  &-2  \\
+         -3  &-4
+        \end{mat}
+        =
+        \begin{mat}[r]
+         0   &0   \\
+         0   &0
+        \end{mat}
+      \end{equation*}
+      和的秩也可以比各加数的秩大。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &2  \\
+          0  &0
+        \end{mat}
+        +
+        \begin{mat}[r]
+          0  &0   \\
+          3  &4
+        \end{mat}
+        =
+        \begin{mat}[r]
+         1   &2   \\
+         3   &4
+        \end{mat}
+      \end{equation*}
+      但存在一个上界（除矩阵尺寸之外的上界）。
+      一般地，\( \rank(A+B)\leq\rank(A)+\rank(B) \)。
+
+      为了证明它，注意我们可以用两种方式之一对 \( A+B \) 实施
+      高斯消去法：
+      可以先把 \( A \) 加到 \( B \) 上，然后施行适当的化简步骤序列
+      \begin{equation*}
+        (A+B)
+        \grstep{\text{步骤}_1}
+        \cdots
+        \grstep{\text{步骤}_k}
+        \text{阶梯形}
+      \end{equation*}
+      或者也可以分别在 \( A \) 与 \( B \) 上实施 \( \text{步骤}_1 \) 到
+      \( \text{步骤}_k \)，然后再相加，得到同样的结果。
+      在第二种方式中我们最终能得到的最大秩显然是两个秩之和。
+      （上面的矩阵给出了两种可能性，
+       $\rank(A+B)<\rank(A)+\rank(B)$ 与 $\rank(A+B)=\rank(A)+\rank(B)$，
+       都发生的例子。）
+    \end{answer}
+    % Relationship between rank(A), rank(B) and rank(cA+dB)?
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsectionoptional{子空间的组合}
+\index{direct sum|(}
+\textit{本小节为选读内容。
+它仅在第三章和第五章的最后几节以及一些零星练习中被用到。
+跳过本小节也不会影响叙述的连贯性。}
+
+% This chapter opened with the definition of a vector space, and the middle
+% consisted of a first analysis of the idea.
+% This subsection closes the chapter by finishing the analysis, in the sense
+% that `analysis' means ``method of determining the \ldots{} essential
+% features of something by separating it into parts'' \cite{MacmillanDict}.
+
+理解一个事物的方式之一，是看它如何由各个
+组成部分构建起来。
+例如，我们有时把 \( \Re^3 \)
+看作由 \( x \)轴、\( y \)轴与 \( z \)轴
+拼合而成的。
+本小节将描述
+如何把一个向量空间分解成它的
+一些子空间的组合。
+在展开子空间组合这一想法的过程中，我们将始终以 $\Re^3$
+这个例子为原型。
+
+子空间是集合，而集合通过并运算来组合。
+但把子空间的组合运算取为简单的集合并运算，并不是我们想要的。
+例如，\( x \)轴、\( y \)轴与 \( z \)轴的并集
+并不是整个 $\Re^3$。
+实际上这个并集不是
+子空间，因为它对加法不封闭：向量
+\begin{equation*}
+  \colvec[r]{1 \\ 0 \\ 0}
+  +
+  \colvec[r]{0 \\ 1 \\ 0}
+  +
+  \colvec[r]{0 \\ 0 \\ 1}
+  =
+  \colvec[r]{1 \\ 1 \\ 1}
+\end{equation*}
+不在三条坐标轴的任何一条上，因而不在这个并集中。
+因此
+要组合子空间，
+除了这些子空间的成员之外，我们至少还必须
+把它们所有的线性组合都包括进来。
+
+\begin{definition}
+设 \( W_1,\dots, W_k \) 是一个向量空间的子空间，它们的
+\definend{和}\index{sum!of subspaces}\index{subspace!sum}
+是其并集的张成
+$W_1+W_2+\dots +W_k=\spanof{W_1\union W_2\union \cdots W_k}$。
+\end{definition}
+
+\noindent 使用记号“\( + \)”符合把这一符号用作自然的累加运算的惯例。
+
+\begin{example} \label{ex:RThreeSumAxes}
+我们的 $\Re^3$ 原型正符合这一点。
+任意向量 $\vec{w}\in\Re^3$ 都是线性组合
+$c_1\vec{v}_1+c_2\vec{v}_2+c_3\vec{v}_3$，其中 $\vec{v}_1$ 取自
+$x$轴，等等，如下所示
+\begin{equation*}
+    \colvec{w_1 \\ w_2 \\ w_3}
+    =1\cdot\colvec{w_1 \\ 0 \\ 0}
+    +1\cdot\colvec{0 \\ w_2 \\ 0}
+    +1\cdot\colvec{0 \\ 0 \\ w_3}
+\end{equation*}
+于是 $\text{$x$轴}+\text{$y$轴}+\text{$z$轴}=\Re^3$。
+\end{example}
+
+\begin{example}
+子空间的和可以小于整个空间。
+在 \( \polyspace_4 \) 中，
+设 \( L \) 是一次多项式构成的子空间
+$\set{a+bx\suchthat a,b\in\Re}$，
+并设 \( C \) 是纯三次多项式构成的子空间
+\( \set{cx^3\suchthat c\in\Re}\)。
+那么 \mbox{$L+C$} 不是整个 $\polyspace_4$。
+相反，
+\( \mbox{$L+C$}=\set{a+bx+cx^3\suchthat a,b,c\in\Re} \)。
+\end{example}
+
+\begin{example} \label{exam:RThreeIsSumXYAndYZ}
+一个空间可以用不止一种方式描述为子空间的组合。
+除了分解
+$\Re^3=\text{$x$轴}+\text{$y$轴}+\text{$z$轴}$，
+我们还可以写成
+$\Re^3=\text{$xy$平面}+\text{$yz$平面}$。
+为验证这一点，注意任意 $\vec{w}\in\Re^3$ 都可以写成
+$xy$平面的一个成员与 $yz$平面的一个成员的线性组合；这里是两个这样的组合。
+\begin{equation*}
+  \colvec{w_1 \\ w_2 \\ w_3}
+  =1\cdot\colvec{w_1 \\ w_2 \\ 0}
+   +1\cdot\colvec{0 \\ 0 \\ w_3}
+  \qquad
+  \colvec{w_1 \\ w_2 \\ w_3}
+  =1\cdot\colvec{w_1 \\ w_2/2 \\ 0}
+   +1\cdot\colvec{0 \\ w_2/2 \\ w_3}
+\end{equation*}
+\end{example}
+
+上述定义给出了一种方式，让我们可以把一个空间
+看作它的某些部分的组合。
+然而，前面的例题表明，我们的基准模型至少有一个有趣的
+性质没有被
+子空间的和的定义所刻画。
+在 $\Re^3$ 的这个熟悉的分解中，
+我们常说一个向量的“$x$~部分”或“$y$~部分”或
+“$z$~部分”。
+也就是说，在我们的原型中，每个向量都有唯一的分解，分解成的各个小块来自构成整个空间的那些部分。
+但在\nearbyexample{exam:RThreeIsSumXYAndYZ}所用的分解中，我们
+无法谈论一个向量的“$xy$~部分”\Dash 下面这三个和
+\begin{equation*}
+  \colvec[r]{1 \\ 2 \\ 3}
+  =\colvec[r]{1 \\ 2 \\ 0}
+  +\colvec[r]{0 \\ 0 \\ 3}
+  =\colvec[r]{1 \\ 0 \\ 0}
+  +\colvec[r]{0 \\ 2 \\ 3}
+  =\colvec[r]{1 \\ 1 \\ 0}
+  +\colvec[r]{0 \\ 1 \\ 3}
+\end{equation*}
+都把该向量描述成由来自第一个平面的某样东西加上来自第二个平面的某样东西构成，但“$xy$~部分”在每个和里都不相同。
+
+%What's happening here, what allows the vector's second entry
+%$2$ to be taken from the $xy$-plane or
+%from the $yz$-plane or from a combination, is that the two planes overlap.
+%Their intersection is the $y$-axis and so the middle component
+%can shift around.
+%In terms of our `analysis', the problem with the sum of subspaces operation is
+%that, while the expression
+%$\Re^3=\text{$xy$-plane}+\text{$yz$-plane}$ describes the space as a
+%combination of its parts, those parts are not separate.
+
+%\begin{lemma}
+%The intersection of subspaces is a subspace.\index{subspace!intersection}
+%\end{lemma}
+
+%\begin{proof}
+%To show that it is a subspace, we need only show that it is nonempty and
+%closed under linear combinations.
+%It is nonempty because it contains the zero vector.
+%For closure, consider a linear combination of vectors from the
+%intersection.
+%We can view that as a linear combination of vectors from the first subspace,
+%because each vector in the intersection is in the first subspace.
+%As all of the vectors are in the first subspace,
+%their combination sums to a vector that is also in the first subspace.
+%In the same way, the combination sums to a vector that is in each subspace,
+%and so is in the intersection.
+%\end{proof}
+
+%Therefore, an intersection of subspaces is never empty; the smallest that it
+%can be is the trivial subspace.
+%So the above reference to subspaces that ``overlap'' must be taken to mean
+%that their intersection is larger than the trivial subspace,
+%not just that their intersection is nonempty.
+
+也就是说，当我们考虑 $\Re^3$ 如何由三条轴拼合而成时，
+我们可能是指“以每个向量
+都至少有一个分解的方式”，这就给出了上面的定义。
+但如果我们把它理解为
+“以每个向量有且仅有一个
+分解的方式”，那么我们就需要对组合再附加一个条件。
+为了看清这个条件是什么，回想一下，
+向量可以用基唯一地表示。
+我们可以利用这一点把一个空间分解成一些子空间的和，
+使得空间中的任意向量都能唯一地分解成这些
+子空间的成员的和。
+
+\begin{example} \label{exam:BenchDirSum}
+考虑 $\Re^3$ 及其标准基
+$\stdbasis_3=\sequence{\vec{e}_1,\vec{e}_2,\vec{e}_3}$。
+以 $B_1=\sequence{\vec{e}_1}$ 为基的子空间是 $x$轴，
+以 $B_2=\sequence{\vec{e}_2}$ 为基的子空间是 $y$轴，而
+以 $B_3=\sequence{\vec{e}_3}$ 为基的子空间是 $z$轴。
+$\Re^3$ 的任意成员都可表示为来自这些子空间的向量的和，这一事实
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+   =\colvec{x \\ 0 \\ 0}
+    +\colvec{0 \\ y \\ 0}
+    +\colvec{0 \\ 0 \\ z}
+\end{equation*}
+反映了 $\stdbasis_3$ 张成该空间这一事实\Dash 这个
+方程
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+   =c_1\colvec[r]{1 \\ 0 \\ 0}
+    +c_2\colvec[r]{0 \\ 1 \\ 0}
+    +c_3\colvec[r]{0 \\ 0 \\ 1}
+\end{equation*}
+对任意 $x,y,z\in\Re$ 都有解。
+而每个这样的表达式都是唯一的这一事实，则反映了 $\stdbasis_3$ 线性无关这一事实，于是任何
+类似上式的方程都有唯一的
+解。
+\end{example}
+
+\begin{example}
+我们不必一次只取一个基向量，
+可以把它们聚合成更大的序列。
+再次考虑空间 $\Re^3$ 以及取自标准基 $\stdbasis_3$ 的向量。
+以 $B_1=\sequence{\vec{e}_1,\vec{e}_3}$ 为基的子空间
+是 $xz$平面。
+以 $B_2=\sequence{\vec{e}_2}$ 为基的子空间是 $y$轴。
+与前面的例题一样，空间的任意成员都以有且仅有一种方式是这两个子空间的
+成员的和，这一事实
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+   =\colvec{x \\ 0 \\ z}
+    +\colvec{0 \\ y \\ 0}
+\end{equation*}
+反映了这些向量构成一个
+基这一事实\Dash 这个方程
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+   =(c_1\colvec[r]{1 \\ 0 \\ 0}
+    +c_3\colvec[r]{0 \\ 0 \\ 1})
+    +c_2\colvec[r]{0 \\ 1 \\ 0}
+\end{equation*}
+对任意 $x,y,z\in\Re$ 都有且仅有一个解。
+\end{example}
+
+% These examples illustrate
+% the natural way to decompose a space into a sum of subspaces so that
+% each vector decomposes uniquely into a sum of vectors from the parts.
+
+\begin{definition}
+序列
+$
+   B_1=\sequence{\vec{\beta}_{1,1},\dots,\vec{\beta}_{1,n_1}}$,
+  \ldots,
+  $B_k=\sequence{\vec{\beta}_{k,1},\dots,\vec{\beta}_{k,n_k}}$
+的\definend{连接}\index{concatenation of sequences}%
+\index{sequence!concatenation}
+把它们并接成一个单独的序列。
+\begin{equation*}
+ \cat{\cat{\cat{B_1}{B_2}}{\cdots}}{B_k}=
+   \sequence{\vec{\beta}_{1,1},\dots,\vec{\beta}_{1,n_1},
+            \vec{\beta}_{2,1},\dots,\vec{\beta}_{k,n_k} }
+\end{equation*}
+\end{definition}
+
+\begin{lemma} \label{le:UniqDecIffBasisDec}
+设 $V$ 是一个向量空间，它是其某些子空间的和
+$V=W_1+\dots+W_k$。
+设 $B_1$, \ldots, $B_k$ 是这些子空间的基。
+以下各条等价。
+\begin{tfae}
+  \item 任意 $\vec{v}\in V$ 的表达式
+     $\vec{v}=\vec{w}_1+\dots+\vec{w}_k$
+     （其中 $\vec{w}_i\in W_i$）是唯一的。
+  \item 连接 $\cat{\cat{B_1}{\cdots}}{B_k}$ 是 $V$ 的一个基。
+  \item 来自不同 $W_i$ 的
+    非零向量之间的任何线性关系都是
+    平凡的。
+% ; that is,
+%     any set of nonzero vectors $\set{\vec{w}_1,\dots,\vec{w}_k}$
+%     with $\vec{w}_i\in W_i$ is linearly independent.
+\end{tfae}
+\end{lemma}
+
+\begin{proof}
+我们将证明 $\text{(1)}\implies\text{(2)}$、
+$\text{(2)}\implies\text{(3)}$，
+最后证明 $\text{(3)}\implies\text{(1)}$。
+为进行这些论证，注意我们可以从 $\vec{w}$ 的组合
+过渡到 $\vec{\beta}$ 的组合
+\begin{align*}
+  d_1\vec{w}_1+\dots+d_k\vec{w}_k
+    &= d_1(c_{1,1}\vec{\beta}_{1,1}+\dots+c_{1,n_1}\vec{\beta}_{1,n_1})   \\
+    &\qquad\hbox{}+\dots
+        +d_k(c_{k,1}\vec{\beta}_{k,1}+\dots+c_{k,n_k}\vec{\beta}_{k,n_k}) \\
+    &= d_1c_{1,1}\cdot\vec{\beta}_{1,1}
+        +\dots
+        +d_kc_{k,n_k}\cdot\vec{\beta}_{k,n_k}
+  \tag{$*$}
+\end{align*}
+反之亦然
+（取每个 $d_i$ 为 $1$，即可由下往上）。
+
+对于 $\text{(1)}\implies\text{(2)}$，
+假设所有分解都是唯一的。
+我们将证明 $\cat{\cat{B_1}{\cdots}}{B_k}$ 张成该
+空间且线性无关。
+它张成该空间，因为假设
+$V=W_1+\dots+W_k$
+意味着每个 $\vec{v}$ 都可表示为
+$\vec{v}=\vec{w}_1+\dots+\vec{w}_k$，再由方程~($*$) 可将其转化为以连接中的 $\vec{\beta}$
+表示的 $\vec{v}$ 的线性组合。
+对于线性无关性，考虑这个线性关系。
+\begin{equation*}
+  \zero=c_{1,1}\vec{\beta}_{1,1}+\dots+c_{k,n_k}\vec{\beta}_{k,n_k}
+\end{equation*}
+如 ($*$) 那样重新分组（即由下往上），得到
+分解 $\zero=\vec{w}_1+\dots+\vec{w}_k$。
+由于零向量显然
+有分解 $\zero=\zero+\dots+\zero$，
+分解唯一的假设表明每个
+$\vec{w}_i$ 都是零向量。
+这意味着
+$c_{i,1}\vec{\beta}_{i,1}+\dots+c_{i,n_i}\vec{\beta}_{i,n_i}=\zero$，而
+由于每个 $B_i$ 都是基，我们就得到想要的结论：所有的
+$c$ 都是零。
+
+对于 $\text{(2)}\implies\text{(3)}$，假设这些基的连接
+是整个空间的一个基。
+考虑来自不同
+$W_i$ 的非零向量之间的一个线性关系。
+它可能涉及也可能不涉及来自 $W_1$ 的向量，或
+来自 $W_2$ 的向量，等等，所以我们把它写成
+$\zero=\mbox{}\cdots+d_i\vec{w}_i+\cdots\mbox{}$。
+如方程~($*$) 那样展开这个向量。
+\begin{align*}
+  \zero
+   &= \mbox{}\dots
+      +d_i(c_{i,1}\vec{\beta}_{i,1}+\dots+c_{i,n_i}\vec{\beta}_{i,n_i})
+      +\cdots\mbox{}                                               \\
+   &= \mbox{}\dots
+      +d_ic_{i,1}\cdot\vec{\beta}_{i,1}
+      +\dots+
+      d_ic_{i,n_i}\cdot\vec{\beta}_{i,n_i}
+      +\cdots\mbox{}
+\end{align*}
+$\cat{\cat{B_1}{\cdots}}{B_k}$ 的线性无关给出：每个
+系数 $d_ic_{i,j}$ 都是零。
+由于 $\vec{w}_i$ 是非零向量，$c_{i,j}$ 中至少有一个
+不为零，于是 $d_i$ 为零。
+这对每个 $d_i$ 都成立，因此该线性关系是平凡的。
+
+最后，对于 $\text{(3)}\implies\text{(1)}$，
+假设来自不同 $W_i$ 的非零向量之间的任何线性
+关系都是平凡的。
+考虑一个向量的两个分解
+$\vec{v}=\mbox{}\cdots+\vec{w}_i+\cdots\mbox{}$
+与 $\vec{v}=\mbox{}\cdots+\vec{u}_j+\cdots\mbox{}$，
+其中 $\vec{w}_i\in W_i$ 且 $\vec{u}_j\in W_j$。
+两式相减得到一个线性关系，形如
+这样（如果没有 $\vec{u}_i$ 或 $\vec{w}_j$，就去掉那些项）。
+\begin{equation*}
+  \zero
+   =\mbox{}\cdots+(\vec{w}_i-\vec{u}_i)
+     +\cdots
+     +(\vec{w}_j-\vec{u}_j)+\cdots\mbox{}
+\end{equation*}
+情形的假设，即命题~(3) 成立，意味着每一项都
+等于零向量
+ $\vec{w}_i-\vec{u}_i=\zero$。
+于是分解是唯一的。
+\end{proof}
+
+\begin{definition}
+由子空间组成的族 \( \set{W_1,\ldots, W_k} \) 是
+\definend{无关的}\index{subspace!independence}，如果来自任一 \( W_i \) 的非零向量都不是
+其他子空间 \( W_1,\dots, W_{i-1},W_{i+1},\dots, W_k \) 中的向量的线性组合。
+\end{definition}
+
+\begin{definition}
+向量空间 \( V \) 是其子空间 \( W_1,\dots, W_k \) 的
+\definend{直和}\index{subspace!direct sum}\index{direct sum!definition}
+（或\definend{内直和}\index{internal direct sum}），如果
+\( V=W_1+W_2+\dots +W_k \)
+且族 \( \set{W_1,\dots, W_k} \) 是无关的。
+我们记 \( V=W_1\directsum W_2\directsum \cdots\directsum W_k \)。
+\end{definition}
+
+\begin{example}
+我们的原型正合适：
+$\Re^3=\text{$x$轴}\directsum\text{$y$轴}\directsum\text{$z$轴}$。
+\end{example}
+
+\begin{example}
+\( \nbyn{2} \) 矩阵构成的空间是这个直和。
+\begin{equation*}
+  \set{\begin{mat}
+         a  &0  \\
+         0  &d
+       \end{mat}  \suchthat a,d\in\Re }
+  \,\mbox{}\directsum\mbox{}\,
+  \set{\begin{mat}
+         0  &b  \\
+         0  &0
+       \end{mat}  \suchthat b\in\Re }
+  \,\mbox{}\directsum\mbox{}\,
+  \set{\begin{mat}
+         0  &0  \\
+         c  &0
+       \end{mat}  \suchthat c\in\Re }
+\end{equation*}
+它还有很多其他方式也是子空间的直和；
+直和分解不是唯一的。
+\end{example}
+
+\begin{corollary} \label{cor:DirSumDimsAdd}
+直和的维数是各直和项的维数之和。
+\end{corollary}
+
+\begin{proof}
+在\nearbylemma{le:UniqDecIffBasisDec}中，
+连接中基向量的个数等于各
+子基中向量个数之和。
+\end{proof}
+
+两个子空间的特殊情形值得单独一提。
+
+\begin{definition}
+当一个向量空间是它的两个子空间的直和时，这两个子空间互为
+\definend{补}。\index{subspace!complementary}%
+\index{complementary subspaces}
+\end{definition}
+
+\begin{lemma}
+\label{le:DirectSumTwoSp}
+向量空间 \( V \) 是
+它的两个子空间 \( W_1 \) 与 \( W_2 \) 的直和\index{direct sum!of two subspaces}，当且仅当它是
+这两个子空间的和 \( V=W_1+W_2 \) 且它们的交是平凡的
+\( W_1\intersection W_2=\set{\zero\,} \)。
+\end{lemma}
+
+\begin{proof}
+先假设 $V=W_1\directsum W_2$。
+由定义，$V$ 是两者的和 $V=W_1+ W_2$。
+为证明它们的交是平凡的，
+设 $\vec{v}$ 是 $W_1\intersection W_2$ 中的一个向量，
+并考虑方程 $\vec{v}=\vec{v}$。
+该方程的左边是 $W_1$ 的一个成员，
+右边是 $W_2$ 的一个成员，我们可以把它看成
+$W_2$ 的成员的线性组合。
+但这两个空间是无关的，
+所以 $W_1$ 的成员能成为来自 $W_2$ 的向量的线性
+组合的唯一方式，是这个成员
+是零向量 $\vec{v}=\zero$。
+
+对于另一个方向，假设 $V$ 是两个交为平凡的
+空间的和。
+为证明 $V$ 是两者的直和，我们只需证明
+这两个空间是无关的\Dash 即第一个空间的任何非零成员都不能
+表示成第二个空间的成员的线性组合，反之亦然。
+这一点成立，因为任何关系式
+$\vec{w}_1=c_1\vec{w}_{2,1}+\dots+c_k\vec{w}_{2,k}$（其中 $\vec{w}_1\in W_1$
+且对所有 $j$ 有 $\vec{w}_{2,j}\in W_2$）都表明左边的向量
+也在 $W_2$ 中，因为右边是 $W_2$ 的成员的组合。
+这两个空间的交是平凡的，所以 $\vec{w}_1=\zero$。
+同样的论证对任意 $\vec{w}_2$ 也适用。
+\end{proof}
+
+%\begin{corollary}
+%\label{cor:CompsIffDimsAndIntTriv}
+%Two subspaces \( W_1,W_2 \) are complements in \( V \) if and only if
+%\( \dim(W_1)+\dim(W_2)=\dim(V) \) and
+%\( W_1\intersection W_2=\set{\zero\,} \).
+%\end{corollary}
+
+%\begin{proof}
+%This follows immediately from
+%\nearbycorollary{cor:DimSumEqDimSummandsMinDimInter}.
+%\end{proof}
+
+\begin{example}
+在 $\Re^2$ 中，\( x \)轴与 \( y \)轴是互补的，
+即 $\Re^2=\text{$x$轴}\directsum\text{$y$轴}$。
+这表明子空间的补与集合的补稍有
+不同；~$x$轴和~$y$轴不是集合的补，
+因为它们的交
+不是空集。
+
+一个空间可以有多于一对互补的子空间；
+~$\Re^2$ 的另一对互补子空间是由
+直线 \( y=x \) 与 \( y=2x \) 构成的子空间。
+\end{example}
+
+\begin{example}
+在空间 \( F=\set{a\cos\theta+b\sin\theta\suchthat a,b\in\Re} \) 中，
+子空间 \( W_1=\set{a\cos\theta\suchthat a\in\Re} \) 与
+\( W_2=\set{b\sin\theta\suchthat b\in\Re} \) 是互补的。
+前面的例题指出，一个空间可以分解成多于
+一对互补子空间。
+另外注意，$F$ 可以有多于一对
+互补的子空间且对中的第一个是 $W_1$\Dash \( W_1 \) 的另一个补是
+\( W_3=\set{b\sin\theta+b\cos\theta \suchthat b\in\Re} \)。
+\end{example}
+
+\begin{example}
+在 \( \Re^3 \) 中，\( xy \)平面与 \( yz \)平面不是
+互补的，这正是\nearbyexample{exam:RThreeIsSumXYAndYZ}之后的讨论的要点。
+\( xy \)平面的一个补是 \( z \)轴。
+% A complement of the \( yz \)-plane is the line through \( (1,1,1) \).
+\end{example}
+
+由\nearbylemma{le:DirectSumTwoSp}引出一个自然的问题：~对
+$k>2$，
+简单和 $V=W_1+\dots+W_k$ 是直和当且仅当
+这些子空间的交是平凡的？
+
+\begin{example}    \label{exam:DirSumThree}
+如果子空间多于两个，那么
+交为平凡不足以
+保证分解唯一（也就是说，不足以确保这些
+空间是无关的）。
+在 \( \Re^3 \) 中，设
+\( W_1 \) 为 \( x \)轴，设 \( W_2 \) 为 \( y \)轴，并设
+$W_3$ 为这个集合。
+\begin{equation*}
+  W_3=\set{\colvec{q \\ q \\ r} \suchthat q,r\in\Re}
+\end{equation*}
+验证 \( \Re^3=W_1+W_2+W_3 \) 很容易。
+交
+\( W_1\intersection W_2\intersection W_3 \)
+是平凡的，但分解不唯一。
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+  =\colvec{0 \\ 0 \\ 0}
+  +\colvec{0 \\ y-x \\ 0}
+  +\colvec{x \\ x \\ z}
+  =\colvec{x-y \\ 0 \\ 0}
+  +\colvec{0 \\ 0 \\ 0}
+  +\colvec{y \\ y \\ z}
+\end{equation*}
+（这个例子也表明这个要求也不
+够：~即子空间的所有两两交都平凡。
+见\nearbyexercise{exer:ThreeSubsPairwseNonTriv}。）
+\end{example}
+
+在本小节中我们看到了把空间看成由
+组成部分构建的两种方式。
+两者都有用；特别地，我们将在第五章末尾使用直和的定义。
+
+%In looking at how this overlap of subspaces interacts with the
+%`$+$' operation, we first consider the simplest case, the two-subspace case.
+%To understand the relationship between the two subspaces $U$ and $W$, their
+%sum $U+W$, and their intersection $U\intersection W$, we can ask about the
+%bases.
+%Note that a basis for the intersection $U\intersection W$ is a linearly
+%independent subset of $U$ and also of $W$.
+%Thus, we can think to expand it to make bases for the larger sets.
+
+%\begin{lemma} \label{le:BasesSumTwoSubs}
+%Let \( U \) and \( W \) be subspaces of a vector space.
+%If the sequence \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_k} \)
+%is a basis for
+%\( U\intersection W \), and
+%the sequence \( \sequence{\vec{\mu}_1,\dots,\vec{\mu}_j,
+%   \vec{\beta}_1,\dots,\vec{\beta}_k} \)
+%is a basis for \( U \), and
+%\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_k,
+%   \vec{\omega}_1,\dots,\vec{\omega}_p} \)
+%is a basis for \( W \), then
+%\begin{equation*}
+%   \sequence{\vec{\mu}_1,\dots,\vec{\mu}_j,
+%             \vec{\beta}_1,\dots,\vec{\beta}_k,
+%             \vec{\omega}_1,\dots,\vec{\omega}_p}
+%\end{equation*}
+%is a basis for \( U+W \).
+%\end{lemma}
+
+%\begin{proof}
+%We write $B_{U\intersection W}$ for the basis for $U\intersection W$,
+%we write $B_U$ for the basis for $U$, we write $B_W$ for the basis for $W$,
+%and we write $B_{U+W}$ for the basis under consideration.
+
+%To see that that $B_{U+W}$ spans $U+W$, observe that
+%any vector $c\vec{u}+d\vec{w}$ from $U+W$ can be written as a linear
+%combination of the vectors in $B_{U+W}$, simply by expressing $\vec{u}$ in
+%terms of $B_U$ and expressing $\vec{w}$ in terms of $B_W$.
+
+%We finish by showing that $B_{U+W}$ is linearly independent.
+%Consider
+%\begin{equation*}
+%  c_1\vec{\mu}_1+\dots+c_{j+1}\vec{\beta}_1+\dots+c_{j+k+p}\vec{\omega}_p=
+%    \zero
+%\end{equation*}
+%which can be rewritten in this way.
+%\begin{equation*}
+%  c_1\vec{\mu}_1+\dots+c_j\vec{\mu}_j=
+%       -c_{j+1}\vec{\beta}_1-\dots-c_{j+k+p}\vec{\omega}_p
+%\end{equation*}
+%Note that the left side sums to a vector in \( U \) while
+%right side sums to a vector in \( W \), and thus both sides sum to
+%a member of $U\intersection W$.
+%Since the left side is a member of $U\intersection W$,
+%it is expressible in terms of the members of $B_{U\intersection W}$,
+%which gives the combination of $\vec{\mu}$'s from the left side above
+%as equal to a combination of $\vec{\beta}$'s.
+%But, the fact that
+%the basis $B_U$ is linearly independent shows that any such combination
+%is trivial, and in particular, the coefficients $c_1$, \ldots,
+%$c_j$ fro the left side above are all zero.
+%Similarly, the coefficients of the \( \vec{\omega} \)'s are all zero.
+%This leaves the above equation as a linear relationship among the
+%\( \vec{\beta} \)'s,
+%but $B_{U\intersection W}$ is linearly independent,
+%and therefore all of the coefficients of the $\vec{\beta}$'s are also zero.
+%\end{proof}
+
+%\begin{example}
+%Label the axes in \( \Re^4 \) with \( x \), \( y \), \( z \), and \( w \).
+%If \( U \) is \( xyz \)-space
+%(that is, the subspace spanned by the \( x \), \( y \), and
+%\( z \) axes), and \( W \) is \( xyw \)-space, then this
+%\begin{equation*}
+%  B_{U\intersection W}
+%     =\sequence{\colvec{1 \\ 0 \\ 0 \\ 0},
+%                \colvec{0 \\ 2 \\ 0 \\ 0} }
+%\end{equation*}
+%is a basis for \( U\intersection W \).
+%It can be extended to these bases
+%\begin{equation*}
+%  B_U=\sequence{\colvec{1 \\ 1 \\ 1 \\ 0},
+%            \colvec{1 \\ 0 \\ 0 \\ 0},
+%            \colvec{0 \\ 2 \\ 0 \\ 0} }
+%  \quad\text{and}\quad
+%  B_W=\sequence{\colvec{1 \\ 0 \\ 0 \\ 0},
+%            \colvec{0 \\ 2 \\ 0 \\ 0},
+%            \colvec{1 \\ 0 \\ 0 \\ -1} }
+%\end{equation*}
+%for \( U \) and \( W \).
+%Then this
+%\begin{equation*}
+%  B_{U+W}
+%   =\sequence{\colvec{1 \\ 1 \\ 1 \\ 0},
+%            \colvec{1 \\ 0 \\ 0 \\ 0},
+%            \colvec{0 \\ 2 \\ 0 \\ 0},
+%            \colvec{1 \\ 0 \\ 0 \\ -1} }
+%\end{equation*}
+%is a basis for \( U+W=\Re^4 \).
+%\end{example}
+
+%\begin{corollary}
+%\label{cor:DimSumEqDimSummandsMinDimInter}
+%For any subspaces \( U \) and \( W \) of a vector space,
+%\begin{equation*}
+%  \dim(U+W)=\dim(U)+\dim(W)-\dim(U\intersection W).
+%\end{equation*}
+%\end{corollary}
+
+%\begin{proof}
+%Using the notation from the lemma, $\dim (U\intersection W)=k$,
+%and $\dim(U)=j+k$, and $\dim(W)=k+p$, and $\dim (U+W)=j+k+p$.
+%\end{proof}
+
+%\begin{example}
+%In the prior example, $\dim (U\intersection W)=2$,
+%and $\dim(U)=3$, and $\dim (W)=3$, and $\dim (U+W)=\dim(\Re^4)=4$,
+%and so the equation becomes $4=3+3-2$.
+%\end{example}
+
+%\begin{example}
+%In \nearbyexample{exam:RThreeIsSumXYAndYZ} the equation gives
+%$\dim(\Re^3)=\dim(\text{$xy$-plane})+\dim(\text{$yz$-plane})
+%    -\dim(\text{$y$-axis})$ which is, of course, simply $3=2+2-1$.
+%\end{example}
+
+%The lemma gives us a way to ensure that every vector $\vec{v}\in U+W$ has a
+%unique decomposition as the sum of a vector from $U$ and a vector from $W$.
+%Recall that vectors are uniquely represented in terms of a basis.
+%If $B_{U\intersection W}$ is the empty basis (that is, if the intersection of
+%$U$ and $W$ is trivial) then in the representation
+%$\vec{v}=c_1\vec{\mu}_1+\dots+c_{j+p}\vec{\omega}_{j+p}$ we can take
+%$\vec{u}$ to be $c_1\vec{\mu}_1+\dots+c_{j}\vec{\mu}_{j}$
+%and take $\vec{w}$ to be
+%$c_{j+1}\vec{\omega}_{j+1}+\dots+c_{j+p}\vec{\omega}_{j+p}$
+%to have a unique $\vec{v}=\vec{u}+\vec{w}$.
+
+%\begin{definition}
+%\label{def:DirectSumTwoSp}
+%A vector space \( V \) is the
+%\definend{direct sum}\index{subspace!direct sum}%
+%\index{direct sum!of two subspaces}
+%of two of its subspaces \( W_1 \) and \( W_2 \), written
+%$V=W_1\directsum W_2$, if
+%\( W_1+W_2=V \) and~\( W_1\intersection W_2=\set{\zero\,} \).
+%The two subspaces are
+%\definend{complements} %
+%\index{subspace!complementary}\index{complementary subspaces}
+%in \( V \).
+%\end{definition}
+
+%\begin{corollary}
+%\label{cor:CompsIffDimsAndIntTriv}
+%Two subspaces \( W_1,W_2 \) are complements in \( V \) if and only if
+%\( \dim(W_1)+\dim(W_2)=\dim(V) \) and
+%\( W_1\intersection W_2=\set{\zero\,} \).
+%\end{corollary}
+
+%\begin{proof}
+%This follows immediately from
+%\nearbycorollary{cor:DimSumEqDimSummandsMinDimInter}.
+%\end{proof}
+
+%\begin{example}
+%The \( x \)-axis and the \( y \)-axis are complements in \( \Re^2 \),
+%that is, $\Re^2=\text{$x$-axis}\directsum\text{$y$-axis}$.
+%A space can have more than one pair of complementary subspaces;
+%another pair here are the subspaces consisting of the
+%lines \( y=x \) and \( y=2x \).
+%\end{example}
+
+%\begin{example}
+%In the space \( F=\set{a\cos\theta+b\sin\theta\suchthat a,b\in\Re} \),
+%the subspaces \( W_1=\set{a\cos\theta\suchthat a\in\Re} \) and
+%\( W_2=\set{b\sin\theta\suchthat b\in\Re} \) are complements.
+%In addition to the fact that a space like $F$ can have more than one pair of
+%complementary subspaces, inside of the space a single subspace like $W_1$ can
+%have more than one subspace that is a complement to it---another
+%complement to \( W_1 \) is
+%\( W_3=\set{b\sin\theta+c\cos\theta \suchthat b,c\in\Re} \).
+%\end{example}
+
+%\begin{example}
+%In \( \Re^3 \), the \( xy \)-plane and the \( yz \)-planes are not
+%complements, because they have a nontrivial intersection.
+%One complement of the \( xy \)-plane is the \( z \)-axis.
+%A complement of the \( yz \)-plane is the line through \( (1,1,1) \).
+%\end{example}
+
+%\begin{lemma}
+%For a space $V$ and two subspaces $W_1$, $W_2$, every vector $\vec{v}$ in the
+%space has a decomposition $\vec{v}=\vec{u}+\vec{w}$ that is unique (where
+%$\vec{u}\in U$ and $\vec{w}\in W$) if and only if the space is the direct sum
+%of the subspaces.
+%\end{lemma}
+
+%\begin{proof}
+%The `if' direction is handled as discussed before the definition.
+%If $V=W_1\directsum W_2$ then the intersection of the two spaces is trivial
+%and so \nearbylemma{le:BasesSumTwoSubs} shows that there is a basis for
+%the sum $W_1+W_2=V$ consisting of a basis for $W_1$ with a basis for $W_2$
+%adjoined.
+%The representation of any $\vec{v}\in V$ with respect to this basis is unique,
+%and we can regroup inside of this representation to have a unique expression
+%$\vec{v}=\vec{w}_1+\vec{w}_2$.
+
+%For the `only if' direction, we assume that decompositions exist and are
+%unique.
+%The fact that for every $\vec{v}\in V$ a decomposition exists shows that
+%the space is the sum of the subspaces.
+%To show that the intersection of the spaces is trivial,
+%consider a member of the intersection \ldots
+
+%\end{proof}
+
+%We finish this subsection by going to the case of more than two subspaces.
+%This is a bit trickier that the two-subspace case; the right notion of
+%``do not overlap'' is perhaps not evident.
+%That is, we are looking for a definition of a space as a direct sum of its
+%subspaces where the first condition is that the space be the sum of those
+%subspaces, and the second condition is strong enough to give that each vector
+%in the space has a unique decomposition into parts, one from each subspace.
+
+%A natural first guess at the second condition, based on the material above,
+%is to require that the spaces have a trivial intersection.
+%The next example shows that this guess is, however, not enough to guarantee
+%unique decomposition.
+
+%\begin{example}    \label{exam:DirSumThree}
+%In \( \Re^3 \), let
+%\( W_1 \) be the \( x \)-axis, let \( W_2 \) be the \( y \)-axis, and let
+%\begin{equation*}
+%  W_3=\set{\colvec{q \\ q \\ r} \suchthat q,r\in\Re}.
+%\end{equation*}
+%The check that \( \Re^3=W_1+W_2+W_3 \) is easy.
+%The intersection of all three is trivial
+%\( W_1\intersection W_2\intersection W_3=\set{\zero} \) but
+%decompositions aren't unique.
+%\begin{equation*}
+%  \colvec{x \\ y \\ z}
+%  =\colvec{0 \\ 0 \\ 0}
+%  +\colvec{0 \\ y-x \\ 0}
+%  +\colvec{x \\ x \\ z}
+%  =\colvec{x-y \\ 0 \\ 0}
+%  +\colvec{0 \\ 0 \\ 0}
+%  +\colvec{y \\ y \\ z}
+%\end{equation*}
+%(This example also shows that this requirement is also not
+%enough:~that all pairwise intersections of the subspaces be trivial.
+%See \nearbyexercise{exer:ThreeSubsPairwseNonTriv}.)
+%\end{example}
+
+%To ensure that each vector in the sum has a unique decomposition,
+%we need a still stronger condition.
+
+%\begin{definition}
+%A collection of subspaces \( \set{W_1,\ldots, W_k} \) is
+%{\em independent\/}\index{subspace!independence}
+%if no nonzero vector from any \( W_i \) is a linear combination of
+%vectors from the other subspaces \( W_1,\dots, W_{i-1},W_{i+1},\dots, W_k \).
+%\end{definition}
+
+%\begin{definition}
+%A vector space \( V \) is the
+%{\em direct sum\/}\index{subspace!direct sum}\index{direct sum!definition}
+%(or {\em internal direct sum\/}) of its subspaces \( W_1,\dots, W_k \) if
+%\( W_1+W_2+\dots +W_k=V \)
+%and the collection \( \set{W_1,\dots, W_k} \) is independent.
+%We write \( V=W_1\directsum W_2\directsum \dots\directsum W_k \).
+%\end{definition}
+
+%\begin{example}
+%The benchmark example fits under this definition:
+%$\Re^3=\text{$x$-axis}\directsum\text{$y$-axis}\directsum\text{$z$-axis}$
+%\end{example}
+
+%\begin{example}
+%The space of \( \nbyn{2} \) matrices is this direct sum
+%\begin{equation*}
+%  \set{\begin{mat}
+%         a  &0  \\
+%         0  &d
+%       \end{mat}  \suchthat a,d\in\Re }
+%  \,\mbox{}\directsum\mbox{}\,
+%  \set{\begin{mat}
+%         0  &b  \\
+%         0  &0
+%       \end{mat}  \suchthat b\in\Re }
+%  \,\mbox{}\directsum\mbox{}\,
+%  \set{\begin{mat}
+%         0  &0  \\
+%         c  &0
+%       \end{mat}  \suchthat c\in\Re }
+%\end{equation*}
+%(it is the direct sum of subspaces in many other ways also; as with the case
+%of only two subspaces, direct sum decompositions into three or more
+%subspaces need not be unique).
+%\end{example}
+
+%Of course, following the work in this subsection, that definition will only be
+%justified if we support it with a result saying that under those conditions,
+%each vector in the summation has a unique decomposition into a sum of vectors,
+%one from each summand.
+%For that,
+%we will relate the decomposion a vector space into a direct sum
+%to a decomposition of some basis for that space.
+%We already know that uniqueness of decomposition relates to bases.
+
+%\begin{definition}
+%The sequence {\em concatenation\/}\index{concatenation} of
+%\( B_1=\sequence{\vec{\beta}_{1,1},\dots,\vec{\beta}_{1,n_1}} \),
+%\dots, \( B_k=\sequence{\vec{\beta}_{k,1},\dots,\vec{\beta}_{k,n_k}} \) is
+%\(
+% \cat{\cat{B_1}{\cdots}}{B_k}=
+%  \sequence{\vec{\beta}_{1,1},\dots,\vec{\beta}_{1,n_1},
+%            \vec{\beta}_{2,1},\dots,\vec{\beta}_{k,n_k} }.
+%\)
+%\end{definition}
+
+%\begin{corollary}
+%\label{cor:DirSumIffBasesCat}
+%If \( V \) has subspaces \( W_1,\dots, W_k \)
+%with bases \( B_1,\dots, B_k \)
+%then \( W_1\directsum\dots\directsum W_k=V \) if and only if
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \) is a basis for \( V \).
+%\end{corollary}
+
+%\begin{proof}
+%We will show that
+%the sum \( W_1+\dots+W_k \) equals \( V \)
+%if and only if \( \cat{\cat{B_1}{\cdots}}{B_k} \) spans \( V \), and that
+%the set \( \set{W_1,\dots, W_k} \) is independent if and only if
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \) is linearly independent.
+%These two halves prove the `if and only if' equivalence.
+
+%First~(1).
+%Left to right:
+%assume the subspaces sum to \( V \) so any vector in \( V \) can be represented
+%as \( \vec{v}=\vec{w}_1+\dots+\vec{w}_k \),
+%rewrite each \( \vec{w}_i \) as a sum of basis elements and
+%conclude \( \cat{\cat{B_1}{\cdots}}{B_k} \) spans \( V \).
+%Right to left: if \( \cat{\cat{B_1}{\cdots}}{B_k} \) spans \( V \)
+%then any \( \vec{v}\in V \) is a linear combination of vectors from
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \).
+%Inside that combination commute to put vectors from \( B_1 \) first,
+%followed from vectors from \( B_2 \), etc.
+%Sum to first part to some \( \vec{w}_1\in W_1\), sum the second part to
+%a \( \vec{w}_2\in W_2 \), etc.
+%The result has the desired form.
+
+%Now we prove item~(2).
+%`If' is easy.
+%For `only if' suppose the set of subspaces is independent and consider a linear
+%relationship among vectors in
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \).
+%Rewrite that relationship so all the vectors from \( B_1 \) are on one side and
+%the other vectors are on the other side.
+%This expresses some member of \( W_1 \) as a linear combination of members of
+%the other subspaces, and independence of the set of subspaces then implies
+%this linear combination of members of \( B_1 \) is \( \zero \).
+%Thus, in this relationship, all the scalars associated with members of
+%\( B_1 \) are \( 0 \).
+%Similarly every scalar in the combination is \( 0 \).
+%\end{proof}
+
+%Hence, as mentioned above, each direct sum decomposition of a vector space is
+%associated with a decomposition of one of that space's bases.
+
+%\begin{corollary}
+%\label{cor:DirectSumIffUniqueSum}
+%Where \( W_1,\dots, W_k \) are subspaces,
+%\( V=W_1\directsum\dots\directsum W_k \) if and
+%only if every vector \( \vec{v}\in V \) has one and only one representation
+%\( \vec{v}=\vec{w}_1+\dots+\vec{w}_k \) where \( \vec{w}_i\in W_i \).
+%\end{corollary}
+
+%\begin{proof}
+%A chain of double implications works:
+%\( V=W_1\directsum\dots\directsum W_k \)
+%if and only if
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \) is a basis for \( V \),
+%which is true if and only if each vector in \( V \)
+%has a unique representation as a sum of vectors from
+%\( \cat{\cat{B_1}{\cdots}}{B_k} \).
+%\end{proof}
+
+%\begin{corollary}
+%The dimension of a direct sum is the sum of the dimensions of its summands.
+%\end{corollary}
+
+
+\begin{exercises}
+  \recommended \item
+    判断 \( \Re^2 \) 是否为下列每一组 \( W_1 \) 与 \( W_2 \) 的直和。
+    \begin{exparts}
+       \partsitem \( W_1=\set{\colvec{x \\ 0}\suchthat x\in\Re} \),
+             \( W_2=\set{\colvec{x \\ x}\suchthat x\in\Re} \)
+       \partsitem \( W_1=\set{\colvec{s \\ s}\suchthat s\in\Re} \),
+             \( W_2=\set{\colvec{s \\ 1.1s}\suchthat s\in\Re} \)
+       \partsitem \( W_1=\Re^2 \), \( W_2=\set{\zero} \)
+       \partsitem \( W_1=W_2=\set{\colvec{t \\ t}\suchthat t\in\Re} \)
+       \partsitem \( W_1=\set{\colvec[r]{1 \\ 0}+\colvec{x \\ 0}
+                                \suchthat x\in\Re} \),
+             \( W_2=\set{\colvec[r]{-1 \\ 0}+\colvec[r]{0 \\ y}\suchthat y\in\Re} \)
+    \end{exparts}
+    \begin{answer}
+       对这里的每一项我们都可以应用\nearbylemma{le:DirectSumTwoSp}。
+       \begin{exparts}
+         \partsitem 是的。
+           该平面是这个 $W_1$ 与 $W_2$ 的和，因为对任意标量 $a$ 与 $b$，
+           \begin{equation*}
+             \colvec{a \\ b}
+             =\colvec{a-b \\ 0}
+             +\colvec{b \\ b}
+           \end{equation*}
+           表明任一向量都是来自这两部分的向量之和。
+           而且，这两个子空间是（不同的）过原点的直线，
+           因此它们的交是平凡的。
+         \partsitem 是的。
+           为看出平面中任一向量都是这些部分中向量的组合，
+           考察下面这个关系式。
+           \begin{equation*}
+             \colvec{a \\ b}=c_1\colvec[r]{1 \\ 1}+c_2\colvec[r]{1 \\ 1.1}
+           \end{equation*}
+           我们现在只需注意，集合
+           \begin{equation*}
+             \set{\colvec[r]{1 \\ 1},\colvec[r]{1 \\ 1.1}}
+           \end{equation*}
+           是该空间的一组基（因为它显然线性无关，且在 $\Re^2$ 中含有两个元素），
+           因此上述方程有且仅有一解，这意味着所有分解都是唯一的。
+           另一种做法是求解
+           \begin{equation*}
+             \begin{linsys}{2}
+               c_1  &+  &c_2    &=  &a  \\
+               c_1  &+  &1.1c_2 &=  &b
+             \end{linsys}
+             \grstep{-\rho_1+\rho_2}
+             \begin{linsys}{2}
+               c_1  &+  &c_2    &=  &a  \\
+                    &   &0.1c_2 &=  &-a+b
+             \end{linsys}
+           \end{equation*}
+           得到 $c_2=10(-a+b)$ 与 $c_1=11a-10b$，于是我们有
+           \begin{equation*}
+             \colvec{a \\ b}=\colvec{11a-10b \\ 11a-10b}
+                             +\colvec{-10a+10b \\ 1.1\cdot(-10a+10b)}
+           \end{equation*}
+           正如所求。
+           与前一个答案一样，这两个子空间各自都是过原点的直线，
+           它们的交是平凡的。
+         \partsitem 是的。
+           平面中的每个向量都可如下分解为和
+           \begin{equation*}
+             \colvec{x \\ y}=\colvec{x \\ y}+\colvec[r]{0 \\ 0}
+           \end{equation*}
+           且这两个子空间的交是平凡的。
+         \partsitem 不是。
+           交不是平凡的。
+         \partsitem 不是。
+           它们不是子空间。
+      \end{exparts}  
+    \end{answer}
+  \recommended \item
+    证明 \( \Re^3 \) 是 \( xy \) 平面与下列每一个的直和。
+    \begin{exparts}
+      \partsitem \( z \) 轴
+      \partsitem 直线
+        \begin{equation*}
+          \set{\colvec{z \\ z \\ z} \suchthat z\in\Re }
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      对这里的每一项我们都可以使用\nearbylemma{le:DirectSumTwoSp}。      
+      \begin{exparts}
+        \partsitem \( \Re^3 \) 中的任意向量都可以分解为这个和。
+          \begin{equation*}
+            \colvec{x \\ y \\ z}
+            =\colvec{x \\ y \\ 0}
+            +\colvec{0 \\ 0 \\ z}
+          \end{equation*}
+          而且，$xy$ 平面与 $z$ 轴的交是平凡子空间。
+        \partsitem \( \Re^3 \) 中的任意向量都可以分解为
+          \begin{equation*}
+            \colvec{x \\ y \\ z}
+            =\colvec{x-z \\ y-z \\ 0}
+            +\colvec{z \\ z \\ z}
+          \end{equation*}
+          且这两个空间的交是平凡的。
+      \end{exparts}  
+    \end{answer}
+  \item 
+    \( \polyspace_2 \) 是
+    \( \set{a+bx^2\suchthat a,b\in\Re} \) 与
+    \( \set{cx\suchthat c\in\Re} \) 的直和吗？
+    \begin{answer}
+      是。
+      证明这两个集合是子空间是常规的。
+      为看出整个空间是这两个的直和，只需注意
+      \( \polyspace_2 \) 中每个元素都有唯一的分解
+      \( m+nx+px^2=(m+px^2)+(nx) \)。  
+     \end{answer}
+  \recommended \item 
+    在 \( \polyspace_n \) 中，
+    \definend{偶}\index{even functions}多项式是这个集合中的元素
+    \begin{equation*}
+      \mathcal{E}=
+      \set{p\in\polyspace_n \suchthat \text{\( p(-x)=p(x) \) 对一切 \( x \)}}
+    \end{equation*}
+    而
+    \definend{奇}\index{odd function}
+    多项式是这个集合中的元素。
+    \begin{equation*}
+      \mathcal{O}=
+      \set{p\in\polyspace_n \suchthat \text{\( p(-x)=-p(x) \) 
+                                              对一切 \( x \)}}
+    \end{equation*}
+    证明它们是互补的子空间。
+    \begin{answer}
+      证明它们是子空间是常规的。
+      我们将利用\nearbylemma{le:DirectSumTwoSp}来论证它们互补。
+      交 \( \mathcal{E}\intersection\mathcal{O} \) 是平凡的，
+      因为同时满足条件 $p(-x)=p(x)$ 与
+      $p(-x)=-p(x)$ 的多项式只有零多项式。
+      为看出整个空间是这些子空间的和
+      \( \mathcal{E}+\mathcal{O}=\polyspace_n \)，
+      注意多项式
+      \( p_0(x)=1 \)、\( p_2(x)=x^2 \)、\( p_4(x)=x^4 \) 等都在
+      \( \mathcal{E} \) 中，同时注意多项式
+      \( p_1(x)=x \)、\( p_3(x)=x^3 \) 等都在 \( \mathcal{O} \) 中。
+      于是 \( \polyspace_n \) 的任何元素都是
+      \( \mathcal{E} \) 与 \( \mathcal{O} \) 中元素的组合。  
+    \end{answer}
+  \item 
+    下列 \( \Re^3 \) 的哪些子空间
+    \begin{center}
+     \begin{tabular}{l}
+      $W_1$: \( x \) 轴，\quad
+      $W_2$:~\( y \) 轴，\quad
+      $W_3$:~\( z \) 轴，             \\
+      $W_4$:~平面 \( x+y+z=0 \)，\quad
+      $W_5$:~\( yz \) 平面
+     \end{tabular}
+    \end{center}
+    可以组合成
+    \begin{exparts*}
+      \partsitem 和为 \( \Re^3 \)？
+      \partsitem 直和为 \( \Re^3 \)？
+    \end{exparts*}
+    \begin{answer}
+     这里的每一个都是 $\Re^3$。
+     \begin{exparts}
+      \partsitem 
+        为便于阅读，这里把它们分成若干行列出。
+        \begin{center}
+          \begin{tabular}{l} 
+            $W_1+W_2+W_3$, 
+              $W_1+W_2+W_3+W_4$, 
+              $W_1+W_2+W_3+W_5$,  \\ \quad %line too long
+              $W_1+W_2+W_3+W_4+W_5$, 
+              $W_1+W_2+W_4$, 
+              $W_1+W_2+W_4+W_5$,     \\ \quad %line too long
+              $W_1+W_2+W_5$,         
+              $W_1+W_3+W_4$, 
+              $W_1+W_3+W_5$, 
+              $W_1+W_3+W_4+W_5$,     \\ \quad 
+              $W_1+W_4$, 
+              $W_1+W_4+W_5$,         
+              $W_1+W_5$,             \\ 
+              $W_2+W_3+W_4$, 
+              $W_2+W_3+W_4+W_5$,     
+              $W_2+W_4$, 
+              $W_2+W_4+W_5$,         \\ 
+              $W_3+W_4$, 
+              $W_3+W_4+W_5$,         \\ 
+              $W_4+W_5$ 
+          \end{tabular}
+         \end{center}
+     \partsitem
+       $W_1\directsum W_2\directsum W_3$,    
+       $W_1\directsum W_4$,    
+       $W_1\directsum W_5$,    
+       $W_2\directsum W_4$,    
+       $W_3\directsum W_4$    
+     \end{exparts}
+    \end{answer}
+  \recommended \item
+    证明 \( \polyspace_n=\set{a_0 \suchthat a_0\in\Re}\directsum\dots
+                              \directsum\set{a_nx^n\suchthat a_n\in\Re} \)。
+    \begin{answer}
+      显然每一个都是子空间。
+      这些子空间的基 \( B_i=\sequence{x^i} \) 依次连接起来，
+      就构成整个空间的一组基。  
+    \end{answer}
+  \item 
+    若 \( W_1\subseteq W_2 \)，则 \( W_1+W_2 \) 是什么？
+    \begin{answer}
+       是 \( W_2 \)。  
+    \end{answer}
+  \item 
+    \nearbyexample{exam:BenchDirSum} 能否推广？
+    也就是说，下述论断是真是假：~若向量空间 \( V \) 有一组基
+    \( \sequence{\vec{\beta}_1,\dots ,\vec{\beta}_n} \)，则
+    它是这些一维子空间之张成的直和
+    \( V=\spanof{\set{\vec{\beta}_1}}\directsum\dots
+           \directsum\spanof{\set{\vec{\beta}_n}} \)？
+    \begin{answer}
+      由\nearbylemma{le:UniqDecIffBasisDec}知其为真。  
+    \end{answer}
+  \item 
+    \( \Re^4 \) 能以两种不同的方式分解为直和吗？
+    \( \Re^1 \) 呢？
+    \begin{answer}
+      \( \Re^4 \) 的两个不同的直和分解很容易找到。
+      其一是
+      \( W_1=\spanof{\set{\vec{e}_1,\vec{e}_2}} \) 与
+      \( W_2=\spanof{\set{\vec{e}_3,\vec{e}_4}} \)，
+      其二是
+      \( U_1=\spanof{\set{\vec{e}_1}} \) 与
+      \( U_2=\spanof{\set{\vec{e}_2,\vec{e}_3,\vec{e}_4}} \)。
+      （还有很多种可能，
+      例如 \( \Re^4 \) 与它的平凡子空间。）
+
+      相比之下，对 \( \Re^1 \) 的单向量基的任何划分，
+      都会给出一组没有元素的基和另一组只有一个元素的基。
+      因此任何分解都涉及 \( \Re^1 \) 与它的平凡
+      子空间。 
+    \end{answer}
+  \item 
+      本练习使在集合之间写 `$+$' 的记法显得更为自然。 
+      证明：设 \( W_1,\dots, W_k \) 是某个向量空间的子空间，则
+      \begin{equation*}
+        W_1+\dots+W_k
+        =\set{\vec{w}_1+\vec{w}_2+\dots+\vec{w}_k
+              \suchthat \vec{w}_1\in W_1,\dots,\vec{w}_k\in W_k},
+      \end{equation*}
+      从而子空间的和就是由所有和构成的子空间。
+      \begin{answer}
+        一个方向的包含关系是容易的：
+        \( \set{\vec{w}_1+\dots+\vec{w}_k\suchthat \vec{w}_i\in W_i} \)
+        是 \( \spanof{W_1\union \dots \union W_k}  \) 的子集，
+        因为每个 \( \vec{w}_1+\dots+\vec{w}_k \) 都是这个并集中向量的和。
+
+        对于另一个方向的包含，对来自该并集的向量的任一线性组合，
+        利用向量加法的交换性，
+        把来自 \( W_1 \) 的向量放在最前面，
+        接着是来自 \( W_2 \) 的向量，等等。
+        把来自 \( W_1 \) 的向量相加得到一个 \( \vec{w}_1\in W_1 \)，
+        把来自 \( W_2 \) 的向量相加得到一个 \( \vec{w}_2\in W_2 \)，等等。
+        所得结果具有所要求的形式。
+      \end{answer}
+  \item \label{exer:ThreeSubsPairwseNonTriv}
+    （参见\nearbyexample{exam:DirSumThree}。
+    本练习
+    表明，“两两交都平凡”这一要求
+    确实强于只要求所有子空间的交为平凡。）
+    给出一个向量空间和三个子空间 $W_1$、$W_2$ 与 $W_3$，
+    使得该空间是这些子空间的和，
+    三个子空间的交
+    $W_1\intersection W_2\intersection W_3$ 是平凡的，
+    但两两的交
+    $W_1\intersection W_2$、$W_1\intersection W_3$ 与 $W_2\intersection W_3$
+    都不是平凡的。
+    \begin{answer}
+      一个例子是取空间为 $\Re^3$，
+      并取子空间为 $xy$ 平面、$xz$ 平面与 $yz$ 平面。
+    \end{answer}
+  \item 
+    证明：若 \( V=W_1\directsum\dots\directsum W_k \)，则
+    只要 \( i\neq j \)，\( W_i\intersection W_j \) 就是平凡的。
+    这表明\nearbylemma{le:DirectSumTwoSp}
+    证明的前一半可以推广到多于两个
+    子空间的情形。
+    （\nearbyexample{exam:DirSumThree} 表明这个蕴含关系
+    不能反向；后一半不能推广。）
+    \begin{answer}
+      当然，零向量在所有子空间中，所以
+      交至少包含这一个向量。  
+      由直和的定义，集合
+      \( \set{W_1,\dots,W_k} \) 是无关的，因此当
+      \( i\neq j \) 时，\( W_i \) 中没有非零向量
+      是 \( W_j \) 中某个元素的倍数。
+      特别是，\( W_i \) 中没有非零向量等于
+      \( W_j \) 中的元素。
+    \end{answer}
+  \item 
+    回想一下，任何线性无关集合都不包含零向量。
+    一个由子空间组成的无关集合能包含平凡子空间吗？
+    \begin{answer}
+      它可以包含一个平凡子空间；
+      \( \Re^3 \) 的下面这个子空间集合是无关的：
+      \( \set{\set{\zero},\text{\( x \)-轴}} \)。
+      平凡空间 \( \set{\zero} \) 中没有非零向量
+      是 \( x \) 轴中某个
+      向量的倍数，这仅仅是因为平凡空间
+      没有可以作为这种倍数候选者的非零向量（而且
+      \( x \) 轴中也没有非零向量是平凡子空间中
+      零向量的倍数）。  
+     \end{answer}
+  \recommended \item 
+    每个子空间都有补吗？
+    \begin{answer}
+      有。
+      对向量空间的任何子空间，我们可以取该
+      子空间的任意一组基 \( \sequence{\vec{\omega}_1,\dots,\vec{\omega}_k} \)，
+      并把它扩充成整个
+      空间的一组基
+      \( \sequence{\vec{\omega}_1,\dots,\vec{\omega}_k,
+                     \vec{\beta}_{k+1},\dots,\vec{\beta}_n} \)。
+      于是原子空间的补具有这组基
+      \( \sequence{\vec{\beta}_{k+1},\dots,\vec{\beta}_n} \)。  
+     \end{answer}
+  \recommended \item 
+    设 \( W_1, W_2 \) 是某个向量空间的子空间。
+    \begin{exparts}
+      \partsitem 假设
+        集合 \( S_1 \) 张成 \( W_1 \)，且集合 \( S_2 \) 张成
+        \( W_2 \)。
+        \( S_1\union S_2 \) 能张成 \( W_1+W_2 \) 吗？
+        它必定张成吗？
+      \partsitem 假设 \( S_1 \) 是 \( W_1 \) 的一个线性无关
+        子集，
+        且 \( S_2 \) 是 \( W_2 \) 的一个线性无关子集。
+        \( S_1\union S_2 \) 能是
+        \( W_1+W_2 \) 的线性无关子集吗？
+        它必定是吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 它必定张成。
+          我们可以把 \( W_1+W_2 \) 的任何成员写成 \( \vec{w}_1+\vec{w}_2 \)，
+          其中 \( \vec{w}_1\in W_1 \) 且 \( \vec{w}_2\in W_2 \)。
+          由于 \( S_1 \) 张成 \( W_1 \)，向量 \( \vec{w}_1 \) 是
+          \( S_1 \) 中成员的组合。
+          类似地，\( \vec{w}_2 \) 是 \( S_2 \) 中成员的组合。
+        \partsitem 看出它可以是线性无关的一个简单方法
+          是取两者都为空集。
+          另一方面，在空间 $\Re^1$ 中，
+          若 \( W_1=\Re^1 \) 且 \( W_2=\Re^1 \)，而 $S_1=\set{1}$，
+          $S_2=\set{2}$，则它们的并 $S_1\union S_2$ 不是无关的。
+      \end{exparts}  
+     \end{answer}
+  \item \label{exer:BasesSumTwoSubs}
+    当我们把一个向量空间分解为直和时，各子空间的
+    维数相加等于空间的维数。
+    而当一个空间是作为其子空间的和给出时，情形
+    就没有这么简单。
+    本练习考虑两个子空间的特殊情形。
+    \begin{exparts}
+      \partsitem 对 \( \matspace_{\nbyn{2}} \) 的这些子空间，求
+        \( W_1\intersection W_2 \)、\( \dim(W_1\intersection W_2) \)、
+        \( W_1+W_2 \) 与 \( \dim(W_1+W_2) \)。
+        \begin{equation*}
+          W_1=\set{\begin{mat}
+                    0  &0  \\
+                    c  &d
+                  \end{mat} \suchthat c,d\in\Re  }
+          \qquad
+         W_2=\set{\begin{mat}
+                    0  &b  \\
+                    c  &0
+                  \end{mat} \suchthat b,c\in\Re  }
+       \end{equation*}
+     \partsitem 设 \( U \) 与 \( W \) 是某个向量空间的
+       子空间。
+       设序列
+       \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_k} \)
+       是
+       \( U\intersection W \) 的一组基。
+       最后，设前述序列已被扩充，得到
+       \( U \) 的一组基 \( \sequence{\vec{\mu}_1,\dots,\vec{\mu}_j,
+       \vec{\beta}_1,\dots,\vec{\beta}_k} \)，
+       以及 \( W \) 的一组基
+       \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_k,
+          \vec{\omega}_1,\dots,\vec{\omega}_p} \)。
+       证明序列
+       \begin{equation*}
+         \sequence{\vec{\mu}_1,\dots,\vec{\mu}_j,
+              \vec{\beta}_1,\dots,\vec{\beta}_k,
+              \vec{\omega}_1,\dots,\vec{\omega}_p}
+       \end{equation*}
+       是和 \( U+W \) 的一组基。
+      \partsitem 由此得出结论
+          $\dim (U+W)=\dim(U)+\dim(W)-\dim(U\intersection W)$。
+      \partsitem 设 \( W_1 \) 与 \( W_2 \) 是十维空间的两个八维
+        子空间。
+       列出 \( \dim(W_1\intersection W_2) \) 的所有可能取值。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 交与和是
+          \begin{equation*}
+             \set{\begin{mat}
+                    0  &0  \\
+                    c  &0
+                  \end{mat} \suchthat c\in\Re  }
+             \qquad
+             \set{\begin{mat}
+                    0  &b  \\
+                    c  &d
+                   \end{mat} \suchthat b,c,d\in\Re  }
+          \end{equation*}
+         其维数分别为一与三。
+      \partsitem 我们把 $U\intersection W$ 的基记为
+        $B_{U\intersection W}$，
+        把 $U$ 的基记为 $B_U$，
+        把 $W$ 的基记为 $B_W$，
+        而把正在考虑的基记为 $B_{U+W}$。
+
+        为看出 $B_{U+W}$ 张成 $U+W$，注意我们可以把
+        $U+W$ 中的任一向量 $c\vec{u}+d\vec{w}$ 写成
+        $B_{U+W}$ 中向量的线性
+        组合，
+        只需把 $\vec{u}$ 用
+        $B_U$ 表示、把 $\vec{w}$ 用 $B_W$ 表示即可。
+
+         我们最后证明 $B_{U+W}$ 线性无关。 
+         考察
+         \begin{equation*}
+           c_1\vec{\mu}_1+\dots+c_{j+1}\vec{\beta}_1+\dots
+              +c_{j+k+p}\vec{\omega}_p=\zero
+         \end{equation*}
+         它可以如下改写。
+         \begin{equation*}
+           c_1\vec{\mu}_1+\dots+c_j\vec{\mu}_j=
+             -c_{j+1}\vec{\beta}_1-\dots-c_{j+k+p}\vec{\omega}_p
+         \end{equation*}
+         注意左边求和得到 \( U \) 中的向量，而
+         右边求和得到 \( W \) 中的向量，于是两边求和都得到
+         $U\intersection W$ 的一个成员。
+         由于左边是 $U\intersection W$ 的成员，
+         它可以用 $B_{U\intersection W}$ 的成员表示，
+         这给出：上式左边 $\vec{\mu}$ 的组合
+         等于 $\vec{\beta}$ 的一个组合。 
+         但是，基 $B_U$ 线性无关这一事实表明
+         任何这样的组合
+         都是平凡的，特别地，上面左边的系数 $c_1$, \ldots,
+         $c_j$ 全为零。
+         类似地，\( \vec{\omega} \) 的系数也全为零。
+         这使上面的方程成为
+         \( \vec{\beta} \) 之间的一个线性关系，
+         但 $B_{U\intersection W}$ 线性无关，
+         因此 $\vec{\beta}$ 的所有系数也都
+         为零。
+        \partsitem 只需数一数上一项中的
+          基向量：~$\dim(U+W)=j+k+p$，而 $\dim(U)=j+k$，$\dim(W)=k+p$，
+          以及 $\dim(U\intersection W)=k$。
+        \partsitem  我们知道
+          \( \dim(W_1+W_2)=\dim(W_1)+\dim(W_2)-\dim(W_1\intersection W_2) \)。
+          因为 \( W_1\subseteq W_1+W_2 \)，
+          我们知道 \( W_1+W_2 \) 的维数必定大于
+          $W_1$ 的维数，也就是说，其维数必定是八、九或十。
+          代入得到三种可能：
+          $8=8+8-\dim(W_1\intersection W_2)$、
+          $9=8+8-\dim(W_1\intersection W_2)$ 或
+          $10=8+8-\dim(W_1\intersection W_2)$。
+          因此 \( \dim(W_1\intersection W_2) \) 必定是
+          八、七或六。
+          （要举例说明这三种情形中的每一种都可能
+          出现是容易的，例如在 \( \Re^{10} \) 中。）  
+      \end{exparts}
+    \end{answer}
+  \item 
+    设 \( V=W_1\directsum\cdots\directsum W_k \)，并对每个下标
+    \( i \)，设 \( S_i \) 是
+    \( W_i \) 的一个线性无关子集。
+    证明诸 \( S_i \) 的并集线性无关。
+    \begin{answer}
+      把每个 \( S_i \) 扩充成 \( W_i \) 的一组基 $B_i$。
+      这些基的连接 $\cat{\cat{B_1}{\cdots}}{B_k}$
+      是 \( V \) 的一组基，因此其中的成员构成一个线性无关
+      集合。
+      但并集 $S_1\union\cdots\union S_k$ 是这个线性无关集合的
+      子集，因此它自身
+      也线性无关。  
+     \end{answer}
+  \item 
+    一个矩阵是\definend{对称的}\index{matrix!symmetric}%
+    \index{symmetric matrix}，若对每一对下标 \( i \) 与
+    \( j \)，\( i,j \) 元等于 \( j,i \) 元。
+    一个矩阵是\definend{反对称的}\index{matrix!antisymmetric}%
+    \index{antisymmetric matrix}，若每个 \( i,j \) 元是
+    \( j,i \) 元的负值。
+    \begin{exparts}
+      \partsitem 给出一个对称的 $\nbyn{2}$ 矩阵和一个反对称的
+        $\nbyn{2}$ 矩阵。
+        （\textit{注}：
+        对于第二个，要当心对角线上的元素。）
+      \partsitem 对称方阵与它的转置之间有什么关系？
+        反对称方阵与它的转置之间呢？
+      \partsitem 证明 \( \matspace_{\nbyn{n}} \) 是对称矩阵空间与反对称
+        矩阵空间的直和。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这样的两个矩阵如下。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  \\
+              2  &3
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              0  &1  \\
+              -1 &0
+            \end{mat}
+          \end{equation*}
+          对于反对称的那个，对角线上的元素必须为零。
+        \partsitem 对称方阵等于它的转置。
+          反对称方阵等于它的转置的负值。
+        \partsitem 证明这两个集合是子空间是容易的。
+         设 \( A\in\matspace_{\nbyn{n}} \)。
+         为把 $A$ 表示成一个对称矩阵与一个反对称矩阵的和，
+         我们注意到
+         \begin{equation*}
+            A=(1/2)(A+\trans{A}) + (1/2)(A-\trans{A})
+         \end{equation*}
+         并注意第一个加项是对称的，而第二个是
+         反对称的。
+         因此 \( \matspace_{\nbyn{n}} \) 是这两个子空间的和。
+         为证明这个和是直和，
+         设矩阵 \( A \) 既是对称的
+         \( A=\trans{A} \) 又是反对称的 \( A=-\trans{A} \)。
+         则 \( A=-A \)，于是 \( A \) 的所有元素都是零。  
+      \end{exparts}
+     \end{answer}
+  \item 
+    设 \( W_1,W_2,W_3 \) 是某个向量空间的子空间。
+    证明 \( (W_1\intersection W_2)+(W_1\intersection W_3)\subseteq
+              W_1\intersection (W_2+W_3) \)。
+    这个包含关系能反向吗？
+    \begin{answer}
+      设
+      \( \vec{v}\in (W_1\intersection W_2)+(W_1\intersection W_3) \)。
+      则 \( \vec{v}=\vec{w}_2+\vec{w}_3 \)，其中
+      \( \vec{w}_2\in W_1\intersection W_2 \) 且
+      \( \vec{w}_3\in W_1\intersection W_3 \)。
+      注意 \( \vec{w}_2,\vec{w}_3\in W_1 \)，又子空间对加法
+      封闭，故 \( \vec{w}_2+\vec{w}_3\in W_1 \)。
+      于是 \( \vec{v}=\vec{w}_2+\vec{w}_3\in W_1\intersection(W_2+W_3) \)。
+
+      这个例子证明包含可能是严格的：
+      在 \( \Re^2 \) 中取 \( W_1 \) 为 \( x \) 轴，取 \( W_2 \)
+      为 \( y \) 轴，取 \( W_3 \) 为直线 \( y=x \)。
+      则 \( W_1\intersection W_2 \) 与 \( W_1\intersection W_3 \)
+      都是平凡的，因此它们的和是平凡的。
+      但 \( W_2+W_3 \) 是整个 \( \Re^2 \)，所以
+      \( W_1\intersection(W_2+W_3) \) 是 \( x \) 轴。  
+     \end{answer}
+  \item 
+    \( \Re^2 \) 中 $x$ 轴与 $y$ 轴的例子
+    表明 \( W_1\directsum W_2=V \) 并不蕴含
+    \( W_1\union W_2=V \)。
+    \( W_1\directsum W_2=V \) 与 \( W_1\union W_2=V \)
+    能同时发生吗？
+    \begin{answer}
+      当 \( W_1,W_2 \) 中至少有一个是平凡的时，这会发生。
+      但这是它可能发生的唯一方式。
+
+      为证明这一点，设两者都是非平凡的，
+      从各自中取非零向量 \( \vec{w}_1, \vec{w}_2 \)，
+      并考察 \( \vec{w}_1+\vec{w}_2 \)。
+      这个和不属于 \( W_1 \)，因为
+      \( \vec{w}_1+\vec{w}_2=\vec{v}\in W_1 \) 将蕴含
+      \( \vec{w}_2=\vec{v}-\vec{w}_1 \) 属于 \( W_1 \)，
+      这与子空间无关性的假设矛盾。
+      类似地，\( \vec{w}_1+\vec{w}_2 \) 不属于 \( W_2 \)。
+      于是 \( V \) 中有一个元素不属于 \( W_1\union W_2 \)。
+     \end{answer}
+%   \recommended \item
+%     Our model for complementary subspaces, the $x$-axis and the
+%     $y$-axis in \( \Re^2 \), has one property not used here.
+%     Where \( U \) is a subspace of \( \Re^n \) we define the
+%     \definend{orthocomplement}\index{subspace!orthocomplement} 
+%     of \( U \) to be
+%     \begin{equation*}
+%       U^\perp=
+%       \set{\vec{v}\in\Re^n \suchthat \text{\( \vec{v}\dotprod\vec{u}=0 \)
+%                                             for all \( \vec{u}\in U \)}}
+%     \end{equation*}
+%     (read ``\( U \) perp'').
+%     \begin{exparts}
+%       \partsitem Find the orthocomplement of the \( x \)-axis in \( \Re^2 \).
+%       \partsitem Find the orthocomplement of the \( x \)-axis in \( \Re^3 \).
+%       \partsitem Find the orthocomplement of the \( xy \)-plane in \( \Re^3 \).
+%       \partsitem Show that the orthocomplement of a subspace is a subspace.
+%       \partsitem Show that if \( W \) is the orthocomplement of \( U \) then
+%         \( U \) is the orthocomplement of \( W \).
+%       \partsitem Prove that a subspace and its orthocomplement have a trivial
+%         intersection.
+%       \partsitem Conclude that for any \( n \) and subspace 
+%         \( U\subseteq \Re^n \) we have that \( \Re^n=U\directsum U^\perp \).
+%       \partsitem Show that 
+%         \( \dim(U)+\dim(U^\perp) \) equals the dimension of the
+%         enclosing space.
+%     \end{exparts}
+%     \begin{answer}
+%       \begin{exparts}
+%         \partsitem The set 
+%           \begin{equation*}
+%             \set{\colvec{v_1 \\ v_2} 
+%                \suchthat \colvec{v_1 \\ v_2}\dotprod\colvec{x \\ 0}=0 
+%                               \text{\ for all $x\in\Re$}}
+%           \end{equation*}
+%           is easily seen to be the $y$-axis.
+%         \partsitem The \( yz \)-plane.
+%         \partsitem The \( z \)-axis.
+%         \partsitem 
+%           Assume that \( U \) is a subspace of some \( \Re^n \).
+%           Because $U^\perp$ contains the zero vector, since that
+%           vector is perpendicular to everything, we need only show that the
+%           orthocomplement is closed under linear combinations of two elements.
+%           If \( \vec{w}_1, \vec{w}_2\in U^\perp \) then
+%           \( \vec{w}_1\dotprod\vec{u}=0 \) and \( \vec{w}_2\dotprod\vec{u}=0 \)
+%           for all \( \vec{u}\in U \).
+%           Thus \( (c_1\vec{w}_1+c_2\vec{w}_2)\dotprod\vec{u}=
+%               c_1(\vec{w}_1\dotprod\vec{u})+c_2(\vec{w}_2\dotprod\vec{u})=0 \)
+%           for all \( \vec{u}\in U \) and so \( U^\perp \) is closed under
+%           linear combinations.
+%         \partsitem The only vector orthogonal to itself is the zero vector.
+%         \partsitem This is immediate.
+%         \partsitem To prove that the dimensions add, 
+%           it suffices by \nearbycorollary{cor:DirSumDimsAdd} and 
+%           \nearbylemma{le:DirectSumTwoSp} to show that 
+%           \( U\intersection U^\perp \) is the trivial subspace
+%           \( \set{\zero} \).
+%           But this is one of the prior items in this problem.
+%       \end{exparts}  
+%      \end{answer}
+  \item 
+    考察\nearbycorollary{cor:DirSumDimsAdd}。
+    它反过来也成立吗\Dash 也就是说，
+    设 \( V=W_1+\dots+ W_k \)，
+    是否 \( V=W_1\directsum\cdots\directsum W_k \) 当且仅当
+    \( \dim(V)=\dim(W_1)+\dots+\dim(W_k) \)？
+    \begin{answer}
+      是。
+      从左到右的蕴含就是
+      \nearbycorollary{cor:DirSumDimsAdd}。
+      对于另一个方向，
+      设 \( \dim(V)=\dim(W_1)+\dots+\dim(W_k) \)。
+      取 \( B_1,\dots, B_k \) 为 \( W_1,\dots, W_k \) 的基。
+      由于 $V$ 是这些子空间的和，我们可以把
+      任一 \( \vec{v}\in V \) 写成
+      \( \vec{v}=\vec{w}_1+\cdots+\vec{w}_k \)，而把每个
+      \( \vec{w}_i \) 表示成相应
+      基 \( B_i \) 中向量的组合，即表明连接
+      \( \cat{B_1}{\cat{\cdots}{B_k}}  \) 张成 \( V \)。
+      现在，这个连接有
+      \( \dim(W_1)+\dots+\dim(W_k) \) 个成员，因此它是一个大小为
+      \( \dim(V) \) 的张成集。
+      所以这个连接是 \( V \) 的一组基。
+      于是 \( V \) 是直和。
+     \end{answer}
+  \item 
+    我们知道，若 \( V=W_1\directsum W_2 \)，则 \( V \) 有一组基
+    可以拆分成 \( W_1 \) 的一组基与
+    \( W_2 \) 的一组基。
+    我们能作出更强的论断，说 \( V \) 的每一组基都能拆分成
+    \( W_1 \) 的一组基与 \( W_2 \) 的一组基吗？
+    \begin{answer}
+      不能。
+      \( \Re^2 \) 的标准基不能拆分成互补子空间，即直线 \( x=y \) 与直线
+      \( x=-y \) 的基。  
+    \end{answer}
+  \item 
+     我们可以问一问 `$+$' 运算的代数性质。
+     \begin{exparts}
+       \partsitem 它是否交换；即 \( W_1+W_2=W_2+W_1 \) 是否成立？
+       \partsitem 它是否结合；即 \( (W_1+W_2)+W_3=W_1+(W_2+W_3) \)
+         是否成立？
+       \partsitem 设 \( W \) 是某个向量空间的子空间。
+         证明 \( W+W=W \)。
+       \partsitem 必须存在单位元吗？
+         也就是一个子空间 \( I \)，使得 \( I+W=W+I=W \)
+         对一切子空间 \( W \) 成立？ 
+       \partsitem 左消去成立吗：~若
+          \( W_1+W_2=W_1+W_3 \)，则 \( W_2=W_3 \)？
+          右消去呢？
+     \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem  是的，对一切子空间 \( W_1,W_2 \)
+          都有 \( W_1+W_2=W_2+W_1 \)，
+          因为每一边都是 \( W_1\union W_2=W_2\union W_1 \) 的张成。
+        \partsitem 这一条与前一条类似\Dash 该等式的每一边
+          都是
+          \( (W_1\union W_2)\union W_3=W_1\union (W_2\union W_3) \)
+          的张成。
+        \partsitem 由于这是集合之间的等式，我们可以用相互包含
+          来证明它成立。
+          显然 \( W\subseteq W+W \)。
+          对于 \( W+W\subseteq W \)，只需记得每个子集都对加法封闭，
+          所以形如 \( \vec{w}_1+\vec{w}_2 \) 的任何和都在
+          \( W \) 中。
+        \partsitem 在每个向量空间中，关于子空间加法的
+          单位元是平凡子空间。
+        \partsitem   左消去与右消去都不必成立。
+          举个例子，在 \( \Re^3 \) 中取 \( W_1 \) 为
+          \( xy \) 平面，取 \( W_2 \) 为 \( x \) 轴，
+          取 \( W_3 \) 为 \( y \) 轴。  
+      \end{exparts}
+     \end{answer}
+  % 2014-Dec-19 I commented this out to make the pages fit better; it is perfectly fine
+  % \item 
+  %   Consider the algebraic properties of the direct sum operation.
+  %   \begin{exparts}
+  %      \partsitem Does direct sum commute: does \( V=W_1\directsum W_2 \) imply
+  %        that \( V=W_2\directsum W_1 \)?
+  %     \partsitem Prove that direct sum is associative:
+  %       \( (W_1\directsum W_2)\directsum W_3=
+  %           W_1\directsum(W_2\directsum W_3) \).
+  %      \partsitem Show that \( \Re^3 \) is the direct sum of the three axes
+  %        (the relevance here is that by the previous item,
+  %         we needn't specify which two of the three axes are combined first).
+  %      \partsitem Does the direct sum operation left-cancel:~does
+  %        \( W_1\directsum W_2=W_1\directsum W_3 \) imply \( W_2=W_3 \)?
+  %        Does it right-cancel?
+  %      \partsitem There is an identity element with respect to this operation.
+  %        Find it.
+  %      \partsitem Do some, or all, subspaces have inverses with respect to this
+  %        operation:~is there a subspace \( W \) of some vector space such
+  %        that there is a subspace \( U \) with the property that
+  %        \( U\directsum W \) equals the identity element from
+  %        the prior item?
+  %   \end{exparts}
+  %   \begin{answer}
+  %     \begin{exparts}
+  %        \partsitem They are equal because for each, 
+  %          \( V \) is the direct sum if
+  %          and only if we can write each \( \vec{v}\in V \) in a unique
+  %          way as a sum \( \vec{v}=\vec{w}_1+\vec{w}_2 \) and
+  %          \( \vec{v}=\vec{w}_2+\vec{w}_1 \).
+  %        \partsitem They are equal because for each, 
+  %          \( V \) is the direct sum if
+  %          and only if we can write each \( \vec{v}\in V \) in a unique
+  %          way as a sum of a vector from each
+  %          $\vec{v}=(\vec{w}_1+\vec{w}_2)+\vec{w}_3$
+  %          and $\vec{v}=\vec{w}_1+(\vec{w}_2+\vec{w}_3)$.
+  %        \partsitem We can decompose any vector in \( \Re^3 \) uniquely into
+  %          the sum of a vector from each axis.
+  %        \partsitem No.
+  %          For an example, in \( \Re^2 \) take \( W_1 \) to be the
+  %          \( x \)-axis, take \( W_2 \) to be the \( y \)-axis, and
+  %          take \( W_3 \) to be the line \( y=x \).
+  %        \partsitem In any vector space the trivial subspace acts as 
+  %          the identity element with respect to direct sum.
+  %        \partsitem In any vector space, only the trivial subspace has
+  %          a direct-sum inverse (namely, itself).
+  %          One way to see this is that dimensions add, and so increase.
+  %     \end{exparts}  
+  %    \end{answer}
+\end{exercises}
+\index{direct sum|)}

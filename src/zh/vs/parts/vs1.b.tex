@@ -1,0 +1,867 @@
+\begin{exercises}
+  \item
+    写出下列各向量空间中的零向量。
+    \begin{exparts}
+      \partsitem 在通常运算下，三次多项式构成的空间。
+      \partsitem \( \nbym{2}{4} \) 矩阵构成的空间。
+      \partsitem 空间
+        \( \set{\map{f}{[0..1]}{\Re}\suchthat f\text{ 连续}} \)。
+      \partsitem 一个自然数自变量的实值函数构成的空间。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \( 0+0x+0x^2+0x^3 \)
+        \partsitem \( \begin{mat}[r]
+                   0  &0  &0  &0  \\
+                   0  &0  &0  &0
+                 \end{mat} \)
+        \partsitem 常值函数 \( f(x)=0 \)
+        \partsitem 常值函数 \( f(n)=0 \)
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    求该向量在此向量空间中的加法逆元。
+    \begin{exparts}
+      \partsitem 在 \( \polyspace_3 \) 中，向量 \( -3-2x+x^2 \)。
+      \partsitem 在空间 \( \nbyn{2} \) 中，
+        \begin{equation*}
+          \begin{mat}[r]
+            1  &-1  \\
+            0  &3
+          \end{mat}.
+        \end{equation*}
+      \partsitem 在 \( \set{ae^x+be^{-x}\suchthat a,b\in\Re} \)——这是实变量
+        \( x \) 的函数在通常运算下构成的空间——中，向量 \( 3e^x-2e^{-x} \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( 3+2x-x^2 \)
+        \partsitem \( \begin{mat}[r]
+                   -1  &+1  \\
+                    0  &-3
+                 \end{mat} \)
+        \partsitem \( -3e^x+2e^{-x} \)
+      \end{exparts*}
+    \end{answer}
+  \recommended \item
+    对每一小题，列出三个元素，然后证明它是向量空间。
+    \begin{exparts}
+      \partsitem 一次多项式的集合
+        \( \polyspace_1=\set{a_0+a_1x\suchthat a_0,a_1\in\Re} \)，
+        运算为通常的多项式加法与标量乘法。
+      \partsitem 一次多项式的集合
+        \( \set{a_0+a_1x\suchthat a_0-2a_1=0} \)，
+        运算为通常的多项式加法与标量乘法。
+   \end{exparts}
+   \textit{提示。}  以 \nearbyexample{PlaneThruOriginSubsp} 作为指导。
+   十个条件中的大多数都只是验证而已。
+   \begin{answer}
+      \begin{exparts}
+        \partsitem
+          三个元素是：
+          $1+2x$、$2-1x$ 与 $x$。
+          （当然，可以有许多不同的答案。）
+
+          验证过程与 \nearbyexample{ex:RealVecSpaces} 完全类似。
+          我们先处理
+          \nearbydefinition{def:VecSpace} 中与加法有关的
+          条件 $1$-$5$。
+          关于对加法封闭，即条件~(1)，
+          注意当 $a+bx,c+dx\in\polyspace_1$ 时，
+          $(a+bx)+(c+dx)=(a+c)+(b+d)x$ 是系数为实数的一次多项式，
+          因而是
+          $\polyspace_1$ 的元素。
+          条件~(2) 的验证如下：当 $a+bx,c+dx\in\polyspace_1$ 时，
+          $(a+bx)+(c+dx)=(a+c)+(b+d)x$，而按另一顺序相加则得
+          $(c+dx)+(a+bx)=(c+a)+(d+b)x$，由于这些都是实数，
+          故 $a+c=c+a$
+          且 $b+d=d+b$。
+          条件~(3) 类似：设
+          $a+bx,c+dx,e+fx\in\polyspace$，则
+          $((a+bx)+(c+dx))+(e+fx)=(a+c+e)+(b+d+f)x$
+          而
+          $(a+bx)+((c+dx)+(e+fx))=(a+c+e)+(b+d+f)x$，两者相等
+          （也就是说，实数加法满足结合律，故 $(a+c)+e=a+(c+e)$
+          且 $(b+d)+f=b+(d+f)$）。
+          对于条件~(4)，注意一次多项式
+          $0+0x\in\polyspace_1$ 满足
+          $(a+bx)+(0+0x)=a+bx$ 与
+          $(0+0x)+(a+bx)=a+bx$。
+          对于这一部分的最后一个条件，即条件~(5)，
+          注意对任意 $a+bx\in\polyspace_1$，其加法逆元
+          是 $-a-bx\in\polyspace_1$，因为
+          $(a+bx)+(-a-bx)=(-a-bx)+(a+bx)=0+0x$。
+
+          接下来我们还要检查与
+          标量乘法有关的条件~(6)-(10)。
+          对于~(6)，即空间对标量乘法封闭这一条件，
+          设 $r$ 是实数，$a+bx$ 是
+          $\polyspace_1$ 的元素，则 $r(a+bx)=(ra)+(rb)x$ 是
+          $\polyspace_1$ 的元素，因为它是系数为
+          实数的一次多项式。
+          条件~(7) 成立，因为
+          $(r+s)(a+bx)=r(a+bx)+s(a+bx)$ 可由实数乘法的分配律
+          得到。
+          条件~(8) 类似：
+          $r((a+bx)+(c+dx))=r((a+c)+(b+d)x)=r(a+c)+r(b+d)x=(ra+rc)+(rb+rd)x
+          =r(a+bx)+r(c+dx)$。
+          对于~(9)，我们有
+          $(rs)(a+bx)=(rsa)+(rsb)x=r(sa+sbx)=r(s(a+bx))$。
+          最后，条件~(10) 是
+          $1(a+bx)=(1a)+(1b)x=a+bx$。
+        \partsitem
+          将该集合记为 $P$。
+          本练习的前一小题对系数没有限制，
+          而这里我们只关注满足 $a_0-2a_1=0$ 的一次多项式，
+          即常数项减去一次项系数的两倍为零的一次多项式。
+          于是，$P$ 的三个典型元素是
+          $2+1x$、$6+3x$ 与 $-4-2x$。
+
+          对于条件~(1)，我们必须证明：
+          若两个满足该限制的一次多项式相加，
+          则所得仍是一次满足该限制的一次多项式：这里的论证是，
+          若 $a+bx,c+dx\in P$，则
+          $(a+bx)+(c+dx)=(a+c)+(b+d)x$ 是 $P$ 的元素，因为
+          $(a+c)-2(b+d)=(a-2b)+(c-2d)=0+0=0$。
+          条件~(2) 可以这样验证：
+          当 $a+bx,c+dx\in\polyspace_1$ 时，
+          $(a+bx)+(c+dx)=(a+c)+(b+d)x$，而按另一顺序相加则得
+          $(c+dx)+(a+bx)=(c+a)+(d+b)x$，由于这些都是实数，
+          故 $a+c=c+a$
+          且 $b+d=d+b$。
+          （也就是说，这一条件不受该限制的影响，
+          其验证与本练习第一小题中的验证相同。）
+          条件~(3) 同样不受这一附加限制的影响：
+          设
+          $a+bx,c+dx,e+fx\in\polyspace$，则
+          $((a+bx)+(c+dx))+(e+fx)=(a+c+e)+(b+d+f)x$
+          而
+          $(a+bx)+((c+dx)+(e+fx))=(a+c+e)+(b+d+f)x$，两者相等。
+          对于条件~(4)，注意一次多项式
+          $0+0x\in P$ 满足该限制，因为
+          其常数项减去其一次项系数的两倍
+          为零，于是本小题中的
+          验证即可适用：
+          $0+0x\in\polyspace_1$ 满足
+          $(a+bx)+(0+0x)=a+bx$ 与
+          $(0+0x)+(a+bx)=a+bx$。
+          为检查条件~(5)，
+          注意对任意 $a+bx\in P$，其加法逆元
+          是 $-a-bx$，因为
+          它是 $P$ 的元素（由 $a+bx\in P$ 知
+          $a-2b=0$，两边同乘 $-1$ 得 $-a+2b=0$），
+          并且如第一小题那样，它起到加法逆元的作用：
+          $(a+bx)+(-a-bx)=(-a-bx)+(a+bx)=0+0x$。
+
+          我们还必须检查
+          标量乘法的条件~(6)-(10)。
+          对于~(6)，即空间对标量乘法封闭这一条件，
+          设 $r$ 是实数且 $a+bx\in P$（于是 $a-2b=0$），
+          则 $r(a+bx)=(ra)+(rb)x$ 是
+          $P$ 的元素，因为它是系数为实数、
+          且满足 $(ra)-2(rb)=r(a-2b)=0$ 的一次多项式。
+          条件~(7) 成立的理由与本练习第一小题中
+          相同，因为
+          $(r+s)(a+bx)=r(a+bx)+s(a+bx)$ 可由实数乘法的分配律
+          得到。
+          条件~(8) 也与第一小题中相同：
+          $r((a+bx)+(c+dx))=r((a+c)+(b+d)x)=r(a+c)+r(b+d)x=(ra+rc)+(rb+rd)x
+          =r(a+bx)+r(c+dx)$。
+          对~(9) 也是如此：
+          $(rs)(a+bx)=(rsa)+(rsb)x=r(sa+sbx)=r(s(a+bx))$。
+          最后，条件~(10) 也是如此：
+          $1(a+bx)=(1a)+(1b)x=a+bx$。
+       \end{exparts}
+     \end{answer}
+  \item
+    对每一小题，列出三个元素，然后证明它是向量空间。
+    \begin{exparts}
+      \partsitem 实元素的 \( \nbyn{2} \) 矩阵的集合，运算为通常的矩阵运算。
+      \partsitem 实元素且 $2,1$ 元为零的 \( \nbyn{2} \) 矩阵的集合，
+        运算为通常的矩阵运算。
+    \end{exparts}
+    \begin{answer}
+      可参照
+      \nearbyexample{ex:RealVecSpaces} 作为指导。
+      （\textit{评注。}
+      由于许多条件都很容易检查，
+      有时人们会觉得一定是漏掉了什么。
+      请记住：容易做或常规，与不必做是两回事。）
+      \begin{exparts}
+        \partsitem
+          以下是三个元素。
+          \begin{equation*}
+            \begin{mat}
+              1  &2  \\
+              3  &4
+            \end{mat},\,
+            \begin{mat}
+              -1  &-2  \\
+              -3  &-4
+            \end{mat},\,
+            \begin{mat}
+              0  &0  \\
+              0  &0
+            \end{mat}
+          \end{equation*}
+
+          对于~(1)，$\nbyn{2}$ 实矩阵的和是 $\nbyn{2}$
+          实矩阵。
+          对于~(2)，我们考察两个矩阵的和
+          \begin{equation*}
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}+
+            \begin{mat}
+              e  &f  \\
+              g  &h
+            \end{mat}
+            =
+            \begin{mat}
+              a+e  &b+f  \\
+              c+g  &d+h
+            \end{mat}
+          \end{equation*}
+          并利用实数加法的交换律
+          \begin{equation*}
+            =\begin{mat}
+              e+a  &f+b  \\
+              g+c  &h+d
+            \end{mat}
+            =
+            \begin{mat}
+              e  &f  \\
+              g  &h
+            \end{mat}
+            +
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+          \end{equation*}
+          来验证矩阵加法的交换性。
+          条件~(3) 的验证，即矩阵加法的结合律，
+          与前面的验证类似：
+          \begin{equation*}
+            \big(
+              \begin{mat}
+                a  &b  \\
+                c  &d
+              \end{mat}
+              +\begin{mat}
+                e  &f  \\
+                g  &h
+              \end{mat}
+            \big)
+            +
+            \begin{mat}
+              i  &j  \\
+              k  &l
+            \end{mat}
+            =
+            \begin{mat}
+              (a+e)+i  &(b+f)+j  \\
+              (c+g)+k  &(d+h)+l
+            \end{mat}
+          \end{equation*}
+          而
+          \begin{equation*}
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            +
+              \big(
+              \begin{mat}
+                e  &f  \\
+                g  &h
+              \end{mat}
+              +
+              \begin{mat}
+                i  &j  \\
+                k  &l
+              \end{mat}
+            \big)
+            =
+            \begin{mat}
+              a+(e+i)  &b+(f+j)  \\
+              c+(g+k)  &d+(h+l)
+            \end{mat}
+          \end{equation*}
+          且由于实数加法满足结合律，两者逐项相同。
+          对于~(4)，这个空间的零元素是全为零的 $\nbyn{2}$
+          矩阵。
+          条件~(5) 成立，因为对任意 $\nbyn{2}$ 矩阵~$A$，
+          其加法逆元是各元素为 $A$ 相应元素的相反数的矩阵，
+          即矩阵 $-1\cdot A$。
+
+          条件~($6$)
+          成立，因为 $\nbyn{2}$ 矩阵的标量倍
+          仍是 $\nbyn{2}$ 矩阵。
+          对于条件~(7)，我们有：
+          \begin{multline*}
+            (r+s)
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            =
+            \begin{mat}
+              (r+s)a  &(r+s)b  \\
+              (r+s)c  &(r+s)d
+            \end{mat}               \\
+            =
+            \begin{mat}
+              ra+sa  &rb+sb  \\
+              rc+sc  &rd+sd
+            \end{mat}
+            =
+            r
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            +
+            s
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+          \end{multline*}
+          条件~(8) 的处理方式相同。
+          \begin{multline*}
+            r
+            \big(
+              \begin{mat}
+                a  &b  \\
+                c  &d
+              \end{mat}
+              +
+              \begin{mat}
+                e  &f  \\
+                g  &h
+              \end{mat}
+            \big)
+            =
+            r
+            \begin{mat}
+              a+e  &b+f  \\
+              c+g  &d+h
+            \end{mat}
+            =
+            \begin{mat}
+              ra+re  &rb+rf  \\
+              rc+rg  &rd+rh
+            \end{mat}              \\
+            =
+            r
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            +
+            r
+            \begin{mat}
+              e  &f  \\
+              g  &h
+            \end{mat}
+            =
+            r
+            \big(
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            +
+            \begin{mat}
+              e  &f  \\
+              g  &h
+            \end{mat}
+            \big)
+          \end{multline*}
+          对于~(9)，我们有：
+          \begin{equation*}
+            (rs)
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            =
+            \begin{mat}
+              rsa  &rsb  \\
+              rsc  &rsd
+            \end{mat}
+            =
+            r
+            \begin{mat}
+              sa  &sb  \\
+              sc  &sd
+            \end{mat}
+            =
+            r\big( s
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            \big)
+          \end{equation*}
+          条件~(10) 同样简单。
+          \begin{equation*}
+            1
+            \begin{mat}
+              a  &b  \\
+              c  &d
+            \end{mat}
+            =
+            \begin{mat}
+              1\cdot a  &1\cdot b  \\
+              1\cdot c  &1\cdot d
+            \end{mat}
+            =
+            \begin{mat}
+              sa  &sb  \\
+              sc  &sd
+            \end{mat}
+          \end{equation*}
+        \partsitem
+          本小题与本练习前一小题的差别仅在于：
+          我们限定于第二行第一列
+          为零的矩阵集合 $T$。
+          以下是 $T$ 的三个元素。
+          \begin{equation*}
+            \begin{mat}
+              1  &2  \\
+              0  &4
+            \end{mat},\,
+            \begin{mat}
+              -1  &-2  \\
+              0  &-4
+            \end{mat},\,
+            \begin{mat}
+              0  &0  \\
+              0  &0
+            \end{mat}
+          \end{equation*}
+          本小题的某些验证与本练习第一小题相同，
+          下面我们只做那些不同的验证。
+
+          对于~(1)，$2,1$ 元为零的 $\nbyn{2}$ 实矩阵之和
+          也是 $2,1$ 元为零的 $\nbyn{2}$ 实矩阵。
+          \begin{equation*}
+            \begin{mat}
+              a  &b  \\
+              0  &d
+            \end{mat}
+            +
+            \begin{mat}
+              e  &f  \\
+              0  &h
+            \end{mat}
+            \begin{mat}
+              a+e  &b+f  \\
+              0    &d+h
+            \end{mat}
+          \end{equation*}
+          前一小题中给出的条件~(2) 的验证
+          在本小题同样适用。
+          条件~(3) 也是如此。
+          对于~(4)，注意全为零的 $\nbyn{2}$
+          矩阵是 $T$ 的元素。
+          条件~(5) 成立，因为对任意 $\nbyn{2}$ 矩阵~$A$，
+          其加法逆元是矩阵
+          $-1\cdot A$，因此 $2,1$ 元为零的矩阵的加法逆元
+          也是 $2,1$ 元为零的矩阵。
+
+          条件~$6$ 成立，因为 $2,1$ 元为零的 $\nbyn{2}$ 矩阵的标量倍
+          仍是 $2,1$ 元为零的 $\nbyn{2}$ 矩阵。
+          条件~(7) 的验证与前一小题相同。
+          条件~(8)、(9) 与~(10) 的验证也是如此。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    对每一小题，列出三个元素，然后证明它是向量空间。
+    \begin{exparts}
+      \partsitem 三个分量的行向量的集合，运算为其通常运算。
+      \partsitem 集合
+        \begin{equation*}
+          \set{\colvec{x \\ y \\ z \\ w}\in\Re^4\suchthat x+y-z+w=0}
+        \end{equation*}
+        运算取从 $\Re^4$ 继承的运算。
+    \end{exparts}
+    \begin{answer}
+      % Most of the conditions are easy to check; use
+      % \nearbyexample{ex:RealVecSpaces} as a guide.
+      \begin{exparts}
+        \partsitem
+          三个元素是 $\rowvec{1  &2  &3}$、
+          $\rowvec{2  &1  &3}$ 与 $\rowvec{0  &0  &0}$。
+
+          我们必须检查 \nearbydefinition{def:VecSpace} 中的条件 (1)-(10)。
+          条件 (1)-(5) 与加法有关。
+          对于条件~(1)，回顾两个三分量行向量的和
+          \begin{equation*}
+            \rowvec{a  &b  &c}
+            +\rowvec{d  &e  &f}
+            =\rowvec{a+d  &b+e  &c+f}
+          \end{equation*}
+          也是三分量行向量
+         （字母 $a,\ldots,f$ 全都表示实数）。
+         对~(2) 的验证是常规的
+          \begin{multline*}
+            \rowvec{a  &b  &c}
+            +\rowvec{d  &e  &f}
+            =\rowvec{a+d  &b+e  &c+f}   \\
+            =\rowvec{d+a  &e+b  &f+c}
+            =\rowvec{d  &e  &f}
+            +\rowvec{a  &b  &c}
+          \end{multline*}
+          （第二个等号成立是因为三个分量都是实数，
+          而实数加法可交换）。
+         条件~(3) 的验证类似。
+          \begin{multline*}
+            \big(\rowvec{a  &b  &c}
+              +\rowvec{d  &e  &f}
+            \big)
+            +\rowvec{g  &h  &i}
+            =\rowvec{(a+d)+g  &(b+e)+h  &(c+f)+i}    \\
+            =\rowvec{a+(d+g)  &b+(e+h)  &c+(f+i)}
+            =\rowvec{a  &b  &c}
+            +\big(\rowvec{d  &e  &f}
+               +\rowvec{g  &h  &i}
+             \big)
+          \end{multline*}
+          对于~(4)，注意三分量行向量
+          $\rowvec{0  &0  &0}$ 是加法单位元：
+          $\rowvec{a  &b  &c}+\rowvec{0  &0  &0}=\rowvec{a  &b  &c}$。
+          为验证条件~(5)，设给定集合中的
+          元素 $\rowvec{a  &b  &c}$，并注意
+          $\rowvec{-a  &-b  &-c}$ 也在此集合中且具有
+          所需性质：
+          $\rowvec{a  &b  &c}+\rowvec{-a  &-b  &-c}=\rowvec{0  &0  &0}$。
+
+          条件 (6)-(10) 涉及标量乘法。
+          为验证~(6)，即空间对所给的
+          标量乘法运算封闭，
+          注意 $r\rowvec{a  &b  &c}=\rowvec{ra  &rb  &rc}$ 是
+          实分量的三分量行向量。
+          对于~(7)，我们计算如下。
+          \begin{multline*}
+            (r+s)\rowvec{a  &b  &c}=\rowvec{(r+s)a  &(r+s)b  &(r+s)c}
+            =\rowvec{ra+sa  &rb+sb  &rc+sc}                             \\
+            =\rowvec{ra  &rb  &rc}+\rowvec{sa  &sb  &sc}
+            =r\rowvec{a  &b  &c}+s\rowvec{a  &b  &c}
+          \end{multline*}
+          条件~(8) 非常类似。
+          \begin{multline*}
+            r\big(\rowvec{a  &b  &c}+\rowvec{d  &e  &f}\big)  \\
+            \begin{aligned}
+            &=r\rowvec{a+d  &b+e  &c+f}
+            =\rowvec{r(a+d)  &r(b+e)  &r(c+f)}                     \\
+            &=\rowvec{ra+rd  &rb+re  &rc+rf}
+            =\rowvec{ra  &rb  &rc}+\rowvec{rd  &re  &rf}          \\
+            &=r\rowvec{a  &b  &c}+r\rowvec{d  &e  &f}
+            \end{aligned}
+          \end{multline*}
+          条件~(9) 的计算也是如此。
+          \begin{equation*}
+            (rs)\rowvec{a  &b  &c}
+             =\rowvec{rsa  &rsb  &rsc}
+             =r\rowvec{sa  &sb  &sc}
+             =r\big(s\rowvec{a  &b  &c}\big)
+          \end{equation*}
+          条件~(10) 同样是常规的：
+          $1\rowvec{a  &b  &c}
+             =\rowvec{1\cdot a  &1\cdot b  &1\cdot c}
+             =\rowvec{a  &b  &c}$。
+        \partsitem
+          将该集合记为 $L$。
+          加法的封闭性，即条件~(1)，需要检查：若各加数都是~$L$ 的成员，则
+          和
+          \begin{equation*}
+            \colvec{a \\ b \\ c \\ d}
+            +\colvec{e \\ f \\ g \\ h}
+            =
+            \colvec{a+e \\ b+f \\ c+g \\ d+h}
+          \end{equation*}
+          也是 \( L \) 的成员；这是成立的，因为它满足
+          $L$ 的成员资格判据：
+          \( (a+e)+(b+f)-(c+g)+(d+h)
+          =(a+b-c+d)+(e+f-g+h)=0+0 \)。
+          条件~(2)、(3) 与~(5) 的验证与本练习第一部分中的
+          验证类似。
+          对于条件~(4)，注意零向量是~$L$ 的成员，
+          因为其第一分量加第二分量、减第三分量、
+          再加第四分量，总和为零。
+
+          条件~(6)，即标量乘法的封闭性，类似：
+          当该向量是~$L$ 的元素时，
+          \begin{equation*}
+            r\colvec{a  \\ b \\ c \\ d}
+            =\colvec{ra  \\  rb  \\  rc  \\  rd}
+          \end{equation*}
+          也是~$L$ 的元素，因为 $ra+rb-rc+rd=r(a+b-c+d)=r\cdot 0=0$。
+          条件~(7)、(8)、(9) 与~(10) 的验证与本练习
+          前一小题中相同。
+     \end{exparts}
+     \end{answer}
+  \recommended \item \label{exer:NotVectorSpaces}
+    证明下列每一个都不是向量空间。
+    （\textit{提示。}  为检查封闭性，列出每个集合的两个成员，
+    并对它们尝试一些运算。）
+    \begin{exparts}
+      \partsitem 在从 \( \Re^3 \) 继承的运算下，集合
+        \begin{equation*}
+          \set{\colvec{x \\ y \\ z}\in\Re^3\suchthat x+y+z=1}
+        \end{equation*}
+      \partsitem 在从 \( \Re^3 \) 继承的运算下，集合
+        \begin{equation*}
+          \set{\colvec{x \\ y \\ z}\in\Re^3\suchthat x^2+y^2+z^2=1}
+        \end{equation*}
+      \partsitem 在通常的矩阵运算下，
+        \begin{equation*}
+          \set{\begin{mat}
+                 a  &1  \\
+                 b  &c
+               \end{mat} \suchthat a,b,c\in\Re}
+        \end{equation*}
+      \partsitem 在通常的多项式运算下，
+        \begin{equation*}
+          \set{a_0+a_1x+a_2x^2\suchthat a_0,a_1,a_2\in\Re^+}
+        \end{equation*}
+        其中 $\Re^+$ 是大于零的实数构成的集合
+      \partsitem 在继承的运算下，
+        \begin{equation*}
+          \set{\colvec{x \\ y}\in\Re^2\suchthat
+               \text{\( x+3y=4 \) 且 \( 2x-y=3 \) 且 \( 6x+4y=10 \)} }
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      每一小题中都将该集合记为 \( Q \)。
+      对其中某些小题，还有其他正确方法可证明 $Q$ 不是
+      向量空间。
+      \begin{exparts}
+        \partsitem 它对加法不封闭；它不满足
+          条件~(1)。
+          \begin{equation*}
+            \colvec[r]{1 \\ 0 \\ 0},
+            \colvec[r]{0 \\ 1 \\ 0}\in Q
+            \qquad
+            \colvec[r]{1 \\ 1 \\ 0}\not\in Q
+          \end{equation*}
+        \partsitem 它对加法不封闭。
+          \begin{equation*}
+            \colvec[r]{1 \\ 0 \\ 0},
+            \colvec[r]{0 \\ 1 \\ 0}\in Q
+            \qquad
+            \colvec[r]{1 \\ 1 \\ 0}\not\in Q
+          \end{equation*}
+        \partsitem 它对加法不封闭。
+          \begin{equation*}
+            \begin{mat}[r]
+              0  &1  \\
+              0  &0
+            \end{mat},
+            \,
+            \begin{mat}[r]
+              1  &1  \\
+              0  &0
+            \end{mat}\in Q
+            \qquad
+            \begin{mat}[r]
+              1  &2  \\
+              0  &0
+            \end{mat}\not\in Q
+          \end{equation*}
+        \partsitem 它对标量乘法不封闭。
+          \begin{equation*}
+            1+1x+1x^2\in Q
+            \qquad
+            -1\cdot(1+1x+1x^2)\not\in Q
+          \end{equation*}
+        \item 它是空集，违反条件~(4)。
+      \end{exparts}
+    \end{answer}
+  \item
+    定义加法与标量乘法运算，
+    使复数成为 \( \Re \) 上的向量空间。
+    \begin{answer}
+      通常的运算
+      \( (v_0+v_1i)+(w_0+w_1i)=(v_0+w_0)+(v_1+w_1)i \) 与
+      \( r(v_0+v_1i)=(rv_0)+(rv_1)i \) 即可满足要求。
+      检查很容易。
+    \end{answer}
+  \item
+    在通常的加法与标量乘法
+    运算下，有理数集是 \( \Re \) 上的向量空间吗？
+    \begin{answer}
+       不是，它对标量乘法不封闭，因为例如
+       \( \pi\cdot (1) \) 不是有理数。
+    \end{answer}
+  \item
+    证明
+    变量 \( x,y,z \) 的线性组合构成的集合
+    在自然的加法与标量乘法
+    运算下是向量空间。
+    \begin{answer}
+      自然运算是
+      \( (v_1x+v_2y+v_3z)+(w_1x+w_2y+w_3z)=(v_1+w_1)x+(v_2+w_2)y+(v_3+w_3)z \)
+      与 \( r\cdot(v_1x+v_2y+v_3z)=(rv_1)x+(rv_2)y+(rv_3)z \)。
+      检查它是向量空间很容易；以
+      \nearbyexample{ex:RealVecSpaces} 作为指导。
+    \end{answer}
+  \item
+    证明
+    这不是向量空间：实元素的
+    二行列向量的集合，其运算如下。
+    \begin{equation*}
+      \colvec{x_1 \\ y_1}
+      +\colvec{x_2 \\ y_2}
+      =\colvec{x_1-x_2 \\ y_1-y_2}
+      \qquad
+      r\cdot\colvec{x \\ y}
+      =\colvec{rx \\ ry}
+    \end{equation*}
+    \begin{answer}
+      “\( + \)” 运算不可交换（即条件~(2) 不
+      满足）；很容易找出该集合的两个成员来
+      证实这一断言。
+    \end{answer}
+  \item
+    证明或反驳：\( \Re^3 \) 在下列
+    运算下是向量空间。
+    \begin{exparts}
+      \partsitem \(
+               \colvec{x_1 \\ y_1 \\ z_1}
+               +\colvec{x_2 \\ y_2 \\ z_2}
+               =\colvec{0 \\ 0 \\ 0}
+               \quad\text{且}\quad
+               r\colvec{x \\ y \\ z}
+               =\colvec{rx \\ ry \\ rz} \)
+      \partsitem \(
+               \colvec{x_1 \\ y_1 \\ z_1}
+               +\colvec{x_2 \\ y_2 \\ z_2}
+               =\colvec{0 \\ 0 \\ 0}
+               \quad\text{且}\quad
+               r\colvec{x \\ y \\ z}
+               =\colvec{0 \\ 0 \\ 0} \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 它不是向量空间。
+          \begin{equation*}
+            (1+1)\cdot\colvec[r]{1 \\ 0 \\ 0}\neq
+            \colvec[r]{1 \\ 0 \\ 0}
+            +\colvec[r]{1 \\ 0 \\ 0}
+          \end{equation*}
+        \partsitem 它不是向量空间。
+          \begin{equation*}
+            1\cdot\colvec[r]{1 \\ 0 \\ 0}\neq\colvec[r]{1 \\ 0 \\ 0}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    对每一小题，判断它是否为向量空间；
+    所指的运算是自然的那些。
+    \begin{exparts}
+      \partsitem \definend{对角} \( \nbyn{2} \) 矩阵
+        \begin{equation*}
+          \set{\begin{mat}
+            a  &0  \\
+            0  &b
+          \end{mat}\suchthat a,b\in\Re}
+        \end{equation*}
+      \partsitem 这个 \( \nbyn{2} \) 矩阵集合
+        \begin{equation*}
+          \set{\begin{mat}
+            x    &x+y  \\
+            x+y  &y
+          \end{mat}\suchthat x,y\in\Re}
+        \end{equation*}
+      \partsitem 这个集合
+        \begin{equation*}
+          \set{\colvec{x \\ y \\ z \\ w}\in\Re^4
+               \suchthat x+y+z+w=1}
+        \end{equation*}
+      \partsitem 函数的集合
+        \( \set{\map{f}{\Re}{\Re}\suchthat df/dx+2f=0} \)
+      \partsitem 函数的集合
+        \( \set{\map{f}{\Re}{\Re}\suchthat df/dx+2f=1} \)
+    \end{exparts}
+    \begin{answer}
+      对每个“是”的答案，只需在该空间中检查几个
+      线性组合即可。
+      对每个“否”的答案，给出其中一个
+      条件不成立的具体例子。
+      \begin{exparts}
+        \partsitem 是。
+          随手取的一个线性组合如下。
+          \begin{equation*}
+            2\cdot\begin{mat}
+              3  &0 \\
+              0  &4
+            \end{mat}
+            +5\cdot\begin{mat}
+              6  &0 \\
+              0  &7
+            \end{mat}
+          \end{equation*}
+          这个集合成为向量空间的关键在于：
+          结果是对角矩阵。
+          \begin{equation*}
+            =\begin{mat}
+              36 &0 \\
+              0  &43
+            \end{mat}
+          \end{equation*}
+        \partsitem 是。
+          线性组合如下。
+          \begin{equation*}
+            10\cdot\begin{mat}
+              1  &3  \\
+              3  &2
+            \end{mat}
+            +11\cdot\begin{mat}
+              3  &7  \\
+              7  &4
+            \end{mat}
+          \end{equation*}
+          我们看到结果保持了如下形式：左上
+          与右下元素相加得到右上元素，
+          同时也得到左下元素。
+          \begin{equation*}
+            =\begin{mat}
+               43  &107  \\
+              107  &64
+            \end{mat}
+          \end{equation*}
+        \partsitem 否，这个集合对自然加法
+          运算不封闭。
+          全部分量都是 $1/4$ 的向量是这个集合的成员，
+          但它自加所得的结果，即
+          全部分量都是 $1/2$ 的向量，不是成员。
+        \partsitem 是。
+        \partsitem 否，\( f(x)=e^{-2x}+(1/2) \) 在集合中，
+           但 \( 2\cdot f \) 不在（即条件~(6) 不成立）。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    证明或反驳：这是一个向量空间——满足 \( f(7)=0 \) 的
+    单实变量实值函数 \( f \) 构成的集合。
+    \begin{answer}
+      它是向量空间。
+      向量空间定义中的大多数条件的验证都是常规的；这里我们
+      只检查封闭性。
+      对于加法，
+      \( (f_1+f_2)\,(7)=f_1(7)+f_2(7)=0+0=0 \)。
+      对于标量乘法，
+      \( (r\cdot f)\,(7)=rf(7)=r0=0 \)。
+    \end{answer}
+  \recommended \item
+    证明：正实数集 \( \Re^+ \)
+    是向量空间，其中我们把 “\( x+y \)” 解释为
+    \( x \) 与 \( y \) 的乘积（于是 \( 2+3 \) 为 \( 6 \)），
+    把 “\( r\cdot x \)” 解释为 \( x \) 的 \( r \) 次幂。
+    \begin{answer}
+      我们逐条检查 \nearbydefinition{def:VecSpace}。
+

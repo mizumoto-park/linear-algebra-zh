@@ -1,0 +1,819 @@
+% Chapter 2, Section 2 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-10
+\section{线性无关}
+前一节展示了如何将一个向量空间
+理解为一个张成，
+即理解为它的某些元素的毫无限制的线性组合。
+例如，次数不超过一次的多项式构成的空间 $\set{a+bx\suchthat a,b\in\Re}$
+由集合 $\set{1,x}$ 张成。
+前一节还表明，一个空间可以有许多张成它的集合。
+张成该多项式空间的另外两个集合是
+$\set{1,2x}$ 与 $\set{1,x,2x}$。
+
+在那一节的末尾，我们把一些张成集描述为“最小的”，
+但从未精确定义过这个词。
+% We could mean one of two things.
+一种含义是：一个张成集是最小的，若它
+在所有具有相同张成结果的集合中含有个数最少的成员，
+这样 $\set{1,x,2x}$ 就不是最小的，因为它有
+三个成员，而我们能给出张成同一空间的两元素集合。
+或者，我们也可以认为，当一个张成集不含任何
+去掉后不改变张成结果的元素时，它是最小的。
+按这种含义，$\set{1,x,2x}$ 不是最小的，因为
+去掉 \( 2x \) 而得到 \( \set{1,x} \)，张成结果
+并不改变。
+
+第一种最小性的含义看来是一个整体性的要求，
+因为要检验一个张成集是否最小，
+我们似乎必须考察所有张成该空间的集合，
+并找出其中元素个数最少的一个。
+第二种含义则是局部性的，因为
+我们只需考察这个集合本身，考虑
+去掉或保留各种元素时的张成结果。
+例如，按照第二种含义，
+我们可以将 $\set{1,x,2x}$ 的张成
+与 $\set{1,x}$ 的张成相比较，并注意到
+$2x$ 是一个“重复”，因为
+去掉它并不会使张成缩小。
+
+本节将采用“最小张成集”的第二种含义，
+原因在于它在技术上较为方便。
+然而，本书最重要的结果是这两种含义
+是一致的。
+我们将在下一节证明这一点。
+
+  
+ 
+
+
+ 
+
+
+\subsection{定义与例题}
+
+我们在第一章中见过“重复”。
+在那里，高斯消元法把它们化成了
+$0=0$ 型的方程。
+
+\begin{example}  \label{ex:StaticsLIAndLD}
+回忆第一章开头的 \hyperlink{ex:Statics}{静力学}
+例题。
+我们由那对质量未知的物体得到了两次平衡，一次
+在 \( 40 \)~厘米与 \( 15 \)~厘米处，另一次
+在 \( -50 \)~厘米与 \( 25 \)~厘米处，
+然后我们算出了那些质量值。
+假如第二次平衡得到的是
+在 \( 20 \)~厘米与 \( 7.5 \)~厘米处，
+那么对由此得到的二方程、二未知量的方程组使用高斯消元法
+将不会给出解，而是给出一个 $0=0$ 的方程
+连同一个含自由变量的方程。
+直观地说，问题在于 \( \rowvec{20 &7.5} \) 是
+$\rowvec{40 &15}$ 的一半，也就是说，
+$\rowvec{20 &7.5}$ 位于集合 $\set{\rowvec{40 &15}}$ 的张成之中，
+因而是重复的数据。
+那样我们就是在试图
+用本质上仅有一条的信息去求解一个含两个未知量的问题。
+\end{example}
+  
+若 $\vec{v}\in\spanof{S}$，从而它依赖于集合~$S$
+的元素——也就是说，它能用该集合的元素表示出来，
+$\vec{v}=c_1\vec{s}_1+\cdots+c_n\vec{s}_n$——
+我们就把 $\vec{v}$ 取作集合~$S$ 中各向量的一个“重复”。
+
+\begin{lemma} \label{lm:AddVecSpanNoGrowIffVecInSpan}
+%<*lm:AddVecSpanNoGrowIffVecInSpan>
+设 $V$ 是一个向量空间，$S$ 是该空间的一个子集，而 $\vec{v}$
+是该空间的一个元素，则
+$\spanof{S\union\set{\vec{v}}} = \spanof{S}$
+当且仅当
+$\vec{v}\in\spanof{S}$。
+%</lm:AddVecSpanNoGrowIffVecInSpan>
+\end{lemma}
+
+\begin{proof}
+%<*pf:AddVecSpanNoGrowIffVecInSpan0>
+“当且仅当”的一半是直接的：若 $\vec{v}\notin\spanof{S}$，则
+这两个集合不相等，因为 $\vec{v}\in\spanof{S\union\set{\vec{v}}}$。
+
+对于另一半，设 $\vec{v}\in\spanof{S}$，
+于是对某些标量~$c_i$ 及向量 $\vec{s}_i\in S$，
+有 $\vec{v}=c_1\vec{s}_1+\cdots+c_n\vec{s}_n$。
+我们将用相互包含来证明集合
+$\spanof{S\union\set{\vec{v}}}$ 与 $\spanof{S}$ 相等。
+包含关系 $\spanof{S\union\set{\vec{v}}}\supseteq\spanof{S}$ 是显然的。
+%</pf:AddVecSpanNoGrowIffVecInSpan0>
+
+%<*pf:AddVecSpanNoGrowIffVecInSpan1>
+为证明另一方向的包含，设 $\vec{w}$ 是~$\spanof{S\union\set{\vec{v}}}$
+中的一个元素。
+那么 $\vec{w}$ 是 $S\union\set{\vec{v}}$ 中元素的线性组合，
+我们可以把它写成
+$\vec{w}=c_{n+1}\vec{s}_{n+1}+\cdots+c_{n+k}\vec{s}_{n+k}+c_{n+k+1}\vec{v}$。
+（$\vec{w}$ 的等式中的一些 $\vec{s}_i$ 有可能与
+$\vec{v}$ 的等式中的某些相同，但这无关紧要。）
+把 $\vec{v}$ 展开代入。
+\begin{equation*}
+  \vec{w}=c_{n+1}\vec{s}_{n+1}+\cdots+c_{n+k}\vec{s}_{n+k}
+            +c_{n+k+1}\cdot(c_1\vec{s}_1+\cdots+c_n\vec{s}_n)
+\end{equation*}
+把右端看成来自~$S$ 的向量的线性组合的
+线性组合。
+因此 $\vec{w}\in\spanof{S}$。
+%</pf:AddVecSpanNoGrowIffVecInSpan1>
+\end{proof}
+
+本节开头的讨论涉及的是去掉向量，而不是
+添加向量。
+
+\begin{corollary}  \label{cor:OmitVecNotShrinkSpanIffVecIsDep}
+%<*cor:OmitVecNotShrinkSpanIffVecIsDep>
+对于 $\vec{v}\in S$，
+去掉该向量不会使张成缩小
+当且仅当该向量依赖于集合中的
+其他向量。
+也就是说，
+$\spanof{S}=\spanof{S-\set{\vec{v}}}$
+当且仅当 $\vec{v}\in\spanof{S-\set{\vec{v}}}$。
+%</cor:OmitVecNotShrinkSpanIffVecIsDep>
+\end{corollary}
+
+因此，要知道去掉一个向量是否会减小
+张成，就需要知道该向量是否是集合中
+其他向量的线性组合。
+
+\begin{definition}\label{def:LinInd}
+%<*df:LinInd>
+在任何向量空间中，一个由向量组成的集合
+称为\definend{线性无关的}\index{linearly independent}%
+\index{sets!dependent, independent}
+若集合中没有任何元素是集合中
+其他元素的线性组合。\footnote{另见\nearbyremark{rem:WhyLIUsesMultiset}。}\spacefactor=1000\ 
+否则，该集合是
+\definend{线性相关的}\index{linearly dependent}。
+%</df:LinInd>
+\end{definition}
+% A multiset subset of a vector space is
+% \definend{linearly independent}\index{linearly independent}%
+% \index{sets!dependent, independent}
+% if none of its elements is a linear combination of the 
+% others.\footnote{More information on multisets is in the appendix. 
+% Most of the time we won't need the 
+% set-multiset distinction and we will
+% follow the standard terminology of referring to a linearly independent or 
+% dependent `set'.
+% \nearbyremark{rem:WhyLIUsesMultiset} explains why 
+% the definition requires a multiset.}\spacefactor=1000\ 
+% Otherwise it is \definend{linearly dependent}\index{linearly dependent}.
+
+因此，集合 $\set{\vec{s}_0,\ldots,\vec{s}_n}$ 是线性无关的
+如果不存在等式
+$\vec{s}_i=c_0\vec{s}_0+\ldots+c_{i-1}\vec{s}_{i-1}+c_{i+1}\vec{s}_{i+1}+\ldots+c_n\vec{s}_n$。
+定义中“其他”一词的用法意味着，
+用 $\vec{s}_i=1\cdot\vec{s}_i$ 把 $\vec{s}_i$ 写成线性组合
+是不算数的。
+
+%<*LinInd>
+注意到，
+尽管把一个向量写成其他向量的组合的这种写法
+\begin{equation*}
+   \vec{s}_0=\lincombo{c}{\vec{s}}
+\end{equation*}
+在视觉上突出了 \( \vec{s}_0 \)，但在代数上
+该向量在这个等式中并无任何特殊之处。
+对于任何系数 $c_i$ 非~$0$ 的 \( \vec{s}_i \)，
+我们可以改写以解出 \( \vec{s}_i \)。
+\begin{equation*}
+   \vec{s}_i=(1/c_i)\vec{s}_0+\dots
+              +(-c_{i-1}/c_i)\vec{s}_{i-1}+(-c_{i+1}/c_i)\vec{s}_{i+1}
+              +\dots+(-c_n/c_i)\vec{s}_n
+\end{equation*}
+当我们不想突出任何向量时，
+我们会改而说
+\( \vec{s}_0,\vec{s}_1,\dots,\vec{s}_n \) 处于一个
+\definend{线性关系}\index{linear relationship}%
+\index{relationship!linear} 
+之中，并把所有向量放到等号的同一侧。
+%</LinInd>
+下面的结论以这种方式重新表述了线性无关的定义。
+这通常是我们判定
+一个有限集相关还是无关时所用的方法。
+
+\begin{lemma}   \label{le:LDIffANonTrivLinRel}
+%<*lm:LDIffANonTrivLinRel>
+向量空间的一个子集 \( S \) 是线性无关的，当且仅当
+在其元素之中
+唯一的线性关系
+$ c_1\vec{s}_1+\dots+c_n\vec{s}_n=\zero$
+是平凡的，\( c_1=0,\dots,\,c_n=0 \)
+（其中当 $i\neq j$ 时 $\vec{s}_i\neq\vec{s}_j$）。
+%</lm:LDIffANonTrivLinRel>
+\end{lemma}
+
+\begin{proof}
+%<*pf:LDIffANonTrivLinRel>
+若 \( S \) 是线性无关的，则没有任何向量
+$\vec{s}_i$
+是 $S$ 中其他向量的线性组合，
+因而不存在这样的线性关系，其中某些
+$\vec{s}\,$ 的系数非零。
+
+若 \( S \) 不是线性无关的，则某个 \( \vec{s}_i \) 是 $S$ 中
+其他向量的线性组合
+$\vec{s}_i=c_1\vec{s}_1+\dots+c_{i-1}\vec{s}_{i-1}
+    +c_{i+1}\vec{s}_{i+1}+\dots+c_n\vec{s}_n$
+。
+从两边减去 $\vec{s}_i$
+得到一个关系
+其中含有非零系数，
+即 \( \vec{s}_i \) 前面的 \( -1 \)。
+%</pf:LDIffANonTrivLinRel>
+\end{proof}
+
+\begin{example}  \label{ex:StaticsLI}
+在宽度为二的行向量构成的向量空间中，二元素集合
+\( \set{ \rowvec{40 &15},\rowvec{-50 &25}} \) 是线性无关的。
+为验证这一点，取
+\begin{equation*}
+  c_1\cdot\rowvec{40 &15}+c_2\cdot\rowvec{-50 &25}=\rowvec{0 &0}
+\end{equation*}
+并求解由此得到的方程组。
+\begin{equation*}
+  \begin{linsys}{2}
+    40c_1  &-  &50c_2  &=  &0  \\
+    15c_1  &+  &25c_2  &=  &0  
+   \end{linsys}
+  \grstep{-(15/40)\rho_1+\rho_2}
+  \begin{linsys}{2}
+     40c_1  &- &50c_2       &=  &0  \\
+            &  &(175/4)c_2  &=  &0  
+   \end{linsys}
+\end{equation*}
+\( c_1 \) 与 \( c_2 \) 都为零。
+因此，所给的两个行向量之间唯一的线性关系
+是平凡的关系。
+
+在同一向量空间中，集合
+\( \set{ \rowvec{40 &15},\rowvec{20 &7.5}} \) 是线性相关的，因为
+我们可以满足
+% \begin{equation*}
+$c_1\cdot \rowvec{40 &15}+c_2\cdot\rowvec{20 &7.5}=\rowvec{0 &0}$
+% \end{equation*}
+其中 \( c_1=1 \) 且 \( c_2=-2 \)。
+\end{example}
+
+\begin{example}
+集合 \( \set{1+x,1-x} \) 在 \( \polyspace_2 \) 中是线性无关的，
+该空间由实系数的、次数不超过二的多项式组成，因为
+\begin{equation*}
+   0+0x+0x^2
+   =
+   c_1(1+x)+c_2(1-x)
+   =
+   (c_1+c_2)+(c_1-c_2)x+0x^2
+\end{equation*}
+给出
+\begin{equation*}
+  \begin{linsys}{2}
+    c_1  &+  &c_2  &=  &0  \\
+    c_1  &-  &c_2  &=  &0  
+   \end{linsys}
+  \grstep{-\rho_1+\rho_2}
+  \begin{linsys}{2}
+     c_1  &+  &c_2  &=  &0  \\
+          &   &2c_2 &=  &0
+  \end{linsys}
+\end{equation*}
+这是因为，多项式相等当且仅当它们的系数相等。
+因此，$\polyspace_2$ 中这两个成员之间的
+唯一线性关系是平凡的。
+\end{example}
+
+\begin{remark}
+引理之所以指明 $\vec{s}_i\neq\vec{s}_j$
+（当 $i\neq j$ 时），是因为显然，若某个向量~$\vec{s}$ 出现
+两次，我们就能得到一个非平凡的
+$c_1\vec{s}_1+\dots+c_n\vec{s}_n=\zero$，
+只需取相应的系数为 $1$ 和~$-1$。
+此外，若某个向量在表达式中出现不止一次，则
+我们总可以把系数合并起来。
+
+注意，该引理允许
+与出现不止一次相反的情形，即~$S$ 中的
+某些向量根本不出现。
+例如，若~$S$ 是无限集，那么由于
+线性关系只涉及有限多个向量，
+任何一个这样的关系都会略去 $S$ 的许多向量。
+不过，还要注意，若~$S$ 是有限集，则在方便时
+我们可以取一个组合
+$c_1\vec{s}_1+\dots+c_n\vec{s}_n$，使 $S$ 的每个向量恰好出现
+一次。
+若有向量缺失，我们可以用系数~$0$
+把它补上。
+\end{remark}
+
+\begin{example}
+这一矩阵
+\begin{equation*}
+  A=
+  \begin{mat}[r]
+    2  &3  &1  &0  \\
+    0  &-1 &0  &-2 \\
+    0  &0  &0  &1
+  \end{mat}
+\end{equation*}
+的各行构成一个线性无关的集合。
+这一点在本例中容易验证，而且还可以回忆
+引理~One.III.\ref{le:EchFormNoLinCombo}
+表明，任何阶梯形矩阵的各行都构成
+一个线性无关的集合。
+\end{example}
+
+\begin{example}
+在 \( \Re^3 \) 中，设
+\begin{equation*}
+   \vec{v}_1=\colvec{3 \\ 4 \\ 5}
+   \quad
+   \vec{v}_2=\colvec{2 \\ 9 \\ 2}
+   \quad
+   \vec{v}_3=\colvec{4 \\ 18 \\ 4}
+\end{equation*}
+则集合 \( S=\set{\vec{v}_1,\vec{v}_2,\vec{v}_3} \)
+是线性相关的，因为下面是一个关系
+\begin{equation*}
+  0\cdot\vec{v}_1
+  +2\cdot\vec{v}_2
+  -1\cdot\vec{v}_3
+  =\zero
+\end{equation*}
+其中并非所有标量都为零
+（某些标量为零
+这一事实无关紧要）。
+\end{example}
+
+% \begin{remark}  \label{rem:WhyLIIsNonTrivLinRel}
+上面的例题说明了为什么，
+尽管 \nearbydefinition{def:LinInd} 对无关的含义是更清晰的
+陈述，
+\nearbylemma{le:LDIffANonTrivLinRel} 却更适合
+计算。
+直接从定义出发，想要计算 $S$ 是否
+线性无关的人会先设
+\( \vec{v}_1=c_2\vec{v}_2+c_3\vec{v}_3 \)
+并得出不存在这样的 $c_2$ 与 $c_3$ 的结论。
+但只知道第一个向量不
+依赖于另外两个向量是不够的。
+此人还必须继续尝试
+\( \vec{v}_2=c_1\vec{v}_1+c_3\vec{v}_3 \)，以便
+找到相关关系 $c_1=0$、\( c_3=1/2 \)。
+\nearbylemma{le:LDIffANonTrivLinRel}
+只用一次计算便得到同样的结论。
+% \end{remark}
+
+\begin{example} \label{ex:EmSetLI}
+向量空间的空子集\index{sets!empty}是线性无关的。
+在它的成员之间没有非平凡的线性关系，因为它
+没有成员。
+\end{example}
+
+\begin{example} \label{ex:SetWithZeroVecLD}
+在任何向量空间中，任何包含零向量的子集都是线性
+相关的。
+一个例子是，在二次多项式（次数不超过二）空间 $\polyspace_2$ 中，
+子集 $\set{1+x,x+x^2,0}$。
+它是线性
+相关的，因为
+$0\cdot\vec{v}_1+0\cdot\vec{v}_2+1\cdot\zero=\zero$ 是一个非平凡的
+关系，因为并非所有系数都为零。
+\end{example}
+
+有一个微妙之处，我们将多次见到它，而且它
+与前面的例题有关。
+它是关于平凡和的，即空集的和。
+看如何定义平凡和的一种方式
+是考虑如下递进：
+$\vec{v}_1+\vec{v}_2+\vec{v}_3$，接着是
+$\vec{v}_1+\vec{v}_2$，接着是
+$\vec{v}_1$。
+三个向量的和与两个向量的和之差
+是 $\vec{v}_3$。
+而两个向量的和与一个向量的和之差
+是 $\vec{v}_2$。
+再进一步过渡到平凡和——零个向量的和——时，
+我们可以预期减去~$\vec{v}_1$。
+于是我们定义零个向量的和为零向量。
+
+与前面例题的联系是：若零向量在一个集合中，
+则该集合有一个元素
+是该集合中其他向量组成的某个子集的组合，具体地说，
+零向量是空子集的组合。
+即使集合 $S=\set{\zero}$ 也是线性相关的，因为 $\zero$ 是
+空集的和，而空集是~$S$ 的子集。
+
+\begin{remark} \label{rem:WhyLIUsesMultiset} %\cite{Velleman} 
+线性无关的定义，
+\nearbydefinition{def:LinInd}，提到的是由向量组成的“集合”。
+集合是我们最熟悉的一类汇集方式，而且
+实际上每个人在这种语境下都使用“集合”一词。
+但为完整起见，我们要指出，就这一目的而言，集合这种汇集
+并不十分合适。
+
+回忆一下，集合是具有两条性质的汇集：
+(i)~次序无关紧要，
+于是集合 $\set{1,2}$ 等于集合 $\set{2,1}$；以及
+(ii)~重复元素合并，于是集合 $\set{1,1,2}$ 等于集合
+$\set{1,2}$。
+
+现在考虑这一矩阵的化简。
+\begin{equation*}
+  \begin{mat}
+    1 &1 &1 \\
+    2 &2 &2 \\
+    1 &2 &3
+  \end{mat}
+  \grstep{(1/2)\rho_2}
+  \begin{mat}
+    1 &1 &1 \\
+    1 &1 &1 \\
+    1 &2 &3
+  \end{mat}
+\end{equation*}
+在左边，矩阵行的集合
+$\set{\rowvec{1 &1 &1}, \rowvec{2 &2 &2}, \rowvec{1 &2 &3}}$
+是线性相关的。
+在右边，行的集合是
+$\set{\rowvec{1 &1 &1}, \rowvec{1 &1 &1}, \rowvec{1 &2 &3}}$。
+由于重复元素合并，它等于
+集合
+$\set{\rowvec{1 &1 &1}, \rowvec{1 &2 &3}}$，
+而它是线性无关的。
+这就有问题了，因为高斯消元法理应保持线性相关性。
+
+也就是说，严格来讲，
+我们需要一类重复元素不合并的汇集。
+次序无关紧要且重复元素不合并的汇集
+称为\definend{多重集}。\index{sets!multiset}%
+\index{multiset}\index{linear independence!multiset}
+
+然而，尽管坚持完全正确有好处，
+背离“集合”这一标准术语也会有其
+自身的陷阱，所以我们将继续使用这个词。
+以后，我们偶尔需要在不让重复元素合并的情况下取组合，
+并且我们将这样做而不
+再加说明。
+\end{remark}
+
+\begin{corollary} \label{cor:LiSetMinSpanSet}
+%<*cor:LiSetMinSpanSet>
+集合 $S$ 是线性无关的，当且仅当
+对任何 $\vec{v}\in S$，去掉它都会使张成缩小：
+$\spanof{S-\set{v}}\subsetneq\spanof{S}$。
+%</cor:LiSetMinSpanSet>
+\end{corollary}
+
+\begin{proof}
+%<*pf:LiSetMinSpanSet>
+这由 \nearbycorollary{cor:OmitVecNotShrinkSpanIffVecIsDep} 得到。
+若 $S$ 是线性无关的，则它的任何向量都不依赖于
+其他元素，因此去掉任何向量都会使张成缩小。
+若 $S$ 不是线性无关的，则它包含一个依赖于
+集合中其他元素的向量，而去掉该向量
+不会使张成缩小。
+%</pf:LiSetMinSpanSet>
+\end{proof}
+
+因此，一个张成集是最小的，当且仅当它是线性无关的。
+
+前面的结论处理的是从线性无关集合中去掉元素。
+下面的结论则添加元素。
+
+\begin{lemma}  \label{lm:AddVecLiSetIsLiIffVecNotInSpan}
+%<*lm:AddVecLiSetIsLiIffVecNotInSpan>
+设 $S$ 是线性无关的，且 $\vec{v}\notin S$。
+那么，
+集合 $S\union\set{\vec{v}}$ 是线性无关的，当且仅当
+$\vec{v}\notin\spanof{S}$。
+%</lm:AddVecLiSetIsLiIffVecNotInSpan>
+\end{lemma}
+
+\begin{proof}
+%<*pf:AddVecLiSetIsLiIffVecNotInSpan0>
+% Assume that $S$ is linearly independent and that $\vec{v}\notin S$.
+我们将证明 $S\union\set{\vec{v}}$ 不是线性无关的
+当且仅当 $\vec{v}\in\spanof{S}$。
+
+先设 $\vec{v}\in\spanof{S}$。
+把 $\vec{v}$ 表示为组合 $\vec{v}=c_1\vec{s}_1+\cdots+c_n\vec{s}_n$。
+将其改写为 $\zero=c_1\vec{s}_1+\cdots+c_n\vec{s}_n-1\cdot\vec{v}$。
+由于 $\vec{v}\notin S$，它不等于任何 $\vec{s}_i$，所以这是
+$S\union\set{\vec{v}}$ 的元素之间的一个非平凡线性相关关系。
+因此该集合不是线性无关的。
+%</pf:AddVecLiSetIsLiIffVecNotInSpan0>
+
+%<*pf:AddVecLiSetIsLiIffVecNotInSpan1>
+现在设 $S\union\set{\vec{v}}$ 不是线性无关的，并
+考虑其成员之间的一个非平凡相关关系
+$\zero=c_1\vec{s}_1+\cdots+c_n\vec{s}_n+c_{n+1}\cdot\vec{v}$。
+若 $c_{n+1}=0$，则那是~$S$ 的元素之间的一个相关关系，但
+我们假设了~$S$ 是无关的，所以 $c_{n+1}\neq 0$。
+将方程改写
+为 $\vec{v}=(c_1/c_{n+1})\vec{s}_1+\cdots+(c_n/c_{n+1})\vec{s}_n$
+即得 $\vec{v}\in\spanof{S}$
+%</pf:AddVecLiSetIsLiIffVecNotInSpan1>
+\end{proof}
+
+
+
+\begin{example} \label{ex:LinindSetsAndSuper}
+$\Re^3$ 的这个子集是线性无关的。
+\begin{equation*}
+  S
+   =\set{\colvec{1 \\ 0 \\ 0}}
+\end{equation*}
+$S$ 的张成是 $x$ 轴。
+这里有两个扩集，一个是线性相关的，另一个
+是线性无关的。
+\begin{center}
+     相关：
+     \( \set{
+         \colvec{1 \\ 0 \\ 0},
+         \colvec{-3 \\ 0 \\ 0}} \)      
+     \qquad
+     无关：
+     \( \set{
+         \colvec{1 \\ 0 \\ 0},
+         \colvec{0 \\ 1 \\ 0}} \)      
+\end{center}
+我们得到
+相关扩集的方式是添加一个来自 $x$ 轴的向量，
+因此张成没有扩大。
+我们得到无关扩集的方式是添加一个
+不在 $\spanof{S}$ 中的向量，因为它的 $y$~分量非零，
+这使张成扩大了。
+
+对于无关集
+\begin{equation*}
+  S
+   =\set{\colvec{1 \\ 0 \\ 0},
+          \colvec{0 \\ 1 \\ 0}
+                 }
+\end{equation*}
+张成 \( \spanof{S} \) 是 \( xy \) 平面。
+这里有两个扩集。
+\begin{center}
+     相关：
+     \( \set{
+         \colvec{1 \\ 0 \\ 0},
+         \colvec{0 \\ 1 \\ 0},
+         \colvec{3 \\ -2 \\ 0} } \)       
+     \qquad
+     无关：
+     \( \set{
+         \colvec{1 \\ 0 \\ 0},
+         \colvec{0 \\ 1 \\ 0},
+         \colvec{0 \\ 0 \\ 1} } \)    
+\end{center}
+如上，相关扩集中
+添加的成员来自 $\spanof{S}$，即 \( xy \) 平面，而
+无关扩集中
+添加的成员则来自该张成之外。
+
+最后，考虑这个无关集
+\begin{equation*}
+   S =\set{\colvec{1 \\ 0 \\ 0},
+          \colvec{0 \\ 1 \\ 0},
+          \colvec{0 \\ 0 \\ 1}        } 
+\end{equation*}
+且 \( \spanof{S}=\Re^3 \)。
+我们能得到一个线性相关的扩集。
+\begin{center}
+     相关：
+     \( \set{
+         \colvec{1 \\ 0 \\ 0},
+         \colvec{0 \\ 1 \\ 0},
+         \colvec{0 \\ 0 \\ 1},
+         \colvec{2 \\ -1 \\ 3} } \)     
+\end{center}
+但 $S$ 没有线性无关的扩集。
+看到这一点的一种方式是注意
+对于任何要添加到 $S$ 中的向量，方程
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+  =c_1\colvec{1 \\ 0 \\ 0}
+   +c_2\colvec{0 \\ 1 \\ 0}
+   +c_3\colvec{0 \\ 0 \\ 1}
+\end{equation*}
+都有解 $c_1=x$、$c_2=y$、$c_3=z$。
+看到这一点的另一种方式是：
+我们无法添加任何来自张成 $\spanof{S}$ 之外的向量，因为这个
+张成就是 $\Re^3$。
+\end{example}
+
+\begin{corollary} \label{th:AlwaysAnLDSubset}
+%<*th:AlwaysAnLDSubset>
+在向量空间中，
+任何有限集都有具有相同张成的线性无关子集。
+%</th:AlwaysAnLDSubset>
+\end{corollary}
+
+\begin{proof}
+%<*pf:AlwaysAnLDSubset0>
+若 \( S=\set{ \vec{s}_1,\dots,\vec{s}_n} \) 是线性无关的，
+那么 $S$ 本身就满足结论，所以
+设它是线性相关的。
+%</pf:AlwaysAnLDSubset0>
+
+%<*pf:AlwaysAnLDSubset1>
+由相关的定义，$S$ 包含
+一个向量 $\vec{v}_1$，它是
+其他向量的线性组合。
+定义集合 \( S_1=S-\set{\vec{v}_1} \)。
+由 \nearbycorollary{cor:OmitVecNotShrinkSpanIffVecIsDep} % {lm:ShrinkSpanByRemovingNonRepeat} 
+张成不缩小 \( \spanof{S_1}=\spanof{S} \)。
+%</pf:AlwaysAnLDSubset1>
+
+%<*pf:AlwaysAnLDSubset2>
+若 \( S_1 \) 是线性无关的，那么就完成了。
+否则迭代：
+取一个向量 $\vec{v}_2$，
+它是 $S_1$ 的
+其他成员的线性组合，将其舍弃，
+得到 \( S_2=S_1-\set{\vec{v}_2} \)，
+满足 \( \spanof{S_2}=\spanof{S_1} \)。
+重复这一过程，直到出现线性无关集 $S_j$；
+它必定最终会出现，因为 \( S \) 是有限的，
+而空集是线性无关的。
+%</pf:AlwaysAnLDSubset2>
+（严格地讲，这一论证使用
+关于 $S$ 中元素个数的归纳法。
+\nearbyexercise{exer:FillIndDetProofSetHasLISub} 要求给出细节。）
+\end{proof}
+
+因此，如果我们有一个线性相关的集合，那么我们可以在不改变
+张成的情况下，通过舍弃我们所说的“重复”向量
+来缩减它。
+
+\begin{example}  \label{ex:ShrinkSetSameSpan}
+这个集合张成 \( \Re^3 \)（验证是常规的），
+但它不是线性无关的。
+\begin{equation*}
+  S=\set{\colvec[r]{1 \\ 0 \\ 0},
+     \colvec[r]{0 \\ 2 \\ 0},
+     \colvec[r]{1 \\ 2 \\ 0},
+     \colvec[r]{0 \\ -1 \\ 1},
+     \colvec[r]{3 \\ 3 \\ 0}  }
+\end{equation*}
+我们将计算应去掉哪些向量，
+以得到一个无关但
+具有相同张成的子集。
+这一线性关系
+\begin{equation*}
+  c_1\colvec[r]{1 \\ 0 \\ 0}
+  +c_2\colvec[r]{0 \\ 2 \\ 0}
+  +c_3\colvec[r]{1 \\ 2 \\ 0}
+  +c_4\colvec[r]{0 \\ -1 \\ 1}
+  +c_5\colvec[r]{3 \\ 3 \\ 0}
+  =\colvec[r]{0 \\ 0 \\ 0}
+  \qquad\tag{$*$}
+\end{equation*}
+给出方程组
+\begin{equation*}
+  \begin{linsys}{5}
+     c_1  &   &      &+  &c_3   &+  &    &+  &3c_5 &= &0  \\
+          &   &2c_2  &+  &2c_3  &-  &c_4 &+  &3c_5 &= &0  \\
+          &   &      &   &     &   &c_4  &   &     &= &0  
+\end{linsys}
+\end{equation*}
+其解集具有这一参数化。
+\begin{equation*}
+  \set{\colvec{c_1 \\ c_2 \\ c_3 \\ c_4 \\ c_5}=
+     c_3\colvec[r]{-1 \\ -1 \\ 1 \\ 0 \\ 0}
+     +c_5\colvec[r]{-3 \\ -3/2 \\ 0 \\ 0 \\ 1}
+     \suchthat c_3,c_5\in\Re }
+\end{equation*}
+取 $c_5=1$ 和~$c_3=0$，
+得到 ($*$) 的一个实例。
+\begin{equation*}
+  -3\cdot\colvec[r]{1 \\ 0 \\ 0}
+  -\frac{3}{2}\cdot\colvec[r]{0 \\ 2 \\ 0}
+  +0\cdot\colvec[r]{1 \\ 2 \\ 0}
+  +0\cdot\colvec[r]{0 \\ -1 \\ 1}
+  +1\cdot\colvec[r]{3 \\ 3 \\ 0}
+  =\colvec[r]{0 \\ 0 \\ 0}
+\end{equation*}
+这表明 $S$ 中我们与~$c_5$
+相关联的
+那个向量，位于由 $c_1$ 的向量与 $c_2$ 的向量组成的集合的张成之中。
+我们可以舍弃 $S$ 的第五个向量而不使张成缩小。
+
+类似地，取 $c_3=1$，$c_5=0$，
+得到~($*$) 的一个实例，
+它表明我们可以舍弃 $S$ 的第三个向量而不使张成缩小。
+ 于是这个集合与 $S$ 有相同的张成。
+\begin{equation*}
+  % \hat{S}=
+     \set{\colvec[r]{1 \\ 0 \\ 0},
+     \colvec[r]{0 \\ 2 \\ 0},
+     \colvec[r]{0 \\ -1 \\ 1}  }
+\end{equation*}
+验证它是线性无关的是常规的。
+\end{example}
+
+\begin{corollary} \label{cor:LDMeansLC}
+%<*co:LDMeansLC>
+向量空间的子集 \( S=\set{\vec{s}_1,\dots,\vec{s}_n} \)
+是线性相关的，当且仅当某个 \( \vec{s_i} \)
+是排在其之前的那些向量
+\( \vec{s}_1 \), \ldots, \( \vec{s}_{i-1} \)
+的线性组合。
+%</co:LDMeansLC>
+\end{corollary}
+
+\begin{proof}
+%<*pf:LDMeansLC>
+考虑 \( S_0=\set{} \)，\( S_1=\set{\vec{s_1}} \)，
+\( S_2=\set{\vec{s}_1,\vec{s}_2 } \)，等等。
+某个下标 \( i\geq 1 \) 是第一个使
+\( S_{i-1}\union\set{\vec{s}_i } \)
+线性相关的，此时 \( \vec{s}_i\in\spanof{ S_{i-1} } \)。
+%</pf:LDMeansLC>
+\end{proof}
+
+\nearbycorollary{th:AlwaysAnLDSubset} 的证明描述了
+通过缩小、通过取子集来产生一个线性
+无关集。
+而 \nearbycorollary{cor:LDMeansLC} 的证明描述了通过取扩集
+来找出一个线性相关集。
+我们以如下问题结束本小节：
+线性无关与线性相关如何相互作用
+与集合之间的子集关系。
+
+\begin{lemma}  \label{le:SubsetPreserveLI}
+%<*lm:SubsetPreserveLI>
+线性无关集的任何子集也是线性无关的。
+线性相关集的任何扩集也是线性相关的。
+%</lm:SubsetPreserveLI>
+\end{lemma}
+
+\begin{proof}
+%<*pf:SubsetPreserveLI>
+两者都是显然的。
+%</pf:SubsetPreserveLI>
+\end{proof}
+
+%<*SubsetPreserveLI>
+重述一下：子集保持无关性，
+扩集保持相关性。
+%</SubsetPreserveLI>
+
+这是四种可能情形中的两种。
+第三种情形，子集是否保持线性相关，
+由 \nearbyexample{ex:ShrinkSetSameSpan} 覆盖，它给出了
+一个线性相关集 $S$，它的一个子集
+是线性相关的，而另一个
+是无关的。
+第四种情形，扩集是否保持线性无关，
+由 \nearbyexample{ex:LinindSetsAndSuper} 覆盖，它给出了一些例子：
+一个线性无关集既有无关的扩集，
+又有相关的扩集。
+下表对此进行了总结。
+\smallskip
+%<*IndependenceAndSubsetTable>
+\begin{center} \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}[b]{r|cc} 
+                        \multicolumn{1}{c}{}
+                        &\multicolumn{1}{c}{\( \hat{S}\subset S \)}
+                        &\multicolumn{1}{c}{\( \hat{S}\supset S \)}      \\
+     \cline{2-3}\rule{0em}{12pt} % make box a bit taller
+          \textit{$S$ 无关} 
+              &\( \hat{S} \) 必为无关   &\( \hat{S} \) 两者皆可\\
+     % \cline{2-3}\noalign{\smallskip}
+          \textit{$S$ 相关} 
+              &\( \hat{S} \) 两者皆可 &\( \hat{S} \) 必为相关    \\
+     % \cline{2-3}
+   \end{tabular}
+\end{center}
+%</IndependenceAndSubsetTable>
+\smallskip
+
+关于线性无关与扩集之间的相互作用，
+\nearbyexample{ex:LinindSetsAndSuper} 还说明了些什么。
+它指出了这样一个
+线性无关集，它之所以是极大的，
+是因为它没有线性无关的扩集。
+由 \nearbylemma{lm:AddVecLiSetIsLiIffVecNotInSpan}，
+一个线性无关集是极大的，当且仅当它
+张成
+整个空间，因为只有这时，
+空间中的所有向量才都已经在这个张成之中。
+这很好地
+补充了 \nearbylemma{cor:LiSetMinSpanSet}，即
+张成集是最小的当且仅当它是线性无关的。
+
+% In summary,
+% we have introduced the definition of linear independence to 
+% formalize the idea of the minimality of a spanning set.
+% We have developed some properties of this idea.
+% The most important is \nearbylemma{lm:AddVecLiSetIsLiIffVecNotInSpan}, which 
+% tells us that a linearly independent set is maximal when it spans the space.
+

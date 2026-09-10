@@ -1,0 +1,609 @@
+\subsection{线性组合引理}
+我们将以证明每个矩阵都行等价于一个
+而且仅有一个简化阶梯形矩阵来结束本章。
+这里的思想将在下一章中再次出现，
+并得到进一步的发展。
+% Here is an informal argument that the reduced 
+% echelon form version of a matrix is unique.
+% Consider again the example that started this section of a matrix that
+% reduces to three different echelon form matrices.
+% The first matrix of the three is the natural echelon form version.
+% The second matrix is the same as 
+% the first except that a row has been halved.
+% The third matrix, too, is just a cosmetic variant of the first. 
+% The definition of reduced echelon form outlaws this kind of fooling around.
+% In reduced echelon form,
+% halving a row is not possible because that would
+% change the row's leading entry away from one, and
+% neither is combining rows possible, because then a leading entry would no
+% longer be alone in its column.
+
+% This informal justification is not a proof;
+% the argument shows that no two different reduced echelon form matrices
+% are related by a single row operation step, but the argument does not
+% rule out the possibility that two different reduced echelon form
+% matrices could be related by multiple steps.
+% Before we go to the proof, we finish this subsection by 
+% rephrasing our work in a terminology that will be enlightening.
+关键的观察涉及
+行变换如何把一个矩阵变成另一个矩阵：
+新的行是
+原来的行的线性组合。
+
+\begin{example}
+考察这个高斯–若尔当消元。
+\begin{align*}
+  \begin{amat}{2}
+    2  &1  &0  \\
+    1  &3  &5
+  \end{amat}
+  &\grstep{-(1/2)\rho_1+\rho_2}
+  \begin{amat}{2}
+    2  &1    &0  \\
+    0  &5/2  &5
+  \end{amat}                           \\
+  &\grstep[(2/5)\rho_2]{(1/2)\rho_1}
+  \begin{amat}{2}
+    1  &1/2  &0  \\
+    0  &1    &2
+  \end{amat}                        \\
+  &\grstep{-(1/2)\rho_2+\rho_1}\;
+  \begin{amat}{2}
+    1  &0    &-1  \\
+    0  &1    &2
+  \end{amat}                       
+\end{align*}
+将这些矩阵记为 $A\rightarrow D\rightarrow G\rightarrow B$，
+并把 $A$ 的行写作 $\alpha_1$ 与 $\alpha_2$，等等，我们就有下式。
+\begin{align*}  % multline looks worse
+  \left(\begin{array}{l}
+    \alpha_1 \\
+    \alpha_2
+  \end{array}\right)
+  &\grstep{-(1/2)\rho_1+\rho_2}
+  \left(\begin{array}{l}
+    \delta_1=\alpha_1 \\
+    \delta_2=-(1/2)\alpha_1+\alpha_2
+  \end{array}\right)                          \\
+  &\grstep[(2/5)\rho_2]{(1/2)\rho_1}
+  \left(\begin{array}{l}
+    \gamma_1=(1/2)\alpha_1 \\
+    \gamma_2=-(1/5)\alpha_1+(2/5)\alpha_2
+  \end{array}\right)                          \\
+  &\grstep{-(1/2)\rho_2+\rho_1}
+  \left(\begin{array}{l}
+    \beta_1=(3/5)\alpha_1-(1/5)\alpha_2  \\
+    \beta_2=-(1/5)\alpha_1+(2/5)\alpha_2
+  \end{array}\right)                         
+\end{align*} 
+\end{example}
+
+\begin{example}
+高斯操作对行作线性组合这一事实，
+在含有行对换时同样成立。
+对于这里的 \( A \)、\( D \)、\( G \) 与 \( B \)
+\begin{equation*}
+    \begin{mat}[r]
+       0  &2  \\
+       1  &1
+     \end{mat}
+    \grstep{\rho_1\leftrightarrow\rho_2}
+    \begin{mat}[r]
+       1  &1  \\
+       0  &2
+     \end{mat}                  
+    \grstep{(1/2)\rho_2}
+    \begin{mat}[r]
+       1  &1  \\
+       0  &1
+     \end{mat}                   
+    \grstep{-\rho_2+\rho_1}
+    \begin{mat}[r]
+       1  &0  \\
+       0  &1
+     \end{mat}
+\end{equation*}
+我们得到这些线性关系。
+\begin{multline*}
+  \left(\begin{array}{l}
+    \vec{\alpha}_1 \\
+    \vec{\alpha}_2
+  \end{array}\right)
+  \,\grstep{\rho_1\leftrightarrow\rho_2}\,
+  \left(\begin{array}{l}
+     \vec{\delta}_1 =\vec{\alpha}_2   \\
+     \vec{\delta}_2 =\vec{\alpha}_1
+  \end{array}\right)                                                 
+  \,\grstep{(1/2)\rho_2}\,
+  \left(\begin{array}{l}
+     \vec{\gamma}_1 =\vec{\alpha}_2  \\
+     \vec{\gamma}_2 =(1/2)\vec{\alpha}_1
+  \end{array}\right)                                               \\
+  \,\grstep{-\rho_2+\rho_1}\,
+  \left(\begin{array}{l}
+     \vec{\beta}_1 =(-1/2)\vec{\alpha}_1+1\cdot\vec{\alpha}_2   \\
+     \vec{\beta}_2 =(1/2)\vec{\alpha}_1
+  \end{array}\right)
+\end{multline*}
+\end{example}
+
+总之，
+高斯消元法系统地找出行的一个合适的
+线性组合序列。
+
+% \begin{definition}
+% A \definend{linear combination}\index{linear combination} of 
+% \( x_1,\ldots,x_m \)
+% is an expression of the form $c_1x_1+c_2x_2+\,\cdots\,+c_mx_m$
+% where the \( c \)'s are scalars.
+%\end{definition}
+
+% \noindent (We have already used the phrase 
+% `linear combination' in this book.
+% The meaning is unchanged, but the next result's statement makes
+% a more formal definition in order.)
+
+\begin{lemma}[线性组合引理] \label{lm:LinearCombinationLemma} \index{Linear Combination Lemma}
+%<*lm:LinearCombinationLemma>
+线性组合的线性组合仍是线性组合。
+%</lm:LinearCombinationLemma>
+\end{lemma}
+
+\begin{proof}
+%<*pf:LinearCombinationLemma>
+给定由 $x$ 们的线性组合组成的集合，
+从 $c_{1,1}x_1+\dots+c_{1,n}x_n$ 到 $c_{m,1}x_1+\dots+c_{m,n}x_n$，
+考虑这些组合的一个组合
+\begin{equation*}
+  d_1(c_{1,1}x_1+\dots+c_{1,n}x_n)\,+\dots+\,d_m(c_{m,1}x_1+\dots+c_{m,n}x_n)
+\end{equation*}
+其中 $d$ 们与 $c$ 们一样都是标量。
+将这些 $d$ 分配开来并重新组合，得到
+\begin{equation*}
+  %&=d_1c_{1,1}x_1+\dots+d_1c_{1,n}x_n\,
+  % +d_2c_{2,1}x_1+\dots+\,
+  % d_mc_{1,1}x_1+\dots+d_mc_{1,n}x_n         \\
+  =(d_1c_{1,1}+\dots+d_mc_{m,1})x_1\,+\dots+\,(d_1c_{1,n}+\dots+d_mc_{m,n})x_n
+\end{equation*}
+它仍然是 $x$ 们的一个线性组合。
+%</pf:LinearCombinationLemma>
+\end{proof}
+
+
+\begin{corollary} \label{cor:RowsOfEqMatsLinCombos}
+%<*co:RowsOfEqMatsLinCombos>
+当一个矩阵化简为另一个矩阵时，第二个矩阵的每一行
+都是第一个矩阵的各行的线性组合。
+%</co:RowsOfEqMatsLinCombos>
+\end{corollary}
+
+% The proof 
+% uses induction. % \appendrefs{mathematical induction}\spacefactor=1000 %
+% Before we proceed, here is an outline of the argument.
+% For the base step, we
+% will verify that the proposition is true when reduction 
+% can be done in zero row operations.
+% For the inductive step, we will 
+% argue that if being able to reduce the first matrix to the second in some
+% number $t\geq 0$ of operations implies that each row of the second is a linear
+% combination of the rows of the first, then being able to reduce the first to
+% the second in $t+1$ operations implies the same thing.
+% Together these prove the result because  
+% the base step shows that it is true in the zero operations case,
+% and then the inductive step
+% implies that it is true in the one operation case, and then the inductive step
+% applied again gives that it is therefore true for two operations, etc.
+
+\begin{proof}
+%<*pf:RowsOfEqMatsLinCombos0>
+对于任何两个可以互相化简的矩阵 $A$ 与~$B$，存在某个
+把其中一个变为另一个的最少行变换次数。
+我们对该次数进行归纳。
+
+在基础步骤中，即可以用零次化简操作从一个矩阵变到另一个矩阵时，
+这两个矩阵相等。
+于是 $B$ 的每一行显然是 $A$ 的各行的组合：
+$\vec{\beta}_i
+  =0\cdot\vec{\alpha}_1+\cdots+1\cdot\vec{\alpha}_i+\cdots+0\cdot\vec{\alpha}_m$。
+%</pf:RowsOfEqMatsLinCombos0>
+
+%<*pf:RowsOfEqMatsLinCombos1>
+归纳步骤假设归纳假设：~即当 $k\geq 0$ 时，
+任何能由 \( A \) 经 \( k \) 次或更少操作得到的矩阵，
+其各行都是 $A$ 的各行的线性组合。
+考虑矩阵~$B$，使得把 \( A \) 化简为~\( B \)
+需要$k+1$次操作。
+在该化简中有一个倒数第二个矩阵~$G$，
+即 $A\longrightarrow\cdots\longrightarrow G\longrightarrow B$。
+归纳假设适用于这个 \( G \)，
+因为它距 \( A \) 只有$k$步。
+也就是说，\( G \) 的每一行
+都是 \( A \) 的各行的线性组合。
+%</pf:RowsOfEqMatsLinCombos1>
+
+%<*pf:RowsOfEqMatsLinCombos2>
+我们将验证~$B$ 的各行是~$G$ 的
+各行的线性组合。
+于是，线性组合引理（\nearbylemma{lm:LinearCombinationLemma}）
+适用，它表明~$B$ 的各行是~$A$ 的
+各行的线性组合。
+
+如果把 \( G \) 变为~\( B \) 的行变换是对换，那么
+$B$ 的行不过是 $G$ 的行的重新排列，$B$ 的每一行
+都是 $G$ 的各行的线性组合。
+如果把 $G$ 变为~$B$ 的操作是用标量~$c\rho_i$
+乘某一行，
+那么 $\vec{\beta}_i=c\vec{\gamma}_i$，其余各行不变。
+最后，如果行变换是把一行的倍数加到
+另一行上 $r\rho_i+\rho_j$，
+那么 $B$ 中只有第~$j$行与~$G$ 的对应行不同，且
+$\vec{\beta}_j=r\gamma_i+\gamma_j$，
+它确实是 $G$ 的各行的线性组合。
+%</pf:RowsOfEqMatsLinCombos2>
+
+由于我们既证明了基础步骤又证明了归纳步骤，
+根据数学归纳法原理，该命题得证。
+\end{proof}
+
+现在我们认识到，高斯消元法构造的是
+行的线性组合。
+但它的目标当然是终止于阶梯形，因为那是
+线性方程组的一种特别基本的形态，
+它把变量分离了出来。
+例如，在这个矩阵
+\begin{equation*}
+  R=\begin{mat}[r]
+    2  &3  &7  &8  &0  &0  \\
+    0  &0  &1  &5  &1  &1  \\
+    0  &0  &0  &3  &3  &0  \\
+    0  &0  &0  &0  &2  &1
+  \end{mat}
+\end{equation*}
+中，$x_1$ 已从 $x_5$ 的方程中被消去。
+也就是说，高斯消元法使 $x_5$ 的行在某种意义上
+独立于 $x_1$ 的行。
+
+下面的结果使这个直觉变得精确。
+我们有时把高斯消元法称作高斯消去（Gaussian elimination）。
+它所消去的是各行之间的线性关系。
+
+\begin{lemma}      \label{le:EchFormNoLinCombo}
+%<*lm:EchFormNoLinCombo>
+在阶梯形矩阵中，
+没有哪个非零行是其余非零行的线性组合。
+%</lm:EchFormNoLinCombo>
+\end{lemma}
+
+\begin{proof}
+%<*pf:EchFormNoLinCombo0>
+设 $R$ 是一个阶梯形矩阵，考察它的非 \( \vec{0} \) 行。
+首先注意到，
+如果把一行写成
+其余各行的组合
+$\vec{\rho}_i=c_1\vec{\rho}_1+\cdots+c_{i-1}\vec{\rho}_{i-1}+
+               c_{i+1}\vec{\rho}_{i+1}+\cdots+c_m\vec{\rho}_m$
+那么可以把该方程改写为
+\begin{equation*}
+   \vec{0}=c_1\vec{\rho}_1+\cdots+c_{i-1}\vec{\rho}_{i-1}+c_i\vec{\rho}_i+
+               c_{i+1}\vec{\rho}_{i+1}+\cdots+c_m\vec{\rho}_m
+  \tag{$*$}
+\end{equation*}
+其中并非所有系数都为零；具体地说，$c_i=-1$。
+反过来也成立：~给定方程~($*$)，若某个 $c_i\neq 0$，则通过把
+$c_i\vec{\rho}_i$ 移到左边并除以 $-c_i$，
+我们可以把 $\vec{\rho}_i$ 表示成其余各行的组合。
+因此，如果我们证明在~($*$) 中所有系数都是~$0$，
+就证明了该定理。
+为此我们对行号~$i$ 使用归纳法。
+%</pf:EchFormNoLinCombo0>
+
+%<*pf:EchFormNoLinCombo1>
+基础情形是第一行~$i=1$
+（如果没有这样的非零行，从而 $R$ 是零矩阵，则
+引理平凡地成立）。
+设 $\ell_i$ 是第~$i$行首主元所在的列号。
+考察每一行位于第~$\ell_1$列的元素。
+方程~($*$) 给出
+\begin{equation*}
+  0=c_1r_{1,\ell_1}+c_2r_{2,\ell_1}+\cdots+c_mr_{m,\ell_1}
+  \tag{$**$}
+\end{equation*}
+该矩阵是阶梯形的，所以
+第一行之后的每一行在该列的元素都是零：
+$r_{2,\ell_1}=\cdots=r_{m,\ell_1}=0$。
+于是方程~($**$) 表明 $c_1=0$，因为 $r_{1,\ell_1}\neq 0$，
+它是该行的首主元。
+%</pf:EchFormNoLinCombo1>
+
+%<*pf:EchFormNoLinCombo2>
+归纳步骤与基础步骤基本相同。
+再次考察方程~($*$)。
+我们将证明：如果对每个行标 $i\in\set{1,\ldots,k}$
+系数 $c_i$ 都是 $0$，
+那么 $c_{k+1}$ 也是 $0$。
+我们关注来自第~$\ell_{k+1}$列的元素。
+\begin{equation*}
+  0=c_1r_{1,\ell_{k+1}}+\cdots+c_{k+1}r_{k+1,\ell_{k+1}}+\cdots+c_mr_{m,\ell_{k+1}}
+\end{equation*}
+由归纳假设，$c_1$、\ldots、$c_k$ 全是
+$0$，于是上式化归为方程
+$0=c_{k+1}r_{k+1,\ell_{k+1}}+\cdots+c_mr_{m,\ell_{k+1}}$。
+该矩阵是阶梯形的，所以元素
+$r_{k+2,\ell_{k+1}}$、\ldots、$r_{m,\ell_{k+1}}$ 全是~$0$。
+于是 $c_{k+1}=0$，因为 $r_{k+1,\ell_{k+1}}\neq 0$，它是首主元。
+%</pf:EchFormNoLinCombo2>
+\end{proof}
+
+有了这些，我们就可以证明高斯–若尔当消元的
+最终产物是唯一的。
+
+\begin{theorem}
+\label{th:ReducedEchelonFormIsUnique}
+%<*th:ReducedEchelonFormIsUnique>
+每个矩阵都行等价于唯一的简化阶梯形矩阵。
+%</th:ReducedEchelonFormIsUnique>
+\end{theorem}
+
+\begin{proof} \cite{Yuster}
+%<*pf:ReducedEchelonFormIsUnique0>
+固定行数 \( m \)。
+我们将对列数 \( n \) 进行归纳。
+
+基础情形是矩阵只有 \( n=1 \) 列。
+如果它是零矩阵，那么它的阶梯形是零矩阵。
+如果它含有非零元素，那么当该矩阵被化为
+简化阶梯形时，它必含至少一个非零元素，而这个元素
+必是第一行中的一个 \( 1 \)。
+无论哪种情形，它的简化阶梯形都是唯一的。
+%</pf:ReducedEchelonFormIsUnique0>
+
+%<*pf:ReducedEchelonFormIsUnique1>
+归纳步骤假设 \( n>1 \)，并且所有列数少于~\( n \) 的
+\( m \)~行矩阵都有唯一的简化阶梯形。
+考虑一个 \( \nbym{m}{n} \) 矩阵 \( A \)，并设
+\( B \) 与 \( C \) 是由 \( A \) 得到的两个简化阶梯形矩阵。
+我们将证明这两个矩阵必相等。
+%</pf:ReducedEchelonFormIsUnique1>
+
+%<*pf:ReducedEchelonFormIsUnique2>
+设 \( \hat{A} \) 是由 \( A \) 的前 \( n-1 \) 列
+组成的矩阵。
+注意到
+% if an $n$~column matrix is in reduced echelon form then any initial
+% set of its columns is also in reduced echelon form, so \( \hat{A} \)
+% is in reduced echelon form. 
+任何把 \( A \) 化为简化
+阶梯形的行变换序列也会把 \( \hat{A} \) 化为简化阶梯形。
+由归纳假设，\( \hat{A} \) 的这个简化阶梯形
+是唯一的，所以如果 \( B \) 与 \( C \) 不同，那么差异必
+出现在第~\( n \) 列。
+%</pf:ReducedEchelonFormIsUnique2>
+
+我们通过证明这两者不可能只在该列不同，
+来完成归纳步骤和整个论证。
+%<*pf:ReducedEchelonFormIsUnique3>
+考虑以 \( A \) 为系数矩阵的一个齐次方程组。
+\begin{equation*}
+  \begin{linsys}{4}
+    a_{1,1}x_1  &+  &a_{1,2}x_2  &+  &\cdots  &+  &a_{1,n}x_n  &=  &0  \\
+    a_{2,1}x_1  &+  &a_{2,2}x_2  &+  &\cdots  &+  &a_{2,n}x_n  &=  &0  \\
+              &&&&&&&\vdotswithin{=}  \\
+    a_{m,1}x_1  &+  &a_{m,2}x_2  &+  &\cdots  &+  &a_{m,n}x_n  &=  &0  
+  \end{linsys}
+  \tag{$*$}
+\end{equation*}
+根据定理~One.I.\ref{th:GaussMethod}
+%the first theorem of this chapter 
+该方程组的解集与 $B$ 的方程组
+\begin{equation*}
+  \begin{linsys}{4}
+    b_{1,1}x_1  &+  &b_{1,2}x_2  &+  &\cdots  &+  &b_{1,n}x_n  &=  &0  \\
+    b_{2,1}x_1  &+  &b_{2,2}x_2  &+  &\cdots  &+  &b_{2,n}x_n  &=  &0  \\
+               &&&&&&&\vdotswithin{=}  \\
+    b_{m,1}x_1  &+  &b_{m,2}x_2  &+  &\cdots  &+  &b_{m,n}x_n  &=  &0  
+  \end{linsys}
+  \tag{$**$}
+\end{equation*}
+的解集相同，也与 $C$ 的
+\begin{equation*}
+  \quad
+  \begin{linsys}{4}
+    c_{1,1}x_1  &+  &c_{1,2}x_2  &+  &\cdots  &+  &c_{1,n}x_n  &=  &0  \\
+    c_{2,1}x_1  &+  &c_{2,2}x_2  &+  &\cdots  &+  &c_{2,n}x_n  &=  &0  \\
+               &&&&&&&\vdotswithin{=}  \\
+    c_{m,1}x_1  &+  &c_{m,2}x_2  &+  &\cdots  &+  &c_{m,n}x_n  &=  &0  
+  \end{linsys}
+  \tag{$\mathord{*}\mathord{*}\mathord{*}$}
+\end{equation*}
+%</pf:ReducedEchelonFormIsUnique3>
+%<*pf:ReducedEchelonFormIsUnique4>
+设 \( B \) 与 \( C \) 只在第~\( n \) 列不同，并假设
+它们在第~\( i \) 行不同。
+用 ($**$) 的第~\( i \) 行减去 ($\mathord{*}\mathord{*}\mathord{*}$) 的
+第~\( i \) 行，
+得到方程
+\( (b_{i,n}-c_{i,n})\cdot x_n=0 \)。
+我们已假设 \( b_{i,n}\neq c_{i,n} \)，于是得到 $x_n=0$。
+因此 $x_n$ 不是自由变量，
+于是在 ($**$) 和~($\mathord{*}\mathord{*}\mathord{*}$) 中
+第 \( n \) 列含有某行的首主元，
+因为在阶梯形矩阵中任何
+不含首主元的列都对应于
+一个自由变量。
+
+但现在，由于 \( B \) 与 \( C \) 在
+前 \( n-1 \)~列相等，根据
+简化阶梯形的定义，它们在
+第 \( n \) 列的首主元位于同一行。
+而且，这两个首主元都必须是 $1$，
+并且必须是该列中仅有的非零元素。
+因此 \( B=C \)。
+%</pf:ReducedEchelonFormIsUnique4>
+\end{proof}
+
+我们曾问过：
+一个线性方程组的任意两个阶梯形版本
+是否有相同数目的自由变量，如果有，
+它们是否恰好是同样的变量？
+有了前面的结果，我们可以对这两个问题都回答“是。”
+不存在这样的线性方程组，使得
+比如我们用一种方式应用高斯消元法得到 $y$ 与 $z$
+是自由变量，而用另一种方式应用却得到 $y$ 与 $w$ 是自由变量。
+
+在证明之前，
+回顾一下自由变量与参数的区别。
+这个方程组
+\begin{equation*}
+  \begin{linsys}{3}
+    x &+ &y &  &  &= &1 \\ 
+      &  &y &+ &z &= &2  
+  \end{linsys}
+\end{equation*}
+有一个自由变量~$z$，因为它是唯一不引领一行的变量。
+我们习惯用自由变量来参数化：$y=2-z$，$x=-1+z$，
+但我们也可以用另一个变量参数化，例如
+$z=2-y$，$x=1-y$。
+所以参数的集合并不唯一，唯一的
+是自由变量的集合。
+
+\begin{corollary}
+如果从一个初始线性方程组出发，我们用高斯消元法得到两个
+不同的阶梯形方程组，那么这两个方程组有相同的自由变量。
+\end{corollary}
+
+\begin{proof}
+前面的结果说简化阶梯形是唯一的。
+从任一阶梯形版本出发，
+向上消元即可得到简化阶梯形，
+所以方程组的任一阶梯形版本与简化阶梯形版本
+有相同的自由变量。
+\end{proof}
+
+我们以一段回顾来收尾。
+在高斯消元法中，我们从一个矩阵出发，
+然后导出一系列其他的矩阵。
+如果我们能从一个矩阵导出另一个，我们就称这两个矩阵是相关的。
+这种关系是一种等价关系，%\appendrefs{equivalence relation} 
+称为行等价，
+于是它把全体矩阵的集合划分为一些行等价类。
+\begin{center}
+  \includegraphics{gr/mp/ch1.30}
+\end{center}
+（图中所示的类中有无穷多个矩阵，但限于篇幅
+我们只展示两个。）
+我们已经证明，每个行等价类中
+有且仅有一个简化阶梯形矩阵。
+%<*ReducedEchelonFormIsCanonicalForm>
+所以简化阶梯形是
+行等价的一种规范形\appendrefs{canonical representatives}\spacefactor=1000
+\index{canonical form!for row equivalence}\index{representative!for row equivalence classes}
+：
+简化阶梯形矩阵正是
+这些类的代表。
+%</ReducedEchelonFormIsCanonicalForm>
+\begin{center}
+  \includegraphics{gr/mp/ch1.31}
+\end{center}
+
+这里的思想是：理解一个数学情境的一种方式，
+是能够对可能发生的各种情形加以分类。
+这是本书的一个主题，
+我们已经见过它好几次了。
+我们曾把线性方程组的解集分为无元素、一个元素
+与无穷多元素三种情形。
+我们也曾把方程个数与未知量个数相同的线性方程组
+分为非奇异与奇异两种情形。
+
+这里，在我们考察行等价时，我们知道全体矩阵的
+集合分裂成一些行等价类，
+而且我们现在有办法确切指出每一个这样的类\Dash
+我们可以把一个类中的矩阵看成是由该类中
+唯一的简化阶梯形矩阵经行变换导出的。
+
+用更操作性的说法，简化阶梯形的唯一性
+使我们能够通过把关于类的问题
+转化为关于代表的问题
+来回答它们。
+例如，正如本节开头所允诺的，现在我们可以
+判定一个矩阵能否由另一个矩阵经行化简导出。
+我们对两者都应用高斯–若尔当程序，看它们
+是否给出相同的简化阶梯形。
+
+\begin{example}  \label{ex:MatsNotRowEq}
+这两个矩阵不是行等价的
+\begin{equation*}
+  \begin{mat}[r]
+    1  &-3  \\
+   -2  &6
+  \end{mat}
+  \qquad
+  \begin{mat}[r]
+    1  &-3  \\
+   -2  &5
+  \end{mat}
+\end{equation*}
+因为它们的简化阶梯形不相等。
+\begin{equation*}
+  \begin{mat}[r]
+    1  &-3  \\
+    0  &0
+  \end{mat}
+  \qquad
+  \begin{mat}[r]
+    1  &0   \\
+    0  &1
+  \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{example}
+任何非奇异的 \( \nbyn{3} \) 矩阵经高斯–若尔当消元都化为
+下面这个矩阵。
+\begin{equation*}
+    \begin{mat}[r]
+      1  &0  &0 \\
+      0  &1  &0 \\
+      0  &0  &1
+    \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{example} \label{ex:RowEqClassTwoTwoMats}
+我们可以通过列出所有可能的
+简化阶梯形矩阵来描述全部的类。
+任何 $\nbyn{2}$ 矩阵都属于下面这些之一：~与这个矩阵
+行等价的矩阵类，
+\begin{equation*}
+  \begin{mat}[r]
+     0  &0  \\
+     0  &0
+  \end{mat}
+\end{equation*}
+与这种类型的某个矩阵行等价的矩阵构成的
+无穷多个类
+\begin{equation*}
+  \begin{mat}
+     1  &a  \\
+     0  &0
+  \end{mat}
+\end{equation*}
+其中 \( a\in\Re \)（包括 $a=0$），
+与这个矩阵行等价的矩阵类，
+\begin{equation*}
+  \begin{mat}[r]
+     0  &1  \\
+     0  &0
+  \end{mat}
+\end{equation*}
+以及与这个矩阵行等价的矩阵类
+\begin{equation*}
+  \begin{mat}[r]
+     1  &0  \\
+     0  &1
+  \end{mat}
+\end{equation*}
+（这就是非奇异的 $\nbyn{2}$ 矩阵构成的类）。
+\end{example}
+
+
+

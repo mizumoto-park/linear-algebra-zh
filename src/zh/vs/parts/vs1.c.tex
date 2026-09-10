@@ -1,0 +1,494 @@
+      首先，对`\( + \)'封闭
+      成立，因为两个正实数之积是
+      正实数。
+      第二个条件满足，因为实数乘法可交换。
+      类似地，由于实数乘法可结合，第三条也成立。
+      对于第四个条件，注意用
+      \( 1\in\Re^+ \)中的数去乘一个数不会改变它。
+      第五，任何正实数都有一个倒数，它是正实数。
+
+      第六条，对`\( \cdot \)'封闭， 
+      成立是因为正实数的任意次幂仍是
+      正实数。
+      第七个条件就是\( v^{r+s} \)等于
+      \( v^r \)与\( v^s \)之积这条法则。
+      第八个条件说\( (vw)^r=v^rw^r \)。
+      第九个条件断言\( (v^r)^s=v^{rs} \)。
+      最后一个条件说\( v^1=v \)。  
+    \end{answer}
+  \item 
+      \( \set{(x,y)\suchthat x,y\in\Re} \)在这些
+      运算下是向量空间吗？
+      \begin{exparts}
+        \partsitem \( (x_1,y_1)+(x_2,y_2)=(x_1+x_2,y_1+y_2) \)
+        以及\( r\cdot (x,y)=(rx,y) \)
+        \partsitem \( (x_1,y_1)+(x_2,y_2)=(x_1+x_2,y_1+y_2) \)
+        以及\( r\cdot (x,y)=(rx,0) \)
+      \end{exparts}
+      \begin{answer}
+        \begin{exparts}
+           \partsitem 不是：\( 1\cdot(0,1)+1\cdot(0,1)\neq (1+1)\cdot(0,1) \)。
+           \partsitem 不是；与前一答案相同的计算表明，向量空间定义中的
+              一个条件被违反了。 
+              违反向空间条件的另一个例子是
+              \( 1\cdot (0,1)\neq (0,1) \)。 
+        \end{exparts}  
+      \end{answer}
+  \item 
+    证明或否证：这是
+    一个向量空间——次数大于或等于二的多项式
+    连同零多项式构成的集合。
+    \begin{answer}
+      它不是向量空间，因为它对加法不封闭，例如
+      \( (x^2)+(1+x-x^2) \)不在此集合中。  
+    \end{answer}
+  \item 
+    此时“相同”还只是一种
+    直观，但尽管如此，请对每个向量空间指出使得
+    该空间与\( \Re^k \)“相同”的\( k \)。
+    \begin{exparts}
+      \partsitem 通常运算下的\( \nbym{2}{3} \)矩阵
+      \partsitem \( \nbym{n}{m} \)矩阵（在它们通常的运算下）
+      \partsitem \( \nbyn{2} \)矩阵的这个集合
+        \begin{equation*}
+          \set{\begin{mat}
+            a  &0  \\
+            b  &c
+          \end{mat} \suchthat a,b,c\in\Re}
+        \end{equation*}
+      \partsitem \( \nbyn{2} \)矩阵的这个集合
+        \begin{equation*}
+          \set{\begin{mat}
+            a  &0  \\
+            b  &c
+          \end{mat} \suchthat a+b+c=0}
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \( 6 \)
+        \partsitem \( nm \)
+        \partsitem \( 3 \)
+        \partsitem 为看出答案是\( 2 \)，把它改写为
+        \begin{equation*}
+          \set{\begin{mat}
+            a  &0  \\
+            b  &-a-b
+          \end{mat} \suchthat a,b\in\Re}
+        \end{equation*}
+        可见其中有两个参数。
+      \end{exparts}  
+     \end{answer}
+  \item 
+    用\( \vec{+} \)表示向量加法、
+    用\( \,\vec{\cdot}\, \)表示标量乘法，
+    重新表述向量空间的定义。
+    \begin{answer}
+      {
+      \def\plus{\mathbin{\vec{+}}}
+      \def\tim{\mathbin{\vec{\cdot}}}
+        \definend{向量空间}\index{vector space!definition}
+        （\( \Re \)上的）由一个集合\( V \)连同两个运算`\( \plus \)'与
+        `\( \tim \)'组成，满足以下条件。
+        当\( \vec{v},\vec{w}\in V \)时， 
+        (1)~它们的\definend{向量和}
+          \( \vec{v}\plus\vec{w} \)是\( V \)中的一个元素。
+        若\( \vec{u},\vec{v},\vec{w}\in V \)，则 
+        (2)~\( \vec{v}\plus\vec{w}=\vec{w}\plus\vec{v} \)且 
+        (3)~\( (\vec{v}\plus\vec{w})\plus\vec{u}
+                 =\vec{v}\plus(\vec{w}\plus\vec{u}) \)。
+        (4)~存在一个\definend{零向量}
+          \( \zero\in V \)，使得
+          对所有\( \vec{v}\in V\)都有\( \vec{v}\plus\zero=\vec{v}\, \)。
+        (5)~每个\( \vec{v}\in V \)都有一个
+          \definend{加法逆元}
+          \( \vec{w}\in V \)，使得\( \vec{w}\plus\vec{v}=\zero \)。
+        若\( r,s \)是\definend{标量\/}
+        （即\( \Re \)的成员），
+        且\( \vec{v},\vec{w}\in V \)，则 
+        (6)~每个
+           \definend{标量倍数}
+           \( r\cdot\vec{v} \)都在\( V \)中。
+        若\( r,s\in\Re \)且\( \vec{v},\vec{w}\in V \)，则
+        (7)~\( (r+ s)\cdot\vec{v}=r\cdot\vec{v}\plus s\cdot\vec{v} \)， 
+        以及(8)~\( r\tim (\vec{v}+\vec{w})
+           =r\tim\vec{v}+r\tim\vec{w} \)，
+        以及(9)~\( (rs)\tim \vec{v} =r\tim (s\tim\vec{v}) \)，
+        以及(10)~\( 1\tim \vec{v}=\vec{v} \)。
+     }
+    \end{answer}
+  \item 
+    证明这些结论。
+    \begin{exparts}
+      \partsitem 对任意$\vec{v}\in V$，若$\vec{w}\in V$是$\vec{v}$的加法 
+        逆元，则$\vec{v}$是
+        $\vec{w}$的加法逆元。
+        因此，一个向量是它自己的任意一个加法逆元的加法逆元。
+      \partsitem 向量加法可从左边消去：~若 
+        \( \vec{v},\vec{s},\vec{t}\in V \)，
+        则\( \vec{v}+\vec{s}=\vec{v}+\vec{t}\, \)蕴涵
+        \( \vec{s}=\vec{t} \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 设\( V \)是向量空间， 
+          设\( \vec{v}\in V \)，并
+          假设\( \vec{w}\in V \)是$\vec{v}$的加法逆元，
+          于是\( \vec{w}+\vec{v}=\zero \)。
+          因为加法可交换，
+          \( \zero=\vec{w}+\vec{v}=\vec{v}+\vec{w} \)，
+          所以\( \vec{v} \)也是 
+          \( \vec{w} \)的加法逆元。
+        \partsitem 设\( V \)是向量空间且设
+          \( \vec{v},\vec{s},\vec{t}\in V \)。
+          \( \vec{v} \)的加法逆元是\( -\vec{v} \)，于是
+          \( \vec{v}+\vec{s}=\vec{v}+\vec{t} \)给出
+          \( -\vec{v}+\vec{v}+\vec{s}=-\vec{v}+\vec{v}+\vec{t} \)，
+          即\( \zero+\vec{s}=\zero+\vec{t} \)，从而
+          \( \vec{s}=\vec{t} \)。
+      \end{exparts}  
+     \end{answer}
+  \item 
+    向量空间的定义并未明确说出
+    \( \zero+\vec{v}=\vec{v} \) 
+    （它说的是\( \vec{v}+\zero=\vec{v} \)）。
+    证明它在任何向量空间中仍必成立。
+    \begin{answer}
+      加法可交换，所以在任何向量空间中，
+      对任意向量\( \vec{v} \)我们有
+      \( \vec{v}=\vec{v}+\zero=\zero+\vec{v} \)。  
+    \end{answer}
+  \recommended \item
+    证明或否证：这是
+    一个向量空间——通常运算下的全体矩阵之集。
+    \begin{answer}
+      它不是向量空间，因为尺寸不同的两个矩阵相加没有定义，
+      因而该集合不满足封闭性
+      条件。
+    \end{answer}
+  \item 
+    向量空间中每个元素都有一个加法逆元。
+    某些元素能否有两个或更多个？
+    \begin{answer}
+      向量空间中每个元素有且只有一个加法
+      逆元。
+
+      设\( V \)是向量空间且设\( \vec{v}\in V \)。
+      若\( \vec{w}_1,\vec{w}_2\in V \)都是
+      \( \vec{v} \)的加法逆元，则考虑\( \vec{w}_1+\vec{v}+\vec{w}_2 \)。
+      一方面，我们有它等于$\vec{w}_1+(\vec{v}+\vec{w}_2)=
+      \vec{w}_1+\zero=\vec{w}_1$。
+      另一方面，我们有它等于$(\vec{w}_1+\vec{v})+\vec{w}_2=
+      \zero+\vec{w}_2=\vec{w}_2$。
+      因此$\vec{w}_1=\vec{w}_2$。
+    \end{answer}
+  \item 
+    \begin{exparts}
+      \partsitem 证明\( \Re^3 \)中每个过原点的点、直线或平面 
+         在继承的运算下是向量空间。
+      \partsitem 若它不包含原点呢？
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+      \partsitem 每个这样的集合都具有形式
+        \( \set{r\cdot\vec{v}+s\cdot\vec{w}\suchthat r,s\in\Re} \)，
+        其中\( \vec{v},\vec{w} \)之一或两者可以是\( \zero \)。
+        在继承的运算下，加法的封闭性
+        \( (r_1\vec{v}+s_1\vec{w})+(r_2\vec{v}+s_2\vec{w})
+           =(r_1+r_2)\vec{v}+(s_1+s_2)\vec{w} \)
+        与标量乘法的封闭性
+        \( c(r\vec{v}+s\vec{w})=(cr)\vec{v}+(cs)\vec{w} \)
+        是容易的。
+        其他条件也是常规的。
+      \partsitem 这样的集合在继承的
+        运算下不能是向量空间，因为它没有零元素。
+     \end{exparts}  
+    \end{answer}
+  \item 
+    利用向量空间的想法，我们可以轻松地重新证明
+    齐次线性方程组的解集要么
+    有一个元素，要么有无穷多个元素。 
+    设\( \vec{v}\in V \)不是\( \zero \)。
+    \begin{exparts}
+      \partsitem 证明\( r\cdot\vec{v}=\zero \)当且仅当\( r=0 \)。
+      \partsitem 证明\( r_1\cdot\vec{v}=r_2\cdot\vec{v} \)
+      当且仅当\( r_1=r_2 \)。
+      \partsitem 证明任何非平凡的向量空间都是无限的。
+      \partsitem 利用齐次线性方程组的非空解集是向量空间这一事实
+        来得出结论。
+    \end{exparts}
+    \begin{answer}
+      设\( \vec{v}\in V \)不是\( \zero \)。
+      \begin{exparts}
+        \partsitem 当且仅当的一个方向是清楚的：~若$r=0$，
+          则$r\cdot\vec{v}=\zero$。
+          另一个方向，设\( r \)是非零标量。
+          若\( r\vec{v}=\zero \)，则
+          \( (1/r)\cdot r\vec{v}=(1/r)\cdot \zero \)表明
+          $\vec{v}=\zero$，与假设矛盾。
+        \partsitem 当\( r_1,r_2 \)是标量时， 
+          \( r_1\vec{v}=r_2\vec{v}\, \)
+          成立当且仅当\( (r_1-r_2)\vec{v}=\zero \)。
+          由前一项，于是\( r_1-r_2=0 \)。
+        \partsitem 非平凡空间有向量 
+          \( \vec{v}\neq\zero \)。
+          考虑集合\( \set{k\cdot\vec{v}\suchthat k\in\Re} \)。
+          由前一项，这个集合是无限的。
+        \partsitem 解集要么是平凡的，要么是非平凡的。
+          在第二种情形，它是无限的。   
+     \end{exparts}  
+    \end{answer}
+  \item 
+    在自然运算下这是向量空间吗：一个实变量的
+    可微实值函数之集？
+    \begin{answer}
+      是。
+      第一学期微积分的一个定理说，可微函数之和可微，且
+      \( (f+g)^\prime=f^\prime+g^\prime \)；还说 
+      可微函数的倍数
+      可微，且\( (r\cdot f)^\prime=r\,f^\prime \)。 
+    \end{answer}
+  \item 
+    \definend{复数上的向量空间}\index{vector space!complex scalars}%
+    \index{complex numbers!vector space over}
+    $\C$的定义
+    与实数上的向量空间相同，只是标量取自
+    \( \C \)而非\( \Re \)。
+    证明下列每一个都是复数上的向量空间。
+    （回忆复数如何相加与相乘：
+    \( (a_0+a_1i)+(b_0+b_1i)=(a_0+b_0)+(a_1+b_1)i \)以及
+    \( (a_0+a_1i)(b_0+b_1i)=(a_0b_0-a_1b_1)+(a_0b_1+a_1b_0)i \)。）
+    \begin{exparts}
+      \partsitem 系数为复数的二次多项式之集
+      \partsitem 这个集合
+        \begin{equation*}
+          \set{\begin{mat}
+                 0  &a  \\
+                 b  &0
+               \end{mat}\suchthat a,b\in\C\text{\ 且\ }
+                               a+b=0+0i }
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      这个验证是常规的。
+      注意`\( 1 \)'是\( 1+0i \)，零元素是下面这些。
+      \begin{exparts}
+        \partsitem \( (0+0i)+(0+0i)x+(0+0i)x^2 \)
+        \partsitem \( \begin{mat}
+                   0+0i  &0+0i  \\
+                   0+0i  &0+0i
+                 \end{mat} \)
+      \end{exparts}  
+    \end{answer}
+  \item 
+    指出所有\( \Re^n \)共有、
+    但未被列为
+    向量空间要求的一条性质。
+    \begin{answer}
+      向量空间的定义中显著缺失的
+      是距离的度量。  
+    \end{answer}
+  \item 
+    \begin{exparts}
+      \partsitem 证明对任意四个向量
+        \( \vec{v}_1,\ldots,\vec{v}_4\in V \)，我们可以
+        以任何方式结合它们的和而不改变结果。
+        \begin{multline*}
+          ((\vec{v}_1+\vec{v}_2)+\vec{v}_3)+\vec{v}_4
+          =(\vec{v}_1+(\vec{v}_2+\vec{v}_3))+\vec{v}_4  
+          =(\vec{v}_1+\vec{v}_2)+(\vec{v}_3+\vec{v}_4)  \\
+          =\vec{v}_1+((\vec{v}_2+\vec{v}_3)+\vec{v}_4)  
+          =\vec{v}_1+(\vec{v}_2+(\vec{v}_3+\vec{v}_4))
+        \end{multline*}
+        这使我们可以写成
+        `\( \vec{v}_1+\vec{v}_2+\vec{v}_3+\vec{v}_4 \)'而无歧义。
+      \partsitem 证明对任意多个向量的和，任何两种结合方式
+        给出相同的和。
+        （\textit{提示。}  对向量的个数使用归纳法。）
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 小小的重新排列即可奏效。
+          \begin{align*}
+            (\vec{v}_1+(\vec{v}_2+\vec{v}_3))+\vec{v}_4
+            &=((\vec{v}_1+\vec{v}_2)+\vec{v}_3)+\vec{v}_4  \\
+            &=(\vec{v}_1+\vec{v}_2)+(\vec{v}_3+\vec{v}_4)  \\
+            &=\vec{v}_1+(\vec{v}_2+(\vec{v}_3+\vec{v}_4))  \\
+            &=\vec{v}_1+((\vec{v}_2+\vec{v}_3)+\vec{v}_4)
+          \end{align*}
+          上面每个等号都来自三个向量的结合性，
+          它作为一条条件写在向量空间的定义中。
+          例如，第二个`$=$'应用法则
+          $(\vec{w}_1+\vec{w}_2)+\vec{w}_3=\vec{w}_1+(\vec{w}_2+\vec{w}_3)$，
+          取$\vec{w}_1$为$\vec{v}_1+\vec{v}_2$， 
+          取$\vec{w}_2$为$\vec{v}_3$，
+          取$\vec{w}_3$为$\vec{v}_4$。 
+        \partsitem 归纳的基础是三个向量的情形。
+          这一情形
+          \( \vec{v}_1+(\vec{v}_2+\vec{v}_3)
+          =(\vec{v}_1+\vec{v}_2)+\vec{v}_3 \)
+          是向量空间定义中的条件之一。
+
+          归纳步骤：假设三个向量的任意两个和、
+          四个向量的任意两个和、
+          \ldots、$k$个向量的任意两个和， 
+          无论我们如何给这些和加括号都相等。
+          我们将证明任意\( k+1 \)个向量的和都等于这一个
+          \( ((\cdots((\vec{v}_1+\vec{v}_2)+\vec{v}_3)+\cdots)+\vec{v}_k)
+              +\vec{v}_{k+1} \)。
+
+          任何加了括号的和都有一个最外层的`\( + \)'。
+          设它位于\( \vec{v}_m \)与\( \vec{v}_{m+1} \)之间，
+          于是这个和看起来像这样。
+          \begin{equation*}
+            (\cdots\,\vec{v}_1\cdots\vec{v}_m\,\cdots)
+           +(\cdots\,\vec{v}_{m+1}\cdots\vec{v}_{k+1}\,\cdots)
+          \end{equation*}
+          后一半涉及的加法少于$k+1$次，所以
+          由归纳假设我们可以重新加括号，
+          使得它从里到外自左向右读，特别地，
+          使得其最外层的`$+$'恰好出现在 
+          $\vec{v}_{k+1}$之前。
+          \begin{equation*}
+            =(\cdots\,\vec{v}_1\,\cdots\,\vec{v}_m\,\cdots)
+             +((\cdots(\vec{v}_{m+1}+\vec{v}_{m+2})+\cdots+\vec{v}_{k})
+                 +\vec{v}_{k+1})
+          \end{equation*}
+          应用三个对象之和的结合性
+          \begin{equation*}
+            =((\,\cdots\, \vec{v}_1\,\cdots\,\vec{v}_m\,\cdots\,)
+             +(\,\cdots\,(\vec{v}_{m+1}+\vec{v}_{m+2})+\cdots\,\vec{v}_k))
+             +\vec{v}_{k+1}
+          \end{equation*}
+          最后在这些最外层括号的内部应用归纳假设，即完成证明。
+      \end{exparts}  
+    \end{answer}
+  \item \nearbyexample{ex:ColsIntEntNotVS}给出$\Re^2$的一个子集，
+   在显然的运算下它不是向量空间，因为
+   虽然它对加法封闭，却对标量
+   乘法不封闭。
+   考虑平面上分量同号或为~$0$的向量组成的集合。
+   证明这个集合对标量乘法封闭但对 
+   加法不封闭。
+   \begin{answer}
+     设$\vec{v}$是$\Re^2$的成员，分量为$v_1$与$v_2$。
+     两个分量同号或为~$0$这一条件可以缩写
+     为$v_1v_2\geq 0$。
+
+     为证这个集合对标量乘法封闭，注意
+     $r\vec{v}$的分量满足$(rv_1)(rv_2)=r^2(v_1v_2)$，
+     且$r^2\geq 0$，所以$r^2v_1v_2\geq 0$。
+
+     为证这个集合对加法不封闭，我们只需给出一个
+     例子。  
+     分量为$-1$与~$0$的向量加到
+     分量为$0$与~$1$的向量上，得到一个分量为$-1$与~$1$、
+     符号混合的向量。
+   \end{answer}
+  % \item 
+  %   For any vector space, a subset that is itself a vector space
+  %   under the inherited operations
+  %   (e.g., a plane through the origin inside of \( \Re^3 \))
+  %   is a \definend{subspace}.
+  %   \begin{exparts}
+  %     \partsitem Show that \( \set{a_0+a_1x+a_2x^2\suchthat a_0+a_1+a_2=0} \)
+  %       is a subspace of the vector space of degree~two polynomials.
+  %     \partsitem Show that this is a subspace of the \( \nbyn{2} \) matrices.
+  %       \begin{equation*}
+  %         \set{\begin{mat}
+  %                a  &b  \\
+  %                c  &0
+  %              \end{mat} \suchthat a+b=0}
+  %       \end{equation*}
+  %     \partsitem Show that a nonempty subset \( S \) of a real vector
+  %       space is a
+  %       subspace if and only if it is closed under linear combinations of
+  %       pairs of vectors: whenever \( c_1,c_2\in\Re \) and
+  %       \( \vec{s}_1,\vec{s}_2\in S \) then the combination
+  %       \( c_1\vec{v}_1+c_2\vec{v}_2 \) is in \( S \).
+  %   \end{exparts}
+  %   \begin{answer}
+  %     \begin{exparts}
+  %       \partsitem We outline the check of the conditions from
+  %         \nearbydefinition{def:VecSpace}.
+
+  %         Additive closure holds because if \( a_0+a_1+a_2=0 \)
+  %         and \( b_0+b_1+b_2=0 \) then
+  %         \begin{equation*}
+  %           (a_0+a_1x+a_2x^2)+(b_0+b_1x+b_2x^2)=
+  %           (a_0+b_0)+(a_1+b_1)x+(a_2+b_2)x^2
+  %         \end{equation*}
+  %         is in the set since
+  %         \( (a_0+b_0)+(a_1+b_1)+(a_2+b_2)=(a_0+a_1+a_2)+(b_0+b_1+b_2) \)
+  %         is zero.
+  %         The second through fifth conditions are easy.
+
+  %         Closure under scalar multiplication holds because
+  %         if \( a_0+a_1+a_2=0 \) then
+  %         \begin{equation*}
+  %           r\cdot(a_0+a_1x+a_2x^2)=
+  %           (ra_0)+(ra_1)x+(ra_2)x^2
+  %         \end{equation*}
+  %         is in the set as \( ra_0+ra_1+ra_2=r(a_0+a_1+a_2) \) is zero.
+  %         The remaining conditions here are also easy.
+  %       \partsitem This is similar to the prior answer.
+  %       \partsitem Call the vector space \( V \).
+  %         We have two implications: left to right, if \( S \) is a subspace
+  %         then it is closed under linear combinations of pairs of vectors and,
+  %         right to left, if a nonempty subset is closed under linear
+  %         combinations of pairs of vectors then it is a subspace.
+  %         The left to right implication is easy; we here sketch the
+  %         other one by
+  %         assuming \( S \) is nonempty and closed, and checking the conditions
+  %         of \nearbydefinition{def:VecSpace}.
+
+  %         First, to show closure under addition, if
+  %         \( \vec{s}_1,\vec{s}_2\in S \) then \( \vec{s}_1+\vec{s}_2\in S \)
+  %         as \( \vec{s}_1+\vec{s}_2=1\cdot\vec{s}_1+1\cdot\vec{s}_2 \).
+  %         Second, for any \( \vec{s}_1,\vec{s}_2\in S \), because addition
+  %         is inherited from \( V \), the sum \( \vec{s}_1+\vec{s}_2 \)
+  %         in \( S \) equals the sum \( \vec{s}_1+\vec{s}_2 \)
+  %         in \( V \) and that equals the sum \( \vec{s}_2+\vec{s}_1 \) in
+  %         \( V \) and that in turn equals the sum \( \vec{s}_2+\vec{s}_1 \) in
+  %         \( S \).
+  %         The argument for the third condition is similar to that for the
+  %         second.
+  %         For the fourth, suppose that 
+  %         \( \vec{s} \) is in the nonempty set \( S \)
+  %         and note that \( 0\cdot\vec{s}=\zero\in S \); showing that 
+  %         the \( \zero \) of
+  %         \( V \) acts under the inherited operations as the additive identity
+  %         of \( S \) is easy.
+  %         The fifth condition is satisfied because for any \( \vec{s}\in S \)
+  %         closure under linear combinations shows that the vector
+  %         \( 0\cdot\zero+(-1)\cdot\vec{s} \) is in \( S \); showing 
+  %         that it is the
+  %         additive inverse of \( \vec{s} \) under the inherited operations is
+  %         routine.
+
+  %         The proofs for the remaining conditions are similar.
+  %     \end{exparts}  
+  %   \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,2279 @@
+% 翻译状态：主要正文已初译；待继续翻译与校对。
+% Chapter 3, Section 5 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\section{换基}
+\index{change of basis|(}
+表示随基而变化。例如，相对于标准基 $\stdbasis_2$ 和以下基，
+\begin{equation*}
+  B=\sequence{\colvec{1 \\ 1},\colvec{1 \\ -1}}
+\end{equation*}
+$\vec{e}_1\in\Re^2$ 具有以下不同表示。
+\begin{equation*}
+  \rep{\vec{e}_1}{\stdbasis_2}=\colvec{1 \\ 0}
+  \qquad
+  \rep{\vec{e}_1}{B}=\colvec{1/2 \\ 1/2}
+\end{equation*}
+映射也是如此：相对于基对 $\stdbasis_2,\stdbasis_2$ 和 $\stdbasis_2,B$，恒等映射具有以下表示。
+\begin{equation*}
+  \rep{\text{id}}{\stdbasis_2,\stdbasis_2}=
+   \begin{mat}[r]
+     1  &0  \\
+     0  &1
+   \end{mat}
+   \qquad
+  \rep{\text{id}}{\stdbasis_2,B}=
+   \begin{mat}[r]
+     1/2  &1/2  \\
+     1/2  &-1/2
+   \end{mat}
+\end{equation*}
+本节说明如何在这些表示之间转换，即计算基变化时表示如何变化。
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{改变向量的表示}
+将 $\rep{\vec{v}}{B}$ 转为 $\rep{\vec{v}}{D}$ 时，向量 $\vec{v}$ 本身不变。
+因此，这两种表达同一向量的方式之间的转换，由空间上的恒等映射实现：定义域向量相对于 $B$ 表示，陪域向量相对于 $D$ 表示。
+\index{arrow diagram}
+%<*ChangeRepresentationOfVectorArrowDiagram>
+\begin{equation*}
+  \begin{CD}
+    V_{\wrt{B}}                      \\
+    @V{\text{\scriptsize$\identity$}} VV   \\
+    V_{\wrt{D}}
+  \end{CD}
+\end{equation*}
+（为与下一小节的图配合，这里竖直绘制。）
+%</ChangeRepresentationOfVectorArrowDiagram>
+
+\begin{definition}  \label{df:ChangeOfBasisMatrix}
+%<*df:ChangeOfBasisMatrix>
+对于基 \( B,D\subset V \)，\definend{换基矩阵}\index{vector!representation of}%
+\index{matrix!change of basis}\index{basis!change of}
+是恒等映射 \( \map{\identity}{V}{V} \) 相对于这两组基的表示。
+\begin{equation*}
+  \rep{\identity}{B,D}=
+  \begin{pmat}{c@{\hspace{1em}}c@{\hspace{1em}}c}
+     \vdots                  &             &\vdots                  \\
+     \rep{\vec{\beta}_1}{D}  &\;\cdots\;   &\rep{\vec{\beta}_n}{D}  \\
+     \vdots                  &             &\vdots
+  \end{pmat}
+\end{equation*}
+%\( B=\basis{\beta}{n} \).
+%</df:ChangeOfBasisMatrix>
+\end{definition}
+
+\begin{remark}
+更确切的名称是“表示转换矩阵”，但“换基矩阵”是标准叫法。
+\end{remark}
+
+下面的结果支持这一定义。
+
+\begin{lemma}  \label{le:ChBasisMatDoesChBases}
+%<*lm:ChBasisMatDoesChBases>
+将向量~$\vec{v}$ 相对于 \( B \) 的表示转换为相对于 \( D \) 的表示，可使用换基矩阵。
+\begin{equation*}
+  \rep{\identity}{B,D}\,\rep{\vec{v}}{B}=\rep{\vec{v}}{D}
+\end{equation*}
+反之，若左乘矩阵实现换基，即 $M\cdot\rep{\vec{v}}{B}=\rep{\vec{v}}{D}$，则 $M$ 是换基矩阵。
+%</lm:ChBasisMatDoesChBases>
+\end{lemma}
+
+\begin{proof}
+%<*pf:ChBasisMatDoesChBases>
+第一句成立，因为矩阵与向量的乘法表示映射的作用，所以对每个 \( \vec{v} \)，有
+\( \rep{\identity}{B,D}\cdot\rep{\vec{v}}{B}=\rep{\,\identity(\vec{v})\,}{D}=\rep{\vec{v}}{D} \)。
+对于第二句，矩阵 $M$ 相对于 $B,D$ 表示的线性映射将每个向量映到自身，因此就是恒等映射。
+%</pf:ChBasisMatDoesChBases>
+\end{proof}
+
+\begin{example}
+对于 \( \Re^2 \) 的以下基，
+\begin{equation*}
+  B=
+  \sequence{
+            \colvec[r]{2 \\ 1},
+            \colvec[r]{1 \\ 0} }
+  \qquad
+  D=
+  \sequence{
+            \colvec[r]{-1 \\ 1},
+            \colvec[r]{1 \\ 1} }
+\end{equation*}
+由于
+\begin{equation*}
+  \rep{\,\identity(\colvec[r]{2 \\ 1})}{D}
+  =\colvec[r]{-1/2 \\ 3/2}_D
+  \qquad
+  \rep{\,\identity(\colvec[r]{1 \\ 0})}{D}
+  =\colvec[r]{-1/2 \\ 1/2}_D
+\end{equation*}
+换基矩阵如下。
+\begin{equation*}
+  \rep{\rm id}{B,D}
+  =
+    \begin{mat}[r]
+       -1/2  &-1/2  \\
+        3/2  &1/2
+    \end{mat}
+\end{equation*}
+例如，$\vec{e}_2$ 的表示为
+\begin{equation*}
+  \rep{\colvec[r]{0 \\ 1} }{B}
+  =\colvec[r]{1 \\ -2}
+  % \qquad
+  % \rep{\colvec[r]{0 \\ 1} }{D}
+  % =\colvec[r]{1/2 \\ 1/2}
+\end{equation*}
+矩阵实现以下转换。
+\begin{equation*}
+    \begin{mat}[r]
+       -1/2  &-1/2  \\
+        3/2  &1/2
+    \end{mat}
+  \colvec[r]{1 \\ -2}
+  =
+  \colvec[r]{1/2 \\ 1/2}
+\end{equation*}
+容易验证右边向量就是 $\rep{\vec{e}_2 }{D}$。
+\end{example}
+
+本小节最后说明，换基矩阵构成一个熟悉的集合。
+
+\begin{lemma}    \label{le:NonSingIsChBasis}
+%<*lm:NonSingIsChBasis>
+矩阵能实现换基，当且仅当它非奇异。
+%</lm:NonSingIsChBasis>
+\end{lemma}
+
+\begin{proof}
+%<*pf:NonSingIsChBasis0>
+对于“仅当”方向，若左乘矩阵能实现换基，则该矩阵表示可逆函数，因为只需把基换回去就得到逆函数。
+由于表示可逆函数，该矩阵本身可逆，因此非奇异。
+%</pf:NonSingIsChBasis0>
+
+%<*pf:NonSingIsChBasis1>
+对于“当”方向，将证明任意非奇异矩阵 $M$ 都能把任意给定起始基 $B$ 的表示转换为某组终止基的表示
+（矩阵为 $\nbyn{n}$，$B$ 含~$n$ 个向量）。
+
+% The matrix is nonsingular so it will Gauss-Jordan reduce to the
+% identity.
+若矩阵为单位矩阵~$I$，结论显然成立。
+否则，由非奇异性及推论~IV.\ref{cor:ReducViaMatrices}，存在初等消元矩阵，使
+$R_r\cdots R_1\cdot M=I$，其中 $r\geq 1$。
+初等矩阵可逆，且其逆仍为初等矩阵，所以在等式两边依次左乘 ${R_r}^{-1}$、${R_{r-1}}^{-1}$ 等，
+得到 $M={R_1}^{-1}\cdots {R_r}^{-1}$，将 $M$ 写为初等矩阵的乘积。
+% (We've combined ${R_r}^{-1}I$ to make ${R_r}^{-1}$; 
+% because $r\geq 1$ we can always have the $I$ disappear in this way.)
+%</pf:NonSingIsChBasis1>
+
+%<*pf:NonSingIsChBasis2>
+只需证明每个初等矩阵都将给定基转换为另一组基，即可完成证明：${R_r}^{-1}$ 将 $B$ 转为某个 $B_r$，${R_{r-1}}^{-1}$ 将 $B_r$ 转为 $B_{r-1}$，依此类推。
+分三类初等矩阵讨论，先回顾它们的记号。
+%</pf:NonSingIsChBasis2>
+% This equation doesn't fit well on slide, so I copied it over an tweaked it.
+\begin{equation*}
+  M_{i}(k)
+    \colvec{
+       c_1     \\
+       \vdots  \\
+       c_i    \\
+       \vdots  \\
+       c_n  }
+  =
+    \colvec{
+       c_1     \\
+       \vdots  \\
+       kc_i    \\
+       \vdots  \\
+       c_n  }
+  \quad
+  P_{i,j}
+    \colvec{
+       c_1     \\
+       \vdots  \\
+       c_i    \\
+       \vdots  \\
+       c_j    \\
+       \vdots  \\
+       c_n  }
+  =
+    \colvec{
+       c_1     \\
+       \vdots  \\
+       c_j    \\
+       \vdots  \\
+       c_i    \\
+       \vdots  \\
+       c_n  }
+  \quad
+  C_{i,j}(k)
+    \colvec{
+       c_1     \\
+       \vdots  \\
+       c_i    \\
+       \vdots  \\
+       c_j    \\
+       \vdots  \\
+       c_n  }
+  =
+    \colvec{
+       c_1     \\
+       \vdots  \\
+       c_i    \\
+       \vdots  \\
+       kc_i+c_j    \\
+       \vdots  \\
+       c_n  }
+\end{equation*}
+%<*pf:NonSingIsChBasis3>
+作用行倍乘矩阵~$M_i(k)$，会将相对于
+\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_i,\dots,\vec{\beta}_n } \)
+的表示转换为相对于
+\( \sequence{\vec{\beta}_1,\dots,(1/k)\vec{\beta}_i,\dots,\vec{\beta}_n } \) 的表示。
+\begin{multline*}
+   \vec{v}= c_1\cdot\vec{\beta}_1+\dots+c_i\cdot\vec{\beta}_i
+                                   +\dots+c_n\cdot\vec{\beta}_n  
+   \\  \mapsto\;                                                       
+    c_1\cdot\vec{\beta}_1+\dots+kc_i\cdot(1/k)\vec{\beta}_i+\dots
+                                  +c_n\cdot\vec{\beta}_n=\vec{v}     
+\end{multline*}
+第二组仍是基，因为第一组是基，且行倍乘矩阵的定义要求 $k\neq 0$。
+%</pf:NonSingIsChBasis3>
+%<*pf:NonSingIsChBasis4>
+类似地，左乘行交换矩阵 $P_{i,j}$，将相对于基
+\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_i,\dots,\vec{\beta}_j,\dots,\vec{\beta}_n } \)
+的表示转换为相对于
+\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_j,\dots,\vec{\beta}_i,\dots,\vec{\beta}_n } \) 的表示。
+\begin{multline*}
+   \vec{v}= c_1\cdot\vec{\beta}_1+\dots+c_i\cdot\vec{\beta}_i
+                   +\dots+c_j\vec{\beta}_j+\dots+c_n\cdot\vec{\beta}_n  
+   \\  \mapsto\;                                                       
+    c_1\cdot\vec{\beta}_1+\dots+c_j\cdot\vec{\beta}_j+\dots
+               +c_i\cdot\vec{\beta}_i+\dots+c_n\cdot\vec{\beta}_n=\vec{v}     
+\end{multline*}
+%</pf:NonSingIsChBasis4>
+%<*pf:NonSingIsChBasis5>
+左乘行组合矩阵 $C_{i,j}(k)$，则将相对于
+\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_i,\dots,\vec{\beta}_j,\dots,\vec{\beta}_n } \)
+的表示转换为相对于
+\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_i-k\vec{\beta}_j,\dots,\vec{\beta}_j,\dots,\vec{\beta}_n } \) 的表示，
+\begin{multline*}
+   \vec{v}= c_1\cdot\vec{\beta}_1+\dots+c_i\cdot\vec{\beta}_i
+                       +c_j\vec{\beta}_j+\dots+c_n\cdot\vec{\beta}_n  
+   \\  \mapsto\;                                                       
+    c_1\cdot\vec{\beta}_1+\dots+c_i\cdot(\vec{\beta}_i-k\vec{\beta}_j)+\dots
+          +(kc_i+c_j)\cdot\vec{\beta}_j+\dots+c_n\cdot\vec{\beta}_n=\vec{v} 
+\end{multline*}
+（$C_{i,j}(k)$ 的定义规定 \( i\neq j \) 和 \( k\neq 0 \)）。
+%</pf:NonSingIsChBasis5>
+\end{proof}
+
+\begin{corollary}  \label{co:MatrixNonsingularIffChangesBasis}
+%<*co:MatrixNonsingularIffChangesBasis>
+矩阵非奇异，当且仅当它相对于某一对基表示恒等映射。
+%</co:MatrixNonsingularIffChangesBasis>
+\end{corollary}
+
+% Just as this subsection shows how to translate among representations of
+% vectors 
+% the next subsection will
+% show how to translate among representations of 
+% maps, that is, how to change
+% $\rep{h}{B,D}$ to $\rep{h}{\hat{B},\hat{D}}$.
+% The above corollary is a special case of this, where the domain and range are
+% the same space and where the map is the identity map.
+
+
+\begin{exercises}
+  \recommended \item 
+在 \( \Re^2 \) 中，设
+    \begin{equation*}
+      D=\sequence{\colvec[r]{2 \\ 1},\colvec[r]{-2 \\ 4}}
+    \end{equation*}
+求从 \( D \) 到 \( \stdbasis_2 \) 以及从 \( \stdbasis_2 \) 到 \( D \) 的换基矩阵，并将两者相乘。
+    \begin{answer}
+为求从 $D$ 到 $\stdbasis_2$ 的换基矩阵，需要
+$\rep{\identity(\vec{\delta}_1)}{\stdbasis_2}=\rep{\vec{\delta}_1}{\stdbasis_2}$ 和
+$\rep{\identity(\vec{\delta}_2)}{\stdbasis_2}=\rep{\vec{\delta}_2}{\stdbasis_2}$。
+当然，$\Re^2$ 中向量相对于标准基的表示很容易求。
+      \begin{equation*}
+        \rep{\vec{\delta}_1}{\stdbasis_2}=\colvec[r]{2 \\ 1}
+        \qquad
+        \rep{\vec{\delta}_2}{\stdbasis_2}=\colvec[r]{-2 \\ 4}
+      \end{equation*}
+将它们并排拼接为换基矩阵的列，得到
+      \begin{equation*}
+        \rep{\identity}{D,\stdbasis_2}
+        =\begin{mat}[r]
+          2     &-2    \\
+          1     &4
+        \end{mat}
+      \end{equation*}
+反方向的换基矩阵，可按常规计算
+$\rep{\identity(\vec{e}_1)}{D}=\rep{\vec{e}_1}{D}$ 和
+$\rep{\identity(\vec{e}_2)}{D}=\rep{\vec{e}_2}{D}$，也可求上面矩阵的逆。
+利用 $\nbyn{2}$ 矩阵的求逆公式很容易得到。
+      \begin{equation*}
+        \rep{\identity}{\stdbasis_2,D}=
+        \frac{1}{10}\cdot\begin{mat}[r]
+          4  &2  \\
+         -1  &2
+        \end{mat}
+        =\begin{mat}[r]
+          4/10  &2/10  \\
+         -1/10  &2/10
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+\item 以下哪些矩阵可以用来换基？
+   \begin{exparts*}
+     \partsitem 
+       $\begin{mat}
+          1 &2 \\
+          3 &4 
+        \end{mat}$
+     \partsitem 
+       $\begin{mat}
+          0 &-1  \\
+          1 &-1
+        \end{mat}$
+     \partsitem 
+       $\begin{mat}
+          2 &3 &-1 \\
+          0 &1 &0
+        \end{mat}$
+     \partsitem 
+       $\begin{mat}
+          2 &3 &-1 \\
+          0 &1 &0  \\
+          4 &7 &-2
+        \end{mat}$
+     \partsitem 
+       $\begin{mat}
+          0 &2 &0 \\
+          0 &0 &6 \\
+          1 &0 &0
+        \end{mat}$
+   \end{exparts*}
+   \begin{answer}
+非奇异矩阵都可以作为换基矩阵。以下各例均可直接观察判断。
+     \begin{exparts}
+\partsitem 非奇异，因为第二行不是第一行的倍数。
+\partsitem 非奇异。
+\partsitem 奇异，因为非奇异矩阵必须是方阵。
+\partsitem 奇异，因为第一行的两倍加第二行等于第三行。
+\partsitem 非奇异。
+     \end{exparts}
+   \end{answer}
+  \recommended \item \label{exer:ChngeBasMatsRTwo}
+求 \( B,D\subseteq\Re^2 \) 的换基矩阵。
+    \begin{exparts*}
+      \partsitem \( B=\stdbasis_2 \),
+        \( D=\sequence{\vec{e}_2,\vec{e}_1} \)
+      \partsitem \( B=\stdbasis_2 \),
+        \( D=\sequence{\colvec[r]{1 \\ 2},\colvec[r]{1 \\ 4}} \)
+      \partsitem  \( B=\sequence{\colvec[r]{1 \\ 2},\colvec[r]{1 \\ 4}} \),
+        \( D=\stdbasis_2 \)
+      \partsitem  \( B=\sequence{\colvec[r]{-1 \\ 1},\colvec[r]{2 \\ 2}} \),
+        \( D=\sequence{\colvec[r]{0 \\ 4},\colvec[r]{1 \\ 3}} \)
+    \end{exparts*}
+    \begin{answer}
+将 $\rep{\identity(\vec{\beta}_1)}{D}=\rep{\vec{\beta}_1}{D}$ 与
+$\rep{\identity(\vec{\beta}_2)}{D}=\rep{\vec{\beta}_2}{D}$ 并排拼接，得到换基矩阵 $\rep{\identity}{B,D}$。
+      \begin{exparts*}
+        \partsitem \( \begin{mat}[r]
+                   0  &1  \\
+                   1  &0
+                 \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+                   2  &-1/2  \\
+                   -1 &1/2
+                 \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+                   1  &1     \\
+                   2  &4
+                 \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+                   1  &-1    \\
+                  -1  &2
+                 \end{mat} \)
+      \end{exparts*}  
+    \end{answer}
+  \recommended \item
+对各对 \( B,D\subseteq\polyspace_2 \)，求换基矩阵。
+    \begin{exparts*}
+      \partsitem \( B=\sequence{1,x,x^2},
+               D=\sequence{x^2,1,x} \)
+      \partsitem \( B=\sequence{1,x,x^2},
+               D=\sequence{1,1+x,1+x+x^2} \)
+      \partsitem \( B=\sequence{2,2x,x^2},
+               D=\sequence{1+x^2,1-x^2,x+x^2} \)
+    \end{exparts*}
+    \begin{answer}
+向量 $\rep{\identity(\vec{\beta}_1)}{D}=\rep{\vec{\beta}_1}{D}$、
+$\rep{\identity(\vec{\beta}_2)}{D}=\rep{\vec{\beta}_2}{D}$ 和
+$\rep{\identity(\vec{\beta}_3)}{D}=\rep{\vec{\beta}_3}{D}$ 构成换基矩阵 $\rep{\identity}{B,D}$ 的各列。
+      \begin{exparts*}
+        \partsitem \( \begin{mat}[r]
+                   0  &0  &1  \\
+                   1  &0  &0  \\
+                   0  &1  &0
+                 \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+                   1  &-1 &0  \\
+                   0  &1  &-1 \\
+                   0  &0  &1
+                 \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+                   1  &-1 &1/2  \\
+                   1  &1  &-1/2 \\
+                   0  &2  &0
+                 \end{mat} \)
+      \end{exparts*}  
+例如，第一个矩阵的第一列来自 $1=0\cdot x^2+1\cdot 1+0\cdot x$。
+     \end{answer}
+  \item 
+对于 \nearbyexercise{exer:ChngeBasMatsRTwo} 中的基，求反方向即从 $D$ 到 $B$ 的换基矩阵。
+    \begin{answer}
+一种方法是求 $\rep{\vec{\delta}_1}{B}$ 和 $\rep{\vec{\delta}_2}{B}$，再将它们作为列拼成所需换基矩阵。
+另一种方法是求 \nearbyexercise{exer:ChngeBasMatsRTwo} 答案中矩阵的逆。
+       \begin{exparts*}
+        \partsitem
+          $\begin{mat}[r]
+            0  &1  \\
+            1  &0
+          \end{mat}$
+        \partsitem \( \begin{mat}[r]
+            1  &1  \\
+            2  &4
+          \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+            2  &-1/2  \\
+            -1 &1/2
+          \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+            2  &1  \\
+            1  &1
+          \end{mat} \)
+      \end{exparts*} 
+    \end{answer}
+  \recommended \item 
+判断以下各矩阵是否实现 \( \Re^2 \) 上的换基。它将 \( \stdbasis_2 \) 换成什么基？
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                 5  &0  \\
+                 0  &4
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                 2  &1  \\
+                 3  &1
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                -1  &4  \\
+                 2  &-8
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                 1  &-1 \\
+                 1  &1
+               \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+矩阵实现换基当且仅当它非奇异。
+       \begin{exparts}
+\partsitem 该矩阵非奇异，所以能换基。求 \( \stdbasis_2 \) 换成的基，就是寻找 $D$ 使
+          \begin{equation*}
+            \rep{\identity}{\stdbasis_2,D}=
+            \begin{mat}[r]
+                 5  &0  \\
+                 0  &4
+            \end{mat}
+          \end{equation*}
+由矩阵表示线性映射的定义，有
+          \begin{equation*}
+            \rep{\identity(\vec{e}_1)}{D}=\rep{\vec{e}_1}{D}=\colvec[r]{5 \\ 0}
+            \qquad
+            \rep{\identity(\vec{e}_2)}{D}=\rep{\vec{e}_2}{D}=\colvec[r]{0 \\ 4}
+          \end{equation*}
+设
+          \begin{equation*}
+            D=\sequence{\colvec{x_1 \\ y_1},\colvec{x_2 \\ y_2}}
+          \end{equation*}
+可解方程组
+          \begin{equation*}
+            \colvec[r]{1 \\ 0}
+            =5\colvec{x_1 \\ y_1}+0\colvec{x_2 \\ y_1}
+            \qquad
+            \colvec[r]{0 \\ 1}
+            =0\colvec{x_1 \\ y_1}+4\colvec{x_2 \\ y_1}
+          \end{equation*}
+也可直接观察得到答案（参照 \nearbylemma{le:NonSingIsChBasis} 的证明）。
+          \begin{equation*}
+            D=\sequence{\colvec[r]{1/5 \\ 0},
+                        \colvec[r]{0 \\ 1/4}}
+          \end{equation*}
+\partsitem 能，该矩阵非奇异。为求 $D$，与上面一样，从
+          \begin{equation*}
+            D=\sequence{\colvec{x_1 \\ y_1},
+                        \colvec{x_2 \\ y_2}}
+          \end{equation*}
+出发求解
+          \begin{equation*}
+            \colvec[r]{1 \\ 0}
+            =2\colvec{x_1 \\ y_1}+3\colvec{x_2 \\ y_1}
+            \quad\text{and}\quad
+            \colvec[r]{0 \\ 1}
+            =1\colvec{x_1 \\ y_1}+1\colvec{x_2 \\ y_1}
+          \end{equation*}
+得到
+          \begin{equation*}
+            D=\sequence{\colvec[r]{-1 \\ 3},
+                        \colvec[r]{1 \\ -2}}
+          \end{equation*}
+\partsitem 不能，因为矩阵奇异。
+\partsitem 能，因为矩阵非奇异。终止基的计算与上面相同。
+          \begin{equation*}
+            D=\sequence{\colvec[r]{1/2 \\ -1/2},
+                        \colvec[r]{1/2 \\ 1/2}}
+          \end{equation*}
+      \end{exparts}  
+    \end{answer}
+\item 对每个空间，求将向量相对于 $B$ 的表示转换为相对于~$D$ 的表示的矩阵。
+    \begin{exparts}
+      \partsitem $V=\Re^3$, $B=\stdbasis_3$, 
+          $D=\sequence{\colvec{1 \\ 2 \\ 3},
+                   \colvec{1 \\ 1 \\ 1},
+                   \colvec{0 \\ 1 \\ -1}}$
+      \partsitem $V=\Re^3$,  
+        $B=\sequence{\colvec{1 \\ 2 \\ 3},
+                     \colvec{1 \\ 1 \\ 1},
+                     \colvec{0 \\ 1 \\ -1}}$,
+        $D=\stdbasis_3$
+      \partsitem $V=\polyspace_2$,
+        $B=\sequence{x^2, x^2+x, x^2+x+1}$,
+        $D=\sequence{2, -x, x^2}$
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+先求恒等函数在起始基~$B$ 各元素上的作用，显然如下。
+          \begin{equation*}
+            \colvec{1 \\ 0 \\ 0}\mapsunder{\identity}\colvec{1 \\ 0 \\ 0}
+            \quad
+            \colvec{0 \\ 1 \\ 0}\mapsunder{\identity}\colvec{0 \\ 1 \\ 0}
+            \quad
+            \colvec{0 \\ 0 \\ 1}\mapsunder{\identity}\colvec{0 \\ 0 \\ 1}
+          \end{equation*}
+再将三个输出相对于终止基表示出来。
+          \begin{equation*}
+            \rep{\colvec{1 \\ 0 \\ 0}}{D}=\colvec{-2/3 \\ 5/3 \\ -1/3}
+            \quad
+            \rep{\colvec{0 \\ 1 \\ 0}}{D}=\colvec{1/3 \\ -1/3 \\ 2/3}
+            \quad
+            \rep{\colvec{0 \\ 0 \\ 1}}{D}=\colvec{1/3 \\ -1/3 \\ -1/3}
+          \end{equation*}
+将它们并排拼接成矩阵。
+          \begin{equation*}
+            \rep{\identity}{B,D}=
+            \begin{mat}
+              -2/3 &1/3  &1/3  \\
+               5/3 &-1/3 &-1/3 \\
+              -1/3 &2/3  &-1/3
+            \end{mat}
+          \end{equation*}
+        \partsitem
+一种方法是求上一问矩阵的逆，因为它沿反方向换基。
+也可计算以下三个表示，
+          \begin{equation*}
+            \rep{\colvec{1 \\ 2 \\ 3}}{\stdbasis_3}
+              =\colvec{1 \\ 2 \\ 3}
+            \quad
+            \rep{\colvec{1 \\ 1 \\ 1}}{\stdbasis_3}
+              =\colvec{1 \\ 1 \\ 1}
+            \quad
+            \rep{\colvec{0 \\ 1 \\ -1}}{\stdbasis_3}
+               =\colvec{0 \\ 1 \\ -1}
+          \end{equation*}
+再将它们拼成矩阵。
+          \begin{equation*}
+            \rep{\identity}{B,D}=
+            \begin{mat}
+              1 &1 &0 \\
+              2 &1 &1 \\
+              3 &1 &-1
+            \end{mat}
+          \end{equation*}
+        \partsitem
+相对于终止基表示 $\identity(x^2)$、$\identity(x^2+x)$ 和~$\identity(x^2+x+1)$，得到
+          \begin{equation*}
+            \rep{x^2}{D}=\colvec{0 \\ 0 \\ 1}
+            \quad
+            \rep{x^2+x}{D}=\colvec{0 \\ -1 \\ 1}
+            \quad
+            \rep{x^2+x+1}{D}=\colvec{1/2 \\ -1 \\ 1}
+          \end{equation*}
+将它们拼接。
+          \begin{equation*}
+            \rep{\identity}{B,D}=
+            \begin{mat}
+              0 &0 &1/2 \\
+              0 &-1 &-1 \\
+              1 &1  &1
+            \end{mat}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 
+寻找基，使以下矩阵相对于这些基表示恒等映射。
+    \begin{equation*}
+      \begin{mat}[r]
+        3  &1  &4  \\
+        2  &-1 &1  \\
+        0  &0  &4
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+本题有许多不同答案。一种方法是在任意空间中任取基 $B$，再计算适当的 $D$（当然属于同一空间）。
+更简单的方法是取陪域为 $\Re^3$，陪域的基为 $\stdbasis_3$。
+由于任意向量相对于标准基的表示就是它自身，得到
+      \begin{equation*}
+        B=\sequence{\colvec[r]{3 \\ 2 \\ 0},
+                    \colvec[r]{1 \\ -1 \\ 0},
+                    \colvec[r]{4 \\ 1 \\ 4}  }
+        \qquad
+        D=\stdbasis_3
+      \end{equation*}  
+    \end{answer}
+  \item 
+考虑以 \( \sequence{\sin(x),\cos(x)} \) 为基的实值函数向量空间。
+证明 \( \sequence{2\sin(x)+\cos(x),3\cos(x)} \) 也是该空间的一组基，并求两个方向的换基矩阵。
+    \begin{answer}
+按常规方法可验证 \( B=\sequence{2\sin(x)+\cos(x),3\cos(x)} \) 为基。将自然基记为 $D$。
+为求换基矩阵 $\rep{\identity}{B,D}$，必须求 $\rep{2\sin(x)+\cos(x)}{D}$ 和 $\rep{3\cos(x)}{D}$，
+即寻找 $x_1,y_1,x_2,y_2$ 使以下等式成立。
+      \begin{align*}
+        x_1\cdot \sin(x)+y_1\cdot\cos(x) &= 2\sin(x)+\cos(x) \\
+        x_2\cdot \sin(x)+y_2\cdot\cos(x) &= 3\cos(x) 
+      \end{align*}
+显然，答案如下。
+      \begin{equation*}
+        \rep{\identity}{B,D}
+        =\begin{mat}[r]
+          2  &0  \\
+          1  &3
+        \end{mat}
+      \end{equation*}
+反方向的换基矩阵可通过求解以下方程，得到 $\rep{\sin(x)}{B}$ 和 $\rep{\cos(x)}{B}$。
+      \begin{align*}
+        w_1\cdot (2\sin(x)+\cos(x))+z_1\cdot(3\cos(x)) &= \sin(x) \\
+        w_2\cdot (2\sin(x)+\cos(x))+z_2\cdot(3\cos(x)) &= \cos(x) 
+      \end{align*}
+更简单的方法是求上面矩阵的逆。
+      \begin{equation*}
+        \rep{\identity}{D,B}
+        =\begin{mat}[r]
+          2  &0  \\
+          1  &3  
+        \end{mat}^{-1}
+        =\frac{1}{6}\cdot\begin{mat}[r]
+          3  &0  \\
+          -1  &2  
+        \end{mat}
+        =\begin{mat}[r]
+           1/2  &0  \\
+          -1/6  &1/3
+         \end{mat}
+      \end{equation*}
+    \end{answer}
+  \item 
+以下矩阵
+    \begin{equation*}
+        \begin{mat}
+           \cos(2\theta)   &\sin(2\theta)   \\
+           \sin(2\theta)   &-\cos(2\theta)
+        \end{mat}
+    \end{equation*}
+将 \( \Re^2 \) 的标准基换成什么？对其他基呢？
+\textit{提示。}考虑逆矩阵。
+    \begin{answer} 
+先求矩阵的逆，即确定所考察映射的逆。
+      \begin{align*}
+        \rep{\identity}{D,\stdbasis_2}
+        \rep{\identity}{D,\stdbasis_2}^{-1}
+        &=\frac{1}{-\cos^2(2\theta)-\sin^2(2\theta)}\cdot\begin{mat}
+           -\cos(2\theta)   &-\sin(2\theta)  \\
+           -\sin(2\theta)   &\cos(2\theta)
+        \end{mat}                                         \\
+        &=\begin{mat}
+           \cos(2\theta)   &\sin(2\theta)  \\
+           \sin(2\theta)   &-\cos(2\theta)
+        \end{mat}
+      \end{align*}
+这比另一方向的表示更容易处理，因为该矩阵由以下两个列向量并排拼成，
+      \begin{equation*}
+        \rep{\vec{\delta}_1}{\stdbasis_2}
+           =\colvec{\cos(2\theta) \\ \sin(2\theta)}
+        \qquad 
+        \rep{\vec{\delta}_2}{\stdbasis_2}
+           =\colvec{\sin(2\theta) \\ -\cos(2\theta)}
+      \end{equation*}
+而相对于 $\stdbasis_2$ 的表示是直接的。
+      \begin{equation*}
+        \vec{\delta}_1=\colvec{\cos(2\theta) \\ \sin(2\theta)}
+        \qquad 
+        \vec{\delta}_2=\colvec{\sin(2\theta) \\ -\cos(2\theta)}
+      \end{equation*}
+      该图展示将 $D$ 变换为 $\stdbasis_2$ 的映射作用
+      (it is, again, the inverse of the map that is the answer to
+      此问题）。
+      该直线与 $x$ 轴夹角为 $\theta$。
+      \begin{center}  \small
+        \includegraphics{map/mp/ch3.81}
+      \end{center}
+这个映射将向量关于该直线反射。反射的逆是自身，所以答案为：原映射是关于过原点、倾角为 $\theta$ 的直线的反射。
+（当然，对任意基都是如此。）
+    \end{answer}
+  \recommended \item
+相对于 \( B,B \) 的换基矩阵是什么？
+    \begin{answer}
+大小适当的单位矩阵。
+     \end{answer}
+  \item 
+证明矩阵能换基当且仅当它可逆。
+    \begin{answer}
+两者都等价于矩阵非奇异。
+    \end{answer}
+  \item 
+完成 \nearbylemma{le:NonSingIsChBasis} 的证明。
+    \begin{answer}
+剩下需要证明：左乘消元矩阵表示从另一组基换到 \( B=\basis{\beta}{n} \)。
+
+行倍乘矩阵 \( M_i(k) \) 将相对于基
+\( \sequence{\vec{\beta}_1,\dots,k\vec{\beta}_i,\dots,\vec{\beta}_n} \) 的表示转换为相对于 \( B \) 的表示，如下。
+      \begin{equation*}
+         \vec{v}=c_1\cdot\vec{\beta}_1+\dots+c_i\cdot(k\vec{\beta}_i)
+                   +\dots+c_n\cdot\vec{\beta}_n  
+         \;\mapsto\;                                                       
+         c_1\cdot\vec{\beta}_1+\dots
+             +(kc_i)\cdot\vec{\beta}_i+\dots+c_n\cdot\vec{\beta}_n=\vec{v}
+      \end{equation*}
+行交换矩阵 \( P_{i,j} \) 将相对于基
+\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_j,\dots,\vec{\beta}_i,\dots,\vec{\beta}_n} \)
+的表示转换为相对于
+\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_i,\dots,\vec{\beta}_j,\dots,\vec{\beta}_n} \) 的表示。
+最后，行组合矩阵 \( C_{i,j}(k) \) 将相对于
+\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_i+k\vec{\beta}_j,\dots,\vec{\beta}_j,\dots,\vec{\beta}_n} \)
+的表示转换为相对于 \( B \) 的表示。
+      \begin{multline*}
+         \vec{v}= c_1\cdot\vec{\beta}_1+\dots
+                     +c_i\cdot(\vec{\beta}_i+k\vec{\beta}_j)
+                       +\dots+c_j\vec{\beta}_j+\dots+c_n\cdot\vec{\beta}_n  
+         \\  \mapsto\;                                                       
+         c_1\cdot\vec{\beta}_1+\dots+c_i\cdot\vec{\beta}_i
+               +\dots+(kc_i+c_j)\cdot\vec{\beta}_j
+               +\dots+c_n\cdot\vec{\beta}_n=\vec{v}     
+      \end{multline*}
+（与正文中的证明相同，行运算的条件，例如标量 $k$ 非零，保证这些序列都是基。）
+    \end{answer}
+  \recommended \item 
+设 \( H \) 是 \( \nbyn{n} \) 非奇异矩阵。\( H \) 将 \( \Re^n \) 的哪组基换成标准基？
+    \begin{answer}
+将 $H$ 看作换基矩阵 $H=\rep{\identity}{B,\stdbasis_n}$，其各列为
+       \begin{equation*}
+         \colvec{h_{1,i} \\ \vdots \\ h_{n,i}}
+         =\rep{\identity(\vec{\beta}_i)}{\stdbasis_n}
+         =\rep{\vec{\beta}_i}{\stdbasis_n}
+       \end{equation*}
+由于相对于标准基的表示是直接的，有
+       \begin{equation*}
+         \colvec{h_{1,i} \\ \vdots \\ h_{n,i}}
+         =\vec{\beta}_i
+       \end{equation*}
+即所求基由 \( H \) 的各列组成。
+    \end{answer}
+  \recommended \item \label{exer:AnyNonZeroRepChgTOAnyOther}
+    \begin{exparts}
+\partsitem 在 \( \polyspace_3 \) 中，相对于基 \( B=\sequence{1+x,1-x,x^2+x^3,x^2-x^3} \)，有以下表示。
+        \begin{equation*}
+          \rep{1-x+3x^2-x^3}{B}=
+            \colvec[r]{0 \\ 1 \\ 1 \\ 2}_B
+        \end{equation*}
+寻找基 \( D \)，使同一多项式具有以下不同表示。
+        \begin{equation*}
+          \rep{1-x+3x^2-x^3}{D}=
+            \colvec[r]{1 \\ 0 \\ 2 \\ 0}_D
+        \end{equation*}
+\partsitem 表述并证明：任意非零向量的表示都可以转换为其他任意非零表示。
+    \end{exparts}
+\noindent\textit{提示。}
+\nearbylemma{le:NonSingIsChBasis} 的证明是构造性的\Dash 不仅说明基会改变，还展示了如何改变。
+    \begin{answer}
+      \begin{exparts}
+\partsitem 可通过一系列行运算将起始向量表示转为终止表示，证明说明了基如何随之改变。
+先交换相对于 $B$ 的表示的第一行与第二行，得到相对于新基 $B_1$ 的表示。
+          \begin{equation*}
+            \rep{1-x+3x^2-x^3}{B_1}=
+              \colvec[r]{1 \\ 0 \\ 1 \\ 2}_{B_1}
+            \qquad
+            B_1=\sequence{1-x,1+x,x^2+x^3,x^2-x^3}
+          \end{equation*}
+再将表示向量第三行的 \( -2 \) 倍加到第四行。
+          \begin{equation*}
+            \rep{1-x+3x^2-x^3}{B_3}=
+              \colvec[r]{1 \\ 0 \\ 1 \\ 0}_{B_2}
+            \qquad
+            B_2=\sequence{1-x,1+x,3x^2-x^3,x^2-x^3}
+          \end{equation*}
+（\( B_2 \) 的第三个元素是 \( B_1 \) 的第三个元素减去第四个元素的 \( -2 \) 倍。）
+最后，将第三行加倍即可。
+          \begin{equation*}
+            \rep{1-x+3x^2-x^3}{D}=
+              \colvec[r]{1 \\ 0 \\ 2 \\ 0}_{D}
+            \qquad
+            D=\sequence{1-x,1+x,(3x^2-x^3)/2,x^2-x^3}
+          \end{equation*}
+        \partsitem 
+这个结果有三种表述。第一种：设向量空间 $V$ 有基 $B$，且 $\vec{v}\in V$ 非零，则对任意非零列向量 $\vec{z}$（分量数等于 $V$ 的维数），
+都存在换基矩阵 $M$ 使 $M\cdot \rep{\vec{v}}{B}=\vec{z}$。
+第二种：对任意 $n$ 维向量空间 $V$、任意非零向量 \( \vec{v}\in V \) 以及非零 \( \vec{z}_1,\vec{z}_2\in\Re^n \)，
+存在基 \( B,D\subset V \)，使 \( \rep{\vec{v}}{B}=\vec{z}_1 \)、\( \rep{\vec{v}}{D}=\vec{z}_2 \)。
+第三种：对任意 $n$ 维向量空间中的非零向量 $\vec{v}$，以及任意具有 $n$ 个分量的非零列向量，存在一组基使 $\vec{v}$ 相对于它的表示就是该列向量。
+
+前两种容易由第三种推出。第一种中，第三种给出基 $D$ 使 $\rep{\vec{v}}{D}=\vec{z}$，于是 $\rep{\identity}{B,D}$ 就是所需的~$M$。
+第二种只需将第三种应用两次。
+
+第三种可仿照本题第一问证明。概要如下：相对于任意基 $B$，将 $\vec{v}$ 表示为列向量 $\vec{z}_1$。
+由于 $\vec{v}$ 非零，该列向量必有非零分量。利用这一分量，通过一系列行运算将 $\vec{z}_1$ 转为 $\vec{z}$。
+（可对 $V$ 的维数使用归纳法，将此概要补全。）
+       \end{exparts}  
+     \end{answer}
+  \item 
+设 \( V,W \) 为向量空间，\( B,\hat{B} \) 为 \( V \) 的基，\( D,\hat{D} \) 为 \( W \) 的基。
+对于线性映射 \( \map{h}{V}{W} \)，求联系 \( \rep{h}{B,D} \) 与 \( \rep{h}{\hat{B},\hat{D}} \) 的公式。
+    \begin{answer}
+这就是下一小节的主题。
+    \end{answer}
+  \recommended \item
+证明 \( \nbyn{n} \) 换基矩阵的各列构成 \( \Re^n \) 的一组基。
+所有基都能这样出现吗，即任意 $\Re^n$ 的基向量能否作为换基矩阵的各列？
+    \begin{answer}
+换基矩阵非奇异，所以秩等于列数。其各列在 $\Re^n$ 中构成大小为 $n$ 的线性无关子集，因此是一组基。
+第二问的答案也为“能”，因为上述推理每一步均可逆，即都可写成“当且仅当”。
+    \end{answer}
+  \recommended \item 
+寻找具有以下作用的矩阵。
+    \begin{equation*}
+      \colvec[r]{1 \\ 3}
+      \;\mapsto\;
+      \colvec[r]{4 \\ -1}
+    \end{equation*}
+即求 $M$，使左乘起始向量得到终止向量。是否存在矩阵同时具有以下两个作用？
+    \begin{exparts*}
+      \partsitem
+        $
+          \colvec[r]{1 \\ 3}\mapsto\colvec[r]{1 \\ 1}
+          \quad
+          \colvec[r]{2 \\ -1}\mapsto\colvec[r]{-1 \\ -1}
+        $
+      \partsitem $
+          \colvec[r]{1 \\ 3}\mapsto\colvec[r]{1 \\ 1}
+          \quad
+          \colvec[r]{2 \\ 6}\mapsto\colvec[r]{-1 \\ -1}
+        $
+   \end{exparts*}
+给出存在矩阵使 $\vec{v}_1\mapsto\vec{w}_1$、$\vec{v}_2\mapsto\vec{w}_2$ 的充要条件。
+    \begin{answer}
+对于第一部分，这样的矩阵有无穷多个。其中一个相对于 \( \stdbasis_2 \) 表示 \( \Re^2 \) 上具有以下作用的变换。
+      \begin{equation*}
+        \colvec[r]{1 \\ 0}\mapsto\colvec[r]{4 \\ 0}
+        \qquad
+        \colvec[r]{0 \\ 1}\mapsto\colvec[r]{0 \\ -1/3}
+      \end{equation*}  
+同时指定两对不同的输入、输出稍复杂一些。矩阵作用的线性性排除了一些可能性。
+     \begin{exparts}
+\partsitem 存在这样的矩阵。以下条件
+         \begin{equation*}
+           \begin{mat}
+             a  &b  \\
+             c  &d
+           \end{mat}
+           \colvec[r]{1 \\ 3}
+           =
+           \colvec[r]{1 \\ 1}
+           \qquad
+           \begin{mat}
+             a  &b  \\
+             c  &d
+           \end{mat}
+           \colvec[r]{2 \\ -1}
+           =
+           \colvec[r]{-1 \\ -1}
+         \end{equation*}
+可解为
+         \begin{equation*}
+           \begin{linsys}{4}
+             a  &+  &3b  &   &   &   &   &=  &1  \\
+                &   &    &   &c  &+  &3d &=  &1  \\
+            2a  &-  &b   &   &   &   &   &=  &-1 \\
+                &   &    &   &2c &-  &d  &=  &-1 
+           \end{linsys}
+         \end{equation*}
+得到这个矩阵。
+         \begin{equation*}
+           \begin{mat}[r]
+             -2/7  &3/7 \\
+             -2/7  &3/7 
+           \end{mat}
+         \end{equation*}
+\partsitem 不存在，因为
+         \begin{equation*}
+           2\cdot\colvec[r]{1 \\ 3}=\colvec[r]{2 \\ 6}
+           \quad\text{but}\quad
+           2\cdot\colvec[r]{1 \\ 1}\neq\colvec[r]{-1 \\ -1}
+         \end{equation*}
+线性作用不可能产生这种效果。
+\partsitem \( \set{\vec{v}_1,\vec{v}_2} \) 线性无关是充分条件，但不是必要条件。
+充要条件是：起始向量之间的任意线性相关关系，在终止向量之间也成立。即
+         \begin{equation*}
+           c_1\vec{v}_1+c_2\vec{v}_2=\zero
+           \quad\text{implies}\quad
+           c_1\vec{w}_1+c_2\vec{w}_2=\zero.
+         \end{equation*}
+该条件的证明可按常规方法完成。
+     \end{exparts} 
+   \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{改变映射的表示}
+\index{matrix equivalence|(}
+第一小节说明了如何将同一向量相对于一组基的表示转换为相对于另一组基的表示。
+接下来转换映射相对于不同基对的表示\Dash 从 $\rep{h}{B,D}$ 转为 $\rep{h}{\hat{B},\hat{D}}$。
+箭头图如下。\index{arrow diagram}
+%<*ChangeRepresentationOfMapArrowDiagram>
+\begin{equation*}
+  \begin{CD}
+    V_{\wrt{B}}                   @>h>H>        W_{\wrt{D}}       \\
+    @V{\text{\scriptsize$\identity$}} VV                @V{\text{\scriptsize$\identity$}} VV \\
+    V_{\wrt{\hat{B}}}             @>h>\hat{H}>  W_{\wrt{\hat{D}}}
+  \end{CD}
+\end{equation*}
+从左下到右下，可以直接过去，也可以先向上到 $V_B$，再到 $W_D$，最后向下。
+因此，计算 $\hat{H}=\rep{h}{\hat{B},\hat{D}}$，既可直接使用 $\hat{B}$ 和 $\hat{D}$，
+也可先用 $\rep{\identity}{\hat{B},B}$ 换基，再乘 \( H=\rep{h}{B,D} \)，最后用 $\rep{\identity}{D,\hat{D}}$ 换基。
+%</ChangeRepresentationOfMapArrowDiagram>
+
+\begin{theorem}
+%<*ChangeRepresentationOfMapTheorem>
+将映射~$h$ 相对于 $B,D$ 的表示矩阵~$H$，转换为相对于~$\hat{B},\hat{D}$ 的表示矩阵~$\hat{H}$，使用以下公式。
+\begin{equation*}
+   \hat{H}=
+   \rep{\identity}{D,\hat{D}}\cdot H\cdot \rep{\identity}{\hat{B},B}
+   \tag*{\text{($*$})}
+\end{equation*}
+%</ChangeRepresentationOfMapTheorem>
+\end{theorem}
+
+\begin{proof}
+%<*ChangeRepresentationOfMapTheoremPf>
+由图显然可见。
+%</ChangeRepresentationOfMapTheoremPf>
+\end{proof}
+
+% (To compare the equation with the sentence before it
+% remember to read its right hand side
+% from right to left, because we read
+% function composition from right to left and matrix multiplication 
+% represents composition).
+
+\begin{example}
+矩阵
+\begin{equation*}
+  T=\begin{mat}[r]
+     \cos(\pi/6)  &-\sin(\pi/6)  \\
+     \sin(\pi/6)  &\cos(\pi/6)
+  \end{mat}
+  =
+  \begin{mat}[r]
+     \sqrt{3}/2  &-1/2  \\
+     1/2         &\sqrt{3}/2
+  \end{mat}
+\end{equation*}
+相对于 \( \stdbasis_2,\stdbasis_2 \) 表示将向量逆时针旋转 \( \pi/6 \) 弧度的变换 \( \map{t}{\Re^2}{\Re^2} \)。
+\begin{center}
+  \includegraphics{map/mp/ch3.22}
+\end{center}
+可以将 $T$ 转换为相对于以下基的表示，
+\begin{equation*}
+  \hat{B}=\sequence{
+              \colvec[r]{1 \\ 1}
+              \colvec[r]{0 \\ 2} }
+  \qquad
+  \hat{D}=\sequence{
+              \colvec[r]{-1 \\ 0}
+              \colvec[r]{2 \\ 3} }
+\end{equation*}
+使用上面的箭头图即可。
+\begin{equation*}
+  \begin{CD}
+    \Re^2_{\wrt{\stdbasis_2}}              @>t>T>        \Re^2_{\wrt{\stdbasis_2}}     \\
+    @V\text{\scriptsize$\identity$} VV                @V\text{\scriptsize$\identity$} VV \\
+    \Re^2_{\wrt{\hat{B}}}          @>t>\hat{T}>  \Re^2_{\wrt{\hat{D}}}
+  \end{CD}
+\end{equation*}
+图中说明，可沿正方形底边直接计算~$\hat{T}$，也可如公式~($*$) 一样，沿左边向上、上边向右、右边向下，得到
+$\hat{T}=\rep{\identity}{\stdbasis_2,\hat{D}}\cdot T\cdot \rep{\identity}{\hat{B},\stdbasis_2}$。
+（再次注意，矩阵乘法从右向左读，因为这里是三个函数的复合，而函数复合从右向左读。）
+
+按常规求左边路径的矩阵~$\rep{\identity}{\hat{B},\stdbasis_2}$：
+求恒等映射在起始基~$\hat{B}$ 上的作用\Dash 即保持不变\Dash 再将这些基元素相对于终止基~$\stdbasis_2$ 表示出来。
+\begin{equation*}
+  \rep{\identity}{\hat{B},\stdbasis_2}
+  =
+  \begin{mat}
+    1 &0 \\
+    1 &2
+  \end{mat}
+\end{equation*}
+终止基为标准基时，这一计算很简单。
+
+沿正方形右边向下的矩阵 $\rep{\identity}{\stdbasis_2,\hat{D}}$ 有两种求法。
+可以像另一个换基矩阵一样直接计算，也可求向上矩阵 $\rep{\identity}{\hat{D},\stdbasis_2}$ 的逆。
+后者容易求出，又有 $\nbyn{2}$ 求逆公式，所以下式采用这种方法。
+\begin{align*}
+   \rep{t}{\hat{B},\hat{D}}
+  &=\begin{mat}[r]
+     -1     &2   \\
+     0      &3
+  \end{mat}^{-1}
+  \begin{mat}[r]
+     \sqrt{3}/2  &-1/2  \\
+     1/2         &\sqrt{3}/2
+  \end{mat}
+  \begin{mat}[r]
+     1      &0   \\
+     1      &2
+  \end{mat}                              \\                            
+  &=\begin{mat}[r]
+     (5-\sqrt{3})/6   &(3+2\sqrt{3})/3 \\
+     (1+\sqrt{3})/6  &\sqrt{3}/3
+  \end{mat}
+\end{align*}
+
+矩阵更复杂了，但表示的映射相同。例如，要重现图中 $t$ 的作用，从 $\hat{B}$ 出发，
+\begin{equation*}
+  \rep{\colvec[r]{1 \\ 3}}{\hat{B}}=\colvec[r]{1 \\ 1}_{\hat{B}}
+\end{equation*}
+作用 $\hat{T}$，
+\begin{equation*}
+  \begin{mat}[r]
+     (5-\sqrt{3})/6   &(3+2\sqrt{3})/3 \\
+     (1+\sqrt{3})/6  &\sqrt{3}/3
+  \end{mat}_{\hat{B},\hat{D}}
+  \colvec[r]{1 \\ 1}_{\hat{B}}
+  =
+  \colvec[r]{(11+3\sqrt{3})/6 \\ (1+3\sqrt{3})/6}_{\hat{D}}
+\end{equation*}
+再按 $\hat{D}$ 还原并核对。
+\begin{equation*}
+  \frac{11+3\sqrt{3}}{6}\cdot\colvec[r]{-1 \\ 0}
+  +\frac{1+3\sqrt{3}}{6}\cdot\colvec[r]{2 \\ 3}
+  =\colvec[r]{(-3+\sqrt{3})/2 \\ (1+3\sqrt{3})/2}
+\end{equation*}
+\end{example}
+
+\begin{example} \label{ex:DiagizedMat}
+换基也可以使矩阵更简单。\( \Re^3 \) 上的映射
+\begin{equation*}
+  \colvec{x \\ y \\ z}\mapsunder{t}\colvec{y+z \\ x+z \\ x+y}
+\end{equation*}
+相对于标准基的表示如下。
+\begin{equation*}
+  \rep{t}{\stdbasis_3,\stdbasis_3}=
+  \begin{mat}[r]
+    0  &1  &1  \\
+    1  &0  &1  \\
+    1  &1  &0
+  \end{mat}
+\end{equation*}
+相对于以下基表示它，
+\begin{equation*}
+  B=\sequence{\colvec[r]{1 \\ -1 \\ 0},
+                             \colvec[r]{1 \\ 1 \\ -2},
+                             \colvec[r]{1 \\ 1 \\ 1}}
+\end{equation*} 
+得到一个对角矩阵。
+\begin{equation*} 
+  \rep{t}{B,B}=
+  \begin{mat}[r]
+   -1  &0  &0  \\
+    0  &-1 &0  \\
+    0  &0  &2
+  \end{mat}
+\end{equation*}
+\end{example}
+
+自然，我们通常偏好更容易理解的表示。
+若找到基~$B$，使映射或矩阵相对于 $B,B$ 的表示为对角矩阵，即起始基与终止基相同，
+就称已将它\definend{对角化}\index{matrix!diagonalized}。
+第五章将研究哪些映射与矩阵可对角化。
+
+本小节余下部分研究较简单的情形：寻找两组基 $B,D$，使表示简单。
+回顾上一小节，矩阵是换基矩阵当且仅当它非奇异。
+% That gives us another version of the above  arrow diagram
+% and equation~($*$) from the start of this subsection.
+
+\begin{definition}  \label{def:MatEquiv}
+%<*df:MatEquiv>
+若存在非奇异矩阵 \( P \)、\( Q \) 使 $\hat{H}=PHQ$，则称相同大小的矩阵 \( H \) 和 \( \hat{H} \)
+\definend{矩阵等价}\index{matrix equivalence!definition}%
+\index{matrix!equivalent}\index{equivalence relation!matrix equivalence}。
+%</df:MatEquiv>
+\end{definition}
+
+\begin{corollary} \label{le:MatEqIsSameMap}
+%<*co:MatEqIsSameMap>
+矩阵等价的矩阵，相对于适当的基对表示同一映射。
+%</co:MatEqIsSameMap>
+\end{corollary}
+
+\begin{proof}
+由上面的式~($*$) 立即得到。
+\end{proof}
+
+\nearbyexercise{exer:MatEqIsEqRel} 验证矩阵等价是等价关系。
+因此，它将矩阵集合划分\index{partition!matrix equivalence classes}为矩阵等价类。
+\begin{center}
+  \raisebox{.5in}{\begin{tabular}{l}
+                    所有矩阵：
+                  \end{tabular}}
+  \includegraphics{map/mp/ch3.23}
+  \raisebox{.3in}{\begin{tabular}{l}
+                     $H$ matrix equivalent \\ to $\hat{H}$
+                  \end{tabular}}
+\end{center}
+将矩阵等价与行等价比较，可加深对这些类的理解（回顾，两个矩阵若能通过行运算互相化得，就行等价）。
+在 $\hat{H}=PHQ$ 中，$P$、$Q$ 非奇异，由引理~IV.\ref{lem:ComputeInvMat}，它们均为初等消元矩阵的乘积。
+组成 $P$ 的消元矩阵从左边相乘，执行行运算；组成 $Q$ 的消元矩阵从右边相乘，执行列运算。
+因此，矩阵等价推广了行等价\Dash 行等价允许一系列行消元步骤，而矩阵等价允许先作一系列行消元、再作一系列列消元，将一个矩阵化为另一个。
+
+所以，行等价的矩阵也矩阵等价，因为可取 $Q$ 为单位矩阵。
+但逆命题不成立：两个矩阵可以矩阵等价，却不行等价。
+
+\begin{example}
+以下两矩阵矩阵等价，
+\begin{equation*} 
+  \begin{mat}[r]
+    1  &0  \\
+    0  &0
+  \end{mat}
+  \qquad
+  \begin{mat}[r]
+    1  &1  \\
+    0  &0
+  \end{mat}
+\end{equation*}
+因为对第二个矩阵作列运算，将第一列的 $-1$ 倍加到第二列，就得到第一个。
+它们不行等价，因为简化阶梯形不同（两者本身已是简化阶梯形）。
+\end{example}
+
+本节最后给出矩阵等价类的一组代表元。% \appendrefs{class representatives}%
+\index{representative!of matrix equivalence classes}
+
+\begin{theorem}  \label{th:CanonFormForMatEquiv}
+\index{matrix equivalence!canonical form}
+\index{canonical form!for matrix equivalence}
+%<*th:CanonFormForMatEquiv>
+任意秩为 \( k \) 的 \( \nbym{m}{n} \) 矩阵，都矩阵等价于如下 \( \nbym{m}{n} \) 矩阵：前 \( k \) 个对角元素为一，其余元素全为零。
+\begin{equation*}
+    \begin{mat}
+      1  &0      &\ldots &0  &0  &\ldots  &0  \\
+      0  &1      &\ldots &0  &0  &\ldots  &0  \\
+         &\vdots                              \\
+      0  &0      &\ldots &1  &0  &\ldots  &0  \\
+      0  &0      &\ldots &0  &0  &\ldots  &0  \\
+         &\vdots                              \\
+      0  &0      &\ldots &0  &0  &\ldots  &0
+    \end{mat}
+\end{equation*}
+%</th:CanonFormForMatEquiv>
+\end{theorem}
+
+%<*BlockPartialIdentityForm>
+\noindent 这称为\definend{分块部分单位形}\index{matrix!block}。
+\begin{equation*}
+    \begin{pmat}{c|c}
+      I  &Z  \\  \hline
+      Z  &Z
+    \end{pmat}
+\end{equation*}
+%</BlockPartialIdentityForm>
+
+\begin{proof}
+%<*pf:CanonFormForMatEquiv>
+先对给定矩阵作高斯–若尔当消元，将所有行消元矩阵相乘得到 \( P \)。
+再利用主元作列消元，最后交换列，将各个主元一移到对角线上。将列消元矩阵相乘得到 \( Q \)。
+%</pf:CanonFormForMatEquiv>
+\end{proof}
+
+\begin{example}
+以求以下矩阵的 $P$、$Q$ 来说明证明过程。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &2  &1  &-1  \\
+       0  &0  &1  &-1  \\
+       2  &4  &2  &-2
+    \end{mat}
+\end{equation*}
+先作高斯–若尔当行消元。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &-1 &0    \\
+       0  &1  &0    \\
+       0  &0  &1
+    \end{mat}
+    \begin{mat}[r]
+       1  &0  &0    \\
+       0  &1  &0    \\
+       -2 &0  &1
+    \end{mat}
+    \begin{mat}[r]
+       1  &2  &1  &-1  \\
+       0  &0  &1  &-1  \\
+       2  &4  &2  &-2
+    \end{mat}
+  =
+    \begin{mat}[r]
+       1  &2  &0  &0   \\
+       0  &0  &1  &-1  \\
+       0  &0  &0  &0
+    \end{mat}
+\end{equation*}
+再作列消元，即从右边乘矩阵。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &2  &0  &0   \\
+       0  &0  &1  &-1  \\
+       0  &0  &0  &0
+    \end{mat}
+    \begin{mat}[r]
+       1  &-2 &0  &0   \\
+       0  &1  &0  &0   \\
+       0  &0  &1  &0   \\
+       0  &0  &0  &1
+    \end{mat}
+    \begin{mat}[r]
+       1  &0  &0  &0   \\
+       0  &1  &0  &0   \\
+       0  &0  &1  &1   \\
+       0  &0  &0  &1
+    \end{mat}
+  =
+    \begin{mat}[r]
+       1  &0  &0  &0   \\
+       0  &0  &1  &0  \\
+       0  &0  &0  &0
+    \end{mat}
+\end{equation*}
+最后交换列。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &0  &0  &0   \\
+       0  &0  &1  &0  \\
+       0  &0  &0  &0
+    \end{mat}
+    \begin{mat}[r]
+       1  &0  &0  &0   \\
+       0  &0  &1  &0   \\
+       0  &1  &0  &0   \\
+       0  &0  &0  &1
+    \end{mat}
+  =
+    \begin{mat}[r]
+       1  &0  &0  &0   \\
+       0  &1  &0  &0  \\
+       0  &0  &0  &0
+    \end{mat}
+\end{equation*}
+将所有左乘矩阵合为 $P$，右乘矩阵合为 $Q$，得到 $PHQ$。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &-1 &0    \\
+       0  &1  &0    \\
+       -2 &0  &1
+    \end{mat}
+    \begin{mat}[r]
+       1  &2  &1  &-1  \\
+       0  &0  &1  &-1  \\
+       2  &4  &2  &-2
+    \end{mat}
+    \begin{mat}[r]
+       1  &0  &-2  &0   \\
+       0  &0  &1  &0   \\
+       0  &1  &0  &1   \\
+       0  &0  &0  &1
+    \end{mat}
+    =
+    \begin{mat}[r]
+       1  &0  &0  &0   \\
+       0  &1  &0  &0  \\
+       0  &0  &0  &0
+    \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{corollary}  \label{co:MatrixEquivalentIffSameRank}
+%<*co:MatrixEquivalentIffSameRank>
+矩阵等价类由秩刻画\index{characterizes}：两个相同大小的矩阵矩阵等价，当且仅当秩相同。
+%</co:MatrixEquivalentIffSameRank>
+\end{corollary}
+
+\begin{proof}
+%<*pf:MatrixEquivalentIffSameRank>
+相同大小、相同秩的两个矩阵，都等价于同一个分块部分单位矩阵。
+%</pf:MatrixEquivalentIffSameRank>
+\end{proof}
+
+\begin{example}
+The $\nbyn{2}$ matrices have
+只有三种可能的秩：零、一或二。
+因此有三个矩阵等价类。
+\index{partition!matrix equivalence classes}
+\begin{center} % make an exercise comparing these classes with the ones for row-equivalence?
+  \raisebox{.5in}{\begin{tabular}{l}
+                    All $\nbyn{2}$ matrices:
+                  \end{tabular}}
+  \includegraphics{map/mp/ch3.24}
+  \raisebox{.3in}{\begin{tabular}{l}
+                    三个等价类
+                  \end{tabular}}
+\end{center}
+每个类由所有相同秩的 $\nbyn{2}$ 矩阵组成。秩为零的矩阵只有一个。
+另外两个类各有无穷多个元素，图中仅给出标准代表元。
+\end{example}
+
+\nearbytheorem{th:CanonFormForMatEquiv} 中代表元的一个优点是，映射如此表示时，我们可以完全理解它：若基为
+\( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 和
+\( D=\sequence{\vec{\delta}_1,\dots,\vec{\delta}_m} \)，则映射的作用为
+\begin{equation*}
+  c_1\vec{\beta}_1+\dots+c_k\vec{\beta}_k+c_{k+1}\vec{\beta}_{k+1}+\dots
+     +c_n\vec{\beta}_n
+  \;\mapsto\;
+  c_1\vec{\delta}_1+\dots+c_k\vec{\delta}_k+\zero+\cdots+\zero
+\end{equation*}
+其中 \( k \) 为秩。因此，可将任意线性映射看作一种投影。
+\begin{equation*}
+  \colvec{c_1 \\ \vdots \\ c_k \\ c_{k+1} \\ \vdots \\ c_n}_B
+  \quad\longmapsto\quad
+  \colvec{c_1 \\ \vdots \\ c_k \\ 0 \\ \vdots \\ 0}_D
+\end{equation*}
+% Of course, ``understanding'' a map expressed in this way 
+% requires that we understand the relationship between \( B \) and \( D \).
+% Nonetheless,
+% this is a good classification of linear maps.
+
+\begin{exercises}
+  \recommended \item 
+判断以下矩阵是否矩阵等价。
+    \begin{exparts}
+      \partsitem \( \begin{mat}[r]
+                 1  &3  &0  \\
+                 2  &3  &0
+               \end{mat} \),
+            \( \begin{mat}[r]
+                 2  &2  &1  \\
+                 0  &5  &-1
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 0  &3  \\
+                 1  &1
+               \end{mat} \),
+            \( \begin{mat}[r]
+                 4  &0  \\
+                 0  &5
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 1  &3  \\
+                 2  &6
+               \end{mat} \),
+            \( \begin{mat}[r]
+                 1  &3  \\
+                 2  &-6
+               \end{mat} \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 是，两者秩均为二。
+\partsitem 是，秩相同。
+\partsitem 否，秩不同。
+      \end{exparts}  
+    \end{answer}
+\item 以下哪些矩阵互相矩阵等价？
+    \begin{exparts*}
+      \partsitem 
+         $\begin{mat}
+            1 &2 &3 \\
+            4 &5 &6 \\
+            7 &8 &9
+         \end{mat}$
+      \partsitem 
+         $\begin{mat}
+           1 &3 \\
+          -1 &-3
+         \end{mat}$
+      \partsitem 
+         $\begin{mat}
+            -5 &1 &0 \\
+            -1 &0 &1
+         \end{mat}$
+      \partsitem 
+         $\begin{mat}
+            0 &-1 \\
+            0 &5
+         \end{mat}$
+      \partsitem 
+         $\begin{mat}
+            1 &0 &1 \\
+            2 &0 &2 \\
+            1 &3 &1
+         \end{mat}$
+      \partsitem 
+         $\begin{mat}
+            3  &1   &0 \\
+            9  &3   &0 \\
+            -3 &-1  &0
+         \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+将矩阵按大小和秩分类，同类中的矩阵大小、秩均相同。
+      \begin{exparts}
+\partsitem $\nbyn{3}$，秩~$2$
+\partsitem $\nbyn{2}$，秩~$1$
+\partsitem $\nbym{2}{3}$，秩~$2$
+\partsitem $\nbyn{3}$，秩~$2$
+\partsitem $\nbyn{3}$，秩~$1$
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+求各矩阵所在矩阵等价类的标准代表元。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                 2  &1  &0  \\
+                 4  &2  &0
+               \end{mat} \)
+      \partsitem \( \begin{mat}[r]
+                 0  &1  &0  &2  \\
+                 1  &1  &0  &4  \\
+                 3  &3  &3  &-1
+               \end{mat} \)
+    \end{exparts*}
+    \begin{answer}
+只需计算各自的秩。
+      \begin{exparts*}
+        \partsitem \( \begin{mat}[r]
+                   1  &0  &0  \\
+                   0  &0  &0
+                 \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+                   1  &0  &0  &0  \\
+                   0  &1  &0  &0  \\
+                   0  &0  &1  &0
+                 \end{mat} \)
+      \end{exparts*}  
+    \end{answer}
+  \item 
+设相对于
+    \begin{equation*}
+      B=\stdbasis_2
+      \qquad
+      D=\sequence{\colvec[r]{1 \\ 1},\colvec[r]{1 \\ -1}}
+    \end{equation*}
+变换 \( \map{t}{\Re^2}{\Re^2} \) 由以下矩阵表示。
+    \begin{equation*}
+      \begin{mat}[r]
+        1  &2  \\
+        3  &4
+      \end{mat}
+    \end{equation*}
+使用换基矩阵，相对于下列各对基表示 \( t \)。
+    \begin{exparts}
+      \partsitem \( \hat{B}=\sequence{\colvec[r]{0 \\ 1},\colvec[r]{1 \\ 1}} \),
+        \( \hat{D}=\sequence{\colvec[r]{-1 \\ 0},\colvec[r]{2 \\ 1}} \)
+      \partsitem \( \hat{B}=\sequence{\colvec[r]{1 \\ 2},\colvec[r]{1 \\ 0}} \),
+        \( \hat{D}=\sequence{\colvec[r]{1 \\ 2},\colvec[r]{2 \\ 1}} \)
+    \end{exparts}
+    \begin{answer}
+回顾箭头图和公式。
+      \begin{equation*}
+        \begin{CD}
+          \Re^2_{\wrt{B}}                   @>t>T>        \Re^2_{\wrt{D}}       \\
+          @V\text{\scriptsize$\identity$} VV   @V\text{\scriptsize$\identity$} VV \\
+          \Re^2_{\wrt{\hat{B}}}             @>t>\hat{T}>  \Re^2_{\wrt{\hat{D}}}
+        \end{CD}
+        \qquad \hat{T}=
+         \rep{\identity}{D,\hat{D}}\cdot T\cdot \rep{\identity}{\hat{B},B}
+      \end{equation*}
+      \begin{exparts}
+\partsitem 以下两式
+          \begin{equation*}
+            \colvec[r]{1 \\ 1}=1\cdot\colvec[r]{-1 \\ 0}
+                            +1\cdot\colvec[r]{2 \\ 1}
+            \qquad
+            \colvec[r]{1 \\ -1}=(-3)\cdot\colvec[r]{-1 \\ 0}
+                            +(-1)\cdot\colvec[r]{2 \\ 1}
+          \end{equation*}
+说明
+          \begin{equation*}
+            \rep{\identity}{D,\hat{D}}=\begin{mat}[r]
+              1  &-3  \\
+              1  &-1
+            \end{mat}
+          \end{equation*}
+类似地，以下两式
+          \begin{equation*}
+            \colvec[r]{0 \\ 1}=0\cdot\colvec[r]{1 \\ 0}
+                            +1\cdot\colvec[r]{0 \\ 1}
+            \qquad
+            \colvec[r]{1 \\  1}=1\cdot\colvec[r]{1 \\ 0}
+                            +1\cdot\colvec[r]{0 \\ 1}
+          \end{equation*}
+给出另一个非奇异矩阵。
+          \begin{equation*}
+            \rep{\identity}{\hat{B},B}=\begin{mat}[r]
+              0  &1  \\
+              1  &1
+            \end{mat}
+          \end{equation*}
+因此答案如下。
+          \begin{equation*}
+            \hat{T}=
+            \begin{mat}[r]
+              1  &-3  \\
+              1  &-1
+            \end{mat}
+            \begin{mat}[r]
+              1  &2  \\
+              3  &4
+            \end{mat}
+            \begin{mat}[r]
+              0  &1  \\
+              1  &1
+            \end{mat}
+            =\begin{mat}[r]
+              -10  &-18  \\
+              -2   &-4 
+            \end{mat}
+          \end{equation*}
+虽然并非严格必需，核对一下更令人放心。任取
+          \begin{equation*}
+            \vec{v}=\colvec[r]{3 \\ 2}
+          \end{equation*}
+有
+          \begin{equation*}
+            \rep{\vec{v}}{B}=\colvec[r]{3 \\ 2}_B
+            \qquad
+            \begin{mat}[r]
+              1  &2  \\
+              3  &4
+            \end{mat}_{B,D}
+            \colvec[r]{3 \\ 2}_B
+            =\colvec[r]{7 \\ 17}_D
+          \end{equation*}
+所以 $t(\vec{v})$ 如下。
+          \begin{equation*}
+            7\cdot\colvec[r]{1 \\ 1}+17\cdot\colvec[r]{1 \\ -1}=\colvec[r]{24 \\ -10}
+          \end{equation*}
+相对于 $\hat{B},\hat{D}$ 计算，先求
+          \begin{equation*}
+            \rep{\vec{v}}{\hat{B}}=\colvec[r]{-1 \\ 3}_{\hat{B}}
+            \qquad
+            \begin{mat}[r]
+              -10  &-18  \\
+               -2  &-4
+            \end{mat}_{\hat{B},\hat{D}}
+            \colvec[r]{-1 \\ 3}_{\hat{B}}
+            =\colvec[r]{-44 \\ -10}_{\hat{D}}
+          \end{equation*}
+再验证结果相同。
+          \begin{equation*}
+            -44\cdot\colvec[r]{-1 \\ 0}-10\cdot\colvec[r]{2 \\ 1}=\colvec[r]{24 \\ -10}
+          \end{equation*}
+\partsitem 以下两式
+      \begin{equation*}
+        \colvec[r]{1 \\ 1}=\frac{1}{3}\cdot\colvec[r]{1 \\ 2}
+                  +\frac{1}{3}\cdot\colvec[r]{2 \\ 1}
+        \qquad
+        \colvec[r]{1 \\ -1}=-1\cdot\colvec[r]{1 \\ 2}
+                  +1\cdot\colvec[r]{2 \\ 1}
+      \end{equation*}
+说明
+      \begin{equation*}
+        \rep{\identity}{D,\hat{D}}=\begin{mat}[r]
+          1/3  &-1  \\
+          1/3  &1
+        \end{mat}
+      \end{equation*}
+而以下两式
+      \begin{equation*}
+        \colvec[r]{1 \\ 2}=1\cdot\colvec[r]{1 \\ 0}
+                  +2\cdot\colvec[r]{0 \\ 1}
+        \qquad
+        \colvec[r]{1 \\ 0}=-1\cdot\colvec[r]{1 \\ 0}
+                  +0\cdot\colvec[r]{0 \\ 1}
+      \end{equation*}
+说明
+      \begin{equation*}
+        \rep{\identity}{\hat{B},B}=\begin{mat}[r]
+          1  &1  \\
+          2  &0
+        \end{mat}
+      \end{equation*}
+由此，转换如下。
+      \begin{equation*}
+        \hat{T}=\begin{mat}[r]
+          1/3  &-1  \\
+          1/3  &1
+        \end{mat}
+        \begin{mat}[r]
+          1  &2  \\
+          3  &4
+        \end{mat}
+        \begin{mat}[r]
+          1  &1  \\
+          2  &0
+        \end{mat}
+        =\begin{mat}[r]
+          -28/3  &-8/3  \\
+          38/3   &10/3
+        \end{mat}
+      \end{equation*}
+与上一问一样，核对可帮助确认计算没有出错。例如，固定向量
+      \begin{equation*}
+        \vec{v}=\colvec[r]{-1 \\ 2}
+      \end{equation*}
+（这是任意选取的）。有
+      \begin{equation*}
+        \rep{\vec{v}}{B}=\colvec[r]{-1 \\ 2}
+        \qquad
+        \begin{mat}[r]
+          1  &2  \\
+          3  &4
+        \end{mat}_{B,D}
+        \colvec[r]{-1  \\ 2}_{B}
+        =\colvec[r]{3  \\ 5}_D
+      \end{equation*}
+所以 $t(\vec{v})$ 为以下向量。
+      \begin{equation*}
+        3\cdot\colvec[r]{1 \\ 1}+5\cdot\colvec[r]{1 \\ -1}=\colvec[r]{8 \\ -2}
+      \end{equation*}
+相对于 $\hat{B},\hat{D}$，先计算
+      \begin{equation*}
+        \rep{\vec{v}}{\hat{B}}=\colvec[r]{1 \\ -2}
+        \qquad
+        \begin{mat}[r]
+          -28/3  &-8/3  \\
+          38/3   &10/3
+        \end{mat}_{\hat{B},\hat{D}}
+        \colvec[r]{1 \\ -2}_{\hat{B}}
+        =\colvec[r]{-4 \\ 6}_{\hat{D}}
+      \end{equation*}
+果然，得到相同的 $t(\vec{v})$。
+      \begin{equation*}
+        -4\cdot\colvec[r]{1 \\ 2}+6\cdot\colvec[r]{2 \\ 1}=\colvec[r]{8 \\ -2}
+      \end{equation*}
+      \end{exparts} 
+    \end{answer}
+  \item 
+等式 $\hat{H}=PHQ$ 中，\( P \)、\( Q \) 的大小是什么？
+    \begin{answer}
+若 \( H \)、\( \hat{H} \) 为 \( \nbym{m}{n} \)，则 \( P \) 为 \( \nbyn{m} \)，\( Q \) 为 \( \nbyn{n} \)。
+    \end{answer}
+  \recommended \item
+考虑空间 $V=\polyspace_2$、$W=\matspace_{\nbyn{2}}$ 及以下基。
+    \begin{gather*}
+      B=\sequence{1, 1+x, 1+x^2}
+      \qquad
+      D=\sequence{
+        \begin{mat}
+          0 &0 \\
+          0 &1
+        \end{mat},
+        \begin{mat}
+          0 &0 \\
+          1 &1
+        \end{mat},
+        \begin{mat}
+          0 &1 \\
+          1 &1
+        \end{mat},
+        \begin{mat}
+          1 &1 \\
+          1 &1
+        \end{mat}
+         }                        \\
+      \hat{B}=\sequence{1, x, x^2}
+      \qquad
+      \hat{D}=\sequence{
+        \begin{mat}
+          -1 &0 \\
+          0 &0
+        \end{mat},
+        \begin{mat}
+          0 &-1 \\
+          0 &0
+        \end{mat},
+        \begin{mat}
+          0 &0 \\
+          1 &0
+        \end{mat},
+        \begin{mat}
+          0 &0 \\
+          0 &1
+        \end{mat}
+         }
+    \end{gather*}
+求 $P$、$Q$，将映射相对于 $B,D$ 的表示转换为相对于 $\hat{B},\hat{D}$ 的表示。
+    \begin{exparts}
+\partsitem 画出相应箭头图。
+\partsitem 计算 $P$ 和~$Q$。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+箭头图如下。
+          \begin{equation*}
+            \begin{CD}
+              V_{\wrt{B}}                   @>h>H>        W_{\wrt{D}}       \\
+              @V{\text{\scriptsize$\identity$}} VV      @V{\text{\scriptsize$\identity$}} VV \\
+              V_{\wrt{\hat{B}}}             @>h>\hat{H}>   W_{\wrt{\hat{D}}}
+            \end{CD}
+          \end{equation*}
+由图得 $\hat{H}=PHQ$，其中 $Q=\rep{\identity}{\hat{B},B}$、$P=\rep{\identity}{D,\hat{D}}$
+（记住先执行的运算写在右边）。
+        \partsitem
+要求 $Q=\rep{\identity}{\hat{B},B}$ 和 $P=\rep{\identity}{D,\hat{D}}$。
+对 $Q$，作以下计算（这里直接观察）。
+          \begin{equation*}
+            \rep{\identity(1)}{B}=\colvec{1 \\ 0 \\ 0}
+            \quad
+            \rep{\identity(x)}{B}=\colvec{-1 \\ 1 \\ 0}
+            \quad
+            \rep{\identity(x^2)}{B}=\colvec{-1 \\ 0 \\ 1}
+          \end{equation*}
+以下计算给出 $P$。
+          \begin{multline*}
+            \rep{\identity(
+              \begin{mat}
+                0 &0 \\
+                0 &1
+              \end{mat})}{\hat{D}}=\colvec{0 \\ 0 \\ 0 \\ 1} 
+            \quad
+            \rep{\identity(    
+              \begin{mat}
+                0 &0 \\
+                1 &1
+              \end{mat})}{\hat{D}}=\colvec{0 \\ 0 \\ 1 \\ 1} 
+            \\
+            \rep{\identity(    
+              \begin{mat}
+                0 &1 \\
+                1 &1
+              \end{mat})}{\hat{D}}=\colvec{0 \\ -1 \\ 1 \\ 1} 
+            \rep{\identity(    
+              \begin{mat}
+                1 &1 \\
+                1 &1
+              \end{mat})}{\hat{D}}=\colvec{-1 \\ -1 \\ 1 \\ 1} 
+          \end{multline*}
+答案如下。
+          \begin{equation*}
+            P=
+            \begin{mat}
+              0 &0 &0  &-1 \\
+              0 &0 &-1 &-1  \\
+              0 &1 &1  &1  \\
+              1 &1 &1  &1
+            \end{mat}
+            \qquad
+            Q=\begin{mat}
+              1 &-1 &-1 \\
+              0 &1  &0  \\
+              0 &0  &1
+            \end{mat}
+          \end{equation*}      
+      \end{exparts}
+    \end{answer}
+\recommended \item 求换基矩阵 $Q$、$P$，将 $\map{t}{\Re^2}{\Re^2}$ 相对于 $B,D$ 的表示转换为相对于 $\hat{B},\hat{D}$ 的表示。
+   \begin{equation*}
+     B=\sequence{\colvec{1 \\ 0}, \colvec{1 \\ 1}}\quad
+     D=\sequence{\colvec{0 \\ 1}, \colvec{-1 \\ 0}}\quad
+     \hat{B}=\stdbasis_2\quad
+     \hat{D}=\sequence{\colvec{1 \\ -1}, \colvec{0 \\ 1}}
+   \end{equation*}
+    \begin{answer}
+箭头图如下。
+          \begin{equation*}
+            \begin{CD}
+              V_{\wrt{B}}                   @>t>T>        W_{\wrt{D}}       \\
+              @V{\text{\scriptsize$\identity$}} VV      @V{\text{\scriptsize$\identity$}} VV \\
+              V_{\wrt{\hat{B}}}             @>t>\hat{T}>   W_{\wrt{\hat{D}}}
+            \end{CD}
+          \end{equation*}
+取 $Q=\rep{\identity}{\hat{B},B}$、$P=\rep{\identity}{D,\hat{D}}$，则 $\hat{T}=PTQ$。
+ 
+以下计算给出 $Q=\rep{\identity}{\hat{B},B}$（直接观察）。
+          \begin{equation*}
+            \rep{\identity(\colvec{1 \\ 0})}{B}=\colvec{1 \\ 0}
+            \quad
+            \rep{\identity(\colvec{0 \\ 1})}{B}=\colvec{-1 \\ 1}
+          \end{equation*}
+所以得到
+          \begin{equation*}
+            Q=\begin{mat}
+              1 &-1 \\
+              0 &1  
+             \end{mat}
+          \end{equation*}
+以下计算给出 $P=\rep{\identity}{D,\hat{D}}$。
+          \begin{equation*}
+            \rep{\identity(\colvec{0 \\ 1})}{\hat{D}}=\colvec{0 \\ 1}
+            \quad
+            \rep{\identity(\colvec{-1 \\ 0})}{\hat{D}}=\colvec{-1 \\ -1}
+          \end{equation*}
+将它们并排拼接成另一个矩阵。
+          \begin{equation*}
+            P=\begin{mat}
+              0 &-1 \\
+              1 &-1  
+             \end{mat}
+          \end{equation*}
+    \end{answer}
+\recommended \item 求 $P$、$Q$，使 $PHQ$ 为分块部分单位矩阵。
+    \begin{equation*}
+      H=
+      \begin{mat}
+        2 &1  &1  \\
+        3 &-1 &0  \\
+        1 &3  &2 
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+高斯消元得到
+      \begin{equation*}
+          \begin{mat}
+            2 &1  &1  \\
+            3 &-1 &0  \\
+            1 &3  &2 
+          \end{mat}
+          \grstep[-(1/2)\rho_1+\rho_3]{-(3/2)\rho_1+\rho_2}
+          \grstep{\rho_2+\rho_3}
+          \grstep[-(2/5)\rho_2]{(1/2)\rho_1}
+          \begin{mat}
+            1 &1/2  &1/2  \\
+            0 &1    &3/5  \\
+            0 &0    &0 
+          \end{mat}
+      \end{equation*}
+再用列运算化为矩阵等价的标准形。
+      \begin{equation*}
+        \grstep{-(3/5)\text{col}_2+\text{col}_3}
+        \grstep[-(1/5)\text{col}_1+\text{col}_3]{-(1/2)\text{col}_1+\text{col}_2}
+          \begin{mat}
+            1 &0    &0  \\
+            0 &1 &0  \\
+            0 &0  &0 
+          \end{mat}
+      \end{equation*}
+于是两个矩阵如下。
+      \begin{align*}
+        P&=
+        \begin{mat}
+          1 &0 &0 \\
+          0 &-2/5 &0 \\
+          0 &0 &1
+         \end{mat}
+        \begin{mat}
+          1/2 &0 &0 \\
+          0 &1 &0 \\
+          0 &0 &1
+         \end{mat}
+        \begin{mat}
+          1 &0 &0 \\
+          0 &1 &0 \\
+          0 &1 &1
+         \end{mat}
+        \begin{mat}
+          1    &0 &0 \\
+          0    &1 &0 \\
+          -1/2 &0 &1
+         \end{mat}
+        \begin{mat}
+          1    &0 &0 \\
+          -3/2 &1 &0 \\
+          0    &0 &1
+         \end{mat}                                 \\ 
+         &=
+         \begin{mat}
+           1/2   &0     &0 \\
+           3/5   &-2/5  &0 \\
+           -2    &1     &1
+         \end{mat}                              \\
+        Q&=
+        \begin{mat}
+          1 &0 &0 \\
+          0 &1 &-3/5 \\
+          0 &0 &1
+        \end{mat}
+        \begin{mat}
+          1 &-1/2 &0 \\
+          0 &1    &0 \\
+          0 &0    &1
+        \end{mat}
+        \begin{mat}
+          1 &0 &-1/5 \\
+          0 &1 &0 \\
+          0 &0 &1
+        \end{mat}
+        =
+        \begin{mat}
+          1 &-1/2 &-1/5 \\
+          0 &1    &-3/5 \\
+          0 &0    &1
+        \end{mat}
+      \end{align*}      
+    \end{answer}
+  \recommended \item
+用 \nearbytheorem{th:CanonFormForMatEquiv} 说明，方阵非奇异当且仅当它等价于单位矩阵。
+    \begin{answer}
+任意 \( \nbyn{n} \) 矩阵非奇异，当且仅当秩为 \( n \)；由 \nearbytheorem{th:CanonFormForMatEquiv}，这等价于它矩阵等价于对角线全为一的 $\nbyn{n}$ 矩阵。
+    \end{answer}
+  \item
+设 \( A \) 为非奇异方阵。证明若非奇异方阵 \( P \)、\( Q \) 满足 \( PAQ=I \)，则 \( QP=A^{-1} \)。
+    \begin{answer}
+若 \( PAQ=I \)，则 \( QPAQ=Q \)，从而 \( QPA=I \)，所以 \( QP=A^{-1} \)。
+    \end{answer}
+  \item
+为什么 \nearbytheorem{th:CanonFormForMatEquiv} 不说明每个矩阵都可对角化（参见 \nearbyexample{ex:DiagizedMat}）？
+    \begin{answer}
+由 \nearbyexample{ex:DiagizedMat} 后的定义，矩阵 $M$ 可对角化，是指它表示变换 $M=\rep{t}{B,D}$，且存在基 $\hat{B}$ 使
+$\rep{t}{\hat{B},\hat{B}}$ 为对角矩阵\Dash 起始基和终止基必须相同。
+但 \nearbytheorem{th:CanonFormForMatEquiv} 只说明存在 $\hat{B}$、$\hat{D}$，使转换后的表示 $\rep{t}{\hat{B},\hat{D}}$ 为对角矩阵。
+没有理由认为能选取相同的 $\hat{B}$ 和 $\hat{D}$。
+    \end{answer}
+  \item 
+矩阵等价的矩阵，其转置必定矩阵等价吗？
+    \begin{answer}
+是。行秩等于列秩，所以转置的秩等于原矩阵的秩。相同大小、相同秩的矩阵矩阵等价。
+    \end{answer}
+  \item 
+\nearbytheorem{th:CanonFormForMatEquiv} 中 \( k=0 \) 时如何？
+    \begin{answer}
+只有零矩阵的秩为零。
+    \end{answer}
+  \item \label{exer:MatEqIsEqRel}
+证明矩阵等价是等价关系。
+    \begin{answer}
+自反性：取 \( P \)、\( Q \) 为单位矩阵，则任意矩阵都与自身矩阵等价。
+对称性：若 \( H_1=PH_2Q \)，则 \( H_2=P^{-1}H_1Q^{-1} \)（$P$、$Q$ 非奇异，故逆存在）。
+传递性：设 \( H_1=P_2H_2Q_2 \)、\( H_2=P_3H_3Q_3 \)，代入得
+\( H_1=P_2(P_3H_3Q_3)Q_2=(P_2P_3)H_3(Q_3Q_2) \)。
+非奇异矩阵的乘积非奇异（已证明可逆矩阵的乘积可逆，并给出求逆方法），所以 \( H_1 \) 与 \( H_3 \) 矩阵等价。
+     \end{answer}
+  \recommended \item 
+证明零矩阵所在的矩阵等价类只有它自身。还有其他这样的矩阵吗？
+    \begin{answer}
+由 \nearbytheorem{th:CanonFormForMatEquiv}，零矩阵是其类中唯一的元素，因为它是唯一秩为零的 \( \nbym{m}{n} \) 矩阵。
+其他矩阵都不是类中唯一的元素，因为非零标量倍数与原矩阵的秩相同。
+    \end{answer}
+  \item 
+\( \Re^1 \) 上变换的矩阵有哪些矩阵等价类？\( \Re^3 \) 上呢？
+    \begin{answer}
+\( \nbyn{1} \) 矩阵有两个矩阵等价类\Dash 秩为零和秩为一。
+\( \nbyn{3} \) 矩阵分为四个矩阵等价类。
+    \end{answer}
+  \item 
+共有多少个矩阵等价类？
+    \begin{answer}
+对 \( \nbym{m}{n} \) 矩阵，每个可能的秩对应一类。设 \( k \) 为 \( m \)、\( n \) 的最小值，则秩可为 \( 0 \)、\( 1 \)、\ldots、\( k \)，共 \( k+1 \) 类。
+（当然，将所有大小的矩阵合计，就有无穷多个类。）
+    \end{answer}
+  \item 
+矩阵等价类对数乘封闭吗？对加法呢？
+    \begin{answer}
+它们对非零数乘封闭，因为非零标量倍数的秩不变。
+对加法不封闭，例如 \( H+(-H) \) 的秩为零。
+    \end{answer}
+  \item 
+设 \( \map{t}{\Re^n}{\Re^n} \) 相对于 \( \stdbasis_n,\stdbasis_n \) 由 \( T \) 表示。
+    \begin{exparts}
+\partsitem 在以下具体情形中，求 $\rep{t}{B,B}$。
+        \begin{equation*}
+          T=\begin{mat}[r]
+            1  &1  \\
+            3  &-1
+          \end{mat}
+          \qquad
+          B=\sequence{\colvec[r]{1  \\ 2},
+                      \colvec[r]{-1 \\ -1}}
+        \end{equation*}
+\partsitem 一般地，若 \( B=\basis{\beta}{n} \)，描述 $\rep{t}{B,B}$。
+    \end{exparts}
+    \begin{answer}
+图示如下。
+        \begin{equation*}
+          \begin{CD}
+            \Re^2_{\wrt{\stdbasis_2}}         @>t>T>     \Re^2_{\wrt{\stdbasis_2}}    \\
+            @V\text{\scriptsize$\identity$} VV   @V\text{\scriptsize$\identity$} VV \\
+           \Re^2_{\wrt{B}}        @>t>\hat{T}>  \Re^2_{\wrt{B}}
+          \end{CD}
+        \end{equation*}
+从左下到右下有两条路径。第一条直接使用 $\hat{T}=\rep{t}{B,B}$；第二条先向上、再向右、再向下，使用
+$\rep{\identity}{\stdbasis_2,B}\cdot T\cdot \rep{\identity}{B,\stdbasis_2}$。
+记住从右向左书写，因此“向上”的矩阵在右边，这样作用于 $\rep{\vec{v}}{B}$ 时，先作用的是 $\rep{\identity}{B,\stdbasis_2}$。
+将 $\rep{\identity}{B,\stdbasis_2}$ 记为 $S$；两个换基矩阵中选择这一个，是因为它更容易计算。
+于是 $\hat{T}=S^{-1}TS$。
+      \begin{exparts}
+\partsitem 有
+          \begin{equation*}
+            \rep{\identity}{B,\stdbasis_2}=S=
+            \begin{mat}[r]
+              1  &-1  \\
+              2  &-1
+            \end{mat}
+          \end{equation*}
+以及
+          \begin{equation*}
+            \rep{\identity}{\stdbasis_2,B}
+            =\rep{\identity}{B,\stdbasis_2}^{-1}=S^{-1}=
+            \begin{mat}[r]
+              1  &-1  \\
+              2  &-1
+            \end{mat}^{-1}
+            =\begin{mat}[r]
+              -1  &1  \\
+              -2  &1 
+            \end{mat}
+          \end{equation*}
+因此答案如下。
+          \begin{equation*}
+            \rep{t}{B,B}
+            =
+            \begin{mat}[r]
+              -1  &1  \\
+              -2  &1 
+            \end{mat}
+            \begin{mat}[r]
+              1  &1  \\
+              3  &-1   
+            \end{mat}
+            \begin{mat}[r]
+              1  &-1  \\
+              2  &-1
+            \end{mat}
+            =\begin{mat}[r]
+              -2  &0   \\
+              -5  &2 
+            \end{mat}
+          \end{equation*}
+为快速核对，可任取向量
+          \begin{equation*}
+            \vec{v}=\colvec[r]{4  \\  5}
+          \end{equation*}
+得到
+          \begin{equation*}
+            \rep{\vec{v}}{\stdbasis_2}=\colvec[r]{4 \\ 5}
+            \qquad
+            \begin{mat}[r]
+              1  &1  \\
+              3  &-1   
+            \end{mat}
+            \colvec[r]{4 \\ 5}
+            =\colvec[r]{9 \\ 7}=t(\vec{v})
+          \end{equation*}
+而相对于 $B,B$ 计算，
+          \begin{equation*}
+            \rep{\vec{v}}{B}=\colvec[r]{1 \\ -3}
+            \qquad
+            \begin{mat}[r]
+              -2  &0   \\
+              -5  &2 
+            \end{mat}_{B,B}
+            \colvec[r]{1 \\ -3}_B
+            =\colvec[r]{-2 \\ -11}_B
+          \end{equation*}
+得到相同结果。
+          \begin{equation*}
+            -2\cdot\colvec[r]{1 \\ 2}-11\cdot\colvec[r]{-1 \\ -1}
+               =\colvec[r]{9 \\ 7}
+          \end{equation*}
+\partsitem 与本题第一问一样，
+          \begin{equation*}
+            S=\rep{\identity}{B,\stdbasis_2}
+            =\begin{pmat}{c|c|c}
+              \vec{\beta}_1 &\;\cdots\; &\vec{\beta}_n
+            \end{pmat}
+            \qquad
+            \rep{\identity}{\stdbasis_2,B}=S^{-1}=
+             \rep{\identity}{B,\stdbasis_2}^{-1}
+          \end{equation*}
+因此，将各列为基向量的矩阵记为 $S$，有 $\rep{t}{B,B}=\hat{T}=S^{-1}TS$。
+      \end{exparts}
+    \end{answer}
+  \item 
+    \begin{exparts}
+\partsitem 设 \( V \) 有基 \( B_1 \)、\( B_2 \)，\( W \) 有基 \( D \)。
+对于 \( \map{h}{V}{W} \)，求由 \( \rep{h}{B_1,D} \) 计算 \( \rep{h}{B_2,D} \) 的公式。
+\partsitem 重做上一问，改为 \( V \) 有一组基，\( W \) 有两组基。
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+\partsitem 相应的箭头图如下。
+           \begin{equation*}
+             \begin{CD}
+               V_{\wrt{B_1}}                   @>h>H>        W_{\wrt{D}}       \\
+               @V\text{\scriptsize$\identity$} VQV      @V\text{\scriptsize$\identity$} VPV \\
+               V_{\wrt{B_2}}             @>h>\hat{H}>  W_{\wrt{D}}
+             \end{CD}
+           \end{equation*}
+由于 \( W \) 中无须换基（即换基矩阵 $P$ 为单位矩阵），有
+\( \rep{h}{B_2,D}=\rep{h}{B_1,D}\cdot Q \)，其中 \( Q=\rep{\identity}{B_2,B_1} \)。
+\partsitem 此时箭头图如下。
+           \begin{equation*}
+             \begin{CD}
+               V_{\wrt{B}}                   @>h>H>   W_{\wrt{D_1}}       \\
+               @V\text{\scriptsize$\identity$} VQV  @V\text{\scriptsize$\identity$} VPV \\
+               V_{\wrt{B}}             @>h>\hat{H}>  W_{\wrt{D_2}}
+             \end{CD}
+           \end{equation*}
+有 \( \rep{h}{B,D_2}=P\cdot \rep{h}{B,D_1} \)，其中 \( P=\rep{\identity}{D_1,D_2} \)。
+       \end{exparts}  
+      \end{answer}
+  \item 
+    \begin{exparts}
+\partsitem 若两个矩阵可逆且矩阵等价，它们的逆必定矩阵等价吗？
+\partsitem 若两个矩阵的逆矩阵等价，原矩阵必定矩阵等价吗？
+\partsitem 若两个方阵矩阵等价，它们的平方必定矩阵等价吗？
+\partsitem 若两个方阵的平方矩阵等价，原矩阵必定矩阵等价吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 以下是箭头图及对应的逆函数版本。
+          \begin{equation*}
+           \begin{CD}
+             V_{\wrt{B}}                   @>h>H>      W_{\wrt{D}}       \\
+             @V\text{\scriptsize$\identity$} VQV  @V\text{\scriptsize$\identity$} VPV \\
+             V_{\wrt{\hat{B}}}             @>h>\hat{H}> W_{\wrt{\hat{D}}}
+            \end{CD}
+            \hspace*{4em}\qquad
+           \begin{CD}
+             V_{\wrt{B}}              @<h^{-1}<H^{-1}<    W_{\wrt{D}}       \\
+             @V\text{\scriptsize$\identity$} VQV  @V\text{\scriptsize$\identity$} VPV \\
+             V_{\wrt{\hat{B}}}        @<h^{-1}<\hat{H}^{-1}< W_{\wrt{\hat{D}}}
+            \end{CD}
+           \end{equation*}
+是。逆矩阵表示逆映射。从右下到左下，可以先向上、再向左、再向下。
+即若 \( \hat{H}=PHQ \)，其中 \( P,Q \) 可逆，且 \( H,\hat{H} \) 可逆，则
+\( \hat{H}^{-1}=Q^{-1}H^{-1}P^{-1} \)。
+\partsitem 是，这是上一问的另一种表述。
+\partsitem 不一定。需要额外假设：若 \( H \) 相对于相同的起始、终止基 \( B,B \) 表示 \( h \)，则 \( H^2 \) 表示 \( \composed{h}{h} \)。
+具体反例是以下两个矩阵，它们的秩均为一，所以矩阵等价，
+          \begin{equation*}
+             \begin{mat}[r]
+               1  &0  \\
+               0  &0
+             \end{mat}
+             \qquad
+             \begin{mat}[r]
+               0  &0  \\
+               1  &0
+             \end{mat}
+          \end{equation*}
+但平方不矩阵等价\Dash 第一个平方的秩为一，第二个平方的秩为零。
+\partsitem 不一定。以下两个矩阵不矩阵等价，但其平方矩阵等价。
+          \begin{equation*}
+             \begin{mat}[r]
+               0  &0  \\
+               0  &0
+             \end{mat}
+             \qquad
+             \begin{mat}[r]
+               0  &0  \\
+               1  &0
+             \end{mat} 
+          \end{equation*}
+      \end{exparts}  
+    \end{answer}
+  \item
+若方阵表示同一个变换，且每个表示各自使用相同的起始、终止基，则称它们\definend{相似}。
+即 \( \rep{t}{B_1,B_1} \) 与 \( \rep{t}{B_2,B_2} \) 相似。
+    \begin{exparts}
+\partsitem 仿照 \nearbydefinition{def:MatEquiv} 给出矩阵相似的定义。
+\partsitem 证明相似矩阵矩阵等价。
+\partsitem 证明相似是等价关系。
+\partsitem 证明若 \( T \) 与 \( \hat{T} \) 相似，则 \( T^2 \) 与 \( \hat{T}^2 \) 相似，立方也相似，依此类推。
+        % \textit{Contrast with the prior exercise.}
+\partsitem 证明存在矩阵等价却不相似的矩阵。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 箭头图提示以下定义。
+          \begin{equation*}
+            \begin{CD}
+              V_{\wrt{B_1}}                   @>t>T>        V_{\wrt{B_1}}       \\
+              @V\text{\scriptsize$\identity$} VV  @V\text{\scriptsize$\identity$} VV \\
+              V_{\wrt{B_2}}             @>t>\hat{T}>  V_{\wrt{B_2}}
+            \end{CD}
+          \end{equation*}
+若存在非奇异矩阵 \( P \) 使 \( \hat{T}=P^{-1}TP \)，则称矩阵 \( T,\hat{T} \) \definend{相似}。
+\item 在矩阵等价的定义中，用 \( P^{-1} \) 作 \( P \)，用 \( P \) 作 \( Q \)。
+\item \textit{与 \nearbyexercise{exer:MatEqIsEqRel} 类似。}
+自反性显然：\( T=I^{-1}TI \)。对称性也容易：\( \hat{T}=P^{-1}TP \) 蕴含 \( T=P\hat{T}P^{-1} \)
+（第一式右乘 $P^{-1}$、左乘 $P$）。
+对于传递性，设 \( T_1={P_2}^{-1}T_2P_2 \)、\( T_2={P_3}^{-1}T_3P_3 \)，则
+\( T_1={P_2}^{-1}({P_3}^{-1}T_3P_3)P_2=({P_2}^{-1}{P_3}^{-1})T_3(P_3P_2) \)。
+注意 \( P_3P_2 \) 可逆，逆为 \( {P_2}^{-1}{P_3}^{-1} \)，证明完成。
+\partsitem 设 \( \hat{T}=P^{-1}TP \)。对于平方，
+\( \hat{T}^2=(P^{-1}TP)(P^{-1}TP)=P^{-1}T(PP^{-1})TP=P^{-1}T^2P \)。更高次幂用归纳法得到。
+\partsitem 以下两个矩阵矩阵等价，但其平方不矩阵等价。
+          \begin{equation*}
+             \begin{mat}[r]
+               1  &0  \\
+               0  &0
+             \end{mat}
+             \qquad
+             \begin{mat}[r]
+               0  &0  \\
+               1  &0
+             \end{mat}
+          \end{equation*}
+由上一问可知，矩阵相似与矩阵等价不同。
+      \end{exparts}  
+   \end{answer}
+\index{matrix equivalence|)}
+\index{change of basis|)}
+\end{exercises}

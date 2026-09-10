@@ -1,0 +1,899 @@
+\topic{投票悖论}
+\index{voting paradox|(}
+%\emph{(Optional material from this chapter is discussed here,
+%but is not required to complete the exercises.)}
+
+想象一个研究美国总统选举进程的政治学课堂
+举行一次模拟选举。
+班上的 $29$ 名学生要对民主党、
+共和党和第三党的候选人
+从最偏好到最不偏好进行排序
+（$>$ 表示「偏好于」）。
+\begin{center}
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{cc}
+    \multicolumn{1}{c}{\begin{tabular}[b]{@{}c@{}}
+       \textit{偏好顺序}
+    \end{tabular}}
+    &\multicolumn{1}{l}{{\renewcommand{\arraystretch}{1.0}
+      \begin{tabular}[b]{@{}l@{}}
+         \textit{具有该偏好}    \\[-0.5ex]
+         \textit{的人数}
+      \end{tabular}}}                \\ 
+    \hline
+    \begin{tabular}{@{}r@{}}
+      $\text{民主党} > \text{共和党} > \text{第三党}$      \\
+      $\text{民主党} > \text{第三党} > \text{共和党}$      \\
+      $\text{共和党} > \text{民主党} > \text{第三党}$      \\
+      $\text{共和党} > \text{第三党} > \text{民主党}$      \\
+      $\text{第三党} > \text{民主党} > \text{共和党}$      \\
+      $\text{第三党} > \text{共和党} > \text{民主党}$   
+    \end{tabular}
+    &\begin{tabular}{@{}r@{}}                                                
+      $5$     \\
+      $4$     \\
+      $2$     \\
+      $8$     \\
+      $8$     \\
+      $2$    
+    \end{tabular}    
+  \end{tabular}
+    \renewcommand{\arraystretch}{1}
+\end{center}
+整个群体的偏好是什么样的？
+
+总体来看，
+该群体更偏好民主党而非共和党，多出五票；
+把民主党排在共和党之上的选民有十七人，
+反过来排的有十二人。
+而该群体
+更偏好共和党而非第三党候选人，
+票数为十五比十四。
+但奇怪的是，该群体也
+更偏好第三党而非民主党，票数为十八比十一。
+\begin{center}
+  \includegraphics{vs/mp/voting.1}
+\end{center}
+这就是一个\definend{投票悖论}\index{voting paradox!definition}，
+具体地说，是一个
+\definend{多数循环}。\index{voting paradox!majority cycle}
+
+数学家研究投票悖论，部分原因是它对现实政治有影响。
+例如，授课教师可以操纵这个班级，
+让它先在共和党与第三党之间进行一次投票，
+然后在那一轮较量的胜者（将是共和党）
+与民主党之间再进行一次投票，
+从而选出民主党作为总体赢家。
+通过类似的操纵，教师也可以让另外两位候选人中的任何一个胜出。
+（我们只讨论三位候选人的选举，但在更大规模的选举中同样会出现这种情形。）
+
+数学家研究投票悖论也因为它们本身就有趣。
+一个有趣的方面是，
+尽管每个选民的偏好列表都是
+\definend{理性的}\index{voting paradox!rational preference order}，
+即成一条直线式的顺序，
+整个群体却出现了多数循环。
+也就是说，多数循环似乎是在总体层面上产生的，
+而并未出现在构成总体的各个成分，即偏好列表之中。
+然而我们可以用线性代数论证：
+循环偏好的倾向实际上存在于每个选民的列表之中，
+并且当这种倾向被累加多于被抵消时
+它就会显露出来。
+
+为此，把选项缩写为 $D$、$R$ 和 $T$，
+我们可以描述偏好顺序为 $D>R>T$ 的选民
+对上述循环的贡献方式。
+\begin{center}
+  \includegraphics{vs/mp/voting.2}
+\end{center}
+（这里的负号是因为箭头把 $T$ 描述为偏好于 $D$，
+而这位选民的偏好恰好相反。）
+其他偏好列表的描述见\pageref{table:Voting} 页的表格。
+
+现在，为了进行这次选举，我们对这些描述作线性组合；
+例如，政治学课堂的模拟选举
+\begin{equation*}
+  5\cdot \votinggraphic{43}
+  +4\cdot\votinggraphic{44}
+  +\dots+2\cdot\votinggraphic{45}
+\tag*{}\end{equation*}
+就产生了前面展示过的环形群体偏好。
+
+当然，取线性组合正是线性代数。
+这种图形化的循环记法很有启发性但不便使用，
+于是我们改用列向量：从 $D$ 出发，
+按逆时针顺序依次取循环中的数字。
+这样，我们把模拟选举和一张 $D>R>T$ 的选票表示如下。
+\begin{equation*}
+  \votepreflist{7}{1}{5}
+  \quad\text{和}\quad
+  \votepreflist{-1}{1}{1}
+\tag*{}\end{equation*}
+
+我们将把选票向量分解成两部分，
+一部分是循环的，另一部分是非循环的。
+对于第一部分，
+我们称一个向量为\definend{纯循环的}，如果它属于
+$\Re^3$ 的这个子空间。
+\begin{equation*}
+  C
+  =\set{\votepreflist{k}{k}{k} \suchthat k \in\Re}
+  =\set{k\cdot\votepreflist{1}{1}{1} \suchthat k \in\Re}
+\end{equation*}
+对于第二部分，考虑与 $C$ 中所有向量
+都垂直的向量所成的集合。
+\nearbyexercise{exer:PerpIsSubSp} 表明这是一个子空间
+\begin{align*}
+  C^\perp &=\set{\votepreflist{c_1}{c_2}{c_3} \suchthat 
+                 \colvec{c_1 \\ c_2 \\ c_3}\dotprod\colvec{k \\ k \\ k} =0
+                 \text{\ 对所有 $k\in\Re$}}             \\
+          &=\set{\votepreflist{c_1}{c_2}{c_3} \suchthat 
+                 c_1+c_2+c_3=0}                                         
+          =\set{c_2\votepreflist{-1}{1}{0}
+                +c_3\votepreflist{-1}{0}{1} \suchthat  c_2,c_3\in\Re}
+\end{align*}
+（读作「$C$~perp」）。
+于是我们得到 $\Re^3$ 的如下一组基。
+\begin{equation*}
+ \sequence{\votepreflist{1}{1}{1},
+             \votepreflist{-1}{1}{0},
+             \votepreflist{-1}{0}{1}}
+\tag*{}\end{equation*}
+我们可以关于这组基来表示选票，
+从而把选票分解成一个循环部分和一个非循环部分。
+\textit{（给学过本章选读小节的读者的提示：~也就是说，
+该空间是 $C$ 与~$C^\perp$ 的直和。）}
+
+例如，考虑上面讨论过的 $D>R>T$ 选民。
+我们关于这组基来表示这位选民，
+\begin{equation*}
+  \begin{linsys}{3}
+    c_1  &-  &c_2  &-  &c_3  &=  &-1 \\
+    c_1  &+  &c_2  &   &     &=  &1  \\
+    c_1  &   &     &+  &c_3  &=  &1  
+  \end{linsys}
+  \grstep[-\rho_1+\rho_3]{-\rho_1+\rho_2}
+  \repeatedgrstep{(-1/2)\rho_2+\rho_3}
+  \begin{linsys}{3}
+    c_1  &-  &c_2  &-  &c_3      &=  &-1 \\
+         &   &2c_2 &+  &c_3      &=  &2  \\
+         &   &     &   &(3/2)c_3 &=  &1  
+  \end{linsys}
+\end{equation*}
+得到坐标 $c_1=1/3$、$c_2=2/3$ 与 $c_3=2/3$。
+于是
+\begin{equation*}
+  \votepreflist{-1}{1}{1}
+  =\frac{1}{3}\cdot\votepreflist{1}{1}{1}
+    +\frac{2}{3}\cdot\votepreflist{-1}{1}{0}
+    +\frac{2}{3}\cdot\votepreflist{-1}{0}{1}
+  =\votepreflist{1/3}{1/3}{1/3}
+   +\votepreflist{-4/3}{2/3}{2/3}
+\tag*{}\end{equation*}
+就给出了所需的分解，
+即分成一个循环部分和一个非循环部分。
+\begin{equation*}
+  \votinggraphic{3}
+=
+\votinggraphic{4}
+\>+\>
+\votinggraphic{5}
+\end{equation*}
+这样我们看到，这位 $D>R>T$ 选民的
+理性偏好列表确实含有一个循环部分。
+
+$T>R>D$ 的选民与刚才讨论的选民正好相反，
+因为 `$>$' 符号的方向颠倒了。
+这位选民的分解
+\begin{equation*}
+\votinggraphic{6}
+=
+\votinggraphic{7}
+\>+\>
+\votinggraphic{8}
+\end{equation*}
+表明这对相反的偏好具有恰好相反的分解。
+我们说第一位选民具有正的
+\definend{旋向}\index{spin}\index{voting paradox!spin}，
+因为其循环部分沿着我们为箭头选定的方向，
+而第二位选民的旋向是负的。
+
+这两类相反的选民相互抵消这一事实，
+反映在他们的选票向量之和为零上。
+这提示了另一种统计选举结果的办法。
+我们可以先尽可能多地消去相反的偏好列表，
+然后把余下的列表相加来确定结果。
+
+下面的表格包含三对相反的偏好列表。
+例如，最上面一行包含上面讨论过的选民。
+\begin{center}
+  \def\betweenrowvspace{5.5ex}
+  \makebox[\hsize][l]{%  box runs into margin; suppress overfull warn
+  \begin{tabular}{@{}c@{\hspace{0em}}c@{}} 
+    % \hline
+    \multicolumn{1}{c}{\textit{正旋向}}
+    &\multicolumn{1}{c}{\textit{负旋向}}  
+     \\ \hline
+    {\renewcommand{\arraystretch}{1.4}%%
+     \begin{tabular}{@{}c}
+      $\text{民主党}>\text{共和党}>\text{第三党}$                     \\
+      $\votinggraphic{9} % \votecycle{1}{1}{-1}{3}
+      =\votinggraphic{10} %\votecycle{1/3}{1/3}{1/3}{3}
+      \>+\>
+      \votinggraphic{11}$  %\votecycle{2/3}{2/3}{-4/3}{3}\;{}
+    \end{tabular}}
+    &{\renewcommand{\arraystretch}{1.4}%%
+     \begin{tabular}{c@{}}
+      $\text{第三党}>\text{共和党}>\text{民主党}$                     \\
+      $\votinggraphic{12}  %\votecycle{-1}{-1}{1}{3}
+      =\votinggraphic{13}  %\votecycle{-1/3}{-1/3}{-1/3}{3}
+      \>+\>
+      \votinggraphic{14}$  %\votecycle{-2/3}{-2/3}{4/3}{3}\;{}
+    \end{tabular}}                  \\[\betweenrowvspace] % \hline
+    {\renewcommand{\arraystretch}{1.4}%%
+    \begin{tabular}{@{}c}
+      $\text{共和党}>\text{第三党}>\text{民主党}$                     \\
+      $\votinggraphic{15}  %\votecycle{-1}{1}{1}{3}
+      =\votinggraphic{16} %\votecycle{1/3}{1/3}{1/3}{3}
+      \>+\>
+      \votinggraphic{17}$  %\votecycle{-4/3}{2/3}{2/3}{3}\;{}
+    \end{tabular}}
+    &{\renewcommand{\arraystretch}{1.4}%%
+     \begin{tabular}{c@{}}
+      $\text{民主党}>\text{第三党}>\text{共和党}$                     \\
+      $\votinggraphic{18}  %\votecycle{1}{-1}{-1}{3}
+      =\votinggraphic{19}  %\votecycle{-1/3}{-1/3}{-1/3}{3}
+      \>+\>
+      \votinggraphic{20}$  %\votecycle{4/3}{-2/3}{-2/3}{3}\;{}
+    \end{tabular}}                  \\[\betweenrowvspace] % \hline
+    {\renewcommand{\arraystretch}{1.4}%%
+    \begin{tabular}{@{}c}
+      $\text{第三党}>\text{民主党}>\text{共和党}$                     \\
+      $\votinggraphic{21}  %\votecycle{1}{-1}{1}{3}
+      =\votinggraphic{22}  %\votecycle{1/3}{1/3}{1/3}{3}
+      \>+\>
+      \votinggraphic{23}$  %\votecycle{2/3}{-4/3}{2/3}{3}\;{}
+    \end{tabular}}
+    &{\renewcommand{\arraystretch}{1.4}%%
+     \begin{tabular}{c@{}}
+      $\text{共和党}>\text{民主党}>\text{第三党}$                     \\
+      $\votinggraphic{24}  %\votecycle{-1}{1}{-1}{3}
+      =\votinggraphic{25}  %\votecycle{-1/3}{-1/3}{-1/3}{3}
+      \>+\>
+      \votinggraphic{26}$  %\votecycle{-2/3}{4/3}{-2/3}{3}\;{}
+    \end{tabular}}                  % \\ \hline
+  \end{tabular}
+  }
+  \label{table:Voting}
+\end{center}
+如果我们按刚才描述的方式进行选举，那么在尽可能多地
+消去相反的选民对之后，
+将剩下三组偏好列表：~一组来自第一行，
+一组来自第二行，一组来自第三行。
+我们将以证明下面这一点来结束：
+只有当这三组的旋向都相同时，
+投票悖论才可能发生。
+也就是说，要出现投票悖论，
+剩下的三组必须全部来自表格的左侧，
+或全部来自右侧
+（见 \nearbyexercise{exer:CancelPolSci}）。
+这表明多数循环与我们正在使用的这种分解之间存在某种联系\Dash 
+投票悖论只有在循环偏好的倾向相互加强时才可能发生。
+
+为给出证明，假设我们已经消去了相反的偏好顺序，
+三行中的每一行都剩下一组偏好列表。
+考虑第一行剩下的偏好列表。
+它们可能来自第一行的左侧或右侧 
+（或者介于两者之间，因为这些列表可能恰好完全抵消）。
+我们记
+\begin{equation*}
+  \votinggraphic{27}
+\end{equation*}
+其中 $a$ 是一个整数：如果剩下的列表在左侧，它为正；
+如果列表在右侧，它为负；
+如果恰好完全抵消，则为零。
+类似地，第二行和第三行各有一个整数 $b$ 和 $c$，
+它们各自可正、可负、可为零。
+
+那么这次选举就由下述和式决定。
+\begin{equation*}
+  \votinggraphic{27}  %\votecycle{a}{a}{-a}{4} 
+  +  
+  \votinggraphic{28}  %\votecycle{-b}{b}{b}{4} 
+  +  
+  \votinggraphic{29}  %\votecycle{c}{-c}{c}{4}  
+  =\hspace{.30in}
+  \votinggraphic{30}  %\votecycle{a-b+c}{a+b-c}{-a+b+c}{4}
+  \hspace{.30in}\hbox{}
+\end{equation*}
+当右边总循环中的三个数，
+$-a+b+c$、$a-b+c$ 与 $a+b-c$，
+全部非负或全部非正时，就会出现投票悖论。
+我们将证明，这种情况只在
+$a$、$b$ 与~$c$ 三个数全部非负，
+或三个数全部非正时才会发生。
+
+设总循环数非负；另一种情形类似。
+\begin{equation*}
+  \begin{linsys}{3}
+    -a &+ &b &+ &c &\geq &0 \\
+     a &- &b &+ &c &\geq &0 \\
+     a &+ &b &- &c &\geq &0 
+  \end{linsys}
+\end{equation*}
+把前两行相加，得 $c\geq 0$。
+把第一行与第三行相加，得 $b\geq 0$。
+而第二行与第三行相加，得 $a\geq 0$。
+因此，如果总循环非负，那么每一行剩下的
+偏好列表都来自表格的左侧。
+证明完毕。
+
+这个结果只是说，三组旋向相同是出现多数循环的
+必要条件。
+它并不充分；见
+\nearbyexercise{exer:VoterCondNotSuff}。
+
+投票理论及相关课题是目前研究的对象。
+有许多引人入胜的结果，特别是
+K~Arrow \cite{Arrow} 得到的那些，
+他因这项工作的一部分而获得诺贝尔奖，
+其结果表明没有任何投票制度是完全公平的
+（就「公平」的一个合理解义而言）。
+一些好的入门文章有 \cite{Gardner70}、
+\cite{Gardner74}、\cite{Gardner80} 与 \cite{NeimiRiker}。
+\cite{Taylor} 是一本易读的教材。
+\cite{GamingVote} 中列出的来自美国近期政治史的
+一长串案例表明，这些悖论在实践中经常被操纵。
+（另一方面，相当近期的研究表明，
+计算如何操纵一场选举在一般情况下可能是不可行的，
+但这超出了我们的范围。）
+本专题取材于 \cite{Zwicker}。
+\emph{（作者注：~我要感谢~Zwicker 教授
+热心而富有启发性的讨论。）}
+
+\begin{exercises}
+  \item \label{IrrIndVote}
+    这里给出一种选民可能具有循环偏好的合理方式。
+    假设这位选民按照三条标准中的每一条
+    给每位候选人排序。
+    \begin{exparts}
+      \partsitem 列出一张表，行标记为「民主党」、
+         「共和党」和「第三党」，列标记为
+         「品格」、「经验」和「政策」。
+         在每一列中，把某位候选人
+         排在最偏好，
+         把另一位排在中间，把剩下的一位
+         排在最不偏好。
+      \partsitem 在这个排序中，民主党是否在三条标准中的
+         （至少）两条上偏好于共和党，
+         还是相反？
+         共和党是否偏好于第三党？
+      \partsitem 刚刚构造的表是否具有
+         循环的偏好顺序？
+         如果没有，请构造一个具有循环偏好顺序的表。
+    \end{exparts}
+    因此，选民有可能在诸位候选人之间具有循环偏好。
+    然而，上面描述的悖论是：即使每位选民都具有
+    直线式的偏好列表，
+    整个群体仍可能出现循环偏好。
+    \begin{answer}
+      这个例子给出单个选民的一个非理性偏好顺序。
+      \smallskip
+      \begin{center}
+        \begin{tabular}{l|c|c|c|}
+             \multicolumn{1}{c}{\ }
+                  &\multicolumn{1}{c}{\textit{品格}}
+                  &\multicolumn{1}{c}{\textit{经验}}
+                  &\multicolumn{1}{c}{\textit{政策}}   \\ 
+          \cline{2-4}
+         \textit{民主党}   &最偏好    &中间  &最不偏好   \\
+         \textit{共和党} &中间  &最不偏好   &最偏好    \\
+         \textit{第三党}      &最不偏好   &最偏好    &中间  \\
+          \cline{2-4}
+        \end{tabular}
+      \end{center}
+      \smallskip
+      在品格和经验上，民主党优于共和党。
+      在品格和政策上，共和党胜过第三党。
+      而在经验和政策上，第三党击败民主党。
+    \end{answer}
+  \item \label{VoteCalcTable} 
+    计算分解表中的各个值。
+    \begin{answer}
+      首先，把本专题中讲过的 $D>R>T$ 分解
+      \begin{equation*}
+        \votepreflist{-1}{1}{1}
+          =\frac{1}{3}\cdot\votepreflist{1}{1}{1}
+           +\frac{2}{3}\cdot\votepreflist{-1}{1}{0}
+           +\frac{2}{3}\cdot\votepreflist{-1}{0}{1}
+      \end{equation*}
+      与相反的 $T>R>D$ 选民的分解
+      \begin{equation*}
+        \votepreflist{1}{-1}{-1}
+          =d_1\cdot\votepreflist{1}{1}{1}
+           +d_2\cdot\votepreflist{-1}{1}{0}
+           +d_3\cdot\votepreflist{-1}{0}{1}
+      \tag*{}\end{equation*}
+      相比较。
+      显然，第二个是第一个的相反向量，因此
+      $d_1=-1/3$、$d_2=-2/3$、$d_3=-2/3$。
+      这一原则对任何一对相反的选民都成立，所以我们只需
+      对来自第二行的一位选民与来自第三行的
+      一位选民作计算。
+      对于第二行中具有正旋向的选民，
+      \begin{equation*}
+        \begin{linsys}{3}
+          c_1  &-  &c_2  &-  &c_3  &=  &1 \\
+          c_1  &+  &c_2  &   &     &=  &1  \\
+          c_1  &   &     &+  &c_3  &=  &-1  
+        \end{linsys}
+        \grstep[-\rho_1+\rho_3]{-\rho_1+\rho_2}
+        \repeatedgrstep{(-1/2)\rho_2+\rho_3}
+        \begin{linsys}{3}
+          c_1  &-  &c_2  &-  &c_3      &=  &1 \\
+               &   &2c_2 &+  &c_3      &=  &0  \\
+               &   &     &   &(3/2)c_3 &=  &-2  
+        \end{linsys}
+      \tag*{}\end{equation*}
+      得 $c_3=-4/3$、$c_2=2/3$、$c_1=1/3$。
+      对于第三行中具有正旋向的选民，
+      \begin{equation*}
+        \begin{linsys}{3}
+          c_1  &-  &c_2  &-  &c_3  &=  &1 \\
+          c_1  &+  &c_2  &   &     &=  &-1  \\
+          c_1  &   &     &+  &c_3  &=  &1  
+        \end{linsys}
+        \grstep[-\rho_1+\rho_3]{-\rho_1+\rho_2}
+        \repeatedgrstep{(-1/2)\rho_2+\rho_3}
+        \begin{linsys}{3}
+          c_1  &-  &c_2  &-  &c_3      &=  &1 \\
+               &   &2c_2 &+  &c_3      &=  &-2  \\
+               &   &     &   &(3/2)c_3 &=  &1  
+        \end{linsys}
+        \tag*{}\end{equation*}
+        得 $c_3=2/3$、$c_2=-4/3$、$c_1=1/3$。
+      \end{answer}
+  \item \label{exer:CancelPolSci} 
+    对政治学课堂的模拟选举执行相反偏好顺序的抵消。
+    剩下的偏好是全部来自表格左边的三行，
+    还是来自右边？
+    \begin{answer}
+      模拟选举按第一个表所示的方式对应于
+      第~\pageref{table:Voting}~页的表格，
+      抵消之后的结果是第二个表。  
+     \smallskip
+      \begin{center}
+         % \renewcommand{\arraystretch}{1.2}
+         \begin{tabular}{|c|c|} \hline
+           \textit{正旋向}
+           &\textit{负旋向}  \\ \hline
+           \begin{tabular}{l}
+             $D>R>T$        \\
+             $5$ 名选民
+           \end{tabular}
+          &\begin{tabular}{l}
+             $T>R>D$          \\
+             $2$ 名选民
+           \end{tabular}                  \\ \hline
+          \begin{tabular}{l}
+             $R>T>D$           \\
+             $8$ 名选民
+          \end{tabular}
+         &\begin{tabular}{l}
+             $D>T>R$             \\
+             $4$ 名选民
+           \end{tabular}                  \\ \hline
+          \begin{tabular}{l}
+            $T>D>R$             \\
+            $8$ 名选民
+          \end{tabular}
+         &\begin{tabular}{l}
+            $R>D>T$            \\
+            $2$ 名选民
+          \end{tabular}                  \\ \hline
+        \end{tabular}
+        \qquad
+         \begin{tabular}{|c|c|} \hline
+           \textit{正旋向}
+           &\textit{负旋向}  \\ \hline
+           \begin{tabular}{l}
+             $D>R>T$        \\
+             $3$ 名选民
+           \end{tabular}
+          &\begin{tabular}{l}
+             $T>R>D$          \\
+             \textit{-已抵消-}
+           \end{tabular}                  \\ \hline
+          \begin{tabular}{l}
+             $R>T>D$           \\
+             $4$ 名选民
+          \end{tabular}
+         &\begin{tabular}{l}
+             $D>T>R$             \\
+             \textit{-已抵消-}
+           \end{tabular}                  \\ \hline
+          \begin{tabular}{l}
+            $T>D>R$             \\
+            $6$ 名选民
+          \end{tabular}
+         &\begin{tabular}{l}
+            $R>D>T$            \\
+            \textit{-已抵消-}
+          \end{tabular}                  \\ \hline
+        \end{tabular}
+       \end{center}
+       \smallskip
+       三组全部来自表格的同一侧（左侧），
+       正如本专题的结果所指出的必然情形。
+       现在我们可以统计，利用抵消后的数字
+      \begin{equation*}
+        % \psset{xunit=4pt,yunit=4pt,runit=4pt} 
+        3\cdot \votinggraphic{31}
+%          \pspicture[.4](-10.5,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%            \SpecialCoor
+%            \rput(3;90){\small $D$}
+%            \psarc{->}(0,0){3}{10}{70} %-rd->
+%               \rput[lb](3.3;20){\scriptsize $1$ voter} 
+%            \rput[B](3;210){\small $T$}
+%            \psarc{->}(0,0){3}{220}{320} %-tr->
+%               \rput[t](3.1;270){\scriptsize $1$ voter} 
+%            \rput[B](3;330){\small $R$}
+%            \psarc{->}(0,0){3}{110}{175} %-dt->
+%               \rput[rb](3.3;160){\scriptsize $-1$ voter} 
+%          \endpspicture
+        +4\cdot\votinggraphic{32}
+%          \pspicture[.4](-10,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%            \SpecialCoor
+%            \rput(3;90){\small $D$}
+%            \psarc{->}(0,0){3}{10}{70} %-rd->
+%               \rput[lb](3.3;20){\scriptsize $-1$ voter} 
+%            \rput[B](3;210){\small $T$}
+%            \psarc{->}(0,0){3}{220}{320} %-tr->
+%               \rput[t](3.1;270){\scriptsize $1$ voter} 
+%            \rput[B](3;330){\small $R$}
+%            \psarc{->}(0,0){3}{110}{175} %-dt->
+%               \rput[rb](3.3;160){\scriptsize $1$ voter} 
+%          \endpspicture
+        +6\cdot\votinggraphic{33}
+%          \pspicture[.4](-9,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%            \SpecialCoor
+%            \rput(3;90){\small $D$}
+%            \psarc{->}(0,0){3}{10}{70} %-rd->
+%               \rput[lb](3.3;20){\scriptsize $1$ voter} 
+%            \rput[B](3;210){\small $T$}
+%            \psarc{->}(0,0){3}{220}{320} %-tr->
+%               \rput[t](3.1;270){\scriptsize $-1$ voter} 
+%            \rput[B](3;330){\small $R$}
+%            \psarc{->}(0,0){3}{110}{175} %-dt->
+%               \rput[rb](3.3;160){\scriptsize $1$ voter} 
+%          \endpspicture
+        = \votinggraphic{34}
+%          \pspicture[.4](-9,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%            \SpecialCoor
+%            \rput(3;90){\small $D$}
+%            \psarc{->}(0,0){3}{10}{70} %-rd->
+%               \rput[lb](3.3;20){\scriptsize $5$ voters} 
+%            \rput[B](3;210){\small $T$}
+%            \psarc{->}(0,0){3}{220}{320} %-tr->
+%               \rput[t](3.1;270){\scriptsize $1$ voter} 
+%            \rput[B](3;330){\small $R$}
+%            \psarc{->}(0,0){3}{110}{175} %-dt->
+%               \rput[rb](3.3;160){\scriptsize $7$ voters} 
+%          \endpspicture
+      \tag*{}\end{equation*}
+       得到同样的结果。
+    \end{answer}
+  \item \label{exer:VoterCondNotSuff} 
+    必要条件——只有当抵消后剩下的三个偏好列表
+    具有相同旋向时才可能出现投票悖论——
+    并不充分。 
+    \begin{exparts}
+      % \partsitem Continuing the nonnegative total cycle case 
+      %   considered in the proof, 
+      %   use the two inequalities $0\leq a-b+c$ and $0\leq -a+b+c$
+      %   to show that $\absval{a-b}\leq c$.
+      % \partsitem Also show that $c\leq a+b$, and hence that
+      %   $\absval{a-b}\leq c\leq a+b$. 
+      \partsitem 给出一个选举的例子：其中存在多数循环，
+        而添加一名具有相同旋向的选民
+        会使循环消失。
+      \partsitem 反过来是否可能？添加一名具有
+        「错误」旋向的选民是否会使循环出现？
+      \partsitem 给出一个得到多数循环的
+        充要条件。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        % \partsitem We can rewrite the two as $-c\leq a-b$ and $-c\leq b-a$.
+        %   Either $a-b$ or $b-a$ is nonpositive and so $-c\leq-\absval{a-b}$,
+        %   as required.
+        % \partsitem This is immediate from the supposition that $0\leq a+b-c$.
+        \partsitem 一个平凡的例子从零选民的选举开始，
+          它有一个平凡的多数循环，然后添加任意一名选民。
+          一个更有趣的例子是取政治学课堂的模拟
+          选举并添加两名 $T>D>R$ 选民
+          （为了满足题目中
+          「再添加一名选民」的要求，
+          我们可以一次添加一名）。
+          新选民的旋向为正，这正是原模拟选举中
+          抵消后剩下的选票的旋向。
+          下面是所得的选民表，旁边是
+          抵消的结果。
+      \smallskip
+      \begin{center}
+         % \renewcommand{\arraystretch}{1.3}
+         \begin{tabular}{|c|c|} \hline
+           \textit{正旋向}
+           &\textit{负旋向}  \\ \hline
+           \begin{tabular}{l}
+             $D>R>T$        \\
+             $5$ 名选民
+           \end{tabular}
+          &\begin{tabular}{l}
+             $T>R>D$          \\
+             $2$ 名选民
+           \end{tabular}                  \\ \hline
+          \begin{tabular}{l}
+             $R>T>D$           \\
+             $8$ 名选民
+          \end{tabular}
+         &\begin{tabular}{l}
+             $D>T>R$             \\
+             $4$ 名选民
+           \end{tabular}                  \\ \hline
+          \begin{tabular}{l}
+            $T>D>R$             \\
+            $10$ 名选民
+          \end{tabular}
+         &\begin{tabular}{l}
+            $R>D>T$            \\
+            $2$ 名选民
+          \end{tabular}                  \\ \hline
+        \end{tabular}
+        \qquad
+         \begin{tabular}{|c|c|} \hline
+           \textit{正旋向}
+           &\textit{负旋向}  \\ \hline
+           \begin{tabular}{l}
+             $D>R>T$        \\
+             $3$ 名选民
+           \end{tabular}
+          &\begin{tabular}{l}
+             $T>R>D$          \\
+             \textit{-已抵消}
+           \end{tabular}                  \\ \hline
+          \begin{tabular}{l}
+             $R>T>D$           \\
+             $4$ 名选民
+          \end{tabular}
+         &\begin{tabular}{l}
+             $D>T>R$             \\
+             \textit{-已抵消-}
+           \end{tabular}                  \\ \hline
+          \begin{tabular}{l}
+            $T>D>R$             \\
+            $8$ 名选民
+          \end{tabular}
+         &\begin{tabular}{l}
+            $R>D>T$            \\
+            \textit{-已抵消-}
+          \end{tabular}                  \\ \hline
+        \end{tabular}
+       \end{center}
+       \smallskip
+       这是利用抵消后的数字所作的选举。
+       \begin{equation*}
+         % \psset{xunit=4pt,yunit=4pt,runit=4pt} 
+         3\cdot\votinggraphic{35}
+%          \pspicture[.4](-10.5,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%            \SpecialCoor
+%            \rput(3;90){\small $D$}
+%            \psarc{->}(0,0){3}{10}{70} %-rd->
+%               \rput[lb](3.3;20){\scriptsize $1$ voter} 
+%            \rput[B](3;210){\small $T$}
+%            \psarc{->}(0,0){3}{220}{320} %-tr->
+%               \rput[t](3.1;270){\scriptsize $1$ voter} 
+%            \rput[B](3;330){\small $R$}
+%            \psarc{->}(0,0){3}{110}{175} %-dt->
+%               \rput[rb](3.3;160){\scriptsize $-1$ voter} 
+%          \endpspicture
+         +4\cdot\votinggraphic{36}
+%          \pspicture[.4](-10,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%            \SpecialCoor
+%            \rput(3;90){\small $D$}
+%            \psarc{->}(0,0){3}{10}{70} %-rd->
+%               \rput[lb](3.3;20){\scriptsize $-1$ voter} 
+%            \rput[B](3;210){\small $T$}
+%            \psarc{->}(0,0){3}{220}{320} %-tr->
+%               \rput[t](3.1;270){\scriptsize $1$ voter} 
+%            \rput[B](3;330){\small $R$}
+%            \psarc{->}(0,0){3}{110}{175} %-dt->
+%               \rput[rb](3.3;160){\scriptsize $1$ voter} 
+%          \endpspicture
+         +8\cdot\votinggraphic{37}
+%          \pspicture[.4](-9,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%            \SpecialCoor
+%            \rput(3;90){\small $D$}
+%            \psarc{->}(0,0){3}{10}{70} %-rd->
+%               \rput[lb](3.3;20){\scriptsize $1$ voter} 
+%            \rput[B](3;210){\small $T$}
+%            \psarc{->}(0,0){3}{220}{320} %-tr->
+%               \rput[t](3.1;270){\scriptsize $-1$ voter} 
+%            \rput[B](3;330){\small $R$}
+%            \psarc{->}(0,0){3}{110}{175} %-dt->
+%               \rput[rb](3.3;160){\scriptsize $1$ voter} 
+%          \endpspicture
+         =\votinggraphic{38}
+%          \pspicture[.4](-9,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%            \SpecialCoor
+%            \rput(3;90){\small $D$}
+%            \psarc{->}(0,0){3}{10}{70} %-rd->
+%               \rput[lb](3.3;20){\scriptsize $7$ voters} 
+%            \rput[B](3;210){\small $T$}
+%            \psarc{->}(0,0){3}{220}{320} %-tr->
+%               \rput[t](3.1;270){\scriptsize $-1$ voter} 
+%            \rput[B](3;330){\small $R$}
+%            \psarc{->}(0,0){3}{110}{175} %-dt->
+%               \rput[rb](3.3;160){\scriptsize $9$ voters} 
+%          \endpspicture
+      \tag*{}\end{equation*}
+       多数循环确实消失了。
+      \partsitem 把前面的练习反过来。
+         也就是说，在前一个练习的结果上添加一名选民，
+         把使循环消失的那位选民抵消掉。 
+      \partsitem 一个这样的条件是：抵消之后，
+         三个数全部非负或全部非正，
+         并且：~$\absval{c}<\absval{a+b}$、$\absval{b}<\absval{a+c}$ 
+         与 $\absval{a}<\absval{b+c}$。
+         这由下图得出。 
+         \begin{equation*}
+           \votinggraphic{27}  %\votecycle{a}{a}{-a}{4} 
+           +  
+           \votinggraphic{28}  %\votecycle{-b}{b}{b}{4} 
+           +  
+           \votinggraphic{29}  %\votecycle{c}{-c}{c}{4}  
+           =\hspace{.30in}
+           \votinggraphic{30}  %\votecycle{a-b+c}{a+b-c}{-a+b+c}{4}
+           \hspace{.30in}\hbox{}  
+         \end{equation*}
+%          \begin{center}
+%            \votecycle{a}{a}{-a}{4} 
+%            +  
+%            \votecycle{-b}{b}{b}{4} 
+%            +  
+%            \votecycle{c}{-c}{c}{4}  
+%            =\hspace{.30in}  
+%            \votecycle{a-b+c}{a+b-c}{-a+b+c}{4}\hspace{.30in}\hbox{}  
+%          \end{center}
+      \end{exparts}
+    \end{answer}
+\item 一名选民的选举不可能出现多数循环，
+    因为我们已施加了选民列表必须理性的要求。
+    \begin{exparts}
+      \partsitem 证明两名选民的选举可能出现多数循环。
+        （如果三个群体总数全部非负或全部非正——也就是说，
+        我们允许群体偏好中出现一些零——
+        我们就把群体偏好视为多数循环。）
+      \partsitem 证明对于任何大于一的选民数，
+        都存在涉及该数目选民的一场选举，
+        其结果是一个多数循环。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 两名选民的选举可能以两种方式出现多数循环。
+          第一，两名选民可能恰好相反，
+          抵消后得到平凡的选举（多数循环全为零）。
+          第二，两名选民可能具有相同旋向但来自
+          不同的行，如下所示。
+          \begin{equation*}
+            % \psset{xunit=4pt,yunit=4pt,runit=4pt} 
+            1\cdot \votinggraphic{39}
+%             \pspicture[.4](-10.5,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%               \SpecialCoor
+%               \rput(3;90){\small $D$}
+%               \psarc{->}(0,0){3}{10}{70} %-rd->
+%                  \rput[lb](3.3;20){\scriptsize $1$ voter} 
+%               \rput[B](3;210){\small $T$}
+%               \psarc{->}(0,0){3}{220}{320} %-tr->
+%                  \rput[t](3.1;270){\scriptsize $1$ voter} 
+%               \rput[B](3;330){\small $R$}
+%               \psarc{->}(0,0){3}{110}{175} %-dt->
+%                  \rput[rb](3.3;160){\scriptsize $-1$ voter} 
+%             \endpspicture
+            +1\cdot\votinggraphic{40}
+%             \pspicture[.4](-10,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%               \SpecialCoor
+%               \rput(3;90){\small $D$}
+%               \psarc{->}(0,0){3}{10}{70} %-rd->
+%                  \rput[lb](3.3;20){\scriptsize $-1$ voter} 
+%               \rput[B](3;210){\small $T$}
+%               \psarc{->}(0,0){3}{220}{320} %-tr->
+%                  \rput[t](3.1;270){\scriptsize $1$ voter} 
+%               \rput[B](3;330){\small $R$}
+%               \psarc{->}(0,0){3}{110}{175} %-dt->
+%                  \rput[rb](3.3;160){\scriptsize $1$ voter} 
+%             \endpspicture
+            +0\cdot\votinggraphic{41}
+%             \pspicture[.4](-9,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%               \SpecialCoor
+%               \rput(3;90){\small $D$}
+%               \psarc{->}(0,0){3}{10}{70} %-rd->
+%                  \rput[lb](3.3;20){\scriptsize $1$ voter} 
+%               \rput[B](3;210){\small $T$}
+%               \psarc{->}(0,0){3}{220}{320} %-tr->
+%                  \rput[t](3.1;270){\scriptsize $-1$ voter} 
+%               \rput[B](3;330){\small $R$}
+%               \psarc{->}(0,0){3}{110}{175} %-dt->
+%                  \rput[rb](3.3;160){\scriptsize $1$ voter} 
+%             \endpspicture
+            =\votinggraphic{42}
+%             \pspicture[.4](-9,-4.2)(10,4) %\psgrid(-10,-10)(10,10)
+%               \SpecialCoor
+%               \rput(3;90){\small $D$}
+%               \psarc{->}(0,0){3}{10}{70} %-rd->
+%                  \rput[lb](3.3;20){\scriptsize $0$ voters} 
+%               \rput[B](3;210){\small $T$}
+%               \psarc{->}(0,0){3}{220}{320} %-tr->
+%                  \rput[t](3.1;270){\scriptsize $2$ voters} 
+%               \rput[B](3;330){\small $R$}
+%               \psarc{->}(0,0){3}{110}{175} %-dt->
+%                  \rput[rb](3.3;160){\scriptsize $0$ voters} 
+%             \endpspicture
+          \tag*{}\end{equation*}
+        \partsitem 有两种情形。
+          偶数个选民可以平分成相反的两半，
+          例如一半选民是 $D>R>T$，一半是 $T>R>D$。
+          那么抵消给出平凡的选举。
+          如果选民数大于一且为奇数（形如
+          $2k+1$，其中 $k>0$），那么利用证明中的循环图，
+          \begin{equation*}
+            \votinggraphic{27}  %\votecycle{a}{a}{-a}{4} 
+            +  
+            \votinggraphic{28}  %\votecycle{-b}{b}{b}{4} 
+            +  
+            \votinggraphic{29}  %\votecycle{c}{-c}{c}{4}  
+            =\hspace{.30in}
+            \votinggraphic{30}  %\votecycle{a-b+c}{a+b-c}{-a+b+c}{4}
+            \hspace{.30in}\hbox{}  
+          \end{equation*}
+%          \begin{center}
+%            \votecycle{a}{a}{-a}{4} 
+%            +  
+%            \votecycle{-b}{b}{b}{4} 
+%            +  
+%            \votecycle{c}{-c}{c}{4}  
+%            =\hspace{.30in}  
+%            \votecycle{a-b+c}{a+b-c}{-a+b+c}{4}\hspace{.30in}\hbox{}  
+%          \end{center}
+          我们可以取 $a=k$、$b=k$、$c=1$。
+          因为 $k>0$，这就是一个多数循环。
+       \end{exparts}
+    \end{answer}
+\item \label{exer:PerpIsSubSp} 
+    设 $U$ 是 $\Re^3$ 的一个子空间。
+    证明与 $U$ 中每个向量都垂直的向量所成的集合
+    $U^\perp=\set{\vec{v}\suchthat 
+              \text{$\vec{v}\dotprod\vec{u}=0$ 对所有 $\vec{u}\in U$}}$
+    也是 $\Re^3$ 的子空间。
+    若 $U$ 不是子空间，这是否仍然成立？
+    \begin{answer}
+      它非空，因为它包含零向量。
+      为证它对其两个成员的线性组合封闭，
+      设 $\vec{v}_1$ 与 $\vec{v}_2$ 属于 $U^\perp$，
+      考虑 $c_1\vec{v}_1+c_2\vec{v}_2$。
+      对任意 $\vec{u}\in U$，
+      \begin{equation*}
+        (c_1\vec{v}_1+c_2\vec{v}_2)\dotprod\vec{u}
+        =c_1(\vec{v}_1\dotprod\vec{u})+c_2(\vec{v}_2\dotprod\vec{u})
+        =c_1\cdot 0+c_2\cdot 0=0         
+      \tag*{}\end{equation*}
+      所以 $c_1\vec{v}_1+c_2\vec{v}_2\in U^\perp$。
+
+      至于 $U$ 是一个子集但不是子空间时是否仍然成立，
+      答案是肯定的。
+    \end{answer}
+\end{exercises}
+\index{voting paradox|)}
+\endinput
+
+

@@ -1,0 +1,375 @@
+% Chapter 1, Topic from _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-09
+\topic{计算的精度}
+\index{accuracy! of Gauss's Method|(}
+\index{Gauss's Method! accuracy|(}
+高斯消元法很适合用计算机来实现。
+下面的代码说明了这一点。
+它作用于名为~\lstinline[style=inline]!a! 的 $\nbyn{n}$ 矩阵，
+先用第一行做倍加，再用第二行，依此类推。
+\begin{lstlisting}
+for(row=1; row<=n-1; row++){
+  for(row_below=row+1; row_below<=n; row_below++){
+    multiplier=a[row_below,row]/a[row,row];
+    for(col=row; col<=n; col++){
+      a[row_below,col]-=multiplier*a[row,col];
+    }
+  }
+}
+\end{lstlisting}
+这是用 C~语言写的。\index{C language}
+这个
+\lstinline[style=inline]!for(row=1; row<=n-1; row++){ .. }!
+循环把 \lstinline[style=inline]!row! 初始化为~$1$，然后只要
+\lstinline[style=inline]!row! 小于等于 $n-1$ 就反复迭代，每次通过
+\lstinline[style=inline]!++! 操作把 \lstinline[style=inline]!row! 加一。
+另一个不明显的语言结构是，最内层循环中的 \lstinline[style=inline]!-=!
+具有如下效果：
+\lstinline[style=inline]!a[row_below,col]=-1*multiplier*a[row,col]+a[row_below,col]!。
+
+这段代码虽是高斯消元法机械化的初步尝试，
+但它是朴素的。
+首先，它假定
+\lstinline[style=inline]!row,row!
+位置上的元素非零。
+因此需要对它做的一种扩充是覆盖这样的情形：在该位置发现零元素时，
+要进行对换两行，或者得出矩阵是奇异的结论。
+
+我们可以添加一些 \lstinline[style=inline]!if! 语句来覆盖那些情形，
+但我们转而考虑这段代码朴素的另一个方面。
+它容易陷入因计算机依赖浮点算术而产生的陷阱。
+
+例如，前面我们已经看到必须把奇异方程组作为单独情形来处理。
+但近乎奇异的方程组同样需要小心。
+考虑下面这个方程组（多出的数字在第九个有效位上）。
+\begin{equation*}
+   \begin{linsys}{2}
+                   x &+ &2y &= &3\hfill\hbox{}  \\
+     1.000\,000\,01x &+ &2y &= &3.000\,000\,01
+   \end{linsys}
+   \tag{$*$}
+\end{equation*}
+用肉眼我们很容易看出解为 $x=1$，$y=1$。
+计算机则要麻烦得多。
+若它用八个有效位表示实数，这称为
+\definend{单精度}\index{single precision}，
+则它在内部会把第二个方程表示为 $1.000\,000\,0x+2y=3.000\,000\,0$，
+丢掉了第九位上的数字。
+这台计算机不会报告正确的解，
+而会认为两个方程是相同的，
+并报告该方程组是奇异的。
+
+为了对计算机怎么会得出相差如此之远的结果有一点直观感受，
+考虑该方程组的图像。
+\begin{center}
+  \includegraphics{gr/mp/ch1.33}
+\end{center}
+我们无法分辨这两条直线；
+该方程组近乎奇异，意思是
+这两条直线几乎是同一条直线。
+这使得方程组~($*$) 具有如下性质：方程中一个微小的变化
+可能引起解的巨大变化。
+例如，把 $3.000\,000\,01$ 改为 $3.000\,000\,03$
+会使交点从 $(1,1)$ 变到 $(3,0)$。
+解会随第九位数字的不同而剧烈变化，
+这解释了八位计算机为何会有麻烦。
+对输入值的不精确或不确定非常敏感的问题称为
+\definend{病态的}。\index{ill-conditioned problem}
+
+上面的例子给出了方程组在计算机上难以求解的一种方式。
+它的优点是，两条几乎相同的直线的图像
+让人对数值困难发生的一种方式获得难忘的直观认识。
+遗憾的是，当我们想求解某个大型方程组时，
+这种直观认识没有用处。
+对于任意的大型方程组，我们通常并不了解其几何。
+
+除了某些线性曲面之间的夹角很小之外，
+计算机的结果不可靠还有其他原因。
+例如，考虑这个方程组（来自 \cite{Hamming}）。
+\begin{equation*}
+  \begin{linsys}{2}
+     0.001x  &+  &y  &=  &1  \\
+          x  &-  &y  &=  &0
+  \end{linsys}
+\tag*{($**$)}\end{equation*}
+第二个方程
+给出 $x=y$，于是 $x=y=1/1.001$，
+因而两个变量的值都恰好略小于 $1$。
+使用两位数字的计算机在内部如下表示该方程组
+（为清楚起见，我们用两位浮点
+算术来做这个例子，但构造一个用八位或更多位的类似例子并不难）。
+\begin{equation*}
+  \begin{linsys}{2}
+    (1.0\times 10^{-3})\cdot x  &+  &(1.0\times 10^{0})\cdot y  &=  &1.0\times 10^{0}  \\
+    (1.0\times 10^{0})\cdot x   &-  &(1.0\times 10^{0})\cdot y  &=  &0.0\times 10^{0}
+  \end{linsys}
+\end{equation*}
+行化简步骤 $-1000\rho_1+\rho_2$ 产生第二个方程 $-1001y=-1000$，
+这台计算机把它舍入到两位，得 $(-1.0\times 10^{3})y=-1.0\times 10^{3}$。
+计算机由第二个方程确定 $y=1$，
+并据此从第一个方程得出 $x=0$。
+$y$~值接近，但 $x$~值很糟糕\Dash
+实际答案与计算机答案之比是
+无穷大。\index{accuracy!rounding error}
+简言之，当求解方程组的代码导致使用较小的首主元时，
+计算机对浮点算术的依赖是输出不可靠的另一个原因。
+
+有经验的程序员可能会以使用
+\definend{双精度}来应对，\index{double precision} %
+它保留十六位有效数字，
+或者使用更大的位数。
+这确实能解决许多问题。
+然而，双精度有更大的内存需求，
+而且显然我们可以照样调整上面的例子，
+使同样的麻烦出现在第十七位上，所以双精度并非万灵药。
+我们需要一个使数值麻烦最小化的策略，
+还需要一些关于所报告的解可以信任到什么程度的指导。
+
+对上面朴素代码的一个基本改进是：不要简单地取
+\lstinline[style=inline]!row,row! 位置上的元素
+来作为倍加所用的因子，
+而是查看 \lstinline[style=inline]!row,row! 元素下方
+\lstinline[style=inline]!row! 列中的全部元素，
+并选取一个因为不太小而可能给出可靠结果的元素。
+这就是\definend{部分主元法}。%
+\index{partial pivoting}\index{pivoting!full} 
+
+例如，要求解上面这个棘手的方程组~($**$)，
+我们先查看两个方程以寻找最适合使用的元素，
+并取第二个方程中的~$1$，因为它更可能给出好结果。
+倍加步骤 $-.001\rho_2+\rho_1$ 给出第一个方程
+$1.001y=1$，计算机会把它表示为
+$(1.0\times 10^{0})y=1.0\times 10^{0}$，
+从而得出 $y=1$，再经回代得出 $x=1$，
+两者都接近正确。
+我们可以把上面的代码改写来做这件事。
+\begin{lstlisting}
+for(row=1; row<=n-1; row++){
+/* find the largest entry in this column (in row max) */
+  max=row;
+  for(row_below=row+1; row_below<=n; row_below++){
+    if (abs(a[row_below,row]) > abs(a[max,row]));
+      max = row_below;
+  }
+/* swap rows to move that best entry up */
+  for(col=row; col<=n; col++){
+    temp=a[row,col];
+    a[row,col]=a[max,col];
+    a[max,col]=temp;
+  }
+/* proceed as before */
+  for(row_below=row+1; row_below<=n; row_below++){
+    multiplier=a[row_below,row]/a[row,row];
+     for(col=row; col<=n; col++){
+       a[row_below,col]-=multiplier*a[row,col];
+    }
+  }
+}
+\end{lstlisting}
+
+对实现高斯消元法的最佳方式的完整分析超出了本书的范围
+（见 \cite{Wilkinson65}），
+但大多数专家推荐的方法
+先在候选元素中找出最好的元素，
+然后把它缩放成一个不太可能带来麻烦的数。
+这就是
+\definend{比例部分主元法}。\index{scaled partial pivoting}\index{pivoting!partial!scaled}
+
+除了返回可能可靠的结果之外，
+多数完善的代码还会返回一个
+\definend{条件数}%
+\index{conditioning number}\index{matrix!conditioning number}
+它描述输入数字中的不确定
+可能被放大而成为返回结果中不精确的倍数
+（见 \cite{Rice}）。
+
+教训是：
+高斯消元法在理论上总是有效，
+计算机代码也正确地实现了该方法，
+并不意味着答案就是可靠的。
+实践中，总要使用这样的软件包：
+其中的专家已经努力防范各种可能出问题的地方。
+
+\begin{exercises}
+  \item 
+    用两位小数，把 $253$ 与 $2/3$ 相加。
+    \begin{answer}
+      科学记数法便于表达两位的限制：
+      $.25\times 10^{2}+.67\times 10^{0}=.25\times 10^{2}$。
+      注意加上 $2/3$ 对总和没有影响。
+    \end{answer}
+  \item 
+    这个直线相交问题与上面讨论的例子形成对比。
+    \begin{center}
+      \vcenteredhbox{\includegraphics{gr/mp/ch1.34}}
+      \qquad
+      $\displaystyle \begin{linsys}{2}
+            x &+ &2y &= &3  \\
+            3x &- &2y &= &1
+      \end{linsys}$
+    \end{center}
+    把底下方程中的常数改为 $1.008$ 并求解，
+    以此说明：该方程组中数字的某个小变化
+    只会产生解的小变化。
+    并将它与未改变的方程组的解相比较。
+    \begin{answer}
+      消元
+      \begin{equation*}
+        \grstep{-3\rho_1+\rho_2}
+        \begin{linsys}{2}
+          x  &+  &2y   &=  &3  \\
+             &   &-8y  &=  &-7.992
+        \end{linsys}
+      \end{equation*}
+      给出 \( (x,y)=(1.002,0.999) \)。
+      所以对该方程组而言，常数的微小变化只产生解的微小变化。
+    \end{answer}
+  \item 
+    考虑这个方程组（\cite{Rice}）。
+    \begin{equation*}
+      \begin{linsys}{2}
+        0.000\,3x  &+  &1.556y  &=  &1.559 \\
+        0.345\,4x  &-  &2.346y  &=  &1.108
+      \end{linsys}
+    \end{equation*}
+    \begin{exparts*}
+      \partsitem 求解它。
+      \partsitem 用每一步都舍入到四位数字来求解它。
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 完全精确的解是 $x=10$ 与 $y=1$。
+        \partsitem 四位数字的消元
+          \begin{equation*}
+            \grstep{-(.3454/.0003)\rho_1+\rho_2}
+            \begin{amat}{2}
+              .0003  &1.556  &1.569  \\
+              0      &-1794   &-1805
+            \end{amat}
+          \end{equation*}
+          给出结论~$y=1.006$，这还不错，
+          以及 $x=12.21$。
+          当然，这与正确答案相差百分之二十。
+      \end{exparts}
+    \end{answer}
+  \item 
+    计算机内部的舍入常常对结果有影响。
+    假设你的机器有八位有效数字。
+    \begin{exparts}
+      \partsitem 证明机器会算出
+         $(2/3)+((2/3)-(1/3))$ 不等于 $((2/3)+(2/3))-(1/3)$。
+         因此，计算机算术不满足结合律。
+      \partsitem 比较计算机所表示的 $(1/3)x+y=0$
+         与 $(2/3)x+2y=0$。
+         第一个方程的两倍与第二个方程相同吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 对于第一个，首先 $(2/3)-(1/3)$ 为
+          $.666\,666\,67-.333\,333\,33=.333\,333\,34$，
+          于是
+          $(2/3)+((2/3)-(1/3))=.666\,666\,67+.333\,333\,34=1.000\,000\,0$。
+
+          对于另一个，首先
+          $((2/3)+(2/3))=.666\,666\,67+.666\,666\,67=1.333\,333\,3$，
+          于是
+          $((2/3)+(2/3))-(1/3)=1.333\,333\,3-.333\,333\,33=.999\,999\,97$。
+        \partsitem 第一个方程是
+          $.333\,333\,33\cdot x+1.000\,000\,0\cdot y=0$，
+          而第二个方程是
+          $.666\,666\,67\cdot x+2.000\,000\,0\cdot y=0$。
+      \end{exparts}
+    \end{answer}
+  \item 
+    病态不仅依赖于系数矩阵。
+    这个例子 \cite{Hamming} 表明，
+    病态也可能由方程组左边与右边之间的相互作用产生。
+    设 $\varepsilon$ 是一个小的实数。
+    \begin{equation*}
+      \begin{linsys}{3}
+        3x  &+  &2y           &+  &z            &=  &6\hfill   \\
+        2x  &+  &2\varepsilon y  &+  &2\varepsilon z  
+                                          &=  &2+4\varepsilon\hfill \\
+         x  &+  &2\varepsilon y  &-  &\varepsilon z   
+                                          &=  &1+\varepsilon\hfill
+      \end{linsys}
+    \end{equation*}
+    \begin{exparts}
+      \partsitem 用手算求解该方程组。
+        注意，$\varepsilon$ 之所以能约去，只是因为
+        右边与左边一样，整数部分恰好完全消去。
+      \partsitem 用手算求解该方程组，舍入到两位
+        小数，并取 $\varepsilon=0.001$。
+%      \partsitem If you have access to a computer package for solving
+%        linear systems, see if you can find an $\varepsilon$ small enough
+%        to get your package to give incorrect results.
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这个计算
+          \begin{align*}
+            &\grstep[-(1/3)\rho_1+\rho_3]{-(2/3)\rho_1+\rho_2}
+            \begin{amat}{3}
+              3  &2                   &1                   &6               \\
+              0  &-(4/3)+2\varepsilon &-(2/3)+2\varepsilon &-2+4\varepsilon \\
+              0  &-(2/3)+2\varepsilon &-(1/3)-\varepsilon  &-1+\varepsilon 
+            \end{amat}                                                    \\
+            &\grstep{-(1/2)\rho_2+\rho_3}
+            \begin{amat}{3}
+              3  &2                   &1                   &6               \\
+              0  &-(4/3)+2\varepsilon &-(2/3)+2\varepsilon &-2+4\varepsilon \\
+              0  &\varepsilon         &-2\varepsilon       &-\varepsilon 
+            \end{amat}
+          \end{align*}
+          给出第三个方程 $y-2z=-1$。
+          代入第二个方程给出
+          $((-10/3)+6\varepsilon)\cdot z=(-10/3)+6\varepsilon$，
+          所以 $z=1$，从而 $y=1$。
+          有了这些，第一个方程给出 $x=1$。
+        \partsitem
+          与上面一样，科学记数法便于表达
+          对位数的限制。
+
+          保留两位数字的解
+          为 $z=2.1$，$y=2.6$，$x=-.43$。
+          \begin{multline*}
+            \begin{amat}{3}
+              .30\times 10^{1}  &.20\times 10^{1}  &.10\times 10^{1} 
+                 &.60\times 10^{1}        \\
+              .10\times 10^{1}  &.20\times 10^{-3} &.20\times 10^{-3} 
+                 &.20\times 10^{1}        \\
+              .30\times 10^{1}  &.20\times 10^{-3}  &-.10\times 10^{-3} 
+                 &.10\times 10^{1}        
+            \end{amat}                                           \\
+            \begin{aligned}
+            &\grstep[-(1/3)\rho_1+\rho_3]{-(2/3)\rho_1+\rho_2}
+            \begin{amat}{3}
+              .30\times 10^{1}  &.20\times 10^{1}  &.10\times 10^{1} 
+                 &.60\times 10^{1}        \\
+              0                 &-.13\times 10^{1} &-.67\times 10^{0} 
+                 &-.20\times 10^{1}        \\
+              0                 &-.67\times 10^{0}  &-.33\times 10^{0} 
+                 &-.10\times 10^{1}        
+            \end{amat}                                          \\
+            &\grstep{-(.67/1.3)\rho_2+\rho_3}
+            \begin{amat}{3}
+              .30\times 10^{1}  &.20\times 10^{1}  &.10\times 10^{1} 
+                 &.60\times 10^{1}        \\
+              0                 &-.13\times 10^{1} &-.67\times 10^{0} 
+                 &-.20\times 10^{1}        \\
+              0                 &0                  &.15\times 10^{-2} 
+                 &.31\times 10^{-2}        
+            \end{amat}
+            \end{aligned}
+          \end{multline*}
+      \end{exparts}
+    \end{answer}
+\end{exercises}
+\index{accuracy! of Gauss's Method|)}
+\index{Gauss's Method! accuracy|)}
+
+\endinput
+
+
+

@@ -1,0 +1,1212 @@
+\begin{exercises}
+  \item
+    转置以下各矩阵。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                 2  &1  \\
+                 3  &1
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                 2  &1  \\
+                 1  &3
+               \end{mat}  \)
+      \partsitem \( \begin{mat}[r]
+                 1  &4  &3 \\
+                 6  &7  &8
+               \end{mat}  \)
+      \partsitem \( \colvec[r]{0 \\ 0 \\ 0} \)
+      \partsitem \( \rowvec{-1 &-2} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( \begin{mat}[r]
+                   2  &3  \\
+                   1  &1
+                 \end{mat}  \)
+        \partsitem \( \begin{mat}[r]
+                   2  &1  \\
+                   1  &3
+                 \end{mat}  \)
+        \partsitem \( \begin{mat}[r]
+                   1  &6  \\
+                   4  &7  \\
+                   3  &8
+                 \end{mat}  \)
+        \partsitem \( \rowvec{0 &0 &0} \)
+        \partsitem \( \colvec[r]{-1 \\ -2} \)
+      \end{exparts*}
+    \end{answer}
+  \recommended \item
+    判断该向量是否在矩阵的行空间中。
+    \begin{exparts*}
+       \partsitem \( \begin{mat}[r]
+                  2  &1  \\
+                  3  &1
+                \end{mat}  \),
+             \( \rowvec{1 &0} \)
+       \partsitem \( \begin{mat}[r]
+                  0  &1  &3  \\
+                 -1  &0  &1  \\
+                 -1  &2  &7
+                \end{mat}  \),
+             \( \rowvec{1 &1 &1} \)
+    \end{exparts*}
+    \begin{answer}
+       \begin{exparts}
+         \partsitem 是的。
+           为判断是否存在 $c_1$ 与 $c_2$ 使得
+           \( c_1\cdot\rowvec{2 &1}+c_2\cdot\rowvec{3 &1}=\rowvec{1 &0} \)，
+           我们求解
+           \begin{equation*}
+              \begin{linsys}{2}
+                 2c_1  &+  &3c_2  &=  &1  \\
+                  c_1  &+  &c_2   &=  &0
+              \end{linsys}
+           \end{equation*}
+           解得 \( c_1=-1 \) 与 \( c_2=1 \)。
+           因此该向量在行空间中。
+         \partsitem 否。
+           方程
+           \( c_1\rowvec{0 &1 &3}
+              +c_2\rowvec{-1 &0 &1}
+              +c_3\rowvec{-1 &2 &7}
+              =\rowvec{1 &1 &1} \)
+           无解。
+           \begin{equation*}
+             \begin{amat}[r]{3}
+               0  &-1  &-1  &1  \\
+               1  &0   &2   &1  \\
+               3  &1   &7   &1
+             \end{amat}
+             \grstep{\rho_1\leftrightarrow\rho_2}
+             \grstep{-3\rho_1+\rho_3}
+             \repeatedgrstep{\rho_2+\rho_3}
+             \begin{amat}[r]{3}
+               1  &0   &2   &1  \\
+               0  &-1  &-1  &1  \\
+               0  &0   &0   &-1
+             \end{amat}
+           \end{equation*}
+           因此，该向量不在行空间中。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    判断该向量是否在列空间中。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                 1  &1  \\
+                 1  &1
+               \end{mat}  \),
+            \( \colvec[r]{1 \\ 3} \)
+      \partsitem \( \begin{mat}[r]
+                 1  &3  &1 \\
+                 2  &0  &4 \\
+                 1  &-3 &-3
+               \end{mat}  \),
+            \( \colvec[r]{1 \\ 0 \\ 0} \)
+    \end{exparts*}
+    \begin{answer}
+       \begin{exparts}
+          \partsitem 否。
+            为判断是否存在 \( c_1,c_2\in\Re \) 使得
+            \begin{equation*}
+              c_1\colvec[r]{1 \\ 1}
+              +c_2\colvec[r]{1 \\ 1}
+              =\colvec[r]{1 \\ -3}
+            \end{equation*}
+            我们可以对由此得到的线性方程组使用高斯消元法。
+            \begin{equation*}
+              \begin{linsys}{2}
+                 c_1  &+  &c_2  &=  &1  \\
+                 c_1  &+  &c_2  &=  &3
+              \end{linsys}
+              \grstep{-\rho_1+\rho_2}
+              \begin{linsys}{2}
+                 c_1  &+  &c_2  &=  &1  \\
+                      &   &0    &=  &2
+              \end{linsys}
+            \end{equation*}
+            该方程组无解，因此该向量不在列空间中。
+          \partsitem 是的。
+            由关系式
+            \begin{equation*}
+              c_1\colvec[r]{1 \\ 2 \\ 1}
+              +c_2\colvec[r]{3 \\ 0 \\ -3}
+              +c_3\colvec[r]{1 \\ 4 \\ -3}
+              =\colvec[r]{1 \\ 0 \\ 0}
+            \end{equation*}
+            我们得到一个线性方程组，对其使用高斯消元法，
+            \begin{equation*}
+              \begin{amat}[r]{3}
+                1  &3  &1  &1  \\
+                2  &0  &4  &0  \\
+                1  &-3 &-3 &0
+              \end{amat}
+              \grstep[-\rho_1+\rho_3]{-2\rho_1+\rho_2}
+              \repeatedgrstep{-\rho_2+\rho_3}
+              \begin{amat}[r]{3}
+                1  &3  &1  &1  \\
+                0  &-6 &2  &-2 \\
+                0  &0  &-6 &1
+              \end{amat}
+            \end{equation*}
+            即得一个解。
+            因此，该向量在列空间中。
+% sage: load('gauss_method.sage')
+% sage: M = matrix(QQ, [[1,3, 1, 1], [2, 0, 4, 0], [1, -3, -3, 0]])
+% sage: M
+% [ 1  3  1  1]
+% [ 2  0  4  0]
+% [ 1 -3 -3  0]
+% sage: gauss_method(M)
+% [ 1  3  1  1]
+% [ 2  0  4  0]
+% [ 1 -3 -3  0]
+% (' take', -2, 'times row', 1, 'plus row', 2)
+% (' take', -1, 'times row', 1, 'plus row', 3)
+% [ 1  3  1  1]
+% [ 0 -6  2 -2]
+% [ 0 -6 -4 -1]
+% (' take', -1, 'times row', 2, 'plus row', 3)
+% [ 1  3  1  1]
+% [ 0 -6  2 -2]
+% [ 0  0 -6  1]
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    判断该向量是否在矩阵的列空间中。
+    \begin{exparts*}
+      \partsitem \( \begin{mat}[r]
+                   2  &1  \\
+                   2  &5
+                 \end{mat} \),~\( \colvec[r]{1 \\ -3}  \)
+      \partsitem \( \begin{mat}[r]
+                   4  &-8 \\
+                   2  &-4
+                 \end{mat} \),~\( \colvec[r]{0 \\ 1}  \)
+      \partsitem \( \begin{mat}[r]
+                   1  &-1  &1  \\
+                   1  &1   &-1 \\
+                  -1  &-1  &1
+                \end{mat} \),~\( \colvec[r]{2 \\ 0 \\ 0}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 是的；
+          我们问的是是否存在标量 \( c_1 \) 与 \( c_2 \) 使得
+          \begin{equation*}
+            c_1\colvec[r]{2 \\ 2}+c_2\colvec[r]{1 \\ 5}=\colvec[r]{1 \\ -3}
+          \end{equation*}
+          由此得到线性方程组
+          \begin{equation*}
+            \begin{linsys}{2}
+              2c_1  &+  &c_2  &=  &1  \\
+              2c_1  &+  &5c_2 &=  &-3
+            \end{linsys}
+            \grstep{-\rho_1+\rho_2}
+            \begin{linsys}{2}
+              2c_1  &+  &c_2  &=  &1  \\
+                    &   &4c_2 &=  &-4
+            \end{linsys}
+          \end{equation*}
+          高斯消元法给出 \( c_2=-1 \) 与 \( c_1=1 \)。
+          也就是说，确实存在这样一对标量，因此该向量
+          确实在矩阵的列空间中。
+        \partsitem 否；
+          我们问的是是否存在标量 $c_1$ 与 $c_2$
+          使得
+          \begin{equation*}
+            c_1\colvec[r]{4 \\ 2}+c_2\colvec[r]{-8 \\ -4}=\colvec[r]{0 \\ 1}
+          \end{equation*}
+          一种做法是考虑由此得到的线性方程组
+          \begin{equation*}
+            \begin{linsys}{2}
+              4c_1  &-  &8c_2  &=  &0  \\
+              2c_1  &-  &4c_2  &=  &1
+            \end{linsys}
+          \end{equation*}
+          容易看出它无解。
+          另一种做法是注意到
+          左边各列的任意线性组合
+          其第二个分量都是第一个分量的一半，
+          而右边的向量不满足这一条件。
+        \partsitem 是的；我们可以直接观察到该向量
+          是第一列减去第二列。
+          或者，若一时看不出，可以写出各列之间的关系
+          \begin{equation*}
+            c_1\colvec[r]{1 \\ 1 \\ -1}
+             +c_2\colvec[r]{-1 \\ 1 \\ -1}
+             +c_3\colvec[r]{1 \\ -1 \\ 1}
+             =\colvec[r]{2 \\ 0 \\ 0}
+          \end{equation*}
+          并考虑由此得到的线性方程组
+          \begin{equation*}
+            \begin{linsys}{3}
+              c_1  &-  &c_2  &+  &c_3  &=  &2  \\
+              c_1  &+  &c_2  &-  &c_3  &=  &0  \\
+             -c_1  &-  &c_2  &+  &c_3  &=  &0
+            \end{linsys}
+            \grstep[\rho_1+\rho_3]{-\rho_1+\rho_2}
+            \begin{linsys}{3}
+              c_1  &-  &c_2  &+  &c_3  &=  &2  \\
+                   &   &2c_2 &-  &2c_3 &=  &-2  \\
+                   &   &-2c_2&+  &2c_3 &=  &2
+            \end{linsys}
+            \grstep{\rho_2+\rho_3}
+            \begin{linsys}{3}
+              c_1  &-  &c_2  &+  &c_3  &=  &2  \\
+                   &   &2c_2 &-  &2c_3 &=  &-2  \\
+                   &   &     &   &0    &=  &0
+            \end{linsys}
+          \end{equation*}
+          给出了额外的信息（除了解至少存在一个之外）：有无穷多解。
+          参数化给出 $c_2=-1+c_3$ 与 $c_1=1$，取 $c_3$ 为
+          零即得一个特解 $c_1=1$，$c_2=-1$，
+          $c_3=0$（这当然就是开头所作的观察）。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    求此矩阵行空间的一个基。
+    \begin{equation*}
+      \begin{mat}[r]
+         2  &0  &3  &4  \\
+         0  &1  &1  &-1 \\
+         3  &1  &0  &2  \\
+         1  &0  &-4 &-1
+       \end{mat}
+    \end{equation*}
+    \begin{answer}
+     % Using Sage:
+     % M = matrix(QQ, [[2,0,3,4], [0,1,1,-1], [3,1,0,2], [1,0,-4,-1]])
+     % M1 = M.with_added_multiple_of_row(2,0,-3/2)
+     % M2 = M1.with_added_multiple_of_row(3,0,-1/2)
+     % M3 = M2.with_added_multiple_of_row(2,1,-1)
+     % M4 = M3.with_added_multiple_of_row(3,2,-1)
+     常规的高斯消去
+     \begin{equation*}
+       \begin{mat}[r]
+         2  &0  &3 &4   \\
+         0  &1  &1  &-1 \\
+         3  &1  &0  &2  \\
+         1  &0  &-4  &-1
+       \end{mat}
+       \grstep[-(1/2)\rho_1+\rho_4]{-(3/2)\rho_1+\rho_3}
+       \grstep{-\rho_2+\rho_3}
+       \repeatedgrstep{-\rho_3+\rho_4}
+       \begin{mat}[r]
+         2  &0  &3      &4   \\
+         0  &1  &1      &-1 \\
+         0  &0  &-11/2  &-3  \\
+         0  &0  &0      &0
+       \end{mat}
+     \end{equation*}
+     提示了这个基
+     $\sequence{\rowvec{2 &0 &3 &4},
+         \rowvec{0 &1 &1 &-1},\rowvec{0 &0 &-11/2 &-3}}$。
+
+      另一个或许更方便的做法是先对换两行，
+      % From Sage
+      % M = matrix(QQ, [[2,0,3,4], [0,1,1,-1], [3,1,0,2], [1,0,-4,-1]])
+      % M1 = M.with_swapped_rows(0,3)
+      % M2 = M1.with_added_multiple_of_row(2,0,-3)
+      % M3 = M2.with_added_multiple_of_row(3,0,-2)
+      % M4 = M3.with_added_multiple_of_row(2,1,-1)
+      % M5 = M4.with_added_multiple_of_row(3,2,-1)
+      \begin{equation*}
+        \grstep{\rho_1\swap\rho_4}
+        \repeatedgrstep[-2\rho_1+\rho_4]{-3\rho_1+\rho_3}
+        \repeatedgrstep{-\rho_2+\rho_3}
+        \repeatedgrstep{-\rho_3+\rho_4}
+        \begin{mat}[r]
+           1  &0  &-4 &-1 \\
+           0  &1  &1  &-1 \\
+           0  &0  &11 &6  \\
+           0  &0  &0  &0
+         \end{mat}
+      \end{equation*}
+      从而得到基
+      \( \sequence{\rowvec{1 &0 &-4 &-1},\rowvec{0 &1 &1 &-1},
+                   \rowvec{0 &0 &11 &6}} \)。
+    \end{answer}
+  \recommended \item
+    求每个矩阵的秩。
+    \begin{exparts*}
+      \partsitem \(
+        \begin{mat}[r]
+          2  &1  &3  \\
+          1  &-1 &2  \\
+          1  &0  &3
+        \end{mat}  \)
+      \partsitem \(
+        \begin{mat}[r]
+          1  &-1 &2  \\
+          3  &-3 &6  \\
+         -2  &2  &-4
+        \end{mat}  \)
+      \partsitem \(
+        \begin{mat}[r]
+          1  &3  &2  \\
+          5  &1  &1  \\
+          6  &4  &3
+        \end{mat}  \)
+      \partsitem \(
+        \begin{mat}[r]
+          0  &0  &0  \\
+          0  &0  &0  \\
+          0  &0  &0
+        \end{mat}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 这一化简
+           \begin{equation*}
+             \mbox{}
+             \grstep[-(1/2)\rho_1+\rho_3]{-(1/2)\rho_1+\rho_2}
+             \repeatedgrstep{-(1/3)\rho_2+\rho_3}
+             \begin{mat}[r]
+               2  &1     &3     \\
+               0  &-3/2  &1/2   \\
+               0  &0     &4/3
+             \end{mat}
+           \end{equation*}
+           表明行秩（从而秩）为三。
+         \partsitem 观察各列可见其余各列都是第一列的倍数（观察各行也可看出同样的结论）。
+           因此秩为一。
+
+           或者，化简
+           \begin{equation*}
+             \begin{mat}[r]
+               1  &-1  &2  \\
+               3  &-3  &6  \\
+               -2 &2   &-4
+             \end{mat}
+             \grstep[2\rho_1+\rho_3]{-3\rho_1+\rho_2}
+             \begin{mat}[r]
+               1  &-1  &2  \\
+               0  &0   &0  \\
+               0  &0   &0
+             \end{mat}
+           \end{equation*}
+           也表明同样的事实。
+         \partsitem 这一计算
+           \begin{equation*}
+             \begin{mat}[r]
+               1  &3  &2  \\
+               5  &1  &1  \\
+               6  &4  &3
+             \end{mat}
+             \grstep[-6\rho_1+\rho_3]{-5\rho_1+\rho_2}
+             \repeatedgrstep{-\rho_2+\rho_3}
+             \begin{mat}[r]
+               1  &3   &2  \\
+               0  &-14 &-9 \\
+               0  &0   &0
+             \end{mat}
+           \end{equation*}
+           表明秩为二。
+         \partsitem 秩为零。
+       \end{exparts}
+     \end{answer}
+  \item 给出此矩阵列空间的一个基。
+    给出该矩阵的秩。
+    \begin{equation*}
+      \begin{mat}
+        1 &3 &-1 &2 \\
+        2 &1 &1  &0 \\
+        0 &1 &1  &4
+      \end{mat}
+    \end{equation*}
+  \begin{answer}
+    我们要求这个张成空间的一个基。
+    \begin{equation*}
+      \spanof{\colvec{1 \\ 2 \\ 0},
+              \colvec{3 \\ 1 \\ 1},
+              \colvec{-1 \\ 1 \\ 1},
+              \colvec{2 \\ 0 \\ 4}}\subseteq\Re^3
+    \end{equation*}
+    最直接的做法
+    是把这些列转置成行，用高斯消元法求出这些行的张成空间的一个基，
+    然后再把它们转置回
+    列。
+    \begin{equation*}
+      \begin{mat}
+        1 &2 &0 \\
+        3 &1 &1 \\
+       -1 &1 &1 \\
+        2 &0 &4
+      \end{mat}
+      \grstep[\rho_1+\rho_3 \\ -2\rho_1+\rho_4]{-3\rho_1+\rho_2}
+      \grstep[-(4/5)\rho_2+\rho_4]{(3/5)\rho_2+\rho_3}
+      \grstep{-2\rho_3+\rho_4}
+      \begin{mat}
+        1 &2  &0 \\
+        0 &-5 &1 \\
+        0 &0  &8/5 \\
+        0 &0  &0
+      \end{mat}
+    \end{equation*}
+    舍去零向量（它表明初始向量之间存在冗余），得到列空间的这个基。
+    \begin{equation*}
+      \sequence{
+        \colvec{1 \\ 2 \\ 0},
+        \colvec{0 \\ -5 \\ 1},
+        \colvec{0 \\ 0 \\ 8/5}
+        }
+    \end{equation*}
+    矩阵的秩是其列空间的维数，所以为三。
+    （它也等于其行空间的维数。）
+  \end{answer}
+  \recommended \item
+    求以下每个集合的张成空间的一个基。
+    \begin{exparts}
+      \partsitem \(
+        \set{\rowvec{1 &3},
+          \rowvec{-1 &3},
+          \rowvec{1 &4},
+          \rowvec{2 &1}  }\subseteq\matspace_{\nbym{1}{2}} \)
+      \partsitem \(
+         \set{\colvec[r]{1 \\2 \\1},
+           \colvec[r]{3 \\ 1 \\ -1},
+           \colvec[r]{1 \\ -3 \\ -3}  }\subseteq\Re^3  \)
+      \partsitem \(  \set{1+x,1-x^2,3+2x-x^2}\subseteq\polyspace_3  \)
+      \partsitem \( \set{
+          \begin{mat}[r]
+            1  &0  &1  \\
+            3  &1  &-1
+          \end{mat},
+          \begin{mat}[r]
+            1  &0  &3  \\
+            2  &1  &4
+          \end{mat},
+          \begin{mat}[r]
+           -1  &0  &-5 \\
+           -1  &-1 &-9
+          \end{mat}  }  \subseteq\matspace_{\nbym{2}{3}}  \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这一化简
+          \begin{equation*}
+             \begin{mat}[r]
+               1  &3  \\
+              -1  &3  \\
+               1  &4  \\
+               2  &1
+             \end{mat}
+             \grstep[-\rho_1+\rho_3 \\ -2\rho_1+\rho_4]{\rho_1+\rho_2}
+             \grstep[(5/6)\rho_2+\rho_4]{-(1/6)\rho_2+\rho_3}
+             \begin{mat}[r]
+               1  &3  \\
+               0  &6  \\
+               0  &0  \\
+               0  &0
+             \end{mat}
+          \end{equation*}
+          给出 \( \sequence{\rowvec{1 &3},\rowvec{0 &6}} \)。
+        \partsitem 转置并化简
+          \begin{equation*}
+             \begin{mat}[r]
+               1  &2  &1  \\
+               3  &1  &-1 \\
+               1  &-3 &-3
+             \end{mat}
+             \grstep[-\rho_1+\rho_3]{-3\rho_1+\rho_2}
+             \begin{mat}[r]
+               1  &2  &1  \\
+               0  &-5 &-4 \\
+               0  &-5 &-4
+             \end{mat}
+             \grstep{-\rho_2+\rho_3}
+             \begin{mat}[r]
+               1  &2  &1  \\
+               0  &-5 &-4 \\
+               0  &0  &0
+             \end{mat}
+          \end{equation*}
+          再转置回去，得到这个基。
+          \begin{equation*}
+            \sequence{\colvec[r]{1 \\ 2 \\ 1},
+              \colvec[r]{0 \\ -5 \\ -4}   }
+          \end{equation*}
+        \partsitem 首先注意外围空间是
+          $\polyspace_3$，而不是 $\polyspace_2$。
+          然后，把第一个多项式 $1+1\cdot x+0\cdot x^2+0\cdot x^3$
+          取作与行向量 $\rowvec{1 &1 &0 &0}$“相同”，等等，
+          就得到
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &1  &0  &0 \\
+              1  &0  &-1 &0 \\
+              3  &2  &-1 &0
+            \end{mat}
+            \grstep[-3\rho_1+\rho_3]{-\rho_1+\rho_2}
+            \repeatedgrstep{-\rho_2+\rho_3}
+            \begin{mat}[r]
+              1  &1  &0  &0 \\
+              0  &-1 &-1 &0 \\
+              0  &0  &0  &0
+            \end{mat}
+          \end{equation*}
+          由此得到基 \( \sequence{1+x,-x-x^2} \)。
+        \partsitem 这里“相同”的做法给出
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &0  &1  &3  &1  &-1  \\
+              1  &0  &3  &2  &1  &4   \\
+             -1  &0  &-5  &-1 &-1 &-9
+            \end{mat}
+            \grstep[\rho_1+\rho_3]{-\rho_1+\rho_2}
+            \repeatedgrstep{2\rho_2+\rho_3}
+            \begin{mat}[r]
+              1  &0  &1  &3  &1  &-1  \\
+              0  &0  &2  &-1 &0  &5   \\
+              0  &0  &0  &0  &0  &0
+            \end{mat}
+          \end{equation*}
+          从而得到这个基。
+          \begin{equation*}
+            \sequence{
+            \begin{mat}[r]
+              1  &0  &1  \\
+              3  &1  &-1
+            \end{mat},
+            \begin{mat}[r]
+              0  &0  &2  \\
+             -1  &0  &5
+            \end{mat}  }
+          \end{equation*}
+      \end{exparts}
+     \end{answer}
+  \item 在自然的向量空间中，给出以下每个集合的张成空间的一个基。
+    \begin{exparts}
+      \partsitem
+         $\set{\colvec{1 \\ 1 \\ 3},
+              \colvec{-1 \\ 2 \\ 0},
+              \colvec{0  \\ 12 \\ 6}}$
+      \partsitem $\set{x+x^2, 2-2x, 7, 4+3x+2x^2}$
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          把这些列转置成行，化为阶梯形
+          （然后去掉零行），再转置回列。
+          \begin{equation*}
+            \begin{mat}
+              1 &1  &3 \\
+             -1 &2  &0 \\
+              0 &12 &6
+            \end{mat}
+            \grstep{\rho_1+\rho_2}
+            \grstep{-4\rho_2+\rho_3}
+            \begin{mat}
+              1 &1  &3 \\
+              0 &3  &3 \\
+              0 &0  &-6
+            \end{mat}
+          \end{equation*}
+          该张成空间的一个基如下。
+          \begin{equation*}
+            \sequence{
+              \colvec{1 \\ 1 \\ 3},
+              \colvec{0 \\ 3 \\ 3},
+              \colvec{0 \\ 0 \\ -6}
+          }
+          \end{equation*}
+       \partsitem
+          与前一小区一样，我们把它们看作行，
+          以利用高斯消元法已完成的工作。
+          \begin{multline*}
+            \begin{mat}
+              0 &1  &1 \\
+              2 &-2 &0 \\
+              7 &0 &0 \\
+              4 &3  &2
+            \end{mat}
+            \grstep{\rho_1\leftrightarrow\rho_2}
+            \grstep[2\rho_1+\rho_4]{-(7/2)\rho_1+\rho_3}
+            \grstep[-7\rho_2+\rho_4]{-7\rho_2+\rho_3}          \\
+            \grstep{-(5/7)\rho_3+\rho_4}
+            \begin{mat}
+              2 &-2  &0 \\
+              0 &1 &1 \\
+              0 &0  &-7 \\
+              0 &0 &0
+            \end{mat}
+          \end{multline*}
+          该集合的张成空间的一个基是
+          $\sequence{2-2x, x+x^2, -5x^2}$。
+      \end{exparts}
+    \end{answer}
+  \item
+    哪些矩阵的秩为零？
+    秩为一的呢？
+    \begin{answer}
+      只有零矩阵的秩为零。
+      秩为一的矩阵仅有如下形式
+      \begin{equation*}
+        \begin{mat}
+           k_1\cdot \rho  \\
+            \vdots  \\
+           k_m\cdot \rho
+        \end{mat}
+      \end{equation*}
+      其中 \( \rho \) 是某个非零行向量，且诸 \( k_i \) 不全为零。
+      （\textit{注}：
+      我们不能简单地说所有行都是第一行的倍数，因为第一行可能是零行。
+      \textit{再注}：
+      上述结论在把“行”换成“列”后同样适用。）
+    \end{answer}
+  \recommended \item
+    已知 \( a,b,c\in\Re \)，要取什么样的 \( d \) 才能使这个矩阵
+    的秩为一？
+    \begin{equation*}
+      \begin{mat}
+         a  &b  \\
+         c  &d
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      若 \( a\neq 0 \)，则取 \( d=(c/a)b \) 可使第二行是第一行的倍数，
+      具体地说，是第一行的 \( c/a \) 倍。
+      若 \( a=0 \) 且 \( b=0 \)，则 \( d \) 取任意非 \( 0 \) 值都能保证
+      第二行非零。
+      若 \( a=0 \) 且 \( b\neq 0 \) 且 \( c=0 \)，则 \( d \) 取任何值都行，
+      因为该矩阵自动具有秩一（即使取 $d=0$）。
+      最后，若 \( a=0 \) 且 \( b\neq 0 \) 且 \( c\neq 0 \)，则 \( d \) 取
+      任何值都不够，因为该矩阵必定有秩二。
+    \end{answer}
+  \item
+    求这个矩阵的列秩。
+    \begin{equation*}
+      \begin{mat}[r]
+        1  &3  &-1  &5  &0  &4  \\
+        2  &0  &1   &0  &4  &1
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      列秩是二。
+      一种看法是直接观察\Dash 列空间由高度为二的列组成，因而其维数
+      至少可以是二，而且我们容易找到两列，它们合起来组成一个
+      线性无关的集合（例如第四列与第五列）。
+      另一种看法是回忆列秩等于行秩，然后施行高斯消元法，
+      结果剩下两个非零行。
+    \end{answer}
+  \item
+    证明：一个至少有一个解的线性方程组至多有一个解当且仅当
+    其系数矩阵的秩等于其列数。
+    \begin{answer}
+      我们应用\nearbytheorem{th:RankVsSoltnSp}。
+      线性方程组的系数矩阵 $A$ 的列数等于未知数的个数 $n$。
+      一个至少有一个解的线性方程组至多有一个解当且仅当相应的
+      齐次方程组的解空间维数为零（回忆：~在
+      “$\text{通解}=\text{特解}+\text{齐次解}$”这一方程
+       $\vec{v}=\vec{p}+\vec{h}$ 中，只要这样的 $\vec{p}$ 存在，
+       解 $\vec{v}$ 唯一当且仅当向量 $\vec{h}$ 唯一，即 $\vec{h}=\zero$）。
+       而由该定理，这意味着 $n=r$。
+    \end{answer}
+  \recommended \item
+    如果一个矩阵是 \( \nbym{5}{9} \) 的，它的行集合与列集合当中，
+    哪一个必定是线性相关的？
+    \begin{answer}
+      列的集合必定是线性相关的，因为该矩阵的秩至多是五，而列却有
+      九个。
+    \end{answer}
+  \item
+    举一个例子，说明尽管两者维数相同，一个矩阵的行空间与列空间
+    却不必相等。
+    它们有可能相等吗？
+    \begin{answer}
+      它们几乎没有相等的可能，因为行空间是行向量的集合，而列空间是
+      列向量的集合（除非该矩阵是 \( \nbyn{1} \) 的，此时两个空间
+      必定相等）。
+
+      \textit{注记。}
+      考察
+      \begin{equation*}
+        A=\begin{mat}[r]
+            1  &3  \\
+            2  &6
+          \end{mat}
+      \end{equation*}
+      并注意行空间是 \( \rowvec{1 &3} \) 的所有倍数组成的集合，
+      而列空间由以下列向量的倍数组成
+      \begin{equation*}
+        \colvec[r]{1 \\ 2}
+      \end{equation*}
+      所以我们也不能论证说这两个空间必定恰好互为转置。
+    \end{answer}
+  \item
+    证明集合
+    \( \set{(1,-1,2,-3),(1,1,2,0),(3,-1,6,-6)} \) 与
+    \( \set{(1,0,1,0),(0,2,0,3)} \) 的张成不相同。
+    顺便问一句，这里的向量空间是什么？
+    \begin{answer}
+      首先，该向量空间是在自然运算下的实数四元组的集合。
+      尽管这不是四宽的行向量的集合，但差别不大\Dash 它与那个集合
+      是“相同的”。
+      所以我们把四元组当作四宽的向量来处理。
+
+      有了这一点，要看出 \( (1,0,1,0) \) 不在第一个集合的张成中，
+      一种办法是注意这个化简
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &-1  &2  &-3  \\
+          1  &1   &2  &0   \\
+          3  &-1  &6  &-6
+        \end{mat}
+        \grstep[-3\rho_1+\rho_3]{-\rho_1+\rho_2}
+        \repeatedgrstep{-\rho_2+\rho_3}
+        \begin{mat}[r]
+          1  &-1  &2  &-3  \\
+          0  &2   &0  &3   \\
+          0  &0   &0  &0
+        \end{mat}
+      \end{equation*}
+      以及这个化简
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &-1  &2  &-3  \\
+          1  &1   &2  &0   \\
+          3  &-1  &6  &-6  \\
+          1  &0   &1  &0
+        \end{mat}
+        \grstep[-3\rho_1+\rho_3 \\ -\rho_1+\rho_4]{-\rho_1+\rho_2}
+        \repeatedgrstep[-(1/2)\rho_2+\rho_4]{-\rho_2+\rho_3}
+        \repeatedgrstep{\rho_3\leftrightarrow\rho_4}
+        \begin{mat}[r]
+          1  &-1  &2  &-3  \\
+          0  &2   &0  &3   \\
+          0  &0   &-1 &3/2 \\
+          0  &0   &0  &0
+        \end{mat}
+      \end{equation*}
+      得到的矩阵在秩上不同。
+      这意味着把 $(1,0,1,0)$ 添加到前三个四元组的集合中会增大该
+      集合的秩，从而增大其张成。
+      因此 $(1,0,1,0)$ 原本就不在这个张成中。
+    \end{answer}
+  \recommended \item
+    证明这个列向量的集合
+    \begin{equation*}
+      \set{\colvec{d_1 \\ d_2 \\ d_3}
+           \suchthat
+           \text{存在 $x$、$y$ 与 $z$ 使得：\ }
+           \begin{linsys}{3}
+             3x  &+  &2y  &+  &4z  &=   &d_1   \\
+              x  &   &    &-  &z   &=   &d_2   \\
+             2x  &+  &2y  &+  &5z  &=   &d_3
+           \end{linsys}
+           }
+    \end{equation*}
+    是 \( \Re^3 \) 的一个子空间。
+    求一个基。
+    \begin{answer}
+      它是子空间，因为它是系数矩阵
+      \begin{equation*}
+        \begin{mat}[r]
+          3  &2  &4  \\
+          1  &0  &-1 \\
+          2  &2  &5
+        \end{mat}
+      \end{equation*}
+      的列空间。
+      为了求列空间的一个基，
+      \begin{equation*}
+        \set{c_1\colvec[r]{3 \\ 1 \\ 2}
+             +c_2\colvec[r]{2 \\ 0 \\ 2}
+             +c_3\colvec[r]{4 \\ -1 \\ 5}
+             \suchthat c_1,c_2,c_3\in\Re}
+      \end{equation*}
+      我们通过转置、化简
+      \begin{equation*}
+         \begin{mat}[r]
+           3  &1  &2  \\
+           2  &0  &2  \\
+           4  &-1 &5
+         \end{mat}
+         \grstep[-(4/3)\rho_1+\rho_3]{-(2/3)\rho_1+\rho_2}
+         \repeatedgrstep{-(7/2)\rho_2+\rho_3}
+         \begin{mat}[r]
+           3  &1     &2  \\
+           0  &-2/3  &2/3  \\
+           0  &0     &0
+         \end{mat}
+      \end{equation*}
+      并略去零行，再转置回去，来消去张成集中三个列向量之间的
+      线性关系。
+      \begin{equation*}
+        \sequence{ \colvec[r]{3 \\ 1 \\ 2},
+                   \colvec[r]{0 \\ -2/3 \\ 2/3}  }
+      \end{equation*}
+    \end{answer}
+  \item
+    证明转置运算是
+    线性的：\index{transpose!is linear}
+    \begin{equation*}
+      \trans{(rA+sB)}  = r\trans{A}+s\trans{B}
+    \end{equation*}
+    其中 \( r,s\in\Re \) 且 \( A,B\in\matspace_{\nbym{m}{n}} \)。
+    \begin{answer}
+      我们可以通过直接的计算来完成。
+      \begin{align*}
+        \trans{(rA+sB)}
+        &=\trans{\begin{mat}
+             ra_{1,1}+sb_{1,1}  &\ldots &ra_{1,n}+sb_{1,n} \\
+                          &\vdots            \\
+             ra_{m,1}+sb_{m,1}  &\ldots &ra_{m,n}+sb_{m,n}
+                \end{mat}  }  \\
+        &=\begin{mat}
+           ra_{1,1}+sb_{1,1}  &\ldots &ra_{m,1}+sb_{m,1}  \\
+                            &\vdots                           \\
+           ra_{1,n}+sb_{1,n}  &\ldots &ra_{m,n}+sb_{m,n}
+         \end{mat}           \\
+        &=\begin{mat}
+           ra_{1,1}  &\ldots &ra_{m,1}  \\
+                    &\vdots                       \\
+           ra_{1,n}  &\ldots &ra_{m,n}
+         \end{mat}
+        +\begin{mat}
+           sb_{1,1}  &\ldots &sb_{m,1}  \\
+                    &\vdots                       \\
+           sb_{1,n}  &\ldots &sb_{m,n}
+         \end{mat}           \\
+        &=r\trans{A}+s\trans{B}
+      \end{align*}
+    \end{answer}
+  \recommended \item
+    在本小节中我们已经证明高斯化简能求出行空间的一个基。
+    \begin{exparts}
+      \partsitem 证明这个基不是唯一的\Dash 不同的化简可能给出
+        不同的基。
+      \partsitem 构造行空间相等但行数不相等的矩阵。
+      \partsitem 证明两个矩阵有相同的行空间当且仅当经过
+        高斯–若尔当消元后它们有相同的非零行。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这些化简给出不同的基。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  &0  \\
+              1  &2  &1
+            \end{mat}
+            \grstep{-\rho_1+\rho_2}
+            \begin{mat}[r]
+              1  &2  &0  \\
+              0  &0  &1
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              1  &2  &0  \\
+              1  &2  &1
+            \end{mat}
+            \grstep{-\rho_1+\rho_2}
+            \repeatedgrstep{2\rho_2}
+            \begin{mat}[r]
+              1  &2  &0  \\
+              0  &0  &2
+            \end{mat}
+          \end{equation*}
+        \partsitem 一个简单的例子是这个。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  &1  \\
+              3  &1  &4
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              1  &2  &1  \\
+              3  &1  &4  \\
+              0  &0  &0
+            \end{mat}
+          \end{equation*}
+          这是一个稍微不那么简单的例子。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  &1  \\
+              3  &1  &4
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              1  &2  &1  \\
+              3  &1  &4  \\
+              2  &4  &2  \\
+              4  &3  &5
+            \end{mat}
+          \end{equation*}
+        \partsitem
+          % We give two proofs.
+          % The first is a bit lower-level but more constructive.
+          % The second is higher level.
+
+          % \textit{First proof.}
+          % Assume that \( A \) and \( B \) are matrices with equal row spaces.
+          % Construct a matrix \( C \) with the rows of \( A \) above the rows
+          % of \( B \), and another matrix \( D \) with the rows of \( B \)
+          % above the rows of \( A \).
+          % \begin{equation*}
+          %   C=\begin{mat}
+          %        A \\ B
+          %     \end{mat}
+          %   \qquad
+          %   D=\begin{mat}
+          %        B \\ A
+          %     \end{mat}
+          % \end{equation*}
+          % Observe that \( C \) and \( D \) are row-equivalent (via a sequence
+          % of row-swaps) and so Gauss-Jordan reduce to the same reduced
+          % echelon form matrix.
+
+          % Because the row spaces are equal, the rows of \( B \)
+          % are linear combinations of the rows of \( A \) so Gauss-Jordan
+          % reduction on \( C \) simply turns the rows of \( B \) to zero rows
+          % and thus the nonzero rows of $C$ are just the nonzero rows obtained
+          % by Gauss-Jordan reducing \( A \).
+          % The same can be said for the matrix \( D \)\Dash Gauss-Jordan
+          % reduction on \( D \) gives the same non-zero rows as are produced
+          % by reduction on \( B \) alone.
+          % Therefore,
+          % \( A \) yields the same nonzero rows as \( C  \), which yields
+          % the same nonzero rows as \( D \), which yields the same nonzero
+          % rows as \( B \).
+
+          % \textit{Second proof (N~Schenker).}
+          由于 \( A \) 与 \( B \) 的行空间相等，所以二者行等价。
+          由于每个行等价类都包含唯一的简化阶梯形
+          （定理 One.III.\ref{th:ReducedEchelonFormIsUnique}），
+          \( A \) 的简化阶梯形必定等于 \( B \) 的简化阶梯形。
+      \end{exparts}
+    \end{answer}
+  \item
+    对于 \nearbyremark{rem:MunkresCommment}，在 \( r \) 大于 \( n \) 的
+    情形下为什么不成问题？
+    \begin{answer}
+      它不可能更大。
+    \end{answer}
+  \item
+    证明 \( \nbym{m}{n} \) 矩阵的行秩至多是 \( m \)。
+    有更好的界吗？
+    \begin{answer}
+      极大线性无关集合中行的个数不会超过行的个数。
+      一个更好的界（一般情形下这是最佳可能的界）是 \( m \) 与 \( n \)
+      中的最小者，因为行秩等于列秩。
+     \end{answer}
+  \item
+    证明一个矩阵的秩等于其转置的秩。
+    \begin{answer}
+      由于矩阵 \( A \) 的行是 \( \trans{A} \) 的列，所以 \( A \) 的
+      行空间的维数等于 \( \trans{A} \) 的列空间的维数。
+      而 \( A \) 的行空间的维数就是 \( A \) 的秩，并且 \( \trans{A} \) 的
+      列空间的维数就是 \( \trans{A} \) 的秩。
+      于是这两个秩相等。
+    \end{answer}
+  \item
+    判断真假：~一个矩阵的列空间等于其转置的行空间。
+    \begin{answer}
+      假的。
+      前者是列的集合，而后者是行的集合。
+
+      然而这个例子
+      \begin{equation*}
+         A=\begin{mat}[r]
+             1  &2  &3  \\
+             4  &5  &6
+           \end{mat},
+         \qquad
+         \trans{A}=\begin{mat}[r]
+             1  &4  \\
+             2  &5  \\
+             3  &6
+           \end{mat}
+      \end{equation*}
+      表明，一旦我们对“相同”有了形式化的含义，就可以在这里应用它：
+      \begin{equation*}
+        \colspace{A}=\spanof{\set{
+                        \colvec[r]{1 \\ 4},
+                        \colvec[r]{2 \\ 5},
+                        \colvec[r]{3 \\ 6} }  }
+      \end{equation*}
+      而
+      \begin{equation*}
+         \rowspace{\trans{A}}=\spanof{\set{
+                                 \rowvec{1 &4},
+                                 \rowvec{2 &5},
+                                 \rowvec{3 &6} }  }
+      \end{equation*}
+      彼此是“相同的”。
+    \end{answer}
+  \recommended \item
+    我们已经看到行变换可能改变列空间。
+    它必定会吗？
+    \begin{answer}
+      不会。
+      这里，高斯消元法没有改变列空间。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &0  \\
+          3  &1
+        \end{mat}
+        \grstep{-3\rho_1+\rho_2}
+        \begin{mat}[r]
+          1  &0  \\
+          0  &1
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+  \item
+    证明一个线性方程组有解当且仅当该方程组的系数矩阵与
+    其增广矩阵有相同的秩。
+    \begin{answer}
+      线性方程组
+      \begin{equation*}
+        c_1\vec{a}_1+\dots+c_n\vec{a}_n=\vec{d}
+      \end{equation*}
+      有解当且仅当 \( \vec{d} \) 在集合 \( \set{\vec{a}_1,\dots,\vec{a}_n} \)
+      的张成中。
+      这成立当且仅当增广矩阵的列秩等于系数矩阵的列秩。
+      由于秩等于列秩，方程组有解当且仅当其增广矩阵的秩等于其
+      系数矩阵的秩。
+    \end{answer}
+  \item
+    一个 \( \nbym{m}{n} \) 矩阵具有
+    \definend{行满秩}\index{full row rank}\index{row rank!full}，
+    若其行秩
+    为 \( m \)；它具有
+    \definend{列满秩}\index{full column rank}\index{column!rank!full}，
+    若其列秩为 \( n \)。
+    \begin{exparts}
+      \partsitem 证明一个矩阵能同时有行满秩与列满秩仅当它是方阵。
+      \partsitem 证明：系数矩阵为 \( A \) 的线性方程组对右侧任意的
+        \( d_1 \)、\ldots、\( d_n \) 都有解当且仅当 \( A \) 行满秩。
+      \partsitem 证明齐次方程组有唯一解当且仅当其系数矩阵
+        $A$ 列满秩。
+      \partsitem 证明命题
+       “若系数矩阵为 \( A \) 的方程组有任何解则它有唯一解”成立
+        当且仅当 \( A \) 列满秩。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 行秩等于列秩，所以二者各自至多是行数与列数的
+          最小者。
+          因此只有当行数等于列数时二者才能都满。
+          （当然，逆命题不成立：~方阵不必行满秩或列满秩。）
+        \partsitem 若 \( A \) 行满秩，则无论右侧是什么，对增广矩阵施行
+          高斯消元法结束时每一行都有一个首主元一，并且这些首主元一
+          没有一个位于最右边的列（“增广”列）。
+          回代随即给出一个解。
+
+          另一方面，如果该线性方程组对某个右侧没有解，只可能是因为
+          高斯消元法留下某行，使得它在“增广”竖线左边全为零，
+          而在右边有非零元。
+          于是，如果 $A$ 对某些右侧没有解，那么 \( A \) 不具有
+          行满秩，因为它的某些行已被消去。
+        \partsitem 矩阵 \( A \) 列满秩当且
+          仅当其列
+          组成一个线性无关的集合。
+          这等价于诸列之间只存在平凡的线性关系，于是方程组唯一的解是
+          每个变量都取 $0$ 的情形。
+        \partsitem 矩阵 \( A \) 列满秩当且
+          仅当其列的集合是线性无关的，从而构成其张成的一个基。
+          这等价于该张成中的所有向量都有唯一的线性表示。
+          这就证明了它，
+          因为张成中一个向量的任何线性表示都是
+          该线性方程组的解。
+      \end{exparts}
+    \end{answer}
+  \item
+    如果把高斯消元法改成允许用零去乘某一行，
+    \nearbylemma{le:RowSpUnchByGR} 的结论会如何改变？
+    \begin{answer}
+      行空间不再相同，$B$ 的行空间将是 $A$ 的行空间的一个子空间
+      （有可能相等）。
+    \end{answer}
+  \item
+    \( \rank(A) \) 与 \( \rank(-A) \) 之间有什么关系？
+    \( \rank(A) \) 与 \( \rank(kA) \) 之间呢？
+    \( \rank(A) \)、\( \rank(B) \) 与 \( \rank(A+B) \) 之间，
+    如果有关系的话，是什么关系？
+    \begin{answer}
+      显然 \( \rank(A)=\rank(-A) \)，因为高斯消元法允许我们把一个
+      矩阵的所有行乘以 \( -1 \)。
+      同样地，当 \( k\neq 0 \) 时我们有 \( \rank(A)=\rank(kA) \)。
+
+      加法更有意思。
+      和的秩可以比各加数的秩小。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &2  \\
+          3  &4
+        \end{mat}
+        +
+        \begin{mat}[r]
+         -1  &-2  \\
+         -3  &-4
+        \end{mat}
+        =
+        \begin{mat}[r]
+         0   &0   \\
+         0   &0
+        \end{mat}
+      \end{equation*}
+      和的秩也可以比各加数的秩大。
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &2  \\
+          0  &0
+        \end{mat}
+        +
+        \begin{mat}[r]
+          0  &0   \\
+          3  &4
+        \end{mat}
+        =
+        \begin{mat}[r]
+         1   &2   \\
+         3   &4
+        \end{mat}
+      \end{equation*}
+      但存在一个上界（除矩阵尺寸之外的上界）。
+      一般地，\( \rank(A+B)\leq\rank(A)+\rank(B) \)。
+
+      为了证明它，注意我们可以用两种方式之一对 \( A+B \) 实施
+      高斯消去法：
+      可以先把 \( A \) 加到 \( B \) 上，然后施行适当的化简步骤序列
+      \begin{equation*}
+        (A+B)
+        \grstep{\text{步骤}_1}
+        \cdots
+        \grstep{\text{步骤}_k}
+        \text{阶梯形}
+      \end{equation*}
+      或者也可以分别在 \( A \) 与 \( B \) 上实施 \( \text{步骤}_1 \) 到
+      \( \text{步骤}_k \)，然后再相加，得到同样的结果。
+      在第二种方式中我们最终能得到的最大秩显然是两个秩之和。
+      （上面的矩阵给出了两种可能性，
+       $\rank(A+B)<\rank(A)+\rank(B)$ 与 $\rank(A+B)=\rank(A)+\rank(B)$，
+       都发生的例子。）
+    \end{answer}
+    % Relationship between rank(A), rank(B) and rank(cA+dB)?
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

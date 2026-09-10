@@ -1,0 +1,556 @@
+\subsection{子空间与张成集}
+\index{subspace|(}
+在\nearbyexample{PlaneThruOriginSubsp}中，我们见到了一个向量空间，它是 $\Re^2$ 的一个子集：一条过原点的直线。
+在那里，向量空间 $\Re^2$ 的内部还包含着另一个
+向量空间，即这条直线。
+
+\begin{definition} \label{df:Subspace}
+%<*df:Subspace>
+对于任意向量空间，
+\definend{子空间}\index{vector space!subspace}\index{subspace!definition}
+是指在继承的运算之下，其本身也是一个向量空间的子集。
+%</df:Subspace>
+\end{definition}
+
+\begin{example}  \label{ex:PlaneSubspRThree}
+这个过原点的平面
+\begin{equation*}
+  P=\set{\colvec{x \\ y \\ z}\suchthat x+y+z=0}
+\end{equation*}
+是 \( \Re^3 \) 的一个子空间。
+正如定义所要求的，
+该平面的运算继承自更大的空间，
+也就是说，
+向量在 $P$ 中的加法与在 $\Re^3$ 中的加法一样
+\begin{equation*}
+   \colvec{x_1 \\ y_1 \\ z_1}+\colvec{x_2 \\ y_2 \\ z_2}
+   =\colvec{x_1+x_2 \\ y_1+y_2 \\ z_1+z_2}
+\end{equation*}
+且标量乘法也与 $\Re^3$ 中的相同。
+为证明 $P$ 是子空间，我们只需注意它是一个子集，
+然后验证它是一个空间。
+我们不必检验全部十个条件，只检验两个封闭性条件。
+关于对加法封闭，注意若
+两个加项分别满足
+$x_1+y_1+z_1=0$ 与 $x_2+y_2+z_2=0$，则其和满足
+$(x_1+x_2)+(y_1+y_2)+(z_1+z_2)=(x_1+y_1+z_1)+(x_2+y_2+z_2)=0$。
+关于对标量乘法封闭，若
+$x+y+z=0$，则其标量倍满足
+$rx+ry+rz=r(x+y+z)=0$。
+\end{example}
+
+\begin{example}   \label{ex:SubspacesRTwo}
+\( \Re^2 \) 中的 \( x \) 轴
+是一个子空间，其中
+加法与标量乘法运算都是
+继承而来的那些运算。
+\begin{equation*}
+  \colvec{x_1 \\ 0}
+    +
+  \colvec{x_2 \\ 0}
+    =
+  \colvec{x_1+x_2 \\ 0}
+  \qquad
+  r\cdot\colvec{x \\ 0}
+  =\colvec{rx \\ 0}
+\end{equation*}
+与前面的例题一样，要从定义直接验证它是子空间，
+我们只需注意它是一个
+子集，然后检验它满足
+向量空间定义中的各个条件。
+例如两个封闭性条件都
+满足：第二个分量为零的两个向量相加，所得向量的第二个分量仍为零；
+标量乘以第二个分量为零的向量，
+所得向量的第二个分量仍为零。
+\end{example}
+
+\begin{example}
+$\Re^2$ 的另一个子空间是
+它的平凡子空间。
+\begin{equation*}
+  \set{\colvec[r]{0 \\ 0}}
+\end{equation*}
+\end{example}
+
+%<*ProperSubspace>
+任何向量空间都有一个平凡子空间
+\( \set{\zero\,} \)。\index{subspace!trivial}%
+\index{trivial subspace}
+与之相反的极端是，任何向量空间都以自身作为自己的一个子空间。
+不是整个空间的子空间称为
+\definend{真}\index{subspace!proper}%
+\index{proper subspace} 子空间。
+%</ProperSubspace>
+
+\begin{example}  \label{ex:LinSubspPolyThree}
+不是 $\Re^n$ 的向量空间也有子空间。
+三次多项式的空间
+\( \set{a+bx+cx^2+dx^3\suchthat a,b,c,d\in\Re} \)
+有一个由全部一次多项式
+\( \set{m+nx\suchthat m,n\in\Re} \)
+组成的子空间。
+\end{example}
+
+\begin{example}
+另一个不是 $\Re^n$ 的子集的子空间的例子出现在向量空间的定义之后。
+\nearbyexample{ex:RealValuedFcns}中全体一元实值函数构成的空间
+\( \set{f\suchthat \map{f}{\Re}{\Re} } \) 含有\nearbyexample{ex:SpaceSatisfyingDiffQ}中满足
+限制 $(d^2\,f/dx^2)+f=0$ 的那些函数组成的子空间。
+\end{example}
+
+\begin{example} \label{ex:OperNotInherit}
+该定义要求
+加法与标量乘法运算
+必须是继承自更大空间的那两种运算。
+集合 \( S=\set{1} \) 是 \( \Re^1 \) 的一个子集。
+而且在运算 $1+1=1$ 与 $r\cdot 1=1$ 之下，
+集合 $S$ 是一个向量空间，确切地说，是一个平凡空间。
+然而 $S$ 不是 \( \Re^1 \) 的子空间，因为那些运算不是
+继承的运算，毕竟 \( \Re^1 \) 中当然有 \( 1+1=2 \)。
+\end{example}
+
+\begin{example}  \label{cex:RPlusNotSubSp}
+子空间本身是向量空间，因此必须满足封闭性
+条件。
+集合 \( \Re^+ \) 不是向量空间 \( \Re^1 \) 的子空间，
+因为在继承的运算下它对标量乘法不封闭：
+若 \( \vec{v}=1 \)，则 \( -1\cdot\vec{v}\not\in\Re^+ \)。
+\end{example}
+
+下面的结果表明，\nearbyexample{cex:RPlusNotSubSp} 是典型的。
+一个子集若非空且使用继承的运算，
+则它不成其为子空间的唯一可能就是不封闭。
+
+\begin{lemma}     \label{th:SubspIffClosed} \index{subspace!closed}
+%<*lm:SubspIffClosed>
+对于向量空间的一个非空子集 \( S \)，在继承的
+运算之下，下列诸命题
+等价。\appendrefs{equivalence of statements}   %\spacefactor=1000
+\begin{tfae}
+  \item \( S \) 是该向量空间的一个子空间
+  \item \( S \) 对两个向量的线性组合封闭：
+    对任意向量 \( \vec{s}_1,\vec{s}_2\in S \) 与标量 \( r_1,r_2 \)，
+    向量 \( r_1\vec{s}_1+r_2\vec{s}_2 \) 属于 \( S \)
+  \item \( S \) 对任意多个向量的线性组合封闭：
+    对任意向量 \( \vec{s}_1,\ldots,\vec{s}_n\in S \) 与标量
+    \( r_1, \ldots,r_n \)，
+    向量 \( r_1\vec{s}_1+\cdots+r_n\vec{s}_n \) 是 \( S \) 的元素。
+\end{tfae}
+%</lm:SubspIffClosed>
+\end{lemma}
+\noindent 简言之，一个子集是
+子空间当且仅当它对线性组合封闭。
+
+\begin{proof}
+%<*pf:SubspIffClosed0>
+“下列诸命题等价”是指每一对
+命题都等价。
+\begin{equation*}
+  (1)\!\iff\!(2)
+  \qquad
+  (2)\!\iff\!(3)
+  \qquad
+  (3)\!\iff\!(1)
+\end{equation*}
+我们将通过确立
+\( (1)\implies (3)\implies (2)\implies (1) \) 来证明这一等价性。
+采取这一策略的理由是如下观察：蕴含关系
+\( (1)\implies (3) \) 与 \( (3)\implies (2) \) 都很容易，于是我们只需
+论证 \( (2)\implies (1) \)。
+%</pf:SubspIffClosed0>
+
+%<*pf:SubspIffClosed1>
+设 \( S \) 是向量空间
+$V$ 的一个非空子集，且对两个向量的组合封闭。
+我们将通过检验各项条件来证明 $S$ 是一个向量空间。
+
+向量空间的定义中有五条关于加法的条件。
+第一，关于对加法封闭，若
+\( \vec{s}_1,\vec{s}_2\in S \)，则 \( \vec{s}_1+\vec{s}_2\in S \)，
+因为它是
+两个向量的组合，
+而我们正假设~\( S \) 对这种组合封闭。
+第二，对任意 \( \vec{s}_1,\vec{s}_2\in S \)，由于加法
+继承自 \( V \)，
+\( S \) 中的和 \( \vec{s}_1+\vec{s}_2 \)
+等于 \( V \) 中的和 \( \vec{s}_1+\vec{s}_2 \)，
+而后者等于
+\( V \) 中的和 \( \vec{s}_2+\vec{s}_1 \)（因为 $V$ 是向量空间，其加法可交换），
+进而后者又等于 \( S \) 中的和 \( \vec{s}_2+\vec{s}_1 \)。
+第三个条件的论证与第二个类似。
+第四，考虑 \( V \) 的零向量，注意
+$S$ 对两个向量的线性组合的封闭性给出：
+\( 0\cdot\vec{s}+0\cdot\vec{s}=\zero \) 是 \( S\) 的元素
+（其中 \( \vec{s} \) 是非空集 \( S \) 的任一成员）；
+容易检验 \( \zero \) 在继承的运算下充当 \( S \) 的加法
+单位元。
+第五个条件满足，因为对任意 \( \vec{s}\in S \)，
+对两个向量的线性组合的封闭性表明
+\( 0\cdot\zero+(-1)\cdot\vec{s} \) 是~\( S \) 的元素，而且它显然是
+\( \vec{s} \) 在继承的运算下的
+加法逆元。
+%</pf:SubspIffClosed1>
+关于标量乘法诸条件的验证类似；
+见\nearbyexercise{exer:SubspIffClosed}。
+\end{proof}
+
+以后我们通常通过检验一个子集
+满足命题~(2) 来验证它是子空间。
+
+\begin{remark}
+在本章开头，我们把向量空间作为线性组合在其中“有意义”的集合加以介绍。
+% The vector space definition has ten conditions but eight of them, the
+% conditions not about closure, simply ensure that referring to the
+% operations by the names `addition' and `scalar multiplication' is sensible.
+% For instance, calling an operation `$+$' would not
+% be odd unless it is commutative, as in condition~(2). 
+% The proof above checks that the subspace satisfies these 
+% eight non-closure conditions because they hold in the
+% surrounding vector space, provided that the nonempty set $S$ satisfies
+% \nearbylemma{th:SubspIffClosed}'s statement~(2) 
+% (e.g., commutativity of addition in $S$ follows right from
+% commutativity of addition in $V$).
+% There is a second way in which we can regard vector spaces as structures in 
+% which linear combinations are ``sensible.''
+% It has to do with the closure conditions.
+\nearbylemma{th:SubspIffClosed} 的诸命题 (1)-(3)
+表明我们总能对形如
+$r_1\vec{s}_1+r_2\vec{s}_2$
+的表达式给出意义，
+也就是说，所描述的向量在集合~$S$ 中。
+
+作为对比，考虑由分量之和不小于零的二元向量组成的集合 $T$。
+在这里我们不能随手写出任意的线性组合如 $2\vec{t}_1-3\vec{t}_2$
+并确信其结果是 $T$ 的元素。
+\end{remark}
+
+\nearbylemma{th:SubspIffClosed} 提示我们，理解向量空间的一种好方式
+是把它看作无限制线性组合的集合。
+接下来的两个例子取一些空间，把对它们的描述改写成这种形式。
+
+\begin{example}
+要证明 $\Re^3$ 的这个过原点的平面子集
+\begin{equation*}
+  S=\set{\colvec{x \\ y \\ z}\suchthat x-2y+z=0}
+\end{equation*}
+在列向量通常的加法与标量乘法
+运算下是子空间，我们可以检验它非空且对
+两个向量的线性组合封闭。
+但还有另一种方法。
+把 $x-2y+z=0$ 看作只含一个方程的线性方程组并加以参数化：
+将首变量用自由变量表示为 $x=2y-z$。
+\begin{equation*}
+     S
+     =\set{\colvec{2y-z \\ y \\ z}\suchthat y,z\in\Re}
+     =\set{y\colvec[r]{2 \\ 1 \\ 0}+
+            z\colvec[r]{-1 \\ 0 \\ 1}\suchthat y,z\in\Re}
+    \tag{$*$}
+\end{equation*}
+现在，为证明它是子空间，考虑
+$r_1\vec{s}_1+r_2\vec{s}_2$。
+每个 $\vec{s}_i$ 都是 ($*$) 中那两个向量的线性组合，
+所以这是一个线性组合的线性组合。
+\begin{equation*}
+  r_1\cdot(y_1\colvec[r]{2 \\ 1 \\ 0}+
+            z_1\colvec[r]{-1 \\ 0 \\ 1})
+  +
+  r_2\cdot(y_2\colvec[r]{2 \\ 1 \\ 0}+
+            z_2\colvec[r]{-1 \\ 0 \\ 1})
+\end{equation*}
+线性组合引理（Lemma~One.III.\ref{lm:LinearCombinationLemma}）
+表明总和是那两个向量的线性组合，
+于是 \nearbylemma{th:SubspIffClosed} 的命题~(2) 得到满足。
+\end{example}
+
+\begin{example} \label{ex:ParamSubspace}
+这是全体 \( \nbyn{2} \) 矩阵的空间 $\matspace_{\nbyn{2}}$ 的一个子空间。
+\begin{equation*}
+  L=\set{\begin{mat}
+         a  &0  \\
+         b  &c
+       \end{mat}
+       \suchthat a+b+c=0}
+\end{equation*}
+为参数化，把条件写成 $a=-b-c$。
+\begin{equation*}
+  L
+  =\set{\begin{mat}
+         -b-c  &0  \\
+         b     &c
+       \end{mat}
+       \suchthat b,c\in\Re}
+  =\set{b\begin{mat}[r]
+         -1    &0  \\
+         1     &0
+       \end{mat}
+       +c\begin{mat}[r]
+         -1    &0  \\
+         0     &1
+       \end{mat}
+       \suchthat b,c\in\Re}
+\end{equation*}
+如上所述，我们已把这个子空间描述为无限制线性
+组合的集合。
+为证明它是子空间，注意来自
+$L$ 的向量的线性组合是线性组合的线性组合，因此命题~(2)
+成立。
+\end{example}
+
+% Parametrization is easy, but important.
+% We shall use it often.
+
+\begin{definition} \label{df:Span}
+%<*df:Span>
+向量空间的一个非空子集 \( S \) 的\definend{张成}\index{span}\index{sets!span of}\index{closure}（或称
+\definend{线性闭包}）是由 \( S \) 中向量的一切线性组合组成的集合。
+\begin{equation*}
+  \spanof{S} =\{ c_1\vec{s}_1+\cdots+c_n\vec{s}_n
+            \suchthat c_1,\ldots, c_n\in\Re
+            \text{\ 且\ } \vec{s}_1,\ldots,\vec{s}_n\in S \}
+\end{equation*}
+向量空间的空子集的张成是它的平凡子空间。
+%</df:Span>
+\end{definition}
+
+%<*NotationForSpan>
+\noindent 关于张成的记号没有完全标准的。
+这里用的方括号很常见，
+“$\mbox{span}(S)$” 与 “$\mbox{sp}(S)$” 也很常用。
+%</NotationForSpan>
+
+\begin{remark}
+在第一章，当我们证明了可以把齐次线性方程组的解
+集写成
+$\set{c_1\vec{\beta}_1+\cdots+c_k\vec{\beta}_k\suchthat
+  c_1,\ldots,c_k\in\Re}$
+之后，我们把它描述为由诸 $\smash{\vec{\beta}}$ “生成”的集合。
+现在我们称它为
+$\set{\vec{\beta}_1,\ldots,\vec{\beta}_k}$ 的张成。
+
+也应从那个证明中回忆起：
+空集的张成定义为集合 \( \set{\zero} \)，
+这是出于这样一个约定：平凡的线性组合，即零个向量的组合，其和为~\( \zero \)。
+此外，把空集的张成定义为平凡子空间
+也很方便，因为它使得像下一个结果那样的定理
+无需为空集另立例外。
+\end{remark}
+
+\begin{lemma}   \label{le:SpanIsASubsp}
+%<*lm:SpanIsASubsp>
+在向量空间中，任何子集的张成都是子空间。
+%</lm:SpanIsASubsp>
+\end{lemma}
+
+\begin{proof}
+%<*pf:SpanIsASubsp>
+若子集 \( S \)
+为空，则按定义其张成是平凡
+子空间。
+若 \( S\) 非空，则由\nearbylemma{th:SubspIffClosed}，我们
+只需检验张成 \( \spanof{S} \) 对两个元素的线性组合封闭。
+取该张成中的一对向量，
+\( \vec{v}=c_1\vec{s}_1+\cdots+c_n\vec{s}_n \) 与
+\( \vec{w}=c_{n+1}\vec{s}_{n+1}+\cdots+c_m\vec{s}_m \)，
+则线性组合
+\begin{multline*}
+  p\cdot(c_1\vec{s}_1+\cdots+c_n\vec{s}_n)+
+       r\cdot(c_{n+1}\vec{s}_{n+1}+\cdots+c_m\vec{s}_m)  \\
+  =
+  pc_1\vec{s}_1+\cdots+pc_n\vec{s}_n
+    +rc_{n+1}\vec{s}_{n+1}+\cdots+rc_m\vec{s}_m
+\end{multline*}
+是~\( S \) 中元素的线性组合，
+因此是 \( \spanof{S} \) 的元素
+（来自 $\vec{v}$ 的某些 $\vec{s}_i$ 可能与来自 $\vec{w}$ 的某些 $\vec{s}_j$ 相同，但这无关紧要）。
+%</pf:SpanIsASubsp>
+\end{proof}
+
+这个引理的逆
+也成立：任何子空间都是某个集合的张成，
+因为子空间显然是它自身的张成，即由其全体成员
+构成的集合的张成。
+于是，向量空间的一个子集是子空间当且仅当它是一个张成。
+这符合下述
+直觉：理解向量空间的好方式是把它看作
+线性组合在其中有意义的集合。
+
+合起来，\nearbylemma{th:SubspIffClosed} 与
+\nearbylemma{le:SpanIsASubsp} 表明：向量空间的子集 $S$ 的
+张成是包含 $S$ 的全体成员的最小子空间。
+
+\begin{example}   \label{ex:SpanSingVec}
+在任意向量空间 \( V \) 中，对任意向量 \( \vec{v}\in V \)，集合
+\( \set{r\cdot\vec{v} \suchthat r\in\Re} \) 是 \( V \) 的子空间。
+例如，对任意向量 \( \vec{v}\in\Re^3 \)，
+包含该向量的过原点直线
+\( \set{k\vec{v}\suchthat k\in\Re } \) 是 \( \Re^3 \) 的子空间。
+即使 $\vec{v}$ 是零向量，这也是对的，此时
+它是退化直线，即平凡子空间。
+\end{example}
+
+\begin{example}
+这个集合的张成
+是整个 $\Re^2$。
+\begin{equation*}
+  \set{\colvec[r]{1 \\ 1},\colvec[r]{1 \\ -1}}
+\end{equation*}
+我们知道该张成是~$\Re^2$ 的某个子空间。
+要检验它就是整个~$\Re^2$，
+必须证明 $\Re^2$ 的任何成员都是这两个向量的
+线性组合。
+于是我们问：~对以实数 $x$ 与~$y$ 为分量的哪些向量，
+存在标量 $c_1$ 与 $c_2$ 使下式成立？
+\begin{equation*}
+   c_1\colvec[r]{1 \\ 1}+c_2\colvec[r]{1 \\ -1}=\colvec{x \\ y}
+  \tag{$*$}
+\end{equation*}
+高斯消元法
+\begin{equation*}
+  \begin{linsys}{2}
+    c_1  &+  &c_2  &=  &x  \\
+    c_1  &-  &c_2  &=  &y
+  \end{linsys}
+  \grstep{-\rho_1+\rho_2}
+  \begin{linsys}{2}
+    c_1  &+  &c_2    &=  &x\hfill  \\
+         &   &-2c_2  &=  &-x+y
+  \end{linsys}
+\end{equation*}
+经回代给出 $c_2=(x-y)/2$ 与 $c_1=(x+y)/2$。
+这表明对任意 $x,y$ 都存在
+适当的系数 $c_1,c_2$ 使~($*$) 成立\Dash 我们可以把 $\Re^2$ 的任意元素写成这两个
+给定向量的线性组合。
+例如，取 $x=1$ 与 $y=2$，系数 $c_2=-1/2$ 与
+$c_1=3/2$ 即可。
+\end{example}
+
+既然张成是子空间，而我们又知道
+理解子空间的好方式是
+将其描述参数化，那么我们可以尝试用这种方式来理解一个集合的张成。
+
+\begin{example}
+在次数不超过二的多项式空间~\( \polyspace_2 \) 中，考虑
+集合 \( S=\set{3x-x^2, 2x} \) 的张成。
+由张成的定义，它是这两个向量的无限制线性组合
+$\set{c_1(3x-x^2)+c_2(2x)\suchthat c_1,c_2\in\Re}$ 组成的集合。
+显然这个张成中的多项式的常数项必为零。
+这个必要条件也是充分的吗？
+
+我们问的是：~对 $\polyspace_2$ 的哪些成员 $a_2x^2+a_1x+a_0$
+存在 $c_1$ 与 $c_2$ 使
+$a_2x^2+a_1x+a_0=c_1(3x-x^2)+c_2(2x)$？
+系数相等的多项式相等，因此
+我们要找 $a_2$、$a_1$ 与 $a_0$ 上的条件，
+使这个三元组成为下面方程组的解。
+\begin{equation*}
+  \begin{linsys}{2}
+    -c_1  &   &     &=  &a_2   \\
+    3c_1  &+  &2c_2 &=  &a_1   \\
+          &   &0    &=  &a_0
+  \end{linsys}
+\end{equation*}
+高斯消元法与回代给出
+$c_1=-a_2$，以及 $c_2=(3/2)a_2+(1/2)a_1$，以及 $0=a_0$。
+于是
+%the only condition on elements  $a_0+a_1x+a_2x^2$ of the span
+%is the condition that we knew:
+只要没有常数项，即 $a_0=0$，
+我们就能给出系数 $c_1$ 与 $c_2$，
+把该多项式描述为张成中的一个元素。
+例如，对多项式 $0-4x+3x^2$，系数
+$c_1=-3$ 与 $c_2=5/2$ 即可。
+所以给定集合的张成是
+$\spanof{S}=\set{a_1x+a_2x^2\suchthat a_1,a_2\in\Re}$。
+
+顺带地，这表明
+集合 \( \set{x,x^2} \) 张成同一个子空间。
+一个空间可以有不止一个张成集。
+张成这个子空间的另外两个集合是
+\( \set{x,x^2,-x+2x^2} \) 与
+\( \set{x,x+x^2,x+2x^2,\ldots\,} \)。
+% (Usually we prefer to work with spanning sets that have only
+% a small number of members.)
+\end{example}
+
+\begin{example}  \label{ex:SubspRThree}
+下图展示了我们目前已知的 \( \Re^3 \) 的子空间：平凡
+子空间、过原点的直线、
+过原点的平面，以及整个空间。
+（当然，图示只画出了无穷多种情形中的少数几个。
+线段把子集与其
+超集连接起来。）
+在下一节我们将证明 $\Re^3$ 没有其他
+类型的子空间，因此实际上这张图列出了全部子空间。
+
+这把每个子空间
+描述为成员个数最少的集合的张成。
+据此，各子空间
+自然分成一些层次\Dash 平面在同一层，
+直线在另一层，
+等等。
+\begin{center}
+  \setlength{\unitlength}{4pt}
+  \begin{picture}(75,38)(0,-2) %subspaces of R-three
+      \thinlines
+      \put(45,31){\makebox(0,0)[bl]{
+                        \scriptsize \( %\Re^3=
+                                   \set{x\colvec[r]{1 \\ 0 \\ 0}
+                                              +y\colvec[r]{0 \\ 1 \\ 0}
+                                              +z\colvec[r]{0 \\ 0 \\ 1}} \)} }
+    %Next the dimension two subspaces
+      \put(43,31){\line(-4,-1){25} } % connects R3 to 2,a
+      %set 2,a:
+      \put(0,22){\makebox(0,0)[l]{\scriptsize\( \set{x\colvec[r]{1 \\ 0 \\ 0}
+                                                 +y\colvec[r]{0 \\ 1 \\ 0} }\) }}
+      \put(48,29){\line(-3,-1){12} } % connects R3 to 2,b
+      %set 2,b:
+      \put(20,22){\makebox(0,0)[l]{\scriptsize\( \set{x\colvec[r]{1 \\ 0 \\ 0}
+                                                 +z\colvec[r]{0 \\ 0 \\ 1} }\) }}
+      \put(53,29){\line(-1,-1){3}} % connects R3 to 2,c
+      %set 2,c:
+      \put(40,22){\makebox(0,0)[l]{\scriptsize\( \set{x\colvec[r]{1 \\ 1 \\ 0}
+                                                 +z\colvec[r]{0 \\ 0 \\ 1} }\) }}
+      \put(60,22){\makebox(0,0)[l]{$\cdots$} }
+    %Next the dimension one subspaces
+      \put(7,18){\line(-1,-4){1} } % connects 2,a to 1,a
+      \put(22,18){\line(-3,-1){13} } % connects 2,c to 1,a
+      %set 1,a:
+      \put(0,10){\makebox(0,0)[l]{\scriptsize\( \set{x\colvec[r]{1 \\ 0 \\ 0}} \)} }
+      \put(12,18){\line(1,-2){2} } % connects 2,a to 1,b
+      %set 1,b:
+      \put(12,10){\makebox(0,0)[l]{\scriptsize\( \set{y\colvec[r]{0 \\ 1 \\ 0}} \)} }
+      \put(14,18){\line(2,-1){10} } % connects 2,a to 1,c
+      %set 1,c:
+      \put(24,10){\makebox(0,0)[l]{\scriptsize\( \set{y\colvec[r]{2 \\ 1 \\ 0}} \)} }
+      \put(46,18){\line(-1,-1){3.25} } %connects 2,c to 1,d
+      %set 1,d:
+      \put(36,10){\makebox(0,0)[l]{\scriptsize\( \set{y\colvec[r]{1 \\ 1 \\ 1}} \)} }
+      \put(48,10){\makebox(0,0)[l]{$\cdots$} }
+    %Finally, the trivial subspace.
+      \put(9,7.5){\line(4,-1){30} } %connects 1,a to trivial
+      \put(18.9,7.7){\line(3,-1){20} } %connects 1,b to trivial
+      \put(30.4,6.8){\line(2,-1){10} } %connects 1,c to trivial
+      \put(41,6){\line(1,-2){1.5} } %connects 1,d to trivial
+      \put(45,0){\makebox(0,0){\scriptsize\( \set{\colvec[r]{0 \\ 0 \\ 0} } \)} }
+  \end{picture}
+\end{center}
+\end{example}
+
+到本章目前为止我们已经看到：要研究
+线性组合的性质，合适的框架是
+对这些组合封闭的集合。
+在第一小节中我们引入了这类集合，即向量空间，
+并见到了丰富多样的例子。
+在本小节中我们又见到了
+更多的空间，它们是其他空间的子空间。
+在所有这些多样性中有一个共同点。
+上面的\nearbyexample{ex:SubspRThree}
+把它揭示了出来：~向量空间与子空间最好被理解为张成，
+尤其是少量向量的张成。
+下一节将研究具有极小性的张成集。
+
+
+
+
+
+

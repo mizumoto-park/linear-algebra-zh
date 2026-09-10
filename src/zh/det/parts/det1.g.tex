@@ -1,0 +1,704 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsectionoptional{行列式的存在性}
+\textit{本小节给出前一小节中
+两个结论的证明。
+本小节为选读内容。
+这里展开的材料只会在
+若尔当标准形小节中用到，而该小节也是选读的。}
+
+我们想要证明：对任意阶数~$n$，
+$\nbyn{n}$矩阵上的行列式函数是良定义的。
+前一小节给出了
+置换展开公式。\index{determinant!permutation expansion}%
+\index{permutation expansion}
+\begin{align*}
+   %\deter{T}
+   %=
+   \begin{vmat}
+      t_{1,1}  &t_{1,2}  &\ldots  &t_{1,n}  \\
+      t_{2,1}  &t_{2,2}  &\ldots  &t_{2,n}  \\
+               &\vdots                      \\
+      t_{n,1}  &t_{n,2}  &\ldots  &t_{n,n}
+   \end{vmat}
+   &=
+   \begin{array}[t]{l}
+      t_{1,\phi_1(1)}t_{2,\phi_1(2)}\cdots
+           t_{n,\phi_1(n)}\deter{P_{\phi_1}}       \\[.75ex]
+      \>\hbox{}+t_{1,\phi_2(1)}t_{2,\phi_2(2)}\cdots
+           t_{n,\phi_2(n)}\deter{P_{\phi_2}}       \\[.75ex]
+      \>\alignedvdots                              \\
+      \>\hbox{}+t_{1,\phi_k(1)}t_{2,\phi_k(2)}\cdots
+           t_{n,\phi_k(n)}\deter{P_{\phi_k}} 
+   \end{array}                                                 \\[1ex]
+   &=\!\!\sum_{\text{permutations\ }\phi}\!\!\!\!
+     t_{1,\phi(1)}t_{2,\phi(2)}\cdots t_{n,\phi(n)}
+                                 \deter{P_{\phi}}
+\end{align*}
+这就把证明行列式是良定义的这一
+问题化归为
+只需证明行列式在置换矩阵的集合上
+是良定义的。
+
+置换矩阵可以通过行对换变成单位矩阵。
+因此我们可以用记录对换次数的方法
+来计算它的行列式。
+然而，
+我们仍必须证明该结果是良定义的。
+回想一下困难所在：~矩阵
+\begin{equation*}
+   P_{\phi}=
+   \begin{mat}[r]
+      0  &1  &0  &0 \\
+      1  &0  &0  &0 \\
+      0  &0  &1  &0 \\
+      0  &0  &0  &1
+   \end{mat}
+\end{equation*}
+的行列式既可以用一次对换
+\begin{equation*}
+   P_{\phi}
+   \grstep{\rho_1\leftrightarrow\rho_2}
+   \begin{mat}[r]
+      1  &0  &0  &0 \\
+      0  &1  &0  &0 \\
+      0  &0  &1  &0 \\
+      0  &0  &0  &1
+   \end{mat}
+\end{equation*}
+也可以用三次对换来计算。
+\begin{equation*}
+   P_{\phi}
+   \grstep{\rho_3\leftrightarrow\rho_1}
+   % \begin{mat}[r]
+   %    0  &0  &1  &0 \\
+   %    1  &0  &0  &0 \\
+   %    0  &1  &0  &0 \\
+   %    0  &0  &0  &1
+   % \end{mat}
+   \repeatedgrstep{\rho_2\leftrightarrow\rho_3}
+   % \begin{mat}[r]
+   %    0  &0  &1  &0 \\
+   %    0  &1  &0  &0 \\
+   %    1  &0  &0  &0 \\
+   %    0  &0  &0  &1
+   % \end{mat}
+   \repeatedgrstep{\rho_1\leftrightarrow\rho_3}
+   \begin{mat}[r]
+      1  &0  &0  &0 \\
+      0  &1  &0  &0 \\
+      0  &0  &1  &0 \\
+      0  &0  &0  &1
+   \end{mat}
+\end{equation*}
+这两种化简所用的对换次数都是奇数，所以这里我们认为
+\( \deter{P_{\phi}}=-1 \)；
+但如果有某种方法用偶数次对换来实现，
+那么同一个输入就会使行列式给出
+两个不同的输出。
+下面，\nearbycorollary{cor:ParityInversEqParitySwaps} 将证明
+这种情况不会发生\Dash
+不存在这样的置换矩阵，它能以两种方式经行对换变成单位矩阵，
+其中一种用偶数次对换，另一种用奇数次对换。
+
+% So the critical step will be a way to calculate whether the 
+% number of swaps that it takes could be even or odd.
+
+\begin{definition} \label{df:Inversion}
+%<*df:Inversion>
+在置换 $\phi=\sequence{\ldots,k,\ldots,j,\ldots}$ 中，
+满足 $k>j$ 的元素相对于其自然顺序
+构成一个\definend{逆序}。
+类似地，在置换矩阵中，两行
+\begin{equation*}
+  P_{\phi}=
+  \begin{mat}
+    \vdots          \\
+    \iota_{k} \\
+    \vdots          \\
+    \iota_{j} \\
+    \vdots
+  \end{mat}
+\end{equation*}
+若满足 \( k>j \)，则处于一个\definend{逆序}中。\index{inversion}%
+\index{permutation!inversions}
+%</df:Inversion>
+\end{definition}
+
+\begin{example}
+这个置换矩阵
+\begin{equation*}
+  \begin{mat}[r]
+    1  &0  &0  &0 \\
+    0  &0  &1  &0 \\
+    0  &1  &0  &0 \\
+    0  &0  &0  &1
+  \end{mat}
+  =
+  \begin{mat}
+    \iota_1  \\
+    \iota_3  \\
+    \iota_2  \\
+    \iota_4
+  \end{mat}
+\end{equation*}
+只有一个逆序，即 \( \iota_3 \) 位于 \( \iota_2 \) 之前。
+\end{example}
+
+\begin{example} \label{ex:ThreeInversions}
+这里有三个逆序：
+\begin{equation*}
+  \begin{mat}[r]
+    0  &0  &1  \\
+    0  &1  &0  \\
+    1  &0  &0
+  \end{mat}
+  =
+  \begin{mat}
+    \iota_3  \\
+    \iota_2  \\
+    \iota_1
+  \end{mat}
+\end{equation*}
+\( \iota_3 \) 位于 \( \iota_1 \) 之前，
+\( \iota_3 \) 位于 \( \iota_2 \) 之前，且 \( \iota_2 \) 位于
+\( \iota_1 \) 之前。
+\end{example}
+
+\begin{lemma} \label{le:SwapsChangeSgn}
+%<*lm:SwapsChangeSgn>
+置换矩阵中的一次行对换会使逆序的个数
+从偶数变为奇数，或从奇数变为偶数。
+%</lm:SwapsChangeSgn>
+\end{lemma}
+
+\begin{proof}
+%<*pf:SwapsChangeSgn0>
+考虑对第 $j$ 行与第 $k$ 行的对换，其中 $k>j$。
+
+若这两行相邻
+\begin{equation*}
+   P_{\phi}=
+   \begin{mat}
+     \vdots           \\
+     \iota_{\phi(j)}  \\
+     \iota_{\phi(k)}  \\
+     \vdots
+   \end{mat}
+ \grstep{\rho_k\leftrightarrow\rho_j}
+   \begin{mat}
+     \vdots           \\
+     \iota_{\phi(k)}  \\
+     \iota_{\phi(j)}  \\
+     \vdots
+   \end{mat}
+\end{equation*}
+那么由于涉及这对之外其他行的逆序不受影响，
+这次对换使逆序的总数改变一，
+究竟是消去一个逆序还是产生一个逆序，
+取决于 \( \phi(j)>\phi(k) \) 是否成立。
+因此，逆序的总数从奇数变为偶数，
+或从偶数变为奇数。
+%</pf:SwapsChangeSgn0>
+
+%<*pf:SwapsChangeSgn1>
+若这两行不相邻，则我们可以通过一系列相邻行的对换来交换它们，
+先把第~$k$ 行向上移
+\begin{equation*}
+   \begin{mat}
+     \vdots             \\
+     \iota_{\phi(j)}    \\
+     \iota_{\phi(j+1)}  \\
+     \iota_{\phi(j+2)}  \\
+     \vdots             \\
+     \iota_{\phi(k)}    \\
+     \vdots
+   \end{mat}
+  \grstep{\rho_k\swap\rho_{k-1}}
+  \repeatedgrstep{\rho_{k-1}\swap\rho_{k-2}}
+  \cdots
+  \grstep{\rho_{j+1}\swap\rho_j}
+   \begin{mat}
+     \vdots             \\
+     \iota_{\phi(k)}    \\
+     \iota_{\phi(j)}    \\
+     \iota_{\phi(j+1)}  \\
+     \vdots             \\
+     \iota_{\phi(k-1)}  \\
+     \vdots
+   \end{mat}
+\end{equation*}
+%</pf:SwapsChangeSgn1>
+%<*pf:SwapsChangeSgn2>
+再把第~$j$ 行向下移。
+\begin{equation*}
+  \grstep{\rho_{j+1}\swap\rho_{j+2}}
+  \repeatedgrstep{\rho_{j+2}\swap\rho_{j+3}}
+  \cdots
+  \grstep{\rho_{k-1}\swap\rho_k}
+   \begin{mat}
+     \vdots             \\
+     \iota_{\phi(k)}    \\
+     \iota_{\phi(j+1)}  \\
+     \iota_{\phi(j+2)}  \\
+     \vdots             \\
+     \iota_{\phi(j)}    \\
+     \vdots
+   \end{mat}
+\end{equation*}
+这些相邻对换中的每一次都使逆序的个数
+从奇数变为偶数或从偶数变为奇数。
+对换的总次数 \( (k-j)+(k-j-1) \) 是奇数。
+于是，总体上逆序的个数
+从偶数变为奇数，或从奇数变为偶数。
+%</pf:SwapsChangeSgn2>
+\end{proof}
+
+\begin{corollary}  \label{cor:ParityInversEqParitySwaps}
+%<*co:ParityInversEqParitySwaps>
+若置换矩阵有奇数个逆序，则把它换成
+单位矩阵需要奇数次对换。
+若它有偶数个逆序，则换成单位矩阵需要偶数次对换。
+%</co:ParityInversEqParitySwaps>
+\end{corollary}
+
+\begin{proof}
+%<*pf:ParityInversEqParitySwaps>
+单位矩阵有零个逆序。
+把奇数变成零需要奇数次对换，
+把偶数变成零需要偶数次对换。
+%</pf:ParityInversEqParitySwaps>
+\end{proof}
+
+\begin{example}
+\nearbyexample{ex:ThreeInversions} 中的矩阵
+用一次对换 $\rho_1\leftrightarrow\rho_3$ 就能变成单位矩阵。
+（所以对换的次数不必与逆序的个数相同，
+但这两个数的奇偶性是一样的。）
+\end{example}
+
+\begin{definition} \label{df:Signum}
+%<*df:Signum>
+置换的\definend{符号}\index{permutation!signum}\index{signum}%
+\index{sgn!see {signum}}
+\( \sgn(\phi) \)
+在 \( \phi \) 中逆序个数为奇数时是 \( -1 \)，为偶数时是
+\( +1 \)。
+%</df:Signum>
+\end{definition}
+
+\begin{example}
+使用 \nearbyexample{ex:AllTwoThreePerms} 中
+$3$ 元置换的记号，我们有
+\begin{equation*}
+  P_{\phi_1}=
+  \begin{mat}
+    1  &0  &0  \\
+    0  &1  &0  \\
+    0  &0  &1
+  \end{mat}
+  \qquad
+  P_{\phi_2}=
+  \begin{mat}
+    1  &0  &0  \\
+    0  &0  &1  \\
+    0  &1  &0  
+  \end{mat}
+\end{equation*}
+所以
+\( \sgn(\phi_1)=1 \)，因为没有逆序，
+而 \( \sgn(\phi_2)=-1 \)，因为有一个逆序。
+\end{example}
+
+我们仍未证明行列式函数是良定义的，
+因为除了行对换之外，
+我们还没有考虑置换矩阵上的其他行变换。
+我们将巧妙地绕过这个问题。
+%<*DefiningDFunction>
+定义函数
+\( \map{d}{\matspace_{\nbyn{n}}}{\Re} \)：
+修改置换展开公式，
+把 $\deter{P_\phi}$ 换成 $\sgn(\phi)$。
+\begin{equation*}
+  d(T)=
+  \sum_{\text{permutations\ }\phi}t_{1,\phi(1)}t_{2,\phi(2)}\cdots t_{n,\phi(n)}
+                                 \cdot\sgn(\phi)
+\end{equation*}
+% This gives the same value as the permutation expansion
+% because the corollary shows that $\det(P_\phi)=\sgn(\phi)$.
+这个公式的优点是逆序的个数
+显然是良定义的\Dash  直接数出来即可。
+因此，当我们证明了~$d$
+满足行列式定义中的条件时，
+也就证明了一个~$\nbyn{n}$阶行列式函数的
+存在性。
+%</DefiningDFunction>
+
+\begin{lemma} \label{lm:DeterminantsExist}
+\index{determinant!exists}
+%<*lm:DeterminantsExist>
+上面的函数 \( d \) 是一个行列式。
+从而 $\det_{\nbyn{n}}$ 对每个 $n$ 都存在。
+%</lm:DeterminantsExist>
+\end{lemma}
+
+\begin{proof}
+%<*pf:DeterminantsExist0>
+我们必须验证它满足行列式定义中的四个条件，
+即 \nearbydefinition{def:Det}。
+%</pf:DeterminantsExist0>
+
+%<*pf:DeterminantsExist1>
+条件~(4) 容易验证：设 $I$ 是 $\nbyn{n}$ 阶单位矩阵，
+在
+\begin{equation*}
+  d(I)=
+  \sum_{\text{perm\ }\phi}
+    \iota_{1,\phi(1)}\iota_{2,\phi(2)}\cdots \iota_{n,\phi(n)}
+                                 \sgn(\phi)
+\end{equation*}
+中，求和式里所有的项都为零，
+只有置换~$\phi$ 为恒等的那一项例外，
+这一项给出沿对角线的乘积，
+而该乘积为一。
+%</pf:DeterminantsExist1>
+
+%<*pf:DeterminantsExist2>
+对于条件~(3)，设 \( T\smash[b]{\grstep{k\rho_i}}\hat{T} \)，
+考虑 $d(\hat{T})$。
+\begin{multline*}
+  \sum_{\text{perm\ }\phi}\!\!
+    \hat{t}_{1,\phi(1)}
+     \cdots\hat{t}_{i,\phi(i)}\cdots\hat{t}_{n,\phi(n)}
+                                 \sgn(\phi)   \\
+  =\sum_{\phi}
+     t_{1,\phi(1)}\cdots kt_{i,\phi(i)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)
+\end{multline*}
+提出因子~\( k \) 便得到所要的等式。
+\begin{equation*}
+  =k\cdot\sum_{\phi}
+     t_{1,\phi(1)}\cdots t_{i,\phi(i)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)                 
+  =k\cdot d(T)
+\end{equation*}
+%</pf:DeterminantsExist2>
+
+%<*pf:DeterminantsExist3>
+对于~(2)，设
+\( T\smash[b]{\grstep{\rho_i\swap\rho_j}}\hat{T} \)。
+我们必须证明 $d(\hat{T})$ 是 $d(T)$ 的相反数。
+\begin{equation*}
+  d(\hat{T})=
+  \sum_{\text{perm\ }\phi}\!\!
+    \hat{t}_{1,\phi(1)}
+    \cdots\hat{t}_{i,\phi(i)}
+    \cdots\hat{t}_{j,\phi(j)}
+    \cdots \hat{t}_{n,\phi(n)}
+                                 \sgn(\phi)
+    \tag{$*$}
+\end{equation*}
+我们将证明（$*$）中的每一项都对应 $d(T)$ 中的一项，
+且这两项互为相反数。
+考虑 $d(\hat{T})$ 的多重线性展开式中给出项
+    $\hat{t}_{1,\phi(1)}
+    \cdots\hat{t}_{i,\phi(i)}
+    \cdots\hat{t}_{j,\phi(j)}
+    \cdots \hat{t}_{n,\phi(n)}
+                                  \sgn(\phi)$ 的矩阵。
+\begin{equation*}
+  \begin{mat}
+     \ &                  &\vdots &               &     \\
+       &\hat{t}_{i,\phi(i)}  &       &               &    \\
+       &                &\vdots &                 &  \\
+       &                &       &\hat{t}_{j,\phi(j)} &  \\
+       &                &\vdots                   &
+  \end{mat}
+\end{equation*}
+%</pf:DeterminantsExist3>
+%<*pf:DeterminantsExist4>
+它是对矩阵
+施加 $\rho_i\swap\rho_j$ 操作的结果。
+\begin{equation*}
+  \begin{mat}
+       \ &              &\vdots &           &        \\
+         &              &       &t_{i,\phi(j)} &  \\
+         &              &\vdots &           &       \\
+         &t_{j,\phi(i)}    &       &          &        \\
+         &              &\vdots &          &
+  \end{mat}
+\end{equation*}
+也就是说，带帽 $t$ 的项对应于来自 $d(T)$ 展开式的这一项：
+ \(    t_{1,\sigma(1)}
+       \cdots t_{j,\sigma(j)}
+       \cdots t_{i,\sigma(i)}
+       \cdots t_{n,\sigma(n)} \sgn(\sigma)
+       \)，其中置换
+\( \sigma \)
+与 \( \phi \) 相同，只是把第 \( i \) 个数与第 \( j \) 个数互换：
+\( \sigma(i)=\phi(j) \) 且 \( \sigma(j)=\phi(i) \)。
+这两项的各因子相同：
+$\hat{t}_{1,\phi(1)}=t_{1,\sigma(1)}$，\ldots，
+包括来自对换过的两行的元素
+$\hat{t}_{i,\phi(i)}=t_{j,\phi(i)}=t_{j,\sigma(j)}$
+和 $\hat{t}_{j,\phi(j)}=t_{i,\phi(j)}=t_{i,\sigma(i)}$。 
+但这两项互为相反数，
+因为由 \nearbylemma{le:SwapsChangeSgn} 有 \( \sgn(\phi)=-\sgn(\sigma) \)。
+%</pf:DeterminantsExist4>
+
+%<*pf:DeterminantsExist5>
+现在，任意置换 $\phi$ 都可以由某个
+其他置换 $\sigma$ 通过这样的对换得到，
+而且方式有且仅有一种。
+因此（$*$）中的求和实际上是对所有置换的求和，
+每个置换恰好取一次。
+\begin{align*}
+  d(\hat{T})
+  &=
+  \sum_{\text{perm\ }\phi}\!\!
+    \hat{t}_{1,\phi(1)}
+    \cdots\hat{t}_{i,\phi(i)}
+    \cdots\hat{t}_{j,\phi(j)}
+    \cdots \hat{t}_{n,\phi(n)}
+                                 \sgn(\phi)   \\
+  &=\sum_{\text{perm\ }\sigma}\!\!
+     t_{1,\sigma(1)}
+    \cdots t_{j,\sigma(j)}
+    \cdots t_{i,\sigma(i)}
+    \cdots t_{n,\sigma(n)}
+                                 \cdot\bigl(-\sgn(\sigma)\bigr)        
+\end{align*}
+于是 \( d(\hat{T})=-d(T) \)。
+%</pf:DeterminantsExist5>
+
+%<*pf:DeterminantsExist6>
+最后，对于条件~(1)，设
+\( T\smash[b]{\grstep{k\rho_i+\rho_j}}\hat{T} \)。
+\begin{align*}
+  d(\hat{T})
+  &=\sum_{\text{perm\ }\phi}
+    \hat{t}_{1,\phi(1)}\cdots\hat{t}_{i,\phi(i)}
+    \cdots\hat{t}_{j,\phi(j)}\cdots\hat{t}_{n,\phi(n)}
+                                 \sgn(\phi)                \\
+  &=\sum_{\phi}
+    t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+    \cdots (kt_{i,\phi(j)}+t_{j,\phi(j)})\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)
+\end{align*}
+% (notice:~that's 
+% \( kt_{i,\phi(j)} \), not \( kt_{j,\phi(j)} \)).
+对 $kt_{i,\phi(j)}+t_{j,\phi(j)}$ 中的加法使用分配律。
+\begin{equation*}
+  = 
+      \begin{aligned}[t]
+        &\smash[b]{\sum_{\smash{\phi}}}\big[t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+          \cdots kt_{i,\phi(j)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)         \\ % [-1ex]
+        &\hbox{}\qquad\quad\hbox{}
+           +t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+           \cdots t_{j,\phi(j)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)\big]
+      \end{aligned}                                               
+\end{equation*}
+把它拆成两个和式。
+\begin{equation*}
+  =\begin{aligned}[t] 
+         &\smash[b]{\sum_{\smash{\phi}}} \:t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+            \cdots kt_{i,\phi(j)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)           \\ % [-1ex]               
+         &\hbox{}\qquad\quad\hbox{}
+            +\smash[b]{\sum_{\phi}}\:
+            t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+            \cdots t_{j,\phi(j)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)        
+     \end{aligned}                                               
+\end{equation*}
+识别出第二个和式。
+\begin{equation*}
+  =\begin{aligned}[t]
+       &k\cdot \smash[b]{\sum_{\smash{\phi}}}\:
+            t_{1,\phi(1)}\cdots t_{i,\phi(i)}
+            \cdots t_{i,\phi(j)}\cdots t_{n,\phi(n)}
+                                 \sgn(\phi)          \\  % [-.75ex]
+       &\hbox{}\qquad\quad\hbox{}
+             +d(T)          
+     \end{aligned}
+\end{equation*}
+%</pf:DeterminantsExist6>
+%<*pf:DeterminantsExist7>
+考虑各项
+\( t_{1,\phi(1)}\cdots t_{i,\phi(i)} \cdots t_{i,\phi(j)}\cdots t_{n,\phi(n)}
+   \sgn(\phi)  \)。
+注意下标；元素是 \( t_{i,\phi(j)} \)，而不是 \( t_{j,\phi(j)} \)。
+这些项的和是矩阵~\( S \) 的行列式，
+它等于 \( T \)，
+只是 $S$ 的第~$j$ 行是 $T$ 的第~$i$ 行的副本，
+也就是说，$S$ 有两行相同。
+用与证明 \nearbylemma{le:IdenRowsDetZero} 相同的方式可以看出
+$d(S)=0$：交换 $S$ 的相同的两行会改变
+$d(S)$ 的符号，但由于矩阵经这次交换并不改变，
+$d(S)$ 的值也必须不变，因此这个值必为零。
+%</pf:DeterminantsExist7>
+\end{proof}
+
+至此我们证明了每个阶数~$\nbyn{n}$ 的行列式函数都存在。
+我们已经知道，对每个阶数，行列式至多有一个。
+因此，对每个阶数，行列式函数有且仅有一个。
+
+我们以证明来自前一小节的另一个尚待证明的结论
+来结束本小节。
+
+\begin{theorem} \label{th:DetMatrixEqualsDetTrans}
+\index{transpose!determinant}
+%<*th:DetMatrixEqualsDetTrans>
+矩阵的行列式等于其转置的行列式。
+%</th:DetMatrixEqualsDetTrans>
+\end{theorem}
+
+\begin{proof}
+%<*pf:DetMatrixEqualsDetTrans0>
+最好通过作出一般的
+$\nbyn{3}$ 情形来理解这个证明。
+该论证适用于 $\nbyn{n}$ 情形，这一点将是显然的。
+
+比较矩阵~$T$ 的置换展开
+\begin{align*}
+  \begin{vmat}
+    t_{1,1}  &t_{1,2}  &t_{1,3}  \\
+    t_{2,1}  &t_{2,2}  &t_{2,3}  \\
+    t_{3,1}  &t_{3,2}  &t_{3,3}  
+  \end{vmat}
+  &=
+  t_{1,1}t_{2,2}t_{3,3}
+  \begin{vmat}
+    1 &0 &0 \\
+    0 &1 &0 \\
+    0 &0 &1
+  \end{vmat}
+  +t_{1,1}t_{2,3}t_{3,2}
+  \begin{vmat}
+    1 &0 &0 \\
+    0 &0 &1 \\
+    0 &1 &0
+  \end{vmat}            \\
+  &\quad+
+  t_{1,2}t_{2,1}t_{3,3}
+  \begin{vmat}
+    0 &1 &0 \\
+    1 &0 &0 \\
+    0 &0 &1
+  \end{vmat}
+  +t_{1,2}t_{2,3}t_{3,1}
+  \begin{vmat}
+    0 &1 &0 \\
+    0 &0 &1 \\
+    1 &0 &0
+  \end{vmat}           \\
+  &\quad+
+  t_{1,3}t_{2,1}t_{3,2}
+  \begin{vmat}
+    0 &0 &1 \\
+    1 &0 &0 \\
+    0 &1 &0
+  \end{vmat}
+  +t_{1,3}t_{2,2}t_{3,1}
+  \begin{vmat}
+    0 &0 &1 \\
+    0 &1 &0 \\
+    1 &0 &0
+  \end{vmat}
+\end{align*}
+与其转置的置换展开。
+%</pf:DetMatrixEqualsDetTrans0>
+%<*pf:DetMatrixEqualsDetTrans1>
+\begin{align*}
+  \begin{vmat}
+    t_{1,1}  &t_{2,1}  &t_{3,1}  \\
+    t_{1,2}  &t_{2,2}  &t_{3,2}  \\
+    t_{1,3}  &t_{2,3}  &t_{3,3}  
+  \end{vmat}
+  &=
+  t_{1,1}t_{2,2}t_{3,3}
+  \begin{vmat}
+    1 &0 &0 \\
+    0 &1 &0 \\
+    0 &0 &1
+  \end{vmat}
+  +t_{1,1}t_{3,2}t_{2,3}
+  \begin{vmat}
+    1 &0 &0 \\
+    0 &0 &1 \\
+    0 &1 &0
+  \end{vmat}            \\
+  &\quad+
+  t_{2,1}t_{1,2}t_{3,3}
+  \begin{vmat}
+    0 &1 &0 \\
+    1 &0 &0 \\
+    0 &0 &1
+  \end{vmat}
+  +t_{2,1}t_{3,2}t_{1,3}
+  \begin{vmat}
+    0 &1 &0 \\
+    0 &0 &1 \\
+    1 &0 &0
+  \end{vmat}           \\
+  &\quad+
+  t_{3,1}t_{1,2}t_{2,3}
+  \begin{vmat}
+    0 &0 &1 \\
+    1 &0 &0 \\
+    0 &1 &0
+  \end{vmat}
+  +t_{3,1}t_{2,2}t_{1,3}
+  \begin{vmat}
+    0 &0 &1 \\
+    0 &1 &0 \\
+    1 &0 &0
+  \end{vmat}
+\end{align*}
+先比较六个 $t$ 的乘积。
+$T$ 展开式中的那些乘积与转置展开式中的相同；
+例如，$t_{1,2}t_{2,3}t_{3,1}$ 在上面，
+而 $t_{3,1}t_{1,2}t_{2,3}$ 在下面。
+这完全合理\Dash 上面的六个来自从~$T$ 的每一行、每一列
+各取一个元素的所有方式，
+而下面的六个是从~$T$ 的每一列、每一行
+各取一个元素的所有方式，
+所以它们当然是同一个集合。
+%</pf:DetMatrixEqualsDetTrans1>
+
+%<*pf:DetMatrixEqualsDetTrans2>
+接下来观察到，在这两个展开式中，
+每个 $t$ 乘积表达式所对应的
+置换矩阵不一定相同。
+例如，在上面，$t_{1,2}t_{2,3}t_{3,1}$ 对应于映射
+$1\mapsto 2$, $2\mapsto 3$, $3\mapsto 1$ 的矩阵。
+在下面，$t_{3,1}t_{1,2}t_{2,3}$
+对应于映射
+$1\mapsto 3$, $2\mapsto 1$, $3\mapsto 2$ 的矩阵。
+第二个映射是第一个的逆映射。
+这也完全合理\Dash 两者
+矩阵转置与逆映射都把 $1,2$ 换成 $2,1$，
+把 $2,3$ 换成 $3,2$，并把 $3,1$ 换成 $1,3$。
+ 
+最后我们指出，$P_{\phi}$ 的行列式等于
+$P_{\phi^{-1}}$ 的行列式，
+正如 \nearbyexercise{exer:PermInvFacts} %
+所表明的。
+%</pf:DetMatrixEqualsDetTrans2>
+\end{proof}
+
+

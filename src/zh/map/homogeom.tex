@@ -1,0 +1,731 @@
+% 翻译状态：专题标题已译；正文待继续翻译与校对。
+% Chapter 3, Topic _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\topic{线性映射的几何} 
+\index{Geometry of Linear Maps|(}
+%The geometry of linear maps %$\map{h}{\Re^n}{\Re^m}$ 
+%is appealing both for its simplicity 和 for its usefulness.
+下面两组图对比了非线性映射
+\( f_1(x)=e^x \) 和 \( f_2(x)=x^2 \) 
+\begin{center}
+  \includegraphics{map/mp/ch3.46}
+  \hspace*{4em}
+  \includegraphics{map/mp/ch3.47}
+\end{center}
+与线性映射
+\( h_1(x)=2x \) 和 \( h_2(x)=-x \).
+\begin{center}
+  \includegraphics{map/mp/ch3.48}
+  \hspace*{4em}
+  \includegraphics{map/mp/ch3.49}
+\end{center}
+四幅图都把左侧的定义域 $\Re$
+映到右侧的陪域 $\Re$。 
+箭头标出每个映射对
+$x=0$, $x=1$, $x=2$, $x=-1$, 和 $x=-2$.
+
+非线性映射将定义域变换为值域时会扭曲定义域。
+例如,
+\( f_1(1) \) 与
+$f_1(2)$ 的距离大于它与 $f_1(0)$ 的距离 \Dash 该映射使
+定义域不均匀地扩张，使得 $x=2$ 附近的区间
+扩张得更大，
+而 $x=0$ 附近的区间扩张得更小。
+线性映射则更规则：
+因为对每个映射，整个定义域
+都按相同因子扩张。
+左侧的映射 $h_1$ 使所有区间扩张为原来的两倍，
+而右侧的 $h_2$ 保持区间长度不变但反转
+它们的方向，例如将从 $1$ 到 $2$ 的上升区间
+变换为
+从 $-1$ 到~$-2$ 的下降区间。
+
+从 $\Re$ 到 $\Re$ 的线性映射只有标量乘法，但
+在更高维空间中还会发生更多情况。
+例如，这个 $\Re^2$ 上的线性变换使向量逆时针旋转。\index{rotation}\index{linear map!rotation}
+\begin{center}
+  \includegraphics{map/mp/ch3.50}
+\end{center}
+将向量投影到 $xz$ 平面的 $\Re^3$ 上的变换
+将向量投影到 $xz$ 平面
+也不只是简单的缩放。
+\begin{center}
+ \includegraphics{map/mp/ch3.51}
+\end{center}
+
+尽管形式更加多样，
+即使在高维空间中，线性映射的行为也很好。
+考虑线性映射 $\map{h}{\Re^n}{\Re^m}$ 和
+用标准基将其表示为矩阵 $H$。
+回忆定理 V.\ref{th:CanonFormForMatEquiv}：
+$H$ 可分解为 $H=PBQ$，
+其中 $P,Q$ 非奇异，而 $B$ 是部分恒等矩阵。
+还要回忆非奇异矩阵
+可分解为初等
+矩阵\index{matrix!elementary reduction}\index{elementary reduction matrix}
+$PBQ=T_nT_{n-1}\cdots T_sBT_{s-1}\cdots T_1$,
+这些矩阵
+由单位矩阵 $I$ 经过一次高斯行变换得到，
+因此每个 $T$ 矩阵属于以下三种之一
+\begin{equation*}
+  I\grstep{k\rho_i}M_i(k) 
+  \qquad 
+  I\grstep{\rho_i\leftrightarrow\rho_j}P_{i,j}  
+  \qquad
+  I\grstep{k\rho_i+\rho_j}C_{i,j}(k) 
+\end{equation*}
+其中 $i\neq j$、$k\neq0$。
+因此，若理解由部分恒等矩阵描述的线性映射
+以及由初等矩阵描述的线性映射
+的几何效果，就可以在某种意义上
+完全理解任意线性映射的效果。
+（为便于绘图，下面的图只展示 $\Re^2$ 上的变换
+但这些原理适用于从任意 $\Re^n$ 到任意 $\Re^m$ 的映射。）
+
+由部分恒等矩阵表示的线性变换的几何效果是投影。
+
+\begin{equation*}
+  \colvec{x \\ y  \\ z}
+  \quad\xrightarrow{{\text{\tiny$\displaystyle\left(\begin{array}[r]{@{}c@{\hspace{0.8em}}c@{\hspace{0.8em}}c@{}}
+                1  &0  &0 \\
+                0  &1  &0 \\
+                0  &0  &0
+          \end{array}\right)$}}}
+% \begin{mat}[r]
+%       1  &0  &0   \\
+%       0  &1  &0   \\
+%       0  &0  &0   
+%     \end{mat}} % _{\stdbasis_3,\stdbasis_3}}
+  \qquad
+  \colvec{x \\ y  \\ 0}
+\end{equation*}
+
+矩阵 $M_i(k)$ 的几何效果是
+
+沿第 $i$ 个坐标轴将向量按因子 $k$ 拉伸。
+该映射沿 $x$ 轴按因子 $3$ 拉伸。
+\begin{center}
+  \includegraphics{map/mp/ch3.52}
+\end{center}
+若 $0\leq k<1$ 或 $k<0$，则第 $i$ 个
+分量反向变化，此处向左。
+\begin{center}
+  \includegraphics{map/mp/ch3.53}
+\end{center}
+上述任一种拉伸都称为
+\definend{伸缩}.\index{dilation}\index{linear map!dilation}
+
+由矩阵 $P_{i,j}$ 表示的变换
+交换第 $i$ 个和第 $j$ 个坐标轴。
+这是 \definend{反射}\index{reflection}\index{linear map!reflection} 
+关于直线 $x_i=x_j$ 的反射。
+\begin{center}
+  \includegraphics{map/mp/ch3.54}
+\end{center}
+涉及两个以上坐标轴的置换可分解为多个坐标轴对交换的组合；
+坐标轴对交换的组合；见习题 \nearbyexercise{exer:PermIsCompSwaps}。
+
+其余矩阵都具有 $C_{i,j}(k)$ 的形式。
+例如，$C_{1,2}(2)$ 执行 $2\rho_1+\rho_2$。 
+\begin{equation*}
+  \colvec{x  \\  y}\quad
+  \xrightarrow{\text{\tiny$\displaystyle\left(\begin{array}[r]{@{}c@{\hspace{0.8em}}c@{}}
+                1  &0  \\
+                2  &1  
+          \end{array}\right)$}}  % _{\stdbasis_2,\stdbasis_2}}
+   \quad\colvec{x \\ 2x+y}
+\end{equation*}
+在下图中，
+第一分量为 $1$ 的向量 $\vec u$ 受到的影响小于
+第一分量为 $2$ 的向量 $\vec v$。
+向量 $\vec u$ 映到
+仅比 $\vec u$ 高 $2$ 的 $h(\vec u)$，而
+$h(\vec v)$ 比 $\vec v$ 高 $4$。
+\begin{center}
+  \includegraphics{map/mp/ch3.55}
+\end{center}
+任何第一分量为 $1$ 的向量都会以
+与 $\vec u$ 相同的方式受影响：
+它向上滑动 $2$。
+任何第一分量为 $2$ 的向量都会向上滑动 $4$，
+正如 $\vec v$ 一样。
+也就是说，由
+$C_{i,j}(k)$ 表示的变换根据向量的第 $i$ 个分量影响向量。
+
+还可以考察该映射
+在单位正方形上的作用。
+在下一幅图中，
+第一分量为 $0$ 的向量（如原点）不会被
+竖直推动，而第一分量为正的向量会向上滑动。
+这里，第一分量为 $1$ 的所有向量，即正方形的整条
+右边，都滑动相同的距离。
+一般地，位于同一条竖直线上的向量平移量相同，
+滑动量是其第一分量的两倍。
+所得图形与正方形具有相同的底和高（因而面积相同），但直角顶点消失了。
+\begin{center}
+  \includegraphics{map/mp/ch3.56}
+\end{center}
+
+作为对比，下一幅图展示矩阵
+$C_{2,1}(2)$.
+表示的映射效果。这里向量根据其
+第二分量受到影响：
+$\binom{x}{y}$沿水平方向滑动 $2y$。
+\begin{center}
+  \includegraphics{map/mp/ch3.57}
+\end{center}
+一般地，对于任意 $C_{i,j}(k)$，第 $i$ 个分量相同的向量平移量相同。
+这种映射称为
+\definend{剪切}.\index{shear}\index{linear map!shear}
+
+这样我们就理解了右侧四类矩阵的几何效果，
+右侧矩阵中的
+$H=T_nT_{n-1}\cdots T_jBT_{j-1}\cdots T_1$
+因而在某种意义上理解了
+任意矩阵 $H$ 的作用。
+因此，即使在高维空间中，线性映射的几何也很简单：它
+由若干个
+以简单方式作用的分量组合而成。
+
+我们将从两方面应用这种理解。
+第一方面是证明线性映射几何的一个一般结论。
+线性映射的几何。
+回忆在线性映射下，子空间的像仍是子空间，
+因此由 $H$ 表示的线性变换 $h$ 将经过原点的直线
+映到经过原点的直线。
+（像空间的维数不可能大于
+定义域空间的维数，所以直线不可能映成平面。）
+我们将证明 $h$ 把任意直线 \Dash 不仅是经过原点的直线 \Dash 
+映成直线。
+证明很简单：
+部分恒等投影 $B$ 和初等矩阵 $T_i$
+都把直线输入变成直线输出；
+四种情形的验证见习题 \nearbyexercise{exer:ImageLinSurIsLinSur}。
+因此它们的复合也保持直线。
+% Thus, by underst和ing its components we can underst和 arbitrary square 
+% matrices $H$, in the sense that we can prove things about them.
+
+我们应用这种理解的第二个方面是
+线性映射几何的理解，用来
+阐明微积分中的一个要点。
+下面的图展示
+单变量实函数 \( y(x)=x^2+x \) 的作用。
+与前面所示的非线性函数一样，
+该映射的几何效果
+并不规则，因为在定义域的不同点作用不同；例如，
+例如，当输入 $x$ 从 $2$ 变为 $-2$ 时，相应输出 $f(x)$
+先减小，短暂停留，
+然后增加。
+\begin{center}
+  \includegraphics{map/mp/ch3.58}
+\end{center}
+但在微积分中，我们较少关注映射整体，而更多关注
+映射的局部作用。
+下面仔细观察该映射
+在 $x=1$ 附近的作用。
+导数为 $dy/dx=2x+1$，
+因此在 \( x=1 \) 附近
+有 \( \Delta y\approx 3\cdot\Delta x \)。
+%; in other words, \( (1.001^2+1.001)-(1^2+1)\approx 3\cdot (0.001) \).
+也就是说，在 $x=1$ 的邻域内，
+定义域经该映射变换后扩张了
+因子 $3$ \Dash  局部而言，
+近似地说，这是一次伸缩。
+%The map $y$ is locally regular.
+下图将其表示为定义域中的小区间
+定义域区间 $(1-\Delta x\,..\,1+\Delta x)$
+映到陪域中的区间 $(2-\Delta y\,..\,2+\Delta y)$
+其宽度约为前者的三倍。 % $\Delta y \approx 3\cdot \Delta x$.
+\begin{center}
+  \includegraphics{map/mp/ch3.59}
+\end{center}
+% (When the above picture is drawn in the traditional cartesian way
+% then the prior sentence about the rate of growth of $y(x)$ is usually
+% stated:~the derivative $3$ is the slope of the 
+% line tangent to the graph at the point $(1,2)$.)
+
+在高维空间中，核心思想相同，但可能出现更多情况。
+对于函数 \( \map{y}{\Re^n}{\Re^m} \) 和点 \( \vec{x}\in\Re^n \),
+导数定义为
+线性映射 \( \map{h}{\Re^n}{\Re^m} \)，最佳近似 $y$ 在 $y(\vec{x})$ 附近的变化。
+how \( y \) changes near \( y(\vec{x}) \).
+因此，上述几何描述可直接应用于导数。
+%Calculus considers the map 
+%that locally approximates the change \( \Delta x\mapsto 3\cdot\Delta x \)
+%(instead of the actual change map
+%\( \Delta x\mapsto y(1+\Delta x)-y(1) \)) because the local map 
+%is easier.
+%It is easier in that, if the
+%input change is doubled, or tripled, etc., then the
+%resulting output change will double, or triple, etc.
+%\begin{equation*}
+%  3(r\,\Delta x)=r\,(3\Delta x)
+%\end{equation*}
+%(for $r\in\Re$), 
+%和 it is easier in that 
+%adding changes in input adds the resulting output changes.
+%\begin{equation*}
+%  3(\Delta x_1+\Delta x_2)=3\Delta x_1+3\Delta x_2
+%\end{equation*}
+%In short, what's
+%easy about \( \Delta x\mapsto 3\cdot\Delta x \) is that
+%it 是线性的.
+
+最后说明这一观点如何
+澄清一个常被误解的
+关于导数的结果：链式法则。
+回忆在两个函数满足适当条件时，
+复合函数的导数为：
+\begin{equation*}
+  \frac{d\,(\composed{g}{f})}{dx}(x) = 
+  \frac{dg}{dx}(f(x))\cdot\frac{df}{dx}(x)
+\end{equation*} 
+例如，$\sin(x^2+3x)$ 的导数为
+$\cos(x^2+3x)\cdot(2x+3)$.
+
+这从何而来？
+考虑 $\map{f,g}{\Re}{\Re}$。 
+\begin{center}
+  \includegraphics{map/mp/ch3.60}
+\end{center}
+第一个映射 $f$ 将 $x$ 的邻域伸缩因子设为
+\begin{equation*}
+  \frac{df}{dx}(x) 
+\end{equation*}
+第二个映射 $g$ 随后将 
+将 $f(x)$ 的邻域伸缩因子设为
+\begin{equation*}
+  \frac{dg}{dx}(\,f(x)\,) 
+\end{equation*}
+二者复合后， 
+复合映射的伸缩因子就是二者的乘积。
+在高维空间中，
+描述函数在某点附近变化的映射是线性映射，
+并由矩阵表示。
+链式法则就是将这些矩阵相乘。
+
+% Thus, the geometry of linear maps $\map{h}{\Re^n}{\Re^m}$ 
+% is appealing both for its simplicity 和 for its usefulness.
+
+\begin{exercises}
+  \item 
+    Use the $H=PBQ$ decomposition to find
+    伸缩、翻转、剪切和投影的组合
+    生成映射 $\map{h}{\Re^3}{\Re^3}$
+    相对于标准基由下列矩阵表示。
+    \begin{equation*}
+      H=\begin{mat}[r]
+        1  &2  &1  \\
+        3  &6  &0  \\
+        1  &2  &2
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      下面的高斯消元
+      \begin{multline*}
+        \grstep[-\rho_1+\rho_3]{-3\rho_1+\rho_2}
+        \begin{mat}[r]
+          1  &2  &1  \\
+          0  &0  &-3 \\
+          0  &0  &1
+        \end{mat}
+        \grstep{(1/3)\rho_2+\rho_3}
+        \begin{mat}[r]
+          1  &2  &1  \\
+          0  &0  &-3 \\
+          0  &0  &0
+        \end{mat}                                     \\
+        \grstep{(-1/3)\rho_2}
+        \begin{mat}[r]
+          1  &2  &1  \\
+          0  &0  &1 \\
+          0  &0  &0
+        \end{mat}
+        \grstep{-\rho_2+\rho_1}
+        \begin{mat}[r]
+          1  &2  &0  \\
+          0  &0  &1 \\
+          0  &0  &0
+        \end{mat}
+      \end{multline*}
+      得到该矩阵的简化阶梯形。
+      接着，对列作两次操作：先将第一列乘以 $-2$
+      加到第二列，再交换第二、三列
+      得到如下部分恒等矩阵。
+      \begin{equation*} 
+        B=\begin{mat}[r]
+          1  &0  &0  \\
+          0  &1  &0  \\ 
+          0  &0  &0
+        \end{mat}
+      \end{equation*}
+      以上内容用矩阵表示为：
+      \begin{equation*}
+        P=
+        \begin{mat}[r]
+          1  &-1    &0  \\
+          0  &1     &0  \\
+          0  &0     &1         
+        \end{mat}
+        \begin{mat}[r]
+          1  &0    &0  \\
+          0  &-1/3 &0  \\
+          0  &0    &1
+        \end{mat}
+        \begin{mat}[r]
+          1  &0    &0  \\
+          0  &1    &0  \\
+          0  &1/3  &1         
+        \end{mat}
+        \begin{mat}[r]
+          1  &0  &0  \\
+          0  &1  &0  \\
+         -1  &0  &1         
+        \end{mat}
+        \begin{mat}[r]
+          1  &0  &0  \\
+         -3  &1  &0  \\
+          0  &0  &1         
+        \end{mat}
+      \end{equation*}
+      和 
+      \begin{equation*}
+        Q=
+        \begin{mat}[r]
+          1  &-2    &0  \\
+          0  &1     &0  \\
+          0  &0     &1         
+        \end{mat}
+        \begin{mat}[r]
+          0  &1     &0  \\
+          1  &0     &0  \\
+          0  &0     &1         
+        \end{mat}
+      \end{equation*}
+      因此给定矩阵可分解为 $PBQ$。
+    \end{answer}
+  \item 
+    哪些伸缩、翻转、剪切和投影的组合
+    能产生逆时针旋转 $2\pi/3$ 弧度？
+    \begin{answer}
+      首先用矩阵 $H$ 表示该映射，
+      进行行变换，并在需要时进行列变换
+      将其化为部分恒等矩阵。
+      然后将其写成分解 $H=PBQ$。
+      代入旋转矩阵的一般形式
+          \begin{equation*}
+            \rep{r_\theta}{\stdbasis_2,\stdbasis_2}
+            \begin{mat}
+              \cos\theta  &-\sin\theta  \\
+              \sin\theta  &\cos\theta
+            \end{mat}
+          \end{equation*}
+          得到如下表示。
+          \begin{equation*}
+            \rep{r_{2\pi/3}}{\stdbasis_2,\stdbasis_2}
+            \begin{mat}[r]
+              -1/2        &-\sqrt{3}/2  \\
+              \sqrt{3}/2  &-1/2
+            \end{mat}
+          \end{equation*}
+          Gauss's Method is routine.
+          \begin{equation*}
+            \grstep{\sqrt{3}\rho_1+\rho_2}
+            \begin{mat}[r]
+              -1/2        &-\sqrt{3}/2  \\
+               0          &-2
+            \end{mat}
+            \grstep[(-1/2)\rho_2]{-2\rho_1}
+            \begin{mat}[r]
+               1          &\sqrt{3}    \\
+               0          &1
+            \end{mat}
+            \grstep{-\sqrt{3}\rho_2+\rho_1}
+            \begin{mat}[r]
+               1          &0   \\
+               0          &1
+            \end{mat}
+          \end{equation*}
+          这对应于如下矩阵方程。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &-\sqrt{3}  \\
+              0  &1
+            \end{mat}
+            \begin{mat}[r]
+              -2  &0    \\
+               0  &-1/2
+            \end{mat}
+            \begin{mat}[r]
+               1         &0  \\
+               \sqrt{3}  &1
+            \end{mat}
+            \begin{mat}[r]
+              -1/2        &-\sqrt{3}/2  \\
+              \sqrt{3}/2  &-1/2
+            \end{mat}
+            =I
+          \end{equation*}
+          对方程取逆并解出 $H$，得到以下分解。
+          \begin{equation*}
+            \begin{mat}[r]
+              -1/2        &-\sqrt{3}/2  \\
+              \sqrt{3}/2  &-1/2
+            \end{mat}
+            =
+            \begin{mat}[r]
+                1         &0  \\
+               -\sqrt{3}  &1
+            \end{mat}
+            \begin{mat}[r]
+              -1/2  &0    \\
+               0    &-2
+            \end{mat}
+            \begin{mat}[r]
+              1  &\sqrt{3}  \\
+              0  &1
+            \end{mat}
+            I
+          \end{equation*}
+    \end{answer}
+  \item 
+    若映射非奇异，从其表示化为
+    单位矩阵无需任何列变换，
+    因此在 $H=PBQ$ 中矩阵 $Q$ 是单位矩阵。
+    非奇异映射的一个例子是
+    变换 $\map{t_{-\pi/4}}{\Re^2}{\Re^2}$，它将
+    向量顺时针旋转 $\pi/4$ 弧度。
+    \begin{exparts}
+      \partsitem 求出表示
+         相对于标准基表示该映射。
+      \partsitem 用高斯-约旦法将 $H$ 化为单位矩阵，
+        不使用列变换将 $H$ 化为单位矩阵。
+      \partsitem
+        将其写成矩阵方程
+        $T_jT_{j-1}\cdots T_1H=I$.
+      \partsitem 解矩阵方程得到 $H$。
+      \partsitem 将 $H$ 描述为
+        伸缩、翻转、剪切和投影的组合
+        （单位矩阵是平凡投影）。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 回忆，逆时针旋转
+          $\theta$ 弧度相对于标准基表示为
+          可表示为：
+          \begin{equation*}
+            \rep{t_{\pi/4}}{\stdbasis_2,\stdbasis_2}
+            =\begin{mat}
+              \cos\theta  &-\sin\theta  \\
+              \sin\theta  &\cos\theta
+             \end{mat}
+          \end{equation*}
+          顺时针角是逆时针角的相反数，
+          one.  
+          \begin{equation*}
+            \rep{t_{-pi/4}}{\stdbasis_2,\stdbasis_2}
+            =\begin{mat}
+              \cos(-\pi/4)  &-\sin(-\pi/4)  \\
+              \sin(-\pi/4)  &\cos(-\pi/4)
+            \end{mat}
+            =\begin{mat}[r]
+              \sqrt{2}/2  &\sqrt{2}/2  \\
+              -\sqrt{2}/2 &\sqrt{2}/2
+            \end{mat}
+          \end{equation*}
+        \partsitem
+          下面的高斯-约旦消元
+          \begin{equation*}
+            \grstep{\rho_1+\rho_2}
+            \begin{mat}[r]
+              \sqrt{2}/2  &\sqrt{2}/2  \\
+              0           &\sqrt{2}
+            \end{mat}
+            \grstep[(1/\sqrt{2})\rho_2]{(2/\sqrt{2})\rho_1}
+            \begin{mat}[r]
+              1  &1  \\
+              0  &1
+            \end{mat}
+            \grstep{-\rho_2+\rho_1}
+            \begin{mat}[r]
+              1  &0  \\
+              0  &1
+            \end{mat}
+          \end{equation*}
+          得到单位矩阵。
+          因此无需交换列
+          即可得到部分恒等矩阵。
+        \partsitem In matrix multiplication the reduction is
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &-1 \\
+              0  &1
+            \end{mat}
+            \begin{mat}[r]
+              2/\sqrt{2}  &0         \\
+              0           &1/\sqrt{2}
+            \end{mat}
+            \begin{mat}[r]
+              1  &0 \\
+              1  &1
+            \end{mat}
+            H
+            =I
+          \end{equation*}
+          （注意，高斯操作的复合从右向左进行）。
+        \partsitem  Taking inverses 
+          \begin{equation*}
+            H
+            =
+            \underbrace{
+              \begin{mat}[r]
+                1  &0 \\
+                -1  &1
+              \end{mat}
+              \begin{mat}[r]
+                \sqrt{2}/2  &0         \\
+                0           &\sqrt{2}
+              \end{mat}
+              \begin{mat}[r]
+                1  &1 \\
+                0  &1
+              \end{mat}
+             }_P
+            I
+          \end{equation*}
+          得到 $H$ 所需的分解。
+          部分恒等矩阵就是 $I$。
+          % , 和 $Q$ is trivial, that is, it is also an identity
+          % matrix.
+        \partsitem 从右向左读取复合（忽略
+          单位矩阵视为平凡矩阵），可知 $H$ 的作用等同于
+          先执行以下剪切
+          \begin{center}
+            \includegraphics{map/mp/ch3.95}
+         \end{center}
+         再进行伸缩，将所有第一分量乘以
+         $\sqrt{2}/2$（这是收缩，因为 $\sqrt{2}/2\approx0.707$ 
+         小于 $1$）。
+         并将所有第二分量乘以 $\sqrt{2}$，
+         最后再进行一次剪切。
+          \begin{center}
+            \includegraphics{map/mp/ch3.96}
+         \end{center}
+         例如，取与
+         $x$ 轴夹角为 $\pi/6$ 的单位向量，依次应用 $H$ 的各个分量。
+          \begin{center}
+            \includegraphics{map/mp/ch3.97}
+         \end{center}
+         容易验证所得向量长度为 1，
+         与 $x$ 轴夹角为 $-\pi/12$，确实形成
+         即顺时针旋转 $\pi/4$ 弧度，
+         因为 $(\pi/6)-(\pi/4)=-\pi/12$。 
+      \end{exparts}
+    \end{answer}
+  \item \label{exer:RToRIsScalMult} 
+    证明 $\Re^1$ 上任意线性变换都是某个映射 $h_k$
+    将标量乘法 $x\mapsto kx$。
+    \begin{answer}
+      相对于
+      标准基 $\stdbasis_1,\stdbasis_1$。 
+      这得到一个 $\nbyn{1}$ 矩阵。
+      唯一元素就是标量~$k$。
+    \end{answer}
+  \item \label{exer:ImageLinSurIsLinSur} 
+    证明线性映射保持空间的线性结构。
+    \begin{exparts}
+      \partsitem 证明从 $\Re^n$ 到 $\Re^m$ 的任意线性映射，
+         任一直线的像仍是直线。
+         该像可能是退化直线，即单个点。
+      \partsitem 证明任意线性曲面的像仍是线性曲面。
+         这推广了线性映射下
+         子空间的像仍是子空间这一结果。
+      \partsitem 线性映射还保持其他线性性质。
+         证明线性映射保持“介于其间”关系：若点
+         若 $B$ 位于 $A$ 与 $C$ 之间，则 $B$ 的像位于
+         $A$ 的像与 $C$ 的像之间。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 直线是 $\Re^n$ 中形如
+          $\set{\vec{v}=\vec{u}+t\cdot\vec{w}\suchthat t\in\Re}$.
+          该直线上点的像为
+          $h(\vec{v})=h(\vec{u}+t\cdot\vec{w})=h(\vec{u})+t\cdot h(\vec{w})$,
+          当 $t$ 遍历实数时，这些向量的集合是
+          一条直线（若 $h(\vec{w})=\zero$ 则为退化直线）。
+        \partsitem 这是前面论证的直接推广。
+        \partsitem 若点~$B$ 位于点~$A$ 与~$C$ 之间，则
+          从 $A$ 到 $C$ 的线段包含 $B$。
+          也就是说，存在 $t\in (0\,..\,1)$ 使得
+          $\vec{b}=\vec{a}+t\cdot (\vec{c}-\vec{a})$（其中 $B$ 是
+          （其中 $B$ 是 $\vec b$ 的端点，其他类似）。
+          如第一小题的论证，线性性说明
+          $h(\vec{b})=h(\vec{a})+t\cdot h(\vec{c}-\vec{a})$.  
+      \end{exparts}
+    \end{answer}
+  \item 
+    参考链式法则讨论中的图回答：
+    若函数 $\map{f}{\Re}{\Re}$ 可逆，函数局部近似伸缩空间的倍数与其逆映射伸缩空间的倍数有何关系？
+    \begin{answer}
+      二者互为倒数。
+      例如，对固定的 $x\in\Re$，
+      若 $f^\prime (x)=k$（其中 $k\neq 0$），则 
+      $(f^{-1})^\prime (x)=1/k$.
+      \begin{center}
+        \includegraphics{map/mp/ch3.98}
+     \end{center}
+    \end{answer}
+  \item \label{exer:PermIsCompSwaps}
+    证明这些数的任意排列（即重新排序）$p$
+    $1$, \ldots, $n$ 的排列诱导的映射 
+    \begin{equation*}
+      \colvec{x_1 \\ x_2 \\ \vdots\\ x_n}
+      \mapsto
+      \colvec{x_{p(1)} \\ x_{p(2)} \\ \vdots \\ x_{p(n)}}
+    \end{equation*}
+    可由映射复合完成，
+    其中每个映射只交换一对坐标。
+    \textit{Hint:} you can use induction on $n$.
+    （\textit{注：}第四章将证明这一点，并且还将
+    证明交换次数的奇偶性由 $p$ 决定。
+    也就是说，尽管某个
+    排列可用两种不同方式表示，
+    交换次数也不同，但两种方式要么都使用偶数次
+    交换，要么都使用奇数次。）
+    \begin{answer}
+      对向量分量数作归纳即可证明。
+      vector.
+      In the $n=1$ base case the only permutation is the trivial one,
+      且映射
+      \begin{equation*}
+        \colvec{x_1}
+        \mapsto
+        \colvec{x_1}
+      \end{equation*}
+      可表示为交换的复合，即零次交换。
+      归纳步骤中，假设由
+      少于 $n$ 个数的任意排列诱导的映射
+      $n$ 个数的排列可仅用交换表示；现在考虑映射
+      由
+      $n$ 个数的排列 $p$ 诱导。
+      \begin{equation*}
+        \colvec{x_1 \\ x_2 \\ \vdots \\ x_n}
+        \mapsto
+        \colvec{x_{p(1)} \\ x_{p(2)} \\ \vdots \\ x_{p(n)}}
+      \end{equation*}
+      考虑满足 $p(i)=n$ 的编号 $i$。
+      映射
+      \begin{equation*}
+        \colvec{x_1      \\ x_2      \\ \vdots \\ x_i      \\ \vdots \\ x_n}
+        \mapsunder{\hat{p}}
+        \colvec{x_{p(1)} \\ x_{p(2)} \\ \vdots \\ x_{p(n)} \\ \vdots  \\ x_{n}}
+      \end{equation*}
+      再交换第 $i$ 个与第 $n$ 个分量后，
+      得到映射~$p$。
+      根据归纳假设，$\hat{p}$ 可表示为交换的复合。
+      的交换复合。
+    \end{answer}
+\end{exercises}
+\index{Geometry of Linear Maps|)}
+\endinput

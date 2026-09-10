@@ -1,0 +1,340 @@
+% Chapter 4, Section 1 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\chapter{行列式} 
+在第一章中，我们
+重点讨论了方程个数与未知量个数相同的线性方程组
+这一特殊情形，即形如 \( T\vec{x}=\vec{b} \)、其中 $T$ 为方阵的方程组。
+我们注意到，这样的 $T$ 只有两种。
+若 $T$ 对任意 $\vec{b}$，
+都对应唯一解，比如
+齐次方程组 $T\vec{x}=\zero$ 那样，那么
+对每一个这样的 $\vec{b}$，$T$ 都对应唯一解。
+我们称这样的矩阵为非奇异的。
+另一类 $T$，凡是以其为
+系数矩阵的线性方程组都要么无解、
+要么有无穷多解，
+我们称之为奇异的。
+
+在此后的工作中，这一区分一直是一条主线。
+例如，我们现在知道，一个
+\( \nbyn{n} \) 矩阵 \( T \) 是非奇异的当且仅当
+以下每一条都成立：
+%<*EquivalentOfNonsingular>
+\begin{itemize}
+   \item 任意方程组 \( T\vec{x}=\vec{b} \) 都有解，
+          且该解唯一；
+    \item 对 $T$ 作高斯–若尔当消元得到单位矩阵；
+    \item $T$ 的各行构成一个线性无关的集合；
+    \item \( T \) 的各列构成一个线性无关的集合，
+          即 \( \Re^n \) 的一个基；
+    \item \( T \) 所表示的任意映射都是同构；
+    \item 存在逆矩阵 \( T^{-1} \)。
+\end{itemize}
+%</EquivalentOfNonsingular>
+因此，当我们看到一个方阵时，首先
+要问的问题之一就是它是否
+非奇异。
+
+本章将建立一个公式，用来判定 $T$ 是否非奇异。
+更准确地说，我们将对 $\nbyn{1}$~矩阵
+给出一个公式，对 $\nbyn{2}$~矩阵给出一个，等等。
+这些公式自然相互关联；也就是说，
+我们将建立一族
+公式，一个描述每种规格之公式的方案。
+
+由于我们的讨论仅限于方阵，本章中
+我们常常径直说“矩阵”，以代替“方阵”。
+
+
+
+
+
+\section{定义}
+%<*DeterminantIntro>
+判定非奇异性这件事，
+对 \( \nbyn{1} \) 矩阵而言是平凡的。
+\begin{equation*}
+  \begin{mat}
+       a
+  \end{mat} 
+  \quad\text{是非奇异的当且仅当}\quad
+  a \neq 0
+\end{equation*} 
+推论~Three.IV.\ref{cor:TwoByTwoInv} 给出了 $\nbyn{2}$ 的公式。 
+\begin{equation*}
+     \begin{mat}
+           a  &b  \\
+           c  &d
+      \end{mat}  
+   \quad\text{是非奇异的当且仅当}\quad
+   ad-bc \neq 0
+\end{equation*}
+我们可以像前面那样得出 $\nbyn{3}$ 的公式，
+尽管计算相当繁琐
+% \typeout{DET1 ThreeByThreeDetForm cleveref expmt!}
+% (see \cref{exer:ThreeByThreeDetForm}).
+（见\nearbyexercise{exer:ThreeByThreeDetForm}）。
+\begin{equation*}
+     \begin{mat}
+           a  &b  &c  \\
+           d  &e  &f  \\
+           g  &h  &i
+     \end{mat}
+  \quad\text{是非奇异的当且仅当}\quad
+    aei+bfg+cdh-hfa-idb-gec \neq 0
+\end{equation*}
+心怀这些特例，我们设想一族
+公式：$a$，$ad-bc$，等等。
+对每个 $n$，该公式定义了一个 
+\definend{行列式}\index{determinant}\index{matrix!determinant} 
+函数
+$\map{\det_{\nbyn{n}}}{\matspace_{\nbyn{n}}}{\Re}$ 
+使得 $\nbyn{n}$ 矩阵 $T$ 是非奇异的当
+且仅当 $\det_{\nbyn{n}}(T)\neq 0$。
+%</DeterminantIntro>
+（我们通常省略下标 \( \nbyn{n} \)，因为
+\( T \) 的规格已经表明我们指的是哪个行列式函数。）
+
+
+
+
+
+
+\subsectionoptional{探索}
+\textit{本小节为选读内容，
+给出一般定义的动机与展开。
+定义在下一小节中。}
+
+在前文中，各种情形下的矩阵都是非奇异的当且
+仅当某个公式不为零。
+但这三个公式并
+没有显示出明显的规律。
+我们或许会注意到 \(\nbyn{1}\) 的项
+\( a \) 有一个字母，\(\nbyn{2}\) 的项
+\(ad\) 与 \(bc\) 各有两个字母，而 \(\nbyn{3}\)
+的项各有三个字母。
+我们甚至能注意到，在这些项中
+每一项都是从矩阵的每一行与每一列各取一个字母，例如，
+在 \(cdh\) 项中一个字母
+来自每一行、每一列。
+\begin{equation*}
+   \begin{mat}
+          &    &c \\
+      d           \\
+          &h
+   \end{mat} 
+\end{equation*}
+但这些观察与其说是有启发性
+的，不如说是令人困惑的。
+比如，我们可能想知道为什么
+有些项相加，而有些项相减。
+
+解题的一个好策略是
+先探索解必须具有哪些性质，然后
+再去寻找具有这些性质的东西。
+于是我们先来问：我们希望行列式
+公式具有哪些性质。
+
+就目前而言，
+判定一个矩阵是否奇异的主要方法
+是作高斯
+消元，然后检查
+阶梯形矩阵的对角线上是否有零，
+即沿对角线的乘积是否为~零。
+于是我们可以猜想：无论找到怎样的行列式公式，证明
+它正确的做法可能都涉及对矩阵应用高斯消元法，
+以说明最终沿对角线的乘积为零当且仅当
+我们的公式给出零。
+
+这提示了一个计划：~我们将寻找一族行列式
+公式，它们
+不受行变换影响，且阶梯形
+矩阵的行列式是其对角元之积。
+% Under this plan, a proof that the functions determine singularity would go, 
+% ``Where $T\rightarrow\cdots\rightarrow\hat{T}$ is the Gaussian
+% reduction, the determinant of $T$ equals the
+% determinant of $\hat{T}$ (because the determinant is unchanged by row
+% operations), which is the product down the diagonal, which is
+% zero if and only if the matrix is singular''.
+在本小节余下的部分，我们将用 $\nbyn{2}$ 与
+$\nbyn{3}$ 的公式来检验这一计划。
+最后我们将不得不修改“不受行变换影响”
+这一部分，但改动不大。
+
+首先我们检查
+$\nbyn{2}$ 与 $\nbyn{3}$ 的公式是否不受
+倍加这一行变换的影响：~若
+\begin{equation*}
+   T \grstep{k\rho_i+\rho_j} \hat{T}
+\end{equation*}
+那么 \( \det(\hat{T})=\det(T) \) 是否成立？ 
+对 $k\rho_1+\rho_2$ 操作之后的 $\nbyn{2}$ 行列式作这一检验
+\begin{equation*}
+   \det(
+       \begin{mat}
+         a     &b       \\
+         ka+c  &kb+d    \\
+      \end{mat}
+   )
+   = a(kb+d)-(ka+c)b = ad-bc
+\end{equation*}
+表明它确实不变，而
+另一个 $\nbyn{2}$ 倍加 $k\rho_2+\rho_1$ 给出同样的结果。
+同样，
+$\nbyn{3}$ 的倍加 $k\rho_3+\rho_2$ 也使行列式保持不变
+  \begin{align*}
+    \det(
+      \begin{mat}
+         a    &b    &c    \\
+         kg+d &kh+e &ki+f \\
+         g    &h    &i
+      \end{mat}
+    )
+    &=\begin{array}[t]{@{}l@{}}
+         a(kh+e)i+b(ki+f)g+c(kg+d)h \\
+         \ \hbox{}-h(ki+f)a-i(kg+d)b-g(kh+e)c  
+    \end{array}                                 \\
+     &=aei + bfg + cdh - hfa - idb - gec
+  \end{align*}
+其他的 $\nbyn{3}$ 行倍加操作也是如此。
+
+所以这个计划看起来是有希望的。
+当然，也许如果我们算出
+$\nbyn{4}$ 行列式公式并加以检验，可能会发现
+它会受行倍加的影响。
+这只是一次探索，我们还没有掌握全部事实。
+尽管如此，到目前为止一切顺利。
+
+接下来，对于行对换的情形，我们比较 \( \det(\hat{T}) \) 与
+\( \det(T) \)。
+% \begin{equation*}
+%    T \grstep{ {\rho}_i \leftrightarrow {\rho}_j } \hat{T}
+% \end{equation*}
+这里我们遇到了一个障碍：
+\(\nbyn{2}\) 的行对换 $\rho_1\leftrightarrow\rho_2$
+并不给出 \( ad-bc \)。
+  \begin{equation*}
+     \det(
+       \begin{mat}
+         c  &d \\
+         a  &b
+       \end{mat}
+     )
+     = bc - ad
+  \end{equation*}
+而 \(\nbyn{3}\) 矩阵内的这次 $\rho_1\leftrightarrow\rho_3$ 对换
+\begin{equation*}
+   \det(
+     \begin{mat}
+        g  &h  &i \\
+        d  &e  &f \\
+        a  &b  &c
+     \end{mat}
+   )
+   = gec + hfa + idb - bfg - cdh - aei
+\end{equation*}
+同样不给出与对换前相同的行列式，因为又一次
+出现了符号改变。
+再试 \(\nbyn{3}\) 的另一次对换 $\rho_1\leftrightarrow\rho_2$ 
+\begin{equation*}
+   \det(
+     \begin{mat}
+        d  &e  &f \\
+        a  &b  &c \\
+        g  &h  &i
+     \end{mat}
+   )
+   = dbi + ecg + fah - hcd - iae - gbf
+\end{equation*}
+也给出符号的改变。
+
+所以在这一实验中，行对换
+看来会改变行列式的符号。
+这并没有完全破坏我们的计划。
+我们希望通过只考虑
+公式是否给出零来判定非奇异性，而不考虑其符号。
+因此，与其期望行列式公式
+完全不受行变换影响，不如修改计划：在行对换时
+它们改变符号。
+
+显然，
+我们最后要比较 \( \det(\hat{T}) \) 与 \( \det(T) \) 
+针对的操作
+% \begin{equation*}
+%    T \grstep{ k{\rho}_i } \hat{T}
+% \end{equation*}
+是把一行乘以一个标量。 
+下面这个计算
+\begin{equation*}
+  \det(
+    \begin{mat}
+      a   &b   \\
+      kc  &kd
+    \end{mat}
+  )
+  = a(kd) - (kc)b
+  =k\cdot (ad-bc)
+\end{equation*}
+最后整个行列式乘上了~$k$，
+另一个 $\nbyn{2}$ 情形也得到同样的结果。
+这个 \(\nbyn{3}\) 情形以同样的方式收尾
+\begin{align*}
+  \det(
+  \begin{mat}
+    a    &b    &c   \\
+    d    &e    &f   \\
+    kg   &kh   &ki
+  \end{mat}
+  )
+   &= \begin{array}[t]{@{}l@{}}
+         ae(ki) + bf(kg) + cd(kh)                \\
+         \>- (kh)fa - (ki)db - (kg)ec  
+      \end{array}                                      \\
+   &= k\cdot(aei + bfg + cdh - hfa - idb - gec)
+\end{align*}
+另外两个 $\nbyn{3}$ 情形也是如此。
+这些使我们猜想：把一行乘以~$k$
+会把行列式乘以~$k$。
+与前面一样，这修改了我们的计划，但没有破坏它。
+我们只要求
+行列式公式的为零性保持不变，而不关注
+它的符号或大小。
+
+所以在这次探索中，我们的计划
+经过一些非实质性的修改，现在变为：~我们将寻找
+$\nbyn{n}$ 行列式
+函数，它们在行倍加操作下
+保持不变，在行对换时
+改变符号，在某行被倍乘时按比例缩放，
+并且阶梯形矩阵的行列式
+是沿对角线的乘积。
+在下面两小节中我们将看到，对每个~$n$，
+这样的函数有且仅有一个。
+
+最后，为下一小节作准备，请注意提出标量因子是一种
+逐行进行的操作：
+在这里
+\begin{equation*}
+    \det(
+      \begin{mat}[r]
+        3  &3  &9  \\
+        2  &1  &1  \\
+        5  &11 &-5
+     \end{mat}
+    )
+    =3 \cdot \det(
+               \begin{mat}[r]
+                 1  &1  &3  \\
+                 2  &1  &1  \\
+                 5  &11 &-5
+               \end{mat}
+             )                                  
+\end{equation*}
+$3$ 仅从最上面一行提出，其余各行保持不变。
+因此，在行列式的定义中，我们将
+把它写成各行的函数
+\( \det (\vec{\rho}_1,\vec{\rho}_2,\dots\vec{\rho}_n) \)，而不是
+\( \det(T) \)，也不是各元素
+\( \det(t_{1,1},\dots,t_{n,n}) \) 的函数。
+

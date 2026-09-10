@@ -1,0 +1,297 @@
+\begin{exercises}
+  \item[]\textit{这里总结本书中 $2$-\hbox{} 与 $3$-置换所用的记号。
+    \begin{center}
+      \begin{tabular}[t]{c|cc}
+        $i$          &$1$      &$2$    \\
+        \hline
+        $\phi_1(i)$  &$1$      &$2$     \\
+        $\phi_2(i)$  &$2$      &$1$     
+      \end{tabular}
+      \qquad
+      \begin{tabular}[t]{c|ccc}
+        $i$          &$1$     &$2$   &$3$    \\
+        \hline
+        $\phi_1(i)$  &$1$     &$2$   &$3$    \\
+        $\phi_2(i)$  &$1$     &$3$   &$2$    \\
+        $\phi_3(i)$  &$2$     &$1$   &$3$    \\
+        $\phi_4(i)$  &$2$     &$3$   &$1$    \\
+        $\phi_5(i)$  &$3$     &$1$   &$2$    \\
+        $\phi_6(i)$  &$3$     &$2$   &$1$    
+      \end{tabular}
+    \end{center}  }
+  \item 
+    写出一般 $\nbyn{2}$ 矩阵及其转置的置换展开。
+    \begin{answer}
+      这是 $\nbyn{2}$ 矩阵的行列式的置换展开
+      \begin{equation*}
+        \begin{vmat}
+          a  &b  \\
+          c  &d
+        \end{vmat}
+         =ad\cdot \begin{vmat}[r]
+                    1  &0  \\
+                    0  &1
+                  \end{vmat}
+         +bc\cdot \begin{vmat}[r]
+                    0  &1 \\
+                    1  &0
+                  \end{vmat}
+      \end{equation*}
+      以及它的转置的行列式的置换展开。
+      \begin{equation*}
+         \begin{vmat}
+            a  &c  \\
+            b  &d
+         \end{vmat}
+         =ad\cdot\begin{vmat}[r]
+                    1  &0  \\
+                    0  &1
+                 \end{vmat}
+         +cb\cdot\begin{vmat}[r]
+                   0  &1 \\
+                   1  &0
+                 \end{vmat}
+       \end{equation*}
+       与小节中描述的 $\nbyn{3}$ 展开一样，对应项的置换矩阵互为转置
+       （尽管每个矩阵都是自转置的这一事实把这一点掩盖了）。
+    \end{answer}
+  \recommended \item 
+    \textit{本题也出现在前面的小节中。}
+    \begin{exparts}
+      \partsitem 求每个 $2$-置换的逆。
+      \partsitem 求每个 $3$-置换的逆。
+    \end{exparts}
+    \begin{answer}
+      每一个都容易验证。
+      \begin{exparts}
+        \partsitem 
+          \begin{tabular}[t]{r|cc}
+            \textit{置换} &$\phi_1$  &$\phi_2$ \\
+             \hline
+            \textit{逆}     &$\phi_1$  &$\phi_2$ 
+          \end{tabular}
+        \partsitem 
+          \begin{tabular}[t]{r|cccccc}
+            \textit{置换} 
+              &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_4$ &$\phi_5$ &$\phi_6$ \\
+            \hline
+            \textit{逆}
+              &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_5$ &$\phi_4$ &$\phi_6$ 
+          \end{tabular}
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    \begin{exparts}
+      \partsitem 求每个 $2$-置换的符号。
+      \partsitem 求每个 $3$-置换的符号。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \( \sgn(\phi_1)=+1 \), \( \sgn(\phi_2)=-1 \)
+        \partsitem \( \sgn(\phi_1)=+1 \), \( \sgn(\phi_2)=-1 \),
+              \( \sgn(\phi_3)=-1 \), \( \sgn(\phi_4)=+1 \),
+              \( \sgn(\phi_5)=+1 \), \( \sgn(\phi_6)=-1 \)
+      \end{exparts}  
+     \end{answer}
+  \item 
+    找出此矩阵的置换展开中唯一非零的项。
+    \begin{equation*}
+      \begin{vmat}[r]
+        0  &1  &0  &0  \\
+        1  &0  &1  &0  \\
+        0  &1  &0  &1  \\
+        0  &0  &1  &0
+      \end{vmat}
+    \end{equation*}
+    通过求相应置换的符号来计算该行列式。
+    \begin{answer}
+      要在置换展开中得到非零项，我们必须取 \( 1,2 \) 处的元素与
+      \( 4,3 \) 处的元素。
+      选定这两处之后，我们还必须取 \( 2,1 \) 处的元素与 \( 3,4 \) 处的元素。
+      \( \sequence{2,1,4,3} \) 的符号是 \( +1 \)，因为由
+      \begin{equation*}
+        \begin{mat}[r]
+          0  &1  &0  &0  \\
+          1  &0  &0  &0  \\
+          0  &0  &0  &1  \\
+          0  &0  &1  &0            
+        \end{mat}
+      \end{equation*}
+      经过两次行对换 $\rho_1\leftrightarrow\rho_2$ 与
+      $\rho_3\leftrightarrow\rho_4$ 即可得到单位矩阵。  
+    \end{answer}
+  \item  
+    \cite{Strang}
+    $n$-置换 \( \phi=\sequence{n,n-1,\dots,2,1} \) 的符号是什么？
+    \begin{answer}
+      规律如下。
+      \begin{center}
+         \begin{tabular}[b]{c|ccccccc}
+           \( i \) &\( 1 \) &\( 2 \) &\( 3 \) &\( 4 \) &\( 5 \)
+              &\( 6 \) &\ldots \\
+           \hline
+           \( \sgn(\phi_i) \) &\( +1 \) &\( -1 \) &\( -1 \) &\( +1 \)
+              &\( +1 \) &\( -1 \) &\ldots
+         \end{tabular}
+      \end{center}  
+      于是为求 $\phi_{n!}$ 的符号，我们用 $n!-1$ 减一，再看它除以四的余数。
+      若余数是 $1$ 或 $2$，则符号为 $-1$；否则为 $+1$。
+      对 $n>4$，数 $n!$ 能被四整除，所以 $n!-1$ 除以四的余数是
+      $-1$（更准确地说，余数是 $3$），因此符号是 $+1$。
+      $n=1$ 的情形符号为 $+1$，$n=2$ 的情形符号为 $-1$，
+      $n=3$ 的情形符号为 $-1$。
+    \end{answer}
+  \item \label{exer:PermInvFacts}
+     证明这些结论。   
+     \begin{exparts}
+        \partsitem 每个置换都有逆。
+        \partsitem \( \sgn(\phi^{-1})=\sgn(\phi) \)
+        \partsitem 每个置换都是另一个置换的逆。
+     \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+       \partsitem 我们可以把置换看成
+         \( \map{\phi}{\set{1,\ldots,n}}{\set{1,\ldots,n}} \)
+         这样单射且满射的映射。
+         任何单射且满射的映射都有逆。
+       \partsitem 若从 \( P_\phi \)
+         变到单位矩阵总需要奇数次对换，那么从单位矩阵变到
+         \( P_\phi \) 也总需要奇数次对换（任何对换都是可逆的）。
+       \partsitem 这就是第一问。
+      \end{exparts}  
+    \end{answer}
+  \item \label{exer:PermInvIffMatTrans}
+      证明对任意置换 $\phi$，置换逆的矩阵就是置换的矩阵的转置
+      $P_{\phi^{-1}}=\trans{P_{\phi}}$。
+      \begin{answer}
+        若 $\phi(i)=j$ 则 $\phi^{-1}(j)=i$。
+        于是注意到 $P_{\phi}$ 在 $i,j$ 处有一个 $1$ 当且仅当 $\phi(i)=j$，
+        而 $P_{\phi^{-1}}$ 在 $j,i$ 处有一个 $1$ 当且仅当 $\phi^{-1}(j)=i$，
+        结论即得。
+      \end{answer}
+  \recommended \item 
+    证明有 \( m \) 个逆序的置换矩阵可以经过 \( m \) 步行对换变成单位矩阵。
+    将此与\nearbycorollary{cor:ParityInversEqParitySwaps}对比。
+    \begin{answer}
+      这并不是说 \( m \) 是变成单位矩阵所需的最少对换次数，
+      也不是说 \( m \) 是最多的。
+      它说的是存在一种恰好经 \( m \) 步对换变成单位矩阵的方法。
+
+      设 \( \iota_j \) 是相对于前面某行来说第一个出现逆序的行，
+      并设 \( \iota_k \) 是给出该逆序的第一行。
+      我们有这样一个行区间。
+      \begin{equation*}
+         \begin{mat}
+           \vdots      \\
+           \iota_k     \\
+           \iota_{r_1} \\
+           \vdots      \\
+           \iota_{r_s} \\
+           \iota_j     \\
+           \vdots
+         \end{mat}
+         \qquad j<k<r_1<\dots <r_s
+      \end{equation*}
+      作对换。
+      \begin{equation*}
+         \begin{mat}
+           \vdots      \\
+           \iota_j     \\
+           \iota_{r_1} \\
+           \vdots      \\
+           \iota_{r_s} \\
+           \iota_k     \\
+           \vdots
+         \end{mat}
+      \end{equation*}
+      第二个矩阵的逆序少了一个，因为该区间内的逆序少了一个
+      （\( s \) 对 \( s+1 \)），而涉及区间之外各行的逆序不受影响。
+
+      如此进行下去，每作一次行对换就把逆序的个数减少一个。
+      当逆序不复存在时，结果就是单位矩阵。
+
+      与\nearbycorollary{cor:ParityInversEqParitySwaps}的对比在于，
+      本练习的陈述是一个“存在”命题：
+      存在一种恰好经~$m$ 步对换变成单位矩阵的方法。
+      而该推论是一个“对所有”命题：对变成单位矩阵的所有对换方式，
+      奇偶性（是偶还是奇）都相同。 
+    \end{answer}
+  \recommended \item 
+    对任意置换 $\phi$，令 $g(\phi)$ 是如下定义的整数。
+    \begin{equation*}
+       g(\phi)=\prod_{i<j} [\phi(j)-\phi(i)]
+    \end{equation*}
+    （这是在所有满足 \( i<j \) 的指标 \( i \) 与 \( j \) 上，
+    对上述形式的项作的乘积。）
+    \begin{exparts}
+      \partsitem 计算 $g$ 在所有 $2$-置换上的值。
+      \partsitem 计算 $g$ 在所有 $3$-置换上的值。
+      \partsitem 证明 $g(\phi)$ 不为 $0$。
+      \partsitem 证明这个结论。
+         \begin{equation*}
+            \sgn(\phi)=\frac{g(\phi)}{\absval{g(\phi)}}
+         \end{equation*}
+    \end{exparts}
+    许多作者把这个公式当作符号函数的定义。
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 首先，$g(\phi_1)$ 是单独一个因子 $2-1$ 的乘积，
+          所以 $g(\phi_1)=1$。
+          其次，$g(\phi_2)$ 是单独一个因子 $1-2$ 的乘积，
+          所以 $g(\phi_2)=-1$。
+        \partsitem 
+            \begin{tabular}[t]{r|cccccc}
+               \textit{置换 $\phi$} 
+                 &$\phi_{1}$ &$\phi_{2}$ &$\phi_{3}$ 
+                    &$\phi_{4}$ &$\phi_{5}$ &$\phi_{6}$ \\
+               \hline
+               $g(\phi)$ &$2$ &$-2$ &$-2$ &$2$ &$2$ &$-2$ 
+            \end{tabular}
+        \partsitem 它是一些非零项的乘积。
+        \partsitem 注意 \( \phi(j)-\phi(i) \) 为负当且仅当
+           \( \iota_{\phi(j)} \) 与 \( \iota_{\phi(i)} \) 处于它们通常顺序的一个逆序之中。
+      \end{exparts}  
+     \end{answer}
+%  \item Prove that the signum function on permutations is unique in that
+%    if \( f \) is a map from the permutations of \( \set{1,\ldots,n} \)
+%    to the integers that is multiplicative:
+%    \( f(\sigma\phi)=f(\sigma)f(\phi) \) then \( f \) is either the
+%    function that always gives zero, or the function that always gives
+%    one, or is the signum.
+%    \begin{answer}
+%      Consider the identity permutation.
+%      \begin{equation*}
+%        \map{\identity}{\set{1,2,\ldots,n}}{\set{1,2,\ldots,n}}    
+%      \end{equation*}
+%      Note that $f(\identity)$ equals $0$ or $1$ because
+%      the multiplicative property gives 
+%      $f(\identity)
+%       =f(\composed{\identity}{\identity})
+%       =f(\identity)\cdot f(\identity)
+%       =f(\identity)^2$.
+%      If $f(\identity)=0$ then $f$ is the constant function 
+%      $f(\phi)=0$ because 
+%      $f(\phi)=f(\composed{\identity}{\phi})=0\cdot f(\phi)=0$.
+%
+%      If $f(\identity)=1$ then consider the permutation
+%      $\tau$ that just swaps $i$ and $j$
+%      \begin{equation*}
+%        1\mapsto 1
+%        \quad 2\mapsto 2
+%        \quad \cdots 
+%        \quad i\mapsto j
+%        \quad \cdots
+%        \quad j\mapsto i
+%        \quad \cdots
+%        \quad n\mapsto n
+%      \end{equation*}
+%      (the $n=1$ special case is easy).
+%      Note that $\composed{\tau}{\tau}=\identity$ so 
+%      $1=f(\composed{\tau}{\tau})=f(\tau)\cdot f(\tau)$,
+%      and $f(\tau)$ is either $+1$ or $-1$.
+%    \end{answer}
+\end{exercises}
+
+
+
+\index{determinant|)}

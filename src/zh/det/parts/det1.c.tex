@@ -1,0 +1,341 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{行列式的性质}
+\index{determinant|(}
+我们想要一个公式，
+用以判断一个 $\nbyn{n}$ 矩阵是否非奇异的。
+我们不打算一开始就陈述这样一个公式，
+而是先针对每个~$n$，
+考虑这样的公式所计算的函数。
+我们将通过一列性质来定义这个函数。
+随后我们将证明具有这些性质的函数存在且唯一，
+并说明如何计算它。
+（由于我们最终会证明这一点，所以从一开始
+我们就直接说“\( \det(T) \)”而不说
+“若存在唯一的行列式函数，则 \( \det(T) \)”。）
+
+\begin{definition}  \label{def:Det}
+%<*df:Det>
+一个 \( \nbyn{n} \) \definend{行列式\/}\index{determinant!definition}%
+\index{matrix!determinant}是一个函数
+\( \map{\det}{\matspace_{\nbyn{n}}}{\Re} \)，满足下列条件：
+\begin{enumerate}
+  \item
+    $
+       \det (\vec{\rho}_1,\dots,k\cdot\vec{\rho}_i
+                                     + \vec{\rho}_j,\dots,\vec{\rho}_n)
+       =\det (\vec{\rho}_1,\dots,\vec{\rho}_j,\dots,\vec{\rho}_n)
+    $ 当 \( i\ne j \) 时
+  \item
+    $
+       \det (\vec{\rho}_1,\ldots,\vec{\rho}_j,
+               \dots,\vec{\rho}_i,\dots,\vec{\rho}_n)
+       = -\det (\vec{\rho}_1,\dots,\vec{\rho}_i,\dots,\vec{\rho}_j,
+                \dots,\vec{\rho}_n)
+    $
+    当 \( i\ne j\) 时
+  \item
+    $
+       \det (\vec{\rho}_1,\dots,k\vec{\rho}_i,\dots,\vec{\rho}_n)
+       = k\cdot \det (\vec{\rho}_1,\dots,\vec{\rho}_i,\dots,\vec{\rho}_n)
+    $
+    对任意标量~$k$
+    % for \( k\ne 0\)
+  \item
+     $
+       \det(I)=1
+     $
+     其中 \( I \) 是单位矩阵
+\end{enumerate}
+（各个 $\vec{\rho}\,$ 是矩阵的行）。
+我们常把 \( \det (T) \) 写成 \( \deter{T} \)。
+%</df:Det>
+\end{definition}
+
+\begin{remark}  \label{rem:SwapRowsRedun}
+%<*re:SwapRowsRedun>
+条件~(2) 是多余的，因为
+ \begin{equation*}
+   T\grstep{\rho_i+\rho_j}
+    \repeatedgrstep{-\rho_j+\rho_i}
+    \repeatedgrstep{\rho_i+\rho_j}
+    \repeatedgrstep{-\rho_i}
+    \hat{T}
+\end{equation*}
+对换第 \( i \) 行与第~\( j \) 行。
+我们列出它是为了
+与前面各章中高斯消元法的表述保持一致。
+%</re:SwapRowsRedun>
+\end{remark}
+
+\begin{remark}
+条件~(3) 没有 $k\neq 0$ 的限制，虽然
+高斯消元法中把一行乘以~$k$ 的操作
+确有此限制。
+% \nearbylemma{le:IdenRowsDetZero} below
+下面的结果表明，在这里我们不需要该限制。
+\end{remark}
+
+% % \begin{remark}
+% The previous subsection's plan
+% asks for the determinant of an echelon form matrix to be the product
+% down the diagonal.
+% The next result shows that in the presence of the other
+% three, condition~(4) gives that.
+% % \end{remark}
+
+\begin{lemma}   \label{le:IdenRowsDetZero}
+%<*lm:IdenRowsDetZero>
+有两行相同的矩阵，其行列式为零。
+有一个零行的矩阵，其行列式为零。
+矩阵是非奇异的当且仅当其行列式非零。
+阶梯形矩阵的行列式等于沿其对角线的乘积。
+%</lm:IdenRowsDetZero>
+\end{lemma}
+
+\begin{proof}
+%<*pf:IdenRowsDetZero0>
+为验证第一句，对换这两个相同的行。
+行列式的符号改变了，但矩阵是同一个，
+因而其行列式也相同。
+于是行列式为零。
+%</pf:IdenRowsDetZero0>
+
+%<*pf:IdenRowsDetZero1>
+对于第二句，
+将零行乘以二。
+这使行列式加倍，但该行
+保持不变，因而
+行列式也保持不变。
+所以行列式必为零。
+%</pf:IdenRowsDetZero1>
+
+%<*pf:IdenRowsDetZero2>
+对于第三句，
+作高斯–若尔当消元
+$T \rightarrow\cdots\rightarrow\hat{T}$。
+由前三个性质，
+$T$ 的行列式为零当且仅当
+$\hat{T}$ 的行列式为零
+（尽管二者可能在符号或大小上不同）。
+非奇异矩阵 $T$ 经高斯–若尔当消元化为单位矩阵，
+因而其行列式非零。
+奇异的 $T$ 则化为带有一个零行的 $\hat{T}$；
+由本引理的第二句，其行列式为零。
+%</pf:IdenRowsDetZero2>
+
+%<*pf:IdenRowsDetZero3>
+第四句有两种情形。
+若阶梯形矩阵是奇异的，则
+它有一个零行。
+于是其对角线上有一个零，并且
+沿其对角线的乘积为零。
+由本结论的第三句，行列式为零，
+因此该矩阵的行列式等于
+沿其对角线的乘积。
+%</pf:IdenRowsDetZero3>
+
+%<*pf:IdenRowsDetZero4>
+若阶梯形矩阵是非奇异的，则它的对角元
+都不为零。
+这意味着我们可以除以这些对角元，
+再利用条件~(3) 使对角线上都得到 $1$。
+\begin{equation*}
+  \begin{vmat}
+    t_{1,1}  &t_{1,2}  &     &t_{1,n}  \\
+    0        &t_{2,2}  &     &t_{2,n}  \\
+             &         &\ddots         \\
+    0        &         &     &t_{n,n}
+  \end{vmat}
+  =
+  t_{1,1}\cdot t_{2,2}\cdots t_{n,n}\cdot
+  \begin{vmat}
+    1        &t_{1,2}/t_{1,1}  &     &t_{1,n}/t_{1,1}  \\
+    0        &1                &     &t_{2,n}/t_{2,2}  \\
+             &                 &\ddots         \\
+    0        &                 &     &1
+  \end{vmat}
+\end{equation*}
+然后，高斯–若尔当消元的若尔当部分使之成为单位矩阵。
+\begin{equation*}
+  =
+  t_{1,1}\cdot t_{2,2}\cdots t_{n,n}\cdot
+  \begin{vmat}
+    1        &0                &     &0                \\
+    0        &1                &     &0                \\
+             &                 &\ddots         \\
+    0        &                 &     &1
+  \end{vmat}
+  =
+  t_{1,1}\cdot t_{2,2}\cdots t_{n,n}\cdot 1
+\end{equation*}
+所以在这种情形，行列式
+同样是沿对角线的乘积。
+%</pf:IdenRowsDetZero4>
+\end{proof}
+
+这给了我们一种办法，用来计算行列式函数
+在一个矩阵上的取值：
+作高斯消元，记录行对换所引起的任何变号
+以及我们提出的任何标量倍数，
+最后沿阶梯形结果的
+对角线相乘。
+这一算法与高斯消元法一样快，因此
+对我们将会看到的
+所有矩阵都是实用的。
+
+\begin{example}
+用高斯消元法
+计算 \( \nbyn{2} \) 行列式
+\begin{equation*}
+   \begin{vmat}[r]
+      2  &4  \\
+      -1 &3
+   \end{vmat}
+   =
+   \begin{vmat}[r]
+      2  &4  \\
+      0  &5
+   \end{vmat}
+   =10
+\end{equation*}
+省不了多少时间，
+因为 $\nbyn{2}$ 行列式公式很容易。
+然而，一个 \( \nbyn{3} \) 行列式
+用高斯消元法来计算往往比用它的公式更容易。
+\begin{equation*}
+   \begin{vmat}[r]
+     2  &2  &6  \\
+     4  &4  &3  \\
+     0  &-3 &5
+   \end{vmat}
+   =
+   \begin{vmat}[r]
+     2  &2  &6  \\
+     0  &0  &-9 \\
+     0  &-3 &5
+   \end{vmat}
+   =
+   -\begin{vmat}[r]
+     2  &2  &6  \\
+     0  &-3 &5  \\
+     0  &0  &-9
+   \end{vmat}
+   =-54
+\end{equation*}
+\end{example}
+
+\begin{example}
+比 $\nbyn{3}$ 更大的行列式
+用高斯消元法的过程很快就完成了。
+\begin{equation*}
+   \begin{vmat}[r]
+      1  &0  &1  &3  \\
+      0  &1  &1  &4  \\
+      0  &0  &0  &5  \\
+      0  &1  &0  &1
+   \end{vmat}
+   =
+   \begin{vmat}[r]
+      1  &0  &1  &3  \\
+      0  &1  &1  &4  \\
+      0  &0  &0  &5  \\
+      0  &0  &-1 &-3
+   \end{vmat}
+   =
+   -\begin{vmat}[r]
+      1  &0  &1  &3  \\
+      0  &1  &1  &4  \\
+      0  &0  &-1 &-3 \\
+      0  &0  &0  &5
+   \end{vmat}
+   =-(-5)=5
+\end{equation*}
+\end{example}
+
+上面的例题引出了一个重要的观点。
+本章的引言给出了 $\nbyn{2}$
+和 $\nbyn{3}$ 行列式的公式，因此我们知道它们存在，
+但对于 $\nbyn{4}$ 或更大的矩阵上的行列式函数却没有给出公式。
+作为替代，\nearbydefinition{def:Det} 给出了一个行列式函数
+应当具有的性质，
+并由此引出用高斯消元法来计算行列式。
+
+然而，对任意一个矩阵，我们都可以用高斯消元法以
+多种方式将其化为阶梯形。
+例如，给定一个消元过程，我们可以插入一个第一步
+把最上面一行乘以~$2$，然后插入一个第二步
+把它乘以~$1/2$，从而改变这个过程。
+因此我们必须担心，两种不同的高斯消元法消元
+可能导致行列式的两个不同的计算值。
+
+也就是说，我们必须验证 \nearbydefinition{def:Det} 给出的是
+一个良定义的函数。
+接下来的两小节将完成这件事，证明存在
+满足该定义的
+一个良定义的函数。
+
+但首先我们证明，若存在这样的函数，
+则至多只有一个。
+上面的例题说明了这个想法：~我们
+按照定义的性质得到了~$5$。
+因此，虽然我们尚未证明 $\det_{\nbyn{4}}$ 存在，
+即存在具有性质 (1)\,--\,(4) 的函数，
+但若满足这些性质的函数确实存在，
+则我们知道它在上述矩阵上给出的值。
+
+\begin{lemma} \label{lm:DetFcnIsUnique}
+%<*lm:DetFcnIsUnique>
+对每个 $n$，
+若存在 $\nbyn{n}$ 行列式函数，则它是唯一的。
+%</lm:DetFcnIsUnique>
+\end{lemma}
+
+\begin{proof}
+%<*pf:DetFcnIsUnique>
+假设有两个函数
+$\map{\det_1,\det_2}{\matspace_{\nbyn{n}}}{\Re}$
+满足
+\nearbydefinition{def:Det} 的性质以及
+其推论 \nearbylemma{le:IdenRowsDetZero}。
+给定一个方阵~$M$，固定一种实施高斯消元法
+将该矩阵化为阶梯形的方式（有多种方式并不要紧，
+只需固定其中一种）。
+通过像上面的例题中那样
+使用这一固定的消元过程\Dash
+记录行倍乘的因子以及符号在行对换时如何变号，
+然后沿阶梯形结果的对角线相乘\Dash
+我们可以算出这两个函数在~$M$ 上必定返回的值，
+并且它们必定返回相同的值。
+由于它们在每个输入上都给出相同的输出，所以它们是同一个函数。
+%</pf:DetFcnIsUnique>
+\end{proof}
+
+“若存在 $\nbyn{n}$ 行列式函数”
+这一说法强调，
+虽然我们可以
+用高斯消元法计算出行列式函数
+所可能返回的唯一值，
+但我们尚未证明这样的函数对一切 $n$ 都存在。
+本节其余部分将完成这件事。
+
+
+

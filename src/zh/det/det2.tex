@@ -1,0 +1,1135 @@
+% Chapter 4, Section 2 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\section{行列式的几何}
+前面一节从代数角度展开行列式的讨论，考虑的是满足若干条件的公式。
+本节则以几何视角作为补充。
+这种做法除了直观上的吸引力之外，还有一个优点：到目前为止我们只关心
+行列式是否为零，而在这里我们将赋予行列式的值以含义。
+（前面一节把行列式视为行的函数，而本节聚焦于列。）
+
+
+
+
+
+
+
+
+
+
+\subsection{作为大小函数的行列式}
+这幅平行四边形的图形，在构造两个向量之和时已为大家所熟悉。
+\begin{center}
+  \includegraphics{det/mp/ch4.30}
+\end{center}
+
+\begin{definition} \label{df:Box}
+%<*df:Box>
+在 $\Re^n$ 中，
+由 \( \sequence{\vec{v}_1,\dots,\vec{v}_n} \) 生成的
+\definend{箱体}\index{box}
+（或 \definend{平行六面体}\index{parallelepiped}）
+是集合
+\( \set{t_1\vec{v}_1+\dots+t_n\vec{v}_n
+      \suchthat t_1,\ldots,t_n\in \closedinterval{0}{1}} \)。
+%</df:Box>
+\end{definition}
+
+\noindent 于是，上面的平行四边形就是
+由 $\sequence{\binom{x_1}{y_1},\binom{x_2}{y_2}}$ 生成的箱体。
+三维空间中的箱体见 \nearbyexample{ex:VolParPiped}。
+
+我们可以通过画一个包围矩形，再把不属于箱体的各块面积减去，
+来求出上述箱体的面积。
+\begin{center}
+  \parbox{1.5in}{\hbox{}\hfil\includegraphics{det/mp/ch4.31}\hfil\hbox{}}
+  \quad
+  \parbox{3.0in}{
+    \hbox{}\hfil
+    $\begin{array}{l}
+        \text{平行四边形的面积}                    \\
+          \hbox{}\quad \hbox{}
+             =\text{矩形的面积}
+                 -\text{$A$ 的面积}-\text{$B$ 的面积} \\
+          \hbox{}\qquad \hbox{}
+             -\cdots-\text{$F$ 的面积}                   \\
+          \hbox{}\quad \hbox{}
+             =(x_1+x_2)(y_1+y_2)-x_2y_1-x_1y_1/2        \\
+          \hbox{}\qquad \hbox{}
+             -x_2y_2/2-x_2y_2/2-x_1y_1/2-x_2y_1         \\
+          \hbox{}\quad \hbox{}
+             =x_1y_2-x_2y_1
+    \end{array}$
+    \hfil\hbox{}}
+\end{center}
+该面积等于行列式
+\begin{equation*}
+  \begin{vmat}
+    x_1  &x_2  \\
+    y_1  &y_2
+  \end{vmat}
+  =x_1y_2-x_2y_1
+\end{equation*}
+的值，这并非巧合。
+行列式的定义中包含四条性质，我们知道对于每个维数~$n$，
+这些性质唯一确定一个函数。
+我们将论证，这些性质恰好是一个度量 $n$ 维空间中箱体大小的函数
+的合理公设。\index{size}
+
+举例来说，这样的函数应当具有如下性质：把定义箱体的某个向量乘以
+一个标量，
+箱体的大小也随之乘以该标量。
+\begin{center}
+  \includegraphics{det/mp/ch4.32}
+  \qquad
+  \includegraphics{det/mp/ch4.33}
+\end{center}
+图中展示的是 $k=1.4$ 的情形。
+右图中，缩放后的区域用实线画出，原来的区域涂以阴影以便比较。
+% The region formed by $k\vec{v}$ and~$\vec{w}$
+% is bigger by a factor of \( k \)
+% than the shaded region enclosed by $\vec{v}$ and~$\vec{w}$.
+% That is,
+% \( \size (k\vec{v},\vec{w})=k\cdot\size (\vec{v},\vec{w}) \) and
+
+也就是说，我们可以合理地预期
+$\size (\dots,k\vec{v},\dots)=k\cdot\size (\dots,\vec{v},\dots)$。
+当然，这一条件正是行列式定义中的性质之一。
+
+行列式的另一条性质也应适用于任何度量箱体大小的函数：
+它不受倍加操作的影响。
+这里是倍加之前与之后的箱体（图中标出的标量为 $k=-0.35$）。
+\begin{center}
+  \includegraphics{det/mp/ch4.34}
+  \qquad
+  \includegraphics{det/mp/ch4.35}
+\end{center}
+由 $v$ 与
+$k\vec{v}+\vec{w}$ 生成的箱体倾斜方式
+与原来的不同，但二者具有相同的底和相同的高，因而面积相同。
+% (As before, the figure on the right has the
+% original region in shade for comparison.)
+所以我们预期，大小不受剪切操作的影响：
+$\size (\dots,\vec{v},\dots,\vec{w},\dots)
+=\size (\dots,\vec{v},\dots,k\vec{v}+\vec{w},\dots)$。
+同样，这也是一条行列式性质。
+
+我们预期由单位向量生成的箱体具有单位大小
+\begin{center}
+  \includegraphics{det/mp/ch4.36}
+\end{center}
+并且自然地把它推广到任意 $n$ 维空间：
+$\size(\vec{e}_1,\dots,\vec{e}_n)=1$。
+% Again, that is a determinant property.
+
+正如定义之后所指出的，行列式定义中的条件~(2) 是冗余的。
+从前一节我们知道，对每个~$n$ 行列式都存在且唯一，
+因此这些关于大小函数的公设是相容的，
+而且我们不需要更多的公设。
+于是，我们把 \( \det(\vec{v}_1,\dots,\vec{v}_n) \)
+解释为给出生成箱体的向量所构成箱体的大小，就是有根据的。
+% (\textit{Comment.}
+%   An even more basic approach, which also leads to the definition
+%   below, is in \cite{Weston59}.)
+
+\begin{remark}  \label{re:PropertyTwoGivesSign}
+虽然条件~(2) 是冗余的，但它提出了一个重要问题。
+考虑下面两个行列式。
+\begin{center} \small
+  \begin{tabular}{c@{\hspace*{8em}}c}
+    \includegraphics{det/mp/ch4.37}
+      &\includegraphics{det/mp/ch4.38}  \\[.25ex]
+    \ $\begin{vmat}[r]
+        4  &1   \\
+        2  &3
+      \end{vmat}=10$
+      &\ $\begin{vmat}[r]
+          1  &4   \\
+          3  &2
+        \end{vmat}=-10$
+  \end{tabular}
+\end{center}
+对换两列会改变符号。
+在左图中，从 $\vec{u}$ 出发沿夹角内部的弧走到 $\vec{v}$（即沿逆时针方向），
+我们得到正的大小。
+在右图中，从 $\vec{v}$ 出发走到~$\vec{u}$，
+即沿顺时针方向的弧，则得到负的大小。
+大小函数所给出的符号反映了箱体的
+\definend{定向}\index{box!orientation}\index{orientation}
+或 \definend{朝向}\index{box!sense}\index{sense}。
+（如果我们设想用一个负标量做标量乘法的效果，也会看到同样的现象。）
+% Although it is both interesting and important, we don't need the idea of
+% orientation for the development below and so we will pass it by.
+% (See \nearbyexercise{exer:BasisOrient}.)
+\end{remark}
+
+\begin{definition} \label{df:Volume}
+%<*df:Volume>
+箱体的\definend{体积}\index{volume}\index{box!volume}
+是以这些向量为列的矩阵的行列式的绝对值。
+%</df:Volume>
+\end{definition}
+
+\begin{example} \label{ex:VolParPiped}
+按底面积乘以高的公式，这个
+平行六面体的体积是 $12$。
+这与行列式的值一致。
+\begin{center}
+   \parbox{2in}{\hbox{}\hfil\includegraphics{det/asy/ppiped.pdf}\hfil\hbox{}}
+  %  \parbox{2in}{\hbox{}\hfil\includegraphics{det/mp/ch4.39}\hfil\hbox{}}
+  \hspace{4.5em}
+  $\begin{vmat}[r]
+     2 &0 &-1\\
+     0 &3 &0 \\
+     2 &1 &1
+  \end{vmat}=12$
+\end{center}
+按不同次序取这些向量会改变符号，但不改变大小。
+\begin{equation*}
+  \begin{vmat}[r]
+     0  &2 &-1 \\
+     3  &0 &0 \\
+     1  &2 &1
+  \end{vmat}=-12
+\end{equation*}
+\end{example}
+
+% The next result describes some of the geometry of the linear
+% functions that act on
+% \( \Re^n \).
+
+\begin{theorem}\label{th:MatChVolByDetMat}
+\index{size}\index{transformation!size change}
+%<*th:MatChVolByDetMat>
+变换 \( \map{t}{\Re^n}{\Re^n} \) 以同一个因子改变所有箱体的大小，也就是说，箱体的像的大小
+$\deter{t(S)}$ 等于 $\deter{T}$ 乘以箱体的大小 $\deter{S}$，
+其中 $T$ 是在标准基下
+表示 $t$ 的矩阵。
+
+也就是说，乘积的行列式等于
+行列式的乘积 $\deter{TS}=\deter{T}\cdot\deter{S}$。
+%</th:MatChVolByDetMat>
+\end{theorem}
+
+这两句话说的是同一件事，前者用映射的语言，后者用
+矩阵的语言。
+这是因为
+$\deter{t(S)}=\deter{TS}$，二者给出的都是单位箱体 $\stdbasis_n$
+在复合映射 $\composed{t}{s}$ 下的像这一箱体的大小，
+其中各映射均以标准基下的矩阵表示。
+我们将证明第二句话。
+
+\begin{proof}
+%<*pf:MatChVolByDetMat0>
+首先考虑 $T$ 是奇异的、因而
+没有逆矩阵的情形。
+注意到，若 \( TS \) 可逆，则存在
+某个 $M$ 使得 \( (TS)M=I \)，于是
+\( T(SM)=I \)，从而 \( T \) 可逆。
+这一论断的逆否命题是：若 \( T \) 不可逆，则 \( TS \) 也不可逆 \Dash
+若 $\deter{T}=0$ 则 $\deter{TS}=0$。
+%</pf:MatChVolByDetMat0>
+
+%<*pf:MatChVolByDetMat1>
+再考虑 $T$ 是非奇异的情形。
+任何非奇异矩阵都可以分解为
+初等矩阵的乘积 $T=E_1E_2\cdots E_r$。
+为完成这一论证，
+我们将对所有的矩阵~$S$ 与初等矩阵~$E$ 验证
+\( \deter{ES}=\deter{E}\cdot\deter{S} \)。
+于是结论随之成立，因为
+$\deter{TS}=\deter{E_1\cdots E_rS}=\deter{E_1}\cdots\deter{E_r}\cdot\deter{S}
+  =\deter{E_1\cdots E_r}\cdot\deter{S}=\deter{T}\cdot\deter{S}$。
+%</pf:MatChVolByDetMat1>
+
+%<*pf:MatChVolByDetMat2>
+初等矩阵有三种类型。
+我们处理 $M_i(k)$ 的情形；
+$P_{i,j}$ 与 $C_{i,j}(k)$ 的验证类似。
+矩阵 $M_i(k)S$ 等于 $S$，只是第~$i$ 行乘了 $k$。
+由行列式函数的第三条条件
+即得 $\deter{M_i(k)S}=k\cdot\deter{S}$。
+而 $\deter{M_i(k)}=k$，这同样由第三条条件得出，因为
+$M_i(k)$ 是把单位矩阵的第~$i$ 行乘以
+$k$ 得到的。
+因此 \( \deter{ES}=\deter{E}\cdot\deter{S} \) 对
+$E=M_i(k)$ 成立。
+%</pf:MatChVolByDetMat2>
+\end{proof}
+
+
+\begin{example}
+应用这个以标准基下的矩阵
+\begin{equation*}
+  \begin{mat}[r]
+    1  &1  \\
+   -2  &0
+  \end{mat}
+\end{equation*}
+表示的映射 $t$，会使箱体的大小加倍，例如，从这个
+\begin{center}
+    \parbox{1.5in}{\hbox{}\hfil\includegraphics{det/mp/ch4.40}\hfil\hbox{}}
+    \quad
+    $\begin{vmat}[r]
+      2  &1  \\
+      1  &2
+    \end{vmat}=3$
+\end{center}
+到这个
+\begin{center}
+    \parbox{1.5in}{\hbox{}\hfil\includegraphics{det/mp/ch4.41}\hfil\hbox{}}
+    \quad
+    $\begin{vmat}[r]
+        3  &3  \\
+       -4  &-2
+     \end{vmat}=6$
+\end{center}
+\end{example}
+
+
+% Recall that determinants are not additive homomorphisms, that
+% $\det(A+B)$ need not equal $\det(A)+\det(B)$.
+% In contrast, the above theorem says that determinants are
+% multiplicative homomorphisms:
+% $\det(AB)$ equals $\det(A)\cdot \det(B)$.
+
+\begin{corollary} \label{co:DeterminantOfInverseIsInverseOfDeterminant}
+%<*co:DeterminantOfInverseIsInverseOfDeterminant>
+若矩阵可逆，则其逆矩阵的行列式是其行列式的倒数
+$\deter{T^{-1}}=1/\deter{T}$。
+%</co:DeterminantOfInverseIsInverseOfDeterminant>
+\end{corollary}
+
+\begin{proof}
+%<*pf:DeterminantOfInverseIsInverseOfDeterminant>
+$1=\deter{I}=\deter{TT^{-1}}=\deter{T}\cdot\deter{T^{-1}}$
+%</pf:DeterminantOfInverseIsInverseOfDeterminant>
+\end{proof}
+
+
+\begin{exercises}
+  \item 
+    问：\begin{equation*}
+      \colvec[r]{4 \\ 1 \\ 2}
+    \end{equation*}
+    是否位于由下面这三个向量所张成的箱体内部？
+    \begin{equation*}
+      \colvec[r]{3 \\ 3 \\ 1}
+      \quad
+      \colvec[r]{2 \\ 6 \\ 1}
+      \quad
+      \colvec[r]{1 \\ 0 \\ 5}
+    \end{equation*}
+    \begin{answer}
+      求解
+      \begin{equation*}
+        c_1\colvec[r]{3 \\ 3 \\ 1}
+        +c_2\colvec[r]{2 \\ 6 \\ 1}
+        +c_3\colvec[r]{1 \\ 0 \\ 5}
+        =\colvec[r]{4 \\ 1 \\ 2}
+      \end{equation*}
+      得到唯一解
+      \( c_3=11/57 \)、\( c_2=-40/57 \) 以及 \( c_1=99/57 \)。
+      由于 \( c_1>1 \)，该向量不在箱体内。  
+    \end{answer}
+  \recommended \item 
+    求由下列向量所定义的区域的体积。
+    \begin{exparts}
+      \partsitem $\sequence{\colvec[r]{1 \\ 3},\colvec[r]{-1 \\ 4}}$
+      \partsitem $\sequence{\colvec[r]{2 \\ 1 \\ 0},\colvec[r]{3 \\ -2 \\ 4},
+                              \colvec[r]{8 \\ -3 \\ 8}}$
+      \partsitem $\sequence{\colvec[r]{1 \\ 2 \\ 0 \\ 1},
+                             \colvec[r]{2 \\ 2 \\ 2 \\ 2},
+                             \colvec[r]{-1 \\ 3 \\ 0 \\ 5},
+                             \colvec[r]{0 \\ 1 \\ 0 \\ 7}}$
+    \end{exparts}
+    \begin{answer}
+      对每一小题，求出行列式并取绝对值。
+      \begin{exparts*}
+        \partsitem $7$
+        \partsitem $0$
+         % sage: A = matrix(QQ, [[2, 3, 8], [1, -2, -3], [0, 4, 8]])
+         % sage: A
+         % [ 2  3  8]
+         % [ 1 -2 -3]
+         % [ 0  4  8]
+         % sage: det(A)
+         % 0
+        \partsitem $-58$
+         % sage: A = matrix(QQ, [[1,2,-1,0], [2,2,3,1], [0,2,0,0], [1,2,5,7]])
+         % sage: A
+         % [ 1  2 -1  0]
+         % [ 2  2  3  1]
+         % [ 0  2  0  0]
+         % [ 1  2  5  7]
+         % sage: det(A)
+         % -58
+      \end{exparts*}
+    \end{answer}
+  \recommended \item 
+    在下图中，左边的矩形由点 $(3,1)$ 和
+    $(1,2)$ 确定。  
+    用该矩阵作用后得到右边的矩形，它由
+    $(7,1)$ 和 $(4,2)$ 确定。
+    为什么这并不与
+    \nearbytheorem{th:MatChVolByDetMat} 矛盾？
+    \begin{center}
+      \begin{tabular}{c@{\hspace*{2em}}c@{\hspace*{2em}}c}
+        \includegraphics{det/mp/ch4.43}
+        &\raisebox{12pt}{\( \grstep{\bigl(\begin{smallmatrix}
+                                        2  &1 \\
+                                        0  &1
+                                     \end{smallmatrix}\bigr)} \)}
+        &\includegraphics{det/mp/ch4.44}                                 \\
+        面积为 $2$
+        &行列式为 $2$
+        &面积为 $3$
+      \end{tabular}
+    \end{center}
+    \begin{answer}
+      我们画这幅图就是为了误导读者。
+      左图并不是由两个向量形成的箱体。
+      若把它平移到原点，它就变成由下面这个序列形成的箱体。
+      \begin{equation*}
+        \sequence{
+          \colvec[r]{0 \\ 1},
+          \colvec[r]{2 \\ 0}
+       }
+      \end{equation*}
+      而矩阵作用后的像是由下面这个序列形成的箱体。
+      \begin{equation*}
+        \sequence{
+          \colvec[r]{1 \\ 1},
+          \colvec[r]{4 \\ 0}
+         }
+      \end{equation*}
+      其面积为 $4$。
+     \end{answer}
+  \recommended \item 
+    求下述区域的体积。
+    \begin{center}
+      \includegraphics{det/mp/ch4.42}  
+    \end{center}
+    \begin{answer}
+      将该平行四边形平移至从原点出发，
+      它就变成由下列向量形成的箱体
+      \begin{equation*}
+        \sequence{
+          \colvec[r]{3 \\ 0},
+          \colvec[r]{2 \\ 1}
+        }      
+      \end{equation*}
+      于是这个行列式的绝对值
+      容易算出为 $3$。
+      \begin{equation*}
+        \begin{vmat}[r]
+          3  &2  \\
+          0  &1
+        \end{vmat}=3
+      \end{equation*}
+     \end{answer}
+  \recommended \item 
+    设 \( \deter{A}=3 \)。
+    下列各量把体积改变了多少倍？
+    \begin{exparts*}
+      \partsitem \( A \)
+      \partsitem \( A^2 \)
+      \partsitem \( A^{-2} \)
+    \end{exparts*}
+    \begin{answer}
+     \begin{exparts*}
+        \partsitem \( 3 \)
+        \partsitem \( 9 \)
+        \partsitem $1/9$
+      \end{exparts*}  
+    \end{answer}
+  \recommended \item
+    考虑~$\Re^3$ 上的线性变换~$t$，它关于
+    标准基由下述矩阵表示。
+    \begin{equation*}
+      \begin{mat}
+        1 &0 &-1 \\
+        3 &1 &1 \\
+       -1 &0 &3
+      \end{mat}
+    \end{equation*}
+    \begin{exparts}
+      \partsitem 计算该矩阵的行列式。
+        这个变换是保持定向还是反转定向？ 
+      \partsitem 求由这些向量所定义的箱体的大小。
+        它的定向是什么？
+        \begin{equation*}
+          \colvec{1 \\ -1 \\ 2}
+          \quad
+          \colvec{2 \\ 0 \\ -1}
+          \quad
+          \colvec{1 \\ 1 \\ 0}
+        \end{equation*}
+      \partsitem 求前一小题中各向量在 $t$ 下的像，
+        并求出它们所定义的箱体的大小。
+        定向是什么？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          用高斯消元法
+          \begin{equation*}
+          \grstep[\rho_1+\rho_3]{-3\rho_1+\rho_2}
+          \begin{mat}
+            1 &0   &-1    \\
+            0 &1   &4     \\
+            0 &0   &2
+          \end{mat}
+          \end{equation*}
+          得到行列式为~$+2$。
+          符号为正，所以该变换保持定向。
+        \partsitem
+          箱体的大小就是下述行列式的值。
+          \begin{equation*}
+            \begin{vmat}
+              1 &2  &1 \\
+             -1 &0  &1 \\
+              2 &-1 &0
+            \end{vmat}
+            =+6
+          \end{equation*}
+          定向为正。
+        \partsitem
+          由于该变换关于标准基由所给矩阵表示，
+          而关于标准基，向量就表示它们自身，
+          所以要求这些向量在该变换下的像，
+          只需从左边用矩阵去乘它们。
+          \begin{equation*}
+            \colvec{1 \\ -1 \\ 2}\mapsto\colvec{-1 \\ 4 \\ 5}
+            \qquad
+            \colvec{2 \\ 0 \\ -1}\mapsto\colvec{3 \\ 5 \\ -5}
+            \qquad
+            \colvec{1 \\ 1 \\ 0}\mapsto\colvec{1 \\ 4 \\ -1}
+          \end{equation*}
+          然后计算所得箱体的大小。
+          \begin{equation*}
+            \begin{vmat}
+              -1 &3  &1 \\
+               4 &5  &4 \\
+               5 &-5 &-1
+            \end{vmat}
+            =+12
+          \end{equation*}
+          起始箱体是正定向的，该变换
+          保持定向（因为矩阵的行列式为
+          正），而终止箱体也是正定向的。
+      \end{exparts}
+    \end{answer}
+  \item 
+    每个变换把箱体的大小改变了多少倍？
+    \begin{exparts*}
+      \partsitem $\colvec{x \\ y}\mapsto\colvec{2x \\ 3y}$
+      \partsitem $\colvec{x \\ y}\mapsto\colvec{3x-y \\ -2x+y}$
+      \partsitem $\colvec{x \\ y \\ z}\mapsto\colvec{x-y \\ x+y+z \\ y-2z}$
+    \end{exparts*}
+    \begin{answer}
+      将每个变换关于标准基表出，并求出行列式。
+      \begin{exparts*}
+        \partsitem $6$
+        \partsitem $-1$
+        \partsitem $-5$
+      \end{exparts*}
+    \end{answer}
+  \item 
+    矩形 \( [2..4]\times [2..5] \) 在
+    这个矩阵作用下的像的面积是多少？
+    \begin{equation*}
+       \begin{mat}[r]
+         2  &3  \\
+         4  &-1
+       \end{mat}
+    \end{equation*}
+    \begin{answer}
+      起始面积为 \( 6 \)，该矩阵把大小改变
+      \( -14 \) 倍。
+      因此像的面积为 \( 84 \)。  
+    \end{answer}
+  \item
+     若 \( \map{t}{\Re^3}{\Re^3} \) 把体积改变 \( 7 \) 倍，
+     \( \map{s}{\Re^3}{\Re^3} \) 把体积改变 \( 3/2 \) 倍，
+     那么它们的复合把体积改变多少倍？
+     \begin{answer}
+        改变 \( 21/2 \) 倍。
+     \end{answer}
+  \item 
+    箱体的定义与张成的定义在哪些方面不同？
+    \begin{answer}
+      对于箱体，我们取的是一个向量的序列（如注中所说，
+      向量的顺序是重要的），
+      而对于张成，我们取的是一个向量的集合。
+      此外，$\Re^n$ 的箱体子集必须有 $n$ 个向量； 
+      当然，对于张成，向量的个数可以是任意的。
+      最后，对于箱体，系数 $t_1$、~\ldots、$t_n$
+      取自区间 $[0..1]$，而对于
+      张成，系数可以取遍整个 $\Re$。 
+    \end{answer}
+  \item 
+    \( \deter{TS}=\deter{ST} \) 吗？
+    \( \deter{T(SP)}=\deter{(TS)P} \) 吗？
+    \begin{answer}
+      两问的答案都是肯定的。
+      例如，第一问是 \( \deter{TS}=\deter{T}\cdot\deter{S}=
+                     \deter{S}\cdot\deter{T}=\deter{ST} \)。  
+    \end{answer}
+  \item 证明：不存在满足下面条件的 $\nbyn{2}$ 矩阵 $A$ 与~$B$。 
+   % http://math.stackexchange.com/questions/827262/need-help-with-a-linear-algebra-proof
+   \begin{equation*}
+     AB=\begin{mat}[r]
+       1 &-1 \\
+       2  &0
+     \end{mat}
+     \quad
+     BA=\begin{mat}[r]
+       2 &1 \\
+       1  &1
+     \end{mat}
+   \end{equation*}
+   \begin{answer}  % due to math.stackexchange.com user dgrasines517
+     因为 $\deter{AB}=\deter{A}\cdot\deter{B}=\deter{BA}$，而这两个
+     矩阵的行列式不同。
+   \end{answer}
+  \item 
+   \begin{exparts}
+     \partsitem 设 \( \deter{A}=3 \) 且 \( \deter{B}=2 \)。
+        求 \( \deter{A^2\cdot \trans{B}\cdot B^{-2}\cdot \trans{A} } \)。
+     \partsitem 设 \( \deter{A}=0 \)。
+        证明 \( \deter{6A^3+5A^2+2A}=0 \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 若它有定义，则它为
+           \( (3^2)\cdot (2)\cdot (2^{-2})\cdot (3) \)。
+        \partsitem \( \deter{6A^3+5A^2+2A}=\deter{A}\cdot\deter{6A^2+5A+2I} \)。
+      \end{exparts}  
+    \end{answer}
+  \recommended \item
+    设 \( T \) 是表示（关于标准基）将平面向量逆时针旋转
+    \( \theta \) 弧度的映射的矩阵。
+    \( T \) 把大小改变多少倍？
+    \begin{answer}
+       \(\begin{vmat}
+                \cos\theta  &-\sin\theta  \\
+                \sin\theta  &\cos\theta
+              \end{vmat}=1 \)  
+    \end{answer}
+  \recommended \item
+    保持面积的变换 \( \map{t}{\Re^2}{\Re^2} \) 是否也必须
+    保持长度？
+    \begin{answer}
+      不是，例如
+      \begin{equation*}
+        T=\begin{mat}[r]
+          2  &0  \\
+          0  &1/2
+        \end{mat}
+      \end{equation*}
+      的行列式为 \( 1 \)，所以它保持面积，但向量 \( T\vec{e}_1 \)
+      的长度为 \( 2 \)。  
+    \end{answer}
+  \item
+    由一个线性相关集所界定的 \( \Re^3 \) 中平行六面体的
+    体积是多少？
+    \begin{answer}
+       为零。  
+    \end{answer}
+  \recommended \item
+    求 \( \Re^3 \) 中以 \( (1,2,1) \)、\( (3,-1,4) \) 与 \( (2,2,2) \)
+    为端点的三角形的面积。
+    （这里问的是面积，而不是体积。
+    该三角形确定了一个平面；问的是这个平面内该三角形的面积。）
+    \begin{answer}
+      三角形三条边中有两条由这些向量构成。
+      \begin{equation*}
+        \colvec[r]{2 \\ 2 \\ 2}-\colvec[r]{1 \\ 2 \\ 1}=\colvec[r]{1 \\ 0 \\ 1}
+        \qquad
+        \colvec[r]{3 \\ -1 \\ 4}-\colvec[r]{1 \\ 2 \\ 1}=\colvec[r]{2 \\ -3 \\ 3}
+      \end{equation*}
+      求这个三角形面积的一种方法是：先求由这两个向量与一个
+      与它们都正交的单位向量所形成的平行六面体的体积，
+      再取其一半。
+      为求与那两个向量都正交的向量族，可以从两个关系式
+      \begin{equation*}
+        \colvec[r]{1 \\ 0 \\ 1}
+        \dotprod\colvec{x \\ y \\ z}
+        =\colvec[r]{0 \\ 0 \\ 0}
+        \qquad
+        \colvec[r]{2 \\ -3 \\ 3}
+        \dotprod\colvec{x \\ y \\ z}
+        =\colvec[r]{0 \\ 0 \\ 0}
+      \end{equation*}
+      出发，解方程组
+      \begin{equation*}
+        \begin{linsys}{3}
+          x  &   &   &+  &z  &=  &0  \\
+         2x  &-  &3y &+  &3z &=  &0  
+        \end{linsys}
+        \grstep{-2\rho_1+\rho_2}
+        \begin{linsys}{3}
+          x  &   &   &+  &z  &=  &0  \\
+             &   &-3y&+  &z  &=  &0  
+        \end{linsys}
+      \end{equation*}
+      得到这个解集。
+      \begin{equation*}
+        \set{\colvec[r]{-1 \\ 1/3 \\ 1}z\suchthat z\in\Re}
+      \end{equation*}
+      下面是一个长度为一的解。
+      \begin{equation*}
+        \frac{1}{\sqrt{19/9}}\cdot\colvec[r]{-1 \\ 1/3 \\ 1}
+        =\colvec[r]{-3/\sqrt{19} \\ 1/\sqrt{19} \\ 3/\sqrt{19}}
+      \end{equation*}
+      于是三角形的面积是这个行列式
+      绝对值的一半。
+      \begin{equation*}
+        \begin{vmat}[r]
+             1  &2   &-3/\sqrt{19}   \\
+             0  &-3  &1/\sqrt{19}   \\
+             1  &3   &3/\sqrt{19}
+        \end{vmat}
+        =-19/\sqrt{19}
+      \end{equation*} 
+      绝对值的一半是 $\sqrt{19}/2$。
+    \end{answer}
+  \item \label{exer:DetProdEqProdDetsFcn}
+    \nearbytheorem{th:MatChVolByDetMat} 的另一种证明
+    利用了行列式函数的定义。
+    \begin{exparts}
+      \partsitem 注意：构成
+        $S$ 的那些向量构成线性相关集当且仅当
+        $\deter{S}=0$，并验证在这种情况下结论成立。
+      \partsitem 对于 $\deter{S}\neq 0$ 的情形，为证
+        对所有变换都有
+        $\deter{TS}/\deter{S}=\deter{T}$，考虑函数
+        \( \map{d}{\matspace_{\nbyn{n}}}{\Re} \)，其定义为
+        \( T\mapsto \deter{TS}/\deter{S} \)。
+        证明 $d$ 具有行列式的第一条性质。
+      \partsitem 证明 $d$ 具有行列式函数
+        其余的三条性质。
+      \partsitem 由此得出 $\deter{TS}=\deter{T}\cdot\deter{S}$。 
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 因为线性相关集的像是
+          线性相关的，
+          所以若构成 $S$ 的向量构成线性相关集，
+          即 $\deter{S}=0$，
+          则构成 $t(S)$ 的向量构成线性相关集，
+          从而 $\deter{TS}=0$，此时等式成立。
+        \partsitem 我们必须验证：若
+          $T\smash[b]{\grstep{k\rho_i+\rho_j}}\hat{T}$，则
+          $d(T)=\deter{TS}/\deter{S}=\deter{\hat{T}S}/\deter{S}=d(\hat{T})$。
+          为此可以验证：先把行做倍加再相乘得到 \( \hat{T}S \)，与
+          先相乘得到 \( TS \) 再做倍加，
+          结果相同（因为行列式 \( \deter{TS} \) 不受行倍加的
+          影响，
+          这样便有 \( \deter{\hat{T}S}=\deter{TS} \)，从而
+          \( d(\hat{T})=d(T) \)）。
+          具体验证如下：~把 \( TS \) 的第~\( i \) 行的
+          \( k \) 倍加到
+          \( TS \) 的第~$j$ 行之后，其 \( j,p \) 元为
+          \( (kt_{i,1}+t_{j,1})s_{1,p}+\dots+(kt_{i,r}+t_{j,r})s_{r,p} \)，
+          这正是 \( \hat{T}S \) 的 \( j,p \) 元。
+        \partsitem 对于第二条性质，只需验证：对换
+          $T\smash[b]{\grstep{\rho_i\swap\rho_j}}\hat{T}$
+          后再相乘得到 \( \hat{T}S \)，与先把 \( T \) 乘以 \( S \) 再做对换，
+          结果相同（因为行列式 \( \deter{TS} \) 在
+          行对换下变号，
+          这样便有 \( \deter{\hat{T}S}=-\deter{TS} \)，
+          从而 \( d(\hat{T})=-d(T) \)）。 
+          该验证与第一条性质的验证完全类似。
+
+          对于第三条性质，只需证明：先做
+          $T\smash[b]{\grstep{k\rho_i}}\hat{T}$
+          再计算 \( \hat{T}S \)，与先计算 \( TS \) 再做那次
+          倍乘，
+          结果相同（由于行列式 \( \deter{TS} \) 被缩放 \( k \) 倍，
+          我们将有 \( \deter{\hat{T}S}=k\deter{TS} \)，
+          从而 \( d(\hat{T})=k\,d(T) \)）。
+          这里的论证同样与上面完全类似。
+
+          第四条性质，即若 $T$ 为 $I$ 则结果为 $1$，
+          是显然的。
+        \partsitem 行列式函数是唯一的，所以
+          \( \deter{TS}/\deter{S}=d(T)=\deter{T} \)，
+          从而 $\deter{TS}=\deter{T}\deter{S}$。
+      \end{exparts}
+    \end{answer}
+%  \item  
+%    Use the fact that
+%    \( \deter{TS}=\deter{T}\,\deter{S} \)
+%    to prove that if \( \phi \) and \( \sigma \) are \( n \)-permutations
+%    then \( \sgn(\phi\sigma)=\sgn(\phi)\sgn(\sigma) \).
+%    \cite{HoffmanKunze}
+%    \begin{answer}
+%       Take \( T=P_\phi \) and \( S=P_\sigma \).
+%      Note that \( TS=P_{\phi\sigma} \) and so
+%      \( \deter{P_{\phi\sigma}}=\deter{P_\phi}\cdot\deter{P_\sigma} \).  
+%    \end{answer}
+  \item 
+    给出一个满足性质 \( \trans{A}=A^{-1} \) 的非单位矩阵。
+    证明：若 \( \trans{A}=A^{-1} \)，则 \( \deter{A}=\pm 1 \)。
+    逆命题成立吗？
+    \begin{answer}
+      任何置换矩阵都具有矩阵的转置等于其逆的性质。
+
+      对于这个蕴含关系，我们知道 \( \deter{\trans{A}}=\deter{A} \)。
+      于是 \( 1=\deter{A\cdot A^{-1}}=\deter{A\cdot\trans{A}}
+               =\deter{A}\cdot\deter{\trans{A}}=\deter{A}^2 \)。
+
+      逆命题不成立；下面是一个反例。
+      \begin{equation*}
+        \begin{mat}[r]
+          3  &1  \\
+          2  &1
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+  \item 
+    行列式的一条代数
+    性质是：从单独一行中提出一个标量因子会使行列式乘上这个标量，这表明
+    当 \( H \) 为
+    \( \nbyn{3} \) 矩阵时，\( cH \) 的行列式是 \( H \) 的
+    行列式的 \( c^3 \) 倍。
+    请从几何上解释这一点，也就是
+    用 \nearbytheorem{th:MatChVolByDetMat} 来解释。
+    （把一个三维物体的线性尺寸放大 $c$ 倍，其体积将放大
+    $c^3$ 倍，而其表面积只增加与
+    $c^2$ 成比例的量，这一观察就是
+    \definend{平方-立方定律}~\cite{Wikipedia}。）
+    \begin{answer}
+      当箱体的边长变为原来的 \( c \) 倍时，箱体的
+      体积就有原来的 \( c^3 \) 倍立方单位。  
+    \end{answer}
+  \item 
+    若存在非奇异矩阵 $P$ 使得 $H=P^{-1}GP$，则称矩阵 $H$ 与 $G$ 是
+    \definend{相似的}\index{similar}\index{matrix!similar}
+    （我们将在第五章研究这一关系）。
+    证明：相似矩阵有相同的行列式。
+    \begin{answer}
+      若 \( H=P^{-1}GP \)，
+      则 \( \deter{H}=\deter{P^{-1}}\deter{G}\deter{P}
+        =\deter{P^{-1}}\deter{P}\deter{G}=\deter{P^{-1}P}\deter{G}
+        =\deter{G} \)。  
+    \end{answer}
+  \item  \label{exer:BasisOrient}
+    我们通常关于标准基表示 \( \Re^2 \) 中的向量，因此第一象限中的
+    向量两个坐标都为正。
+    \begin{center}
+      \parbox{.75in}{\hbox{}\hfil\includegraphics{det/mp/ch4.45}\hfil\hbox{}}
+      \qquad
+      \( \rep{\vec{v}}{\stdbasis_2}=\colvec[r]{+3 \\ +2} \)
+    \end{center}
+    沿逆时针方向绕原点移动，我们依次经过四个区域：
+    {\scriptsize
+    \begin{equation*}
+       \cdots
+       \;\longrightarrow\colvec{+ \\ +}
+       \;\longrightarrow\colvec{- \\ +}
+       \;\longrightarrow\colvec{- \\ -}
+       \;\longrightarrow\colvec{+ \\ -}
+       \;\longrightarrow\cdots\,.
+    \end{equation*} }
+    使用这个基
+    \begin{center}
+      \( B=\sequence{\colvec[r]{0 \\ 1},\colvec[r]{-1 \\ 0}} \)
+      \qquad
+      \parbox{.75in}{\hbox{}\hfil\includegraphics{det/mp/ch4.46}\hfil\hbox{}}
+    \end{center}
+    也给出同样的逆时针循环。
+    我们说这两个基具有相同的\emph{定向}。\index{orientation}
+    \begin{exparts}
+      \partsitem 为什么它们给出相同的循环？
+      \partsitem 轴上单位向量的其他哪些配置给出
+        相同的循环？
+      \partsitem 求由那些（有序的）基构成的矩阵的行列式。
+      \partsitem 还可能出现哪些逆时针循环，
+        相应的
+        行列式是什么？
+      \partsitem 在 \( \Re^1 \) 中会发生什么？
+      \partsitem 在 \( \Re^3 \) 中会发生什么？
+    \end{exparts}
+    关于定向的一段面向普通读者的精彩讨论见
+    \cite{Gardner}。
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 新基是旧基旋转 \( \pi/4 \) 得到的。
+        \partsitem 
+          $
+             \sequence{\colvec[r]{-1 \\ 0},
+                       \colvec[r]{0 \\ -1}}
+          $、$
+             \sequence{\colvec[r]{0 \\ -1},
+                       \colvec[r]{1 \\ 0}}
+          $
+        \partsitem 每种情形下行列式都是 \( +1 \)
+          （我们说这些基
+          具有\definend{正定向}）。
+        \partsitem 因为一次只能改变一个符号，仅有的另一种
+          可能的循环是
+          \begin{equation*}
+             \cdots
+             \;\longrightarrow\colvec{+ \\ +}
+             \;\longrightarrow\colvec{+ \\ -}
+             \;\longrightarrow\colvec{- \\ -}
+             \;\longrightarrow\colvec{- \\ +}
+             \;\longrightarrow\cdots\,.
+          \end{equation*}
+          这里每个相应的行列式都是 \( -1 \)
+          （我们说这样的基具有\definend{负定向}）。
+        \partsitem 有一个正定向的基 \( \sequence{(1)} \)
+          和一个负定向的基 \( \sequence{(-1)} \)。
+        \partsitem 共有 \( 48 \) 个基（第一个单位向量有
+          \( 6 \) 种半轴可选，
+          第二个有 \( 4 \) 种，最后一个有 \( 2 \) 种）。
+          其中一半像下面左图中的标准基那样是正定向的，
+          另一半像右图中的那样是负定向的
+         \begin{center}
+           \includegraphics{det/mp/ch4.47}
+           \hspace*{4em}
+           \includegraphics{det/mp/ch4.48}
+          \end{center}
+          在 \( \Re^3 \) 中，正定向有时被称为
+          “右手定向”，因为如果一个人伸出
+          右手，
+          手指从 \( \vec{e}_1 \) 卷向 \( \vec{e}_2 \)，
+          那么拇指就会指向 \( \vec{e}_3 \)。
+      \end{exparts}  
+    \end{answer}
+%  \item 
+%    A region of \( \Re^n \) is \definend{convex}\index{convex region} 
+%    if for any two points
+%    connecting that region, the line segment joining them lies entirely
+%    inside the region (the inside of a sphere is convex, while the skin of a
+%    sphere or a horseshoe is not).
+%    Prove that boxes are convex.
+%    \begin{answer}
+%      Let \( \vec{p}=p_1\vec{v}_1+\dots +p_n\vec{v}_n \) and
+%      \( \vec{q}=q_1\vec{v}_1+\dots +q_n\vec{v}_n \) be two vectors from a box
+%      so that \( p_1,\dots,\,p_n,q_1,\dots,\,q_n\in [0..1] \).
+%      The line segment between them is this.
+%      \begin{equation*}
+%        \set{t\cdot\vec{p}+(1-t)\cdot\vec{q}
+%              \suchthat t\in [0..1]}
+%        =\set{(tp_1+(1-t)q_1)\cdot\vec{v}_1+\dots+(tp_n+(1-t)q_n)\cdot\vec{v}_n
+%              \suchthat t\in [0..1] }
+%      \end{equation*}
+%      Showing that each member of that set is in the box is routine.  
+%    \end{answer}
+  \item \label{exer:DetProdEqProdDetsPerms}
+    \textit{本题用到选读小节“行列式函数的存在性”中的内容。}
+    利用行列式的置换展开公式证明
+    \nearbytheorem{th:MatChVolByDetMat}。
+    \begin{answer}
+      我们将比较 \( \det(\vec{s}_1,\dots,\vec{s}_n) \) 与
+      \( \det(t(\vec{s}_1),\dots,t(\vec{s}_n)) \)，以证明后者
+      与前者相差一个因子 $\deter{T}$。
+      我们关于标准基表示那些 \( \vec{s}\, \)：
+      \begin{equation*}
+        \rep{\vec{s}_i}{\stdbasis_n}=
+           \colvec{s_{1,i} \\ s_{2,i} \\ \vdots \\ s_{n,i}}
+      \end{equation*}
+      然后用矩阵—向量乘法
+      表示映射的作用
+      \begin{align*}
+        \rep{\,t(\vec{s}_i)\,}{\stdbasis_n}
+         &=\generalmatrix{t}{n}{n}
+           \colvec{s_{1,j} \\ s_{2,j} \\ \vdots \\ s_{n,j}}     \\
+         &=s_{1,j}\colvec{t_{1,1} \\ t_{2,1} \\ \vdots \\ t_{n,1}}
+          +s_{2,j}\colvec{t_{1,2} \\ t_{2,2} \\ \vdots \\ t_{n,2}}
+          +\dots
+          +s_{n,j}\colvec{t_{1,n} \\ t_{2,n} \\ \vdots \\ t_{n,n}} \\
+         &=s_{1,j}\vec{t}_1+s_{2,j}\vec{t}_2+\dots+s_{n,j}\vec{t}_n
+      \end{align*}
+      其中 \( \vec{t}_i \) 是 \( T \) 的第~$i$ 列。
+      于是 $\det(t(\vec{s}_1),\,\dots,\,t(\vec{s}_n))$ 等于
+      $
+        \det(s_{1,1}\vec{t}_1\!+\!s_{2,1}\vec{t}_2\!
+                +\!\dots\!+\!s_{n,1}\vec{t}_n,\,
+             \dots,\,
+             s_{1,n}\vec{t}_1\!+\!s_{2,n}\vec{t}_2
+                \!+\!\dots\!+\!s_{n,n}\vec{t}_n)
+     $。
+
+     如同置换展开公式的推导那样，我们
+     利用多重线性，
+     先沿第一个变元中的和式拆分
+     \begin{multline*}
+         \det(s_{1,1}\vec{t}_1,\,
+            \dots,\,
+            s_{1,n}\vec{t}_1+s_{2,n}\vec{t}_2+\dots+s_{n,n}\vec{t}_n)  \\ 
+        +\cdots{}                                             
+        +\det(s_{n,1}\vec{t}_n,\,
+           \ldots,\,
+            s_{1,n}\vec{t}_1+s_{2,n}\vec{t}_2+\dots+s_{n,n}\vec{t}_n)
+     \end{multline*}
+     再沿第二个变元中的和式拆分这 $n$ 个和式中的每一个，如此等等。
+     与置换展开的推导一样，我们最终得到
+     \( n^n \) 个和式行列式，每个形如
+     $\det(s_{i_1,1}\vec{t}_{i_1},s_{i_2,2}\vec{t}_{i_2},
+            \,\dots,\,
+            s_{i_n,n}\vec{t}_{i_n})$。
+     把每个 $s_{i,j}$ 提出来，得
+     $=
+       s_{i_1,1}s_{i_2,2}\dots s_{i_n,n}
+        \cdot\det(\vec{t}_{i_1},\vec{t}_{i_2},
+       \,\dots,\,
+       \vec{t}_{i_n})
+      $.
+
+      如同置换展开的推导那样，
+      只要 $i_1$、\ldots、$i_n$ 中有两个指标相等，
+      该行列式
+      就有两个相同的变元，其值为 $0$。
+      因此只需考虑 $i_1$、\ldots、$i_n$ 构成数
+      $1$、\ldots、$n$ 的一个置换的情形。
+      于是我们有
+      \begin{equation*}
+        \det(t(\vec{s}_1),\dots,t(\vec{s}_n))=
+          \sum_{\text{permutations\ } \phi}
+            s_{\phi(1),1}\dots s_{\phi(n),n}
+            \det(\vec{t}_{\phi(1)},\dots,\vec{t}_{\phi(n)}).
+      \end{equation*}
+      把 $\det(\vec{t}_{\phi(1)},\ldots,\vec{t}_{\phi(n)})$
+      中的列对换，便还原出矩阵 \( T \)，这会按因子
+      $\sgn{\phi}$ 改变符号，
+      然后再提出 $T$ 的行列式。
+      \begin{equation*}
+        =\sum_\phi
+          s_{\phi(1),1}\dots s_{\phi(n),n}
+            \det(\vec{t}_1,\dots,\vec{t}_n)\cdot\sgn{\phi}
+        =\det(T)\sum_\phi
+          s_{\phi(1),1}\dots s_{\phi(n),n}\cdot\sgn{\phi}.
+      \end{equation*}
+      如同在证明矩阵的行列式
+      等于其转置的
+      行列式时那样，我们交换各个 $s$ 的位置，改为按行号递增
+      （而不是按列号递增）的顺序列出它们
+      （并把 $\sgn(\phi^{-1})$ 代入 $\sgn(\phi)$ 的位置）。
+      \begin{equation*}
+        =\det(T)\sum_\phi
+          s_{1,\phi^{-1}(1)}\dots s_{n,\phi^{-1}(n)}\cdot\sgn{\phi^{-1}}  
+        =\det(T)\det(\vec{s}_1,\vec{s}_2,\dots,\vec{s}_n)
+      \end{equation*}
+    \end{answer}
+%  \item 
+%    Suppose that \( \map{f}{\matspace_{\nbyn{n}}}{\Re} \) is a non-constant
+%    function with the property that \( f(GH)=f(G)f(H) \).
+%    \begin{exparts}
+%      \partsitem Show that \( f \) sends the identity to \( 1 \).
+%      \partsitem Show that \( f \) maps the elementary matrix 
+%        \( C_{i,j}(k) \) to \( 1 \)
+%        (this matrix results from performing \( k\rho_i+\rho_j \) to the
+%        identity).
+%      \partsitem Show that 
+%        \( f \) maps a row swap matrix to \( +1 \) or \( -1 \).
+%    \end{exparts}
+%    \begin{answer}
+%      \begin{exparts}
+%        \partsitem We have \( f(IH)=f(I)f(H) \) and \( f(IH)=f(H) \).
+%        \partsitem
+%        \partsitem A row swap matrix has the property that when 
+%          done twice it equals
+%          the identity.
+%          But \( f(R)f(R)=f(RR)=f(I)=1 \) implies that \( f(R)=\pm 1 \).
+%      \end{exparts} 
+%     \end{answer}
+  \recommended \item
+    \begin{exparts}
+      \partsitem 证明下式给出 \( \Re^2 \) 中过点
+        \( (x_2,y_2) \) 与 \( (x_3,y_3) \) 的
+        直线方程。
+        \begin{equation*}
+          \begin{vmat}
+            x    &x_2 &x_3  \\
+            y    &y_2 &y_3  \\
+            1    &1   &1
+          \end{vmat}=0
+        \end{equation*}
+      \partsitem \cite{Monthly55p249}
+        证明：以 \( (x_1,y_1) \)、
+        \( (x_2,y_2) \) 与 \( (x_3,y_3) \) 为顶点的三角形的面积为
+        \begin{equation*}
+          \frac{1}{2}
+          \begin{vmat}
+            x_1  &x_2 &x_3  \\
+            y_1  &y_2 &y_3  \\
+            1    &1   &1
+          \end{vmat}.
+        \end{equation*}
+      \partsitem \cite{MathMag73p286}
+        证明：顶点位于 \( (x_1,y_1) \)、
+        \( (x_2,y_2) \) 与 \( (x_3,y_3) \)，且坐标均为整数的三角形，
+        其面积必为某个正整数 \( N \) 的 \( N \) 或 \( N/2 \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 代数上的验证是容易的。
+        \begin{equation*}
+          0
+          =xy_2+x_2y_3+x_3y-x_3y_2-xy_3-x_2y 
+          =x\cdot (y_2-y_3)+y\cdot (x_3-x_2)+x_2y_3-x_3y_2 
+        \end{equation*}
+        化简后得到熟悉的形式
+        \begin{equation*}
+          y=x\cdot (x_3-x_2)/(y_3-y_2)+(x_2y_3-x_3y_2)/(y_3-y_2)
+        \end{equation*}
+        （$y_3-y_2=0$ 的情形也容易处理）。
+
+        从几何上看，这幅
+        图显示了由这三个向量所形成的箱体。
+        注意，所有
+        三个向量的终点都在 $z=1$ 平面内。
+        右边两个向量的下方是过点
+        $(x_2,y_2)$ 与 $(x_3,y_3)$ 的直线。
+        \begin{center}
+          \includegraphics{det/mp/ch4.49}
+        \end{center}
+        该箱体
+        将有非零的体积，除非这三个向量的终点所构成的三角形
+        是退化的。
+        这只会在
+        （假定 $(x_2,y_3)\neq (x_3,y_3)$ 时）
+        $(x,y)$ 位于过另两点的直线上时发生。 
+       \partsitem \answerasgiven %
+        我们按通常的办法，从上式的法向形式出发，
+        求以 $(x_1,y_1)$、$(x_2,y_2)$ 与 $(x_3,y_3)$ 为顶点的
+        三角形过 $(x_1,y_1)$ 的高：
+        \begin{equation*}
+          \frac{1}{\sqrt{(x_2-x_3)^2+(y_2-y_3)^2}}
+          \begin{vmat}
+            x_1  &x_2  &x_3  \\
+            y_1  &y_2  &y_3  \\
+            1    &1    &1
+          \end{vmat}.
+        \end{equation*}
+        再走一步就得到三角形的面积为
+        \begin{equation*}
+          \frac{1}{2}
+          \begin{vmat}
+            x_1  &x_2  &x_3  \\
+            y_1  &y_2  &y_3  \\
+            1    &1    &1
+          \end{vmat}.
+        \end{equation*}
+        与通常那种证明一列项与行列式恒等的办法相比，
+        这里的阐述更清楚地揭示了\textit{modus operandi}（做法）。
+       \partsitem  \answerasgiven %
+        设
+        \begin{equation*}
+          D=
+          \begin{vmat}
+            x_1  &x_2  &x_3  \\
+            y_1  &y_2  &y_3  \\
+            1    &1    &1
+          \end{vmat}
+        \end{equation*}
+        则三角形的面积为 $(1/2)\deter{D}$。
+        于是，若坐标全为整数，则 $D$ 是一个整数。
+      \end{exparts}
+    \end{answer}
+\end{exercises}

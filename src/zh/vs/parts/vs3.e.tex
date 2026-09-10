@@ -1,0 +1,454 @@
+\subsection{向量空间与线性系统}
+我们现在重新考察线性方程组与高斯消元法，
+所借助的是本章的工具与术语。
+我们要说明三点。
+
+先说第一点，
+回想第一章中的一个洞见：
+高斯消元法的工作方式是对行取
+线性组合\Dash 若两个矩阵
+通过行变换
+$A\longrightarrow\cdots\longrightarrow B$ 相联系，则
+$B$ 的每一行都是 $A$ 的各行的线性组合。
+因此，研究一般的行变换、
+特别是高斯消元法的合适框架，是下述向量空间。
+
+\begin{definition} \label{df:RowSpace}
+%<*df:RowSpace>
+矩阵的\definend{行空间\/}\index{matrix!row space}\index{row space}
+是其行集合的张成。
+\definend{行秩\/}\index{row!rank}\index{matrix!row rank}\index{row rank}
+是这个空间的维数，即线性无关的行的数目。
+%</df:RowSpace>
+\end{definition}
+
+\begin{example}
+若
+\begin{equation*}
+  A=\begin{mat}[r]
+          2  &3  \\
+          4  &6
+       \end{mat}
+\end{equation*}
+则 \( \rowspace{A} \) 是二分量行向量空间中
+的这个子空间。
+\begin{equation*}
+   \set{c_1\cdot\rowvec{2 &3}+c_2\cdot\rowvec{4  &6}
+          \suchthat c_1,c_2\in\Re }
+\end{equation*}
+第二个行向量线性依赖于第一个，
+因此可以把上面的描述化简为
+$\set{c\cdot\rowvec{2 &3}\suchthat c\in\Re }$。
+\end{example}
+
+\begin{lemma}     \label{le:RowSpUnchByGR}
+%<*lm:RowSpUnchByGR>
+若两个矩阵 \( A \) 与 \( B \) 通过一次行变换
+\begin{equation*}
+  A\grstep{\rho_i\leftrightarrow\rho_j}B
+  \quad\text{或}\quad
+  A\grstep{k\rho_i}B
+  \quad\text{或}\quad
+  A\grstep{k\rho_i+\rho_j}B
+\end{equation*}
+（其中 $i\neq j$ 且 $k\neq 0$）相联系，则它们的行空间相等。
+从而，行等价的矩阵有相同的行空间，因此
+也有相同的行秩。
+%</lm:RowSpUnchByGR>
+\end{lemma}
+
+\begin{proof}
+%<*pf:RowSpUnchByGR0>
+推论 One.III.\ref{cor:RowsOfEqMatsLinCombos}
+表明，当 \mbox{$A\longrightarrow B$} 时，$B$ 的每一行
+都是 \( A \) 的各行的线性组合。
+也就是说，按上面的术语，\( B \) 的每一行
+都是 $A$ 的行空间中的元素。
+于是 $\rowspace{B}\subseteq\rowspace{A}$ 成立，因为集合
+$\rowspace{B}$ 的成员是 $B$ 的各行的线性组合，从而它是
+$A$ 的各行的组合的组合，
+再由线性组合引理，它也是 $\rowspace{A}$ 的成员。
+%</pf:RowSpUnchByGR0>
+
+%<*pf:RowSpUnchByGR1>
+对于另一个方向的包含关系，
+回想引理 One.III.\ref{le:RowOpsRev}：行变换是可逆的，
+所以
+\mbox{$A\longrightarrow B$} 当且仅当
+\mbox{$B\longrightarrow A$}。
+于是与上一段同样地可得
+$\rowspace{A}\subseteq\rowspace{B}$。
+%</pf:RowSpUnchByGR1>
+% Thus the two sets are equal.
+\end{proof}
+
+当然，高斯消元法系统地执行这些行变换，
+其目标就是阶梯形。
+
+\begin{lemma}  \label{le:RowsEchMatLI}
+%<*lm:RowsEchMatLI>
+阶梯形矩阵的非零行
+构成一个线性无关的集合。
+%</lm:RowsEchMatLI>
+\end{lemma}
+
+\begin{proof}
+%<*pf:RowsEchMatLI>
+引理~One.III.\ref{le:EchFormNoLinCombo}
+说的是，阶梯形矩阵的任一非零行都不是
+其余各行的线性组合。
+这个结果用本章的术语重述了该结论。
+%</pf:RowsEchMatLI>
+\end{proof}
+
+于是，用本章的语言来说，
+高斯消去法的工作方式是消除各行之间的线性相关关系，
+而保持张成不变，直到非零行之间
+不再剩下非平凡的线性关系。
+简言之，高斯消元法给出行空间的一个基。
+
+\begin{example}
+对任一矩阵，我们可以这样得到行空间的一个基：
+执行高斯消元法，然后取所得的阶梯形
+矩阵的非零行。
+例如，
+\begin{equation*}
+  \begin{mat}[r]
+    1  &3  &1  \\
+    1  &4  &1  \\
+    2  &0  &5
+  \end{mat}
+  \grstep[-2\rho_1+\rho_3]{-\rho_1+\rho_2}
+  \repeatedgrstep{6\rho_2+\rho_3}
+  \begin{mat}[r]
+    1  &3  &1  \\
+    0  &1  &0  \\
+    0  &0  &3
+  \end{mat}
+\end{equation*}
+就给出行空间的基 $\sequence{\rowvec{1 &3 &1},
+            \rowvec{0 &1 &0},
+            \rowvec{0 &0 &3} }$。
+它既是起始矩阵的也是终止矩阵的行空间的基，
+因为这两个行空间相等。
+\end{example}
+
+利用这一技巧，我们还能对那些不直接涉及行向量的
+张成求出基。
+
+\begin{definition} \label{df:ColumnSpace}
+%<*df:ColumnSpace>
+矩阵的\definend{列空间}\index{column!space}\index{matrix!column space}
+是其列集合的张成。
+\definend{列秩}\index{column!rank}\index{rank!column}
+是列空间的维数，即线性无关
+列的数目。
+%</df:ColumnSpace>
+\end{definition}
+
+我们对列空间的兴趣源于对线性方程组的研究。
+一个例子是，方程组
+\begin{equation*}
+  \begin{linsys}{3}
+    c_1  &+  &3c_2  &+  &7c_3  &=  &d_1  \\
+   2c_1  &+  &3c_2  &+  &8c_3  &=  &d_2  \\
+         &   &c_2   &+  &2c_3  &=  &d_3  \\
+   4c_1  &   &      &+  &4c_3  &=  &d_4
+  \end{linsys}
+\end{equation*}
+有解当且仅当 \( d \) 组成的向量是其余各列向量的
+线性组合，
+\begin{equation*}
+  c_1\colvec[r]{1 \\ 2 \\ 0 \\ 4}
+  +c_2\colvec[r]{3 \\ 3 \\ 1 \\ 0}
+  +c_3\colvec[r]{7 \\ 8 \\ 2 \\ 4}
+  =\colvec{d_1 \\ d_2 \\ d_3 \\ d_4}
+\end{equation*}
+也就是说，\( d \) 组成的向量位于系数矩阵的
+列空间中。
+
+\begin{example}   \label{ex:BasisForColSpace}
+给定这个矩阵，
+\begin{equation*}
+  \begin{mat}[r]
+    1  &3  &7  \\
+    2  &3  &8  \\
+    0  &1  &2  \\
+    4  &0  &4
+  \end{mat}
+\end{equation*}
+为求列空间的一个基，
+先暂时把列变成行并作化简。
+\begin{equation*}
+    \begin{mat}[r]
+       1  &2  &0  &4  \\
+       3  &3  &1  &0  \\
+       7  &8  &2  &4
+    \end{mat}
+  \grstep[-7\rho_1+\rho_3]{-3\rho_1+\rho_2}
+  \repeatedgrstep{-2\rho_2+\rho_3}
+  \begin{mat}[r]
+     1  &2  &0  &4  \\
+     0  &-3 &1  &-12\\
+     0  &0  &0  &0
+  \end{mat}
+\end{equation*}
+现在再把行变回列。
+\begin{equation*}
+  \sequence{
+     \colvec[r]{1 \\ 2 \\ 0 \\ 4},
+     \colvec[r]{0 \\ -3 \\ 1 \\ -12} }
+\end{equation*}
+结果就是所给矩阵的列空间的一个基。
+\end{example}
+
+\begin{definition} \label{df:Transpose}
+%<*df:Transpose>
+矩阵的\definend{转置}\index{transpose}\index{matrix!transpose}
+是把它的行与列互换
+所得的结果，使得
+矩阵 \( A \) 的第~\( j \) 列是 \( \trans{A} \) 的第~\( j \)
+行，反之亦然。
+%</df:Transpose>
+\end{definition}
+\noindent 于是我们可以把前面的例题总结为「转置，
+化简，再转置回来」。
+
+我们甚至可以——以容忍向量空间「相同」
+这一尚且模糊的想法为代价——
+用高斯消元法来求其他类型的向量空间中张成的基。
+
+\begin{example}
+为求空间 \( \polyspace_4 \) 中
+\( \set{x^2+x^4,2x^2+3x^4,-x^2-3x^4} \) 的张成的一个基，
+把这三个多项式
+看成与行向量 \( \rowvec{0 &0 &1 &0 &1} \)、
+\( \rowvec{0 &0 &2 &0 &3} \) 及
+\( \rowvec{0 &0 &-1 &0 &-3} \) 「相同」，并应用高斯消元法
+\begin{equation*}
+  \begin{mat}[r]
+    0  &0  &1  &0  &1  \\
+    0  &0  &2  &0  &3  \\
+    0  &0  &-1 &0  &-3
+  \end{mat}
+  \grstep[\rho_1+\rho_3]{-2\rho_1+\rho_2}
+  \repeatedgrstep{2\rho_2+\rho_3}
+  \begin{mat}[r]
+    0  &0  &1  &0  &1  \\
+    0  &0  &0  &0  &1  \\
+    0  &0  &0  &0  &0
+  \end{mat}
+\end{equation*}
+然后再翻译回去，得到基
+\( \sequence{x^2+x^4,x^4} \)。
+（正如前面提到的，
+我们将在下一章的开头把「相同」
+这个说法讲清楚。）
+\end{example}
+
+这样，本小节的第一点就是
+本章的工具让我们对高斯消去法
+有了更具概念性的理解。
+
+至于第二点，
+注意到对矩阵作行变换可能会改变其列空间。
+\begin{equation*}
+  \begin{mat}[r]
+    1  &2  \\
+    2  &4
+  \end{mat}
+  \grstep{-2\rho_1+\rho_2}
+  \begin{mat}[r]
+    1  &2  \\
+    0  &0
+  \end{mat}
+\end{equation*}
+左边矩阵的列空间包含第二个分量
+非零的向量，
+而右边矩阵的列空间
+只包含第二个分量为零的向量，所以这两个空间
+是不同的。
+这一观察使得接下来的结果出人意料。
+
+\begin{lemma} \label{le:RowOpsNoChngColRnk}
+%<*lm:RowOpsNoChngColRnk>
+行变换不改变列秩。
+%</lm:RowOpsNoChngColRnk>
+\end{lemma}
+
+\begin{proof}
+%<*pf:RowOpsNoChngColRnk>
+换个说法，若 $A$ 化简为 $B$，
+则 $B$ 的列秩等于 $A$ 的列秩。
+
+如果我们能证明行变换不影响各列之间的线性关系，
+这个证明即告完成，因为列秩就是
+最大的无关列集合的大小。
+也就是说，我们将证明：各列之间存在某个关系
+（例如第五列等于第二列的
+两倍加上第四列）当且仅当在行变换之后
+该关系仍然存在。
+而这正是本书的第一个定理，
+定理 One.I.\ref{th:GaussMethod}：~在各列间的
+关系
+\begin{equation*}
+  c_1\cdot\colvec{a_{1,1} \\ a_{2,1} \\ \vdots \\ a_{m,1}}
+   +\dots+
+  c_n\cdot \colvec{a_{1,n} \\ a_{2,n} \\ \vdots \\ a_{m,n}}
+   =\colvec[r]{0 \\ 0 \\ \vdotswithin{0} \\ 0}
+\end{equation*}
+中，行变换使解集 \( (c_1,\ldots,c_n) \) 保持不变。
+%</pf:RowOpsNoChngColRnk>
+\end{proof}
+
+要说明高斯消元法不仅对行空间、
+也对列空间能有所断言，
+另一种方式是高斯–若尔当消元。
+它终止于矩阵的
+简化阶梯形，如下所示。
+\begin{equation*}
+  \begin{mat}[r]
+    1  &3  &1  &6  \\
+    2  &6  &3  &16 \\
+    1  &3  &1  &6
+  \end{mat}
+  \grstep{}\cdots\grstep{}
+  \begin{mat}[r]
+    1  &3  &0  &2  \\
+    0  &0  &1  &4  \\
+    0  &0  &0  &0
+  \end{mat}
+\end{equation*}
+考虑这个结果的行空间与列空间。
+
+本小节前面讲的第一点告诉我们，
+为求行空间的一个基，只需收集那些含有
+首主元的行。
+然而，由于这是简化阶梯形，
+求列空间的一个基同样容易：~收集那些含有首主元的
+列，
+\( \sequence{\vec{e}_1,\vec{e}_2} \)。
+% (Linear independence is obvious.
+% As to span, the other columns are in the span
+% since they all have a third component of zero.)
+于是，对简化阶梯形矩阵，
+我们可以用本质上相同的方法求出行空间与列空间的基，
+即取矩阵中含有首主元的
+那些部分——行或列。
+
+\begin{theorem} \label{th:RowRankEqualsColumnRank}
+%<*th:RowRankEqualsColumnRank>
+对任意矩阵，
+行秩与列秩相等。
+%</th:RowRankEqualsColumnRank>
+\end{theorem}
+
+\begin{proof}
+%<*pf:RowRankEqualsColumnRank0>
+把矩阵化成简化阶梯形。
+此时
+行秩等于首主元的个数，因为它等于
+非零行的数目。
+同时，首主元的个数
+也等于列秩，因为含有首主元的那些列组成的集合
+是标准基中的一些 \( \vec{e}_i \)，
+并且该集合线性无关，且张成
+全体列所成的集合。
+因此，在简化阶梯形矩阵中，行秩等于列
+秩，因为二者都等于首主元的个数。
+%</pf:RowRankEqualsColumnRank0>
+
+%<*pf:RowRankEqualsColumnRank1>
+但引理 \nearbylemma{le:RowSpUnchByGR} 与 \nearbylemma{le:RowOpsNoChngColRnk}
+表明，用行变换化成简化阶梯形时，行秩与列秩
+都不改变。
+从而，原矩阵的行秩与列秩也相等。
+%</pf:RowRankEqualsColumnRank1>
+\end{proof}
+
+\begin{definition} \label{df:Rank}
+%<*df:Rank>
+矩阵的\definend{秩\/}\index{rank}就是它的行秩或列秩。
+%</df:Rank>
+\end{definition}
+
+于是，我们在本小节中提出的第二点就是：
+矩阵的列空间与行
+空间有相同的维数。
+
+我们的最后一点是：在研究向量空间时
+自然出现的那些概念，
+恰恰就是我们在研究线性方程组时已考察过的那些。
+
+\begin{theorem}  \label{th:RankVsSoltnSp}
+%<*tm:RankVsSoltnSp>
+对于 \( n \) 个未知数、系数矩阵为
+\( A \) 的线性方程组，下述命题
+\begin{tfae}
+   \item \( A \) 的秩为 \( r \)
+   \item 相应齐次方程组的解空间具有
+     维数 \( n-r \)
+\end{tfae}
+是等价的。
+%</tm:RankVsSoltnSp>
+\end{theorem}
+
+\par\noindent 于是，若方程组至少有一个特解，
+则对于解
+集而言，参数的个数等于 $n-r$，即变量个数
+减去系数矩阵的秩。
+
+\begin{proof}
+%<*pf:RankVsSoltnSp>
+\( A \) 的秩为 \( r \) 当且仅当对 \( A \) 作高斯消去法
+最终得到 \( r \) 个非零行。
+这当且仅当与 \( A \) 行等价的阶梯形矩阵
+有 \( r \) 个首变量时成立。
+而这又当且仅当有 \( n-r \) 个自由变量时成立。
+%</pf:RankVsSoltnSp>
+\end{proof}
+
+\begin{corollary} \label{co:EquivToNonsingular}
+%<*co:EquivToNonsingular>
+设矩阵 $A$ 为 \( \nbyn{n} \)，下述命题
+\begin{tfae}
+  \item \( A \) 的秩为 \( n \)
+  \item \( A \) 非奇异
+  \item \( A \) 的各行构成线性无关的集合
+  \item \( A \) 的各列构成线性无关的集合
+  \item 系数矩阵为 \( A \) 的任何线性方程组都有且
+    仅有一个解
+\end{tfae}
+是等价的。
+%</co:EquivToNonsingular>
+\end{corollary}
+
+\begin{proof}
+%<*pf:EquivToNonsingular>
+显然 \( \text{(1)}\iff\text{(2)}\iff\text{(3)}\iff\text{(4)} \)。
+最后一条，\( \text{(4)}\iff\text{(5)} \)，成立是因为 \( n \)
+个列向量构成的集合线性无关当且仅当它是
+\( \Re^n \) 的一个基，而方程组
+\begin{equation*}
+  c_1\colvec{a_{1,1} \\ a_{2,1} \\ \vdots \\ a_{m,1}}
+   +\dots+
+  c_n\colvec{a_{1,n} \\ a_{2,n} \\ \vdots \\ a_{m,n}}
+   =\colvec{d_1 \\ d_2 \\ \vdots \\ d_m}
+\end{equation*}
+对所有 \( d_1,\dots,d_n\in\Re \) 的选取都有唯一解，当且仅当
+左边由诸 \( a \) 构成的向量组成一个基。
+%</pf:EquivToNonsingular>
+\end{proof}
+
+\begin{remark}\cite{Munkres}  \label{rem:MunkresCommment}
+有时，人们会把本小节的结果
+误记为：\( m \)~个方程、\( n \)~个未知数的方程组的通解
+使用 \( n-m \) 个参数。
+方程的个数并不是相关的数；真正要紧的
+是独立方程的个数，即极大无关
+集中方程的个数。
+当有 \( r \) 个独立方程时，通解用到
+\( n-r \) 个参数。
+\end{remark}
+
+

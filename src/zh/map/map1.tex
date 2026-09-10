@@ -1,0 +1,2542 @@
+% 翻译状态：第 I 节全部初译（含练习和答案）；待人工校对。
+% Chapter 3, Section 1 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-11
+\chapter{空间之间的映射}% 
+% Without this hack, it prints \nobreak
+\ \vspace{-10ex}
+
+\index{isomorphism|(}
+\section{同构} %
+在向量空间定义之后的例子中，
+我们表达过这样一种直觉：有些空间在本质上是相同的。
+例如，
+% the space of two-tall column vectors and
+% the space of two-wide row vectors
+% are not equal because their 
+% elements\Dash column vectors and row vectors\Dash are 
+% not equal, 
+我们可能觉得，二阶矩阵空间与
+四维列向量空间
+\begin{equation*}
+  \matspace_{\nbyn{2}}=\set{
+    \begin{pmatrix}
+      a &b \\
+      c &d
+    \end{pmatrix}\suchthat a,b,c,d\in\R}
+  \qquad
+  \R^4=\set{\colvec{a \\ b \\ c \\ d}\suchthat a,b,c,d\in\R}
+\end{equation*}
+虽然因元素不同而并不相等，
+但它们的差别只在外观上。
+现在我们来精确表述这一点。
+
+这体现了数学研究中一个常见的阶段。
+借助一些例子，我们形成了一个想法。
+接下来，我们将给出正式定义，
+再证明一些结果，以说明这个定义确实刻画了我们的想法。
+此前我们已经见过这样的过程，
+例如“向量空间”一章的第一节。
+在那里，对线性方程组的研究
+引导我们考虑对线性组合封闭的集合。
+我们把这样的集合定义为向量空间，
+随后给出了一些支持这一定义的结果。
+
+这并不是终点，
+它反而引出了新的认识，例如基的概念。
+这里也一样，在给出定义并加以论证之后，
+我们会得到两个令人欣喜的发现。
+首先，这个定义还适用于一些先前没有预料到的有趣情形。
+其次，对这个定义的研究会引出新的想法。
+我们的探索就这样不断向前推进。
+
+
+
+
+
+
+
+
+\subsection{定义与例子}
+我们先看两个例子，
+由它们启发出恰当的定义。
+
+\begin{example}  \label{exam:TwoWideIsoTwoTall}
+二维行向量空间与
+二维列向量空间
+是“相同的”：如果把分量相同的向量对应起来，例如
+\begin{equation*}
+   \rowvec{1 &2} \quad\longleftrightarrow\quad \colvec[r]{1 \\ 2}
+\end{equation*}
+（把双向箭头读作“对应于”），
+那么这种对应就保持了运算。
+例如，对应向量相加所得的和也相互对应
+\begin{equation*}
+  \rowvec{1 &2}+\rowvec{3 &4}=\rowvec{4 &6}
+  \quad\longleftrightarrow\quad
+  \colvec[r]{1 \\ 2}+\colvec[r]{3 \\ 4}=\colvec[r]{4 \\ 6}
+\end{equation*}
+下面的例子表明这种对应也保持标量乘法。
+\begin{equation*}
+  5\cdot\rowvec{1  &2}=\rowvec{5 &10}
+  \quad\longleftrightarrow\quad
+  5\cdot\colvec[r]{1 \\ 2}=\colvec[r]{5 \\ 10}
+\end{equation*}
+一般地，在对应
+\begin{equation*}
+  \rowvec{a_0  &a_1}
+  \quad\longleftrightarrow\quad
+  \colvec{a_0 \\ a_1}
+\end{equation*} 
+之下，两种运算都保持不变：
+\begin{equation*}
+  \rowvec{a_0  &a_1}+\rowvec{b_0  &b_1}=\rowvec{a_0+b_0 &a_1+b_1}
+  \hfill\longleftrightarrow\hfill
+  \colvec{a_0 \\ a_1}+\colvec{b_0  \\ b_1}=\colvec{a_0+b_0  \\ a_1+b_1}
+\end{equation*}
+以及
+\begin{equation*}
+ r\cdot\rowvec{a_0 &a_1}=\rowvec{ra_0 &ra_1}
+  \quad\longleftrightarrow\quad
+ r\cdot\colvec{a_0  \\ a_1}=\colvec{ra_0  \\ ra_1}
+\end{equation*}
+（其中所有变量都是标量）。
+\end{example}
+
+\begin{example} \label{exam:PolyTwoIsoRThree}  
+另外两个可以视为“相同”的空间是
+次数不超过二的多项式空间 \( \polyspace_2 \) 与 \( \Re^3 \)。
+下面是一种自然的对应。
+\begin{equation*}
+  a_0+a_1x+a_2x^2
+  \quad\longleftrightarrow\quad
+  \colvec{a_0 \\ a_1 \\ a_2}
+%  \qquad
+  \tag*{\mbox{（例如，$1+2x+3x^2\,\longleftrightarrow\,\colvec[r]{1 \\ 2 \\ 3}$）}}
+\end{equation*}
+这种对应保持结构：~对应元素的和也相互对应
+\begin{equation*}
+    \mbox{\begin{tabular}{r}
+        \( a_0+a_1x+a_2x^2 \)  \\
+     +\,\,\( b_0+b_1x+b_2x^2 \)  \\ \hline
+        \( (a_0+b_0)+(a_1+b_1)x+(a_2+b_2)x^2 \)
+     \end{tabular} }
+    \longleftrightarrow
+    \colvec{a_0 \\ a_1 \\ a_2}
+    +\colvec{b_0 \\ b_1 \\ b_2}
+    =\colvec{a_0+b_0 \\ a_1+b_1 \\ a_2+b_2}
+\end{equation*}
+标量乘法也相互对应。
+\begin{equation*}
+  r\cdot(a_0+a_1x+a_2x^2)=
+    (ra_0)+(ra_1)x+(ra_2)x^2
+  \quad\longleftrightarrow\quad
+  r\cdot\colvec{a_0 \\ a_1 \\ a_2}
+  =\colvec{ra_0 \\ ra_1 \\ ra_2}
+\end{equation*}
+\end{example}
+
+\begin{definition} \label{def:Isomorphism}
+%<*df:Isomorphism>
+所谓\definend{同构}\index{isomorphism!definition}%
+\index{vector space!isomorphism}
+是指两个向量空间 $V$ 与 $W$ 之间
+满足下列条件的映射 \( \map{f}{V}{W} \)：
+\begin{enumerate}
+  \item 是一一对应：\index{correspondence}
+     \( f \) 既是单射又是满射；% \footnotemark % keep fn in minipage
+                   \appendrefs{correspondences}
+  \item \definend{保持结构：}\index{function!structure preserving}
+   若 \( \vec{v}_1,\vec{v}_2\in V \)，则
+   \begin{equation*}
+      f(\vec{v}_1+\vec{v}_2)=f(\vec{v}_1)+f(\vec{v}_2)
+   \end{equation*}
+   若 \( \vec{v}\in V \) 且 \( r\in\Re \)，则
+   \begin{equation*}
+         f(r\vec{v})=r{}f(\vec{v})  % suppress kerning
+   \end{equation*}
+\end{enumerate}
+（存在这样的映射时，记作 \( V\isomorphicto W \)，
+读作“\( V \) 同构于 \( W \)”）。
+%</df:Isomorphism>
+\end{definition}% \footnotetext{More information on one-to-one and onto maps 
+                %               is in the appendix.}
+
+\noindent “Morphism”\index{morphism} 意为映射，
+因此“isomorphism”（同构）就是表达相同性的映射。
+
+\begin{example}  \label{ex:CheckMapIsIso}
+由关于 \( \theta \) 的函数组成的向量空间
+\(  G=\set{c_1\cos\theta+c_2\sin\theta\suchthat c_1,c_2\in\Re} \)
+在下面的映射下同构于
+\( \Re^2 \)。
+\begin{equation*}
+  c_1\cos\theta+c_2\sin\theta\mapsunder{f}\colvec{c_1 \\ c_2}
+\end{equation*}
+我们逐一核对定义中的条件来验证这一点。
+先验证条件~(1)，即该映射是两个空间的底层集合之间的一一对应。
+
+要证明 $f$ 是单射，
+就必须证明只有当 \( \vec{a}=\vec{b} \) 时，才有 \( f(\vec{a})=f(\vec{b}) \)。
+若
+\begin{equation*}
+   f(a_1\cos\theta+a_2\sin\theta)=f(b_1\cos\theta+b_2\sin\theta)
+\end{equation*}
+则由 $f$ 的定义有
+\begin{equation*}
+  \colvec{a_1 \\ a_2}=\colvec{b_1 \\ b_2}
+\end{equation*}
+由此可得 \( a_1=b_1 \) 且 \( a_2=b_2 \)，
+因为列向量相等时，对应分量必定相等。
+因此 $a_1\cos\theta+a_2\sin\theta=b_1\cos\theta+b_2\sin\theta$，
+我们便按要求验证了：\( f(\vec{a})=f(\vec{b}) \) 蕴含
+\( \vec{a}=\vec{b} \)。
+% which shows that \( f \) is one-to-one.
+
+要证明 $f$ 是满射，
+就必须核实陪域 \( \Re^2 \) 中的每个元素
+都是定义域 $G$ 中某个元素的像。
+为此，考虑陪域中的一个元素
+\begin{equation*}
+   \colvec{x \\ y}
+\end{equation*}
+注意，它恰好是
+\( x\cos\theta+y\sin\theta \) 在 $f$ 下的像。
+
+接下来验证条件~(2)，即 $f$ 保持结构。
+下面的计算表明 \( f \) 保持加法。
+\begin{multline*}
+  f\bigl(\,(a_1\cos\theta+a_2\sin\theta)
+      +(b_1\cos\theta+b_2\sin\theta)\,\bigr)                     \\
+ \begin{aligned}
+  &=f\bigl(\,(a_1+b_1)\cos\theta+(a_2+b_2)\sin\theta\,\bigr)   \\
+  &=\colvec{a_1+b_1 \\ a_2+b_2}   \\
+  &=\colvec{a_1 \\ a_2}+\colvec{b_1 \\ b_2}   \\
+  &=f(a_1\cos\theta+a_2\sin\theta)+f(b_1\cos\theta+b_2\sin\theta)
+ \end{aligned}
+\end{multline*}
+验证 $f$ 保持标量乘法的计算与此类似。
+\begin{align*}
+  f\bigl(\,r\cdot(a_1\cos\theta+a_2\sin\theta)\,\bigr)
+  &=f(\,ra_1\cos\theta+ra_2\sin\theta\,)   \\
+  &=\colvec{ra_1 \\ ra_2}   \\
+  &=r\cdot\colvec{a_1 \\ a_2}   \\
+  &=r\cdot\, f(a_1\cos\theta+a_2\sin\theta)
+\end{align*}
+
+条件 (1) 和~(2) 均已验证，
+因此 $f$ 是同构，
+这两个空间同构，记为 $G\isomorphicto\Re^2$。
+\end{example}
+
+\begin{example} \label{ex:LinComboThreeIsoPTwo}
+设 \( V \) 是空间
+\( \set{c_1x+c_2y+c_3z\suchthat c_1,c_2,c_3\in\Re} \)，
+其元素为三个变量的线性组合，配备自然的加法与标量乘法运算。
+那么 $V$ 同构于次数不超过二的多项式空间 $\polyspace_2$。
+
+为此，我们必须给出一个同构映射。
+这样的映射不止一个；例如，下面就有四种选择。
+\begin{center}
+  \begin{tabular}{c}
+    $c_1x+c_2y+c_3z$
+  \end{tabular}  \quad
+  \begin{tabular}{rl}
+      $\mapsunder{f_1}$    &$c_1+c_2x+c_3x^2$  \\
+      $\mapsunder{f_2}$    &$c_2+c_3x+c_1x^2$  \\
+      $\mapsunder{f_3}$    &$-c_1-c_2x-c_3x^2$  \\
+      $\mapsunder{f_4}$    &$c_1+(c_1+c_2)x+(c_1+c_3)x^2$
+  \end{tabular}
+\end{center}
+第一个映射只是把系数直接搬过去，
+因而是比较自然的对应。
+不过，我们将验证 $f_2$，
+以强调除了那个显而易见的映射之外，还有其他同构。
+（验证 $f_1$ 是同构，见\nearbyexercise{exer:NatMapAlsoIso}。）
+
+要证明 $f_2$ 是单射，我们将证明：若
+$f_2(c_1x+c_2y+c_3z)=f_2(d_1x+d_2y+d_3z)$，
+则 $c_1x+c_2y+c_3z=d_1x+d_2y+d_3z$。
+根据 $f_2$ 的定义，假设 $f_2(c_1x+c_2y+c_3z)=f_2(d_1x+d_2y+d_3z)$
+给出 $c_2+c_3x+c_1x^2=d_2+d_3x+d_1x^2$。
+相等的多项式有相等的对应系数，因此
+$c_2=d_2$、$c_3=d_3$ 且 $c_1=d_1$。
+所以 $f_2(c_1x+c_2y+c_3z)=f_2(d_1x+d_2y+d_3z)$ 蕴含
+$c_1x+c_2y+c_3z=d_1x+d_2y+d_3z$，从而 $f_2$ 是单射。
+
+映射 $f_2$ 是满射，因为陪域中的每个元素 $a+bx+cx^2$
+都是定义域中某个元素的像，即它等于
+$f_2(cx+ay+bz)$。
+例如，$2+3x-4x^2$ 就是 $f_2(-4x+2y+3z)$。
+
+验证保持结构的计算与前面的例题类似。
+映射 $f_2$ 保持加法
+\begin{multline*}
+  f_2\bigl((c_1x+c_2y+c_3z)
+        +(d_1x+d_2y+d_3z)\bigr)       \\
+ \begin{aligned}
+  &=f_2\bigl((c_1+d_1)x+(c_2+d_2)y+(c_3+d_3)z\bigr)   \\
+  &=(c_2+d_2)+(c_3+d_3)x+(c_1+d_1)x^2   \\
+  &=(c_2+c_3x+c_1x^2)+(d_2+d_3x+d_1x^2)   \\
+  &=f_2(c_1x+c_2y+c_3z)+f_2(d_1x+d_2y+d_3z)
+ \end{aligned}
+\end{multline*}
+也保持标量乘法。
+\begin{align*}
+  f_2\bigl(r\cdot(c_1x+c_2y+c_3z)\bigr)
+  &=f_2(rc_1x+rc_2y+rc_3z)   \\
+  &=rc_2+rc_3x+rc_1x^2   \\
+  &=r\cdot(c_2+c_3x+c_1x^2)   \\
+  &=r\cdot\, f_2(c_1x+c_2y+c_3z)
+\end{align*}
+因此 $f_2$ 是同构。
+记作 $V\isomorphicto\polyspace_2$。
+\end{example}
+
+\begin{example}
+每个空间都在恒等映射下同构于自身。
+这一点很容易验证。
+\end{example}
+
+\begin{definition} \label{df:Automorphism}
+%<*df:Automorphism>
+\definend{自同构}\index{automorphism}
+是一个空间到它自身的
+同构\index{isomorphism!of a space with itself}。
+%</df:Automorphism>
+\end{definition}
+
+\begin{example} \label{exam:RigidPlaneMapsAutos}
+%<*ex:RigidPlaneMapsAutos0>
+\definend{伸缩}\index{dilation}\index{automorphism!dilation}
+映射 $\map{d_s}{\Re^2}{\Re^2}$ 把所有向量都乘以同一个非零
+标量 $s$，它是 $\Re^2$ 的一个自同构。
+%</ex:RigidPlaneMapsAutos0>
+\begin{center} \small
+  \includegraphics{map/mp/ch3.14}                                
+\end{center}
+%<*ex:RigidPlaneMapsAutos1>
+另一个自同构是\definend{旋转\/}\index{rotation (or turning)}%
+\index{automorphism!rotation}
+或称\definend{转动映射}\index{turning map}，$\map{t_{\theta}}{\Re^2}{\Re^2}$，
+它把所有向量都旋转角度~$\theta$。
+%</ex:RigidPlaneMapsAutos1>
+\begin{center} \small
+  \includegraphics{map/mp/ch3.15}                                
+\end{center}
+%<*ex:RigidPlaneMapsAutos2>
+$\Re^2$ 的第三类自同构是映射
+$\map{f_\ell}{\Re^2}{\Re^2}$，它将所有向量\definend{翻转}，
+即作\definend{反射}\index{reflection (or flip) about a line}%
+\index{automorphism!reflection}，
+其对称轴是经过原点的直线 $\ell$。
+%</ex:RigidPlaneMapsAutos2>
+\begin{center} \small
+  \includegraphics{map/mp/ch3.16}                                
+\end{center}
+验证这些映射都是自同构，见
+\nearbyexercise{exer:RigidPlaneMapsAutos}。
+\end{example}
+
+\begin{example} \label{ex:OORThreeToFourLinCom}
+考虑次数不超过~$5$ 的多项式空间 $\polyspace_5$，
+以及把多项式 $p(x)$ 映到 $p(x-1)$ 的映射 $f$。
+例如，在此映射下，$x^2\mapsto (x-1)^2=x^2-2x+1$，
+且 $x^3+2x\mapsto (x-1)^3+2(x-1)=x^3-3x^2+5x-3$。
+这个映射是该空间的一个自同构；
+验证见\nearbyexercise{exer:PolyToPolyLinSubst}。
+
+$\polyspace_5$ 到自身的这个同构，并不只是告诉我们
+该空间与自身“相同”。
+它还让我们对空间的结构有所认识。
+下面是一族抛物线，都是 $\polyspace_5$ 中元素的图像。
+它们的顶点都在 $y=-1$ 上，
+最左边一条的零点为 $-2.25$ 和 $-1.75$，
+下一条的零点为 $-1.25$ 和 $-0.75$，依此类推。
+\begin{center}
+  \includegraphics{map/mp/ch3.13}                                
+\end{center}
+把任意函数的自变量 \( x \) 替换为 \( x-1 \)，
+就会使其图像向右平移一个单位。
+因此，$f(p_0)=p_1$，
+而 $f$ 的作用就是把所有抛物线都向右平移一个单位。
+注意，施加 $f$ 之前与施加 $f$ 之后的整体图形完全相同，
+因为每条抛物线向右移动时，都有另一条从左边移过来补上它的位置。
+对于三次多项式等，情形也一样。
+所以，自同构 $f$ 表达了 $P_5$ 具有某种水平方向的均匀性：
+如果画出两幅包含 $\polyspace_5$ 全部元素图像的图，
+一幅以 $x=0$ 为中心，另一幅以~$x=1$ 为中心，
+那么这两幅图将无法区分。
+\end{example}
+
+正如本节开头所说，
+给出同构的定义后，我们接下来要说明，
+这一定义确实刻画了向量空间“相同”的直觉。
+首先，定义本身就很有说服力：~向量空间由一个集合及其上的结构组成，
+而定义所要求的，无非是集合之间相互对应，结构之间也相互对应。
+前面的例子也很有说服力，
+例如\nearbyexample{exam:TwoWideIsoTwoTall}，
+它生动地说明同构的空间在所有相关方面都是相同的。
+当 \( V\isomorphicto W \) 时，人们有时会说“\( W \) 就是
+涂成绿色的 \( V \)”\Dash 二者的差别仅在外观上。
+
+下面的结果进一步支持我们的观点：
+在同构之下，两个向量空间中所有值得关注的事物都相互对应。
+我们引入向量空间是为了研究线性组合，
+所以这里“值得关注”是指“与线性组合有关”。
+至于向量在排版时写成什么样子（甚至是什么颜色！\spacefactor1000），
+则不是我们关注的内容。
+
+\begin{lemma}       \label{le:IsoSendsZeroToZero}
+%<*lm:IsoSendsZeroToZero>
+同构把零向量映到零向量。
+%</lm:IsoSendsZeroToZero>
+\end{lemma}
+
+\begin{proof}
+%<*pf:IsoSendsZeroToZero>
+设 \( \map{f}{V}{W} \) 是同构，固定一个 \( \vec{v}\in V \)。
+则 \( f(\zero_V)=f(0\cdot\vec{v})=0\cdot f(\vec{v})=\zero_W \)。
+%</pf:IsoSendsZeroToZero>
+\end{proof}
+
+% The definition of isomorphism requires that sums of two vectors correspond and
+% that so do scalar multiples.
+% We can extend that to say that all linear combinations correspond.
+
+\begin{lemma}       \label{le:PresStructIffPresCombos}
+%<*lm:PresStructIffPresCombos>
+对于向量空间之间的任意映射 \( \map{f}{V}{W} \)，
+下列命题等价。
+\begin{tfae}
+   \item \( f \) 保持结构\index{function!structure preserving}
+     \begin{equation*}
+        f(\vec{v}_1+\vec{v}_2)=f(\vec{v}_1)+f(\vec{v}_2)
+         \quad\text{且}\quad
+        f(c\vec{v})=c\,f(\vec{v})
+     \end{equation*}
+   \item \( f \) 保持两个向量的线性组合
+     \begin{equation*}
+        f(c_1\vec{v}_1+c_2\vec{v}_2)=c_1f(\vec{v}_1)+c_2f(\vec{v}_2)
+     \end{equation*}
+   \item \( f \) 保持任意有限个向量的线性组合
+     \begin{equation*}
+        f(c_1\vec{v}_1+\dots+c_n\vec{v}_n)=
+           c_1f(\vec{v}_1)+\dots+c_nf(\vec{v}_n)
+     \end{equation*}
+\end{tfae}
+%</lm:PresStructIffPresCombos>
+\end{lemma}
+
+\begin{proof}
+%<*pf:PresStructIffPresCombos0>
+由于 \mbox{$\text{(3)}\!\implies\!\text{(2)}$} 和
+\mbox{$\text{(2)}\!\implies\!\text{(1)}$}
+显然成立，我们只需证明 \mbox{$\text{(1)}\!\implies\!\text{(3)}$}。
+因此，假设命题~(1) 成立。
+我们对求和项数 $n$ 作数学归纳，以证明~(3)。
+%</pf:PresStructIffPresCombos0>
+
+%<*pf:PresStructIffPresCombos1>
+只有一个求和项的基础情形，即
+\( f(c\vec{v}_1)=c\,f(\vec{v}_1) \)，
+已经包含在命题~(1) 的第二个等式中。
+%</pf:PresStructIffPresCombos1>
+
+%<*pf:PresStructIffPresCombos2>
+在归纳步骤中，假设求和项数不超过 \( k \) 时，
+命题~(3) 成立。
+% , that is, whenever
+% $n=1$, or $n=2$, \ldots, or $n=k$.
+考虑有 $k+1$ 个求和项的情形。
+利用~(1) 的第一个等式，
+在最后一个“$+$”处把和拆开。
+\begin{equation*}
+  f(c_1\vec{v}_1+\dots+c_k\vec{v}_k+c_{k+1}\vec{v}_{k+1})
+  =f(c_1\vec{v}_1+\dots+c_k\vec{v}_k)+f(c_{k+1}\vec{v}_{k+1})
+\end{equation*}
+利用归纳假设，把左边的 $k$ 项和展开。
+\begin{equation*}
+  =f(c_1\vec{v}_1)+\dots+f(c_k\vec{v}_k)+f(c_{k+1}\vec{v}_{k+1})
+\end{equation*}
+现在利用~(1) 的第二个等式，得到
+\begin{equation*}
+  =c_1\,f(\vec{v}_1)+\dots+c_k\,f(\vec{v}_k)+c_{k+1}\,f(\vec{v}_{k+1})
+\end{equation*}
+这里共应用了 $k+1$~次。
+%</pf:PresStructIffPresCombos2>
+\end{proof}
+
+% In addition to adding to the intuition that the definition of isomorphism
+% does indeed preserve the things of interest in a vector space, 
+\noindent 我们常用第~(2) 项来简化
+验证映射保持结构的过程。
+
+最后作一个小结。
+上一章给出向量空间的定义后，
+我们考察了一些例子，注意到有些空间似乎在本质上是相同的。
+这里我们定义了关系“\( \cong \)”，
+并说明它恰好能够精确表达我们所说的“相同”，
+因为它保持了向量空间中值得关注的特征\Dash 尤其是线性组合。
+下一节将证明，同构是一个等价关系，
+因而把所有向量空间划分成等价类。
+
+
+\begin{exercises}
+  \recommended \item \label{exer:PThreeIsoRFour}
+   以\nearbyexample {ex:CheckMapIsIso} 为范例，
+   验证定义之前给出的两种对应都是同构。
+   \begin{exparts*}
+      \partsitem \nearbyexample{exam:TwoWideIsoTwoTall}
+      \partsitem \nearbyexample{exam:PolyTwoIsoRThree}
+    \end{exparts*}
+    \begin{answer}
+     \begin{exparts}
+     \partsitem 把这个映射记为 $f$。
+       \begin{equation*}
+         \rowvec{a &b} \mapsunder{f} \colvec{a \\ b}
+       \end{equation*}
+       它是单射，因为若 $f$ 把定义域中的两个元素映到同一个像，即若
+       $f\left(\rowvec{a &b}\right)=f\left(\rowvec{c &d}\right)$，
+       则由 $f$ 的定义可得
+       \begin{equation*}
+          \colvec{a \\ b}=\colvec{c \\ d}
+       \end{equation*}
+       由于相等的列向量具有相等的对应分量，
+       我们有 $a=c$ 且 $b=d$。
+       因此，若 $f$ 把定义域中的两个行向量映到同一个列向量，
+       则这两个行向量相等：
+       $\rowvec{a &b}=\rowvec{c &d}$。
+
+       要证明 $f$ 是满射，就必须证明陪域 $\Re^2$ 中的每个元素
+       都是某个行向量在 $f$ 下的像。
+       这很容易；
+       \begin{equation*}
+          \colvec{x \\ y} 
+       \end{equation*}
+       就是 $f\left(\rowvec{x &y}\right)$。
+
+       验证保持加法的计算如下。
+       \begin{multline*}
+         f\left(\rowvec{a &b}+\rowvec{c &d}\right) 
+           = f\left(\rowvec{a+c &b+d}\right)           
+           = \colvec{a+c \\ b+d}                               \\
+           = \colvec{a \\ b}+\colvec{c \\ d}         
+           = f\left(\rowvec{a &b}\right)+f\left(\rowvec{c &d}\right)
+       \end{multline*}
+       验证保持标量乘法的计算与此类似。
+       \begin{equation*}
+         f\left(r\cdot\rowvec{a &b}\right) 
+           = f\left(\rowvec{ra &rb}\right)          
+           = \colvec{ra \\ rb}          
+           = r\cdot\colvec{a \\ b}          
+           = r\cdot f\left(\rowvec{a &b}\right)
+       \end{equation*}
+     \partsitem 把\nearbyexample{exam:PolyTwoIsoRThree} 中的映射记为
+      $f$。
+      要证明它是单射，
+      假设 \( f(a_0+a_1x+a_2x^2)=f(b_0+b_1x+b_2x^2) \)。
+      则由函数的定义，
+      \begin{equation*}
+        \colvec{a_0 \\ a_1 \\ a_2}
+        =\colvec{b_0 \\ b_1 \\ b_2}
+      \end{equation*}
+      因而 \( a_0=b_0 \)、\( a_1=b_1 \) 且 \( a_2=b_2 \)。
+      所以 \( a_0+a_1x+a_2x^2=b_0+b_1x+b_2x^2 \)，从而 \( f \)
+      是单射。
+
+      函数 $f$ 是满射，因为对于
+      \begin{equation*}
+        \colvec{a \\ b \\ c}
+      \end{equation*}
+      总有多项式 \( a+bx+cx^2 \) 经 \( f \) 映到它。
+
+      至于结构，
+      下面的计算表明 $f$ 保持加法
+      \begin{multline*}
+        f\left(\,(a_0+a_1x+a_2x^2)+(b_0+b_1x+b_2x^2)\,\right)           \\
+        \begin{aligned}
+        &=f\left(\,(a_0+b_0)+(a_1+b_1)x+(a_2+b_2)x^2\,\right)       \\
+        &=\colvec{a_0+b_0 \\ a_1+b_1 \\ a_2+b_2}                    \\
+        &=\colvec{a_0 \\ a_1 \\ a_2} +\colvec{b_0 \\ b_1 \\ b_2}   \\
+        &=f(a_0+a_1x+a_2x^2)+f(b_0+b_1x+b_2x^2)
+        \end{aligned}
+      \end{multline*}
+      而下面的计算
+      \begin{align*}
+        f(\,r(a_0+a_1x+a_2x^2)\,)
+        &=f(\,(ra_0)+(ra_1)x+(ra_2)x^2\,)    \\
+        &=\colvec{ra_0 \\ ra_1 \\ ra_2}     \\
+        &=r\cdot\colvec{a_0 \\ a_1 \\ a_2}     \\
+        &=r\,f(a_0+a_1x+a_2x^2)
+      \end{align*}   
+      表明它保持标量乘法。
+    \end{exparts} 
+   \end{answer}
+  \recommended \item 
+    设映射
+    \( \map{f}{\polyspace_1}{\Re^2} \) 定义为
+    \begin{equation*}
+       a+bx\mapsunder{f}\colvec{a-b \\ b}
+    \end{equation*}
+    求定义域中下列各元素的像。
+    \begin{exparts*}
+      \partsitem \( 3-2x \)
+      \partsitem \( 2+2x \)
+      \partsitem \( x \)
+    \end{exparts*}
+    证明这个映射是同构。
+    \begin{answer}
+       各元素的像如下。
+       \begin{exparts*}
+        \partsitem \( \colvec[r]{5 \\ -2} \)
+        \partsitem \( \colvec[r]{0 \\ 2} \)
+        \partsitem \( \colvec[r]{-1 \\ 1} \)
+      \end{exparts*}
+
+      要证明 $f$ 是单射，假设它把两个次数不超过一的多项式
+      映到同一个像，即 $f(a_1+b_1x)=f(a_2+b_2x)$。
+      则
+      \begin{equation*}
+        \colvec{a_1-b_1 \\ b_1}=\colvec{a_2-b_2 \\ b_2}
+      \end{equation*}
+      由于相等的列向量具有相等的对应分量，
+      可得 $b_1=b_2$ 且 $a_1=a_2$。
+      这说明两个次数不超过一的多项式相等，因此 $f$ 是单射。
+
+      要证明 $f$ 是满射，只需注意陪域中的元素
+      \begin{equation*}
+         \colvec{s \\ t}
+      \end{equation*}
+      就是定义域中元素 $(s+t)+tx$ 的像。
+
+      要验证 $f$ 保持结构，
+      可以使用\nearbylemma{le:PresStructIffPresCombos} 的第~(2) 项。
+      \begin{align*}
+        f\left(c_1\cdot (a_1+b_1x)+c_2\cdot (a_2+b_2x)\right)
+        &=f\left((c_1a_1+c_2a_2)+(c_1b_1+c_2b_2)x\right)                \\
+        &=\colvec{(c_1a_1+c_2a_2)-(c_1b_1+c_2b_2) \\ c_1b_1+c_2b_2}       \\  
+        &=c_1\cdot\colvec{a_1-b_1 \\ b_1}+c_2\cdot\colvec{a_2-b_2 \\ b_2}  \\
+        &=c_1\cdot f(a_1+b_1x)+c_2\cdot f(a_2+b_2x)
+      \end{align*}
+     \end{answer}
+  \item \label{exer:NatMapAlsoIso}
+    证明\nearbyexample{ex:LinComboThreeIsoPTwo} 中的自然映射 $f_1$
+    是同构。
+    \begin{answer}
+      要验证它是单射，假设
+       $f_1(c_1x+c_2y+c_3z)=f_1(d_1x+d_2y+d_3z)$。
+      由 $f_1$ 的定义，得到 $c_1+c_2x+c_3x^2=d_1+d_2x+d_3x^2$。
+      $\polyspace_2$ 中的元素相等时，对应系数必定相等，
+      因而 $c_1=d_1$、$c_2=d_2$ 且 $c_3=d_3$。
+      因此 $f_1(c_1x+c_2y+c_3z)=f_1(d_1x+d_2y+d_3z)$ 蕴含
+      $c_1x+c_2y+c_3z=d_1x+d_2y+d_3z$，所以 $f_1$ 是单射。
+
+      要验证它是满射，考虑陪域中的任意元素 $a_1+a_2x+a_3x^2$，
+      注意它确实是定义域中某个元素的像，
+      即它等于 $f_1(a_1x+a_2y+a_3z)$。
+      （例如，$0+3x+6x^2=f_1(0x+3y+6z)$。）
+
+      验证 $f_1$ 保持加法的计算如下。
+      \begin{multline*}
+        f_1\left(\,(c_1x+c_2y+c_3z)+(d_1x+d_2y+d_3z)\,\right)            \\
+          \begin{aligned}
+          &=f_1\left(\,(c_1+d_1)x+(c_2+d_2)y+(c_3+d_3)z\,\right)  \\
+          &=(c_1+d_1)+(c_2+d_2)x+(c_3+d_3)x^2  \\
+          &=(c_1+c_2x+c_3x^2)+(d_1+d_2x+d_3x^2)  \\
+          &=f_1(c_1x+c_2y+c_3z)+f_1(d_1x+d_2y+d_3z)
+          \end{aligned}
+      \end{multline*}
+
+      验证 $f_1$ 保持标量乘法的计算如下。
+      \begin{align*}
+        f_1(\,r\cdot (c_1x+c_2y+c_3z)\,)
+          &=f_1(\,(rc_1)x+(rc_2)y+(rc_3)z\,)  \\
+          &=(rc_1)+(rc_2)x+(rc_3)x^2  \\
+          &=r\cdot (c_1+c_2x+c_3x^2)  \\
+          &=r\cdot f_1(c_1x+c_2y+c_3z)
+      \end{align*}
+    \end{answer}
+  \item 证明由 $t(ax^2+bx+c)=bx^2-(a+c)x+a$
+    定义的映射 $\map{t}{\polyspace_2}{\polyspace_2}$ 是同构。
+    \begin{answer}
+      要证明这个映射是单射，假设 $t(\vec{v}_1)=t(\vec{v}_2)$，
+      目标是推出 $\vec{v}_1=\vec{v}_2$。
+      也就是说，$t(a_1x^2+b_1x+c_1)=t(a_2x^2+b_2x+c_2)$。
+      则 $b_1x^2-(a_1+c_1)x+a_1=b_2x^2-(a_2+c_2)x+a_2$。
+      次数不超过二的多项式相等时，二次项、常数项和一次项的系数分别相等，
+      因而 $b_1=b_2$、$a_1=a_2$，并由此得到 $c_1=c_2$。
+      所以 $a_1x^2+b_1x+c_1=a_2x^2+b_2x+c_2$，这个函数是单射。
+
+      要证明这个映射是满射，假设给定陪域中的一个元素~$\vec{w}$，
+      我们来找定义域中映到它的元素~$\vec{v}$。
+      设这个陪域元素为~$\vec{w}=px^2+qx+r$。
+      注意，当 $\vec{v}=rx^2+px+(-q-r)$ 时，$t(\vec{v})=\vec{w}$。
+      因此~$t$ 是满射。
+
+      要证明这个映射是同态，我们验证它保持两个元素的线性组合。
+      根据\nearbylemma{le:PresStructIffPresCombos}，这就说明该映射保持运算。
+      \begin{multline*}
+        t(r_1(a_1x^2+b_1x+c_1)+r_2(a_2x^2+b_2x+c_2))              \\ 
+        \begin{split} \quad 
+        &=t((r_1a_1+r_2a_2)x^2+(r_1b_1+r_2b_2)x+(r_1c_1+r_2c_2))   \\
+        &=(r_1b_1+r_2b_2)x^2-((r_1a_1+r_2a_2)+(r_1c_1+r_2c_2))x+(r_1a_1+r_2a_2)  \\
+        &=(r_1b_1)x^2-(r_1a_1+r_1c_1)x+r_1a_1
+           +(r_2b_2)x^2-(r_2a_2+r_2c_2)x+r_2a_2                       \\
+        &=r_1t(a_1x^2+b_1x+c_1)+r_2t(a_2x^2+b_2x+c_2)
+        \end{split}
+      \end{multline*}      
+    \end{answer}
+  \recommended \item 验证由下式定义的映射
+    $\map{h}{\Re^4}{\matspace_{\nbyn{2}}}$ 是同构：
+    \begin{equation*}
+      \colvec{a \\ b \\ c \\ d}
+      \mapsto
+      \begin{mat}
+        c  &a+d \\
+        b  &d
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      先验证 $h$ 是单射。
+      为此，我们将证明 $h(\vec{v}_1)=h(\vec{v}_2)$ 蕴含
+      $\vec{v}_1=\vec{v}_2$。
+      假设
+      \begin{equation*}
+          h(\vec{v}_1)
+          =
+          h(\colvec{a_1 \\ b_1 \\ c_1 \\ d_1})
+          =
+          h(\colvec{a_2 \\ b_2 \\ c_2 \\ d_2})
+          =h(\vec{v}_2)
+      \end{equation*}
+      则有
+      \begin{equation*}
+          \begin{mat}
+            c_1  &a_1+d_1 \\
+            b_1  &d_1
+          \end{mat}
+          =
+          \begin{mat}
+            c_2  &a_2+d_2 \\
+            b_2  &d_2
+          \end{mat}
+      \end{equation*}
+      由此可得
+      $c_1=c_2$（比较左上角的元素），
+      $b_1=b_2$（比较左下角的元素），
+      $d_1=d_2$（比较右下角的元素），
+      再结合最后一个等式得到 $a_1=a_2$（比较右上角的元素）。
+      因此 $\vec{v}_1=\vec{v}_2$。
+
+      接下来证明这个映射是满射，即陪域 $\matspace_{\nbyn{2}}$ 中的每个元素
+      都是定义域中某个四维列向量的像。
+      给定
+      \begin{equation*}
+          \vec{w}=
+          \begin{mat}
+            m  &n \\
+            p  &q
+          \end{mat}
+          \in\matspace_{\nbyn{2}}
+      \end{equation*}
+      注意，它是定义域中下列向量的像。
+      \begin{equation*}
+        \vec{v}=
+        \colvec{n-q \\ p \\ m \\ q}
+      \end{equation*}
+
+      最后验证这个映射保持线性组合。
+      根据\nearbylemma{le:PresStructIffPresCombos}，这就说明该映射保持运算。
+      \begin{align*}
+          h(r_1\cdot\colvec{a_1 \\ b_1 \\ c_1 \\ d_1}
+            +
+            r_2\cdot\colvec{a_2 \\ b_2 \\ c_2 \\ d_2})
+          &=h(\colvec{r_1a_1+r_2a_2 \\ r_1b_1+r_2b_2 \\ r_1c_1+r_2c_2 \\ r_1d_1+r_2d_2})  \\
+          &=
+          \begin{mat}
+             r_1c_1+r_2c_2 &(r_1a_1+r_2a_2)+(r_1d_1+r_2d_2)  \\
+             r_1b_1+r_2b_2 &r_1d_1+r_2d_2
+          \end{mat}                               \\
+          &=
+          r_1\begin{mat}
+             c_1 &a_1+d_1  \\
+             b_1 &d_1
+          \end{mat}                               
+          +
+          r_2\begin{mat}
+             c_2 &a_2+d_2  \\
+             b_2 &d_2
+          \end{mat}                               \\
+         &=r_1\cdot h(\colvec{a_1 \\ b_1 \\ c_1 \\ d_1})
+            +
+            r_2\cdot h(\colvec{a_2 \\ b_2 \\ c_2 \\ d_2})
+      \end{align*}      
+    \end{answer}
+  \recommended \item 
+   判断下列各映射是否为同构。
+   若是，则加以证明；若不是，则指出它不满足哪个条件。
+    \begin{exparts}
+      \partsitem \( \map{f}{\matspace_{\nbyn{2}}}{\Re} \) 定义为
+        \begin{equation*}
+           \begin{mat}
+             a  &b  \\
+             c  &d
+           \end{mat}
+           \mapsto
+           ad-bc
+        \end{equation*}
+      \partsitem \( \map{f}{\matspace_{\nbyn{2}}}{\Re^4} \) 定义为
+        \begin{equation*}
+           \begin{mat}
+             a  &b  \\
+             c  &d
+           \end{mat}
+           \mapsto
+           \colvec{a+b+c+d \\ a+b+c \\ a+b \\ a}
+        \end{equation*}
+      \partsitem \( \map{f}{\matspace_{\nbyn{2}}}{\polyspace_3} \) 定义为
+        \begin{equation*}
+           \begin{mat}
+             a  &b  \\
+             c  &d
+           \end{mat}
+           \mapsto
+           c+(d+c)x+(b+a)x^2+ax^3
+        \end{equation*}
+      \partsitem \( \map{f}{\matspace_{\nbyn{2}}}{\polyspace_3} \) 定义为
+        \begin{equation*}
+           \begin{mat}
+             a  &b  \\
+             c  &d
+           \end{mat}
+           \mapsto
+           c+(d+c)x+(b+a+1)x^2+ax^3
+        \end{equation*}
+    \end{exparts}
+  \begin{answer}
+    \begin{exparts}
+      \partsitem 不是；这个映射不是单射。
+        例如，元素全为零的矩阵与元素全为一的矩阵具有相同的像。
+      \partsitem 是，这个映射是同构。
+
+        它是单射：
+        \begin{align*}
+          &\text{若 }
+          f(\begin{mat}
+              a_1  &b_1  \\
+              c_1  &d_1
+            \end{mat})
+         =f(\begin{mat}
+              a_2  &b_2  \\
+              c_2  &d_2
+            \end{mat})                                     \\
+          &\qquad\text{ 则 }
+          \colvec{a_1+b_1+c_1+d_1 \\ a_1+b_1+c_1 \\ a_1+b_1 \\ a_1}
+          =\colvec{a_2+b_2+c_2+d_2 \\ a_2+b_2+c_2 \\ a_2+b_2 \\ a_2}
+        \end{align*}
+        给出 \( a_1=a_2 \)、\( b_1=b_2 \)、
+        \( c_1=c_2 \) 且 \( d_1=d_2 \)。
+
+        它是满射，因为下式
+        \begin{equation*}
+          \colvec{x \\ y \\ z \\ w}
+         =f(\begin{mat}
+              w    &z-w  \\
+              y-z  &x-y
+            \end{mat})
+        \end{equation*}
+        表明每个四维列向量都是某个 $\nbyn{2}$~矩阵的像。
+
+        最后，它保持线性组合
+        \begin{multline*}
+          f(\,r_1\cdot\begin{mat}
+              a_1  &b_1  \\
+              c_1  &d_1
+            \end{mat}
+            +r_2\cdot\begin{mat}
+              a_2  &b_2  \\
+              c_2  &d_2
+            \end{mat}\,)                                   \\
+          \begin{aligned}
+          &=f(\begin{mat}
+              r_1a_1+r_2a_2  &r_1b_1+r_2b_2  \\
+              r_1c_1+r_2c_2  &r_1d_1+r_2d_2
+            \end{mat})                            \\
+          &=\colvec{r_1a_1+\dots+r_2d_2 \\ r_1a_1+\dots+r_2c_2 \\ 
+                       r_1a_1+\dots+r_2b_2 \\ r_1a_1+r_2a_2}          \\
+          &=r_1\cdot\colvec{a_1+\dots+d_1 \\ a_1+\dots+c_1 \\ 
+                       a_1+b_1 \\ a_1}
+          +r_2\cdot\colvec{a_2+\dots+d_2 \\ a_2+\dots+c_2 \\ 
+                       a_2+b_2 \\ a_2}                         \\
+          &=r_1\cdot f(\begin{mat}
+                  a_1  &b_1  \\
+                  c_1  &d_1
+            \end{mat})
+          +r_2\cdot f(\begin{mat}
+                  a_2  &b_2  \\
+                  c_2  &d_2
+            \end{mat})
+         \end{aligned}
+        \end{multline*}
+        因此，根据\nearbylemma{le:PresStructIffPresCombos} 的第~(2) 项，
+        它保持结构。
+      \partsitem 是，这个映射是同构。
+
+        要证明它是单射，假设定义域中的两个元素在 $f$ 下具有相同的像。
+        \begin{equation*}
+          f(\begin{mat}
+              a_1  &b_1  \\
+              c_1  &d_1
+            \end{mat})
+          =f(\begin{mat}
+              a_2  &b_2  \\
+              c_2  &d_2
+            \end{mat})
+        \end{equation*}
+        根据 $f$ 的定义，可得
+        $c_1+(d_1+c_1)x+(b_1+a_1)x^2+a_1x^3
+          =c_2+(d_2+c_2)x+(b_2+a_2)x^2+a_2x^3$。
+        再根据相等多项式的对应系数相等，得到线性方程组
+        \begin{align*}
+          c_1      &=  c_2      \\
+          d_1+c_1  &=  d_2+c_2  \\
+          b_1+a_1  &=  b_2+a_2  \\
+          a_1      &=  a_2
+        \end{align*}
+        它只有一个解：$a_1=a_2$、$b_1=b_2$、$c_1=c_2$ 且
+        $d_1=d_2$。
+
+        要证明 $f$ 是满射，只需注意 $p+qx+rx^2+sx^3$
+        是下面这个矩阵在 $f$ 下的像。
+        \begin{equation*}
+          \begin{mat}
+            s  &r-s   \\
+            p  &q-p
+          \end{mat}
+        \end{equation*}
+
+        可以利用\nearbylemma{le:PresStructIffPresCombos} 的第~(2) 项，
+        验证 $f$ 保持结构。
+        \begin{multline*}
+          f(r_1\cdot\begin{mat}
+              a_1  &b_1  \\
+              c_1  &d_1
+            \end{mat}
+            +r_2\cdot\begin{mat}
+              a_2  &b_2  \\
+              c_2  &d_2
+            \end{mat})                                      \\
+           \begin{aligned}
+           &=
+           f(\begin{mat}
+               r_1a_1+r_2a_2  &r_1b_1+r_2b_2  \\
+               r_1c_1+r_2c_2  &r_1d_1+r_2d_2
+             \end{mat})                         \\
+           &=\begin{aligned}[t]
+               &(r_1c_1+r_2c_2)
+               +(r_1d_1+r_2d_2+r_1c_1+r_2c_2)x                 \\
+               &\mbox{}\quad +(r_1b_1+r_2b_2+r_1a_1+r_2a_2)x^2
+                 +(r_1a_1+r_2a_2)x^3
+             \end{aligned}                   \\
+           &=\begin{aligned}[t]
+                &r_1\cdot\left(c_1+(d_1+c_1)x+(b_1+a_1)x^2+a_1x^3\right) \\
+                &\mbox{}\quad +r_2\cdot\left(c_2+(d_2+c_2)x
+                            +(b_2+a_2)x^2+a_2x^3\right)
+              \end{aligned} \\
+           &=r_1\cdot f(\begin{mat}
+              a_1  &b_1  \\
+              c_1  &d_1
+            \end{mat})
+            +r_2\cdot f(\begin{mat}
+              a_2  &b_2  \\
+              c_2  &d_2
+            \end{mat})
+            \end{aligned}
+        \end{multline*}
+      \partsitem 不是，这个映射不保持结构。
+        例如，它没有把元素全为零的矩阵映到零多项式。
+    \end{exparts}  
+   \end{answer}
+  \item 
+    证明由 \( f(x)=x^3 \) 定义的映射 \( \map{f}{\Re^1}{\Re^1} \)
+    既是单射又是满射。
+    它是同构吗？
+    \begin{answer}
+      它既是单射又是满射，即是一一对应，
+      因为它有逆映射（即 \( f^{-1}(x)=\sqrt[3]{x} \)）。
+      不过，它不是同构。
+      例如，\( f(1)+f(1)\neq f(1+1) \)。
+    \end{answer}
+  \recommended \item 
+    参照\nearbyexample{exam:TwoWideIsoTwoTall}，
+    再给出两个同构
+    （当然，还必须验证它们满足同构定义中的各项条件）。
+    \begin{answer}
+     这样的映射有很多。
+     下面给出两个。
+     \begin{equation*}
+       \rowvec{a &b}\mapsto\colvec{b \\ a}
+       \quad\text{且}\quad
+       \rowvec{a &b}\mapsto\colvec{2a \\ b}
+     \end{equation*} 
+     参照前面的验证稍作调整，即可完成验证。
+    \end{answer}
+  \item 
+    参照\nearbyexample{exam:PolyTwoIsoRThree}，
+    再给出两个同构（并验证它们满足各项条件）。
+    \begin{answer}
+      下面给出两个。
+      \begin{equation*}
+        a_0+a_1x+a_2x^2 \mapsto \colvec{a_1 \\ a_0 \\ a_2}
+        \quad\text{且}\quad
+        a_0+a_1x+a_2x^2 \mapsto \colvec{a_0+a_1 \\ a_1 \\ a_2}
+      \end{equation*}
+      验证很直接（对于第二个映射，要证明它是满射，只需注意
+      \begin{equation*}
+        \colvec{s \\ t \\ u}
+      \end{equation*}
+      是 $(s-t)+tx+ux^2$ 的像）。
+     \end{answer}
+  \recommended \item 
+     证明：虽然 \( \Re^2 \) 本身不是 \( \Re^3 \) 的子空间，
+     但它同构于 \( \Re^3 \) 的 \( xy \) 平面子空间。
+     \begin{answer}
+       空间 $\Re^2$ 不是 $\Re^3$ 的子空间，因为它不是 $\Re^3$ 的子集。
+       $\Re^2$ 中的二维列向量不是 $\Re^3$ 的元素。
+
+       自然映射 \( \map{\iota}{\Re^2}{\Re^3} \)
+       （称为\definend{嵌入}映射）如下；它给出到该平面的同构。
+       \begin{equation*}
+         \colvec{x \\ y}
+           \mapsunder{\iota}
+         \colvec{x \\ y \\ 0}
+       \end{equation*}
+
+       这个映射是单射，因为
+       \begin{equation*}
+         f(\colvec{x_1 \\ y_1})=f(\colvec{x_2 \\ y_2})
+         \quad\text{蕴含}\quad
+         \colvec{x_1 \\ y_1 \\ 0}=\colvec{x_2 \\ y_2 \\ 0}
+       \end{equation*}
+       进而推出 $x_1=x_2$ 且 $y_1=y_2$，
+       因此最初的两个二维列向量相等。
+
+       由于
+       \begin{equation*}
+         \colvec{x \\ y \\ 0}
+         =f(\colvec{x \\ y})
+       \end{equation*}
+       这个映射到 $xy$ 平面是满射。
+
+       要证明这个映射保持结构，利用\nearbylemma{le:PresStructIffPresCombos}
+       的第~(2) 项，通过下式
+       \begin{multline*}
+         f(c_1\cdot \colvec{x_1 \\ y_1}+c_2\cdot \colvec{x_2 \\ y_2})
+          = f(\colvec{c_1x_1+c_2x_2 \\ c_1y_1+c_2y_2})  
+          =\colvec{c_1x_1+c_2x_2 \\ c_1y_1+c_2y_2 \\ 0}                     \\
+          =c_1\cdot \colvec{x_1 \\ y_1 \\ 0}+c_2\cdot \colvec{x_2 \\ y_2 \\ 0}
+          =c_1\cdot f(\colvec{x_1 \\ y_1})+c_2\cdot f(\colvec{x_2 \\ y_2})
+       \end{multline*}
+       验证它保持两个向量的线性组合。
+     \end{answer}
+  \item 
+    给出 \( \Re^{16} \) 与
+    \( \matspace_{\nbyn{4}} \) 之间的两个同构。
+     \begin{answer}
+        下面给出两个：
+        \begin{equation*}
+           \colvec{r_1 \\ r_2 \\ \vdots \\ r_{16}}
+              \mapsto
+           \begin{mat}
+              r_1  &r_2  &\ldots  \\
+                   &              \\
+                   &     &\ldots  &r_{16}
+           \end{mat}
+           \quad\text{且}\quad
+           \colvec{r_1 \\ r_2 \\ \vdots \\ r_{16}}
+              \mapsto
+           \begin{mat}
+              r_1    &                    \\
+              r_2    &                    \\
+              \vdots &   &        &\vdots \\
+                   &     &        &r_{16}
+           \end{mat}
+        \end{equation*}     
+        很容易验证它们都是同构。
+    \end{answer}
+  \recommended \item
+    \( k \) 取何值时，\( \matspace_{\nbym{m}{n}} \) 同构于
+    \( \Re^{k} \)？
+     \begin{answer}
+        当 $k$ 为乘积 \( k=mn \) 时，下面给出一个同构。
+        \begin{equation*}
+           \begin{mat}
+              r_1  &r_2  &\ldots  \\
+                   &\vdots        \\
+                   &     &\ldots  &r_{m\cdot n}
+           \end{mat}
+           \mapsto
+           \colvec{r_1 \\ r_2 \\ \vdots \\ r_{m\cdot n}}
+        \end{equation*}
+        很容易验证它是同构。
+      \end{answer}
+  \item 
+     \( k \) 取何值时，\( \polyspace_k \) 同构于 \( \Re^n \)？
+     \begin{answer}
+        若 \( n\geq 1 \)，则 \( \polyspace_{n-1}\isomorphicto\Re^n \)。
+        （若把 \( \polyspace_{-1} \) 和 \( \Re^0 \) 视为平凡向量空间，
+        则这一关系还可以向下延伸一个维数。）
+        它们之间的自然同构如下。
+        \begin{equation*}
+          a_0+a_1x+\dots+a_{n-1}x^{n-1}
+          \mapsto\colvec{a_0 \\ a_1 \\ \vdots \\ a_{n-1}}
+        \end{equation*}
+        验证它是同构很直接。
+     \end{answer}
+  \item \label{exer:PolyToPolyLinSubst}
+    证明\nearbyexample{ex:OORThreeToFourLinCom} 中
+    由 \( p(x)\mapsto p(x-1) \) 定义的
+    从 \( \polyspace_5 \) 到 \( \polyspace_5 \) 的映射是向量空间同构。
+    \begin{answer}
+      把这个映射展开，得到
+      \begin{multline*}
+        f(a_0+a_1x+a_2x^2+a_3x^3+a_4x^4+a_5x^5)                        \\
+        \begin{aligned}
+        &=a_0+a_1(x-1)+a_2(x-1)^2+a_3(x-1)^3               \\
+        &\mbox{}\quad +a_4(x-1)^4+a_5(x-1)^5               \\
+        &=a_0+a_1(x-1)+a_2(x^2-2x+1)         \\
+        &\mbox{}\quad +a_3(x^3-3x^2+3x-1)   \\
+        &\mbox{}\quad +a_4(x^4-4x^3+6x^2-4x+1) \\
+        &\mbox{}\quad +a_5(x^5-5x^4+10x^3-10x^2+5x-1)       \\
+        &=(a_0-a_1+a_2-a_3+a_4-a_5)  \\
+        &\mbox{}\quad +(a_1-2a_2+3a_3-4a_4+5a_5)x  \\
+        &\mbox{}\quad +(a_2-3a_3+6a_4-10a_5)x^2  \\
+        &\quad+(a_3-4a_4+10a_5)x^3         \\
+        &\mbox{}\quad +(a_4-5a_5)x^4
+                        +a_5x^5
+        \end{aligned}
+      \end{multline*}
+      这个映射是一一对应，因为它有逆映射，
+      即 \( p(x)\mapsto p(x+1) \)。
+
+      最后，利用\nearbylemma{le:PresStructIffPresCombos} 的第~(2) 项，
+      验证它保持两个多项式的线性组合，便可证明它是同构。
+      简言之，
+      $f(c\cdot (a_0+a_1x+\dots +a_5x^5)+d\cdot (b_0+b_1x+\dots +b_5x^5))$
+      等于
+      \begin{multline*}
+         (ca_0-ca_1+ca_2-ca_3+ca_4-ca_5+db_0-db_1+db_2-db_3+db_4-db_5)  \\
+          +\dots+(ca_5+db_5)x^5                                
+      \end{multline*}
+      而这又等于
+      $c\cdot f(a_0+a_1x+\dots +a_5x^5)+d\cdot f(b_0+b_1x+\dots +b_5x^5)$。
+    \end{answer}
+  \item  
+    在\nearbylemma{le:IsoSendsZeroToZero} 中，为什么一定存在
+    \( \vec{v}\in V \)？
+    也就是说，为什么 $V$ 一定非空？
+     \begin{answer}
+       向量空间的底层集合不可能是空集。
+       可以取 $\vec{v}$ 为零向量。
+     \end{answer}
+  \item  
+     任意两个平凡空间都同构吗？
+     \begin{answer}
+        是的；若两个空间分别为 \( \set{\vec{a}} \) 和
+        \( \set{\vec{b}} \)，
+        则把 \( \vec{a} \) 映到 \( \vec{b} \) 的映射显然既是单射又是满射，
+        而且也保持了其中仅有的那些结构。
+      \end{answer}
+  \item 
+    在\nearbylemma{le:PresStructIffPresCombos} 的证明中，
+    没有求和项的情形（即 $n$ 为零时）应当如何处理？
+    \begin{answer}
+       $n=0$ 个向量的线性组合等于零向量，
+       因此由\nearbylemma{le:IsoSendsZeroToZero} 可知，
+       这三个命题在此情形下也等价。
+    \end{answer}
+  \item 
+    证明：任意同构 \( \map{f}{\polyspace_0}{\Re^1} \)
+    都具有 \( a\mapsto ka \) 的形式，其中 \( k \) 为某个非零实数。
+    \begin{answer}
+      考虑 \( \polyspace_0 \) 的基 \( \sequence{1} \)，
+      把 \( f(1)\in\Re \) 记为 \( k \)。
+      对任意 \( a\in\polyspace_0 \)，都有
+      \( f(a)=f(a\cdot 1)=af(1)=ak \)，
+      所以 \( f \) 的作用就是乘以 \( k \)。
+      注意 \( k\neq 0 \)，否则这个映射不是单射。
+      （顺便说一句，任何这样的映射 $a\mapsto ka$ 都是同构，这很容易验证。）
+     \end{answer}
+  \item 
+    通过下列各题证明同构是等价关系。
+    \begin{exparts}
+      \partsitem 证明恒等映射 $\map{\mbox{id}}{V}{V}$ 是同构。
+        因此，每个向量空间都同构于自身。
+      \partsitem 证明：若 $\map{f}{V}{W}$ 是同构，
+        则其逆映射 $\map{f^{-1}}{W}{V}$ 也是同构。
+        因此，若 $V$ 同构于 $W$，则 $W$ 也同构于 $V$。
+      \partsitem 证明同构的复合是同构：
+        若 $\map{f}{V}{W}$ 与 $\map{g}{W}{U}$ 都是同构，
+        则 $\map{\composed{g}{f}}{V}{U}$ 也是同构。
+        因此，若 $V$ 同构于 $W$，且 $W$ 同构于 $U$，
+        则 $V$ 也同构于 $U$。
+    \end{exparts}
+    \begin{answer}
+      在每一题中，我们都依据\nearbylemma{le:PresStructIffPresCombos}
+      的第~(2) 项，通过验证映射保持定义域中两个元素的线性组合，
+      来证明它保持结构。
+      \begin{exparts}
+        \partsitem 
+          恒等映射显然既是单射又是满射。
+          保持线性组合也很容易验证。
+          \begin{equation*}
+            \mbox{id}(c_1\cdot \vec{v}_1+c_2\cdot \vec{v}_2)
+             =c_1\vec{v}_1+c_2\vec{v}_2
+             =c_1\cdot \mbox{id}(\vec{v}_1)+c_2\cdot \mbox{id}(\vec{v}_2)
+          \end{equation*}
+        \partsitem 一一对应的逆映射仍是一一对应（见附录），
+          因此只需验证逆映射保持线性组合。
+          假设 \( \vec{w}_1=f(\vec{v}_1) \)
+          （因而 \( f^{-1}(\vec{w}_1)=\vec{v}_1 \)），
+          并假设 \( \vec{w}_2=f(\vec{v}_2) \)。
+          \begin{align*}
+            f^{-1}(c_1\cdot\vec{w}_1+c_2\cdot\vec{w}_2)
+              &=f^{-1}\bigl(\,c_1\cdot f(\vec{v}_1)
+                             +c_2\cdot f(\vec{v}_2)\,\bigr) \\
+              &=f^{-1}(\,f\bigl(c_1\vec{v}_1+c_2\vec{v}_2)\,\bigr)    \\
+              &=c_1\vec{v}_1+c_2\vec{v}_2                             \\ 
+              &=c_1\cdot f^{-1}(\vec{w}_1)+c_2\cdot f^{-1}(\vec{w}_2)    
+          \end{align*}
+        \partsitem 两个一一对应的复合仍是一一对应（见附录），
+          因此只需验证复合映射保持线性组合。
+          \begin{align*}
+           \composed{g}{f}\,\bigl(c_1\cdot\vec{v}_1+c_2\cdot\vec{v}_2\bigr)
+             &=g\bigl(\,f(c_1\vec{v}_1+c_2\vec{v}_2)\,\bigr)        \\
+             &=g\bigl(\,c_1\cdot f(\vec{v}_1)+c_2\cdot f(\vec{v}_2)\,\bigr) \\ 
+             &=c_1\cdot g\bigl(f(\vec{v}_1))+c_2\cdot g(f(\vec{v}_2)\bigr)  \\
+             &=c_1\cdot\composed{g}{f}\,(\vec{v}_1)
+                  +c_2\cdot\composed{g}{f}\,(\vec{v}_2)
+          \end{align*}
+      \end{exparts}
+     \end{answer}
+  \item 
+    假设 \( \map{f}{V}{W} \) 保持结构。
+    证明：\( f \) 是单射，当且仅当 \( V \) 中
+    被 \( f \) 映到 \( \zero_W \) 的唯一元素是 \( \zero_V \)。
+    \begin{answer}
+      一个方向很容易：~根据定义，若 \( f \) 是单射，
+      则对任意 \( \vec{w}\in W \)，至多有一个 \( \vec{v}\in V \) 满足
+      \( f(\vec{v}\,)=\vec{w} \)；特别地，
+      \( V \) 中至多有一个元素被映到 \( \zero_W \)。
+      \nearbylemma{le:IsoSendsZeroToZero} 的证明没有用到映射是一一对应这一条件，
+      因而它实际上表明，任何保持结构的映射
+      \( f \) 都把 \( \zero_V \) 映到 \( \zero_W \)。
+
+      反过来，假设 \( V \) 中被映到 \( \zero_W \) 的唯一元素是 \( \zero_V \)。
+      要证明 \( f \) 是单射，假设 \( f(\vec{v}_1)=f(\vec{v}_2) \)。
+      则 \( f(\vec{v}_1)-f(\vec{v}_2)=\zero_W \)，从而
+      \( f(\vec{v}_1-\vec{v}_2)=\zero_W \)。
+      于是 \( \vec{v}_1-\vec{v}_2=\zero_V \)，所以
+      $\vec{v}_1=\vec{v}_2$，即 \( f \) 是单射。
+    \end{answer}
+  \item 
+    假设 \( \map{f}{V}{W} \) 是同构。
+    证明：集合 \( \set{\vec{v}_1,\dots,\vec{v}_k}\subseteq V \) 线性相关，
+    当且仅当其像集
+    \( \set{f(\vec{v}_1),\dots,f(\vec{v}_k)}\subseteq W \)
+    线性相关。
+    \begin{answer}
+      我们将证明一个更强的结论\Dash 同构不仅保持线性相关关系的存在性，
+      而且保持每一个具体的线性相关关系，即
+      \begin{multline*}
+        \vec{v}_i=c_1\vec{v}_1+\cdots+c_{i-1}\vec{v}_{i-1}
+                   +c_{i+1}\vec{v}_{i+1}+\cdots+c_k\vec{v}_k   \\
+        \iff
+        f(\vec{v}_i)=c_1f(\vec{v}_1)+\cdots+c_{i-1}f(\vec{v}_{i-1})
+                     +c_{i+1}f(\vec{v}_{i+1})+\cdots+c_kf(\vec{v}_k).
+      \end{multline*}
+      这个命题的 \( \implies \) 方向由\nearbylemma{le:PresStructIffPresCombos}
+      的第~(3) 项可得。
+      对于 \( \isimpliedby \) 方向，先将各项合并
+      \begin{align*}
+         f(\vec{v}_i)
+           &=c_1f(\vec{v}_1)+\dots+c_{i-1}f(\vec{v}_{i-1})
+                     +c_{i+1}f(\vec{v}_{i+1})+\dots+c_kf(\vec{v}_k)  \\
+           &=f(c_1\vec{v}_1+\dots+c_{i-1}\vec{v}_{i-1}
+                     +c_{i+1}\vec{v}_{i+1}+\dots+c_k \vec{v}_k) 
+      \end{align*}
+      再利用 $f$ 是单射这一事实：两个向量 $\vec{v}_i$ 与
+      $c_1\vec{v}_1+\dots+c_{i-1}\vec{v}_{i-1}
+              +c_{i+1}f\vec{v}_{i+1}+\dots+c_kf(\vec{v}_k$
+      若被 $f$ 映到同一个像，就必定相等。
+    \end{answer}
+  \recommended \item \label{exer:RigidPlaneMapsAutos} 
+    证明\nearbyexample{exam:RigidPlaneMapsAutos} 中的每一类映射都是自同构。
+    \begin{exparts}
+      \partsitem 由非零标量 \( s \) 给出的伸缩 $d_s$。
+      \partsitem 转过角度 \( \theta \) 的旋转 $t_\theta$。
+      \partsitem 关于过原点直线的反射 $f_\ell$。
+    \end{exparts}
+     \textit{提示。}
+     对于第二题和第三题，极坐标很有用。
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+          这个映射是单射，因为若 \( d_s(\vec{v}_1)=d_s(\vec{v}_2) \)，
+          则由定义有 \( s\cdot\vec{v}_1=s\cdot\vec{v}_2 \)，
+          而 \( s \) 非零，所以 \( \vec{v}_1=\vec{v}_2 \)。
+          这个映射是满射，因为任意 \( \vec{w}\in\Re^2 \) 都是
+          \( \vec{v}=(1/s)\cdot\vec{w} \) 的像（这里同样用到 $s$ 非零）。
+          （也可以通过逆映射看出它是一一对应：
+          \( d_s \) 的逆映射是 \( d_{1/s} \)。）
+
+          最后，注意这个映射保持线性组合
+          \begin{equation*}
+            d_s(c_1\cdot\vec{v}_1+c_2\cdot\vec{v}_2)
+            =s(c_1\vec{v}_1+c_2\vec{v}_2)
+            =c_1s\vec{v}_1+c_2s\vec{v}_2
+            =c_1\cdot d_s(\vec{v}_1)+c_2\cdot d_s(\vec{v}_2)
+          \end{equation*}
+          因此它是同构。
+        \partsitem 与前一题一样，注意到映射 $t_\theta$ 有逆映射 $t_{-\theta}$，
+          就能说明它是一一对应。
+
+          从几何上很容易看出这个映射保持结构。
+          例如，先将两个向量相加再旋转，与先旋转再相加，效果相同。
+          为给出代数论证，考虑极坐标：
+          映射 \( t_\theta \) 把终点为 \( (r,\phi) \) 的向量
+          映到终点为 \( (r,\phi+\theta) \) 的向量。
+          利用熟悉的三角公式
+          $\cos(\phi+\theta)=\cos\phi\,\cos\theta-\sin\phi\,\sin\theta$
+          和
+          $\sin(\phi+\theta)=\sin\phi\,\cos\theta+\cos\phi\,\sin\theta$，
+          可以把这个映射的作用写成通常的直角坐标形式。
+          \begin{equation*}
+            \colvec{x \\ y}=\colvec{r\cos\phi \\ r\sin\phi}
+              \mapsunder{t_\theta}
+            \colvec{r\cos(\phi+\theta) \\ r\sin(\phi+\theta)}
+            =\colvec{x\cos\theta-y\sin\theta \\ x\sin\theta+y\cos\theta}
+          \end{equation*}
+          现在，验证保持加法只需直接计算。
+          \begin{multline*}
+            \colvec{x_1+x_2 \\ y_1+y_2}
+              \mapsunder{t_\theta}
+            \colvec{(x_1+x_2)\cos\theta-(y_1+y_2)\sin\theta \\ 
+                       (x_1+x_2)\sin\theta+(y_1+y_2)\cos\theta}    \\
+            =\colvec{x_1\cos\theta-y_1\sin\theta \\ 
+                       x_1\sin\theta+y_1\cos\theta}
+            +\colvec{x_2\cos\theta-y_2\sin\theta \\ 
+                       x_2\sin\theta+y_2\cos\theta}
+          \end{multline*}
+          验证保持标量乘法的计算与此类似。
+        \partsitem 
+          这个映射是一一对应，因为它有逆映射（就是它自身）。
+
+          与前一题一样，从几何上很容易看出反射映射保持结构：~例如，
+          先将向量相加再反射，与先反射再相加，结果相同。
+          为给出代数证明，假设直线 $\ell$ 的斜率为 $k$
+          （斜率不存在的情形可以单独处理，也很容易）。
+          按照提示，使用极坐标：~若直线 \( \ell \) 与 \( x \) 轴的夹角为
+          \( \phi \)，则 \( f_\ell \) 的作用是
+          把终点为 \( (r\cos\theta,r\sin\theta) \) 的向量映到
+          终点为 \( (r\cos(2\phi-\theta),r\sin(2\phi-\theta)) \) 的向量。
+          \begin{center}  \small
+            \includegraphics{map/mp/ch3.72}
+          \end{center}
+          与前一题一样，我们使用三角公式转为直角坐标。
+          首先，注意 $\cos\phi$ 和 $\sin\phi$ 可由直线的斜率 $k$ 确定。
+          下图
+          \begin{center}  \small
+            \includegraphics{map/mp/ch3.73}
+          \end{center}
+          给出 $\cos\phi=1/\sqrt{1+k^2}$ 和 $\sin\phi=k/\sqrt{1+k^2}$。
+          现在，
+          \begin{align*}
+            \cos(2\phi-\theta)
+              &=\cos(2\phi)\,\cos\theta+\sin(2\phi)\,\sin\theta        \\
+              &=\left(\cos^2\phi-\sin^2\phi\right)\,\cos\theta
+                 +\left(2\sin\phi\cos\phi\right)\,\sin\theta        \\
+              &=\left((\frac{1}{\sqrt{1+k^2}})^2
+                      -(\frac{k}{\sqrt{1+k^2}})^2\right)
+                   \,\cos\theta
+                 +\left(2\frac{k}{\sqrt{1+k^2}}\frac{1}{\sqrt{1+k^2}}\right)
+                   \,\sin\theta        \\
+              &=\left(\frac{1-k^2}{1+k^2}\right)\,\cos\theta
+                 +\left(\frac{2k}{1+k^2}\right)\,\sin\theta        
+          \end{align*}
+          因此像向量的第一个分量如下。
+          \begin{equation*}
+            r\cdot\cos(2\phi-\theta)=\frac{1-k^2}{1+k^2}\cdot x
+                                     +\frac{2k}{1+k^2}\cdot y
+          \end{equation*}
+          类似的计算表明，像向量的第二个分量如下。
+          \begin{equation*}
+            r\cdot\sin(2\phi-\theta)=\frac{2k}{1+k^2}\cdot x
+                                     -\frac{1-k^2}{1+k^2}\cdot y
+          \end{equation*}
+          有了 $f_\ell$ 作用的这一代数表达式
+          \begin{equation*}
+            \colvec{x \\ y}
+             \mapsunder{f_\ell}
+            \colvec{(1-k^2/1+k^2)\cdot x
+                                     +(2k/1+k^2)\cdot y \\ 
+                   (2k/1+k^2)\cdot x
+                                     -(1-k^2/1+k^2)\cdot y}  
+          \end{equation*}
+          就很容易验证它保持结构。
+      \end{exparts}  
+    \end{answer}
+  \item 
+    给出 \( \polyspace_2 \) 的一个自同构，要求它既不是恒等映射，
+    也不是平移映射 $p(x)\mapsto p(x-k)$。
+    \begin{answer}
+       首先，映射 $p(x)\mapsto p(x+k)$ 不符合要求，
+       因为它也是 $p(x)\mapsto p(x-k)$ 这种形式的映射。
+       下面给出一个正确答案（还有许多其他正确答案）：
+       \( a_0+a_1x+a_2x^2 \mapsto a_2+a_0x+a_1x^2 \)。
+       验证它是同构很直接。
+    \end{answer}
+  \item
+    \begin{exparts}
+      \partsitem 证明：函数 \( \map{f}{\Re^1}{\Re^1} \) 是自同构，
+        当且仅当它具有 \( x\mapsto kx \) 的形式，
+        其中 \( k\neq 0 \)。
+      \partsitem 设 \( f \) 是 \( \Re^1 \) 的自同构，且
+        \( f(3)=7 \)。求 \( f(-2) \)。
+      \partsitem 证明：函数 \( \map{f}{\Re^2}{\Re^2} \) 是自同构，
+        当且仅当它具有以下形式
+        \begin{equation*}
+          \colvec{x \\ y}
+            \mapsto
+          \colvec{ax+by \\ cx+dy}
+        \end{equation*}
+        其中 \( a,b,c,d\in\Re \) 且 \( ad-bc\neq 0 \)。
+        \textit{提示。}
+        前面小节的练习已经证明，
+        \begin{equation*}
+          \colvec{b \\ d}\text{\ 不是下列向量的倍数：\ }\colvec{a \\ c}
+        \end{equation*}
+        当且仅当 $ad-bc\neq 0$。
+      \partsitem 设 \( f \) 是 \( \Re^2 \) 的自同构，且
+        \begin{equation*}
+          f(\colvec[r]{1 \\ 3})=\colvec[r]{2 \\ -1}
+           \quad\text{且}\quad
+          f(\colvec[r]{1 \\ 4})=\colvec[r]{0 \\ 1}.
+        \end{equation*}
+        求
+        \begin{equation*}
+          f(\colvec[r]{0 \\ -1}).
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 先证必要性。设 \( \map{f}{\Re^1}{\Re^1} \) 是同构。
+          考虑基 \( \sequence{1}\subseteq\Re^1 \)，
+          把 \( f(1) \) 记为 \( k \)。
+          则对任意 \( x \)，都有
+          \( f(x)=f(x\cdot 1)=x\cdot f(1)=xk \)，
+          所以 $f$ 的作用就是乘以 $k$。
+          最后，注意 \( k\neq 0 \)，否则 $f$ 不是单射。
+
+          再证充分性，只需验证当 $k\neq 0$ 时，这样的映射是同构。
+          要验证它是单射，假设 \( f(x_1)=f(x_2) \)，
+          则 \( kx_1=kx_2 \)，两边除以非零因子 \( k \)，得到 $x_1=x_2$。
+          要验证它是满射，注意任意 \( y\in\Re^1 \)
+          都是 \( x=y/k \) 的像（这里同样用到 $k\neq 0$）。
+          最后，下面的计算验证了这个映射保持定义域中两个元素的线性组合。
+          \begin{equation*}
+            f(c_1x_1+c_2x_2)
+            =k(c_1x_1+c_2x_2)
+            =c_1kx_1+c_2kx_2
+            =c_1f(x_1)+c_2f(x_2)
+          \end{equation*}
+        \partsitem 由前一题可知，$f$ 的作用是 \( x\mapsto (7/3)x \)。
+          因此 \( f(-2)=-14/3 \)。
+        \partsitem 先证必要性，假设 \( \map{f}{\Re^2}{\Re^2} \) 是自同构。
+          考虑 \( \Re^2 \) 的标准基 \( \stdbasis_2 \)。
+          设
+          \begin{equation*}
+            f(\vec{e}_1)=\colvec{a \\ c}
+            \quad\text{且}\quad
+            f(\vec{e}_2)=\colvec{b \\ d}.
+          \end{equation*}
+          则 $f$ 对任意向量的作用，都由它对这两个基向量的作用决定。
+          \begin{equation*}
+            f(\colvec{x \\ y})
+            =f(x\cdot\vec{e}_1+y\cdot\vec{e}_2)
+            =x\cdot f(\vec{e}_1)+y\cdot f(\vec{e}_2)
+            =x\cdot\colvec{a \\ c}+y\cdot\colvec{b \\ d}
+            =\colvec{ax+by \\ cx+dy}
+          \end{equation*}
+          最后，注意若 \( ad-bc=0 \)，即
+          \( f(\vec{e}_2) \) 是 \( f(\vec{e}_1) \) 的倍数，
+          则 \( f \) 不是单射。
+
+          再证充分性，需要在 $ad-bc\neq 0$ 的条件下验证这个映射是同构。
+          保持结构很容易验证；这里我们来证明 \( f \) 是一一对应。
+          要证明这个映射是单射，假设
+          \begin{equation*}
+            f(\colvec{x_1 \\ y_1})
+            =f(\colvec{x_2 \\ y_2})
+            \quad\text{因此}\quad
+            \colvec{ax_1+by_1 \\ cx_1+dy_1}
+            =\colvec{ax_2+by_2 \\ cx_2+dy_2}
+          \end{equation*}
+          由于 \( ad-bc\neq 0 \)，得到的方程组
+          \begin{equation*}
+            \begin{linsys}{2}
+              a(x_1-x_2)  &+  &b(y_1-y_2)  &=  &0  \\
+              c(x_1-x_2)  &+  &d(y_1-y_2)  &=  &0  
+            \end{linsys}
+          \end{equation*}
+          有唯一解，即平凡解
+          $x_1-x_2=0$ 且 $y_1-y_2=0$
+          （这可由提示推出）。
+
+          证明这个映射是满射的思路与此密切相关\Dash 方程组
+          \begin{equation*}
+            \begin{linsys}{2}
+              ax_1  &+  &by_1  &=  &x  \\
+              cx_1  &+  &dy_1  &=  &y  
+            \end{linsys}
+          \end{equation*}
+          对任意 \( x \) 和 \( y \) 都有解，当且仅当集合
+          \begin{equation*}
+            \set{\colvec{a \\ c},
+                 \colvec{b \\ d} }
+          \end{equation*}
+          张成 \( \Re^2 \)，也即当且仅当这个集合是一组基
+          （因为它是 $\Re^2$ 的一个二元子集），
+          也即当且仅当 \( ad-bc\neq 0 \)。
+        \partsitem
+          \begin{equation*}
+            f(\colvec[r]{0 \\ -1})=f(\colvec[r]{1 \\ 3}-\colvec[r]{1 \\ 4})
+            =f(\colvec[r]{1 \\ 3})-f(\colvec[r]{1 \\ 4})
+            =\colvec[r]{2 \\ -1}-\colvec[r]{0 \\ 1}
+            =\colvec[r]{2 \\ -2}
+          \end{equation*}
+      \end{exparts}    
+    \end{answer}
+  \item 
+     参照\nearbylemma{le:IsoSendsZeroToZero} 和
+     \nearbylemma{le:PresStructIffPresCombos}，
+     再找出两种同构所保持的性质或结构。
+     \begin{answer}
+       答案有很多，其中两个是线性无关性和子空间。
+
+       先证明：若集合 $\set{\vec{v}_1,\dots,\vec{v}_n}$ 线性无关，
+       则它的像集 $\set{f(\vec{v}_1),\dots,f(\vec{v}_n)}$ 也线性无关。
+       考虑像集中的元素之间的一个线性关系。
+       \begin{equation*}
+         0=c_1f(\vec{v}_1)+\dots+c_nf(\vec{v_n})
+          =f(c_1\vec{v}_1)+\dots+f(c_n\vec{v_n})
+          =f(c_1\vec{v}_1+\dots+c_n\vec{v_n})
+       \end{equation*}
+       因为这个映射是同构，所以它是单射。
+       因此 $f$ 只把定义域中的一个向量映到值域中的零向量，
+       也就是说，$c_1\vec{v}_1+\dots+c_n\vec{v}_n$ 等于零向量
+       （当然，是定义域中的零向量）。
+       但若 $\set{\vec{v}_1,\dots,\vec{v}_n}$ 线性无关，
+       则所有 $c$ 都为零，
+       因而 $\set{f(\vec{v}_1),\dots,f(\vec{v}_n)}$ 也线性无关。
+       （\textit{注。}
+       这一论证中有个细节需要说明。
+       集合中的重复元素只计一次；严格地说，
+       $\set{\vec{v},\vec{v}}$ 是一个单元素集合，
+       因为列出的两个元素其实是同一个。
+       不过，请注意上面论证中下标~$n$ 的使用。
+       从定义域中的集合 $\set{\vec{v}_1,\dots,\vec{v}_n}$
+       转到像集 $\set{f(\vec{v}_1),\dots,f(\vec{v}_n)}$ 时，
+       元素个数不会因重复而减少，
+       因为同构 $f$ 是单射，像集中没有重复元素。）
+
+       设 $\map{f}{V}{W}$ 是同构，$U$ 是定义域 $V$ 的子空间。
+       要证明像向量的集合
+       $f(U)=\set{\vec{w}\in W
+                 \suchthat\text{存在 $\vec{u}\in U$ 使 $\vec{w}=f(\vec{u})$}}$
+       是 $W$ 的子空间，只需证明它对其中两个元素的线性组合封闭
+       （它包含零向量的像，所以非空）。
+       我们有
+       \begin{equation*}
+         c_1\cdot f(\vec{u}_1)+c_2\cdot f(\vec{u}_2)
+        =f(c_1\vec{u}_1)+f(c_2\vec{u}_2)
+        =f(c_1\vec{u}_1+c_2\vec{u}_2)
+       \end{equation*}
+       而 $c_1\vec{u}_1+c_2\vec{u}_2$ 属于 $U$，
+       因为子空间对线性组合封闭。
+       因此，$f(\vec{u}_1)$ 与 $f(\vec{u}_2)$ 的这个线性组合属于 $f(U)$。
+      \end{answer}
+  \item 
+    下面说明，同构有时可以按要求构造：
+    给定定义域和值域中的一些向量，可以构造一个同构，使这些向量按指定方式对应。
+    \begin{exparts}
+      \partsitem 设 \( B=\sequence{\vec{\beta}_1,\vec{\beta}_2,
+                   \vec{\beta}_3} \)
+        是 \( \polyspace_2 \) 的一组基，则任意 \( \vec{p}\in\polyspace_2 \)
+        都有唯一的表示 \(
+        \vec{p}=c_1\vec{\beta}_1+c_2\vec{\beta}_2+c_3\vec{\beta}_3 \)，
+        记作
+        \begin{equation*}
+          \rep{\vec{p}}{B}=\colvec{c_1 \\ c_2 \\ c_3}
+        \end{equation*}
+        证明 $\rep{\cdot}{B}$ 运算是从 \( \polyspace_2 \) 到 \( \Re^3 \) 的函数
+        （需要证明：对定义域中的每个向量 \( \vec{v}\in\polyspace_2 \)，
+        在 \( \Re^3 \) 中都有一个与之对应的像向量；
+        并且，对定义域中的每个向量 \( \vec{v}\in\polyspace_2 \)，
+        至多有一个与之对应的像向量）。
+      \partsitem 证明这个 $\rep{\cdot}{B}$ 函数既是单射又是满射。
+      \partsitem 证明它保持结构。
+      \partsitem 构造一个从 \( \polyspace_2 \) 到 \( \Re^3 \) 的同构，
+        使其满足下列要求。
+        \begin{equation*}
+          x+x^2\mapsto\colvec[r]{1 \\ 0 \\ 0}
+          \quad\text{且}\quad
+          1-x\mapsto\colvec[r]{0 \\ 1 \\ 0}
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 对应关系
+          \begin{equation*}
+            \vec{p}=c_1\vec{\beta}_1+c_2\vec{\beta}_2+c_3\vec{\beta}_3
+            \mapsunder{\rep{\cdot}{B}}
+            \colvec{c_1 \\ c_2 \\ c_3}
+          \end{equation*}
+          是函数，只需定义域中的每个元素 $\vec{p}$ 都至少对应陪域中的一个元素，
+          并且定义域中的每个元素 $\vec{p}$ 都至多对应陪域中的一个元素。
+          第一个条件成立，因为基 $B$ 张成定义域\Dash 每个 $\vec{p}$
+          至少可以写成一种由 $\vec{\beta}$ 组成的线性组合。
+          第二个条件成立，因为基 $B$ 线性无关\Dash 定义域中的每个元素 $\vec{p}$
+          至多可以写成一种由 $\vec{\beta}$ 组成的线性组合。
+        \partsitem 为证明它是单射，若 $\rep{\vec{p}}{B}=\rep{\vec{q}}{B}$，即若
+          \( \rep{p_1\vec{\beta}_1+p_2\vec{\beta}_2+p_3\vec{\beta}_3}{B}
+             =\rep{q_1\vec{\beta}_1+q_2\vec{\beta}_2+q_3\vec{\beta}_3}{B} \)，
+          则
+          \begin{equation*}
+            \colvec{p_1 \\ p_2 \\ p_3}
+            =\colvec{q_1 \\ q_2 \\ q_3}
+          \end{equation*}
+          因而 \( p_1=q_1 \)、\( p_2=q_2 \) 且 \( p_3=q_3 \)，
+          由此得到 $\vec{p}=\vec{q}$。
+          因此这个映射是单射。
+
+          至于满射，只需注意
+          \begin{equation*}
+            \colvec{a \\ b \\ c}
+          \end{equation*}
+          等于 $\rep{a\vec{\beta}_1+b\vec{\beta}_2+c\vec{\beta}_3}{B}$，
+          所以陪域 $\Re^3$ 中的每个元素都是定义域 $\polyspace_2$ 中某个元素的像。
+        \partsitem 这个映射保持加法和标量乘法，
+           因为它保持定义域中两个元素的线性组合
+           （这里使用\nearbylemma{le:PresStructIffPresCombos} 的第~(2) 项）：
+           若 $\vec{p}=p_1\vec{\beta}_1+p_2\vec{\beta}_2+p_3\vec{\beta}_3$
+           且 $\vec{q}=q_1\vec{\beta}_1+q_2\vec{\beta}_2+q_3\vec{\beta}_3$，
+           则有
+           \begin{align*}
+             \rep{c\cdot\vec{p}+d\cdot\vec{q}}{B}
+             &=\rep{\,(cp_1+dq_1)\vec{\beta}_1+(cp_2+dq_2)\vec{\beta}_2
+                  +(cp_3+dq_3)\vec{\beta}_3\,}{B}  \\
+             &=\colvec{cp_1+dq_1 \\ cp_2+dq_2 \\ cp_3+dq_3}  \\
+             &=c\cdot\colvec{p_1 \\ p_2 \\ p_3}  
+               +d\cdot\colvec{q_1 \\ q_2 \\ q_3}  \\
+             &=\rep{\vec{p}}{B}+\rep{\vec{q}}{B}
+           \end{align*}
+        \partsitem 取 $\polyspace_2$ 的任意一组基 \( B \)，
+          使其前两个元素为 \( x+x^2 \) 与 \( 1-x \)，
+          例如 \( B=\sequence{x+x^2,1-x,1} \)。
+      \end{exparts}   
+    \end{answer}
+  \item 
+    证明：一个空间是 \( n \) 维的，当且仅当它同构于 \( \Re^n \)。
+    \textit{提示。}
+    固定这个空间的一组基 $B$，
+    考虑把向量映到其关于 $B$ 的表示的映射。
+    \begin{answer}
+      见下一小节。
+    \end{answer}
+  \item 
+    \textit{（需要用到选读小节“子空间的组合”。）}
+    设 \( U \) 与 \( W \) 是向量空间。
+    定义一个新的向量空间，其底层集合为
+    \( U\times W=\set{(\vec{u},\vec{w})  \suchthat  \vec{u}\in U\text{\ 且\ }
+                                                   \vec{w}\in W}  \)，
+    运算定义如下。
+    \begin{equation*}
+      (\vec{u}_1,\vec{w}_1)+(\vec{u}_2,\vec{w}_2)=
+          (\vec{u}_1+\vec{u}_2,\vec{w}_1+\vec{w}_2)
+      \quad\text{且}\quad
+      r\cdot (\vec{u},\vec{w})=(r\vec{u},r\vec{w})
+    \end{equation*}
+    这是一个向量空间，称为 \( U \) 与 \( W \) 的
+    \definend{外直和}\index{direct sum!external}%
+    \index{external direct sum}。
+    \begin{exparts}
+      \partsitem 验证它是向量空间。
+      \partsitem 求外直和 \( \polyspace_2\times\Re^2 \) 的一组基及其维数。
+      \partsitem \( \dim(U) \)、\( \dim(W) \) 与 \( \dim(U\times W) \)
+        之间有什么关系？
+      \partsitem 假设 \( U \) 与 \( W \) 是向量空间 \( V \) 的子空间，
+        且 \( V=U\directsum W \)
+        （此时称 $V$ 为 $U$ 与 $W$ 的
+        \definend{内直和}\index{direct sum!internal}%
+        \index{internal direct sum}）。
+        证明由下式定义的映射 \( \map{f}{U\times W}{V} \)
+        \begin{equation*}
+          (\vec{u},\vec{w})\mapsunder{f} \vec{u}+\vec{w}
+        \end{equation*}
+        是同构。
+        因此，只要内直和有定义，内直和与外直和就同构。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 向量空间定义中的大多数条件都很容易验证。
+          这里简要验证定义的第~(1) 部分。
+
+          对于 $U\times W$ 的封闭性，注意 \( U \) 与 \( W \) 都封闭，
+          所以 $\vec{u}_1+\vec{u}_2\in U$ 且 $\vec{w}_1+\vec{w}_2\in W$，
+          从而 \( (\vec{u}_1+\vec{u}_2,\vec{w}_1+\vec{w}_2)\in U\times W \)。
+          \( U\times W \) 中加法的交换律可由
+          \( U \) 与 \( W \) 中加法的交换律推出。
+          \begin{equation*}
+             (\vec{u}_1,\vec{w}_1)+(\vec{u}_2,\vec{w}_2)=
+                 (\vec{u}_1+\vec{u}_2,\vec{w}_1+\vec{w}_2)
+                 =(\vec{u}_2+\vec{u}_1,\vec{w}_2+\vec{w}_1)
+             =(\vec{u}_2,\vec{w}_2)+(\vec{u}_1,\vec{w}_1)
+          \end{equation*}
+          加法结合律的验证与此类似。
+          零元素为 \( (\zero_U,\zero_W)\in U\times W \)，
+          而 \( (\vec{u},\vec{w}) \) 的加法逆元为 \( (-\vec{u},-\vec{w}) \)。
+
+          向量空间定义的第二部分也很容易验证。
+        \partsitem 下面是一组基
+          \begin{equation*}
+            \sequence{\, (1,\colvec[r]{0 \\ 0}), (x,\colvec[r]{0 \\ 0}),
+              (x^2,\colvec[r]{0 \\ 0}), (1,\colvec[r]{1 \\ 0}),
+              (1,\colvec[r]{0 \\ 1}) \,}
+          \end{equation*}
+          因为 $\polyspace_2\times \Re^2$ 中的任意元素
+          关于这个集合都有且只有一种表示；下面给出一个例子。
+          \begin{equation*}
+            (3+2x+x^2,\colvec[r]{5 \\ 4})
+             =  
+              3\cdot(1,\colvec[r]{0 \\ 0})
+              +2\cdot(x,\colvec[r]{0 \\ 0})
+              +(x^2,\colvec[r]{0 \\ 0}) 
+              +5\cdot(1,\colvec[r]{1 \\ 0})
+              +4\cdot(1,\colvec[r]{0 \\ 1}) 
+          \end{equation*}
+          这个空间的维数为五。
+        \partsitem 我们有 \( \dim(U\times W)=\dim(U)+\dim(W) \)，
+          因为下面是一组基。
+          \begin{equation*}
+            \sequence{ (\vec{\mu}_1,\zero_W), \dots,
+              (\vec{\mu}_{\dim(U)},\zero_W), (\zero_U,\vec{\omega}_1),
+              \ldots,(\zero_U,\vec{\omega}_{\dim(W)}) }
+          \end{equation*}
+        \partsitem 我们知道，若 \( V=U\directsum W \)，则每个
+          \( \vec{v}\in V \) 都有且只有一种写法 \( \vec{v}=\vec{u}+\vec{w} \)。
+          这正是证明所给函数为同构所需要的性质。
+
+          首先，要证明 \( f \) 是单射，可以证明：若
+          \( f\left((\vec{u}_1,\vec{w}_1)\right)
+                 =\left((\vec{u}_2,\vec{w}_2)\right) \)，即若
+          \( \vec{u}_1+\vec{w}_1=\vec{u}_2+\vec{w}_2 \)，则
+          \( \vec{u}_1=\vec{u}_2 \) 且 \( \vec{w}_1=\vec{w}_2 \)。
+          而“每个 $\vec{v}$ 都只有一种这样的和式表示”恰好给出这一结论。
+          类似地，“每个 $\vec{v}$ 都至少有一种这样的和式表示”
+          就证明了 \( f \) 是满射。
+
+          这个映射也保持线性组合
+          \begin{align*}
+            f(\,c_1\cdot(\vec{u}_1,\vec{w}_1)+c_2\cdot (\vec{u}_2,\vec{w}_2)\,)
+            &=f(\,(c_1\vec{u}_1+c_2\vec{u}_2,c_1\vec{w}_1+c_2\vec{w}_2)\,) \\
+            &=c_1\vec{u}_1+c_2\vec{u}_2+c_1\vec{w}_1+c_2\vec{w}_2    \\
+            &=c_1\vec{u}_1+c_1\vec{w}_1+c_2\vec{u}_2+c_2\vec{w}_2    \\
+            &=c_1\cdot f(\,(\vec{u}_1,\vec{w}_1)\,)
+               +c_2\cdot f(\,(\vec{u}_2,\vec{w}_2)\,)
+          \end{align*}
+          因此它是同构。
+      \end{exparts}     
+    \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+%\subsection{Real Spaces Represent\index{representative!of isomorphism classes}
+%   \protect$n\protect$--Spaces}
+\subsection{维数刻画同构}
+
+上一小节给出同构的定义后，
+我们证明了一些结果，以支持这样的认识：同构描述了空间之间的“相同”。
+这里将进一步发展这一直觉。
+当两个（并不相等的）空间同构时，我们把它们看作几乎相等，即彼此等价。
+我们将证明“同构于”这一关系是等价关系，
+从而精确表述这个想法。 %\appendrefs{equivalence relations and equivalence classes}
+
+\begin{lemma}  \label{lem:IsoInvAlsoIso}
+%<*lm:IsoInvAlsoIso>
+同构的逆映射仍是同构。
+%</lm:IsoInvAlsoIso>
+\end{lemma}
+
+\begin{proof}
+%<*pf:IsoInvAlsoIso0>
+假设 $V$ 通过 $\map{f}{V}{W}$ 同构于 $W$。
+同构是两个集合之间的一一对应，因此 $f$ 有逆函数
+$\map{f^{-1}}{W}{V}$，
+而且逆函数也是一一对应。\appendrefs{inverse functions}\spacefactor1000
+%</pf:IsoInvAlsoIso0>
+
+%<*pf:IsoInvAlsoIso1>
+我们将说明，由于 $f$ 保持线性组合，$f^{-1}$ 也保持线性组合。
+设 $\vec{w}_1,\vec{w}_2\in W$。
+因为 $f$ 是同构，所以它是满射，因而存在 $\vec{v}_1, \vec{v}_2\in V$，使得
+\( \vec{w}_1=f(\vec{v}_1) \) 且 \( \vec{w}_2=f(\vec{v}_2) \)。
+则
+\begin{multline*}
+  f^{-1}(c_1\cdot\vec{w}_1+c_2\cdot\vec{w}_2)
+    =f^{-1}\bigl(\,c_1\cdot f(\vec{v}_1)
+                             +c_2\cdot f(\vec{v}_2)\,\bigr) \\
+    =f^{-1}(\,f\bigl(c_1\vec{v}_1+c_2\vec{v}_2)\,\bigr)    
+    =c_1\vec{v}_1+c_2\vec{v}_2                              
+    =c_1\cdot f^{-1}(\vec{w}_1)+c_2\cdot f^{-1}(\vec{w}_2)     
+\end{multline*}
+因为 \( f^{-1}(\vec{w}_1)=\vec{v}_1 \)
+且 \( f^{-1}(\vec{w}_2)=\vec{v}_2 \)。
+因此，由\nearbylemma{le:PresStructIffPresCombos} 的第二个命题，
+这个映射保持结构。
+%</pf:IsoInvAlsoIso1>
+\end{proof}
+
+\begin{theorem} \label{th:IsoEquivRel}
+%<*th:IsoEquivRel>
+同构\index{equivalence relation!isomorphism}是向量空间之间的等价关系。
+%</th:IsoEquivRel>
+\end{theorem}
+
+\begin{proof}
+%<*pf:IsoEquivRel0>
+我们必须证明这个关系具有对称性、自反性和传递性。
+
+要验证自反性，即任意空间都同构于自身，考虑恒等映射。
+它显然既是单射又是满射。
+下式表明它保持线性组合。
+\begin{equation*}
+   \mbox{id}(c_1\cdot \vec{v}_1+c_2\cdot \vec{v}_2)
+   =c_1\vec{v}_1+c_2\vec{v}_2
+   =c_1\cdot \mbox{id}(\vec{v}_1)+c_2\cdot \mbox{id}(\vec{v}_2)
+\end{equation*}
+%</pf:IsoEquivRel0>
+
+%<*pf:IsoEquivRel1>
+对称性是指：若 $V$ 同构于~$W$，则 $W$ 也同构于~$V$。
+这一点由\nearbylemma{lem:IsoInvAlsoIso} 可得，
+因为每个从 $V$ 到 $W$ 的同构，都有一个从 $W$ 到 $V$ 的同构与之对应。
+%</pf:IsoEquivRel1>
+
+%<*pf:IsoEquivRel2>
+最后验证传递性，即若 $V$ 同构于 $W$，且 $W$ 同构于 $U$，
+则 $V$ 同构于 $U$。
+设 $\map{f}{V}{W}$ 与 $\map{g}{W}{U}$ 都是同构。
+考虑它们的复合 $\map{\composed{g}{f}}{V}{U}$。
+由于一一对应的复合仍是一一对应，
+只需验证这个复合映射保持线性组合。
+\begin{align*}
+  \composed{g}{f}\:\bigl(c_1\cdot\vec{v}_1+c_2\cdot\vec{v}_2\bigr)
+     &=g\bigl(\,f(\,c_1\cdot \vec{v}_1+c_2\cdot\vec{v}_2\,)\,\bigr)        \\
+     &=g\bigl(\,c_1\cdot f(\vec{v}_1)+c_2\cdot f(\vec{v}_2)\,\bigr) \\ 
+     &=c_1\cdot g\bigl(f(\vec{v}_1))+c_2\cdot g(f(\vec{v}_2)\bigr)  \\
+     &=c_1\cdot(\composed{g}{f})\,(\vec{v}_1)
+                  +c_2\cdot(\composed{g}{f})\,(\vec{v}_2)
+\end{align*}
+因此，这个复合映射是同构。
+%</pf:IsoEquivRel2>
+\end{proof}
+
+由于同构是等价关系，它把所有向量空间划分成若干类：\index{partition!into isomorphism classes}
+每个空间都属于且只属于一个同构类。
+\begin{center} \small
+  \raisebox{.5in}{\begin{tabular}{l}
+                    所有有限维 \\
+                    向量空间：
+                  \end{tabular}}
+  \includegraphics{map/mp/ch3.17}
+  \raisebox{.3in}{\begin{tabular}{l}
+                     $V\isomorphicto W$
+                  \end{tabular}}
+\end{center}
+下一个结果用维数刻画\index{characterize}%
+\index{isomorphism!classes characterized by dimension}
+这些同构类。
+也就是说，只需给出一个数，即某个类中所有空间共有的维数，
+就能描述这个类。
+ 
+
+\begin{theorem} \label{th:NDimSpaceIsoRN}
+%<*th:NDimSpaceIsoRN>
+向量空间同构，当且仅当它们的维数相同。
+%</th:NDimSpaceIsoRN>
+\end{theorem}
+
+这个充要条件的两个方向各自包含一个重要想法，
+因此我们分别证明。
+
+\begin{lemma}   \label{lem:IsoImpliesSameDim}
+%<*lm:IsoImpliesSameDim>
+若两个空间同构，则它们的维数相同。
+%</lm:IsoImpliesSameDim>
+\end{lemma}
+
+\begin{proof}
+%<*pf:IsoImpliesSameDim0>
+我们将说明，两个空间之间的同构给出了它们的基之间的一一对应。
+也就是说，若 \( \map{f}{V}{W} \) 是同构，
+且定义域 $V$ 的一组基为
+\( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)，
+则它的像
+\( D=\sequence{f(\vec{\beta}_1),\dots,f(\vec{\beta}_n)} \)
+是陪域 \( W \) 的一组基。
+（反过来，$W$ 的任意一组基的原像都是 $V$ 的一组基。
+这是因为 $f^{-1}$ 也是同构，把前面的结论应用于 $f^{-1}$ 即可。）
+%</pf:IsoImpliesSameDim0>
+
+%<*pf:IsoImpliesSameDim1>
+要证明 \( D \) 张成 \( W \)，任取 \( \vec{w}\in W \)。
+由于 \( f \) 是同构，因而是满射，所以存在 \( \vec{v}\in V \)，使得
+\( \vec{w}=f(\vec{v}) \)。
+把 \( \vec{v} \) 展开为基向量的线性组合。
+\begin{equation*}
+  \vec{w}=f(\vec{v})
+  =f(v_1\vec{\beta}_1+\dots+v_n\vec{\beta}_n)  
+  =v_1\cdot f(\vec{\beta}_1)+\dots+v_n\cdot f(\vec{\beta}_n)
+\end{equation*}
+再验证 $D$ 的线性无关性。若
+\begin{equation*}
+  \zero_W
+  =c_1f(\vec{\beta}_1)+\dots+c_nf(\vec{\beta}_n)  
+  =f(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)
+\end{equation*}
+则由于 \( f \) 是单射，被映到 \( \zero_W \) 的唯一向量是 \( \zero_V \)，
+因此 \( \zero_V=c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n \)，
+从而所有 \( c \) 都为零。
+%</pf:IsoImpliesSameDim1>
+\end{proof}
+
+\begin{lemma} \label{lem:EqDimImpIso}
+%<*lm:EqDimImpIso>
+若两个空间的维数相同，则它们同构。
+%</lm:EqDimImpIso>
+\end{lemma}
+
+\begin{proof}
+%<*pf:EqDimImpIso0>
+我们将证明，任何维数为~$n$ 的空间都同构于 $\Re^n$。
+再利用\nearbytheorem{th:IsoEquivRel} 中已经证明的传递性，
+便可得知所有这样的空间都彼此同构。
+%</pf:EqDimImpIso0>
+
+%<*pf:EqDimImpIso1>
+设 $V$ 是 \( n \) 维空间。
+固定定义域 $V$ 的一组基
+\( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)。
+把求 $V$ 中元素关于 $B$ 的表示这一运算，
+看作从 $V$ 到 $\Re^n$ 的函数。
+\begin{equation*}
+   \vec{v}=v_1\vec{\beta}_1+\dots+v_n\vec{\beta}_n
+   \,\mapsunder{\text{\small Rep}_B}\,\colvec{v_1 \\ \vdots \\ v_n}
+\end{equation*}
+%</pf:EqDimImpIso1>
+它是良定义的\appendrefs{well-defined}\spacefactor1000 %
+\index{well-defined}，
+因为每个 \( \vec{v} \) 都有且只有一个这样的表示
+（见本证明之后的\nearbyremark{not:WellDefFcns}）。
+
+%<*pf:EqDimImpIso2>
+这个函数是单射，因为若
+\begin{equation*}
+   \text{Rep}_B(u_1\vec{\beta}_1+\dots+u_n\vec{\beta}_n)
+     =\text{Rep}_B(v_1\vec{\beta}_1+\dots+v_n\vec{\beta}_n)
+\end{equation*}
+则
+\begin{equation*}
+  \colvec{u_1 \\ \vdots \\ u_n}
+    =
+  \colvec{v_1 \\ \vdots \\ v_n}
+\end{equation*}
+因而 \( u_1=v_1 \)，\ldots，$u_n=v_n$，
+这就说明原来的两个输入
+\( u_1\vec{\beta}_1+\dots+u_n\vec{\beta}_n \) 与
+\( v_1\vec{\beta}_1+\dots+v_n\vec{\beta}_n\) 相等。
+%</pf:EqDimImpIso2>
+
+%<*pf:EqDimImpIso3>
+这个函数是满射；$\Re^n$ 中的任意元素
+\begin{equation*}
+   \vec{w}=\colvec{w_1 \\ \vdots \\ w_n}
+\end{equation*}
+都是某个 \( \vec{v}\in V \) 的像，即
+\( \vec{w}=\rep{w_1\vec{\beta}_1+\dots+w_n\vec{\beta}_n}{B}  \)。
+%</pf:EqDimImpIso3>
+
+%<*pf:EqDimImpIso4>
+最后，这个函数保持结构。
+\begin{align*}
+  \rep{r\cdot\vec{u}+s\cdot\vec{v}}{B}
+  &=\rep{\,(ru_1+sv_1)\vec{\beta}_1+\dots+(ru_n+sv_n)\vec{\beta}_n\,}{B}  \\
+  &=\colvec{ru_1+sv_1 \\ \vdots \\ ru_n+sv_n}  \\
+  &=r\cdot\colvec{u_1 \\ \vdots \\ u_n}+s\cdot\colvec{v_1 \\ \vdots \\ v_n} \\
+  &=r\cdot\rep{\vec{u}}{B}+s\cdot\rep{\vec{v}}{B}
+\end{align*}
+
+因此 $\mbox{Rep}_B$ 是同构。
+从而，任意 $n$ 维空间都同构于 $\Re^n$。
+%</pf:EqDimImpIso4>
+\end{proof}
+
+\begin{remark}
+在第~\pageref{rem:RepNotation} 页引入向量的 $\mbox{Rep}_B$ 记号时，
+我们指出它不是标准记号，并说它的一个优点是不容易被忽略。
+这里可以看到另一个优点：~这一记号明确表明，
+$\mbox{Rep}_B$ 是从~$V$ 到 $\R^n$ 的函数。
+\end{remark}
+
+\begin{remark} \label{not:WellDefFcns}
+\index{well-defined}
+证明中有一句提到了“良定义”。
+它的意思是，要成为同构，$\mbox{Rep}_B$ 首先必须是函数。
+函数的定义要求：对每个输入，相应的输出必须存在，且由这个输入唯一确定。
+所以，我们必须验证每个 $\vec{v}$ 都至少对应一个~$\mbox{Rep}_B(\vec{v})$，
+并且至多对应一个。
+
+在证明中，我们把定义域空间的元素 $\vec{v}$ 写成基~$B$ 中元素的线性组合，
+再把 $\vec{v}$ 与系数组成的列向量对应起来。
+每个~$\vec{v}$ 至少有一种展开式，这是因为 $B$ 是基，因而张成整个空间。
+
+至于为什么至多对应陪域中的一个元素，则需要更细致的考虑。
+一个不满足输出唯一性要求的反例，可以说明这个问题。
+设定义域为 \( \polyspace_2 \)，考虑下面这个不是基的集合
+（它虽然张成整个空间，但并不线性无关）。
+\begin{equation*}
+ A=\set{1+0x+0x^2,
+              0+1x+0x^2,
+              0+0x+1x^2,
+              1+1x+2x^2}
+\end{equation*}
+把这些多项式记为 $\vec{\alpha}_1$，\ldots，$\vec{\alpha}_4$。
+与基的情形不同，这里定义域中的一个向量
+可以有不止一种表示为
+% \( \vec{v}=c_1\vec{\alpha}_1+c_2\vec{\alpha}_2+
+%              c_3\vec{\alpha}_3+c_4\vec{\alpha}_4 \)
+该集合中元素的线性组合的方式。
+例如，考虑 \( \vec{v}=1+x+x^2 \)。
+下面是两种不同的展开式。
+\begin{equation*}
+  \vec{v}=1\vec{\alpha}_1+1\vec{\alpha}_2+1\vec{\alpha}_3+0\vec{\alpha}_4 
+  \qquad
+  \vec{v}=0\vec{\alpha}_1+0\vec{\alpha}_2-
+                1\vec{\alpha}_3+1\vec{\alpha}_4 
+\end{equation*}
+因此，同一个输入向量~$\vec{v}$ 对应不止一个列向量。
+\begin{equation*}
+  \colvec[r]{1 \\ 1 \\ 1 \\ 0}
+  \qquad
+  \colvec[r]{0 \\ 0 \\ -1 \\ 1}
+\end{equation*}
+所以，使用~$A$ 得到的这一对应关系不是良定义的。
+（问题在于 $A$ 不是线性无关的；
+定理~Two.III.\ref{th:BasisIffUniqueRepWRT} 的证明在论证唯一性时，
+只用到了线性无关性。）
+
+一般地，每当定义一个函数时，我们都必须核实输出值是良定义的。
+多数时候，这个条件显而易见，但在上面的证明中需要加以验证。
+见\nearbyexercise{exer:FcnWellDef}。
+\end{remark}
+
+\begin{corollary} \label{co:FiniteDimensionalIsoToReN}
+%<*co:FiniteDimensionalIsoToReN>
+每个有限维向量空间都同构于且只同构于一个 $\Re^n$。
+%</co:FiniteDimensionalIsoToReN>
+\end{corollary}
+
+这就为每个同构类给出了一个代表元。 % \appendrefs{equivalence class representatives}\spacefactor1000 %
+\begin{center}
+  \raisebox{.5in}{\begin{tabular}{l}
+                    所有有限维 \\
+                    向量空间：
+                  \end{tabular}}
+  \includegraphics{map/mp/ch3.18}
+  \raisebox{.3in}{\begin{tabular}{l}
+                    每个类 \\ 各取一个代表元
+                  \end{tabular}}
+\end{center}
+
+上面的证明在很短的篇幅里包含了许多想法。
+本章后续内容还会重新考察并充实这些想法。
+这里先展开\nearbylemma{lem:EqDimImpIso} 的证明，让大家略作体会。
+
+\begin{example}  \label{ex:ExtendLinearlyMatrixMap}
+由 $\nbyn{2}$ 矩阵组成的空间 $\matspace_{\nbyn{2}}$ 同构于 $\Re^4$。
+取定义域的基为
+\begin{equation*}
+  B=\sequence{\begin{mat}[r]
+                1  &0  \\
+                0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &1  \\
+                0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  \\
+                1  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  \\
+                0  &1
+              \end{mat} }
+\end{equation*}
+引理中给出的同构，即表示映射 $f_1=\mbox{Rep}_B$，
+只是把各个矩阵元素搬到列向量中。
+\begin{equation*}
+  \begin{mat}
+    a  &b  \\
+    c  &d
+  \end{mat}
+  \mapsunder{f_1}
+  \colvec{a \\ b \\ c \\ d}
+\end{equation*}
+可以这样理解映射 $f_1$：~固定定义域的基 $B$，
+取陪域的标准基 $\stdbasis_4$，
+把 $\vec{\beta}_1$ 与 $\vec{e}_1$ 对应，
+把 $\vec{\beta}_2$ 与 $\vec{e}_2$ 对应，依此类推。
+然后把这种对应扩展到两个空间的所有元素。
+\begin{equation*}
+  \begin{mat}
+    a  &b  \\
+    c  &d
+  \end{mat}
+  =a\vec{\beta}_1+b\vec{\beta}_2+c\vec{\beta}_3+d\vec{\beta}_4
+  \;\;\mapsunder{f_1}\;\;
+  a\vec{e}_1+b\vec{e}_2+c\vec{e}_3+d\vec{e}_4
+  =\colvec{a \\ b \\ c \\ d}
+\end{equation*}
+
+换用不同的基，也可以作同样的构造。
+例如，取定义域的基为
+\begin{equation*}
+  A=\sequence{
+              \begin{mat}[r]
+                2  &0  \\
+                0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &2  \\
+                0  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  \\
+                2  &0
+              \end{mat},
+              \begin{mat}[r]
+                0  &0  \\
+                0  &2
+              \end{mat} }
+\end{equation*}
+将 $A$ 与 $\stdbasis_4$ 中相应的元素对应起来，得到
+\begin{multline*}
+  \begin{mat}
+    a  &b  \\
+    c  &d
+  \end{mat}
+  =(a/2)\vec{\alpha}_1+(b/2)\vec{\alpha}_2
+      +(c/2)\vec{\alpha}_3+(d/2)\vec{\alpha}_4          \\
+  \mapsunder{f_2}\;\;
+  (a/2)\vec{e}_1+(b/2)\vec{e}_2+(c/2)\vec{e}_3+(d/2)\vec{e}_4
+  =\colvec{a/2 \\ b/2 \\ c/2 \\ d/2}
+\end{multline*}
+这就产生了一个不同于 $f_1$ 的同构。
+
+前一个映射是通过改变定义域的基得到的。
+我们也可以改变陪域的基。
+重新取上面的基 $B$，并取陪域的基为
+\begin{equation*}
+  D=\sequence{\colvec[r]{1 \\ 0 \\ 0 \\ 0},
+                \colvec[r]{0 \\ 1 \\ 0 \\ 0},
+                \colvec[r]{0 \\ 0 \\ 0 \\ 1},
+                \colvec[r]{0 \\ 0 \\ 1 \\ 0}}
+\end{equation*}
+把 $\vec{\beta}_1$ 与 $\vec{\delta}_1$ 对应，依此类推。
+将此对应扩展后，又得到一个同构。
+\begin{equation*}
+  \begin{mat}
+     a  &b  \\
+     c  &d  
+   \end{mat}
+  =a\vec{\beta}_1+b\vec{\beta}_2+c\vec{\beta}_3+d\vec{\beta}_4
+  \;\;\mapsunder{f_3}\;\;
+  a\vec{\delta}_1+b\vec{\delta}_2+c\vec{\delta}_3+d\vec{\delta}_4
+  =\colvec{a \\ b \\ d \\ c}
+\end{equation*}
+\end{example}
+
+最后回顾一下。
+第一章把可以通过行运算互相得到的两个矩阵定义为行等价。
+在那里，我们证明了这是一个等价关系，因而它把所有矩阵划分成若干类，
+彼此行等价的矩阵都属于同一个类。
+然后，为了了解每个类中有哪些矩阵，我们给出了各个类的代表元，
+即简化阶梯形矩阵。
+
+本节沿用了同样的思路，这里“相同”的含义是向量空间同构。
+我们给出定义，并证明了它的一些性质，包括它是等价关系。
+随后，和以前一样，我们列出各个类的代表元，以帮助理解这一划分\Dash
+它按维数对向量空间进行分类。
+
+第二章定义了向量空间，似乎把我们的研究范围
+从熟悉的 $\Re^n$ 扩展到了许多新的结构。
+现在我们知道，实际上并非如此。
+任意有限维向量空间都与某个实坐标空间“相同”。
+
+
+
+
+\begin{exercises}
+  \recommended \item 
+    判断下列各对空间是否同构。
+    \begin{exparts*}
+       \partsitem \( \Re^2 \),~\( \Re^4 \)
+       \partsitem \( \polyspace_5 \),~\( \Re^5 \)
+       \partsitem \( \matspace_{\nbym{2}{3}} \),~\( \Re^6 \)
+       \partsitem \( \polyspace_5 \),~\( \matspace_{\nbym{2}{3}} \)
+       \partsitem \( \matspace_{\nbym{2}{k}} \),~\( \matspace_{\nbym{k}{2}} \)
+    \end{exparts*}
+    \begin{answer}
+       每一对空间同构，当且仅当它们的维数相同。
+       同构时，可以给出一个具体的映射，但严格说来没有必要。
+       \begin{exparts}
+         \partsitem 不同构，维数不同。
+         \partsitem 不同构，维数不同。
+         \partsitem 同构，维数相同。
+           下面给出一个同构。
+           \begin{equation*}
+             \begin{mat}
+               a  &b  &c  \\
+               d  &e  &f
+             \end{mat}
+             \mapsto
+             \colvec{a \\ \vdots \\ f}
+           \end{equation*}
+         \partsitem 同构，维数相同。
+           下面是一个同构。
+           \begin{equation*}
+             a+bx+\cdots+fx^5
+             \mapsto
+             \begin{mat}
+               a  &b  &c  \\
+               d  &e  &f
+             \end{mat}
+           \end{equation*}
+         \partsitem 同构，两者的维数都是 \( 2k \)。
+      \end{exparts}    
+    \end{answer}
+  \item 下列哪些空间彼此同构？
+    \begin{exparts*}
+      \partsitem $\Re^3$
+      \partsitem $\matspace_{\nbyn{2}}$
+      \partsitem $\polyspace_3$
+      \partsitem $\Re^4$
+      \partsitem $\polyspace_2$
+    \end{exparts*}
+    \begin{answer}
+      只需求出每个空间的维数，例如可以通过找一组基来确定维数，
+      然后维数相同的空间就同构。
+      各空间的维数如下。
+      \begin{exparts*}
+        \partsitem $3$
+        \partsitem $4$
+        \partsitem $4$
+        \partsitem $4$
+        \partsitem $3$
+      \end{exparts*}
+    \end{answer}
+  \recommended \item 
+    考虑同构 \( \map{\rep{\cdot}{B}}{\polyspace_1}{\Re^2} \)，
+    其中 \( B=\sequence{1,1+x} \)。
+    求下列元素的像。
+    \begin{exparts*}
+      \partsitem \( 3-2x \)；
+      \partsitem \( 2+2x \)；
+      \partsitem \( x \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( \rep{3-2x}{B}=\colvec[r]{5 \\ -2} \)
+        \partsitem \( \colvec[r]{0 \\ 2} \)
+        \partsitem \( \colvec[r]{-1 \\ 1} \)
+      \end{exparts*}  
+     \end{answer}
+  \item 对下列各空间，$n$ 取何值时，它同构于~$\Re^n$？
+    \begin{exparts}
+      \partsitem $\polyspace_4$
+      \partsitem $\polyspace_1$
+      \partsitem $\matspace_{\nbym{2}{3}}$
+      \partsitem $\Re^3$~中的平面 $2x-y+z=0$
+      \partsitem 三个字母的线性组合所成的向量空间
+         $\set{ax+by+cz\suchthat a,b,c\in\Re}$
+    \end{exparts}
+    \begin{answer}
+      对于每一题，最简单的方法都是找一组基来确定空间的维数。
+      对于下面给出的各组基，我们省略验证它确为基的过程。
+      \begin{exparts}
+        \partsitem 它同构于 $\Re^5$。
+          $\polyspace_4$ 的一组基是 $\set{x^4,x^3,x^2,x,1}$，
+          因此该空间的维数为~$5$。
+        \partsitem 它同构于 $\Re^2$，因为
+          空间 $\polyspace_1=\set{a+bx\suchthat a,b\in\Re}$ 的一组基是 $\set{1,x}$。
+        \partsitem 它同构于 $\Re^6$。
+          下面六个矩阵构成一组基。
+          \begin{equation*}
+            \begin{mat}
+              1 &0 &0 \\
+              0 &0 &0
+            \end{mat},\; 
+            \begin{mat}
+              0 &1 &0 \\
+              0 &0 &0
+            \end{mat},\;
+            \cdots\;
+            \begin{mat}
+              0 &0 &0 \\
+              0 &0 &1
+            \end{mat}
+          \end{equation*}
+        \partsitem 它是平面，因此同构于~$\Re^2$。
+          更具体地，对这个平面作参数化，可得如下向量描述
+          \begin{equation*}
+            \set{\colvec{x \\ y \\ z}=\colvec{1/2 \\ 1 \\ 0}y
+                                      +\colvec{-1/2 \\ 0 \\ 1}z
+                   \suchthat  y,z\in\Re}
+          \end{equation*}
+          因此，其中的两个向量构成一组基。
+        \partsitem 它同构于 $\Re^3$。
+          一组基是线性组合的集合 $\set{x,y,z}$，
+          即 $\set{x+0y+0z, 0x+y+0z,0x+0y+z}$。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    证明：若 \( m\neq n \)，则 \( \Re^m\not\isomorphicto\Re^n \)。
+     \begin{answer}
+      它们的维数不同。
+     \end{answer}
+  \recommended \item
+    是否有 \( \matspace_{\nbym{m}{n}}\isomorphicto\matspace_{\nbym{n}{m}} \)？
+    \begin{answer}
+      是的，两者都是 \( mn \) 维的。
+    \end{answer}
+  \recommended \item
+    \( \Re^3 \) 中任意两个过原点的平面都同构吗？
+    \begin{answer}
+      是的，任意两个（非退化的）平面都是二维向量空间。
+    \end{answer}
+  \item 
+     除各个 \( \Re^n \) 组成的集合之外，
+     再找一组等价类代表元。
+     \begin{answer}
+        答案有很多，其中一个是各个 \( \polyspace_k \) 组成的集合
+        （把 \( \polyspace_{-1} \) 视为平凡向量空间）。
+     \end{answer}
+  \item 
+    判断正误：~任意一个 \( n \) 维空间与 \( \Re^n \) 之间恰有一个同构。
+    \begin{answer}
+      错误（\( n=0 \) 时除外）。
+      例如，若 \( \map{f}{V}{\Re^n} \) 是同构，
+      则将它的输出乘以一个不等于一的非零标量，就会得到另一个不同的同构。
+      （平凡空间之间的同构是唯一的；唯一可能的映射是 $\zero_V\mapsto 0_W$。）
+    \end{answer}
+  \item 
+    一个向量空间能与它的某个真子空间同构吗？
+    \begin{answer}
+      不能。
+      真子空间的维数严格小于它所在空间的维数；
+      若 $U$ 是 $V$ 的真子空间，则 $U$ 的任意线性无关子集
+      都必须少于 $\dim(V)$ 个元素，否则这个集合就是 $V$ 的一组基，
+      $U$ 就不是真子空间了。
+    \end{answer}
+  \recommended \item 
+    本小节证明了同构的逆映射仍是同构，也证明了：固定 \( n \) 维向量空间 \( V \)
+    的基 \( B \) 后，映射 \( \map{\text{Rep}_B}{V}{\Re^n} \) 是同构。求其逆映射。
+    \begin{answer}
+      若 \( B=\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_n} \)，
+      则逆映射如下。
+      \begin{equation*}
+        \colvec{c_1 \\ \vdots \\ c_n}
+        \mapsto c_1\vec{\beta}_1+\cdots+c_n\vec{\beta}_n
+      \end{equation*}  
+    \end{answer}
+  \recommended \item 
+    证明关于矩阵的下列事实。
+    \begin{exparts}
+      \partsitem 矩阵的行空间同构于其转置的列空间。
+      \partsitem 矩阵的行空间同构于它的列空间。
+    \end{exparts}
+    \begin{answer}
+      这三个空间的维数都等于矩阵的秩。
+    \end{answer}
+  \item \label{exer:FcnWellDef}
+    证明\nearbytheorem{th:NDimSpaceIsoRN} 中的函数是良定义的。
+     \begin{answer}
+        我们必须证明：若 \( \vec{a}=\vec{b} \)，则
+        \( f(\vec{a})=f(\vec{b}) \)。
+        假设
+        $a_1\vec{\beta}_1+\dots+a_n\vec{\beta}_n
+           =b_1\vec{\beta}_1+\dots+b_n\vec{\beta}_n$。
+        向量空间（这里是定义域空间）中的每个向量
+        都有唯一的基向量线性组合表示，因此可以推出 \( a_1=b_1 \)，\ldots，
+        \(a_n=b_n \)。
+        于是，
+        \begin{equation*}
+          f(\vec{a})
+          =\colvec{a_1 \\ \vdots \\ a_n}=\colvec{b_1 \\ \vdots \\ b_n}
+          =f(\vec{b})          
+        \end{equation*}
+        所以这个函数是良定义的。
+     \end{answer}
+  \item 
+    当 \( n=0 \) 时，\nearbytheorem{th:NDimSpaceIsoRN} 的证明还成立吗？
+     \begin{answer}
+      成立，因为零维空间就是平凡空间。
+     \end{answer}
+  \item 
+    判断下列各集合是否为一组同构类代表元。
+    \begin{exparts}
+      \partsitem \( \set{\C^k \suchthat k\in\N} \)
+      \partsitem $\set{\polyspace_k\suchthat k\in \set{-1,0,1,\ldots}}$
+      \partsitem \( \set{\matspace_{\nbym{m}{n}}\suchthat 
+                   m,n\in\N} \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 不是，这个集合中没有奇数维空间。
+        \partsitem 是，因为 $\polyspace_{k}\isomorphicto\Re^{k+1}$。
+        \partsitem 不是，例如
+          \( \matspace_{\nbym{2}{3}}\isomorphicto\matspace_{\nbym{3}{2}} \)。
+      \end{exparts}  
+    \end{answer}
+  \item
+    设 \( f \) 为向量空间 \( V \)、\( W \) 间的一一对应（即单射且满射）。
+    证明：\( V \)、\( W \) 通过 \( f \) 同构，当且仅当存在基
+    \( B\subset V \) 和 \( D\subset W \)，使对应向量的坐标相同：
+    \( \rep{\vec{v}}{B}=\rep{f(\vec{v})}{D} \)。
+    \begin{answer}
+       一个方向很容易：~若两个空间通过 \( f \) 同构，
+       则对任意基 \( B\subseteq V \)，
+       集合 \( D=f(B) \) 也是基
+       （\nearbylemma{lem:IsoImpliesSameDim} 已经证明了这一点）。
+       对应向量具有相同的坐标，这很容易验证：
+       \( f(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)
+          =c_1f(\vec{\beta}_1)+\dots+c_nf(\vec{\beta}_n)
+          =c_1\vec{\delta}_1+\dots+c_n\vec{\delta}_n   \)。
+
+       反过来，假设存在这样的基，使对应向量关于这两组基具有相同的坐标。
+       因为 \( f \) 是一一对应，要证明它是同构，只需证明它保持结构。
+       由于 \( \rep{\vec{v}\,}{B}=\rep{f(\vec{v}\,)}{D} \)，
+       映射 \( f \) 保持结构，当且仅当表示运算保持加法：
+       \( \rep{\vec{v}_1+\vec{v}_2}{B}=\rep{\vec{v}_1}{B}+\rep{\vec{v}_2}{B} \)
+       和标量乘法：
+       \( \rep{r\cdot\vec{v}\,}{B}=r\cdot\rep{\vec{v}\,}{B} \)。
+       加法的计算如下：
+       \( (c_1+d_1)\vec{\beta}_1+\dots+(c_n+d_n)\vec{\beta}_n
+          =c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n
+          +d_1\vec{\beta}_1+\dots+d_n\vec{\beta}_n \)，
+       标量乘法的计算与此类似。
+     \end{answer}
+  \item 
+    考虑同构 \( \map{\text{Rep}_B}{\polyspace_3}{\Re^4} \)。
+    \begin{exparts}
+      \partsitem 实坐标空间中的向量正交，当且仅当它们的点积为零。
+        给出多项式正交的一个定义。
+      \partsitem \( \polyspace_3 \) 中元素的导数仍在 \( \polyspace_3 \) 中。
+        给出 \( \Re^4 \) 中向量的导数的一个定义。
+    \end{exparts}
+    \begin{answer}
+       \begin{exparts}
+        \partsitem 把定义从 \( \Re^4 \) 拉回到 \( \polyspace_3 \)，
+          可得 \( a_0+a_1x+a_2x^2+a_3x^3 \)
+          与 \( b_0+b_1x+b_2x^2+b_3x^3 \) 正交，当且仅当
+          \( a_0b_0+a_1b_1+a_2b_2+a_3b_3=0 \)。
+        \partsitem 一个自然的定义如下。
+          \begin{equation*}
+            D(\colvec{a_0 \\ a_1 \\ a_2 \\ a_3})=
+              \colvec{a_1 \\ 2a_2 \\ 3a_3 \\ 0}
+          \end{equation*}
+      \end{exparts}   
+    \end{answer}
+  \recommended \item
+    基之间的任意一一对应，扩展到整个空间后，都会给出同构吗？
+    也就是说，设 \( V \) 是向量空间，其基为
+    \( B=\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_n} \)，
+    并设 \( \map{f}{B}{W} \) 是一个一一对应，使得
+    \( D=\sequence{f(\vec{\beta}_1),\ldots,f(\vec{\beta}_n)} \)
+    是~$W$ 的一组基。
+    把 $\vec{v}=c_1\vec{\beta}_1+\cdots+c_n\vec{\beta}_n$
+    映到 $
+    \hat{f}(\vec{v})=c_1f(\vec{\beta}_1)+\cdots+c_nf(\vec{\beta}_n)$
+    的映射 $\map{\hat{f}}{V}{W}$ 必定是同构吗？
+    \begin{answer}
+      是的。
+
+      首先，\( \hat{f} \) 是良定义的，
+      因为 \( V \) 中的每个元素都有且只有一种表示为 \( B \) 中元素的线性组合的方式。
+
+      其次，需要证明 $\hat{f}$ 既是单射又是满射。
+      它是单射，因为 $D$ 是基，\( W \) 中的每个元素
+      都只能以一种方式表示为 \( D  \) 中元素的线性组合。
+      \( \hat{f} \) 是满射，因为 \( W \) 中的每个元素
+      都至少有一种表示为 \( D \) 中元素的线性组合的方式。
+
+      最后，保持结构很容易验证。
+      例如，保持加法的计算如下。
+      \begin{multline*}
+        \hat{f}(\,(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)+
+                  (d_1\vec{\beta}_1+\dots+d_n\vec{\beta}_n)\,)    \\
+       \begin{aligned}
+        &=\hat{f}(\,(c_1+d_1)\vec{\beta}_1+\dots+(c_n+d_n)\vec{\beta}_n\,) \\
+        &=(c_1+d_1)f(\vec{\beta}_1)+\dots+(c_n+d_n)f(\vec{\beta}_n) \\
+        &=c_1f(\vec{\beta}_1)+\dots+c_nf(\vec{\beta}_n)
+          +d_1f(\vec{\beta}_1)+\dots+d_nf(\vec{\beta}_n) \\
+        &=\hat{f}(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)+
+          +\hat{f}(d_1\vec{\beta}_1+\dots+d_n\vec{\beta}_n)
+      \end{aligned}
+      \end{multline*}
+      （第二个等号使用了 $\hat{f}$ 的定义。）
+      保持标量乘法的验证与此类似。
+    \end{answer}
+  \item 
+    \textit{（需要用到选读小节“子空间的组合”。）}
+    假设 \( V=V_1\directsum V_2 \)，
+    且 \( V \) 通过映射 \( f \) 同构于空间 \( U \)。
+    证明 \( U=f(V_1)\directsum f(V_2) \)。
+    \begin{answer}
+      因为 \( V_1\intersection V_2=\set{\zero_V} \)，且 \( f \) 是单射，
+      所以 \( f(V_1)\intersection f(V_2)=\set{\zero_U} \)。
+      最后计算维数：
+      \( \dim(U)=\dim(V)=\dim(V_1)+\dim(V_2)=\dim(f(V_1))+\dim(f(V_2)) \)，
+      即得所需结论。
+    \end{answer}
+  \item 证明：把每个分数映到其分子的值，
+    并没有定义一个从有理数到整数的良定义函数。
+    \begin{answer}
+      有理数有多种表示，例如 \( 1/2=3/6 \)，
+      不同表示的分子可能不同。
+    \end{answer}
+\index{isomorphism|)}
+\end{exercises}

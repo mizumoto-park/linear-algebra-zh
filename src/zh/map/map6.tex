@@ -1,0 +1,3134 @@
+% 翻译状态：投影主要小节已初译；待继续补齐专题与校对。
+% Chapter 3, Section 6 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linalg.html
+%  2001-Jun-12
+\section{投影}
+\index{projection}
+\noindent\textit{本节为选读内容。它只作为第五章最后两节及部分专题的先修内容。}
+
+我们曾把从 $\Re^3$ 到其 \(xy\) 平面子空间的投影描述为影子映射。这说明了这种描述的直观含义，也说明有些影子会向上落下。
+\begin{center}  \small
+  \raisebox{20.8163bp}{\includegraphics{map/mp/ch3.25}}
+  \hspace*{4em}
+  \raisebox{0bp}{\includegraphics{map/mp/ch3.26}}
+\end{center}
+更好的描述是：$\vec{v}$ 的投影是平面中的向量 $\vec{p}$，使得站在 $\vec{p}$ 上、沿垂直于平面的方向直视上方或下方的人，恰好能看到 $\vec{v}$ 的端点。本节将把这一概念推广到正交和非正交投影。
+
+% The first subsection develops orthogonal projection of a vector
+% into a line, which is used often in applications.
+% The second subsection shows how the definition of orthogonal
+% projection into a line allows us to calculate especially convenient bases
+% for vector spaces, again something that often appears in applications.
+% The final subsection completely generalizes projection, orthogonal or not, 
+% into any subspace at all.
+
+
+
+
+
+
+
+
+\subsectionoptional{正交投影到直线}
+先考虑将向量 \( \vec{v} \) 正交投影到直线 $\ell$。
+% We darken a point on the line if someone at that point
+% looking straight up or down (that is, looking orthogonal to the line)
+% will see \( \vec{v} \).
+%<*PictureOrthogonalProjectionIntoALine0>
+图中人物沿直线走到点 $\vec{p}$，此时 $\vec{v}$ 的端点正好在其正上方；这里“上方”不是平行于 $y$ 轴，而是指垂直于该直线。
+%</PictureOrthogonalProjectionIntoALine0>
+\begin{center}  \small
+  \includegraphics{map/mp/ch3.28}
+\end{center}
+%<*PictureOrthogonalProjectionIntoALine1>
+由于直线是某个向量的张成空间 $\ell=\set{c\cdot\vec{s}\suchthat c\in\Re}$，存在系数 $c_{\vec{p}}$，使 $\vec{v}-c_{\vec{p}}\vec{s}$ 与 $c_{\vec{p}}\vec{s}$ 正交。
+%</PictureOrthogonalProjectionIntoALine1>
+\begin{center}  \small
+  \includegraphics{map/mp/ch3.29}
+\end{center}
+%<*PictureOrthogonalProjectionIntoALine2>
+为求该系数，注意 $\vec{v}-c_{\vec{p}}\vec{s}$ 与 $\vec{s}$ 的某个标量倍数正交，因而与 $\vec{s}$ 本身正交。由 $(\vec{v}-c_{\vec{p}}\vec{s})\dotprod \vec{s}=0$ 得 $c_{\vec{p}}=\vec{v}\dotprod \vec{s}/\vec{s}\dotprod \vec{s}$。
+%</PictureOrthogonalProjectionIntoALine2>
+
+\begin{definition}  \label{def:ProjIntoLine}
+%<*df:ProjIntoLine>
+将 \( \vec{v} \) 正交投影到非零向量 \( \vec{s} \) 所张成的直线，得到
+\begin{equation*}
+  \proj{\vec{v}}{\spanof{\vec{s}\,}}=
+  \frac{ \vec{v}\dotprod\vec{s} }{ \vec{s}\dotprod\vec{s} }\cdot\vec{s}
+\end{equation*}
+%</df:ProjIntoLine>
+\end{definition}
+
+% \noindent \nearbyexercise{exer:LineProjFormIndOfVec} checks that the 
+% outcome of the calculation depends only on the line and not on which vector 
+% \( \vec{s}\, \) we used to describe that line.
+（“由 \(\vec{s}\) 张成”是“集合 $\set{\vec{s}}$ 的张成空间”的较口语说法。）
+
+\begin{example}
+要把 $\binom{2}{3}$ 正交投影到直线 $y=2x$，先取该直线的方向向量。
+\begin{equation*}
+  \vec{s}=\colvec[r]{1 \\ 2}
+\end{equation*}
+计算很简单。
+\begin{center}  \small
+  \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.30}\end{tabular}
+  \qquad
+  $\frac{ \colvec[r]{2 \\ 3}\dotprod\colvec[r]{1 \\ 2} }{% 
+          \colvec[r]{1 \\ 2}\dotprod\colvec[r]{1 \\ 2} }
+     \cdot\colvec[r]{1 \\ 2}
+    ={\displaystyle \frac{8}{5}}\cdot\colvec[r]{1 \\ 2}=\colvec[r]{8/5 \\ 16/5}$
+\end{center}
+\end{example}
+
+\begin{example}
+在 \(\Re^3 \) 中，一般向量
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+\end{equation*}
+正交投影到 $y$ 轴为
+\begin{equation*}
+  \frac{ \colvec{x \\ y \\ z}\dotprod\colvec[r]{0 \\ 1 \\ 0} }{
+         \colvec[r]{0 \\ 1 \\ 0}\dotprod\colvec[r]{0 \\ 1 \\ 0} }
+          \cdot\colvec[r]{0 \\ 1 \\ 0}=\colvec{0 \\ y \\ 0}
+\end{equation*}
+这与直观预期一致。
+\end{example}
+
+人物走到直线上、直到向量端点位于头顶的图像，是理解正交投影的一种方式。下面再给出两种理解方式。
+
+
+\begin{example} \label{exam:RailCar}
+一辆停在东西向轨道上且未刹车的火车，被时速十五英里、向东北吹的风推动；火车最终速度是多少？
+\begin{center}  \small
+  \includegraphics{map/mp/ch3.31}
+\end{center}
+用长度为 $15$、指向东北的向量表示风。
+\begin{equation*}
+  \vec{v}=\colvec[r]{15\sqrt{1/2} \\ 15\sqrt{1/2}}
+\end{equation*}
+车只受风在东西方向上的分量影响，即 $\vec{v}$ 沿 $x$ 轴方向的部分为
+\begin{center}
+  \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.32}\end{tabular}
+  \qquad
+  $\displaystyle \vec{p}=\colvec{15\sqrt{1/2} \\ 0}$
+\end{center}
+因此车将以每小时 \(15\sqrt{1/2}\) 英里的速度向东行驶。
+\end{example}
+
+也可以把 $\vec{v}$ 看成两部分之和：在线上的部分 $\vec{p}$，以及垂直于该线的部分。这两部分互不影响，因此正交投影就是 $\vec{v}$ 沿 $\vec{s}$ 方向的部分。
+
+还可以这样理解向直线的正交投影：让人站在向量上，而不是直线上。这个人手握套在直线上的绳圈；他拉动绳子时，绳圈沿直线滑动。
+\begin{center}  \small
+  \includegraphics{map/mp/ch3.33}
+\end{center}
+绳子拉紧后垂直于直线。因此，投影 \(\vec{p}\) 是直线上离 \(\vec{v}\) 最近的向量。
+
+\begin{example}
+一艘潜艇正在跟踪沿直线 \(y=3x+2\) 行驶的船。鱼雷射程为半英里。如果潜艇停在图中原点处，船会进入射程吗？
+\begin{center}  \small
+  \includegraphics{map/mp/ch3.34}
+\end{center} 
+投影公式不能直接使用，因为该直线不经过原点，不是某个向量的张成空间。把整张图向下平移两个单位后，直线变为子空间 $y=3x$，再投影到离潜艇平移后位置最近的点。
+\begin{equation*}
+  \vec{v}=\colvec[r]{0 \\ -2}
+\end{equation*}
+这是潜艇平移后的位置。
+\begin{equation*}
+  \vec{p}=\frac{\colvec[r]{0 \\ -2}\dotprod\colvec[r]{1 \\ 3}}{
+                \colvec[r]{1 \\ 3}\dotprod\colvec[r]{1 \\ 3}}
+          \cdot \colvec[r]{1 \\ 3}=\colvec[r]{-3/5 \\ -9/5}
+\end{equation*}
+$\vec{v}$ 与投影点的距离约为 \(0.63\) 英里，船永远不会进入射程。
+\end{example}
+
+
+\begin{exercises}
+  \recommended \item
+将第一个向量正交投影到第二个向量张成的直线。
+    \begin{exparts*}
+      \partsitem \mbox{\( \colvec[r]{2 \\ 1} \), \( \colvec[r]{3 \\ -2} \)}
+      \partsitem \mbox{\( \colvec[r]{2 \\ 1} \), \( 
+            \colvec[r]{3 \\ 0} \)}
+      \partsitem \mbox{\( \colvec[r]{1 \\ 1 \\ 4} \), \( 
+         \colvec[r]{1 \\ 2 \\ -1} \)}
+      \partsitem \mbox{\( \colvec[r]{1 \\ 1 \\ 4} \), \( 
+         \colvec[r]{3 \\ 3 \\ 12} \)}
+    \end{exparts*}
+    \begin{answer}
+       % Each is a straightforward application of the formula from 
+       % \nearbydefinition{def:ProjIntoLine}.
+       \begin{exparts}
+        \partsitem 
+          $\displaystyle \frac{\colvec[r]{2 \\ 1}\dotprod\colvec[r]{3 \\ -2}}{%
+                               \colvec[r]{3 \\ -2}\dotprod\colvec[r]{3 \\ -2}}
+             \cdot\colvec[r]{3 \\ -2}
+           =\frac{4}{13}
+             \cdot\colvec[r]{3 \\ -2}
+           =\colvec[r]{12/13 \\ -8/13}$
+        \partsitem 
+          $\displaystyle \frac{\colvec[r]{2 \\ 1}\dotprod\colvec[r]{3 \\ 0}}{%
+                               \colvec[r]{3 \\ 0}\dotprod\colvec[r]{3 \\ 0}}
+             \cdot\colvec[r]{3 \\ 0}
+           =\frac{2}{3}
+             \cdot\colvec[r]{3 \\ 0}
+           =\colvec[r]{2 \\ 0}$
+        \partsitem 
+          $\displaystyle 
+             \frac{\colvec[r]{1 \\ 1 \\ 4}\dotprod\colvec[r]{1 \\ 2 \\ -1}}{%
+                   \colvec[r]{1 \\ 2 \\ -1}\dotprod\colvec[r]{1 \\ 2 \\ -1}}
+             \cdot\colvec[r]{1 \\ 2 \\ -1}
+           =\frac{-1}{6}
+             \cdot\colvec[r]{1 \\ 2 \\ -1}
+           =\colvec[r]{-1/6 \\ -1/3 \\ 1/6}$
+        \partsitem 
+          $\displaystyle 
+             \frac{\colvec[r]{1 \\ 1 \\ 4}\dotprod\colvec[r]{3 \\ 3 \\ 12}}{%
+                   \colvec[r]{3 \\ 3 \\ 12}\dotprod\colvec[r]{3 \\ 3 \\ 12}}
+             \cdot\colvec[r]{3 \\ 3 \\ 12}
+           =\frac{1}{3}
+             \cdot\colvec[r]{3 \\ 3 \\ 12}
+           =\colvec[r]{1 \\ 1 \\ 4}$
+      \end{exparts}  
+    \end{answer}
+  \recommended \item 
+将向量正交投影到该直线。
+    \begin{exparts*}
+      \partsitem 
+       $\colvec[r]{2 \\ -1 \\ 4},~\set{c\colvec[r]{-3 \\ 1 \\ -3}\suchthat c\in\Re}$
+      \partsitem $\colvec[r]{-1 \\ -1}$,~the line $y=3x$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+          $\displaystyle
+             \frac{\colvec[r]{2 \\ -1 \\ 4}\dotprod\colvec[r]{-3 \\ 1 \\ -3}}{%
+                   \colvec[r]{-3 \\ 1 \\ -3}\dotprod\colvec[r]{-3 \\ 1 \\ -3}}
+             \cdot\colvec[r]{-3 \\ 1 \\ -3}
+           =\frac{-19}{19}\cdot\colvec[r]{-3 \\ 1 \\ -3}
+           =\colvec[r]{3 \\ -1 \\ 3}$
+         \partsitem Writing the line as
+           \begin{equation*} 
+             \set{c\cdot \colvec[r]{1 \\ 3}\suchthat c\in\Re}
+           \end{equation*}
+将直线写成以下形式即可得到这个投影。
+           \begin{equation*}
+             \frac{\colvec[r]{-1 \\ -1}\dotprod\colvec[r]{1 \\ 3}}{%
+                   \colvec[r]{1 \\ 3}\dotprod\colvec[r]{1 \\ 3}}
+              \cdot\colvec[r]{1 \\ 3}
+             =\frac{-4}{10}\cdot\colvec[r]{1 \\ 3}
+             =\colvec[r]{-2/5 \\ -6/5}
+           \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 
+虽然图形帮助我们建立了 \nearbydefinition{def:ProjIntoLine}，但投影并不限于可绘制的空间。在 $\Re^4$ 中将以下向量投影到该直线。
+    \begin{equation*}
+      \vec{v}=\colvec[r]{1 \\ 2 \\ 1 \\ 3}
+      \qquad
+      \ell=\set{c\cdot\colvec[r]{-1 \\ 1 \\ -1 \\ 1}\suchthat c\in\Re}
+    \end{equation*}
+    \begin{answer}
+      $\displaystyle 
+         \frac{\colvec[r]{1 \\ 2 \\ 1 \\ 3}\dotprod\colvec[r]{-1 \\ 1 \\ -1 \\ 1}}{%
+               \colvec[r]{-1 \\ 1 \\ -1 \\ 1}\dotprod\colvec[r]{-1 \\ 1 \\ -1 \\ 1}}
+         \cdot\colvec[r]{-1 \\ 1 \\ -1 \\ 1}
+       =\frac{3}{4}
+         \cdot\colvec[r]{-1 \\ 1 \\ -1 \\ 1}
+       =\colvec[r]{-3/4 \\ 3/4 \\ -3/4 \\ 3/4}$ 
+    \end{answer}
+  \recommended \item 
+\nearbydefinition{def:ProjIntoLine} 使用向量 $\vec{s}$ 和 $\vec{v}$。固定
+    \begin{equation*}
+      \vec{s}=\colvec[r]{3 \\ 1}
+    \end{equation*}
+考虑由把 $\vec{v}$ 投影到 $\vec{s}$ 张成的直线所得到的 $\Re^2$ 变换，并将它作用于以下向量。
+    \begin{exparts*}
+      \partsitem $\colvec[r]{1 \\ 2}$
+      \partsitem $\colvec[r]{0 \\ 4}$ 
+    \end{exparts*}
+证明一般的投影变换为
+    \begin{equation*}
+      \colvec{x_1 \\ x_2}
+      \mapsto
+      \colvec{(9x_1+3x_2)/10 \\ (3x_1+x_2)/10}
+    \end{equation*}
+用矩阵表示该变换的作用。
+    \begin{answer}
+      \begin{exparts}
+        \partsitem $\displaystyle
+          \frac{\colvec[r]{1 \\ 2}\dotprod\colvec[r]{3 \\ 1}}{%
+                 \colvec[r]{3 \\ 1}\dotprod\colvec[r]{3 \\ 1}}
+          \cdot \colvec[r]{3 \\ 1}
+          =\frac{1}{2}\cdot\colvec[r]{3 \\ 1}
+          =\colvec[r]{3/2 \\ 1/2}$
+        \partsitem $\displaystyle
+          \frac{\colvec[r]{0 \\ 4}\dotprod\colvec[r]{3 \\ 1}}{%
+                 \colvec[r]{3 \\ 1}\dotprod\colvec[r]{3 \\ 1}}
+          \cdot \colvec[r]{3 \\ 1}
+          =\frac{2}{5}\cdot\colvec[r]{3 \\ 1}
+          =\colvec[r]{6/5 \\ 2/5}$
+      \end{exparts}
+一般地，投影为
+      \begin{equation*}
+          \frac{\colvec{x_1 \\ x_2}\dotprod\colvec[r]{3 \\ 1}}{%
+                 \colvec[r]{3 \\ 1}\dotprod\colvec[r]{3 \\ 1}}
+          \cdot \colvec[r]{3 \\ 1}
+          =\frac{3x_1+x_2}{10}\cdot\colvec[r]{3 \\ 1}
+          =\colvec{(9x_1+3x_2)/10 \\ (3x_1+x_2)/10}
+      \end{equation*}
+相应矩阵为
+      \begin{equation*}
+        \begin{mat}[r]
+          9/10  &3/10  \\
+          3/10  &1/10
+        \end{mat}
+      \end{equation*}  
+     \end{answer}
+  \item \label{exer:PerpAreInd}
+投影把 $\vec{v}$ 分解为投影部分和正交部分。证明任意两个非零正交向量构成线性无关集。
+    \begin{answer}
+设两个向量非零且正交，考虑 $c_1\vec{v}_1+c_2\vec{v}_2=\zero$。两边与 $\vec{v}_1$ 作点积。
+      \begin{multline*}
+        \vec{v}_1\dotprod(c_1\vec{v}_1+c_2\vec{v}_2)
+        =c_1\cdot(\vec{v}_1\dotprod\vec{v}_1)
+           +c_2\cdot(\vec{v}_1\dotprod\vec{v}_2)            \\
+        =c_1\cdot (\vec{v}_1\dotprod\vec{v}_1)+c_2\cdot 0
+        =c_1\cdot (\vec{v}_1\dotprod\vec{v}_1)
+      \end{multline*}
+左边等于右边的 $\vec{v}_1\dotprod\zero=\zero$，由 $\vec{v}_1\ne\zero$ 得 $c_1=0$；同理 $c_2=0$。
+    \end{answer}
+  \item    
+    \begin{exparts}
+\partsitem 若 $\vec{v}$ 在线上，它的正交投影是什么？
+\partsitem 若 $\vec{v}$ 不在线上，证明 $\set{\vec{v},\vec{v}-\proj{\vec{v}\,}{\spanof{\vec{s}\,}}}$ 线性无关。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 若 $\vec{v}$ 在线上，正交投影就是 \(\vec{v}\)。因为 $\vec{v}=c_{\vec{v}}\vec{s}$。
+         \begin{equation*}
+           \frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}\cdot\vec{s}
+           =\frac{c_{\vec{v}}\cdot \vec{s}\dotprod\vec{s}}{%
+                         \vec{s}\dotprod\vec{s}}\cdot\vec{s}
+           =c_{\vec{v}}\cdot\frac{\vec{s}\dotprod\vec{s}}{%
+                                  \vec{s}\dotprod\vec{s}}\cdot\vec{s}
+           =c_{\vec{v}}\cdot 1 \cdot\vec{s}
+           =\vec{v}
+         \end{equation*}
+\partsitem 设投影为 $c_{\vec{p}}\vec{s}$。当 $\vec{v}$ 不在线上时，两向量均非零；若 $c_{\vec{p}}=0$，集合只有非零向量 $\vec{v}$，显然线性无关。因此只需考虑 $c_{\vec{p}}\ne0$。
+
+设线性关系
+         \begin{equation*}
+           a_1(\vec{v})+a_2(\vec{v}-c_{\vec{p}}\vec{s})=\zero
+         \end{equation*}
+得到 $(a_1+a_2)\vec{v}=a_2c_{\vec{p}}\vec{s}$。由于 $\vec{v}$ 不在线上，两边系数均为零，故 $a_2=0$ 且 $a_1=0$，集合线性无关。
+     \end{exparts}
+    \end{answer}
+  \item 
+\nearbydefinition{def:ProjIntoLine} 要求 $\vec{s}$ 非零。为什么？零向量张成的退化直线上的正交投影应如何定义？
+    \begin{answer}
+若 $\vec{s}$ 是零向量，以下表达式
+          \begin{equation*}
+            \proj{\vec{v}}{\spanof{\vec{s}\,}}=
+            \frac{ \vec{v}\dotprod\vec{s} }{%
+                    \vec{s}\dotprod\vec{s} }\cdot\vec{s}
+          \end{equation*}
+含有除零，未定义。投影必须属于零向量的张成空间，所以合理定义为 \(\zero\)。
+    \end{answer}
+  \item 
+每个向量都是某个其他向量到某条直线的投影吗？
+    \begin{answer}
+只要 $n>1$，$\Re^n$ 中任意向量都是某个其他向量到某条直线的投影。
+
+设 $\vec{v}\in\Re^n$ 且 $n>1$。若 $\vec{v}\ne\zero$，取其张成的直线；若为零向量，取任意非退化直线。若某个分量 $v_i=0$，取 $\vec{w}=\vec{e}_i$；若所有分量非零，取分量为 $(v_2,-v_1,0,\dots,0)$ 的 $\vec{w}$。两种情况下 $\vec{w}\perp\vec{v}$，且 $\vec{v}$ 是 $\vec{v}+\vec{w}$ 在该直线上的投影。
+      \begin{equation*}
+        \frac{ (\vec{v}+\vec{w})\dotprod\vec{v} }{ 
+               \vec{v}\dotprod\vec{v} }\cdot\vec{v}
+        =\bigl(\frac{ \vec{v}\dotprod\vec{v} }{ 
+                     \vec{v}\dotprod\vec{v} }+
+               \frac{ \vec{w}\dotprod\vec{v} }{ \
+                      \vec{v}\dotprod\vec{v} }\bigr)\cdot\vec{v}
+        =\frac{ \vec{v}\dotprod\vec{v} }{ \vec{v}\dotprod\vec{v} }\cdot\vec{v}
+        =\vec{v}
+      \end{equation*}
+
+$n=0$ 时空间只有一个向量，不能是不同向量的投影；$n=1$ 时只有一条非退化直线，每个向量只投影到自身。
+    \end{answer}
+  \item 
+证明投影的长度等于 $|\vec{v}\dotprod\vec{s}|$ 除以 $\vec{s}$ 的长度。
+    \begin{answer}
+直接计算即可。回顾 $|\vec{u}|^2=\vec{u}\dotprod\vec{u}$。
+      \begin{equation*}
+        \absval{\frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}
+              \cdot\vec{s}\,}^2
+        =
+        \bigl(\frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}
+           \cdot \vec{s}\bigr)
+        \dotprod
+        \bigl(\frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}
+           \cdot \vec{s}\bigr)
+        =
+        \bigl(\frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}\bigr)^2
+        \cdot(\vec{s}\dotprod\vec{s})
+        =
+        \frac{(\vec{v}\dotprod\vec{s})^2}{(\vec{s}\dotprod\vec{s})^2}
+        \cdot(\vec{s}\dotprod\vec{s})
+        =
+        \frac{(\vec{v}\dotprod\vec{s})^2}{\absval{\vec{s}}^2}
+      \end{equation*} 
+    \end{answer}
+  \item
+求点到直线距离的公式。
+    \begin{answer}
+由于投影为
+      \begin{equation*}
+        \frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}\cdot\vec{s}
+      \end{equation*}
+点到直线的距离平方为
+      \begin{align*}
+        \absval{\vec{v}-
+                \frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}
+                \cdot\vec{s}\, }^2
+        &=\big( \vec{v}-
+                \frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}
+                \cdot\vec{s} \big)
+          \dotprod
+          \big( \vec{v}-
+                \frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}
+                \cdot\vec{s} \big)                                  \\
+        &=\vec{v}\dotprod\vec{v}
+        -\vec{v}\dotprod(
+              \frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}\cdot\vec{s}
+           )
+        -(
+              \frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}
+               \cdot\vec{s}\,
+         )\dotprod\vec{v}
+        +\big(\frac{\vec{v}\dotprod\vec{s}}{
+                \vec{s}\dotprod\vec{s}}\cdot\vec{s}\,\big)
+          \dotprod
+          \big(\frac{\vec{v}\dotprod\vec{s}}{
+                \vec{s}\dotprod\vec{s}}\cdot\vec{s}\,\big)     \\   
+        &=\vec{v}\dotprod\vec{v}
+        -2\cdot\big(\frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}\big)
+           \cdot\vec{v}\dotprod\vec{s}
+        +\big(\frac{\vec{v}\dotprod\vec{s}}{
+                \vec{s}\dotprod\vec{s}}\big)^2\cdot(\vec{s}\dotprod\vec{s})  \\
+        &=\frac{(\vec{v}\dotprod\vec{v}\,)\cdot(\vec{s}\dotprod\vec{s}\,)
+                 -2\cdot(\vec{v}\dotprod\vec{s}\,)^2
+                 +(\vec{v}\dotprod\vec{s}\,)^2}{%
+               \vec{s}\dotprod\vec{s}}                               \\     
+        &=\frac{(\vec{v}\dotprod\vec{v}\,)(\vec{s}\dotprod\vec{s}\,)
+                -(\vec{v}\dotprod\vec{s}\,)^2}{\vec{s}\dotprod\vec{s}}
+      \end{align*}  
+    \end{answer}
+  \item 
+用微积分求标量 $c$，使点 $(cs_1,cs_2)$ 到 $(v_1,v_2)$ 的距离最小，并推广到 $\Re^n$。
+    \begin{answer}
+平方根严格递增，所以最小化 $d(c)=(cs_1-v_1)^2+(cs_2-v_2)^2$ 即可。求导并令导数为零，得到唯一临界点。
+      \begin{equation*}
+        c=\frac{v_1s_1+v_2s_2}{{s_1}^2+{s_2}^2}
+         =\frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}
+      \end{equation*}
+现在对 $c$ 求二阶导数
+      \begin{equation*}
+        \frac{d^2\,d}{dc^2}=2{s_1}^2+2{s_2}^2
+      \end{equation*}
+只要 $s_1,s_2$ 不同时为零，它严格为正，因此临界点是最小值。
+
+推广到 $\Re^n$ 只需对 $d_n(c)=(cs_1-v_1)^2+\dots+(cs_n-v_n)^2$ 求导。
+    \end{answer}
+  \recommended \item \label{exer:ProjMinimizesDist}
+设 $\vec{p}$ 是 $\vec{v}\in\Re^n$ 到直线 $\ell$ 的正交投影。证明 $\vec{p}$ 是直线上离 $\vec{v}$ 最近的点。
+    \begin{answer}
+任取 $\vec{w}\in\ell$。由于正交投影，$\vec{v}-\vec{p}$ 与 $\vec{p}-\vec{w}$ 垂直。三角不等式说明斜边 $\vec{v}-\vec{w}$ 至少与 $\vec{v}-\vec{p}$ 一样长。
+    \end{answer}
+  \item
+证明向量投影到直线后的长度不超过原向量。
+    \begin{answer}
+任意向量满足 $|\vec{u}|^2=\vec{u}\dotprod\vec{u}$，所以投影长度平方为
+      \begin{equation*}
+        \absval{\frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}
+              \cdot\vec{s}\,}^2
+        =
+        \bigl(\frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}
+           \cdot \vec{s}\,\bigr)
+        \dotprod
+        \bigl(\frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}
+           \cdot \vec{s}\,\bigr)
+        =
+        \bigl(\frac{\vec{v}\dotprod\vec{s}}{\vec{s}\dotprod\vec{s}}\bigr)^2
+        \cdot(\vec{s}\dotprod\vec{s})
+        =
+        \frac{(\vec{v}\dotprod\vec{s})^2}{(\vec{s}\dotprod\vec{s})^2}
+        \cdot(\vec{s}\dotprod\vec{s})
+        =
+        \frac{(\vec{v}\dotprod\vec{s})^2}{\absval{\vec{s}\,}^2}
+      \end{equation*} 
+于是长度为 $|\vec{v}\dotprod\vec{s}|/|\vec{s}|$。由柯西–施瓦茨不等式可知它不超过 $|\vec{v}|$。
+    \end{answer}
+  \recommended \item  \label{exer:LineProjFormIndOfVec}
+证明正交投影的定义与所选方向向量无关：若 $\vec{s}$ 是 $\vec{q}$ 的非零倍数，则两种公式相等。
+    \begin{answer}
+写 $\vec{q}=c\vec{s}$，直接计算即可。
+    \end{answer}
+  \item
+考虑把平面中向量投影到直线 $y=x$ 的函数。以下两种方法都说明它线性：一种固定坐标基，另一种更概念化。
+    \begin{exparts} 
+\partsitem 求描述该函数作用的矩阵。
+\partsitem 证明该映射可由先顺时针旋转 $\pi/4$、再投影到 $x$ 轴、最后逆时针旋转 $\pi/4$ 得到。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+固定
+          \begin{equation*}
+            \vec{s}=\colvec[r]{1 \\ 1}
+          \end{equation*}
+作为直线方向向量，公式给出以下作用，
+          \begin{equation*}
+            \colvec{x \\ y}
+             \mapsto
+            \frac{\colvec{x \\ y}\dotprod\colvec[r]{1 \\ 1}}{%
+                  \colvec[r]{1 \\ 1}\dotprod\colvec[r]{1 \\ 1}}\cdot\colvec[r]{1 \\ 1}
+            =\frac{x+y}{2}\cdot\colvec[r]{1 \\ 1}
+            =\colvec{(x+y)/2 \\ (x+y)/2}
+          \end{equation*} 
+这正是该矩阵的作用。
+          \begin{equation*}
+            \begin{mat}[r]
+              1/2  &1/2  \\
+              1/2  &1/2
+            \end{mat}
+          \end{equation*}
+顺时针旋转 $\pi/4$ 将 $y=x$ 变到 $x$ 轴；投影后再旋转回来即可。
+      \end{exparts}
+    \end{answer}
+  \item 
+对 $\vec{a},\vec{b}\in\Re^n$，交替将向量投影到它们各自张成的直线，得到序列 $\vec{v}_1,\vec{v}_2,\dots$。该序列是否最终稳定？若稳定，最早从哪一项开始？
+    \begin{answer}
+序列不一定稳定。取
+      \begin{equation*}
+        \vec{a}=\colvec[r]{1 \\ 0}
+        \qquad
+        \vec{b}=\colvec[r]{1 \\ 1}
+      \end{equation*}
+投影为
+      \begin{equation*}
+        \vec{v}_1=\colvec[r]{1/2 \\ 1/2},
+        \quad
+        \vec{v}_2=\colvec[r]{1/2 \\ 0},
+        \quad
+        \vec{v}_3=\colvec[r]{1/4 \\ 1/4},
+        \quad
+        \ldots
+      \end{equation*}
+      这个序列不会重复。
+      \begin{center}  \small
+        \includegraphics{map/mp/ch3.82}
+      \end{center}
+      \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsectionoptional{格拉姆–施密特正交化}
+\index{Gram-Schmidt process|(}
+% \noindent\textit{This subsection is optional.
+%      It is a prerequisite only for the final two sections
+%      of Chapter Five.
+%      Also, this subsection requires material from the previous subsection, 
+%      which itself was optional.}
+
+前一小节指出，将 $\vec v$ 投影到 \(\vec s\) 张成的直线，会把该向量分解为两部分：
+\begin{center}  \small
+  \vcenteredhbox{\includegraphics{map/mp/ch3.35}}
+  % \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.35}\end{tabular}
+   \qquad
+   $\displaystyle \vec{v}=\proj{\vec{v}}{\spanof{\vec{s}\,}}
+             \,+\,\left(\vec{v}-\proj{\vec{v}}{\spanof{\vec{s}\,}}\right)$
+\end{center}
+这两部分正交，因而互不影响。下面发展这一思想。
+
+\begin{definition}  \label{df:MutuallyOrthogonal}
+%<*df:MutuallyOrthogonal>
+向量 \( \vec{v}_1,\dots,\vec{v}_k\in\Re^n \) 若任意两个都正交，即 $i\neq j$ 时 $\vec{v}_i\dotprod\vec{v}_j=0$，称为\definend{两两正交}。
+%</df:MutuallyOrthogonal>
+\end{definition}
+
+\begin{theorem} \label{th:OrthoIsInd}
+%<*th:OrthoIsInd>
+若集合中的向量两两正交且均非零，则该集合线性无关。
+%</th:OrthoIsInd>
+\end{theorem}
+
+\begin{proof}
+%<*pf:OrthoIsInd>
+设 $\zero=c_1\vec{v}_1+\dots+c_k\vec{v}_k$。对任意 $i$ 与 $\vec{v}_i$ 作点积，得到 $c_i(\vec{v}_i\dotprod\vec{v}_i)=0$，因 $\vec{v}_i\ne\zero$，所以 $c_i=0$。
+%</pf:OrthoIsInd>
+\end{proof}
+
+\begin{corollary}  \label{cor:OrthAndBigEnoughIsBasis}
+%<*co:OrthAndBigEnoughIsBasis>
+在 $k$ 维空间中，$k$ 个两两正交且非零的向量构成一组基。
+%</co:OrthAndBigEnoughIsBasis>
+\end{corollary}
+
+\begin{proof}
+%<*pf:OrthAndBigEnoughIsBasis>
+因为 $k$ 维空间中任意 $k$ 个线性无关向量都是一组基。
+%</pf:OrthAndBigEnoughIsBasis>
+\end{proof}
+
+逆命题不成立：$\Re^n$ 的子空间并非每组基都由两两正交向量组成。不过，每个子空间至少有一组这样的基。
+
+\begin{example}
+该 $\Re^2$ 基中的向量 $\vec{\beta}_1$ 和 $\vec{\beta}_2$
+不正交。
+\begin{center}  \small
+  $\displaystyle 
+      B=\sequence{
+            \colvec[r]{4 \\ 2},
+            \colvec[r]{1 \\ 3} }$
+  \qquad %\hspace*{3em}
+  \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.36}\end{tabular}
+\end{center}
+由 $B$ 构造一组新基 $\sequence{\vec{\kappa}_1,\vec{\kappa}_2}$，其中向量两两正交。新基第一个向量取 $\vec{\beta}_1$。
+\begin{equation*}
+  \vec{\kappa}_1=\colvec[r]{4 \\ 2}
+\end{equation*}
+第二个向量从 $\vec{\beta}_2$ 中减去沿 $\vec{\kappa}_1$ 方向的部分，留下与 $\vec{\kappa}_1$ 正交的部分。
+% (it is orthogonal by the definition of the projection into the span of 
+% $\vec{\kappa}_1$).
+\begin{center}  \small
+   $\displaystyle \vec{\kappa}_2=\colvec[r]{1 \\ 3}
+    -\proj{\colvec[r]{1 \\ 3}}{\scriptstyle\spanof{\vec{\kappa}_1}}
+    =\colvec[r]{1 \\ 3}-\colvec[r]{2 \\ 1}=\colvec[r]{-1 \\ 2}$
+   \qquad
+  \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.37}\end{tabular}
+\end{center} 
+由推论，$\sequence{\vec{\kappa}_1,\vec{\kappa}_2}$ 是 $\Re^2$ 的一组基。
+\end{example}
+
+\begin{definition}  \label{df:OrthogonalBasis}
+%<*df:OrthogonalBasis>
+向量空间的一组\definend{正交基}是由两两正交向量组成的基。
+%</df:OrthogonalBasis>
+\end{definition}
+
+% The next result gives a way to produce an 正交基 
+% from any given starting basis.
+% We first see an example.
+
+\begin{example} \label{ex:OrthoBasisForReThree}
+要把 $\Re^3$ 的以下基
+\begin{equation*}
+  B=\sequence{
+           \colvec[r]{1 \\ 1 \\ 1},
+           \colvec[r]{0 \\ 2 \\ 0},
+           \colvec[r]{1 \\ 0 \\ 3}
+            }
+\end{equation*}
+变为正交基，先保持第一个向量不变。
+\begin{equation*}
+   \vec{\kappa}_1=\colvec[r]{1 \\ 1 \\ 1}
+\end{equation*}
+从 $\vec{\beta}_2$ 中减去沿 $\vec{\kappa}_1$ 方向的部分，得到 $\vec{\kappa}_2$。
+\begin{equation*}
+   \vec{\kappa}_2=\colvec[r]{0 \\ 2 \\ 0}
+                   -\proj{\colvec[r]{0 \\ 2 \\ 0}}{\spanof{\vec{\kappa}_1}}
+                 =\colvec[r]{0 \\ 2 \\ 0}-\colvec[r]{2/3 \\ 2/3 \\ 2/3}
+                 =\colvec[r]{-2/3 \\ 4/3 \\ -2/3}
+\end{equation*}
+从 $\vec{\beta}_3$ 中同时减去沿 $\vec{\kappa}_1$ 和 $\vec{\kappa}_2$ 方向的部分，得到 $\vec{\kappa}_3$。
+\begin{equation*}
+   \vec{\kappa}_3=\colvec[r]{1 \\ 0 \\ 3}
+                   -\proj{\colvec[r]{1 \\ 0 \\ 3}}{\spanof{\vec{\kappa}_1}}
+                   -\proj{\colvec[r]{1 \\ 0 \\ 3}}{\spanof{\vec{\kappa}_2}}
+                 =\colvec[r]{-1 \\ 0 \\ 1}
+\end{equation*}
+同样由推论可知所得向量构成 $\Re^3$ 的一组基。
+\begin{equation*}
+  \sequence{
+           \colvec[r]{1 \\ 1 \\ 1},
+           \colvec[r]{-2/3 \\ 4/3 \\ -2/3},
+           \colvec[r]{-1 \\ 0 \\ 1}
+           }
+\end{equation*}
+\end{example}
+
+
+\begin{theorem}[格拉姆–施密特正交化]
+\index{orthogonalization}\index{basis!orthogonalization}
+\label{th:GramSchmidt}
+%<*th:GramSchmidt>
+若 \( \sequence{\vec{\beta}_1,\ldots\vec{\beta}_k} \) 是 $\Re^n$ 某子空间的一组基，则以下向量
+\begin{align*}
+  \vec{\kappa}_1
+  &=\vec{\beta}_1    \\
+  \vec{\kappa}_2
+  &=\vec{\beta}_2-\proj{\vec{\beta}_2}{\spanof{\vec{\kappa}_1}}    \\
+  \vec{\kappa}_3
+  &=\vec{\beta}_3
+  -\proj{\vec{\beta}_3}{\spanof{\vec{\kappa}_1}}
+  -\proj{\vec{\beta}_3}{\spanof{\vec{\kappa}_2}}    \\
+  &\vdotswithin{=}           \\
+  \vec{\kappa}_k
+  &=\vec{\beta}_k
+  -\proj{\vec{\beta}_k}{\spanof{\vec{\kappa}_1}}-\cdots
+  -\proj{\vec{\beta}_k}{\spanof{\vec{\kappa}_{k-1}}}
+\end{align*}
+构成该子空间的一组正交基。
+%</th:GramSchmidt>
+\end{theorem}
+
+\begin{remark}
+这里限于 $\Re^n$，只是因为尚未为其他空间定义正交。
+\end{remark}
+
+\begin{proof}
+%<*pf:GramSchmidt0>
+用归纳法验证每个 $\vec{\kappa}_i$ 非零，属于 $\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_i}$ 的张成空间，并与此前所有向量正交。然后由推论得新序列仍是同一子空间的基。
+%</pf:GramSchmidt0>
+
+%<*pf:GramSchmidt1>
+这里只讨论 $i\le3$ 的情形，以说明思路；完整论证见练习 \nearbyexercise{exer:GramSchmidt}。
+%</pf:GramSchmidt1>
+
+%<*pf:GramSchmidt2>
+$i=1$ 时显然：取 $\vec{\kappa}_1=\vec{\beta}_1$ 即可。
+%</pf:GramSchmidt2>
+
+%<*pf:GramSchmidt3>
+$i=2$ 时，由定义展开
+\begin{equation*}
+  \vec{\kappa}_2=\vec{\beta}_2
+      -\proj{\vec{\beta}_2}{\spanof{\vec{\kappa}_1}}=
+  \vec{\beta}_2
+  -\frac{\vec{\beta}_2\dotprod\vec{\kappa}_1}{
+         \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+   \cdot\vec{\kappa}_1
+  =
+  \vec{\beta}_2
+  -\frac{\vec{\beta}_2\dotprod\vec{\kappa}_1}{
+         \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+   \cdot\vec{\beta}_1
+\end{equation*}
+可知 $\vec{\kappa}_2\ne\zero$，否则会得到基向量之间的非平凡线性关系；同时它属于前两个 $\vec{\beta}$ 的张成空间。
+\begin{equation*}
+   \vec{\kappa}_1\dotprod\vec{\kappa}_2=
+   \vec{\kappa}_1\dotprod(\vec{\beta}_2
+      -\proj{\vec{\beta}_2}{\spanof{\vec{\kappa}_1}})=0
+\end{equation*}
+它与唯一的前置向量正交，因为投影的余项正交。
+%</pf:GramSchmidt3>
+
+%<*pf:GramSchmidt4>
+$i=3$ 与 $i=2$ 类似，只多一个细节。展开定义，
+\begin{align*}
+  \vec{\kappa}_3
+  &=\vec{\beta}_3
+  -\frac{\vec{\beta}_3\dotprod\vec{\kappa}_1}{
+         \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+   \cdot\vec{\kappa}_1
+  -\frac{\vec{\beta}_3\dotprod\vec{\kappa}_2}{
+         \vec{\kappa}_2\dotprod\vec{\kappa}_2}
+   \cdot\vec{\kappa}_2  \\
+  &=\vec{\beta}_3
+  -\frac{\vec{\beta}_3\dotprod\vec{\kappa}_1}{
+         \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+   \cdot\vec{\beta}_1
+  -\frac{\vec{\beta}_3\dotprod\vec{\kappa}_2}{
+         \vec{\kappa}_2\dotprod\vec{\kappa}_2}
+  \cdot\bigl(\vec{\beta}_2
+  -\frac{\vec{\beta}_2\dotprod\vec{\kappa}_1}{
+         \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+   \cdot\vec{\beta}_1\bigr)
+\end{align*}
+第一行说明 $\vec{\kappa}_3\ne\zero$；第二行说明它属于前三个 $\vec{\beta}$ 的张成空间。下式说明它与 $\vec{\kappa}_1$ 正交。
+%</pf:GramSchmidt4>
+%<*pf:GramSchmidt5>
+\begin{align*}
+   \vec{\kappa}_1\dotprod\vec{\kappa}_3
+   &=\vec{\kappa}_1\dotprod\bigl(\;\vec{\beta}_3
+      -\proj{\vec{\beta}_3}{\spanof{\vec{\kappa}_1}}
+      -\proj{\vec{\beta}_3}{\spanof{\vec{\kappa}_2}}\;\bigr) \\
+   &=\vec{\kappa}_1\dotprod\bigl(\vec{\beta}_3
+          -\proj{\vec{\beta}_3}{\spanof{\vec{\kappa}_1}}\bigr)
+    -\vec{\kappa}_1\dotprod\proj{\vec{\beta}_3}{\spanof{\vec{\kappa}_2}} \\
+   &=0
+\end{align*}
+与 $i=2$ 的区别在于，第二项因 $\vec{\kappa}_1\perp\vec{\kappa}_2$ 而为零。类似地可证 $\vec{\kappa}_3\perp\vec{\kappa}_2$。
+%</pf:GramSchmidt5>
+\end{proof}
+
+除了使基向量正交，还可将每个向量除以其长度作\definend{单位化}\index{normalize, vector}，从而得到\definend{标准正交基}\index{basis!orthonormal}%
+\index{标准正交基}。
+
+\begin{example}
+将 \nearbyexample{ex:OrthoBasisForReThree} 的正交基单位化，得到以下标准正交基。
+\begin{equation*}
+  \sequence{
+           \colvec[r]{1/\sqrt{3} \\ 1/\sqrt{3} \\ 1/\sqrt{3}},
+           \colvec[r]{-1/\sqrt{6} \\ 2/\sqrt{6} \\ -1/\sqrt{6}},
+           \colvec[r]{-1/\sqrt{2} \\ 0 \\ 1/\sqrt{2}}
+           }
+\end{equation*}
+\end{example}
+
+除了直观、类似于 $\Re^n$ 的标准基外，标准正交基还能简化计算；\nearbyexercise{exer:OrthoRepEasy} 就是例子。
+
+
+
+
+\begin{exercises}
+\item 将以下向量单位化。
+    \begin{exparts*}
+      \partsitem $\colvec{1 \\ 2}$
+      \partsitem $\colvec{-1 \\ 3 \\ 0}$
+      \partsitem $\colvec{1 \\ -1}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem $\colvec{1/\sqrt{5} \\ 2/\sqrt{5}}
+             =\frac{1}{\sqrt{5}}\cdot\colvec{1 \\ 2}$
+        \partsitem $\frac{1}{\sqrt{10}}\cdot\colvec{-1 \\ 3 \\ 0}$
+        \partsitem $\frac{1}{\sqrt{2}}\cdot\colvec{1 \\ -1}$
+      \end{exparts}
+    \end{answer}
+  \recommended \item Perform Gram-Schmidt on this basis for~$\Re^2$.
+    \begin{equation*}
+      \sequence{\colvec{1 \\ 1}, \colvec{-1 \\ 2}}
+    \end{equation*}
+验证所得向量正交。
+    \begin{answer}
+将给定基记为 $B=\sequence{\vec{\beta}_1,\vec{\beta}_2}$。先取 $\vec{\kappa}_1=\vec{\beta}_1$，再取 $\vec{\kappa}_2=\vec{\beta}_2-\proj{\vec{\beta}_2}{\spanof{\vec{\kappa}_1}}$。
+      \begin{equation*}
+        \vec{\kappa}_2=
+        \colvec{-1 \\ 2}-\frac{\colvec{-1 \\ 2}\dotprod\colvec{1 \\ 1}}{\colvec{1 \\ 1}\dotprod\colvec{1 \\ 1}}\cdot\colvec{1 \\ 1}
+        =\colvec{-3/2 \\ 3/2}
+      \end{equation*}
+只需计算两者点积为零即可验证正交。
+    \end{answer}
+  \recommended \item 
+对 $\Re^3$ 的以下基作格拉姆–施密特正交化。
+    \begin{equation*}
+      \sequence{
+                         \colvec{1 \\ 2 \\ 3},
+                         \colvec{2 \\ 1 \\ -3},
+                         \colvec{3 \\ 3 \\ 3}
+                         }  
+    \end{equation*}
+    \begin{answer}
+记给定基为 $B=\sequence{\vec{\beta}_1,\vec{\beta}_2,\vec{\beta}_3}$。先取 $\vec{\kappa}_1=\vec{\beta}_1$。
+
+接着取 $\vec{\kappa}_2=\vec{\beta}_2-\proj{\vec{\beta}_2}{\spanof{\vec{\kappa}_1}}$。
+      \begin{equation*}
+        \vec{\kappa}_2=
+        \colvec{2 \\ 1 \\ -3}-\frac{\colvec{2 \\ 1 \\ -3}\dotprod\colvec{1 \\ 2 \\ 3}}{\colvec{1 \\ 2 \\ 3}\dotprod\colvec{1 \\ 2 \\ 3}}\cdot\colvec{1 \\ 2 \\ 3}
+        =\colvec{33/14 \\ 24/14 \\ -27/14}
+      \end{equation*}
+
+第三个向量的公式为
+      \begin{equation*}
+         \vec{\kappa}_3
+          =\vec{\beta}_3
+           -\proj{\vec{\beta}_3}{\spanof{\vec{\kappa}_1}}
+           -\proj{\vec{\beta}_3}{\spanof{\vec{\kappa}_2}}    
+      \end{equation*} 
+计算如下。
+      \begin{equation*}
+        \colvec{3 \\ 3 \\ 3}
+        -\frac{\colvec{3 \\ 3 \\ 3}\dotprod\colvec{1 \\ 2 \\ 3}}{\colvec{1 \\ 2 \\ 3}\dotprod\colvec{1 \\ 2 \\ 3}}\cdot\colvec{1 \\ 2 \\ 3}
+        -\frac{\colvec{3 \\ 3 \\ 3}\dotprod\colvec{33/14 \\ 24/14 \\ -27/14}}{\colvec{33/14 \\ 24/14 \\ -27/14}\dotprod\colvec{33/14 \\ 24/14 \\ -27/14}}\cdot\colvec{33/14 \\ 24/14 \\ -27/14}
+       =\colvec{9/19 \\ -9/19 \\ 3/19}
+      \end{equation*}
+      % 1 - 18/14-(0/14)/(1274/196) times \colvec{3 \\ 3 \\ 3}
+    \end{answer}
+  \recommended \item 
+对 $\Re^2$ 的以下各组基作格拉姆–施密特正交化。
+    \begin{exparts*}
+      \partsitem \( \sequence{
+                         \colvec[r]{1 \\ 1},
+                         \colvec[r]{2 \\ 1}
+                         }  \)
+      \partsitem \( \sequence{
+                         \colvec[r]{0 \\ 1},
+                         \colvec[r]{-1 \\ 3}
+                         }  \)
+      \partsitem \( \sequence{
+                         \colvec[r]{0 \\ 1},
+                         \colvec[r]{-1 \\ 0}
+                         }  \)
+    \end{exparts*}
+再将所得正交基单位化为标准正交基。
+    \begin{answer}
+      \begin{exparts}
+       \partsitem 
+        \begin{align*}
+          \vec{\kappa}_1 &= \colvec[r]{1 \\ 1}           \\
+          \vec{\kappa}_2
+            &=
+            \colvec[r]{2 \\ 1}
+            -\proj{\colvec[r]{2 \\ 1}}{\spanof{\vec{\kappa}_1}}  
+            =
+            \colvec[r]{2 \\ 1}
+            -\frac{\colvec[r]{2 \\ 1}\dotprod\colvec[r]{1 \\ 1}}{%
+                    \colvec[r]{1 \\ 1}\dotprod\colvec[r]{1 \\ 1}}
+            \cdot\colvec[r]{1 \\ 1}                                \\
+            &\quad=
+            \colvec[r]{2 \\ 1}
+            -\frac{3}{2}
+            \cdot\colvec[r]{1 \\ 1}                                
+            =\colvec[r]{1/2 \\ -1/2}
+        \end{align*}
+对应的标准正交基为
+        \begin{equation*}
+          \sequence{
+              \colvec[r]{1/\sqrt{2} \\ 1/\sqrt{2}},
+              \colvec[r]{\sqrt{2}/2 \\ -\sqrt{2}/2}
+                }
+        \end{equation*}
+       \partsitem 
+        \begin{align*}
+          \vec{\kappa}_1 &= \colvec[r]{0 \\ 1}           \\
+          \vec{\kappa}_2
+            &=
+            \colvec[r]{-1 \\ 3}
+            -\proj{\colvec[r]{-1 \\ 3}}{\spanof{\vec{\kappa}_1}}  
+            =
+            \colvec[r]{-1 \\ 3}
+            -\frac{\colvec[r]{-1 \\ 3}\dotprod\colvec[r]{0 \\ 1}}{%
+                    \colvec[r]{0 \\ 1}\dotprod\colvec[r]{0 \\ 1}}
+            \cdot\colvec[r]{0 \\ 1}                                \\
+            &\quad=
+            \colvec[r]{-1 \\ 3}
+            -\frac{3}{1}
+            \cdot\colvec[r]{0 \\ 1}                              
+            =\colvec[r]{-1 \\ 0}
+        \end{align*}
+这里是标准正交基。
+        \begin{equation*}
+          \sequence{
+                \colvec[r]{0 \\ 1},
+                \colvec[r]{-1 \\ 0}
+                }
+        \end{equation*}
+       \partsitem 
+        \begin{align*}
+          \vec{\kappa}_1 &= \colvec[r]{0 \\ 1}           \\
+          \vec{\kappa}_2
+            &=
+            \colvec[r]{-1 \\ 0}
+            -\proj{\colvec[r]{-1 \\ 0}}{\spanof{\vec{\kappa}_1}}  
+            =
+            \colvec[r]{-1 \\ 0}
+            -\frac{\colvec[r]{-1 \\ 0}\dotprod\colvec[r]{0 \\ 1}}{%
+                    \colvec[r]{0 \\ 1}\dotprod\colvec[r]{0 \\ 1}}
+            \cdot\colvec[r]{0 \\ 1}                               \\ 
+            &\quad=
+            \colvec[r]{-1 \\ 0}
+            -\frac{0}{1}
+            \cdot\colvec[r]{0 \\ 1}                                
+            =\colvec[r]{-1 \\ 0}
+        \end{align*}
+      \end{exparts}
+相应的标准正交基为
+      \begin{equation*}
+        \sequence{
+              \colvec[r]{0 \\ 1},
+              \colvec[r]{-1 \\ 0}
+              }
+      \end{equation*}
+    \end{answer}
+  \item 
+    对 $\Re^3$ 中的这些基分别执行 Gram–Schmidt 过程。
+    \begin{exparts*}
+      \partsitem \( \sequence{
+                         \colvec[r]{2 \\ 2 \\ 2},
+                         \colvec[r]{1 \\ 0 \\ -1},
+                         \colvec[r]{0 \\ 3 \\ 1}
+                         }  \)
+      \partsitem \( \sequence{
+                         \colvec[r]{1 \\ -1 \\ 0},
+                         \colvec[r]{0 \\ 1 \\ 0},
+                         \colvec[r]{2 \\ 3 \\ 1}
+                         }  \)
+    \end{exparts*}
+    然后将所得正交基化为标准正交基。
+    \begin{answer} 
+      \begin{exparts}
+       \partsitem The first basis vector is unchanged.
+        \begin{equation*}
+          \vec{\kappa}_1 = \colvec[r]{2 \\ 2 \\ 2}          
+        \end{equation*}
+        第二个向量由以下计算得到。
+        \begin{align*}
+          \vec{\kappa}_2
+            &=
+            \colvec[r]{1 \\ 0 \\ -1}
+            -\proj{\colvec[r]{1 \\ 0 \\ -1}}{\spanof{\vec{\kappa}_1}}  
+            =
+            \colvec[r]{1 \\ 0 \\ -1}
+            -\frac{\colvec[r]{1 \\ 0 \\ -1}\dotprod\colvec[r]{2 \\ 2 \\ 2}}{%
+                    \colvec[r]{2 \\ 2 \\ 2}\dotprod\colvec[r]{2 \\ 2 \\ 2}}
+            \cdot\colvec[r]{2 \\ 2 \\ 2}                                   \\
+            &=
+            \colvec[r]{1 \\ 0 \\ -1}
+            -\frac{0}{12}
+            \cdot\colvec[r]{2 \\ 2 \\ 2}                                
+            =\colvec[r]{1 \\ 0 \\ -1}                              
+        \end{align*}
+        第三个向量的算术稍繁琐，但计算过程直接。
+        \begin{align*}
+          \vec{\kappa}_3
+            &=
+            \colvec[r]{0 \\ 3 \\ 1}
+            -\proj{\colvec[r]{0 \\ 3 \\ 1}}{\spanof{\vec{\kappa}_1}}  
+            -\proj{\colvec[r]{0 \\ 3 \\ 1}}{\spanof{\vec{\kappa}_2}}   \\ 
+            &=
+            \colvec[r]{0 \\ 3 \\ 1}
+            -\frac{\colvec[r]{0 \\ 3 \\ 1}\dotprod\colvec[r]{2 \\ 2 \\ 2}}{%
+                    \colvec[r]{2 \\ 2 \\ 2}\dotprod\colvec[r]{2 \\ 2 \\ 2}}
+            \cdot\colvec[r]{2 \\ 2 \\ 2}                                
+            -\frac{\colvec[r]{0 \\ 3 \\ 1}\dotprod\colvec[r]{1 \\ 0 \\ -1}}{%
+                    \colvec[r]{1 \\ 0 \\ -1}\dotprod\colvec[r]{1 \\ 0 \\ -1}}
+            \cdot\colvec[r]{1 \\ 0 \\ -1}                                   \\
+            &\hbox{}\quad=
+            \colvec[r]{0 \\ 3 \\ 1}
+            -\frac{8}{12}
+            \cdot\colvec[r]{2 \\ 2 \\ 2}                                
+            -\frac{-1}{2}
+            \cdot\colvec[r]{1 \\ 0 \\ -1}                              
+            =\colvec[r]{-5/6 \\ 5/3 \\ -5/6}
+        \end{align*}
+        这就是标准正交基。
+        \begin{equation*}
+          \sequence{
+              \colvec[r]{1/\sqrt{3} \\ 1/\sqrt{3} \\ 1/\sqrt{3}},
+              \colvec[r]{1/\sqrt{2} \\ 0 \\ -1/\sqrt{2}},
+              \colvec[r]{-1/\sqrt{6} \\ 2/\sqrt{6} \\ -1/\sqrt{6}}
+                }
+        \end{equation*}
+       \partsitem 第一个基向量就是题目给出的向量。
+        \begin{equation*}
+          \vec{\kappa}_1 = \colvec[r]{1 \\ -1 \\ 0}           
+        \end{equation*}
+        第二个向量为
+        \begin{align*}
+          \vec{\kappa}_2
+            &=
+            \colvec[r]{0 \\ 1 \\ 0}
+            -\proj{\colvec[r]{0 \\ 1 \\ 0}}{\spanof{\vec{\kappa}_1}}  
+            =
+            \colvec[r]{0 \\ 1 \\ 0}
+            -\frac{\colvec[r]{0 \\ 1 \\ 0}\dotprod\colvec[r]{1 \\ -1 \\ 0}}{%
+                    \colvec[r]{1 \\ -1 \\ 0}\dotprod\colvec[r]{1 \\ -1 \\ 0}}
+            \cdot\colvec[r]{1 \\ -1 \\ 0}                                   \\ 
+            &=
+            \colvec[r]{0 \\ 1 \\ 0}
+            -\frac{-1}{2}
+            \cdot\colvec[r]{1 \\ -1 \\ 0}                                
+            =\colvec[r]{1/2 \\ 1/2 \\ 0}                                  
+         \end{align*}
+         第三个向量为
+        \begin{align*}
+          \vec{\kappa}_3
+            &=
+            \colvec[r]{2 \\ 3 \\ 1}
+            -\proj{\colvec[r]{2 \\ 3 \\ 1}}{\spanof{\vec{\kappa}_1}}  
+            -\proj{\colvec[r]{2 \\ 3 \\ 1}}{\spanof{\vec{\kappa}_2}}       \\ 
+            &=
+            \colvec[r]{2 \\ 3 \\ 1}
+            -\frac{\colvec[r]{2 \\ 3 \\ 1}\dotprod\colvec[r]{1 \\ -1 \\ 0}}{%
+                    \colvec[r]{1 \\ -1 \\ 0}\dotprod\colvec[r]{1 \\ -1 \\ 0}}
+            \cdot\colvec[r]{1 \\ -1 \\ 0}                                
+            -\frac{\colvec[r]{2 \\ 3 \\ 1}\dotprod\colvec[r]{1/2 \\ 1/2 \\ 0}}{%
+                    \colvec[r]{1/2 \\ 1/2 \\ 0}\dotprod\colvec[r]{1/2 \\ 1/2 \\ 0}}
+            \cdot\colvec[r]{1/2 \\ 1/2 \\ 0}                   \\
+            &=
+            \colvec[r]{2 \\ 3 \\ 1}
+            -\frac{-1}{2}
+            \cdot\colvec[r]{1 \\ -1 \\ 0}                                
+            -\frac{5/2}{1/2}
+            \cdot\colvec[r]{1/2 \\ 1/2 \\ 0} 
+            =\colvec[r]{0 \\ 0 \\ 1}
+        \end{align*}
+        相应的标准正交基为
+        \begin{equation*}
+          \sequence{
+              \colvec[r]{1/\sqrt{2} \\ -1/\sqrt{2} \\ 0},
+              \colvec[r]{1/\sqrt{2} \\ 1/\sqrt{2} \\ 0}
+              \colvec[r]{0 \\ 0 \\ 1}
+                }
+        \end{equation*}
+      \end{exparts}
+    \end{answer}
+   \recommended \item 
+       求 $\Re^3$ 中子空间（平面 $x-y+z=0$）的一组标准正交基。
+       \begin{answer}
+         将给定空间参数化为
+         \begin{equation*}
+           \set{\colvec{x \\ y \\ z} \suchthat x=y-z}
+           =\set{\colvec[r]{1 \\ 1 \\ 0}\cdot y+\colvec[r]{-1 \\ 0 \\ 1}\cdot z 
+                     \suchthat y,z\in\Re}
+         \end{equation*}
+         因而取基
+         \begin{equation*}
+           \sequence{\colvec[r]{1 \\ 1 \\ 0},
+                     \colvec[r]{-1 \\ 0 \\ 1}}
+         \end{equation*}
+         应用 Gram–Schmidt 过程，得到第一个基向量
+         \begin{equation*}
+           \vec{\kappa}_1 = \colvec[r]{1 \\ 1 \\ 0}             
+         \end{equation*}
+         以及第二个基向量。
+         \begin{align*}
+           \vec{\kappa}_2
+           &=
+           \colvec[r]{-1 \\ 0 \\ 1}-\proj{\colvec[r]{-1 \\ 0 \\ 1}}{%
+                                        \spanof{\vec{\kappa}_1}} 
+           =
+           \colvec[r]{-1 \\ 0 \\ 1}
+            -\frac{\colvec[r]{-1 \\ 0 \\ 1}\dotprod\colvec[r]{1 \\ 1 \\ 0}}{%
+                    \colvec[r]{1 \\ 1 \\ 0}\dotprod\colvec[r]{1 \\ 1 \\ 0}}
+              \cdot\colvec[r]{1 \\ 1 \\ 0}                                \\
+           &=
+           \colvec[r]{-1 \\ 0 \\ 1}
+            -\frac{-1}{2}\cdot\colvec[r]{1 \\ 1 \\ 0}                  
+           =\colvec[r]{-1/2 \\ 1/2 \\ 1}
+         \end{align*}
+         最后将它们单位化。
+         \begin{equation*}
+           \sequence{
+                    \colvec[r]{1/\sqrt{2} \\ 1/\sqrt{2} \\ 0},
+                    \colvec[r]{-1/\sqrt{6} \\ 1/\sqrt{6} \\ 2/\sqrt{6}}
+                    }
+         \end{equation*}
+       \end{answer}
+   \item 
+     求 $\Re^4$ 中这个子空间的一组标准正交基。
+     \begin{equation*}
+       \set{\colvec{x \\ y \\ z \\ w}\suchthat x-y-z+w=0\text{\ and\ }x+z=0}
+     \end{equation*}
+     \begin{answer}
+       化简线性方程组
+       \begin{equation*}
+         \begin{linsys}{4}
+           x  &-  &y  &-  &z  &+  &w  &=  &0  \\
+           x  &   &   &+  &z  &   &   &=  &0
+         \end{linsys}
+         \grstep{-\rho_1+\rho_2}
+         \begin{linsys}{4}
+           x  &-  &y  &-  &z  &+  &w  &=  &0  \\
+              &   &y  &+  &2z &-  &w  &=  &0
+         \end{linsys}
+       \end{equation*}
+       参数化后得到该子空间的如下描述。
+       \begin{equation*}
+         \set{\colvec[r]{-1 \\ -2 \\ 1 \\ 0}\cdot z
+              +\colvec[r]{0 \\ 1 \\ 0 \\ 1}\cdot w
+              \suchthat z,w\in\Re}
+       \end{equation*}
+       因而取基
+       \begin{equation*}
+         \sequence{
+                  \colvec[r]{-1 \\ -2 \\ 1 \\ 0},
+                  \colvec[r]{0 \\ 1 \\ 0 \\ 1}
+                  }
+       \end{equation*}
+       对其执行 Gram–Schmidt 过程，第一个
+       \begin{equation*}
+         \vec{\kappa}_1 = \colvec[r]{-1 \\ -2 \\ 1 \\ 0}   
+       \end{equation*}
+       和第二个基向量分别为
+       \begin{align*}
+         \vec{\kappa}_2
+          &=
+          \colvec[r]{0 \\ 1 \\ 0 \\ 1}
+          -\proj{\colvec[r]{0 \\ 1 \\ 0 \\ 1}}{\spanof{\vec{\kappa}_1}}   
+          =
+          \colvec[r]{0 \\ 1 \\ 0 \\ 1}
+         -\frac{\colvec[r]{0 \\ 1 \\ 0 \\ 1}\dotprod\colvec[r]{-1 \\ -2 \\ 1 \\ 0}}{%
+             \colvec[r]{-1 \\ -2 \\ 1 \\ 0}\dotprod\colvec[r]{-1 \\ -2 \\ 1 \\ 0}} 
+          \cdot\colvec[r]{-1 \\ -2 \\ 1 \\ 0}                            \\
+          &=
+          \colvec[r]{0 \\ 1 \\ 0 \\ 1}
+         -\frac{-2}{6} 
+          \cdot\colvec[r]{-1 \\ -2 \\ 1 \\ 0}  
+          =\colvec[r]{-1/3 \\ 1/3 \\ 1/3 \\ 1}
+       \end{align*}
+       最后将结果单位化。
+       \begin{equation*}
+         \sequence{
+               \colvec[r]{-1/\sqrt{6} \\ -2/\sqrt{6} \\ 1/\sqrt{6} \\ 0},
+               \colvec[r]{-\sqrt{3}/6 \\ \sqrt{3}/6 \\ \sqrt{3}/6 \\ \sqrt{3}/2}
+                  }
+       \end{equation*}
+     \end{answer}
+  \item 
+     证明 \(\Re^n\) 中任意线性无关的子集都可以
+     在不改变张成空间的情况下进行正交化。
+     \begin{answer} 
+       $\Re^n$ 的线性无关子集是其张成空间的一组基，因此应用定理 \nearbytheorem{th:GramSchmidt}。
+
+       \textit{Remark}.
+       题目要求“线性无关”是有原因的。删去这一条件后，需要担心两件事。第一，对线性相关集合执行 Gram–Schmidt 过程会产生零向量。
+       例如, with
+       \begin{equation*}
+         S=\set{\colvec[r]{1 \\ 2},\colvec[r]{3 \\ 6}}
+       \end{equation*}
+       得到：
+       \begin{equation*}
+         \vec{\kappa}_1   =   \colvec[r]{1 \\ 2}
+         \qquad 
+         \vec{\kappa}_2
+           =
+           \colvec[r]{3 \\ 6}-\proj{\colvec[r]{3 \\ 6}}{\spanof{\vec{\kappa}_1}} 
+           =
+           \colvec[r]{0 \\ 0}
+       \end{equation*}
+       这并不严重，因为零向量按定义与所有向量正交；我们可以接受所得的正交集合（尽管零向量无法单位化），也可以修改 Gram–Schmidt 过程，删去所有零向量。第二个问题是集合可能无限。
+       有限维 $\Re^n$ 的任意子空间也有限维，因此其中只有有限多个向量能线性无关；不过，逐个检查无限集合中向量的“过程”仍需进一步说明。$\Re^n$ 的线性无关子集自动是有限的\Dash 事实上大小不超过 $n$\Dash 所以这些担忧都不存在。
+     \end{answer}
+  \item 如果对一个不是基的有限集合应用 Gram–Schmidt 过程，会发生什么？
+    \begin{answer}
+      如果集合线性相关，就会得到零向量。否则（集合线性无关但不张成整个空间），我们是在一个子空间的基上执行 Gram–Schmidt，因此得到该子空间的一组正交基。
+    \end{answer}
+   \recommended \item
+     如果对已经正交的基应用 Gram–Schmidt 过程，会发生什么？
+     \begin{answer}
+       该过程保持基不变。
+     \end{answer}
+  \item 
+     Let $\sequence{\vec{\kappa}_1,\dots,\vec{\kappa}_k}$
+     是 $\Re^n$ 中两两正交的向量集。
+     \begin{exparts}
+       \partsitem 证明对空间中任意 $\vec v$，向量
+         $\vec{v}-(\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}
+           +\dots+\proj{\vec{v}\,}{\spanof{\vec{\kappa}_k}})$
+         与 $\vec{\kappa}_1,\ldots,\vec{\kappa}_k$ 中每个向量都正交。
+       \partsitem 在 $\Re^3$ 中取 $\vec e_1=\vec\kappa_1$、$\vec e_2=\vec\kappa_2$，并令 $\vec v$ 的分量为 $1,2,3$，说明上一问。
+       \partsitem 证明 $\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}+\dots+\proj{\vec{v}\,}{\spanof{\vec{v}_k}}$ 是这些 $\vec\kappa$ 张成空间中距离 $\vec v$ 最近的向量。提示：在上一问的图中加入向量 $d_1\vec\kappa_1+d_2\vec\kappa_2$，对所得三角形应用勾股定理。
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 论证与定理 \nearbytheorem{th:GramSchmidt} 证明中的 $i=3$ 情形相同。
+           点积
+           \begin{equation*}
+             \vec{\kappa}_i\dotprod
+             \left(\vec{v}-\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}
+               -\dots-\proj{\vec{v}\,}{\spanof{\vec{v}_k}}\right)
+           \end{equation*}
+           可以写成以下两类项之和：
+           $-\vec{\kappa}_i\dotprod\proj{\vec{v}\,}{\spanof{\vec{\kappa}_j}}$ 
+           其中 $j\neq i$，
+           以及项
+           $\vec{\kappa}_i\dotprod(\vec{v}-
+                                 \proj{\vec{v}\,}{\spanof{\vec{\kappa}_i}})$.
+           第一类项因各 $\vec\kappa$ 两两正交而为零。另一类项因投影正交而为零
+           （即投影定义使其为零：
+           $\vec{\kappa}_i\dotprod(\vec{v}
+               -\proj{\vec{v}\,}{\spanof{\vec{\kappa}_i}})
+            =\vec{\kappa}_i\dotprod\vec{v}-
+              \vec{\kappa}_i\dotprod
+               \left((\vec{v}\dotprod\vec{\kappa}_i)/(%
+                      \vec{\kappa}_i\dotprod\vec{\kappa}_i)\right)
+                   \cdot\vec{\kappa}_i$
+           经过约分后等于零）。
+         \partsitem 向量 $\vec v$ 用黑色表示，而
+           vector $\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}
+                    +\proj{\vec{v}\,}{\spanof{\vec{v}_2}}
+                   =1\cdot\vec{e}_1+2\cdot\vec{e}_2$ is in gray.
+           \begin{center}  \small
+             \includegraphics{map/mp/ch3.83}
+              \end{center}
+              The vector
+              $\vec{v}-(\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}
+                    +\proj{\vec{v}\,}{\spanof{\vec{v}_2}})$
+              位于连接黑色向量与灰色向量的点划线上，也就是与 $xy$ 平面正交。
+          \partsitem 按提示即可得到该图。
+           \begin{center}  \small
+             \includegraphics{map/mp/ch3.84}
+            \end{center}
+            虚线三角形的直角位于
+            灰色向量 $1\cdot\vec{e}_1+2\cdot\vec{e}_2$
+            与竖直虚线相交处；
+            $\vec{v}-(1\cdot\vec{e}_1+2\cdot\vec{e}_2)$; this is what
+            这正是本题第一问证明的结论。由勾股定理，斜边\Dash 从 $\vec v$ 到任意其他向量的线段\Dash 长于竖直虚线。
+       
+            更形式化地，将 $\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}
+                 +\dots+\proj{\vec{v}\,}{\spanof{\vec{v}_k}}$ as
+            $c_1\cdot\vec{\kappa}_1+\dots+c_k\cdot\vec{\kappa}_k$, 
+            再任取张成空间中的另一个向量
+            $d_1\cdot\vec{\kappa}_1+\dots+d_k\cdot\vec{\kappa}_k$. 
+            Note that
+            \begin{multline*}
+              \vec{v}-(d_1\cdot\vec{\kappa}_1+\dots+d_k\cdot\vec{\kappa}_k)  \\
+              \begin{aligned}
+              &=
+              \bigl(\vec{v}
+                    -(c_1\cdot\vec{\kappa}_1+\dots+c_k\cdot\vec{\kappa}_k)
+              \bigr)                                                     \\
+              &\quad+\bigl((c_1\cdot\vec{\kappa}_1+\dots+c_k\cdot\vec{\kappa}_k)
+                     -(d_1\cdot\vec{\kappa}_1+\dots+d_k\cdot\vec{\kappa}_k)
+               \bigr)
+              \end{aligned}
+            \end{multline*}
+            and that
+            $
+              \bigl(\vec{v}
+                 -(c_1\cdot\vec{\kappa}_1+\dots+c_k\cdot\vec{\kappa}_k)
+              \bigr)
+              \dotprod
+              \bigl((c_1\cdot\vec{\kappa}_1+\dots+c_k\cdot\vec{\kappa}_k)
+                     -(d_1\cdot\vec{\kappa}_1+\dots+d_k\cdot\vec{\kappa}_k)
+              \bigr)                                                      
+              =0
+            $
+            (because the first item shows the $\vec{v}
+                 -(c_1\cdot\vec{\kappa}_1+\dots+c_k\cdot\vec{\kappa}_k)$
+            与每个 $\vec\kappa$ 正交，因此也与
+            to th是线性的 combination of the $\vec{\kappa}$'s).
+            最后应用勾股定理（即三角不等式）。
+       \end{exparts}
+     \end{answer}
+   \item 
+     在 $\Re^3$ 中找一个同时与下列两个向量正交的非零向量。
+     \begin{equation*}
+       \colvec[r]{1 \\ 5 \\ -1}
+       \qquad
+       \colvec[r]{2 \\ 2 \\ 0}
+     \end{equation*}
+     \begin{answer} 
+       一种方法是找第三个向量，使三个向量一起
+       构成 $\Re^3$ 的一组基，例如，
+       \begin{equation*}
+         \vec{\beta}_3=\colvec[r]{1 \\ 0 \\ 0}  
+       \end{equation*} 
+       (the second vector is not dependent on the third because it has a
+       构成一组基（第二个向量的第二个分量非零，因而不依赖于第三个向量；第一个向量的第三个分量非零，因而不依赖于后两者），然后应用 Gram–Schmidt 过程。新基的第一个向量为
+       \begin{equation*}
+         \vec{\kappa}_1 = \colvec[r]{1 \\ 5 \\ -1}  
+       \end{equation*}
+       第二个向量为
+       \begin{align*}
+         \vec{\kappa}_2
+           &=
+           \colvec[r]{2 \\ 2 \\ 0}
+           -\proj{\colvec[r]{2 \\ 2 \\ 0}}{\spanof{\vec{\kappa}_1}}
+           =\colvec[r]{2 \\ 2 \\ 0}
+           -\frac{\colvec[r]{2 \\ 2 \\ 0}\dotprod\colvec[r]{1 \\ 5 \\ -1}}{%
+                  \colvec[r]{1 \\ 5 \\ -1}\dotprod\colvec[r]{1 \\ 5 \\ -1}}
+            \cdot\colvec[r]{1 \\ 5 \\ -1}                               \\
+           &\hbox{}\quad=
+           \colvec[r]{2 \\ 2 \\ 0}
+           -\frac{12}{27}\cdot\colvec[r]{1 \\ 5 \\ -1}
+           =\colvec[r]{14/9 \\ -2/9 \\ 4/9}                        
+       \end{align*}
+       最后一个向量为
+       \begin{align*}
+        \vec{\kappa}_3    
+           &=  
+           \colvec[r]{1 \\ 0 \\ 0}
+             -\proj{\colvec[r]{1 \\ 0 \\ 0}}{\spanof{\vec{\kappa}_1}}
+             -\proj{\colvec[r]{1 \\ 0 \\ 0}}{\spanof{\vec{\kappa}_2}}       \\
+           &\hbox{}\quad=
+           \colvec[r]{1 \\ 0 \\ 0}
+           -\frac{\colvec[r]{1 \\ 0 \\ 0}\dotprod\colvec[r]{1 \\ 5 \\ -1}}{%
+                    \colvec[r]{1 \\ 5 \\ -1}\dotprod\colvec[r]{1 \\ 5 \\ -1}}
+             \cdot\colvec[r]{1 \\ 5 \\ -1}
+           -\frac{\colvec[r]{1 \\ 0 \\ 0}\dotprod\colvec[r]{14/9 \\ -2/9 \\  4/9}}{%
+            \colvec[r]{14/9 \\ -2/9 \\ 4/9}\dotprod\colvec[r]{14/9 \\ -2/9 \\ 4/9}}
+            \cdot\colvec[r]{14/9 \\ -2/9 \\ 4/9}              \\
+         &=
+         \colvec[r]{1 \\ 0 \\ 0}
+           -\frac{1}{27}\cdot\colvec[r]{1 \\ 5 \\ -1}
+           -\frac{7}{12}\cdot\colvec[r]{14/9 \\ -2/9 \\ 4/9}
+         =\colvec[r]{1/18 \\ -1/18  \\ -4/18}
+       \end{align*}
+       结果 $\vec{\kappa}_3$ is orthogonal to both $\vec{\kappa}_1$
+       and $\vec{\kappa}_2$.
+       因此它与张成空间中的每个向量正交，
+       属于集合 $\set{\vec{\kappa}_1,\vec{\kappa}_2}$ 的张成空间，
+       包括题目给出的两个向量。
+     \end{answer}
+  \recommended \item \label{exer:OrthoRepEasy} 
+    正交基的一个优点是，它能简化向量关于该基的表示求法。
+    \begin{exparts}
+      \partsitem For this vector and this non-正交基 for $\Re^2$
+        \begin{equation*}
+          \vec{v}=\colvec[r]{2 \\ 3}
+          \qquad
+          B=\sequence{\colvec[r]{1 \\ 1},
+                    \colvec[r]{1 \\ 0}}
+        \end{equation*}
+        先求向量关于该基的表示，再将其投影到每个基向量的张成空间中。
+        $\spanof{\smash{\vec{\beta}_1}}$ and $\spanof{\smash{\vec{\beta}_2}}$.
+      \partsitem With this 正交基 for $\Re^2$
+        \begin{equation*}
+          K=\sequence{\colvec[r]{1 \\ 1},
+                    \colvec[r]{1 \\ -1}}
+        \end{equation*}
+        求同一向量 $\vec v$ 关于该基的表示，再将其投影到每个基向量的张成空间中。注意，表示系数与投影系数相同。
+      \partsitem Let
+        $K=\sequence{\vec{\kappa}_1,\ldots,\vec{\kappa}_k}$
+        be an 正交基 for some subspace of $\Re^n$.
+        证明 for any $\vec{v}$ in the subspace,
+        the $i$-th component of the representation $\rep{\vec{v}\,}{K}$
+        是标量系数 $(\vec v\dotprod\vec\kappa_i)/
+               (\vec{\kappa}_i\dotprod\vec{\kappa}_i)$
+        from $\proj{\vec{v}\,}{\spanof{\vec{\kappa}_i}}$.
+      \partsitem 证明 
+        $\vec{v}=\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}
+                   +\dots+\proj{\vec{v}\,}{\spanof{\vec{\kappa}_k}}$.
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem We can do the representation by eye.
+          \begin{equation*}
+            \colvec[r]{2 \\ 3}=3\cdot\colvec[r]{1 \\ 1}+(-1)\cdot\colvec[r]{1 \\ 0}
+            \qquad
+            \rep{\vec{v}\,}{B}=\colvec[r]{3 \\ -1}_B
+          \end{equation*}
+          两个投影也很容易求出。
+          \begin{align*}
+            \proj{\colvec[r]{2 \\ 3}}{\spanof{\vec{\beta}_1}}
+            &=\frac{\colvec[r]{2 \\ 3}\dotprod\colvec[r]{1 \\ 1}}{%
+                   \colvec[r]{1 \\ 1}\dotprod\colvec[r]{1 \\ 1}}
+              \cdot\colvec[r]{1 \\ 1}
+            =\frac{5}{2}\cdot\colvec[r]{1 \\ 1}            \\
+            \proj{\colvec[r]{2 \\ 3}}{\spanof{\vec{\beta}_2}}
+            &=\frac{\colvec[r]{2 \\ 3}\dotprod\colvec[r]{1 \\ 0}}{%
+                   \colvec[r]{1 \\ 0}\dotprod\colvec[r]{1 \\ 0}}
+              \cdot\colvec[r]{1 \\ 0}
+            =\frac{2}{1}\cdot\colvec[r]{1 \\ 0}
+          \end{align*}
+        \partsitem As above, we can do the representation by eye
+          \begin{equation*}
+            \colvec[r]{2 \\ 3}=(5/2)\cdot\colvec[r]{1 \\ 1}
+                             +(-1/2)\cdot\colvec[r]{1 \\ -1}
+          \end{equation*}
+          两个投影也很容易求出。
+          \begin{align*}
+            \proj{\colvec[r]{2 \\ 3}}{\spanof{\vec{\beta}_1}}
+            &=\frac{\colvec[r]{2 \\ 3}\dotprod\colvec[r]{1 \\ 1}}{%
+                   \colvec[r]{1 \\ 1}\dotprod\colvec[r]{1 \\ 1}}
+              \cdot\colvec[r]{1 \\ 1}
+            =\frac{5}{2}\cdot\colvec[r]{1 \\ 1}                    \\
+            \proj{\colvec[r]{2 \\ 3}}{\spanof{\vec{\beta}_2}}
+            &=\frac{\colvec[r]{2 \\ 3}\dotprod\colvec[r]{1 \\ -1}}{%
+                   \colvec[r]{1 \\ -1}\dotprod\colvec[r]{1 \\ -1}}
+              \cdot\colvec[r]{1 \\ -1}
+            =\frac{-1}{2}\cdot\colvec[r]{1 \\ -1}
+          \end{align*}
+          注意 $5/2$ 和 $-1/2$ 再次出现。
+        \partsitem Represent $\vec{v}$ with respect to the basis
+          \begin{equation*}
+            \rep{\vec{v}\,}{K}=\colvec{r_1 \\ \vdots \\ r_k}
+          \end{equation*}
+          so that
+          $\vec{v}=r_1\vec{\kappa}_1+\dots+r_k\vec{\kappa}_k$.
+          为确定 $r_i$，
+          将等式两边与 $\vec{\kappa}_i$ 作点积。
+          \begin{equation*}
+            \vec{v}\dotprod\vec{\kappa}_i
+               =\left(r_1\vec{\kappa}_1+\dots+r_k\vec{\kappa}_k\right)
+                 \dotprod\vec{\kappa}_i
+               =r_1\cdot 0+\dots+r_i\cdot(\vec{\kappa}_i\dotprod\vec{\kappa}_i)
+                    +\dots+r_k\cdot 0
+          \end{equation*}
+          解出 $r_i$ 即得所需系数。
+        \partsitem 这是 a restatement of the prior item.
+      \end{exparts}
+    \end{answer}
+  \item 
+     \textit{Bessel's Inequality}. 
+     考虑se orthonormal sets
+     \begin{equation*}
+          B_1=\set{\vec{e}_1}
+          \quad
+          B_2=\set{\vec{e}_1,\vec{e}_2}
+          \quad
+          B_3=\set{\vec{e}_1,\vec{e}_2,\vec{e}_3}
+          \quad
+          B_4=\set{\vec{e}_1,\vec{e}_2,\vec{e}_3,\vec{e}_4}
+     \end{equation*}
+     以及分量为
+     $4$, $3$, $2$, and $1$.
+    \begin{exparts}
+      \partsitem 
+        求出 $\vec v$ 投影到 $B_1$ 中向量张成空间上的系数 $c_1$，并验证 $\absval{\vec v}^2\geq\absval{c_1}^2$。
+      \partsitem 
+        求出 $\vec v$ 投影到 $B_2$ 中两个向量张成空间上的系数 $c_1,c_2$，并验证 $\absval{\vec v}^2\geq\absval{c_1}^2+\absval{c_2}^2$。
+      \partsitem 求出与 $B_3$ 中向量对应的 $c_1,c_2,c_3$，以及与 $B_4$ 中向量对应的 $c_1,c_2,c_3,c_4$，并验证
+        $\absval{\vec{v}\,}^2\geq \absval{c_1}^2+\dots+\absval{c_3}^2$ and
+        that
+        $\absval{\vec{v}\,}^2\geq \absval{c_1}^2+\dots+\absval{c_4}^2$.
+    \end{exparts}
+    证明一般情形：若
+    $\set{\vec{\kappa}_1,\ldots,\vec{\kappa}_k}$
+    是标准正交集，且 $c_i$ 是向量 $\vec v$ 投影所得的系数，则
+    $\absval{\vec{v}\,}^2\geq \absval{c_1}^2+\dots+\absval{c_k}^2$.
+    \textit{提示。}可以考察不等式
+      $0\leq\absval{\vec{v}-(c_1\vec{\kappa}_1+\dots+c_k\vec{\kappa}_k)}^2$
+      并展开各个 $c$。
+    \begin{answer}
+      首先，$\absval{\vec v}^2=4^2+3^2+2^2+1^2=50$。
+      \begin{exparts*}
+        \partsitem $c_1=4$
+        \partsitem $c_1=4$, $c_2=3$
+        \partsitem $c_1=4$, $c_2=3$, $c_3=2$, $c_4=1$
+      \end{exparts*}
+      证明只讨论 $k=2$ 的情形，因为一般情形更繁琐但没有增加新的思想。按照提示，并回忆任意向量 $\vec w$ 都满足 $\absval{\vec w}^2=\vec w\dotprod\vec w$。
+      \begin{align*}
+        0
+         &\leq
+         \left(\vec{v}-\bigl(\frac{\vec{v}\dotprod\vec{\kappa}_1}{%
+                              \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+                          \cdot\vec{\kappa}_1
+                         +\frac{\vec{v}\dotprod\vec{\kappa}_2}{%
+                              \vec{\kappa}_2\dotprod\vec{\kappa}_2}
+                          \cdot\vec{\kappa}_2
+                       \bigr)
+         \right)
+         \dotprod
+         \left(\vec{v}-\bigl(\frac{\vec{v}\dotprod\vec{\kappa}_1}{%
+                              \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+                          \cdot\vec{\kappa}_1
+                         +\frac{\vec{v}\dotprod\vec{\kappa}_2}{%
+                              \vec{\kappa}_2\dotprod\vec{\kappa}_2}
+                          \cdot\vec{\kappa}_2
+                       \bigr)
+         \right)                                                       \\
+         &=\begin{aligned}[t]
+            &\vec{v}\dotprod\vec{v}
+             -2\cdot\vec{v}
+              \dotprod\left(\frac{\vec{v}\dotprod\vec{\kappa}_1}{%
+                              \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+                          \cdot\vec{\kappa}_1
+                       +\frac{\vec{v}\dotprod\vec{\kappa}_2}{%
+                              \vec{\kappa}_2\dotprod\vec{\kappa}_2}
+                          \cdot\vec{\kappa}_2\right)               \\
+            &+\left(\frac{\vec{v}\dotprod\vec{\kappa}_1}{%
+                              \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+                          \cdot\vec{\kappa}_1
+                       +\frac{\vec{v}\dotprod\vec{\kappa}_2}{%
+                              \vec{\kappa}_2\dotprod\vec{\kappa}_2}
+                          \cdot\vec{\kappa}_2\right)
+           \dotprod
+           \left(\frac{\vec{v}\dotprod\vec{\kappa}_1}{%
+                              \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+                          \cdot\vec{\kappa}_1
+                       +\frac{\vec{v}\dotprod\vec{\kappa}_2}{%
+                              \vec{\kappa}_2\dotprod\vec{\kappa}_2}
+                          \cdot\vec{\kappa}_2\right)               
+          \end{aligned}                                              \\
+         &=
+          \vec{v}\dotprod\vec{v}
+          -2\cdot
+             \left(\frac{\vec{v}\dotprod\vec{\kappa}_1}{%
+                              \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+                          \cdot(\vec{v}\dotprod\vec{\kappa}_1)
+                       +\frac{\vec{v}\dotprod\vec{\kappa}_2}{%
+                              \vec{\kappa}_2\dotprod\vec{\kappa}_2}
+                          \cdot(\vec{v}\dotprod\vec{\kappa}_2)\right)  \\
+          &\quad+\left((\frac{\vec{v}\dotprod\vec{\kappa}_1}{%
+                              \vec{\kappa}_1\dotprod\vec{\kappa}_1})^2
+                          \cdot(\vec{\kappa}_1\dotprod\vec{\kappa}_1)
+                       +(\frac{\vec{v}\dotprod\vec{\kappa}_2}{%
+                              \vec{\kappa}_2\dotprod\vec{\kappa}_2})^2
+                          \cdot(\vec{\kappa}_2\dotprod\vec{\kappa}_2)\right)
+      \end{align*}
+      （第三行第三部分中的两个混合项为零，因为 $\vec\kappa_1,\vec\kappa_2$ 正交。）合并同类项，并注意它们属于标准正交集，故 $\vec\kappa_1\dotprod\vec\kappa_1=\vec\kappa_2\dotprod\vec\kappa_2=1$，即可得到结论。
+    \end{answer}
+\item
+    证明或否证：\( \Re^n \) 中每个向量都属于某个正交基。
+    \begin{answer}
+      除零向量外命题成立。$\Re^n$ 中每个非零向量都属于某组基，而该基可以正交化。
+     \end{answer}
+  \item 
+    证明 $\nbyn n$ 矩阵的列构成标准正交集，当且仅当该矩阵的逆等于其转置。构造这样一个矩阵。
+    \begin{answer} 
+      $\nbyn 3$ 的情形说明了思路。
+      The set 
+      \begin{equation*}
+        \set{\colvec{a \\ d \\ g},\colvec{b \\ e \\ h},\colvec{c \\ f \\ i}}
+      \end{equation*}
+      标准正交，当且仅当以下九个条件全部成立
+      \begin{equation*}
+        \begin{array}{ccc}
+          \rowvec{a &d &g}\dotprod\colvec{a \\ d \\ g}=1
+            &\rowvec{a &d &g}\dotprod\colvec{b \\ e \\ h}=0
+            &\rowvec{a &d &g}\dotprod\colvec{c \\ f \\ i}=0    \\
+          \rowvec{b &e &h}\dotprod\colvec{a \\ d \\ g}=0
+            &\rowvec{b &e &h}\dotprod\colvec{b \\ e \\ h}=1
+            &\rowvec{b &e &h}\dotprod\colvec{c \\ f \\ i}=0    \\
+          \rowvec{c &f &i}\dotprod\colvec{a \\ d \\ g}=0
+            &\rowvec{c &f &i}\dotprod\colvec{b \\ e \\ h}=0
+            &\rowvec{c &f &i}\dotprod\colvec{c \\ f \\ i}=1    
+        \end{array}
+      \end{equation*}
+      （左下角的三个条件是冗余的，但同样正确。）这些条件又等价于
+      \begin{equation*}
+        \begin{mat}
+          a &d &g \\
+          b &e &h \\
+          c &f &i
+        \end{mat}
+        \begin{mat}
+          a &b &c  \\
+          d &e &f  \\
+          g &h &i
+        \end{mat}
+        =
+        \begin{mat}
+          1 &0 &0  \\
+          0 &1 &0  \\
+          0 &0 &1
+        \end{mat}
+      \end{equation*}
+      如所需。
+
+      这是一个例子：该矩阵的逆就是它的转置。
+      \begin{equation*}
+        \begin{mat}[r]
+          1/\sqrt{2}  &1/\sqrt{2}  &0  \\
+         -1/\sqrt{2}  &1/\sqrt{2}  &0  \\
+          0           &0           &1
+        \end{mat}
+      \end{equation*}
+    \end{answer}
+  \item 
+    定理 \nearbytheorem{th:OrthoIsInd} 的证明是否遗漏了向量集合为空（即 $k=0$）的可能性？
+    \begin{answer}
+      若集合为空，左侧求和按定义是空集向量的线性组合，即零向量。第二句话中不存在这样的 $i$，所以“若……则……”蕴含命题真空成立。
+    \end{answer}
+  \item 
+    定理 \nearbytheorem{th:GramSchmidt} 描述了从任意基
+    \( B=\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_k} \)
+    到一组正交基
+    \( K=\sequence{\vec{\kappa}_1,\ldots,\vec{\kappa}_k} \).
+    考虑换基矩阵 $\rep{\identity}{B,K}$。
+    \begin{exparts}
+      \partsitem 证明反向换基矩阵 $\rep{\identity}{K,B}$
+        反向换基所得矩阵是上三角矩阵\Dash 主对角线下方的元素全为零。
+      \partsitem 证明可逆上三角矩阵的逆仍是上三角矩阵。
+        （这里假定矩阵可逆）。因此，定理所述方向的换基矩阵 $\rep{\identity}{B,K}$ 也是上三角矩阵。
+    \end{exparts}
+    \begin{answer} 
+      \begin{exparts}
+        \partsitem 归纳证明
+        定理 \nearbytheorem{th:GramSchmidt} 的归纳证明说明 $\vec\kappa_i$ 属于
+          $\sequence{\vec{\beta}_1,\dots,\vec{\beta}_i}$.
+          （证明中的 $i=3$ 情形展示了这一点。）因此，在换基矩阵 $\rep{\identity}{K,B}$ 中，第 $i$ 列 $\rep{\vec{\kappa}_i}{B}$ 的第 $i+1$ 至第 $k$ 个分量均为零。
+        \partsitem 可以回忆求逆时的计算过程来理解这一点：
+          可以回忆求逆时的计算过程：将矩阵与其右侧的单位矩阵并排写出，再进行 Gauss–Jordan 消元。如果初始矩阵是上三角矩阵，消元只涉及左半部分；将这些步骤作用于单位矩阵，就会得到上三角的逆矩阵。
+      \end{exparts}
+    \end{answer}
+ \item \label{exer:GramSchmidt} 
+    完成定理 \nearbytheorem{th:GramSchmidt} 证明中的归纳论证。
+    \begin{answer}
+      对归纳步骤，假设对所有 $j\in[1..i]$，每个 $\vec\kappa_j$ 都满足三个条件：
+      (i)~each $\vec{\kappa}_j$ is nonzero, 
+      (ii)~each $\vec{\kappa}_j$ is a linear combination of 
+         向量 $\vec{\beta}_1,\dots,\vec{\beta}_j$，
+      and (iii)~each $\vec{\kappa}_j$ is orthogonal to all of the 
+         $\vec{\kappa}_m$'s prior to it (that is, with $m<j$).
+      在这些归纳假设下，考察 $\vec\kappa_{i+1}$。
+      \begin{align*}
+        \vec{\kappa}_{i+1}
+         &=
+        \vec{\beta}_{i+1}
+          -\proj{\beta_{i+1}}{\spanof{\vec{\kappa}_1}}
+          -\proj{\beta_{i+1}}{\spanof{\vec{\kappa}_2}}
+          -\dots
+          -\proj{\beta_{i+1}}{\spanof{\vec{\kappa}_i}}  \\
+         &=
+        \vec{\beta}_{i+1}
+          -\frac{\beta_{i+1}\dotprod\vec{\kappa}_1}{%
+                  \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+              \cdot\vec{\kappa}_1
+          -\frac{\beta_{i+1}\dotprod\vec{\kappa}_2}{%
+                  \vec{\kappa}_2\dotprod\vec{\kappa}_2}
+              \cdot\vec{\kappa}_2
+          -\dots
+          -\frac{\beta_{i+1}\dotprod\vec{\kappa}_i}{%
+                  \vec{\kappa}_i\dotprod\vec{\kappa}_i}
+              \cdot\vec{\kappa}_i
+       \end{align*}
+       由归纳假设（ii），可将每个 $\vec\kappa_j$ 展开为 $\vec\beta_1,\ldots,\vec\beta_j$ 的线性组合。
+       \begin{align*}
+         &=
+        \vec{\beta}_{i+1}
+          -\frac{\vec{\beta}_{i+1}\dotprod\vec{\kappa}_1}{%
+                  \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+              \cdot\vec{\beta}_1                          \\
+          &\quad-\frac{\vec{\beta}_{i+1}\dotprod\vec{\kappa}_2}{%
+                  \vec{\kappa}_2\dotprod\vec{\kappa}_2}
+              \cdot
+                 \left(\text{
+                   $\vec{\beta}_1,\vec{\beta}_2$ 的线性组合}
+                 \right)                                                 \\
+          &\quad-\;\cdots\;
+          -\frac{\vec{\beta}_{i+1}\dotprod\vec{\kappa}_i}{%
+                  \vec{\kappa}_i\dotprod\vec{\kappa}_i}
+              \cdot
+                 \left(\text{
+                   $\vec{\beta}_1,\dots,\vec{\beta}_i$ 的线性组合}
+                 \right)
+       \end{align*}
+       这些分式是标量，因此上式是 $\vec\beta_1,\dots,\vec\beta_{i+1}$ 的线性组合的线性组合，也就是它们的线性组合。
+       Now, (i)~it cannot sum to the zero vector because the equation would
+       否则该等式会描述基向量之间的非平凡线性关系（之所以非平凡，是因为 $\vec\beta_{i+1}$ 的系数为 $1$）。
+       同时，（ii）中的等式把 $\vec\kappa_{i+1}$ 表示为 $\vec\beta_1,\dots,\vec\beta_{i+1}$ 的线性组合。最后，对（iii）考察 $\vec\kappa_j\dotprod\vec\kappa_{i+1}$；与 $i=3$ 时一样，$\vec\kappa_j$ 与
+       $\vec{\kappa}_{i+1}=\vec{\beta}_{i+1}
+          -\proj{\vec{\beta}_{i+1}}{\spanof{\vec{\kappa}_1}}
+          -\dots
+          -\proj{\vec{\beta}_{i+1}}{\spanof{\vec{\kappa}_i}}$
+        可以改写为两类项之和：
+       $\vec{\kappa}_j\dotprod
+           \left(\vec{\beta}_{i+1}
+                  -\proj{\vec{\beta}_{i+1}}{\spanof{\vec{\kappa}_j}}
+           \right)$
+       （第一类因投影的正交性为零），以及
+       $\vec{\kappa}_j\dotprod
+               \proj{\vec{\beta}_{i+1}}{\spanof{\vec{\kappa}_m}}$
+       其中 $m\neq j$ 且 $m<i+1$（第二类因归纳假设（iii）中 $\vec\kappa_j$ 与 $\vec\kappa_m$ 正交而为零）。
+     \end{answer}
+\index{Gram-Schmidt process|)}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsectionoptional{投影到子空间}
+\noindent\textit{本小节使用前面“子空间的合并”选读小节中的材料。}
+
+前面的小节通过将向量分解为两部分来实现向直线投影：直线中的部分 $\proj{\vec{v}\,}{\spanof{\vec{s}\,}}$，以及余项 $\vec{v}-\proj{\vec{v}\,}{\spanof{\vec{s}\,}}$。将投影推广到任意子空间时，我们沿用这一分解思想。
+
+\begin{definition}
+\label{def:ProjIntoMAlongN}
+设向量空间是直和 \(V=M\directsum N\)。
+对任意 \(\vec v\in V\)，若 $\vec v=\vec m+\vec n$，其中 \(\vec m\in M,\vec n\in N$，
+称 \(\proj{\vec v}{M,N}=\vec m\) 为将 \(\vec v\) 沿 $N$ 投影到 $M$ 的投影：%
+\index{projection!into a subspace}\index{projection!along a subspace}
+\end{definition}
+
+这个定义适用于没有现成正交概念的空间。（当然也可以为 $\Re^n$ 以外的空间定义正交性，只是本书尚未涉及。）
+
+\begin{example} \label{ex:OrthProjOne}
+$\nbyn 2$ 矩阵空间 $\matspace_{\nbyn 2}$ 是以下两个子空间的直和。
+\begin{equation*}
+   M=\set{\begin{mat}
+              a  &b  \\
+              0  &0
+            \end{mat} \suchthat a,b\in\Re }
+  \qquad
+   N=\set{\begin{mat}
+              0  &0  \\
+              c  &d
+            \end{mat} \suchthat c,d\in\Re }
+\end{equation*}
+要将
+\begin{equation*}
+  A=\begin{mat}[r]
+          3  &1  \\
+          0  &4
+  \end{mat}
+\end{equation*}
+沿 $N$ 投影到 $M$ 时，先分别为两个子空间选取基。
+\begin{equation*}
+  B_{M}=\sequence{
+    \begin{mat}[r]
+      1  &0  \\
+      0  &0      
+    \end{mat},
+    \begin{mat}[r]
+      0  &1  \\
+      0  &0
+    \end{mat}
+                   }
+  \qquad
+  B_{N}=\sequence{
+    \begin{mat}[r]
+      0  &0  \\
+      1  &0      
+    \end{mat},
+    \begin{mat}[r]
+      0  &0  \\
+      0  &1
+    \end{mat}
+                   }
+\end{equation*}
+它们的拼接为
+\begin{equation*}
+  B=\cat{B_{M}}{B_{N}}=\sequence{
+    \begin{mat}[r]
+      1  &0  \\
+      0  &0      
+    \end{mat},
+    \begin{mat}[r]
+      0  &1  \\
+      0  &0
+    \end{mat},
+    \begin{mat}[r]
+      0  &0  \\
+      1  &0      
+    \end{mat},
+    \begin{mat}[r]
+      0  &0  \\
+      0  &1
+    \end{mat}
+                   }
+\end{equation*}
+它们连接后构成整个空间的一组基，因为 \(\matspace_{\nbyn{2}}\) 是直和。
+因此可以用它表示 $A$。
+\begin{equation*}
+  \begin{mat}[r]
+          3  &1  \\
+          0  &4
+  \end{mat}=
+    3\cdot\begin{mat}[r]
+      1  &0  \\
+      0  &0      
+    \end{mat}
+    +1\cdot\begin{mat}[r]
+      0  &1  \\
+      0  &0
+    \end{mat}
+    +0\cdot\begin{mat}[r]
+      0  &0  \\
+      1  &0      
+    \end{mat}
+    +4\cdot\begin{mat}[r]
+      0  &0  \\
+      0  &1
+    \end{mat}
+\end{equation*}
+沿 $N$ 投影到 $M$ 时保留 $M$ 部分，舍去 $N$ 部分。
+\begin{equation*}
+  \proj{\begin{mat}[r]
+          3  &1  \\
+          0  &4
+  \end{mat} }{M,N}
+  =
+    3\cdot\begin{mat}[r]
+      1  &0  \\
+      0  &0      
+    \end{mat}
+    +1\cdot\begin{mat}[r]
+      0  &1  \\
+      0  &0
+    \end{mat}
+    =\begin{mat}[r]
+      3  &1  \\
+      0  &0      
+    \end{mat}
+\end{equation*}
+\end{example}
+
+\begin{example}  \label{ex:ProjIntoMAlongNGener}
+投影 $\proj{\vec v}{M,N}$ 的两个下标都很重要。第一个下标 $M$ 表明投影结果属于 $M$。为说明第二个下标也重要，固定 $\Re^3$ 中的这个平面子空间及其基。
+\begin{equation*}
+  M=\set{\colvec{x \\ y \\ z}\suchthat y-2z=0}
+  \qquad
+  B_M=\sequence{
+                \colvec[r]{1 \\ 0 \\ 0},
+                \colvec[r]{0 \\ 2 \\ 1} }
+\end{equation*}
+我们比较 $\Re^3$ 中这个向量
+\begin{equation*}
+  \vec{v}=\colvec[r]{2 \\ 2 \\ 5}
+\end{equation*}
+沿下面两个子空间投影到 $M$ 的结果（验证 \(\Re^3=M\directsum N\) 和 \(\Re^3=M\directsum\hat N\) 很直接）。
+\begin{equation*}
+  N=\set{k\colvec[r]{0 \\ 0 \\ 1}\suchthat k\in\Re}
+  \qquad
+  \hat{N}=\set{k\colvec[r]{0 \\ 1 \\ -2}\suchthat k\in\Re}
+\end{equation*}
+$N$ 和 $\hat N$ 的自然基如下。
+\begin{equation*}
+  B_N=\sequence{
+                \colvec[r]{0 \\ 0 \\ 1} }
+  \qquad
+  B_{\hat{N}}=\sequence{
+                \colvec[r]{0 \\ 1 \\ -2} }
+\end{equation*}
+沿 $N$ 投影到 $M$ 时，用连接基 $\cat{B_M}{B_N}$ 表示 $\vec v$，
+\begin{equation*}
+  \colvec[r]{2 \\ 2 \\ 5}=
+  2\cdot\colvec[r]{1 \\ 0 \\ 0}+
+  1\cdot\colvec[r]{0 \\ 2 \\ 1}+
+  4\cdot\colvec[r]{0 \\ 0 \\ 1}
+\end{equation*}
+然后删去 $N$ 项。
+\begin{equation*}
+  \proj{\vec{v}\,}{M,N}
+  =2\cdot\colvec[r]{1 \\ 0 \\ 0}+
+  1\cdot\colvec[r]{0 \\ 2 \\ 1}
+  =\colvec[r]{2 \\ 2 \\ 1}
+\end{equation*}
+沿 $\hat N$ 投影到 $M$ 时，用 $\cat{B_M}{B_{\hat N}}$ 表示 $\vec v$，
+\begin{equation*}
+  \colvec[r]{2 \\ 2 \\ 5}=
+  2\cdot\colvec[r]{1 \\ 0 \\ 0}
+  +(9/5)\cdot\colvec[r]{0 \\ 2 \\ 1}
+  -(8/5)\cdot\colvec[r]{0 \\ 1 \\ -2}
+\end{equation*}
+删去 $\hat N$ 部分。
+\begin{equation*}
+  \proj{\vec{v}\,}{M,\hat{N}}
+  =
+  2\cdot\colvec[r]{1 \\ 0 \\ 0}
+  +(9/5)\cdot\colvec[r]{0 \\ 2 \\ 1}
+  =\colvec[r]{2 \\ 18/5 \\ 9/5}
+\end{equation*}
+因此，沿不同子空间投影可能得到不同结果。
+
+下面两幅图比较这两个映射。它们都表明投影确实是“到平面内”并“沿直线”进行的。
+\begin{center}  \small
+  \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.38}\end{tabular}
+  \qquad
+  \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.39}\end{tabular}
+\end{center}
+注意，沿 $N$ 的投影不是正交投影，因为平面 $M$ 中有些向量不垂直于点划线；而沿 $\hat N$ 的投影是正交的。
+\end{example}
+
+我们已经看到两种投影：向直线的正交投影，以及本小节沿 $N$ 投影到 $M$ 的投影。自然会问它们是否相关。上面的右图给出了答案\Dash 向直线的正交投影是本小节投影的特例，即沿垂直于该直线的子空间进行投影。
+\begin{center}  \small
+  \includegraphics{map/mp/ch3.40}
+\end{center}
+% In addition to pointing out that projection along a subspace is a 
+% generalization, this scheme shows how to define orthogonal projection into
+% any subspace of $\Re^n$, of any dimension. 
+
+\begin{definition} \label{def:OrthComp}
+子空间的\definend{正交补\/}\index{orthogonal!complement}%
+\index{complementary subspaces!orthogonal}\index{perp, of a subspace}
+定义为
+\begin{equation*}
+  M^\perp=\set{\vec{v}\in\Re^n\suchthat
+                 \vec{v} \text{ is perpendicular to all vectors in }M}
+\end{equation*}
+（读作“$M$ perp”）。
+向量的\definend{正交投影}\index{orthogonal!projection}%
+\index{projection!orthogonal} \( \proj{\vec{v}\,}{M} \) 
+就是沿 $M^\perp$ 投影到 $M$。
+\end{definition}
+
+
+\begin{example} \label{ex:OrthoCompOne}
+在 $\Re^3$ 中，为求平面
+\begin{equation*}
+   P=\set{\colvec{x \\ y \\ z}\suchthat 3x+2y-z=0 }
+\end{equation*}
+先取 $P$ 的一组基。
+\begin{equation*}
+   B=\sequence{\colvec[r]{1 \\ 0 \\ 3},
+               \colvec[r]{0 \\ 1 \\ 2} }
+\end{equation*}
+与 $B$ 中每个向量都垂直的任意向量，也与 $B$ 的张成空间中的每个向量垂直（见习题 \nearbyexercise{exer:PerpOnBasisImplPerp}）。因此，子空间 $P^\perp$ 由满足以下两个条件的向量组成。
+\begin{equation*}
+  \colvec[r]{1 \\ 0 \\ 3}\dotprod\colvec{v_1 \\ v_2 \\ v_3}=0
+  \qquad
+  \colvec[r]{0 \\ 1 \\ 2}\dotprod\colvec{v_1 \\ v_2 \\ v_3}=0
+\end{equation*}
+这些条件给出一个线性方程组。
+\begin{equation*}
+  P^\perp
+    =\set{\colvec{v_1 \\ v_2 \\ v_3}\suchthat \begin{mat}[r]
+                                                      1  &0  &3  \\
+                                                      0  &1  &2
+                                                    \end{mat}
+                                                    \colvec{v_1 \\ v_2 \\ v_3}
+                                                    =\colvec[r]{0 \\ 0} }
+\end{equation*}
+因此只需找出该矩阵所表示映射的零空间，也就是求齐次线性方程组的解集。
+\begin{equation*}
+  \begin{linsys}{3}
+    v_1 &  &    &+ &3v_3 &= &0 \\
+        &  &v_2 &+ &2v_3 &= &0
+  \end{linsys}
+  \quad\Longrightarrow\quad
+  P^\perp=\set{k\colvec[r]{-3 \\ -2 \\ 1}\suchthat k\in\Re}
+\end{equation*}
+% Instead of the term orthogonal complement,
+% this is sometimes called the line \definend{normal}\index{normal} %
+% to the plane.
+\end{example}
+
+\begin{example} \label{ex:OrthoCompTwo}
+若 $M$ 是 $\Re^3$ 中的 $xy$ 平面子空间，
+那么 $M^\perp$ 是什么？
+常见的第一反应是 $M^\perp$ 为 $yz$ 平面，但
+这是错误的，因为
+其中某些向量并不与 $xy$ 平面中的每个向量垂直。
+\begin{center}  \small
+    {\small $\colvec[r]{1 \\ 1 \\ 0} \not\perp \colvec[r]{0 \\ 3 \\ 2}$}
+   \quad
+  \begin{tabular}{@{}c@{}}\includegraphics{map/mp/ch3.41}\end{tabular}
+   \quad
+   {\small $\displaystyle 
+       \theta=\arccos(\frac{1\cdot 0+1\cdot 3+0\cdot 2}{
+                            \sqrt{2}\cdot\sqrt{13}})
+    \approx\text{$0.94$~rad}$}
+\end{center}
+实际上 $M^\perp$ 是 $z$ 轴；
+按照前一个例子的做法，取 $xy$ 平面的自然基即可得到
+\begin{equation*}
+  M^\perp
+  =
+  \set{\colvec{x \\ y \\ z}\suchthat \begin{mat}[r]
+                                         1  &0  &0  \\
+                                         0  &1  &0
+                                       \end{mat}
+                                       \colvec{x \\ y \\ z}=
+                                       \colvec[r]{0 \\ 0} \;}
+  =
+  \set{\colvec{x \\ y \\ z}\suchthat x=0 \text{\ and\ }y=0  }
+\end{equation*}
+\end{example}
+
+% The two examples that we've seen since \nearbydefinition{def:OrthComp}
+% illustrate the first sentence in that definition.
+% The next result justifies the second sentence.
+
+\begin{lemma} \label{le:OrthoProjWellDefd}
+若 $M$ 是 $\Re^n$ 的子空间，则其正交补 $M^\perp$ 也是子空间，且 $\Re^n=M\directsum M^\perp$。对任意 $\vec v\in\Re^n$，向量 $\vec v-\proj{\vec v}{M}$ 与 $M$ 中每个向量垂直。
+\end{lemma}
+
+\begin{proof}
+首先，正交补 $M^\perp$ 是 $\Re^n$ 的子空间，因为它是一个零空间，即正交投影映射的零空间。
+ 
+为证明空间 $\R^n$ 是两者的直和，从 $M$ 的任意一组基开始，将其扩充为整个空间的一组基
+%\( B=\sequence{\vec{\mu}_1,\dots,\vec{\mu}_k,
+%   \vec{\nu}_1,\dots,\vec{\nu}_{n-k} } \)
+再应用 Gram–Schmidt 过程得到 $\Re^n$ 的正交基 $K=\sequence{\vec\kappa_1,\dots,\vec\kappa_n}$。该基由两组基连接而成：
+\( \sequence{\vec{\kappa}_1,\dots,\vec{\kappa}_k} \) 
+其中前一组与 $B_M$ 一样含有 $k$ 个向量，另取
+\( D=\sequence{\vec{\kappa}_{k+1},\dots,\vec{\kappa}_n} \).
+前一组是 $M$ 的一组基；只要证明后一组是 $M^\perp$ 的一组基，整个空间便是两者的直和。
+
+前一小节的习题 \nearbyexercise{exer:OrthoRepEasy} 说明，对于任意正交基，空间中的每个向量 $\vec v$ 都等于其到各基向量所张成直线的正交投影之和。
+\begin{equation*}
+  \vec{v}=\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}
+           +\dots+\proj{\vec{v}\,}{\spanof{\vec{\kappa}_n}}
+\tag*{($*$)}\end{equation*}
+验证这一点，将向量表示为
+$\vec{v}=r_1\vec{\kappa}_1+\dots+r_n\vec{\kappa}_n$,
+apply $\vec{\kappa}_i$ to both sides
+$
+   \vec{v}\dotprod\vec{\kappa}_i
+      =\left(r_1\vec{\kappa}_1+\dots+r_n\vec{\kappa}_n\right)
+          \dotprod\vec{\kappa}_i
+      =r_1\cdot 0+\dots+r_i\cdot(\vec{\kappa}_i\dotprod\vec{\kappa}_i)
+            +\dots+r_n\cdot 0
+$,
+并解得
+$r_i=(\vec{v}\dotprod\vec{\kappa}_i)/(\vec{\kappa}_i\dotprod\vec{\kappa}_i)$,
+如所求。
+
+$D$ 的张成空间中的任意向量
+\( D \) %\sequence{\vec{\kappa}_{k+1},\dots,\vec{\kappa}_n} \)
+都与 $M$ 中任意向量正交
+因此 \( D \) 的张成空间是 \( M^\perp \) 的子集。
+要证明 \(D\) 是 $M^\perp$ 的一组基，
+只需证明反向包含，即
+任意 $\vec w\in M^\perp$ 都属于
+张成空间 $D$。前一段论证同样适用于此。对任意 $\vec w\in M^\perp$，它到 $M$ 的基向量的投影满足
+$\proj{\vec{w}\,}{\spanof{\vec{\kappa}_1}}=\zero,
+\dots,\,\proj{\vec{w}\,}{\spanof{\vec{\kappa}_k}}=\zero$.
+因此由等式 ($*$)，$\vec w$ 是
+\( \vec{\kappa}_{k+1},\dots,\vec{\kappa}_n \).
+的线性组合。于是 $D$ 是 $M^\perp$ 的一组基，且 $\Re^n$ 是两者的直和。
+
+引理的最后一句也可用类似方法证明。
+Write $\vec{v}=\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}
+           +\dots+\proj{\vec{v}\,}{\spanof{\vec{\kappa}_n}}$.
+于是 $\proj{\vec v}{M}$ 只保留 $M$ 部分，舍去 $M^\perp$ 部分：
+$\proj{\vec{v}\,}{M}=\proj{\vec{v}\,}{\spanof{\vec{\kappa}_{1}}}
+                       +\dots+\proj{\vec{v}\,}{\spanof{\vec{\kappa}_k}}$.
+因此 $\vec v-\proj{\vec v}{M}$ 是 $M^\perp$ 中元素的线性组合，从而与 $M$ 中每个向量垂直。
+\end{proof}
+
+给定一个子空间，可以按上述证明中的步骤计算正交投影：先找一组基，将其扩充为整个空间的基，应用 Gram–Schmidt 得到正交基，再投影到各条直线。不过我们将使用一个方便的公式。
+
+\begin{theorem} \label{th:OrthProjMat}
+设 $M$ 是 $\Re^n$ 的子空间，基为 $\sequence{\vec\beta_1,\dots,\vec\beta_k}$，$A$ 是以这些 $\vec\beta$ 为列的矩阵。则对任意 $\vec v\in\Re^n$，正交投影为
+$\proj{\vec{v}\,}{M}=c_1\vec{\beta}_1+\dots+c_k\vec{\beta}_k$,
+其中系数 $c_i$ 是向量
+$(\trans{A}A)^{-1}\trans{A}\cdot\vec{v}$.
+即
+$\proj{\vec{v}\,}{M}=A(\trans{A}A)^{-1}\trans{A}\cdot\vec{v}$.
+\end{theorem}
+
+\begin{proof}
+向量 $\proj{\vec v}{M}$ 属于 $M$，因此是基向量的线性组合
+\( c_1\cdot\vec{\beta}_1+\dots+c_k\cdot\vec{\beta}_k \).
+由于 $A$ 的列就是这些 $\vec\beta$，存在 $\vec c\in\Re^k$ 使
+\( \proj{\vec{v}\,}{M}=A\vec{c} \).
+% (this is expressed compactly with matrix
+% multiplication as in
+% \nearbyexample{ex:OrthoCompOne} and~\ref{ex:OrthoCompTwo}).
+为求 $\vec c$，注意 $\vec v-\proj{\vec v}{M}$ 与基中每个向量垂直，因此
+ % (again, expressed compactly).
+\begin{equation*}
+  \zero
+  =\trans{A}\bigl( \vec{v}-A\vec{c} \bigr) 
+  =\trans{A}\vec{v}-\trans{A}A\vec{c}
+\end{equation*}
+解得（证明 $\trans A A$ 可逆是一个习题）
+\begin{equation*}
+  \vec{c}=\bigl( \trans{A}A\bigr)^{-1}\trans{A}\cdot\vec{v}
+\end{equation*}
+因此
+$\proj{\vec{v}\,}{M}=A\cdot\vec{c}=A(\trans{A}A)^{-1}\trans{A}\cdot\vec{v}$,
+这正是所需结果。
+\end{proof}
+
+\begin{example}
+将以下向量正交投影到这个子空间
+\begin{equation*}
+  \vec{v}=\colvec[r]{1 \\ -1 \\ 1}
+  \qquad
+  P=\set{\colvec{x \\ y \\ z}\suchthat x+z=0}
+\end{equation*}
+先构造一个以该子空间的一组基为列的矩阵
+\begin{equation*}
+  A=\begin{mat}[r]
+      0  &1  \\
+      1  &0  \\
+      0  &-1
+    \end{mat}
+\end{equation*}
+然后计算。
+\begin{align*}
+  A\bigl(\trans{A}A\bigr)^{-1}\trans{A}
+  &=\begin{mat}[r]
+      0  &1  \\
+      1  &0  \\
+      0  &-1
+    \end{mat}
+    \begin{mat}[r]
+      1    &0  \\
+      0    &1/2
+    \end{mat}
+    \begin{mat}[r]
+      0   &1  &0  \\
+      1   &0  &-1 
+    \end{mat}             \\
+    &=
+    \begin{mat}[r]
+      1/2     &0  &-1/2  \\
+      0     &1    &0   \\
+      -1/2  &0    &1/2
+    \end{mat}
+\end{align*}
+有了这个矩阵，就可以容易地计算任意向量到 $P$ 的正交投影。
+\begin{equation*}
+  \proj{\vec{v}}{P}=
+    \begin{mat}[r]
+      1/2     &0  &-1/2  \\
+      0     &1    &0   \\
+      -1/2  &0    &1/2
+    \end{mat}
+    \colvec[r]{1 \\ -1 \\ 1}
+    =\colvec[r]{0 \\ -1 \\ 0}
+\end{equation*}
+作为检验，注意所得结果确实属于 $P$。
+\end{example}
+
+\begin{exercises}
+  \recommended \item
+    将下列向量沿 $N$ 投影到 $M$。
+     \begin{exparts}
+       \partsitem \( \colvec[r]{3 \\ -2},\quad
+                M=\set{\colvec{x \\ y}\suchthat x+y=0},\quad
+                N=\set{\colvec{x \\ y}\suchthat -x-2y=0} \)
+       \partsitem \( \colvec[r]{1 \\ 2},\quad
+                M=\set{\colvec{x \\ y}\suchthat x-y=0},\quad
+                N=\set{\colvec{x \\ y}\suchthat 2x+y=0} \)
+       \partsitem \( \colvec[r]{3 \\ 0 \\ 1},\quad
+                M=\set{\colvec{x \\ y \\ z}\suchthat x+y=0},\quad
+                N=\set{c\cdot\colvec[r]{1 \\ 0 \\ 1}\suchthat c\in\Re} \)
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 将两个子空间的基
+           \begin{equation*}
+             B_M=\sequence{\colvec[r]{1 \\ -1}}
+             \qquad
+             B_N=\sequence{\colvec[r]{2 \\ -1}}
+           \end{equation*}
+           连接起来
+           \begin{equation*}
+             B=\cat{B_M}{B_N}=\sequence{\colvec[r]{1 \\ -1},
+                                        \colvec[r]{2 \\ -1}}
+           \end{equation*}
+           并表示给定向量
+           \begin{equation*}
+             \colvec[r]{3 \\ -2}=1\cdot\colvec[r]{1 \\ -1}+1\cdot\colvec[r]{2 \\ -1}
+           \end{equation*}
+           答案就是保留 $M$ 部分并舍去 $N$ 部分。
+           \begin{equation*}
+             \proj{\colvec[r]{3 \\ -2}}{M,N}
+             =\colvec[r]{1 \\ -1}
+           \end{equation*}
+         \partsitem 将这两组基连接起来并表示向量后，
+           \begin{equation*}
+             B_M=\sequence{\colvec[r]{1 \\ 1}}
+             \qquad
+             B_N\sequence{\colvec[r]{1 \\ -2}}
+           \end{equation*}
+           连接两组基并表示向量后，
+           \begin{equation*}
+             \colvec[r]{1 \\ 2}
+               =(4/3)\cdot\colvec[r]{1 \\ 1}
+                -(1/3)\cdot\colvec[r]{1 \\ -2}
+           \end{equation*}
+           保留 $M$ 部分即得答案。
+           \begin{equation*}
+             \proj{\colvec[r]{1 \\ 2}}{M,N}=\colvec[r]{4/3 \\ 4/3}
+           \end{equation*}
+         \partsitem 对于这些基，
+           \begin{equation*}
+             B_M=\sequence{\colvec[r]{1 \\ -1 \\ 0},
+                           \colvec[r]{0 \\ 0 \\ 1}}
+             \qquad
+             B_N=\sequence{\colvec[r]{1 \\ 0 \\ 1}}
+           \end{equation*}
+           关于连接基的表示为
+           \begin{equation*}
+             \colvec[r]{3 \\ 0 \\ 1}
+               =0\cdot\colvec[r]{1 \\ -1 \\ 0}
+                -2\cdot\colvec[r]{0 \\ 0 \\ 1}
+                +3\cdot\colvec[r]{1 \\ 0 \\ 1}
+           \end{equation*}
+           因而投影为
+           \begin{equation*}
+             \proj{\colvec[r]{3 \\ 0 \\ 1}}{M,N}=\colvec[r]{0 \\ 0 \\ -2}
+           \end{equation*}
+       \end{exparts}
+     \end{answer}
+  \recommended \item 
+     求 \(M^\perp\)。
+     \begin{exparts*}
+       \partsitem \( M=\set{\colvec{x \\ y}\suchthat x+y=0 } \)
+       \partsitem \( M=\set{\colvec{x \\ y}\suchthat -2x+3y=0 } \)
+       \partsitem \( M=\set{\colvec{x \\ y}\suchthat x-y=0 } \)
+       \partsitem \( M=\set{\zero\,} \)
+       \partsitem \( M=\set{\colvec{x \\ y}\suchthat x=0 } \)
+       \partsitem \( M=\set{\colvec{x \\ y \\ z}\suchthat -x+3y+z=0 } \)
+       \partsitem \( M=\set{\colvec{x \\ y \\ z}\suchthat 
+                          \text{$x=0$ and $y+z=0$} } \)
+     \end{exparts*}
+     \begin{answer}
+       与例 \nearbyexample{ex:OrthoCompOne} 一样，只需找出与 $M$ 的基中所有向量垂直的向量空间，即可简化计算。
+       \begin{exparts}
+         \partsitem 参数化得到
+           \begin{equation*}
+             M=\set{c\cdot\colvec[r]{-1 \\ 1}\suchthat c\in\Re}
+           \end{equation*}
+           从而
+           \begin{equation*}
+             M^\perp
+              \set{\colvec{u \\ v}
+                   \suchthat 
+                      0=\colvec{u \\ v}\dotprod\colvec[r]{-1 \\ 1}}
+              =\set{\colvec{u \\ v}\suchthat 0=-u+v}
+           \end{equation*}
+           将这个单方程线性系统参数化，得到
+           \begin{equation*}
+             M^\perp=\set{k\cdot\colvec[r]{1 \\ 1}\suchthat k\in\Re}
+           \end{equation*}
+         \partsitem 如上一问答案，可将 $M$ 描述为张成空间
+           \begin{equation*}
+             M=\set{c\cdot\colvec[r]{3/2 \\ 1}\suchthat c\in\Re}
+             \qquad
+             B_M=\sequence{\colvec[r]{3/2 \\ 1}}
+           \end{equation*}
+           因而 $M^\perp$ 是与该基中唯一向量垂直的向量集合。
+           \begin{equation*}
+             M^\perp
+             =\set{\colvec{u \\ v}\suchthat (3/2)\cdot u+1\cdot v=0}
+             =\set{k\cdot\colvec[r]{-2/3 \\ 1}\suchthat k\in\Re}
+           \end{equation*}
+         \partsitem 将 $M$ 的描述中的线性条件参数化，得到以下基。
+            \begin{equation*}
+              M=\set{c\cdot\colvec[r]{1 \\ 1}\suchthat c\in\Re}
+              \qquad
+              B_M=\sequence{\colvec[r]{1 \\ 1}}
+            \end{equation*}
+            现在，$M^\perp$ 是与 $B_M$ 中唯一向量垂直的向量集合。
+            \begin{equation*}
+              M^\perp
+              =\set{\colvec{u \\ v}\suchthat u+v=0}
+              =\set{k\cdot\colvec[r]{-1 \\ 1}\suchthat k\in\Re}
+            \end{equation*}
+            （这个答案也与本题第一问相符。）
+          \partsitem 空间中的每个向量都与零向量垂直，因此 $M^\perp=\Re^n$。
+          \partsitem $M$ 的适当描述和基很容易得到。
+            \begin{equation*}
+              M=\set{y\cdot\colvec[r]{0 \\ 1}\suchthat y\in\Re}
+              \qquad
+              B_M=\sequence{\colvec[r]{0 \\ 1}}
+            \end{equation*}
+            于是
+            \begin{equation*}
+              M^\perp
+              =\set{\colvec{u \\ v}\suchthat 0\cdot u+1\cdot v=0}
+              =\set{k\cdot\colvec[r]{1 \\ 0}\suchthat k\in\Re}
+            \end{equation*}
+            因而 $(\text{$y$-axis})^\perp=\text{$x$-axis}$。
+          \partsitem 将 $M$ 参数化即可容易地得到其描述。
+            \begin{equation*}
+              M=\set{c\cdot\colvec[r]{3 \\ 1 \\ 0}
+                     +d\cdot\colvec[r]{1 \\ 0 \\ 1}\suchthat c,d\in\Re}
+              \qquad
+              B_M=\sequence{\colvec[r]{3 \\ 1 \\ 0},\colvec[r]{1 \\ 0 \\ 1}}
+            \end{equation*}
+            此处只需解一个含两个方程的线性方程组即可求出 $M^\perp$，
+            \begin{equation*}
+              \begin{linsys}{3}
+                3u  &+  &v  &   &   &=  &0  \\
+                 u  &   &   &+  &w  &=  &0
+              \end{linsys}
+              \grstep{-(1/3)\rho_1+\rho_2}
+              \begin{linsys}{3}
+                3u  &+  &v         &   &   &=  &0  \\
+                    &   &-(1/3)v   &+  &w  &=  &0
+              \end{linsys}
+            \end{equation*}
+            再进行参数化。
+            \begin{equation*}
+              M^\perp
+              =\set{k\cdot\colvec[r]{-1 \\ 3 \\ 1}\suchthat k\in\Re}
+            \end{equation*}
+          \partsitem 这里 $M$ 是一维的
+            \begin{equation*}
+              M=\set{c\cdot\colvec[r]{0 \\ -1 \\ 1}\suchthat c\in\Re}
+              \qquad
+              B_M=\sequence{\colvec[r]{0 \\ -1 \\ 1}}
+            \end{equation*}
+            因此 $M^\perp$ 是二维的。
+            \begin{equation*}
+              M^\perp
+              =\set{\colvec{u \\ v \\ w}
+                     \suchthat 0\cdot u-1\cdot v+1\cdot w=0}
+              =\set{j\cdot\colvec[r]{1 \\ 0 \\ 0}
+                    +k\cdot\colvec[r]{0 \\ 1 \\ 1}\suchthat j,k\in\Re}
+            \end{equation*}
+       \end{exparts}
+     \end{answer}
+  \recommended \item 求该向量到子空间的正交投影。
+    \begin{equation*}
+      \colvec{1 \\ 2 \\ 0} 
+      \qquad
+      S=\spanof{\,\set{\colvec{0 \\ 2 \\ 0},\colvec{1 \\ -1 \\ 1}}\,}
+    \end{equation*}
+    \begin{answer}
+      其中
+      \begin{equation*}
+        A=
+        \begin{mat}
+          0 &1 \\
+          2 &-1 \\
+          0 &1
+        \end{mat}
+      \end{equation*}
+      直接但稍繁琐的计算给出
+      % sage: A = matrix(QQ, [[0,1], [2,-1], [0,1]])
+      % sage: A*(A.transpose()*A).inverse()*A.transpose()
+      % [1/2    0  1/2]
+      % [  0    1    0]
+      % [1/2    0  1/2]
+      \begin{equation*}
+        A\bigl(\trans{A}A\bigr)^{-1}\trans{A}=
+        \begin{mat}
+          1/2 &0 &1/2 \\
+           0  &1 &0    \\
+          1/2 &0 &1/2
+        \end{mat}
+      \end{equation*}
+      将其作用于该向量即可得到投影。
+      \begin{equation*}
+        \begin{mat}
+          1/2 &0 &1/2 \\
+           0  &1 &0    \\
+          1/2 &0 &1/2
+        \end{mat}
+        \colvec{1 \\ 2 \\ 0}
+        =
+        \colvec{1/2 \\ 2 \\  1/2}        
+      \end{equation*}
+      % sage: v = vector(QQ, [1, 2, 0])
+      % sage: v
+      % (1, 2, 0)
+      % sage: A*(A.transpose()*A).inverse()*A.transpose()*v
+      % (1/2, 2, 1/2)
+    \end{answer}
+  \recommended \item 对上一题的同一子空间，求该向量的正交投影。
+    \begin{equation*}
+      \colvec{1 \\ 2 \\ -1}
+    \end{equation*}
+    \begin{answer}
+      使用上一答案中的矩阵计算，得到
+      \begin{equation*}
+        \begin{mat}
+          1/2 &0 &-1/2 \\
+           0  &1 &0    \\
+         -1/2 &0 &1/2
+        \end{mat}
+        \colvec{1 \\ 2 \\ -1}
+        =
+        \colvec{1 \\ 2 \\ -1}        
+      \end{equation*}
+      这说明该向量属于子空间 $S$。
+    \end{answer}
+  \recommended \item \label{exer:ProjMinimizesDistSubspace}
+    设 $\vec p$ 是 $\vec v\in\Re^n$ 到子空间 $S$ 的正交投影。证明 $\vec p$ 是子空间中距离 $\vec v$ 最近的点。
+    \begin{answer}
+      设 $\vec w\in S$。由于这是正交投影，向量 $\vec v-\vec p$ 与 $\vec p-\vec w$ 垂直。由三角不等式，斜边 $\vec v-\vec w$ 至少与 $\vec v-\vec p$ 一样长。
+    \end{answer}
+  \item 
+    本小节介绍两种正交投影方法：
+    \nearbyexample{ex:OrthProjOne} 中的方法
+    和 \ref{ex:ProjIntoMAlongNGener} 中的方法，以及
+    \nearbytheorem{th:OrthProjMat}.
+    为比较它们，考虑 $\Re^3$ 中由 $3x+2y-z=0$ 确定的平面 $P$。
+    \begin{exparts}
+      \partsitem 求 $P$ 的一组基。
+      \partsitem 求 $P^\perp$ 及其一组基。
+      \partsitem 用上一问两组基的连接基表示该向量。
+        \begin{equation*}
+          \vec{v}=\colvec[r]{1 \\ 1 \\ 2}
+        \end{equation*}
+      \partsitem 只保留上一问中的 $P$ 部分，求 $\vec v$ 到 $P$ 的正交投影。
+      \partsitem 将结果与应用
+        \nearbytheorem{th:OrthProjMat}.
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 将方程参数化，得到 $P$ 的如下基。
+          \begin{equation*}
+            B_P=\sequence{\colvec[r]{1 \\ 0 \\ 3},
+                          \colvec[r]{0 \\ 1 \\ 2} }
+          \end{equation*}
+        \partsitem 由于 $\Re^3$ 为三维而 $P$ 为二维，补空间 $P^\perp$ 必为一条直线。按照例 \nearbyexample{ex:OrthoCompOne} 的计算，
+          \begin{equation*}
+            P^\perp=\set{\colvec{x \\ y \\ z}
+                         \suchthat
+                         \begin{mat}[r]
+                           1  &0 &3  \\
+                           0  &1 &2
+                         \end{mat}
+                         \colvec{x \\ y \\ z}
+                         =\colvec[r]{0 \\ 0}\;}
+          \end{equation*}
+          得到 $P^\perp$ 的如下基。
+          \begin{equation*}
+            B_{P^\perp}=\sequence{\colvec[r]{3 \\ 2 \\ -1} }
+          \end{equation*}
+        \partsitem $ \displaystyle       
+             \colvec[r]{1 \\ 1 \\ 2}=
+             (5/14)\cdot\colvec[r]{1 \\ 0 \\ 3}+
+             (8/14)\cdot\colvec[r]{0 \\ 1 \\ 2}+
+             (3/14)\cdot\colvec[r]{3 \\ 2 \\ -1}$
+        \partsitem $\proj{\colvec[r]{1 \\ 1 \\ 2}}{P}
+          =\colvec[r]{5/14 \\ 8/14 \\ 31/14}$
+        \partsitem 投影矩阵
+          \begin{multline*}
+            \begin{mat}[r]
+              1  &0 \\
+              0  &1 \\
+              3  &2
+            \end{mat}
+            \bigl(
+              \begin{mat}[r]
+                1  &0  &3 \\
+                0  &1  &2 
+              \end{mat}
+              \begin{mat}[r]
+                1  &0 \\
+                0  &1 \\
+                3  &2
+              \end{mat}
+            \bigr)^{-1}
+            \begin{mat}[r]
+              1  &0  &3 \\
+              0  &1  &2 
+            \end{mat}                               \\
+            \begin{aligned}
+            &=
+            \begin{mat}[r]
+              1  &0 \\
+              0  &1 \\
+              3  &2
+            \end{mat}
+              \begin{mat}[r]
+                10  &6  \\
+                6   &5
+              \end{mat}^{-1}
+            \begin{mat}[r]
+              1  &0  &3 \\
+              0  &1  &2 
+            \end{mat}                                     \\
+            &=
+            \frac{1}{14}
+            \begin{mat}[r]
+              5  &-6 &3  \\
+             -6  &10 &2  \\
+              3  &2  &13
+            \end{mat}
+            \end{aligned}
+          \end{multline*}
+          将它作用于该向量，得到预期结果。
+          \begin{equation*}
+            \frac{1}{14}
+            \begin{mat}[r]
+              5  &-6 &3  \\
+             -6  &10 &2  \\
+              3  &2  &13
+            \end{mat}
+            \colvec[r]{1 \\ 1 \\ 2}
+            =\colvec[r]{5/14 \\ 8/14 \\ 31/14}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+  \item 
+    向直线求正交投影有三种方法：本节第一小节中定义 \nearbydefinition{def:ProjIntoLine} 的方法；例 \nearbyexample{ex:OrthProjOne} 和~\ref{ex:ProjIntoMAlongNGener} 中先关于空间的一组基表示向量、再保留 $M$ 部分的方法；以及定理 \nearbytheorem{th:OrthProjMat} 中的方法。对下面各题分别使用三种方法。
+     \begin{exparts}
+       \partsitem \( \vec{v}=\colvec[r]{1 \\ -3},\quad
+                M=\set{\colvec{x \\ y}\suchthat x+y=0} \)
+       \partsitem \( \vec{v}=\colvec[r]{0 \\ 1 \\ 2},\quad
+                M=\set{\colvec{x \\ y \\ z}
+                        \suchthat \text{$x+z=0$ and $y=0$}} \)
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 参数化得到
+           \begin{equation*}
+             M=\set{c\cdot\colvec[r]{-1 \\ 1}\suchthat c\in\Re}
+           \end{equation*}
+           
+           第一种方法取张成直线 $M$ 的向量为
+           \begin{equation*}
+             \vec{s}=\colvec[r]{-1 \\ 1}
+           \end{equation*}
+           由定义 \nearbydefinition{def:ProjIntoLine} 的公式得到
+           \begin{equation*}
+             \proj{\colvec[r]{1 \\ -3}}{\spanof{\vec{s}\,}}
+              =\frac{\colvec[r]{1 \\ -3}\dotprod\colvec[r]{-1 \\ 1}}{
+                     \colvec[r]{-1 \\ 1}\dotprod\colvec[r]{-1 \\ 1}}
+                \cdot\colvec[r]{-1 \\ 1}
+              =\frac{-4}{2}
+                \cdot\colvec[r]{-1 \\ 1}
+              =\colvec[r]{2 \\ -2}
+           \end{equation*}
+
+           第二种方法中，取
+           \begin{equation*}
+             B_M=\sequence{\colvec[r]{-1 \\ 1}}
+           \end{equation*}
+           因而（如例 \nearbyexample{ex:OrthoCompOne} 和~\ref{ex:OrthoCompTwo}，只需找出与基中所有向量垂直的向量）
+           \begin{equation*}
+             M^\perp
+             =\set{\colvec{u \\ v}\suchthat -1\cdot u+1\cdot v=0}
+             =\set{k\cdot\colvec[r]{1 \\ 1}\suchthat k\in\Re}
+             \qquad
+             B_{M^\perp}=\sequence{\colvec[r]{1 \\ 1}}
+           \end{equation*}
+           关于连接基表示该向量，得到
+           \begin{equation*}
+             \colvec[r]{1 \\ -3}=-2\cdot\colvec[r]{-1 \\ 1}-1\cdot\colvec[r]{1 \\ 1}
+           \end{equation*}
+           保留 $M$ 部分即得答案。
+           \begin{equation*}
+             \proj{\colvec[r]{1 \\ -3}}{M,M^\perp}=\colvec[r]{2 \\ -2}
+           \end{equation*}
+
+           第三种方法同样只是简单计算（中间出现一个 $\nbyn 1$ 矩阵，其逆也是 $\nbyn 1$ 矩阵）。
+           \begin{multline*}
+             A\left(\trans{A}A\right)^{-1}\trans{A}           \\
+             \begin{aligned}
+             &=
+             \begin{mat}[r]
+               -1 \\ 1
+             \end{mat}
+             \left(
+               \begin{mat}[r]
+                 -1  &1
+               \end{mat}
+               \begin{mat}[r]
+                 -1  \\
+                  1
+               \end{mat}
+             \right)^{-1}
+             \begin{mat}[r]
+               -1  &1
+             \end{mat}
+             =
+             \begin{mat}[r]
+               -1 \\ 1
+             \end{mat}
+               \begin{mat}[r]
+                 2
+               \end{mat}^{-1}
+             \begin{mat}[r]
+               -1  &1
+             \end{mat}               \\
+             &=
+             \begin{mat}[r]
+               -1 \\ 1
+             \end{mat}
+               \begin{mat}[r]
+                 1/2
+               \end{mat}
+             \begin{mat}[r]
+               -1  &1
+             \end{mat}               
+             =
+             \begin{mat}[r]
+               -1 \\ 1
+             \end{mat}
+             \begin{mat}[r]
+               -1/2  &1/2
+             \end{mat}               
+             =
+             \begin{mat}[r]
+               1/2  &-1/2  \\
+              -1/2  &1/2  
+             \end{mat}
+             \end{aligned}
+           \end{multline*}
+           这当然给出相同答案。
+           \begin{equation*}
+             \proj{\colvec[r]{1 \\ -3}}{M}
+             =
+             \begin{mat}[r]
+               1/2  &-1/2  \\
+              -1/2  &1/2  
+             \end{mat}
+             \colvec[r]{1 \\ -3}
+             =\colvec[r]{2 \\ -2}
+           \end{equation*}
+         \partsitem 参数化得到
+           \begin{equation*}
+             M=\set{c\cdot\colvec[r]{-1 \\ 0 \\ 1}\suchthat c\in\Re}
+           \end{equation*}
+           由此，第一种方法的公式给出
+           \begin{equation*}
+             \frac{\colvec[r]{0 \\ 1 \\ 2}\dotprod\colvec[r]{-1 \\ 0 \\ 1}}{
+                   \colvec[r]{-1 \\ 0 \\ 1}\dotprod\colvec[r]{-1 \\ 0 \\ 1}}
+               \cdot\colvec[r]{-1 \\ 0 \\ 1}
+             =\frac{2}{2}
+               \cdot\colvec[r]{-1 \\ 0 \\ 1}
+             =\colvec[r]{-1 \\ 0 \\ 1}
+           \end{equation*}
+           第二种方法先求 $M^\perp$，
+           \begin{equation*}
+             M^\perp
+             =\set{\colvec{u \\ v \\ w}\suchthat -u+w=0}
+             =\set{j\cdot\colvec[r]{1 \\ 0 \\ 1}
+                   +k\cdot\colvec[r]{0 \\ 1 \\ 0}\suchthat j,k\in\Re}
+           \end{equation*}
+           再关于 $B_M$ 与 $B_{M^\perp}$ 的连接基表示给定向量，
+           \begin{equation*}
+             \colvec[r]{0 \\ 1 \\ 2}
+              =1\cdot\colvec[r]{-1 \\ 0 \\ 1}
+               +1\cdot\colvec[r]{1 \\ 0 \\ 1}
+               +1\cdot\colvec[r]{0 \\ 1 \\ 0}
+           \end{equation*}
+           只保留 $M$ 部分。
+           \begin{equation*}
+             \proj{\colvec[r]{0 \\ 1 \\ 2}}{M}=1\cdot\colvec[r]{-1 \\ 0 \\ 1}
+                       =\colvec[r]{-1 \\ 0 \\ 1}
+           \end{equation*}
+           最后，第三种方法进行矩阵计算，
+           \begin{multline*}
+             A\left(\trans{A}A\right)^{-1}\trans{A}                 \\
+             \begin{aligned}
+             &=
+             \begin{mat}[r]
+               -1 \\ 0  \\  1
+             \end{mat}
+             \bigl(
+               \begin{mat}[r]
+                 -1  &0  &1
+               \end{mat}
+               \begin{mat}[r]
+                 -1  \\
+                  0  \\
+                  1
+               \end{mat}
+             \bigr)^{-1}
+             \begin{mat}[r]
+               -1  &0  &1
+             \end{mat}
+             =
+             \begin{mat}[r]
+               -1 \\ 0  \\  1
+             \end{mat}
+               \begin{mat}[r]
+                 2
+               \end{mat}^{-1}
+             \begin{mat}[r]
+               -1  &0  &1
+             \end{mat}              \\
+             &=
+             \begin{mat}[r]
+               -1 \\ 0  \\  1
+             \end{mat}
+               \begin{mat}[r]
+                 1/2
+               \end{mat}
+             \begin{mat}[r]
+               -1  &0  &1
+             \end{mat}
+             =
+             \begin{mat}[r]
+               -1 \\ 0  \\  1
+             \end{mat}
+             \begin{mat}[r]
+               -1/2  &0  &1/2
+             \end{mat}                                 \\
+             &=
+             \begin{mat}[r]
+               1/2  &0  &-1/2  \\
+               0    &0  &0     \\
+              -1/2  &0  &1/2
+             \end{mat}
+             \end{aligned}
+           \end{multline*}
+           再进行矩阵与向量的乘法
+           \begin{equation*}
+             \proj{\colvec[r]{0 \\ 1 \\ 2}}{M}
+             \begin{mat}[r]
+               1/2  &0  &-1/2  \\
+               0    &0  &0     \\
+              -1/2  &0  &1/2
+             \end{mat}
+             \colvec[r]{0 \\ 1 \\ 2}
+             =\colvec[r]{-1 \\ 0 \\ 1}
+           \end{equation*}
+           即得答案。
+       \end{exparts}
+     \end{answer}
+  \item 
+    检查操作 \nearbydefinition{def:ProjIntoMAlongN} 定义良好。也就是说，在例 \nearbyexample{ex:OrthProjOne} 和~\ref{ex:ProjIntoMAlongNGener} 中，答案是否依赖所选基？
+    \begin{answer}
+      不依赖。向量分解 $\vec v=\vec m+\vec n$（其中 $\vec m\in M,\vec n\in N$）不依赖子空间所选的基，正如“直和”小节所证明的那样。
+    \end{answer}
+  \item 
+    到平凡子空间的正交投影是什么？
+    \begin{answer}
+      向量到子空间的正交投影属于该子空间。平凡子空间只有一个元素 $\zero$，因此任意向量的投影都必须等于 $\zero$。
+    \end{answer}
+  \item 
+    若 $\vec v\in M$，将 $\vec v$ 沿 $N$ 投影到 $M$ 的结果是什么？
+    \begin{answer}
+      对 $\vec v\in M$ 沿 $N$ 投影到 $M$，结果就是 $\vec v$。分解 $\vec v=\vec m+\vec n$ 得到 $\vec m=\vec v,\vec n=\zero$；舍去 $N$ 部分并保留 $M$ 部分，投影即为 $\vec m=\vec v$。
+    \end{answer}
+  \item
+    设 $M\subseteq\Re^n$ 是具有标准正交基
+    $\basis{\kappa}{n}$，则 $\vec v$ 到 $M$ 的正交投影为
+    \begin{equation*}
+      (\vec{v}\dotprod\vec{\kappa}_1)\cdot\vec{\kappa}_1+
+      \dots+
+      (\vec{v}\dotprod\vec{\kappa}_n)\cdot\vec{\kappa}_n
+    \end{equation*}
+    \begin{answer}
+      引理 \nearbylemma{le:OrthoProjWellDefd} 的证明表明，每个 $\vec v\in\Re^n$ 都等于其到各基向量所张成直线的正交投影之和。
+      \begin{equation*}
+        \vec{v}=\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}
+                 +\dots+\proj{\vec{v}\,}{\spanof{\vec{\kappa}_n}}
+               =\frac{\vec{v}\dotprod\vec{\kappa}_1}{
+                      \vec{\kappa}_1\dotprod\vec{\kappa}_1}
+                   \cdot\vec{\kappa}_1
+               +\dots
+               +\frac{\vec{v}\dotprod\vec{\kappa}_n}{
+                      \vec{\kappa}_n\dotprod\vec{\kappa}_n}
+                   \cdot\vec{\kappa}_n
+      \end{equation*}
+      由于该基是标准正交基，每个分式的分母 $\vec\kappa_i\dotprod\vec\kappa_i=1$。
+    \end{answer}
+  \recommended \item
+    证明 the map \( \map{p}{V}{V} \) is the projection into \( M \)
+    along \( N \) 当且仅当 the map 
+    \( \identity-p \) is the projection into \( N \) along \( M \).
+    (Recall the definition of the difference of two 
+    maps:~$(\identity-p)\,(\vec{v})=\identity(\vec{v})-p(\vec{v})
+     =\vec{v}-p(\vec{v})$.)
+     \begin{answer}
+       若 $V=M\directsum N$，每个向量都唯一分解为 $\vec v=\vec m+\vec n$。对所有 $\vec v$，$p(\vec v)=\vec m$ 当且仅当 $\vec v-p(\vec v)=\vec n$，这正是所需结论。
+     \end{answer}
+  \item \label{exer:PerpOnBasisImplPerp} 
+    证明：若一个向量与集合中每个向量垂直，则它与该集合的张成空间中每个向量垂直。
+    \begin{answer}
+      设 $\vec v$ 与每个 $\vec w\in S$ 垂直。则
+      $\vec{v}\dotprod(c_1\vec{w}_1+\dots+c_n\vec{w}_n)
+       =\vec{v}\dotprod(c_1\vec{w}_1)
+          +\dots+\vec{v}\dotprod (c_n\dotprod\vec{w}_n)
+       =c_1(\vec{v}\dotprod\vec{w}_1)
+          +\dots+c_n(\vec{v}\dotprod\vec{w}_n)
+       =c_1\cdot 0+\dots+c_n\cdot 0=0$.
+    \end{answer}
+  \item
+    判断正误：子空间与其正交补的交是平凡子空间。
+    \begin{answer}
+      正确；唯一与自身正交的向量是零向量。
+    \end{answer}
+  \item 
+    证明：子空间与其正交补的维数之和等于整个空间的维数。
+    \begin{answer}
+      这直接由引理 \nearbylemma{le:OrthoProjWellDefd} 中“空间是两者直和”的结论得到。
+    \end{answer}
+  \item
+    设 \( \vec{v}_1,\vec{v}_2\in\Re^n \) are such that for all
+    互补子空间 \( M,N\subseteq\Re^n \)，\( \vec{v}_1 \) 的
+    和 \( \vec{v}_2 \) 沿 \( N \) 投影到 \( M \) 的结果相等。
+    是否必有 \( \vec{v}_1=\vec{v}_2 \)？
+    (If so, what if we relax the condition to:~all
+     若只要求两者的正交投影相等？）
+    \begin{answer}
+      两者必相等，即使只假设
+      它们在所有正交投影下结果相同也如此。
+      考虑由集合
+      $\set{\vec{v}_1,\vec{v}_2}$.
+      由于两者都在 $M$ 中，$\vec{v}_1$ 到 $M$ 的正交投影
+      是 $\vec{v}_1$，而 $\vec{v}_2$ 到 $M$ 的正交投影
+      $M$ is $\vec{v}_2$.
+      因此投影相等只能说明两者相等。
+    \end{answer}
+  \recommended \item \label{exer:AlgOfPerps}
+    Let \( M,N \) be subspaces of \( \Re^n \).
+    正交补运算作用于子空间，我们可以考察它与
+    其他运算的关系。
+    \begin{exparts}
+      \partsitem 证明 two perps cancel: \( (M^\perp)^\perp=M \).
+      \partsitem %Schaums p331 #114
+        证明 \( M\subseteq N \) implies
+           that \( N^\perp\subseteq M^\perp \).
+      \partsitem 证明 \( (M+N)^\perp=M^\perp\intersection N^\perp \).
+      %\partsitem 证明 \( (M\intersection N)^\perp=M^\perp +N^\perp \).
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+          证明两个集合互相包含，即
+          $M\subseteq (M^\perp)^\perp$ 且 $(M^\perp)^\perp \subseteq M$。
+          首先，
+          若 $\vec m\in M$，由正交补运算的定义，
+          $\vec m$ 与每个 $\vec v\in M^\perp$ 垂直，
+          因而（同样由正交补运算的定义）
+          $\vec m\in(M^\perp)^\perp$。
+          反过来，取 $\vec v\in(M^\perp)^\perp$。
+          引理 \nearbylemma{le:OrthoProjWellDefd} 的证明表明
+          $\Re^n=M\directsum M^\perp$，且
+          空间有一组正交基 
+          $\sequence{\vec{\kappa}_1,\dots,\vec{\kappa}_k,
+                        \vec{\kappa}_{k+1},\dots,\vec{\kappa}_n}$
+          其中前一半
+          $\sequence{\vec{\kappa}_1,\dots,\vec{\kappa}_k}$ 是
+          $M$ 的一组基，后一半是 $M^\perp$ 的一组基。
+          证明还表明，空间中每个向量都等于其到这些基向量所张成直线的正交投影之和。
+          \begin{equation*}
+             \vec{v}=\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}
+                          +\dots+\proj{\vec{v}\,}{\spanof{\vec{\kappa}_n}}
+          \end{equation*}
+          由于 $\vec v\in(M^\perp)^\perp$，它与 $M^\perp$ 中每个向量都垂直，所以
+          后一半投影全为零。 
+          因此 $\vec v=\proj{\vec{v}\,}{\spanof{\vec{\kappa}_1}}
+                          +\dots+\proj{\vec{v}\,}{\spanof{\vec{\kappa}_k}}$,
+          这是 $M$ 中向量的线性组合，所以 $\vec v\in M$。
+          (\textit{Remark}.
+           还有一种更简洁的证明：将空间写成
+           既可写成 $M\directsum M^\perp$，也可写成 $M^\perp\directsum (M^\perp)^\perp$。
+           由于前半部分已证明 $M\subseteq(M^\perp)^\perp$
+           且前一句说明两个
+           子空间 $M$ 与 $(M^\perp)^\perp$ 维数相等，因此可以得出
+           $M=(M^\perp)^\perp$。）
+        \partsitem 由于 $M\subseteq N$，与 $N$ 中每个向量垂直的任意 $\vec v$ 也与 $M$ 中每个向量垂直。这句话正是 $N^\perp\subseteq M^\perp$。
+        \partsitem 再次通过相互包含证明两个集合相等。首先，若 $\vec v$ 与
+           $M+N=\set{\vec{m}+\vec{n}\suchthat \vec{m}\in M,\, \vec{n}\in N}$
+           与形如 $\vec m+\zero$ 的每个向量
+           （即 $M$ 中每个向量）以及形如 $\zero+\vec n$ 的每个向量（即 $N$ 中每个向量）垂直，因此
+           $(M+N)^\perp\subseteq M^\perp\intersection N^\perp$. 
+           反向包含同样直接：任意 $\vec v\in M^\perp\intersection N^\perp$ 都与形如 $c\vec m+d\vec n$ 的向量垂直，因为
+           $\vec{v}\dotprod (c\vec{m}+d\vec{n})
+             =c\cdot(\vec{v}\dotprod\vec{m})+d\cdot(\vec{v}\dotprod\vec{n})
+             =c\cdot 0+d\cdot 0
+             =0$.
+      \end{exparts}
+    \end{answer}
+  \recommended \item 
+    本小节的内容可以表达线性映射的值域空间与零空间之间一个尚未见过的几何关系。
+    \begin{exparts}
+      \partsitem 关于标准基表示映射 $\map{f}{\Re^3}{\Re}$，其定义为
+        \begin{equation*}
+          \colvec{v_1 \\ v_2 \\ v_3}
+          \mapsto
+          1v_1+2v_2+ 3v_3
+        \end{equation*}
+        并证明
+        \begin{equation*}
+          \colvec[r]{1 \\ 2 \\ 3}
+        \end{equation*}
+        属于零空间的正交补；再证明 $\nullspace{f}^\perp$ 等于该向量的张成空间。
+      \partsitem 将结论推广到任意 $\map f{\Re^n}{\Re}$。
+      \partsitem 关于标准基表示 $\map f{\Re^3}{\Re^2}$，
+        \begin{equation*}
+          \colvec{v_1 \\ v_2 \\ v_3}
+          \mapsto
+          \colvec{1v_1+2v_2+ 3v_3 \\
+                  4v_1+5v_2+ 6v_3}   
+        \end{equation*}
+        并证明
+        \begin{equation*}
+          \colvec[r]{1 \\ 2 \\ 3},
+          \;\colvec[r]{4 \\ 5 \\ 6}
+        \end{equation*}
+        都属于零空间的正交补；再证明 $\nullspace{f}^\perp$ 是这两个向量的张成空间。（提示：参见习题 \nearbyexercise{exer:AlgOfPerps} 的第三问。）
+      \partsitem 将结论推广到任意 $\map f{\Re^n}{\Re^m}$。
+    \end{exparts}
+    在 \cite{Strang93} 中，这称为
+    \definend{线性代数基本定理}%
+    \index{Fundamental Theorem!of Linear Algebra}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 该映射的表示为
+          \begin{equation*}
+            \colvec{v_1 \\ v_2 \\ v_3}
+            \mapsunder{f}
+            1v_1+2v_2+ 3v_3    
+          \end{equation*}
+          
+          \begin{equation*}
+            \rep{f}{\stdbasis_3,\stdbasis_1}
+            =\begin{mat}[r]
+               1  &2  &3
+             \end{mat}
+          \end{equation*}
+          由 $f$ 的定义，
+          \begin{equation*}
+            \nullspace{f}
+            =\set{\colvec{v_1 \\ v_2 \\ v_3}
+                  \suchthat 1v_1+2v_2+3v_3=0}
+            =\set{\colvec{v_1 \\ v_2 \\ v_3}
+                  \suchthat 
+                   \colvec[r]{1 \\ 2 \\ 3}\dotprod\colvec{v_1 \\ v_2 \\ v_3}=0}
+          \end{equation*}
+          而第二种描述恰好说明了这一点。
+          \begin{equation*}
+            \nullspace{f}^\perp
+            =\spanof{\set{\colvec[r]{1 \\ 2 \\ 3}}}
+          \end{equation*}
+        \partsitem 一般地，对任意 $\map f{\Re^n}{\Re}$，存在向量 $\vec h$ 使
+           \begin{equation*}
+             \colvec{v_1 \\ \vdots \\ v_n}
+             \mapsunder{f}
+             h_1v_1+\dots+h_nv_n
+           \end{equation*}
+           且 $\vec h\in\nullspace{f}^\perp$。
+           证明方法与上一问相同：关于标准基表示 $f$，将其矩阵表示的唯一一行转置为列向量，所得即为 $\vec h$。
+         \partsitem 显然，
+           \begin{equation*}
+             \rep{f}{\stdbasis_3,\stdbasis_2}
+             =
+             \begin{mat}[r]
+               1  &2  &3  \\
+               4  &5  &6
+             \end{mat}
+           \end{equation*}
+           因而零空间为
+           \begin{equation*}
+             \nullspace{f}
+             \set{\colvec{v_1 \\ v_2 \\ v_3}
+                  \suchthat
+                   \;\begin{mat}[r]
+                     1  &2  &3  \\
+                     4  &5  &6
+                   \end{mat}
+                   \colvec{v_1 \\ v_2 \\ v_3}
+                   =\colvec[r]{0  \\ 0}\;}
+           \end{equation*}
+           由此可见
+           \begin{equation*}
+             \colvec[r]{1 \\ 2 \\ 3},
+              \,\colvec[r]{4 \\ 5 \\ 6}\in\nullspace{f}^\perp
+           \end{equation*}
+           由于 $\nullspace{f}^\perp$ 是 $\Re^n$ 的子空间，这两个向量的张成空间包含于零空间的正交补。为证明这是等式，取
+           \begin{equation*}
+             M=\spanof{\set{\colvec[r]{1 \\ 2 \\ 3}}}
+             \qquad
+             N=\spanof{\set{\colvec[r]{4 \\ 5 \\ 6}}}
+           \end{equation*}
+           并按提示应用习题 \nearbyexercise{exer:AlgOfPerps} 的第三问。
+        \partsitem 同上，从特殊情形推广很容易：对任意 $\map f{\Re^n}{\Re^m}$，
+           关于标准基表示该映射的矩阵 $H$ 描述如下作用：
+           \begin{equation*}
+             \colvec{v_1 \\ \vdots \\ v_n}
+             \mapsunder{f}
+             \colvec{h_{1,1}v_1+h_{1,2}v_2+\dots+h_{1,n}v_n \\
+                     \vdots                                 \\
+                     h_{m,1}v_1+h_{m,2}v_2+\dots+h_{m,n}v_n}
+           \end{equation*}
+           零空间的描述表明，对 $H$ 的 $m$ 行分别转置为
+           将 $H$ 的 $m$ 行分别转置为
+           \begin{equation*}
+             \vec{h}_1=\colvec{h_{1,1} \\ h_{1,2} \\ \vdots \\ h_{1,n}},
+              \dots
+             \vec{h}_m=\colvec{h_{m,1} \\ h_{m,2} \\ \vdots \\ h_{m,n}}
+           \end{equation*}
+           有 $\nullspace{f}^\perp=\spanof{\set{\vec h_1,\dots,\vec h_m}}$。（\cite{Strang93} 将该空间称为 $H$ 的行空间的转置。）
+      \end{exparts}
+    \end{answer}
+  \item
+    将满足以下性质的线性变换 $\map t V V$ 称为\definend{投影\/}\index{projection}：重复执行投影与执行一次投影效果相同，即对所有 $\vec v\in V$，有 $(\composed t t)(\vec v)=t(\vec v)$。
+    \begin{exparts}
+      \partsitem 证明向直线的正交投影具有该性质。
+      \partsitem 证明沿子空间的投影具有该性质。
+      \partsitem 证明对任意这样的 $t$，存在 $V$ 的一组基 $B=\basis{\beta}{n}$，使
+        \begin{equation*}
+          t(\vec{\beta}_i)=
+          \begin{cases}
+                  \vec{\beta}_i  &i=1,2,\dots,\,r  \\
+                  \zero          &i=r+1,r+2,\dots,\,n
+                \end{cases}
+        \end{equation*}
+        其中 $r$ 是 $t$ 的秩。
+      \item 推出每个投影都是沿某个子空间的投影。
+      \item 还可推出每个投影都有如下表示
+        \begin{equation*}
+          \rep{t}{B,B}=
+          \begin{pmat}{c|c}
+            I   &Z  \\ \hline
+            Z   &Z
+          \end{pmat}
+        \end{equation*}
+        。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 首先，若向量 $\vec v$ 已经在线
+          上，则正交投影就是 $\vec v$ 本身。
+          验证方法是应用
+          向量 $\vec s$ 张成直线的投影公式，
+          即 $(\vec v\dotprod\vec s/\vec s\dotprod\vec s)\cdot\vec s$。
+          取直线为
+          $\set{k\cdot\vec{v}\suchthat k\in\Re}$
+          （$\vec v=\zero$ 情形另行处理且很简单），得到
+          $(\vec{v}\dotprod\vec{v}/\vec{v}\dotprod\vec{v})\cdot\vec{v}$,
+          化简为 $\vec v$，即得结论。
+ 
+          这就回答了问题，因为投影一次后
+          结果 $\proj{\vec v}{\ell}$ 已在线上。
+          上一段说明再次投影到同一直线
+          不会产生任何变化。  
+        \partsitem 论证与上一问类似。
+          当 $V=M\directsum N$ 时，$\vec v=\vec m+\vec n$ 的投影
+          为 $\proj{\vec v}{M,N}=\vec m$。
+          再次投影得到 $\proj{\vec m}{M,N}=\vec m$，因为 $M$ 中元素分解为 $M$ 中元素与 $N$ 中元素之和时就是 $\vec m=\vec m+\zero$。因此沿 $N$ 投影到 $M$ 两次与一次效果相同。
+        \partsitem 如前面各问所示，该条件说明 $t$ 保持值域空间中的向量不变，因此可取
+          $\vec{\beta}_1$, \ldots, $\vec{\beta}_r$
+          作为值域空间的基向量，也就是取 $t$ 的值域空间为 $M$（所以 $\dim(M)=r$）。对于补空间，记 $t$ 的零空间为 $N$，并证明 $V=M\directsum N$。
+
+          为此，只需证明它们的交为平凡空间 $M\intersection N=\set{\zero}$，且它们的和为整个空间 $M+N=V$。
+          首先，若向量 $\vec m$ 属于值域空间，则存在 $\vec v\in V$ 使 $t(\vec v)=\vec m$；由 $t$ 的条件，
+          $t(\vec{m})=(\composed{t}{t})\,(\vec{v})=t(\vec{v})=\vec{m}$, while
+          若该向量同时属于零空间，则 $t(\vec m)=\zero$，因此值域空间与零空间的交是平凡空间。
+          其次，要将任意 $\vec v$ 写成值域空间向量与零空间向量之和，
+          条件 $t(\vec v)=t(t(\vec v))$ 可改写为 $t(\vec v-t(\vec v))=\zero$，因此取 $\vec v=t(\vec v)+(\vec v-t(\vec v))$。
+  
+          最后取 $V$ 的一组基 $B=\sequence{\vec\beta_1,\ldots,\vec\beta_n}$，其中前 $r$ 个向量构成值域空间 $M$ 的一组基，剩余向量构成零空间 $N$ 的一组基。
+        \partsitem 每个投影（按本题定义）都是沿其零空间投影到其值域空间。
+        \partsitem 这也可由第三问立即得到。
+      \end{exparts}
+    \end{answer}
+%  \item 
+%    证明 projection into a plane followed by projection from the plane
+%    to a line in the plane equals the single operation of projection into the
+%    line.
+%  \item 
+%    设 \( V \) decomposes as \( M_1\directsum N_1 \) and also as
+%    \( M_2\directsum N_2 \).
+%    Let the function \( p_1 \) 
+%    be the  projection into \( M_1 \) along \( N_1 \) and let
+%    \( p_2 \) be the projection into \( M_2 \) along \( N_2 \).
+%    证明 if \( \composed{p_1}{p_2} \) and \( \composed{p_2}{p_1} \) are
+%    both the zero map then \( p_1+p_2 \) projects into \( M_1+M_2 \) along
+%    \( N_1\intersection N_2 \).
+%  \item 
+%    Why does the definition of projection into \( M \) along \( N \)
+%    require that the subspaces be complements?
+%    Can we relax that requirement and just have
+%    \( N \intersection M=\set{\zero} \) (but not have the span of
+%    \( N\union M \) be the whole space)?
+%    Describe the projection of \( \vec{v} \) into \( M \) along \( N \)
+%    if \( M=N \).
+%    What if \( M\intersection N \) is nontrivial?
+%    What if it is trivial?
+%  \item 
+%    \begin{exparts}
+%      \partsitem 证明 if the columns of a matrix \( A \) form a linearly
+%        independent set then \( \trans{A}A \) is invertible.
+%      \partsitem 证明 if the columns of \( A \) are mutually 
+%        orthogonal and
+%        nonzero then \( \trans{A}A \) is the identity matrix.
+%    \end{exparts}
+  \item 
+    方阵称为 \definend{symmetric\/}%\index{symmetric!matrix}%
+    \index{matrix!symmetric} 
+    if each \( i,j \) entry equals the
+    \( j,i \) entry (i.e., if the matrix equals its transpose).
+    证明投影矩阵 \( A(\trans{A}A)^{-1}\trans{A} \) 
+    是对称的。
+    \cite{Strang}
+    \textit{提示。}在索引“transpose”下查找转置的性质。
+    \begin{answer}
+      对任意矩阵 $M$，有 $\trans{(M^{-1})}=(\trans M)^{-1}$；对任意两个矩阵 $M,N$，有 $\trans{MN}=\trans N\trans M$（当然，前提是逆和乘积有定义）。应用这两条性质即可证明该矩阵等于其转置。
+      \begin{multline*}
+         \trans{\bigl(A(\trans{A}A)^{-1}\trans{A}\bigr)}
+         =(\trans{\trans{A}})
+           (\trans{\bigl((\trans{A}A)^{-1}\bigr)})
+           (\trans{A})                               \\
+         =(\trans{\trans{A}})
+           ( \bigl(\trans{(\trans{A}A)}\bigr)^{-1} )
+           (\trans{A})                    
+         =A
+           (\trans{A}\trans{\trans{A}})^{-1}
+           \trans{A}
+         =A
+           (\trans{A}A)^{-1}
+           \trans{A}
+      \end{multline*}
+    \end{answer}
+\end{exercises}

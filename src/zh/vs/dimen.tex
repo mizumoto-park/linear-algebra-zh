@@ -1,0 +1,750 @@
+% Chapter 2, Topic _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-11
+\topic{量纲分析}
+「你不能把苹果和橘子相加」，老话这样讲。
+这反映了我们的经验：在应用中，各个量都带有单位，
+而记下这些单位会有帮助。
+每个人都做过像下面这样
+利用单位作检验的计算。
+\begin{equation*}
+  60\,\frac{\text{秒}}{\text{分}}
+  \cdot 60\,\frac{\text{分}}{\text{小时}}
+  \cdot 24\,\frac{\text{小时}}{\text{天}}
+  \cdot 365\,\frac{\text{天}}{\text{年}}
+  = 31\,536\,000\,\frac{\text{秒}}{\text{年}}
+\end{equation*}
+我们可以把计入单位这一想法用于记账之外。
+我们可以利用单位来推断
+物理量之间可能存在什么样的关系。
+
+首先，考虑落体
+方程~$\text{距离}=16\cdot(\text{时间})^2$。
+如果距离以英尺计、时间以秒计，那么这是一个
+真命题。
+然而，
+它在其他单位制（例如米和秒）中就不正确了，
+因为~$16$ 在那些单位制中
+不是合适的常数。
+我们可以通过给 $16$ 附上单位来修正这一点，
+使它成为一个\definend{有量纲常数}\index{dimensional!constant}。
+\begin{equation*}
+  \text{距离}=16\,\frac{\text{英尺}}{\text{秒}^2}\cdot (\text{时间})^2
+\end{equation*}  
+现在这个方程在米–秒单位制中也成立   
+因为当我们统一单位时（一英尺约为 $0.30$ 米），
+\begin{equation*}
+  \text{距离（米）}=16\,\frac{0.30\,\text{米}}{\text{秒}^2}
+                    \cdot (\text{时间（秒）})^2
+                   =4.8\,\frac{\text{米}}{\text{秒}^2}
+                    \cdot (\text{时间（秒）})^2
+\end{equation*}
+常数会得到调整。
+因此，为了得到在各个单位制之间都正确的方程，
+我们把注意力限制在
+那些使用有量纲常数的方程上。
+这样的方程称为\definend{完备的}。\index{complete equation}
+
+摆脱特定的单位制之后，我们只需用
+长度~$L$、质量~$M$ 与时间~$T$ 的某些单位的组合
+来度量各个量。
+这三个就是我们的
+\definend{物理量纲}\index{physical dimension}。
+例如，速度可以用
+$\text{英尺}/\text{秒}$
+或 $\text{英寻}/\text{小时}$ 来度量，
+但无论如何，它都涉及一个长度单位除以一个时间单位，
+所以速度的\definend{量纲公式}\index{dimensional!formula} 
+是 $L/T$。
+类似地，密度的量纲公式是 $M/L^3$。
+
+在书写量纲公式时，
+我们将使用负指数来代替分数，
+并且把指数为零的量纲也写入其中。
+于是，我们把速度的量纲公式写成
+$L^1M^0T^{-1}$，把密度的量纲公式
+写成 $L^{-3}M^1T^0$。
+
+这样一来，「你不能把苹果和橘子相加」
+就变成了这样一条建议：检查方程的所有项
+是否具有相同的量纲公式。
+一个例子是落体方程~$d-gt^2=0$ 的这个版本。
+$d$ 项的量纲公式是 $L^1M^0T^0$。
+对于另一项，$g$ 的量纲公式是 $L^1M^0T^{-2}$ 
+（上面给出 $g$ 为 $16\,\text{英尺}/\text{秒}^2$），
+而 $t$ 的量纲公式是 $L^0M^0T^1$，于是  
+整个 $gt^2$ 项的量纲公式为
+$L^1M^0T^{-2}(L^0M^0T^1)^2=L^1M^0T^0$。
+因此两项具有相同的量纲公式。
+具有这种性质的方程称为\definend{量纲齐次的}。
+
+量纲公式为 $L^0M^0T^0$ 的量是\definend{无量纲的}。
+例如，我们用所对的弧与半径之比
+来度量角
+\begin{center}
+  \includegraphics{vs/mp/ch2.22}
+\end{center}
+这是长度与长度之比 $(L^1M^0T^0)(L^1M^0T^0)^{-1}$，
+因此角具有量纲公式 $L^0M^0T^0$。
+%(Of course, to measure the angle in degrees instead we would 
+%multiply by a scalar, which would leave the dimensional formula unchanged.)
+
+把单位用于记账之外、用于得出结论的经典例子，
+考虑的是单摆周期的公式。
+\begin{equation*}
+  p=\text{--一个涉及绳长等的表达式--}
+\end{equation*}
+周期的单位是时间 $L^0M^0T^1$。
+所以方程
+另一边的各个量必须具有这样的量纲公式：它们组合起来时，
+各自的 $L$ 与 $M$ 相互消去，只剩下
+单独一个 $T$。
+第~\pageref{table:Dimen}~页的表格列出了
+有经验的研究者会认为可能与单摆周期
+有关的各个量。
+涉及 $L$ 的量纲公式只有
+绳长与重力加速度的。
+要让这两者的 $L$ 在方程中出现时
+相互消去，它们必须成比值，
+例如 $(\ell/g)^2$、$\cos(\ell/g)$，
+或 $(\ell/g)^{-1}$。
+因此，周期是 $\ell/g$ 的函数。
+
+这是一个了不起的结果：~仅凭纸笔分析，
+在我们拿出单摆并进行测量之前，
+我们就已经对周期的构成有所了解。
+
+要系统地做量纲分析，我们需要两个事实
+（相关的论证见 \cite{Bridgman} 的第~II 章和第~IV 章）。
+第一个事实是，我们将看到的每个关联物理量的方程
+都涉及一些项的和，
+其中每一项形如
+\begin{equation*}
+  m_1^{p_1}m_2^{p_2}\cdots m_k^{p_k}
+\end{equation*}
+其中 $m_1$、\ldots、$m_k$ 是度量这些量的数字。
+
+对于第二个事实，注意到构造量纲齐次
+表达式的一个简单办法，
+是取无量纲量的乘积，
+或把这样的无量纲项相加。
+Buckingham 定理（白金汉定理）断言：任何
+具有量纲公式的量之间的完备关系，
+都可以通过代数变形化成这样一种形式，
+即存在某个函数 $f$ 使得
+\begin{equation*}
+  f(\Pi_1,\ldots,\Pi_n)=0
+\end{equation*}
+其中 $\set{\Pi_1,\ldots,\Pi_n}$ 是一组完备的无量纲乘积。
+（下面的第一个例子说明了
+无量纲乘积的集合何时是「完备的」。）
+我们通常希望用其余的量来表示其中的一个量，
+比如 $m_1$。
+为此我们将假设上面的等式可以改写为
+\begin{equation*}
+  m_1=m_2^{-p_2}\cdots m_k^{-p_k}\cdot \hat{f}(\Pi_2,\ldots,\Pi_n)
+\end{equation*}
+其中 $\Pi_1=m_1m_2^{p_2}\cdots m_k^{p_k}$ 是无量纲的，
+而乘积 $\Pi_2$、\ldots、$\Pi_n$ 不涉及 $m_1$
+（与 $f$ 一样，这里的 $\hat{f}$ 是一个任意函数，只不过是 
+$n-1$ 个自变量的函数）。
+这样，要做量纲分析，我们就应当
+找出哪些无量纲乘积是可能的。
+%For that we will use vector spaces.
+
+例如，再次考虑
+单摆周期的公式。
+\begin{center}
+  \begin{tabular}{c}
+    \includegraphics{vs/mp/ch2.23}
+  \end{tabular}
+ \qquad\quad
+ \label{table:Dimen}
+  \begin{tabular}{r|l} 
+    \multicolumn{1}{r}{\textit{量}}
+    &\multicolumn{1}{l}{\begin{tabular}[b]{@{}l} 
+                           \textit{量纲} \\[-.3ex] 
+                           \textit{公式}
+                         \end{tabular}}                   \\ \hline
+    周期 $p$                      &$L^0M^0T^1$          \\
+    绳长 $\ell$         &$L^1M^0T^0$          \\
+    摆锤质量 $m$                 &$L^0M^1T^0$          \\
+    重力加速度 $g$ &$L^1M^0T^{-2}$    \\
+    摆动弧长 $\theta$           &$L^0M^0T^0$         
+  \end{tabular}
+\end{center} 
+由上面引用的第一个事实，我们预期该公式
+具有（可能为若干项之和的）形式
+$p^{p_1}\ell^{p_2}m^{p_3}g^{p_4}\theta^{p_5}$。
+为了利用第二个事实，
+找出幂~$p_1$、\ldots、$p_5$ 的哪些组合
+给出无量纲乘积，考虑这个方程。
+\begin{equation*}
+  (L^0M^0T^1)^{p_1}(L^1M^0T^0)^{p_2}(L^0M^1T^0)^{p_3}
+     (L^1M^0T^{-2})^{p_4}(L^0M^0T^0)^{p_5}
+  =L^0M^0T^0 
+\end{equation*}
+它给出关于这些幂的三个条件。
+\begin{equation*}
+  \begin{linsys}{5}
+       &\   &p_2  &\   &    &+  &p_4   &  &  &=  &0  \\
+       &    &     &    &p_3 &   &      &  &  &=  &0  \\
+    p_1&    &     &    &    &-  &2p_4  &  &  &=  &0  
+  \end{linsys}  
+\end{equation*}
+注意 $p_3=0$，所以摆锤的质量不影响周期。
+对该方程组作高斯消元并参数化，得到这个 
+\begin{equation*}
+  \set{\colvec{p_1 \\ p_2 \\ p_3 \\ p_4 \\ p_5}=
+       \colvec[r]{1 \\  -1/2  \\  0  \\  1/2  \\  0}p_1+
+       \colvec[r]{0   \\  0   \\  0  \\  0  \\  1}p_5
+       \suchthat p_1,p_5\in\Re}
+\end{equation*}
+（我们取 $p_1$ 作为参数之一，
+以便用其他量来表示周期）。
+
+无量纲乘积的集合
+包含满足上述条件的所有项 $p^{p_1}\ell^{p_2}m^{p_3}a^{p_4}\theta^{p_5}$。
+这个集合在如下运算下构成一个向量空间：
+「$+$」运算为把两个这样的乘积相乘，
+「$\cdot$」运算为把这样的乘积
+提升到标量的幂
+（见 \nearbyexercise{exer:DimLessProdsVecSp}）。
+Buckingham 定理中的
+「完备无量纲乘积集合」一词，
+指的就是这个向量空间的一组基。
+
+我们可以这样得到一组基：
+先取 $p_1=1$、$p_5=0$，再取 $p_1=0$、$p_5=1$。
+相应的无量纲
+乘积是 $\Pi_1=p\ell^{-1/2}g^{1/2}$ 与 $\Pi_2=\theta$。
+因为集合 $\set{\Pi_1,\Pi_2}$ 是完备的，
+Buckingham 定理说
+\begin{equation*}
+  p = \ell^{1/2}g^{-1/2}\cdot\hat{f}(\theta) 
+    = \sqrt{\ell/g}\cdot\hat{f}(\theta)
+\end{equation*}
+其中 $\hat{f}$ 是一个我们无法从这一分析中确定的函数
+（大一物理教材会用别的方法证明：
+对于小角度，它近似于常值
+函数 $\hat{f}(\theta)=2\pi$）。
+
+这样，对具有给定
+量纲公式的量之间可能的关系所作的分析，
+已经给了我们相当多的信息：~单摆的周期不 
+依赖于摆锤的质量，
+并且随绳长的平方根而增大。
+
+下一个例子中，我们试图确定太空中两个天体
+在相互引力吸引下彼此环绕的公转周期。
+有经验的研究者会预期，
+下面这些是相关的量。
+\begin{center}
+  \begin{tabular}{@{}c@{}}
+    \includegraphics{vs/mp/ch2.24}
+  \end{tabular}
+  \qquad\quad
+  \begin{tabular}{r|l} 
+    \multicolumn{1}{r}{\textit{量}}
+    &\multicolumn{1}{l}{\begin{tabular}[b]{@{}l@{}} 
+                          \textit{量纲} \\[-.3ex] 
+                          \textit{公式}
+                         \end{tabular}} \\ \hline
+    周期 $p$       &$L^0M^0T^1$         \\
+    平均间距 $r$  &$L^1M^0T^0$          \\
+    第一质量 $m_1$          &$L^0M^1T^0$          \\
+    第二质量 $m_2$         &$L^0M^1T^0$          \\
+    引力常数 $G$     &$L^3M^{-1}T^{-2}$   
+  \end{tabular}
+\end{center} 
+%(\cite{Bridgman} discusses why the investigator needs experience).
+为得到完备的无量纲乘积集合，我们考虑
+方程 
+\begin{equation*}
+  (L^0M^0T^1)^{p_1}(L^1M^0T^0)^{p_2}(L^0M^1T^0)^{p_3}(L^0M^1T^0)^{p_4}
+        (L^3M^{-1}T^{-2})^{p_5}=L^0M^0T^0
+\end{equation*}
+它给出一个方程组
+\begin{equation*}
+  \begin{linsys}{5}
+          &  &p_2  &   &     &   &      &+  &3p_5 &=  &0  \\
+          &  &     &   &p_3  &+  &p_4   &-  &p_5  &=  &0  \\
+      p_1 &  &     &   &     &   &      &-  &2p_5 &=  &0  
+  \end{linsys}
+\end{equation*}
+其解如下。
+\begin{equation*}
+  \set{\colvec[r]{1 \\ -3/2  \\ 1/2 \\ 0 \\ 1/2}p_1
+       +\colvec[r]{0 \\ 0    \\  -1 \\ 1 \\ 0}p_4
+    \suchthat p_1,p_4\in\Re}
+\end{equation*}
+
+与前面一样，
+这些量的无量纲乘积的集合构成一个向量空间，
+我们想为该空间求出一组基，
+即一个「完备的」无量纲乘积集合。
+由取 $p_1=1$ 与 $p_4=0$，
+再取 $p_1=0$ 与 $p_4=1$ 得到的一个这样的集合是
+$\set{\Pi_1=pr^{-3/2}m_1^{1/2}G^{1/2},\,\Pi_2=m_1^{-1}m_2}$。
+于是，Buckingham 定理说，
+这些量之间的任何完备关系都可以表述成这种形式。
+\begin{equation*}
+  p = r^{3/2}m_1^{-1/2}G^{-1/2}\cdot\hat{f}(m_1^{-1}m_2)  
+    = \frac{r^{3/2}}{\sqrt{Gm_1}}\cdot\hat{f}(m_2/m_1)
+\end{equation*}
+
+\textit{注。}
+前面公式的一个重要应用是
+当 $m_1$ 为太阳的质量、$m_2$ 为  
+一颗行星的质量时的情形。
+因为 $m_1$ 远大于 $m_2$，
+$\hat{f}$ 的自变量近似为 $0$，
+我们可以问：当 $m_2$ 变化时，
+公式的这一部分是否近似保持常数。
+说明它确实如此的一种方法如下。
+太阳比行星大得多，
+以致相互旋转近似地绕着太阳的中心进行。
+如果我们把行星的质量 $m_2$ 变为原来的 $x$ 倍 
+（例如，金星的质量
+是 $x=0.815$ 倍地球的质量），
+那么吸引力也乘以 $x$，
+而由于 $F=ma$，
+$x$ 倍的力作用在 $x$ 倍的质量上给出相同的加速度，
+仍绕着（近似）同一个中心。
+于是，
+轨道不变，从而周期也不变，
+因此上式的右边也（近似）保持不变。
+所以，
+当 $m_2$ 变化时，$\hat{f}(m_2/m_1)$ 近似为常数。
+这就是 Kepler 第三定律：~行星
+周期的平方与其绕日轨道平均半径的立方
+成正比。
+
+最后一个例子是量纲分析最早的明确应用之一。
+Lord Raleigh（瑞利勋爵）考虑了深水中波的速度，
+并提出下面这些是相关的量。
+\begin{center}
+  \begin{tabular}{r|l} 
+    \multicolumn{1}{r}{\textit{量}}
+    &\multicolumn{1}{l}{\begin{tabular}[b]{@{}l} 
+                          \textit{量纲} \\[-.3ex] 
+                          \textit{公式}
+                         \end{tabular}} \\ \hline
+    波速 $v$           &$L^1M^0T^{-1}$         \\
+    水的密度 $d$           &$L^{-3}M^1T^0$         \\
+    重力加速度 $g$    &$L^1M^0T^{-2}$         \\
+    波长 $\lambda$               &$L^1M^0T^0$           
+  \end{tabular}
+\end{center} 
+方程
+\begin{equation*}
+  (L^1M^0T^{-1})^{p_1}(L^{-3}M^1T^0)^{p_2}
+      (L^1M^0T^{-2})^{p_3}(L^1M^0T^0)^{p_4}=L^0M^0T^0
+\end{equation*}
+给出这个方程组
+\begin{equation*}
+  \begin{linsys}{4}
+    p_1  &-  &3p_2 &+  &p_3  &+  &p_4  &=  &0  \\
+         &   &p_2  &   &     &   &     &=  &0  \\
+    -p_1 &   &     &-  &2p_3 &   &     &=  &0  
+  \end{linsys}
+\end{equation*}
+其解空间如下。
+\begin{equation*}
+  \set{\colvec[r]{1 \\ 0 \\ -1/2  \\ -1/2}p_1
+       \suchthat p_1\in \Re}
+\end{equation*}
+只有一个无量纲乘积 $\Pi_1=vg^{-1/2}\lambda^{-1/2}$，
+所以 $v$ 等于 $\sqrt{\lambda g}$ 乘以一个常数；
+$\hat{f}$ 是常数，因为它是没有任何自变量的函数。
+量 $d$ 
+不出现在这一关系中。
+
+上面三个例子表明，量纲分析
+能帮助我们在表达各量之间的关系上走得相当远。
+欲进一步阅读，
+经典文献是 \cite{Bridgman}\Dash 这本小书读来令人愉悦。
+另一个来源是 \cite{Giordano83}。
+关于量纲分析在建模中地位的论述
+见 \cite{Giordano82}。
+
+\begin{exercises}
+  \item 
+    \cite{deMestre}
+    考虑一个抛射体，以初速度 $v_0$、角度
+    $\theta$ 发射。
+    为研究其运动，我们
+    可以猜测下面这些是相关的量。
+    \begin{center}
+      \begin{tabular}{r|l} 
+        \multicolumn{1}{r}{\textit{量}}
+        &\multicolumn{1}{l}{\begin{tabular}[b]{@{}l} 
+                               \textit{量纲} \\[-.3ex] 
+                               \textit{公式}
+                             \end{tabular}} \\ \hline
+        水平位置 $x$         &$L^1M^0T^0$         \\
+        竖直位置 $y$           &$L^1M^0T^0$         \\
+        初速度 $v_0$             &$L^1M^0T^{-1}$      \\
+        发射角 $\theta$        &$L^0M^0T^0$         \\         
+        重力加速度 $g$ &$L^1M^0T^{-2}$      \\
+        时间 $t$                        &$L^0M^0T^1$          
+      \end{tabular}
+    \end{center} 
+    \begin{exparts}
+      \partsitem 证明 $\set{gt/v_0,gx/v_0^2,gy/v_0^2,\theta}$ 
+        是一个完备的无量纲乘积集合。
+        （\textit{提示。}
+        一种做法是求出由此产生的线性方程组中合适的自由变量，
+        但还有一个利用基的性质的捷径。）
+      \partsitem 下面两个抛射体运动方程是熟悉的：
+        $x=v_0\cos(\theta) t$ 与 $y=v_0\sin(\theta) t- (g/2)t^2$。
+        对每一个进行变形，把它改写成
+        前一小题中诸无量纲乘积之间的关系。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 假设这个
+          \begin{equation*}
+            (L^1M^0T^0)^{p_1}(L^1M^0T^0)^{p_2}(L^1M^0T^{-1})^{p_3}
+             (L^0M^0T^0)^{p_4}(L^1M^0T^{-2})^{p_5}(L^0M^0T^1)^{p_6}
+          \end{equation*}
+          等于 $L^0M^0T^0$
+          便产生这个线性方程组
+          \begin{equation*}
+            \begin{linsys}{5}
+              p_1  &+  &p_2  &+  &p_3  &+  &p_5  &   &    &=  &0  \\
+              %      &   &     &   &     &   &     &   &0   &=  &0  \\
+                   &   &     &   &-p_3 &-  &2p_5 &+  &p_6 &=  &0  
+            \end{linsys}
+          \end{equation*}
+          （对 $p_4$ 没有限制）。
+          自然的参数化利用自由变量给出
+          $p_3=-2p_5+p_6$ 与 $p_1=-p_2+p_5-p_6$。
+          所得解集的描述
+          \begin{equation*}
+            \set{\colvec{p_1 \\ p_2 \\ p_3 \\ p_4 \\ p_5 \\ p_6}
+                =p_2\colvec[r]{-1 \\ 1 \\ 0 \\ 0  \\ 0 \\ 0} 
+                +p_4\colvec[r]{0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0} 
+                +p_5\colvec[r]{1 \\ 0 \\ -2 \\ 0 \\ 1 \\ 0} 
+                +p_6\colvec[r]{-1 \\ 0 \\ 1 \\ 0 \\ 0 \\ 1} 
+                \suchthat p_2, p_4, p_5, p_6\in\Re  }
+          \end{equation*}
+          给出 $\set{y/x,\theta,xt/{v_0}^2,v_0t/x}$ 
+          作为一个完备的无量纲乘积集合
+          （回忆一下，这里的「完备」并不意味着 
+          不存在其他无量纲乘积；
+          它只是说这个集合是一组基）。
+          然而，这并不是
+          题目所要求的那个无量纲乘积集合。
+
+          有两条路可走。
+          第一条是调整参数的选择，希望能
+          碰上正确的集合。
+          为此，我们可以把前一段倒过来做。
+          把给定的无量纲乘积 $gt/v_0$、
+          $gx/v_0^2$、$gy/v_0^2$ 与 $\theta$
+          化成向量，得到这个描述（注意参数将要放置
+          的位置上的 \textit{?}）。
+          \begin{equation*}
+            \set{\colvec{p_1 \\ p_2 \\ p_3 \\ p_4 \\ p_5 \\ p_6}
+                =\underline{\ \text{\textit{?}}\ }
+                      \colvec[r]{0  \\ 0 \\ -1 \\ 0  \\ 1 \\ 1} 
+                +\underline{\ \text{\textit{?}}\ }
+                   \colvec[r]{1 \\ 0 \\ -2 \\ 0 \\ 1 \\ 0} 
+                +\underline{\ \text{\textit{?}}\ }
+                   \colvec[r]{0 \\ 1 \\ -2 \\ 0 \\ 1 \\ 0} 
+                +p_4\colvec[r]{0  \\ 0 \\ 0 \\ 1 \\ 0 \\ 0} 
+                \suchthat p_2, p_4, p_5, p_6\in\Re  }
+          \end{equation*}
+          $p_4$ 已经就位。
+          检查各行可知，我们还能把 $p_6$、$p_1$
+          与 $p_2$ 也放到相应位置上。
+
+          按照提示的第二条路，
+          是注意到给定的集合在四维向量空间中
+          大小为四，
+          因此我们只需证明它线性无关。
+          通过观察向量第六、第一、第二
+          与第四个分量即可轻松完成。
+        \item 第一个方程可以改写为
+          \begin{equation*}
+            \frac{gx}{{v_0}^2}=\frac{gt}{v_0}\cos\theta
+          \end{equation*}
+          于是 Buckingham 函数为 
+          $f_1(\Pi_1,\Pi_2,\Pi_3,\Pi_4)=\Pi_2-\Pi_1\cos(\Pi_4)$。
+          第二个方程可以改写为
+          \begin{equation*}
+            \frac{gy}{{v_0}^2}=\frac{gt}{v_0}\sin\theta
+              -\frac{1}{2}\left(\frac{gt}{v_0}\right)^2
+          \end{equation*}
+          这里的 Buckingham 函数为 
+          $f_2(\Pi_1,\Pi_2,\Pi_3,\Pi_4)
+             =\Pi_3-\Pi_1\sin(\Pi_4)+(1/2){\Pi_1}^2$。
+      \end{exparts}
+    \end{answer}
+  \item \cite{Einstein1911}
+    猜测，固体的红外特征频率
+    可能由与决定固体普通弹性行为
+    相同的原子间作用力确定。
+    相关的量如下。
+    \begin{center}
+      \begin{tabular}{r|l} 
+        \multicolumn{1}{r}{\textit{量}}
+        &\multicolumn{1}{l}{\begin{tabular}[b]{@{}l} 
+                              \textit{量纲} \\[-.3ex] 
+                              \textit{公式}
+                             \end{tabular}} \\ \hline
+        特征频率 $\nu$       &$L^0M^0T^{-1}$         \\
+        压缩系数 $k$                  &$L^1M^{-1}T^2$          \\
+        每立方厘米的原子数 $N$     &$L^{-3}M^0T^0$          \\
+        单个原子的质量 $m$                  &$L^0M^1T^0$         
+      \end{tabular}
+    \end{center} 
+    证明只有一个无量纲乘积。
+    由此得出：在具有这些量纲公式的量之间的
+    任何完备关系中，$k$ 是常数乘以 
+    $\nu^{-2}N^{-1/3}m^{-1}$。
+    这一结论在量子现象的早期研究中
+    起了重要作用。
+    \begin{answer}
+      考虑
+      \begin{equation*}
+        (L^0M^0T^{-1})^{p_1}(L^1M^{-1}T^2)^{p_2}
+          (L^{-3}M^0T^0)^{p_3}(L^0M^1T^0)^{p_4}=(L^0M^0T^0)
+      \end{equation*}
+      它给出这些幂之间的关系。
+      \begin{equation*}
+        \begin{linsys}{4}
+               &    &p_2   &-  &3p_3  &   &    &=  &0  \\
+               &    &-p_2  &   &      &+  &p_4 &=  &0  \\
+         -p_1  &+   &2p_2  &   &      &   &    &=  &0  
+        \end{linsys}
+        \grstep{\rho_1\leftrightarrow\rho_3}
+        \repeatedgrstep{\rho_2+\rho_3}
+        \begin{linsys}{4}
+         -p_1  &+   &2p_2  &   &      &   &    &=  &0  \\
+               &    &-p_2  &   &      &+  &p_4 &=  &0  \\
+               &    &      &\  &-3p_3 &+  &p_4 &=  &0  
+        \end{linsys}
+      \end{equation*}
+      这就是解空间
+      （因为我们希望把 $k$ 表示成
+      其他量的函数，
+      所以取 $p_2$ 作为参数）。
+      \begin{equation*}
+        \set{\colvec[r]{2 \\ 1 \\ 1/3 \\ 1}p_2
+             \suchthat p_2\in\Re}
+      \end{equation*}
+      因此，$\Pi_1=\nu^2kN^{1/3}m$ 是这个无量纲组合，
+      并且 $k$ 等于 
+      $\nu^{-2}N^{-1/3}m^{-1}$ 乘以一个常数
+      （函数 $\hat{f}$ 是常数，因为它没有自变量）。 
+    \end{answer}
+  \item 
+    \cite{Giordano83}
+    发动机产生的转矩
+    具有量纲公式 $L^2M^1T^{-2}$。
+    我们首先可以猜测它依赖于 
+    发动机的转速（量纲公式为
+    $L^0M^0T^{-1}$）
+    与排开的空气体积（量纲公式为
+    $L^3M^0T^0$）。
+    \begin{exparts}
+      \partsitem 试着求一个完备的无量纲乘积集合。
+        出了什么问题？
+      \partsitem 通过加入空气的密度
+        （量纲公式 $L^{-3}M^1T^0$）
+        来修正猜想。
+        现在求一个完备的无量纲乘积集合。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 令
+          \begin{equation*}
+            (L^2M^1T^{-2})^{p_1}(L^0M^0T^{-1})^{p_2}(L^{3}M^0T^0)^{p_3}
+              =(L^0M^0T^0)
+          \end{equation*}
+          得到这个
+          \begin{equation*}
+            \begin{linsys}{3}
+              2p_1  &   &    &+  &3p_3  &=  &0  \\
+              p_1   &   &    &   &      &=  &0  \\
+              -2p_1 &-  &p_2 &   &      &=  &0  
+            \end{linsys}
+          \end{equation*}
+          它蕴含 $p_1=p_2=p_3=0$。
+          也就是说，在具有这些量纲公式的量中，唯一
+          的无量纲乘积是平凡的那个。
+        \partsitem 令
+          \begin{equation*}
+            (L^2M^1T^{-2})^{p_1}(L^0M^0T^{-1})^{p_2}(L^{3}M^0T^0)^{p_3}
+              (L^{-3}M^1T^0)^{p_4}=(L^0M^0T^0)
+          \end{equation*}
+          得到这个。
+          \begin{multline*}
+            \begin{linsys}{4}
+              2p_1  &   &    &+  &3p_3  &-  &3p_4 &=  &0  \\
+              p_1   &   &    &   &      &+  &p_4  &=  &0  \\
+              -2p_1 &-  &p_2 &   &      &   &     &=  &0  
+            \end{linsys}                                         \\
+            \grstep[\rho_1+\rho_3]{(-1/2)\rho_1+\rho_2}
+            \repeatedgrstep{\rho_2\leftrightarrow\rho_3}
+            \begin{linsys}{4}
+              2p_1  &   &      &+  &3p_3       &-   &3p_4      &=  &0  \\
+                    &   &-p_2  &+  &3p_3       &-   &3p_4      &=  &0  \\
+                    &  &      &   &(-3/2)p_3  &+   &(5/2)p_4  &=  &0  
+            \end{linsys}
+          \end{multline*}
+          取 $p_1$ 作为参数来表示转矩，
+          得到解集的这个描述。
+          \begin{equation*}
+            \set{\colvec[r]{1 \\ -2 \\ -5/3 \\ -1}p_1
+                 \suchthat p_1\in\Re}
+          \end{equation*}
+          记转矩为 $\tau$、转速为 $r$、空气体积
+          为 $V$、空气密度为 $d$，我们有
+          $\Pi_1=\tau r^{-2} V^{-5/3} d^{-1}$，于是
+          转矩是 $r^2V^{5/3}d$ 乘以一个常数。
+      \end{exparts}
+    \end{answer}
+  \item 
+    \cite{Tilley} 
+    多米诺骨牌倒下会形成波。
+    我们可以猜测波速 $v$ 依赖于
+    骨牌之间的间距 $d$、
+    每张骨牌的高度 $h$，
+    以及重力加速度 $g$。
+    \begin{exparts}
+      \partsitem 求出这四个量各自的量纲公式。
+      \partsitem 证明 $\set{\Pi_1=h/d,\Pi_2=dg/v^2}$ 
+        是一个完备的无量纲乘积集合。
+      \partsitem 证明如果 $h/d$ 固定，那么
+        传播速度与 $d$ 的平方根
+        成正比。
+    \end{exparts}
+    \begin{answer}
+          \begin{exparts}
+            \partsitem 这些是量纲公式。
+              \begin{center}
+                \begin{tabular}{r|l} 
+                  \multicolumn{1}{r}{\textit{量}}
+                    &\multicolumn{1}{l}{\begin{tabular}[b]{@{}l} 
+                                           \textit{量纲} \\[-.3ex] 
+                                           \textit{公式}
+                                       \end{tabular}} \\ \hline
+                        波速 $v$               &$L^1M^0T^{-1}$ \\
+                        骨牌间距 $d$      &$L^1M^0T^0$   \\
+                        骨牌高度 $h$          &$L^1M^0T^0$ \\
+                        重力加速度 $g$    &$L^1M^0T^{-2}$ 
+                \end{tabular}
+              \end{center}     
+            \partsitem 关系式
+              \begin{equation*}
+                (L^1M^0T^{-1})^{p_1}(L^1M^0T^0)^{p_2}(L^1M^0T^0)^{p_3}
+                  (L^1M^0T^{-2})^{p_4}=(L^0M^0T^0)
+              \end{equation*}
+              给出这个线性方程组。
+              \begin{equation*}
+                \begin{linsys}{4}
+                  p_1  &+  &p_2  &+  &p_3  &+  &p_4  &=  &0  \\
+                       &   &     &   &     &   &0    &=  &0  \\
+                 -p_1  &   &     &   &     &-  &2p_4 &=  &0  
+                \end{linsys}
+                \grstep{\rho_1+\rho_4}
+                \begin{linsys}{4}
+                  p_1  &+  &p_2  &+  &p_3  &+  &p_4  &=  &0  \\
+                       &   &p_2  &+  &p_3  &-  &p_4  &=  &0  
+                \end{linsys}
+              \end{equation*}
+              取 $p_3$ 与 $p_4$ 作为参数，我们可以这样描述
+              解集。
+              \begin{equation*}
+                \set{\colvec[r]{0 \\ -1 \\ 1 \\ 0}p_3
+                     +\colvec[r]{-2 \\ 1 \\ 0 \\ 1}p_4
+                     \suchthat p_3,p_4\in\Re}
+              \end{equation*}
+              这给出 $\set{\Pi_1=h/d,\Pi_2=dg/v^2}$ 作为一个完备集合。
+            \partsitem Buckingham 定理说 
+              $v^2=dg\cdot\hat{f}(h/d)$，于是由于 $g$ 是常数，
+              如果 $h/d$ 固定，那么 $v$ 与 $\sqrt{d\,}$ 成正比。
+          \end{exparts}
+        \end{answer}
+   \item \label{exer:DimLessProdsVecSp}
+      证明无量纲乘积在 $\vec{+}$ 运算（把两个这样的乘积相乘）
+      与 $\vec{\cdot}$ 运算（把这样的乘积提升到标量的幂）
+      下构成一个向量空间。
+      （向量箭头是为防止混淆而加的。）
+      也就是说，证明：对任何一个特定的齐次方程组，
+      $m_1$、\ldots、$m_k$ 的幂的这一乘积集合
+      \begin{equation*}
+        \set{m_1^{p_1}\dots m_k^{p_k}
+             \suchthat 
+              \text{$p_1$、\ldots、$p_k$ 满足该方程组}}
+      \end{equation*}
+      在下述运算下是一个向量空间：
+      \begin{equation*}
+        m_1^{p_1}\dots m_k^{p_k}
+        \vec{+}
+        m_1^{q_1}\dots m_k^{q_k}
+        =
+        m_1^{p_1+q_1}\dots m_k^{p_k+q_k}
+      \end{equation*}
+      与
+      \begin{equation*}
+        r\vec{\cdot} (m_1^{p_1}\dots m_k^{p_k})
+        =
+        m_1^{rp_1}\dots m_k^{rp_k}
+      \end{equation*}
+      （假设所有变量都表示实数）。
+      \begin{answer}
+        逐条检验向量空间定义中的条件是例行的。
+      \end{answer}
+%  \item Buckingham's Theorem says there exists a complete set such that
+%    the relationship can be stated in that way.
+%    Why do we not have to worry that the particular complete set
+%    we have produced might not be the right one?
+%    (\textit{Hint.} 
+%    Consider the prior exercise.)
+%    \begin{answer}
+%      Any `complete' set (any basis for the vector space under consideration)
+%      can be expressed in terms of any other one.
+%      So any function that is correct when given the members of a particular
+%      complete set as arguments can
+%      be rewritten to be correct for the  members of any other complete set.
+%    \end{answer}
+  \item \label{exer:AppsAndOranges}
+    关于苹果和橘子的忠告并不正确。
+    考虑圆的熟悉方程 $C=2\pi r$ 与 $A=\pi r^2$。
+    \begin{exparts}
+      \partsitem 检验 $C$ 与 $A$ 具有不同的量纲公式。
+      \partsitem 给出一个不是量纲齐次的方程（即 
+        它把苹果和橘子相加），
+        但它对任何圆都成立。
+      \partsitem 前一小题要求一个完备但
+        不量纲齐次的方程。
+        给出一个量纲齐次但不完备的方程。
+    \end{exparts}
+    （老话虽不严格正确，但这并不妨碍它成为一种有用的策略。
+    量纲齐次性常用来检验模型中方程的合理性。
+    关于任何完备方程都能容易地化成量纲齐次的论证，
+    见 \cite{Bridgman} 第~I 章，
+    特别是第~15 页。）
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 周长的量纲公式是 $L$，
+          即 $L^1M^0T^0$。
+          面积的量纲公式是 $L^2$。
+        \partsitem 一个是 $C+A=2\pi r + \pi r^2$。
+        \partsitem 一个例子是把角所对的弧长
+           与半径及以弧度计的角
+           联系起来的这个公式：~$\ell-r\theta=0$。
+           该公式中两项的量纲公式都是
+           $L^1$。
+           这一关系对某些单位制
+           （例如英寸与弧度）成立，
+           但并非对所有单位制都成立
+           （例如英寸与度）。  
+      \end{exparts}
+    \end{answer}
+\end{exercises}
+\endinput

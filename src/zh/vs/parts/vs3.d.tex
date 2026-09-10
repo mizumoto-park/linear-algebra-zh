@@ -1,0 +1,363 @@
+      下面给出陈述。
+      断言这三个向量不共面，就等同于断言没有向量落在另外两个向量的张成之中\Dash 没有向量是另两个向量的线性组合。
+      这恰恰就是断言这个三元集合是线性无关的。
+       由\nearbycorollary{cor:NVecsRNSpanIffLI}可知，这等价于断言该集合是 $\Re^3$ 的一个基（更精确地说，由该集合的元素构成的任何序列都是一个基）。
+    \end{answer}
+  \item 
+    % \begin{exparts}
+      % \partsitem Prove that any subspace of a finite dimensional space
+      %   has a basis. 
+        证明有限维空间的任何子空间都是有限维的。
+    % \end{exparts}
+    \begin{answer}
+      设空间 $V$ 是有限维的，且 $S$ 是 $V$ 的一个子空间。
+
+      若 $S$ 不是有限维的，那么它有一个无穷的线性无关集（从空集出发，不断添加不与该集合线性相关的向量；这一过程可以持续无穷多步，否则 $S$ 就会是有限维的）。
+      但 $S$ 的任何线性无关子集也是 $V$ 的线性无关子集，这与\nearbycorollary{cor:NoLiSetGreatDim}矛盾
+      % \begin{exparts}
+      %   \partsitem The empty set is a linearly independent subset of $S$.
+      %     By \nearbycorollary{cor:LIExpBas}, it can be expanded to a basis
+      %     for the vector space $S$. 
+      %   \partsitem Any basis for the subspace $S$ is a linearly independent 
+      %     set in the superspace $V$.
+      %     Hence it can be expanded to a basis for the superspace, which is
+      %     finite dimensional.
+      %     Therefore it has only finitely many members.  
+      % \end{exparts}
+    \end{answer}
+  \item  
+    在\nearbytheorem{th:AllBasesSameSize}中，\( B \) 的有限性在哪里被用到？
+    \begin{answer}
+      它保证我们能穷尽 \( \vec{\beta} \) 中的各个向量。也就是说，它为最后一段的第一句话提供了依据。
+    \end{answer}
+  \item
+    证明：若 \( U \) 与 \( W \) 都是 \( \Re^5 \) 的三维子空间，则 \( U\intersection W \) 是非平凡的。试加以推广。
+    \begin{answer}
+       设 \( B_U \) 是 \( U \) 的一个基，\( B_W \) 是 \( W \) 的一个基。
+       考虑将这两个基的序列首尾相连。
+       若有重复出现的元素，则交 \( U\intersection W \) 是非平凡的。
+       否则，
+       集合 \( B_U\union B_W \) 是线性相关的，因为它是五维空间 \( \Re^5 \) 的一个六元子集。
+       无论哪种情形，\( B_W \) 中总有某个成员落在 \( B_U \) 的张成之中，于是 \( U\intersection W \) 就不只是平凡空间 \( \set{\zero\,} \)。
+
+       推广：
+       若 \( U,W \) 是维数为 \( n \) 的向量空间的子空间，且 \( \dim(U)+\dim(W)>n \)，则它们的交是非平凡的。
+    \end{answer}
+  \item 
+    一个空间的基由该空间的元素组成。
+    于是我们自然会问：“是基”这一性质与运算 $\subseteq$、$\cap$、$\cup$ 是如何相互作用的。
+    （当然，基实际上是一个有序的序列，但这些运算有一种自然的推广。）
+    \begin{exparts}
+      \partsitem 先考虑基之间可能如何通过 $\subseteq$ 相联系。
+        设 \( U,W \) 是某个向量空间的子空间，且 \( U\subseteq W \)。
+        是否存在 \( U \) 的基 \( B_U \) 与 \( W \) 的基 \( B_W \)，使得 \( B_U\subseteq B_W \)？
+        这样的基是否必定存在？
+
+        对 \( U \) 的任意一个基 \( B_U \)，是否必有 \( W \) 的某个基 \( B_W \)，使得 \( B_U\subseteq B_W \)？
+
+        对 \( W \) 的任意一个基 \( B_W \)，是否必有 \( U \) 的某个基 \( B_U \)，使得 \( B_U\subseteq B_W \)？
+
+        对 \( U \) 与 \( W \) 的任意两个基 \( B_U, B_W \)，是否必有 \( B_U \) 是 \( B_W \) 的子集？
+      \partsitem 基的 $\cap$ 是基吗？
+        对哪个空间而言？
+      \partsitem 基的 $\cup$ 是基吗？
+        对哪个空间而言？
+      \partsitem 那么补运算呢？
+     \end{exparts}
+     （\textit{提示。}用 \( \Re^3 \) 的某些子空间来检验你提出的任何猜想。）
+     \begin{answer}
+       首先注意，一个集合是某个空间的基当且仅当它是线性无关的，因为此时它是自身张成空间的基。
+       \begin{exparts}
+         \partsitem 第二段中问题的答案是“是的”
+           （这意味着第一段中两个问题的答案也都是“是的”）。
+           若 \( B_U \) 是 \( U \) 的一个基，则 \( B_U \) 是 \( W \) 的一个线性无关子集。
+           用\nearbycorollary{cor:LIExpBas}把它扩充为 \( W \) 的一个基。
+           那就是所求的 \( B_W \)。
+
+           第三段中问题的答案是“不是”，这意味着第四段问题的答案是“不是”。
+           下面举例说明：超空间的一个基，可以没有任何子基构成子空间的基——在 \( W=\Re^2 \) 中，考虑标准基 \( \stdbasis_2 \)。
+           $\stdbasis_2$ 的任何子基都不能构成 $\Re^2$ 中直线 \( y=x \) 这个子空间 \( U \) 的基。
+         \partsitem 它是一个基（是其张成空间的基），因为线性无关集的交是线性无关的（交是其中每一个线性无关集的子集）。
+
+           然而，它并不是这些空间的交的基。
+           例如，下面是 \( \Re^2 \) 的基：
+            \begin{equation*}
+              B_1=\sequence{\colvec[r]{1 \\ 0},\colvec[r]{0 \\ 1}}
+              \quad\text{和}\quad
+              B_2=\sequence[r]{\colvec{2 \\ 0},\colvec[r]{0 \\ 2}}
+            \end{equation*}
+            而 \( \Re^2\intersection\Re^2=\Re^2 \)，但 \( B_1\intersection B_2 \) 为空。
+            我们只能说，基的 $\cap$ 是这些空间的交的某个子集的基。
+         \partsitem 基的 $\cup$ 未必是基：在 \( \Re^2 \) 中
+            \begin{equation*}
+              B_1=\sequence{\colvec[r]{1 \\ 0},\colvec[r]{1 \\ 1}}
+              \quad\text{和}\quad
+              B_2=\sequence{\colvec[r]{1 \\ 0},\colvec[r]{0 \\ 2}}
+            \end{equation*}
+            \( B_1\union B_2 \) 不是线性无关的。
+            两个基的 $\cup$ 为基的一个充要条件是
+            \begin{equation*}
+              B_1\union B_2 \text{ 线性无关 }
+              \quad\iff\quad
+              \spanof{B_1\intersection B_2}=\spanof{B_1}\intersection
+                                             \spanof{B_2}
+            \end{equation*}
+            证明它足够容易（但应用起来或许很难）。
+          \partsitem 一个基的补不可能是一个基，因为它包含零向量。
+        \end{exparts}  
+      \end{answer}
+   \recommended \item 
+     考虑“维数”与“子集”如何相互作用。
+     设 \( U \) 与 \( W \) 是某个向量空间的子空间，且 \( U\subseteq W \)。
+    \begin{exparts}
+      \partsitem 证明 \( \dim (U)\leq\dim (W) \)。
+      \partsitem 证明维数相等当且仅当 \( U=W \)。
+      \partsitem 证明当它们是无限维的时候，上一小题不成立。
+    \end{exparts}
+    \begin{answer}
+       \begin{exparts}
+          \partsitem \( U \) 的一个基是 \( W \) 中的线性无关集，因此可以用\nearbycorollary{cor:LIExpBas}把它扩充为 \( W \) 的一个基。
+            第二个基的成员至少与第一个基一样多。
+          \partsitem 一个方向是清楚的：若 \( V=W \)，则二者维数相同。
+            反之，设 \( B_U \) 是 \( U \) 的一个基。
+            它是 \( W \) 的一个线性无关子集，因此可以扩充为 \( W \) 的一个基。
+            若 \( \dim(U)=\dim(W) \)，则 \( W \) 的这个基的成员不会比 \( B_U \) 多，于是它就等于 \( B_U \)。
+            由于 \( U \) 与 \( W \) 有相同的基，所以它们相等。
+          \partsitem 设 \( W \) 是次数有限的多项式构成的空间，\( U \) 是只含偶数次幂项的多项式构成的子空间。
+             \begin{equation*}
+                U=\set{a_0+a_1x^2+a_2x^4+\dots+a_nx^{2n}\suchthat
+                           a_0,\ldots,a_n\in\Re} 
+             \end{equation*}
+            两个空间都是无限维的，但 \( U \) 是真子空间。
+        \end{exparts}  
+      \end{answer}
+    \item 下面给出本节主要结果
+      \nearbytheorem{th:AllBasesSameSize}的另一种证明。
+      先是一个例子，然后是一条引理，最后是定理。
+      \begin{exparts}
+        \partsitem 将这个来自 $\Re^3$ 的向量
+          表示为该基的成员的线性组合。
+         \begin{equation*}
+           B=\sequence{\colvec[r]{1 \\ 0  \\ 0},
+             \colvec[r]{1 \\ 1 \\ 0},
+             \colvec[r]{0 \\ 0 \\ 2}}
+           \qquad
+           \vec{v}=\colvec[r]{1 \\ 2 \\ 0}
+         \end{equation*}
+        \partsitem 在该组合中取一个系数非零的基向量。
+          通过用那个基向量替换~$\vec{v}$来改动~$B$，得到新的序列~$\hat{B}$。
+          检验$\hat{B}$也是~$\Re^3$的一个基。
+        \partsitem （交换引理）
+          设
+          \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 是一个向量空间的基，且对向量 \( \vec{v} \)
+          而言，关系式 \( \vec{v}=\lincombo{c}{\vec{\beta}} \)
+          中有 \( c_i\neq 0 \)。
+          证明用 \( \vec{v} \) 替换 \( \vec{\beta}_i \)
+          后得到该空间的另一个基。
+        \partsitem 利用它，结合归纳法，证明
+          \nearbytheorem{th:AllBasesSameSize}。
+      \end{exparts}
+      \begin{answer}
+      \begin{exparts}
+        \partsitem
+          $\colvec[r]{1 \\ 2 \\ 0}
+             =(-1)\cdot\colvec[r]{1 \\ 0  \\ 0}
+              +2\colvec[r]{1 \\ 1 \\ 0}
+              +0\cdot\colvec[r]{0 \\ 0 \\ 2}$
+         \partsitem 有两个基向量带有非零系数。
+            比如我们可以取第一个。
+            \begin{equation*}
+              \hat{B}=\sequence{\colvec[r]{1 \\ 2  \\ 0},
+                \colvec[r]{1 \\ 1 \\ 0},
+                \colvec[r]{0 \\ 0 \\ 2}}
+            \end{equation*}
+            验证它是 \( \Re^3 \) 的另一个基是常规的。
+         \partsitem  
+          称交换的结果为
+          \( \hat{B}=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_{i-1},\vec{v},
+            \vec{\beta}_{i+1},\dots,\vec{\beta}_n}  \)。
+          我们先证明 $\hat{B}$ 是线性无关的。
+          $\hat{B}$ 的成员之间的任一关系
+          \( d_1\vec{\beta}_1+\dots+d_i\vec{v}+\dots+d_n\vec{\beta}_n=\zero \)，
+          在代入 $\vec{v}$ 之后，
+          \begin{equation*}
+          d_1\vec{\beta}_1+\dots
+          +d_i\cdot(c_1\vec{\beta}_1+\dots+c_i\vec{\beta}_i+\dots+c_n\vec{\beta}_n)
+          +\dots+d_n\vec{\beta}_n
+          =\zero
+          \tag*{($*$)}\end{equation*}
+          就给出 $B$ 的成员之间的一个线性关系。
+          基 $B$ 是线性无关的，所以 $\vec{\beta}_i$ 的系数 $d_ic_i$ 为零。
+          由于我们假设了 $c_i$ 非零，故 $d_i=0$。
+          把它用于方程~$(*)$ 可知，其余的 $d$ 也全为零。
+          因此 $\hat{B}$ 是线性无关的。
+
+          最后我们证明 $\hat{B}$ 与 $B$ 有相同的张成。
+          这个论证的一半，即
+          $\spanof{\smash{\hat{B}}}\subseteq\spanof{B}$，
+          是容易的；我们可以把 $\spanof{\smash{\hat{B}}}$ 的任一成员
+          $d_1\vec{\beta}_1+\dots+d_i\vec{v}+\dots+d_n\vec{\beta}_n$
+          写成
+          $
+          d_1\vec{\beta}_1+\dots
+          +d_i\cdot(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)
+          +\dots+d_n\vec{\beta}_n
+          $，
+          它是 $B$ 的成员的线性组合的线性组合，从而属于 $\spanof{B}$。
+          对于论证的另一半 $\spanof{B}\subseteq\spanof{\smash{\hat{B}}}$，回忆一下：若
+          $\vec{v}=c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n$ 且 $c_i\neq 0$，
+          则可以把该等式改写为
+          $\vec{\beta}_i=(-c_1/c_i)\vec{\beta}_1+\dots+(1/c_i)\vec{v}+\dots
+          +(-c_n/c_i)\vec{\beta}_n$。
+          现在，考虑 $\spanof{B}$ 的任一成员
+          $d_1\vec{\beta}_1+\dots+d_i\vec{\beta}_i+\dots+d_n\vec{\beta}_n$，
+          把 $\vec{\beta}_i$ 替换为它关于 $\hat{B}$ 的成员的线性组合表达式，并像本论证的前一半那样看出，
+          结果是 $\hat{B}$ 的成员的线性组合的线性组合，
+          从而属于 $\spanof{\smash{\hat{B}}}$。
+         \partsitem 取定一个至少有一个有限基的向量空间。
+           从这个空间的所有基中，选出一个规模最小的
+           \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)。
+           我们将证明任何其他的基
+           \( D=\smash{\sequence{\vec{\delta}_1,\vec{\delta}_2,\ldots}} \)
+           也有相同的成员数 $n$。
+           因为 \( B \) 规模最小，\( D \) 有不少于 \( n \)~个向量。
+           我们将论证它不可能有多于 \( n \) 个向量。
+
+           基 \( B \) 张成该空间，而 \( \vec{\delta}_1 \)
+           在该空间中，
+           所以 \( \vec{\delta}_1 \) 是 \( B \) 的元素的一个非平凡线性组合。
+           由交换引理，可以把 \( B \) 中的一个向量换成
+           \( \vec{\delta}_1 \)，得到基 \( B_1 \)，
+           其中一个元素是
+           \( \vec{\delta}_1 \)，
+           而其余 \( n-1 \) 个元素都是 \( \vec{\beta} \)。
+
+           上一段构成归纳论证的基础步骤。
+           归纳步骤从一个基 \( B_k \)（其中 \( 1\leq k<n \)）开始，
+           它包含 \( D \) 的 \( k \) 个成员与 \( B \) 的 \( n-k \) 个成员。
+           我们知道 \( D \) 至少有 \( n \) 个成员，所以存在
+           \( \vec{\delta}_{k+1} \)。
+           把它表示为 \( B_k \) 的元素的线性组合。
+           关键点：在那个表示中，
+           至少有一个非零标量必须与某个 \( \vec{\beta}_i \) 相关联，
+           否则该表示就会是线性无关集 \( D \) 的元素之间的一个
+           非平凡线性关系。
+           用 \( \vec{\delta}_{k+1} \) 换掉 \( \vec{\beta}_i \)，
+           得到新的基
+           \( B_{k+1} \)，与前面的基 \( B_k \) 相比，它多一个 \( \vec{\delta} \)、少一个
+           \( \vec{\beta} \)。
+
+           重复这一步，直到没有 \( \vec{\beta} \) 剩下，
+           于是 \( B_n \) 包含  
+           $\vec{\delta}_1,\dots,\vec{\delta}_n$。
+           现在，\( D \) 不可能有多于这 \( n \) 个的向量，因为
+           剩下的任何 \( \vec{\delta}_{n+1} \) 都会落在
+           \( B_n \)（因为它是一个基）的张成中，
+           从而是其余 $\vec{\delta}$ 的线性组合，
+           这与 $D$ 线性无关矛盾。
+      \end{exparts}
+      \end{answer}
+  \puzzle \item 
+    \cite{Sheffer}
+    一个图书馆有 $n$ 本书和 $n+1$ 位订户。
+    每位订户都从该图书馆至少读过一本书。
+    证明必存在两个不相交的订户集合，他们读过的书完全相同
+    （也就是说，每个集合中的订户读过的书的并集是相同的）。
+    \begin{answer}
+      （这个解答来自网站上 Yuzhou Gu 的一条评论。）
+      给每个人指定一个向量 $\vec{v}_i\in\R^n$，
+      若此人读过该书，则相应分量为 $1$，否则为 $0$。
+      由于这些向量线性相关，我们将得到一个形如 $\sum a_i v_i = 0$ 的等式。
+      那么，使 $a_i>0$ 的那些 $i$ 构成的集合与使
+      $a_i<0$ 的那些 $i$ 构成的集合，就是两个不相交的集合，且读过的书的并集相同。
+    \end{answer}
+  \puzzle \item 
+    \cite{Wohascum47}
+    对 $\Re^n$ 中任意向量 $\vec{v}$ 以及数 $1$、$2$、\ldots、$n$ 的任意置换 $\sigma$
+    （也就是说，$\sigma$ 是把这些数重排成新次序的一个排列），
+    定义 $\sigma(\vec{v})$ 为分量为
+    $v_{\sigma(1)}$、$v_{\sigma(2)}$、\ldots{}、$v_{\sigma(n)}$ 的向量
+    （其中 $\sigma(1)$ 是重排后的第一个数，等等）。
+    现在取定 $\vec{v}$，令 $V$ 为
+    $\set{\sigma(\vec{v})\suchthat \mbox{$\sigma$ 置换 $1$, \ldots, $n$}}$ 的张成。
+    $V$ 的维数有哪些可能？
+    \begin{answer}
+      $V$ 的维数的可能是 $0$、$1$、$n-1$
+      和 $n$。
+
+      为看到这一点，先考虑 $\vec{v}$ 的所有坐标都相等的情形。
+      \begin{equation*}
+         \vec{v}=\colvec{z \\ z \\ \vdots \\ z}
+      \end{equation*}
+      那么对每个置换 $\sigma$ 都有 $\sigma(\vec{v})=\vec{v}$，
+      所以 $V$ 就是 $\vec{v}$ 的张成，
+      依 $\vec{v}$ 是否为 $\zero$ 而定，其维数为 $0$ 或 $1$。
+
+      现在假设 $\vec{v}$ 的坐标不全相等；设 $x$
+      与 $y$（$x\neq y$）是 $\vec{v}$ 的坐标中的两个。
+      那么我们可以找到置换 $\sigma_1$ 与 $\sigma_2$，使得
+      \begin{equation*}
+        \sigma_1(\vec{v})=\colvec{x \\ y \\ a_3 \\ \vdots \\ a_n}
+        \quad\text{和}\quad
+        \sigma_2(\vec{v})=\colvec{y \\ x \\ a_3 \\ \vdots \\ a_n}
+      \end{equation*}
+      其中 $a_3,\ldots,a_n\in\Re$。
+      因此，
+      \begin{equation*}
+        \frac{1}{y-x}\bigl(\sigma_1(\vec{v})-\sigma_2(\vec{v})\bigr)=
+        \colvec[r]{-1 \\ 1 \\ 0 \\ \vdotswithin{-1} \\ 0}
+      \end{equation*}
+      属于 $V$。
+      也就是说，$\vec{e}_2-\vec{e}_1\in V$，其中 $\vec{e}_1$、$\vec{e}_2$、
+      \ldots、$\vec{e}_n$ 是 $\Re^n$ 的标准基。
+      类似地，$\vec{e}_3-\vec{e}_2$、\ldots、$\vec{e}_n-\vec{e}_1$
+      都在 $V$ 中。
+      容易看出，向量
+      $\vec{e}_2-\vec{e}_1$、$\vec{e}_3-\vec{e}_2$、\ldots、
+      $\vec{e}_n-\vec{e}_1$ 是线性无关的（也就是说，构成一个线性无关集），
+      所以 $\dim V\geq n-1$。
+
+      最后，我们可以写出
+      \begin{align*}
+        \vec{v} &=x_1\vec{e}_1+x_2\vec{e}_2+\dots+x_n\vec{e}_n  \\
+                &=(x_1+x_2+\dots+x_n)\vec{e}_1+x_2(\vec{e}_2-\vec{e}_1)+\dots
+                   +x_n(\vec{e}_n-\vec{e}_1)
+      \end{align*}
+      这表明，若 $x_1+x_2+\dots+x_n=0$，则 $\vec{v}$ 落在
+      $\vec{e}_2-\vec{e}_1$、\ldots、$\vec{e_n}-\vec{e}_1$ 的张成中
+      （也就是说，落在这些向量构成的集合的张成中）；
+      类似地，每个 $\sigma(\vec{v})$
+      也在这个张成中，所以 $V$ 就等于这个张成，且 $\dim V=n-1$。
+      另一方面，若 $x_1+x_2+\cdots+x_n\neq 0$，则上面的等式
+      表明 $\vec{e}_1\in V$，从而 $\vec{e}_1,\dots,\vec{e}_n\in V$，
+      所以 $V=\Re^n$ 且 $\dim V=n$。
+    \end{answer}
+\end{exercises}
+\index{basis|)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

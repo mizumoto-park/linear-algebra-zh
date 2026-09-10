@@ -1,0 +1,862 @@
+\begin{exercises}
+  \item[]\textit{这里总结我们对
+    $2$-\hbox{}与 $3$-置换所用的记号。
+    \begin{center}
+      \begin{tabular}[t]{c|cc}
+        $i$          &$1$      &$2$    \\
+        \hline
+        $\phi_1(i)$  &$1$      &$2$     \\
+        $\phi_2(i)$  &$2$      &$1$
+      \end{tabular}
+      \qquad
+      \begin{tabular}[t]{c|ccc}
+        $i$          &$1$     &$2$   &$3$    \\
+        \hline
+        $\phi_1(i)$  &$1$     &$2$   &$3$    \\
+        $\phi_2(i)$  &$1$     &$3$   &$2$    \\
+        $\phi_3(i)$  &$2$     &$1$   &$3$    \\
+        $\phi_4(i)$  &$2$     &$3$   &$1$    \\
+        $\phi_5(i)$  &$3$     &$1$   &$2$    \\
+        $\phi_6(i)$  &$3$     &$2$   &$1$
+      \end{tabular}
+    \end{center}  }
+  \recommended \item 对该矩阵，求与每个 $3$-置换相联系的项。
+    \begin{equation*}
+      M=\begin{mat}
+        1 &2 &3 \\
+        4 &5 &6 \\
+        7 &8 &9
+      \end{mat}
+    \end{equation*}
+    也就是说，填写下表中的其余部分。
+      \begin{center} \small
+        \begin{tabular}{r|cccccc}
+          置换 $\phi_i$
+            &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_4$ &$\phi_5$ &$\phi_6$  \\
+          \hline
+          项 $m_{1,\phi_i(1)}m_{2,\phi_i(2)}m_{3,\phi_i(3)}$
+           &$1\cdot 5\cdot 9$
+           &
+           &
+           &
+           &
+           &
+        \end{tabular}
+      \end{center}
+    \begin{answer}
+      记该矩阵为~$M$。
+      \begin{center}
+        \begin{tabular}{r|cccccc}
+          置换
+            &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_4$ &$\phi_5$ &$\phi_6$  \\
+          \hline
+          项
+           &$1\cdot 5\cdot 9$
+           &$1\cdot 6\cdot 8$
+           &$2\cdot 4\cdot 9$
+           &$2\cdot 6\cdot 7$
+           &$3\cdot 4\cdot 8$
+           &$3\cdot 5\cdot 7$
+        \end{tabular}
+      \end{center}
+    \end{answer}
+  \recommended \item 对每个 $3$-置换~$\phi$，求 $|P_\phi|$。
+    \begin{answer}
+      我们可以把每个 $P_{\phi}$ 经过行对换变为单位矩阵。
+      如果对换的次数是偶数，那么它的行列式为~$+1$；
+      而如果对换的次数是奇数，那么行列式为~$-1$。
+      \begin{center}
+        \begin{tabular}{r|cccccc}
+          置换
+            &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_4$ &$\phi_5$ &$\phi_6$  \\
+          \hline
+          对换次数 &$0$
+                  &$1$
+                  &$1$
+                  &$2$
+                  &$2$
+                  &$1$  \\
+          $|P_{\phi_i}|$
+           &$+1$
+           &$-1$
+           &$-1$
+           &$+1$
+           &$+1$
+           &$-1$
+        \end{tabular}
+      \end{center}
+      \textit{注。}
+      在上表中，
+      我们只是不断地对换，直到找到一个把我们带回到`$1,2,3$'的数为止。
+      但不同的对换次数是否可能？
+      如果一个人找到 $2$ 次对换而另一个人找到
+      $4$ 次，这没有问题，因为两者给出的行列式都是~$+1$。
+      但如果我们能用两种不同的方式对换，其中一种次数为偶数而另一种为奇数，
+      那就有问题了。
+      下一节将表明偶数与奇数混合的情形不可能出现。
+    \end{answer}
+  \item 由 $\nbyn{2}$ 公式知该行列式为~$7$。
+    请用置换展开计算它。
+    \begin{equation*}
+      \begin{vmatrix}
+        2 &3 \\
+        1 &5
+      \end{vmatrix}
+    \end{equation*}
+    \begin{answer}
+      \begin{align*}
+        \begin{vmat}
+          2  &3 \\
+          1  &5
+        \end{vmat}
+        &=
+        2\cdot 5\cdot\deter{P_{\phi_1}}
+        +
+        1\cdot 3\cdot\deter{P_{\phi_2}}      \\
+        &=
+        2\cdot 5\cdot\begin{vmat}[r]
+                           1  &0 \\
+                           0  &1
+                         \end{vmat}
+        +
+        1\cdot 3\cdot\begin{vmat}[r]
+                           0  &1 \\
+                           1  &0
+                         \end{vmat}               \\
+        &=2\cdot 5\cdot 1+1\cdot 3\cdot (-1)=7
+        \end{align*}
+    \end{answer}
+  \item 该行列式为 $0$，因为前两行之和等于第三行。
+    请用置换展开计算该行列式。
+    \begin{equation*}
+      \begin{vmatrix}
+        -1 &0 &1 \\
+        3  &1 &4 \\
+        2  &1 &5
+      \end{vmatrix}
+    \end{equation*}
+    \begin{answer}
+          \begin{align*}
+            \begin{vmat}[r]
+              -1  &0  &1  \\
+               3  &1  &4  \\
+               2  &1  &5
+            \end{vmat}
+            &=
+            \begin{aligned}[t]
+              &(-1)(1)(5)\deter{P_{\phi_1}}
+              +(-1)(4)(1)\deter{P_{\phi_2}}
+              +(0)(3)(5)\deter{P_{\phi_3}}  \\
+              &\hbox{}\quad\hbox{}
+              +(0)(4)(2)\deter{P_{\phi_4}}
+              +(1)(3)(1)\deter{P_{\phi_5}}
+              +(1)(1)(2)\deter{P_{\phi_6}}
+            \end{aligned}                        \\
+            &=
+            \begin{aligned}[t]
+              &(-1)(1)(5)\cdot 1
+              +(-1)(4)(1)\cdot (-1)
+              +(0)(3)(5)\cdot (-1)  \\
+              &\hbox{}\quad\hbox{}
+              +(0)(4)(2)\cdot 1
+              +(1)(3)(1)\cdot 1
+              +(1)(1)(2)\cdot (-1)
+            \end{aligned}                        \\
+            &=-5+4+0+0+3-2=0
+          \end{align*}
+    \end{answer}
+  \recommended \item
+    用置换展开计算行列式。
+    \begin{exparts*}
+      \partsitem
+        $\begin{vmat}[r]
+          1  &2  &3  \\
+          4  &5  &6  \\
+          7  &8  &9
+        \end{vmat}$
+      \partsitem
+        $\begin{vmat}[r]
+          2  &2  &1  \\
+          3  &-1 &0  \\
+          -2 &0  &5
+        \end{vmat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 该矩阵是奇异的。
+          \begin{align*}
+            \begin{vmat}[r]
+              1  &2  &3  \\
+              4  &5  &6  \\
+              7  &8  &9
+            \end{vmat}
+            &=
+            \begin{aligned}[t]
+              &(1)(5)(9)\deter{P_{\phi_1}}
+              +(1)(6)(8)\deter{P_{\phi_2}}
+              +(2)(4)(9)\deter{P_{\phi_3}}  \\
+              &\hbox{}\quad\hbox{}
+              +(2)(6)(7)\deter{P_{\phi_4}}
+              +(3)(4)(8)\deter{P_{\phi_5}}
+              +(7)(5)(3)\deter{P_{\phi_6}}
+            \end{aligned}                        \\
+            &=0
+          \end{align*}
+        \partsitem 该矩阵是非奇异的。
+          \begin{align*}
+            \begin{vmat}[r]
+              2  &2  &1  \\
+              3  &-1 &0  \\
+              -2 &0  &5
+            \end{vmat}
+            &=
+            \begin{aligned}[t]
+              &(2)(-1)(5)\deter{P_{\phi_1}}
+              +(2)(0)(0)\deter{P_{\phi_2}}
+              +(2)(3)(5)\deter{P_{\phi_3}} \\
+              &\hbox{}\quad\hbox{}
+              +(2)(0)(-2)\deter{P_{\phi_4}}
+              +(1)(3)(0)\deter{P_{\phi_5}}
+              +(-2)(-1)(1)\deter{P_{\phi_6}}
+            \end{aligned}                      \\
+            &=-42
+        \end{align*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    分别用高斯消元法与置换展开公式计算下面各行列式。
+    \begin{exparts*}
+      \partsitem \( \begin{vmat}[r]
+                 2  &1  \\
+                 3  &1
+               \end{vmat}   \)
+      \partsitem \( \begin{vmat}[r]
+                  0  &1  &4  \\
+                  0  &2  &3  \\
+                  1  &5  &1
+               \end{vmat}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 高斯消元法给出
+          \begin{equation*}
+             \begin{vmat}[r]
+                 2  &1  \\
+                 3  &1
+             \end{vmat}
+             =
+             \begin{vmat}[r]
+                 2  &1  \\
+                 0  &-1/2
+             \end{vmat}
+             =-1
+          \end{equation*}
+          而置换展开给出
+          \begin{equation*}
+             \begin{vmat}[r]
+                 2  &1  \\
+                 3  &1
+             \end{vmat}
+             =
+             \begin{vmat}[r]
+                 2  &0  \\
+                 0  &1
+             \end{vmat} +
+             \begin{vmat}[r]
+                 0  &1  \\
+                 3  &0
+             \end{vmat}
+             =
+             (2)(1)\begin{vmat}[r]
+                 1  &0  \\
+                 0  &1
+             \end{vmat} +
+             (1)(3)\begin{vmat}[r]
+                 0  &1  \\
+                 1  &0
+             \end{vmat}
+             =
+             -1
+          \end{equation*}
+        \partsitem 高斯消元法给出
+          \begin{equation*}
+            \begin{vmat}[r]
+              0  &1  &4  \\
+              0  &2  &3  \\
+              1  &5  &1
+            \end{vmat}
+            =
+            -\begin{vmat}[r]
+              1  &5  &1  \\
+              0  &2  &3  \\
+              0  &1  &4
+            \end{vmat}
+            =
+            -\begin{vmat}[r]
+              1  &5  &1  \\
+              0  &2  &3  \\
+              0  &0  &5/2
+            \end{vmat}
+            =-5
+          \end{equation*}
+          而置换展开给出
+          \begin{align*}
+            \begin{vmat}[r]
+              0  &1  &4  \\
+              0  &2  &3  \\
+              1  &5  &1
+            \end{vmat}
+            &=
+            \begin{aligned}[t]
+            &(0)(2)(1)\deter{P_{\phi_1}}
+            +(0)(3)(5)\deter{P_{\phi_2}}
+            +(1)(0)(1)\deter{P_{\phi_3}}  \\
+            &\hbox{}\quad\hbox{}
+            +(1)(3)(1)\deter{P_{\phi_4}}
+            +(4)(0)(5)\deter{P_{\phi_5}}
+            +(4)(2)(1)\deter{P_{\phi_6}}
+            \end{aligned}                         \\
+            &=-5
+          \end{align*}
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    用置换展开公式推导 \( \nbyn{3} \) 行列式的公式。
+    \begin{answer}
+        仿照 \nearbyexample{ex:SamplePermExp} 可得
+          \begin{align*}
+             \begin{vmat}
+                t_{1,1}  &t_{1,2}  &t_{1,3}  \\
+                t_{2,1}  &t_{2,2}  &t_{2,3}  \\
+                t_{3,1}  &t_{3,2}  &t_{3,3}
+             \end{vmat}
+             &=\begin{aligned}[t]
+                 &t_{1,1}t_{2,2}t_{3,3}\deter{P_{\phi_1}}
+                   +t_{1,1}t_{2,3}t_{3,2}\deter{P_{\phi_2}} \\
+                 &\hbox{}\quad\hbox{}
+                  +t_{1,2}t_{2,1}t_{3,3}\deter{P_{\phi_3}}
+                             +t_{1,2}t_{2,3}t_{3,1}\deter{P_{\phi_4}} \\
+                 &\hbox{}\quad\hbox{}
+                  +t_{1,3}t_{2,1}t_{3,2}\deter{P_{\phi_5}}
+                             +t_{1,3}t_{2,2}t_{3,1}\deter{P_{\phi_6}}
+               \end{aligned}                                               \\
+             &=\begin{aligned}[t]
+                 & t_{1,1}t_{2,2}t_{3,3}(+1)
+                   +t_{1,1}t_{2,3}t_{3,2}(-1)  \\
+                 &\hbox{}\quad\hbox{}
+                   +t_{1,2}t_{2,1}t_{3,3}(-1)
+                    +t_{1,2}t_{2,3}t_{3,1}(+1) \\
+                 &\hbox{}\quad\hbox{}
+                   +t_{1,3}t_{2,1}t_{3,2}(+1)
+                         +t_{1,3}t_{2,2}t_{3,1}(-1)
+               \end{aligned}
+          \end{align*}
+     \end{answer}
+  \item
+    列出全部 $4$-置换。
+    \begin{answer}
+      下面是所有满足 $\phi(1)=1$ 的置换
+      \begin{align*}
+        &\phi_1=\sequence{1,2,3,4}
+        \quad
+        \phi_2=\sequence{1,2,4,3}
+        \quad
+        \phi_3=\sequence{1,3,2,4}  \\
+        &\quad
+        \phi_4=\sequence{1,3,4,2}
+        \quad
+        \phi_5=\sequence{1,4,2,3}
+        \quad
+        \phi_6=\sequence{1,4,3,2}
+      \end{align*}
+      下面是满足 $\phi(1)=1$ 的那些
+      \begin{align*}
+        &\phi_7=\sequence{2,1,3,4}
+        \quad
+        \phi_8=\sequence{2,1,4,3}
+        \quad
+        \phi_9=\sequence{2,3,1,4}    \\
+        &\quad
+        \phi_{10}=\sequence{2,3,4,1}
+        \quad
+        \phi_{11}=\sequence{2,4,1,3}
+        \quad
+        \phi_{12}=\sequence{2,4,3,1}
+      \end{align*}
+      下面是满足 $\phi(1)=3$ 的那些
+      \begin{align*}
+        &\phi_{13}=\sequence{3,1,2,4}
+        \quad
+        \phi_{14}=\sequence{3,1,4,2}
+        \quad
+        \phi_{15}=\sequence{3,2,1,4}  \\
+        &\quad
+        \phi_{16}=\sequence{3,2,4,1}
+        \quad
+        \phi_{17}=\sequence{3,4,1,2}
+        \quad
+        \phi_{18}=\sequence{3,4,2,1}
+      \end{align*}
+      以及满足 $\phi(1)=4$ 的那些。
+      \begin{align*}
+        &\phi_{19}=\sequence{4,1,2,3}
+        \quad
+        \phi_{20}=\sequence{4,1,3,2}
+        \quad
+        \phi_{21}=\sequence{4,2,1,3}  \\
+        &\quad
+        \phi_{22}=\sequence{4,2,3,1}
+        \quad
+        \phi_{23}=\sequence{4,3,1,2}
+        \quad
+        \phi_{24}=\sequence{4,3,2,1}
+      \end{align*}
+    \end{answer}
+  \item
+    置换可以看作从集合
+    $\set{1,..,n}$ 到其自身的一一对应（既是单射又是满射）的函数。
+    因此，每个置换都有逆。
+    \begin{exparts}
+      \partsitem 求每个 $2$-置换的逆。
+      \partsitem 求每个 $3$-置换的逆。
+    \end{exparts}
+    \begin{answer}
+      下列每一个都容易验证。
+      \begin{exparts}
+        \partsitem
+          \begin{tabular}[t]{r|cc}
+            置换 &$\phi_1$  &$\phi_2$ \\
+             \hline
+            逆     &$\phi_1$  &$\phi_2$
+          \end{tabular}
+        \partsitem
+          \begin{tabular}[t]{r|cccccc}
+            置换
+              &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_4$ &$\phi_5$ &$\phi_6$ \\
+            \hline
+            逆
+              &$\phi_1$ &$\phi_2$ &$\phi_3$ &$\phi_5$ &$\phi_4$ &$\phi_6$
+          \end{tabular}
+      \end{exparts}
+    \end{answer}
+  \item
+     证明：\( f \) 是多重线性的当且仅当对所有
+     \( \vec{v},\vec{w}\in V \) 与 \( k_1,k_2\in\Re \)，下式成立。
+      \begin{equation*}
+         f(\vec{\rho}_1,\dots,k_1\vec{v}_1+k_2\vec{v}_2,
+           \dots,\vec{\rho}_n)
+         =
+         k_1f(\vec{\rho}_1,\dots,\vec{v}_1,\dots,\vec{\rho}_n)+
+         k_2f(\vec{\rho}_1,\dots,\vec{v}_2,\dots,\vec{\rho}_n)
+       \end{equation*}
+       \begin{answer}
+         对于「如果」部分，取 $k_1=k_2=1$ 即得
+         \nearbydefinition{def:multilinear} 的第一个条件，
+         取 $k_2=0$ 即得第二个条件。
+
+         「仅当」部分也是常规推导。
+         由
+         $
+           f(\vec{\rho}_1,\dots,k_1\vec{v}_1+k_2\vec{v}_2,
+             \dots,\vec{\rho}_n)
+         $
+         出发，\nearbydefinition{def:multilinear} 的第一个条件给出
+         $
+           =
+           f(\vec{\rho}_1,\dots,k_1\vec{v}_1,\dots,\vec{\rho}_n)+
+           f(\vec{\rho}_1,\dots,k_2\vec{v}_2,\dots,\vec{\rho}_n)
+         $
+         再对第二个条件应用两次，即得结论。
+       \end{answer}
+  \item
+    如果把定义中的性质~(4) 改成 \( \deter{I}=2 \)，行列式会如何变化？
+    \begin{answer}
+       它们都会变成原来的两倍。
+    \end{answer}
+  \item
+    验证 \nearbycorollary{cor:ColSwapChgSign} 中的第二、第三个论断。
+    \begin{answer}
+      对于第二个论断，
+      给定一个矩阵，先转置，再对换行，然后转置回来。
+      所得结果是对换了列，而行列式改变了因子
+      \( -1 \)。
+      第三个论断类似：~给定
+      一个矩阵，先转置，对如今已是行的东西应用多重线性，
+      然后把所得的各个矩阵转置回来。
+    \end{answer}
+  \recommended \item
+    证明：若 \( \nbyn{n} \) 矩阵的行列式非零，
+    则我们能将任一列向量
+    \( \vec{v}\in\Re^n \) 表示为该矩阵各列的线性组合。
+    \begin{answer}
+      行列式非零的 \( \nbyn{n} \) 矩阵的秩为
+      \( n \)，所以它的各列构成 \( \Re^n \) 的一组基。
+    \end{answer}
+  \item
+    \cite{Strang}
+    判断真假：元素只取 $0$ 或 $1$ 的矩阵，其行列式必等于零、一或负一。
+    \begin{answer}
+      假。
+      \begin{equation*}
+        \begin{vmat}[r]
+          0 &1  &1  \\
+          1 &0  &1 \\
+          1  &1 &0
+        \end{vmat}
+        =2
+      \end{equation*}
+     \end{answer}
+  \item
+    \begin{exparts}
+      \partsitem 证明 \( \nbyn{5} \) 矩阵的置换
+         展开公式中有 $120$ 项。
+      \partsitem
+         若 \( 1,2 \) 元为零，确定必为零的项有多少个？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 第一行元素的列下标有
+          五种选择。
+          于是第二行元素的列下标有
+          四种选择。
+          依此类推，我们得到 $5\cdot 4\cdot 3\cdot 2\cdot 1=120$。
+          （另见下一题。）
+        \partsitem 一旦选定了第一行的第二列，
+          其余元素可以有 \( 4\cdot 3\cdot 2\cdot 1=24 \)
+          种选法。
+      \end{exparts}
+    \end{answer}
+  \item
+    共有多少个 \( n \)-置换？
+    \begin{answer}
+       \( n\cdot(n-1)\cdots 2\cdot 1=n! \)
+    \end{answer}
+  \item 证明置换矩阵的逆是它的转置。
+    \begin{answer}
+      \cite{SchmidtSO}
+      我们将证明 $P\trans{P}=I$；$\trans{P}P=I$ 的论证类似。
+      $P\trans{P}$ 的 $i,j$ 元是形如
+      $p_{i,k}q_{k,j}$ 的项之和，其中 $\trans{P}$ 的元素用 $q$ 记，
+      即 $q_{k,j}=p_{j,k}$。
+      于是 $P\trans{P}$ 的 $i,j$ 元是和
+      \(
+        \sum_{k=1}^n p_{i,k}p_{j,k}
+      \)。
+      但 $p_{i,k}$ 通常为 $0$，所以 $P_{i,k}P_{j,k}$ 通常为 $0$。
+      $P_{i,k}$ 非零仅当它为 $1$，
+      而此时再无其他 $i^\prime\neq i$ 使 $P_{i^\prime,k}$
+      非零（$i$ 是第~$k$ 列中含 $1$ 的唯一一行）。
+      换句话说，
+      \begin{equation*}
+        \sum_{k=1}^n p_{i,k}p_{j,k}=
+        \begin{cases}
+          1  &i=j  \\
+          0  &\text{其他}
+        \end{cases}
+      \end{equation*}
+      而这正是单位矩阵各元素的公式。
+    \end{answer}
+  \item
+    矩阵 \( A \) 称为
+    \definend{反对称的}\index{matrix!skew-symmetric}%
+    \index{skew-symmetric}，若 \( \trans{A}=-A \)，
+    如下矩阵。
+    \begin{equation*}
+      A=\begin{mat}[r]
+          0  &3  \\
+         -3  &0
+        \end{mat}
+    \end{equation*}
+    证明：行列式非零的 \( \nbyn{n} \) 反对称矩阵
+    仅在 \( n \) 为偶数时存在。
+    \begin{answer}
+      在
+      \( \deter{A}=\deter{\trans{A}}=\deter{-A}=(-1)^n\deter{A} \)
+      中指数 $n$ 必须为偶数。
+    \end{answer}
+  \recommended \item
+    为保证 \( \nbyn{4} \) 矩阵的行列式为零，所需零元素的最少个数是多少？
+    这些零元素应如何放置？
+    \begin{answer}
+      证明三个零的任何放置都不够是常规性的。
+      四个零确实够了；把它们全放在同一
+      行或同一列。
+    \end{answer}
+  \item
+    设有 \( n \) 个数据点
+    \( (x_1,y_1),(x_2,y_2),\dots\,,(x_n,y_n) \)，要找一条经过这些点的
+    多项式 \( p(x)=a_{n-1}x^{n-1}+a_{n-2}x^{n-2}+\dots+a_1x+a_0 \)，
+    那么我们可以代入这些点，得到一个 \( n \)~个方程/\( n \)~个未知数的
+    线性方程组。
+    该方程组的系数矩阵是
+    \definend{Vandermonde 矩阵}。\index{matrix!Vandermonde}%
+    \index{Vandermonde matrix}
+    证明该系数矩阵的转置的行列式
+    \begin{equation*}
+      \begin{vmat}
+         1       &1       &\ldots   &1       \\
+         x_1     &x_2     &\ldots   &x_n     \\
+         {x_1}^2 &{x_2}^2 &\ldots   &{x_n}^2 \\
+                 &\vdots                     \\
+         {x_1}^{n-1} &{x_2}^{n-1}   &\ldots   &{x_n}^{n-1}
+      \end{vmat}
+    \end{equation*}
+    等于对所有满足 \( i<j \) 的下标 \( i,j\in\set{1,\dots,n} \)，
+    形如 \( x_j-x_i \) 的项的乘积。
+    （这表明，
+    该行列式为零、线性方程组无解，
+    当且仅当数据中的 \( x_i \) 不两两不同。）
+    \begin{answer}
+      $n=3$ 的情形表明了该怎么做。
+      行倍加变换
+      $-x_1\rho_2+\rho_3$ 与 $-x_1\rho_1+\rho_2$
+      给出
+      \begin{multline*}
+        \begin{vmat}
+          1     &1     &1     \\
+          x_1   &x_2   &x_3   \\
+          x_1^2 &x_2^2 &x_3^2
+        \end{vmat}
+        =
+        \begin{vmat}
+          1     &1             &1             \\
+          x_1   &x_2           &x_3           \\
+          0     &(-x_1+x_2)x_2 &(-x_1+x_3)x_3
+        \end{vmat}                                           \\
+        =
+        \begin{vmat}
+          1     &1             &1             \\
+          0     &-x_1+x_2      &-x_1+x_3      \\
+          0     &(-x_1+x_2)x_2 &(-x_1+x_3)x_3
+        \end{vmat}
+      \end{multline*}
+      再作行倍加变换 $x_2\rho_2+\rho_3$ 便得
+      所要的结果。
+      \begin{equation*}
+        =
+        \begin{vmat}
+          1     &1             &1                     \\
+          0     &-x_1+x_2      &-x_1+x_3              \\
+          0     &0             &(-x_1+x_3)(-x_2+x_3)
+        \end{vmat}
+        =(x_2-x_1)(x_3-x_1)(x_3-x_2)
+      \end{equation*}
+    \end{answer}
+  \item
+    我们可以把矩阵分成
+    \definend{块}，\index{block matrix}\index{matrix!block} %
+    如此处，
+    \begin{equation*}
+      \begin{pmat}{rr|r}
+          1  &2   &0  \\
+          3  &4   &0  \\  \cline{1-3}
+          0  &0   &-2
+       \end{pmat}
+    \end{equation*}
+    其中显示出四个块：左上与右下的方形的 $\nbyn{2}$ 与 $\nbyn{1}$ 块，
+    以及右上与左下的零块。
+    证明：若一个矩阵可以分块为
+    \begin{equation*}
+      T=
+      \begin{pmat}{c|c}
+          J   &Z_2  \\  \cline{1-2}
+          Z_1 &K
+       \end{pmat}
+    \end{equation*}
+    其中 $J$ 与 $K$ 是方阵，而 $Z_1$ 与 $Z_2$ 全为零，
+    则 \( \deter{T}=\deter{J}\cdot\deter{K} \)。
+    \begin{answer}
+      设 \( T \) 为 \( \nbyn{n} \) 的，
+      \( J \) 为 \( \nbyn{p} \) 的，
+      \( K \) 为 \( \nbyn{q} \) 的。
+      应用置换展开公式
+      \begin{equation*}
+        \deter{T}=
+        \sum_{\text{\scriptsize 置换 }\phi}
+                t_{1,\phi(1)}t_{2,\phi(2)}\dots t_{n,\phi(n)}
+                \deter{P_{\phi}}
+      \end{equation*}
+      由于 \( T \) 的右上部分全为零，如果一个
+      \( \phi \) 的前
+      \( p \) 个列编号 \( \phi(1),\dots,\phi(p) \) 中至少有一个取自 \( p+1,\dots,n \)，
+      那么由 \( \phi \) 产生的项为 \( 0 \)
+      （例如，若 \( \phi(1)=n \) 则
+      \( t_{1,\phi(1)}t_{2,\phi(2)}\dots t_{n,\phi(n)} \)
+      为 \( 0 \)）。
+      所以上式化简为对具有两段的全部置换求和：
+      先重排 \( 1,\dots,p \)，随后是
+      \( p+1,\dots,p+q \)。
+      为看出这给出 \( \deter{J}\cdot\deter{K}  \)，将其展开。
+      \begin{multline*}
+         \bigg[\sum_{\substack{\text{\scriptsize 置换 }\phi_1 \\
+                              \text{\scriptsize 作用于 } 1,\dots,p}}
+               t_{1,\phi_1(1)}\cdots t_{p,\phi_1(p)}
+               \deter{P_{\phi_1}} \bigg]                                  \\
+         \cdot
+         \bigg[\sum_{\substack{\text{\scriptsize 置换 }\phi_2 \\
+                              \text{\scriptsize 作用于 } p+1,\dots,p+q}}
+               t_{p+1,\phi_2(p+1)}\cdots t_{p+q,\phi_2(p+q)}
+               \deter{P_{\phi_2}}                          \bigg]
+      \end{multline*}
+    \end{answer}
+  \item
+    证明：对任一 \( \nbyn{n} \) 矩阵 \( T \)，使矩阵 \( T-rI \) 的
+    行列式为零的相异实数 \( r \) 至多有
+    \( n \) 个
+    （我们将在第五章用到这一结果）。
+    \begin{answer}
+      $n=3$ 的情形表明了会发生什么。
+      \begin{equation*}
+        \deter{T-rI}
+        =
+        \begin{vmat}
+          t_{1,1}-x  &t_{1,2}   &t_{1,3}  \\
+          t_{2,1}    &t_{2,2}-x &t_{2,3}  \\
+          t_{3,1}    &t_{3,2}   &t_{3,3}-x
+        \end{vmat}
+      \end{equation*}
+      置换展开中的每一项都有三个取自
+      矩阵元素的因子（例如，$(t_{1,1}-x)(t_{2,2}-x)(t_{3,3}-x)$
+      与 $(t_{1,1}-x)(t_{2,3})(t_{3,2})$），所以该行列式
+      可以表示为 $x$ 的 $3$ 次多项式。
+      这样的多项式至多有 $3$ 个根。
+
+      一般地，置换展开表明
+      行列式是一些项的和，每一项
+      有 \( n \) 个因子，给出一个 $n$ 次多项式。
+      \( n \) 次多项式至多有 \( n \) 个根。
+    \end{answer}
+  \puzzle \item
+    \cite{MathMag63Q307}
+    九个正的数字可以按 \( 9! \) 种方式排成 \( \nbyn{3} \) 阵列。
+    求这些阵列的行列式之和。
+    \begin{answer}
+      \answerasgiven
+      当行列式的两行对换时，行列式的
+      符号改变。
+      当一个三阶行列式的行作置换时，得到 \( 3 \)
+      个正的与 \( 3 \) 个绝对值相等的
+      负行列式。
+      于是 \( 9! \) 个行列式分成 \( 9!/6 \) 组，每一组
+      之和为零。
+    \end{answer}
+  \item
+    \cite{MathMag63Q237}
+    证明
+    \begin{equation*}
+      \begin{vmat}
+        x-2  &x-3  &x-4  \\
+        x+1  &x-1  &x-3  \\
+        x-4  &x-7  &x-10
+      \end{vmat}=0.
+    \end{equation*}
+    \begin{answer}
+      \answerasgiven
+      当任一列的元素分别从另外两列的元素中减去后，所得
+      行列式的两列元素成比例，所以行列式为零。
+      也就是，
+      \begin{equation*}
+        \begin{vmat}
+          2  &1    &x-4  \\
+          4  &2    &x-3  \\
+          6  &3    &x-10
+        \end{vmat}=
+        \begin{vmat}
+          1    &x-3  &-1   \\
+          2    &x-1  &-2   \\
+          3    &x-7  &-3
+        \end{vmat}=
+        \begin{vmat}
+          x-2  &-1   &-2   \\
+          x+1  &-2   &-4   \\
+          x-4  &-3   &-6
+        \end{vmat}=0.
+      \end{equation*}
+    \end{answer}
+  \puzzle \item
+    \cite{Monthly49p33}
+    设 \( S \) 为一个三阶幻方的整数元素之和，\( D \) 为把该方阵视为
+    行列式时的值。
+    证明 \( D/S \) 是整数。
+    \begin{answer}
+      \answerasgiven
+      设
+      \begin{equation*}
+        \begin{array}{ccc}
+          a  &b  &c  \\
+          d  &e  &f  \\
+          g  &h  &i
+        \end{array}
+      \end{equation*}
+      其幻和为 \( N=S/3 \)。
+      那么
+      \begin{align*}
+        N
+        &=(a+e+i)+(d+e+f)+(g+e+c)   \\
+        &\quad\text{}-(a+d+g)-(c+f+i)=3e
+      \end{align*}
+      且 \( S=9e \)。
+      因此，把行与列相加，
+      \begin{equation*}
+        D=
+        \begin{vmat}
+          a  &b  &c  \\
+          d  &e  &f  \\
+          g  &h  &i
+        \end{vmat}
+        =\begin{vmat}
+          a  &b  &c  \\
+          d  &e  &f  \\
+         3e  &3e &3e
+        \end{vmat}
+        =\begin{vmat}
+          a  &b  &3e \\
+          d  &e  &3e \\
+         3e  &3e &9e
+        \end{vmat}
+        =\begin{vmat}
+          a  &b  &e  \\
+          d  &e  &e  \\
+          1  &1  &1
+        \end{vmat}S.
+      \end{equation*}
+    \end{answer}
+  \puzzle \item
+    \cite{Monthly31p355}
+    证明 Pascal 三角形左上角 \( n^2 \) 个元素构成的行列式
+    \begin{equation*}
+      \begin{array}{cccccc}
+        1  &1  &1  &1  &.  &.  \\
+        1  &2  &3  &.  &.      \\
+        1  &3  &.  &.  &   &   \\
+        1  &.  &.  &   &   &   \\
+        .                      \\
+        .
+      \end{array}
+    \end{equation*}
+    的值为 $1$。
+    \begin{answer}
+      \answerasgiven
+      记所论行列式为 \( D_n \)，记
+      \( i \) 行 \( j \) 列的元素为 \( a_{i,j} \)。
+      那么由元素的构造法则我们有
+      \begin{equation*}
+        a_{i,j}=a_{i,j-1}+a_{i-1,j},
+        \qquad a_{1,j}=a_{i,1}=1.
+      \end{equation*}
+      从最后一对行开始，将 \( D_n \) 的每一行从其后一行中减去。
+      经过 \( n-1 \) 次这样的减法，上面的等式表明元素
+      \( a_{i,j} \) 被元素 \( a_{i,j-1} \) 所取代，而第一列中除
+      \( a_{1,1}=1 \) 外的所有元素都变成零。
+      现在从最后一对列开始，将每一列从其后一列中减去。
+      经过这一过程，如上面的关系式所示，元素 \( a_{i,j-1} \) 被
+      \( a_{i-1,j-1} \) 所取代。
+      这两个运算的结果是把 \( a_{i,j} \) 换成
+      \( a_{i-1,j-1} \)，并使第一行与
+      第一列中的每个元素都化为零。
+      于是 \( D_n=D_{n+i} \)，从而
+      \begin{equation*}
+        D_n=D_{n-1}=D_{n-2}=\dots=D_2=1.
+      \end{equation*}
+    \end{answer}
+\end{exercises}

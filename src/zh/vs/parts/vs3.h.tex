@@ -1,0 +1,762 @@
+\begin{exercises}
+  \recommended \item
+    判断 \( \Re^2 \) 是否为下列每一组 \( W_1 \) 与 \( W_2 \) 的直和。
+    \begin{exparts}
+       \partsitem \( W_1=\set{\colvec{x \\ 0}\suchthat x\in\Re} \),
+             \( W_2=\set{\colvec{x \\ x}\suchthat x\in\Re} \)
+       \partsitem \( W_1=\set{\colvec{s \\ s}\suchthat s\in\Re} \),
+             \( W_2=\set{\colvec{s \\ 1.1s}\suchthat s\in\Re} \)
+       \partsitem \( W_1=\Re^2 \), \( W_2=\set{\zero} \)
+       \partsitem \( W_1=W_2=\set{\colvec{t \\ t}\suchthat t\in\Re} \)
+       \partsitem \( W_1=\set{\colvec[r]{1 \\ 0}+\colvec{x \\ 0}
+                                \suchthat x\in\Re} \),
+             \( W_2=\set{\colvec[r]{-1 \\ 0}+\colvec[r]{0 \\ y}\suchthat y\in\Re} \)
+    \end{exparts}
+    \begin{answer}
+       对这里的每一项我们都可以应用\nearbylemma{le:DirectSumTwoSp}。
+       \begin{exparts}
+         \partsitem 是的。
+           该平面是这个 $W_1$ 与 $W_2$ 的和，因为对任意标量 $a$ 与 $b$，
+           \begin{equation*}
+             \colvec{a \\ b}
+             =\colvec{a-b \\ 0}
+             +\colvec{b \\ b}
+           \end{equation*}
+           表明任一向量都是来自这两部分的向量之和。
+           而且，这两个子空间是（不同的）过原点的直线，
+           因此它们的交是平凡的。
+         \partsitem 是的。
+           为看出平面中任一向量都是这些部分中向量的组合，
+           考察下面这个关系式。
+           \begin{equation*}
+             \colvec{a \\ b}=c_1\colvec[r]{1 \\ 1}+c_2\colvec[r]{1 \\ 1.1}
+           \end{equation*}
+           我们现在只需注意，集合
+           \begin{equation*}
+             \set{\colvec[r]{1 \\ 1},\colvec[r]{1 \\ 1.1}}
+           \end{equation*}
+           是该空间的一组基（因为它显然线性无关，且在 $\Re^2$ 中含有两个元素），
+           因此上述方程有且仅有一解，这意味着所有分解都是唯一的。
+           另一种做法是求解
+           \begin{equation*}
+             \begin{linsys}{2}
+               c_1  &+  &c_2    &=  &a  \\
+               c_1  &+  &1.1c_2 &=  &b
+             \end{linsys}
+             \grstep{-\rho_1+\rho_2}
+             \begin{linsys}{2}
+               c_1  &+  &c_2    &=  &a  \\
+                    &   &0.1c_2 &=  &-a+b
+             \end{linsys}
+           \end{equation*}
+           得到 $c_2=10(-a+b)$ 与 $c_1=11a-10b$，于是我们有
+           \begin{equation*}
+             \colvec{a \\ b}=\colvec{11a-10b \\ 11a-10b}
+                             +\colvec{-10a+10b \\ 1.1\cdot(-10a+10b)}
+           \end{equation*}
+           正如所求。
+           与前一个答案一样，这两个子空间各自都是过原点的直线，
+           它们的交是平凡的。
+         \partsitem 是的。
+           平面中的每个向量都可如下分解为和
+           \begin{equation*}
+             \colvec{x \\ y}=\colvec{x \\ y}+\colvec[r]{0 \\ 0}
+           \end{equation*}
+           且这两个子空间的交是平凡的。
+         \partsitem 不是。
+           交不是平凡的。
+         \partsitem 不是。
+           它们不是子空间。
+      \end{exparts}  
+    \end{answer}
+  \recommended \item
+    证明 \( \Re^3 \) 是 \( xy \) 平面与下列每一个的直和。
+    \begin{exparts}
+      \partsitem \( z \) 轴
+      \partsitem 直线
+        \begin{equation*}
+          \set{\colvec{z \\ z \\ z} \suchthat z\in\Re }
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      对这里的每一项我们都可以使用\nearbylemma{le:DirectSumTwoSp}。      
+      \begin{exparts}
+        \partsitem \( \Re^3 \) 中的任意向量都可以分解为这个和。
+          \begin{equation*}
+            \colvec{x \\ y \\ z}
+            =\colvec{x \\ y \\ 0}
+            +\colvec{0 \\ 0 \\ z}
+          \end{equation*}
+          而且，$xy$ 平面与 $z$ 轴的交是平凡子空间。
+        \partsitem \( \Re^3 \) 中的任意向量都可以分解为
+          \begin{equation*}
+            \colvec{x \\ y \\ z}
+            =\colvec{x-z \\ y-z \\ 0}
+            +\colvec{z \\ z \\ z}
+          \end{equation*}
+          且这两个空间的交是平凡的。
+      \end{exparts}  
+    \end{answer}
+  \item 
+    \( \polyspace_2 \) 是
+    \( \set{a+bx^2\suchthat a,b\in\Re} \) 与
+    \( \set{cx\suchthat c\in\Re} \) 的直和吗？
+    \begin{answer}
+      是。
+      证明这两个集合是子空间是常规的。
+      为看出整个空间是这两个的直和，只需注意
+      \( \polyspace_2 \) 中每个元素都有唯一的分解
+      \( m+nx+px^2=(m+px^2)+(nx) \)。  
+     \end{answer}
+  \recommended \item 
+    在 \( \polyspace_n \) 中，
+    \definend{偶}\index{even functions}多项式是这个集合中的元素
+    \begin{equation*}
+      \mathcal{E}=
+      \set{p\in\polyspace_n \suchthat \text{\( p(-x)=p(x) \) 对一切 \( x \)}}
+    \end{equation*}
+    而
+    \definend{奇}\index{odd function}
+    多项式是这个集合中的元素。
+    \begin{equation*}
+      \mathcal{O}=
+      \set{p\in\polyspace_n \suchthat \text{\( p(-x)=-p(x) \) 
+                                              对一切 \( x \)}}
+    \end{equation*}
+    证明它们是互补的子空间。
+    \begin{answer}
+      证明它们是子空间是常规的。
+      我们将利用\nearbylemma{le:DirectSumTwoSp}来论证它们互补。
+      交 \( \mathcal{E}\intersection\mathcal{O} \) 是平凡的，
+      因为同时满足条件 $p(-x)=p(x)$ 与
+      $p(-x)=-p(x)$ 的多项式只有零多项式。
+      为看出整个空间是这些子空间的和
+      \( \mathcal{E}+\mathcal{O}=\polyspace_n \)，
+      注意多项式
+      \( p_0(x)=1 \)、\( p_2(x)=x^2 \)、\( p_4(x)=x^4 \) 等都在
+      \( \mathcal{E} \) 中，同时注意多项式
+      \( p_1(x)=x \)、\( p_3(x)=x^3 \) 等都在 \( \mathcal{O} \) 中。
+      于是 \( \polyspace_n \) 的任何元素都是
+      \( \mathcal{E} \) 与 \( \mathcal{O} \) 中元素的组合。  
+    \end{answer}
+  \item 
+    下列 \( \Re^3 \) 的哪些子空间
+    \begin{center}
+     \begin{tabular}{l}
+      $W_1$: \( x \) 轴，\quad
+      $W_2$:~\( y \) 轴，\quad
+      $W_3$:~\( z \) 轴，             \\
+      $W_4$:~平面 \( x+y+z=0 \)，\quad
+      $W_5$:~\( yz \) 平面
+     \end{tabular}
+    \end{center}
+    可以组合成
+    \begin{exparts*}
+      \partsitem 和为 \( \Re^3 \)？
+      \partsitem 直和为 \( \Re^3 \)？
+    \end{exparts*}
+    \begin{answer}
+     这里的每一个都是 $\Re^3$。
+     \begin{exparts}
+      \partsitem 
+        为便于阅读，这里把它们分成若干行列出。
+        \begin{center}
+          \begin{tabular}{l} 
+            $W_1+W_2+W_3$, 
+              $W_1+W_2+W_3+W_4$, 
+              $W_1+W_2+W_3+W_5$,  \\ \quad %line too long
+              $W_1+W_2+W_3+W_4+W_5$, 
+              $W_1+W_2+W_4$, 
+              $W_1+W_2+W_4+W_5$,     \\ \quad %line too long
+              $W_1+W_2+W_5$,         
+              $W_1+W_3+W_4$, 
+              $W_1+W_3+W_5$, 
+              $W_1+W_3+W_4+W_5$,     \\ \quad 
+              $W_1+W_4$, 
+              $W_1+W_4+W_5$,         
+              $W_1+W_5$,             \\ 
+              $W_2+W_3+W_4$, 
+              $W_2+W_3+W_4+W_5$,     
+              $W_2+W_4$, 
+              $W_2+W_4+W_5$,         \\ 
+              $W_3+W_4$, 
+              $W_3+W_4+W_5$,         \\ 
+              $W_4+W_5$ 
+          \end{tabular}
+         \end{center}
+     \partsitem
+       $W_1\directsum W_2\directsum W_3$,    
+       $W_1\directsum W_4$,    
+       $W_1\directsum W_5$,    
+       $W_2\directsum W_4$,    
+       $W_3\directsum W_4$    
+     \end{exparts}
+    \end{answer}
+  \recommended \item
+    证明 \( \polyspace_n=\set{a_0 \suchthat a_0\in\Re}\directsum\dots
+                              \directsum\set{a_nx^n\suchthat a_n\in\Re} \)。
+    \begin{answer}
+      显然每一个都是子空间。
+      这些子空间的基 \( B_i=\sequence{x^i} \) 依次连接起来，
+      就构成整个空间的一组基。  
+    \end{answer}
+  \item 
+    若 \( W_1\subseteq W_2 \)，则 \( W_1+W_2 \) 是什么？
+    \begin{answer}
+       是 \( W_2 \)。  
+    \end{answer}
+  \item 
+    \nearbyexample{exam:BenchDirSum} 能否推广？
+    也就是说，下述论断是真是假：~若向量空间 \( V \) 有一组基
+    \( \sequence{\vec{\beta}_1,\dots ,\vec{\beta}_n} \)，则
+    它是这些一维子空间之张成的直和
+    \( V=\spanof{\set{\vec{\beta}_1}}\directsum\dots
+           \directsum\spanof{\set{\vec{\beta}_n}} \)？
+    \begin{answer}
+      由\nearbylemma{le:UniqDecIffBasisDec}知其为真。  
+    \end{answer}
+  \item 
+    \( \Re^4 \) 能以两种不同的方式分解为直和吗？
+    \( \Re^1 \) 呢？
+    \begin{answer}
+      \( \Re^4 \) 的两个不同的直和分解很容易找到。
+      其一是
+      \( W_1=\spanof{\set{\vec{e}_1,\vec{e}_2}} \) 与
+      \( W_2=\spanof{\set{\vec{e}_3,\vec{e}_4}} \)，
+      其二是
+      \( U_1=\spanof{\set{\vec{e}_1}} \) 与
+      \( U_2=\spanof{\set{\vec{e}_2,\vec{e}_3,\vec{e}_4}} \)。
+      （还有很多种可能，
+      例如 \( \Re^4 \) 与它的平凡子空间。）
+
+      相比之下，对 \( \Re^1 \) 的单向量基的任何划分，
+      都会给出一组没有元素的基和另一组只有一个元素的基。
+      因此任何分解都涉及 \( \Re^1 \) 与它的平凡
+      子空间。 
+    \end{answer}
+  \item 
+      本练习使在集合之间写 `$+$' 的记法显得更为自然。 
+      证明：设 \( W_1,\dots, W_k \) 是某个向量空间的子空间，则
+      \begin{equation*}
+        W_1+\dots+W_k
+        =\set{\vec{w}_1+\vec{w}_2+\dots+\vec{w}_k
+              \suchthat \vec{w}_1\in W_1,\dots,\vec{w}_k\in W_k},
+      \end{equation*}
+      从而子空间的和就是由所有和构成的子空间。
+      \begin{answer}
+        一个方向的包含关系是容易的：
+        \( \set{\vec{w}_1+\dots+\vec{w}_k\suchthat \vec{w}_i\in W_i} \)
+        是 \( \spanof{W_1\union \dots \union W_k}  \) 的子集，
+        因为每个 \( \vec{w}_1+\dots+\vec{w}_k \) 都是这个并集中向量的和。
+
+        对于另一个方向的包含，对来自该并集的向量的任一线性组合，
+        利用向量加法的交换性，
+        把来自 \( W_1 \) 的向量放在最前面，
+        接着是来自 \( W_2 \) 的向量，等等。
+        把来自 \( W_1 \) 的向量相加得到一个 \( \vec{w}_1\in W_1 \)，
+        把来自 \( W_2 \) 的向量相加得到一个 \( \vec{w}_2\in W_2 \)，等等。
+        所得结果具有所要求的形式。
+      \end{answer}
+  \item \label{exer:ThreeSubsPairwseNonTriv}
+    （参见\nearbyexample{exam:DirSumThree}。
+    本练习
+    表明，“两两交都平凡”这一要求
+    确实强于只要求所有子空间的交为平凡。）
+    给出一个向量空间和三个子空间 $W_1$、$W_2$ 与 $W_3$，
+    使得该空间是这些子空间的和，
+    三个子空间的交
+    $W_1\intersection W_2\intersection W_3$ 是平凡的，
+    但两两的交
+    $W_1\intersection W_2$、$W_1\intersection W_3$ 与 $W_2\intersection W_3$
+    都不是平凡的。
+    \begin{answer}
+      一个例子是取空间为 $\Re^3$，
+      并取子空间为 $xy$ 平面、$xz$ 平面与 $yz$ 平面。
+    \end{answer}
+  \item 
+    证明：若 \( V=W_1\directsum\dots\directsum W_k \)，则
+    只要 \( i\neq j \)，\( W_i\intersection W_j \) 就是平凡的。
+    这表明\nearbylemma{le:DirectSumTwoSp}
+    证明的前一半可以推广到多于两个
+    子空间的情形。
+    （\nearbyexample{exam:DirSumThree} 表明这个蕴含关系
+    不能反向；后一半不能推广。）
+    \begin{answer}
+      当然，零向量在所有子空间中，所以
+      交至少包含这一个向量。  
+      由直和的定义，集合
+      \( \set{W_1,\dots,W_k} \) 是无关的，因此当
+      \( i\neq j \) 时，\( W_i \) 中没有非零向量
+      是 \( W_j \) 中某个元素的倍数。
+      特别是，\( W_i \) 中没有非零向量等于
+      \( W_j \) 中的元素。
+    \end{answer}
+  \item 
+    回想一下，任何线性无关集合都不包含零向量。
+    一个由子空间组成的无关集合能包含平凡子空间吗？
+    \begin{answer}
+      它可以包含一个平凡子空间；
+      \( \Re^3 \) 的下面这个子空间集合是无关的：
+      \( \set{\set{\zero},\text{\( x \)-轴}} \)。
+      平凡空间 \( \set{\zero} \) 中没有非零向量
+      是 \( x \) 轴中某个
+      向量的倍数，这仅仅是因为平凡空间
+      没有可以作为这种倍数候选者的非零向量（而且
+      \( x \) 轴中也没有非零向量是平凡子空间中
+      零向量的倍数）。  
+     \end{answer}
+  \recommended \item 
+    每个子空间都有补吗？
+    \begin{answer}
+      有。
+      对向量空间的任何子空间，我们可以取该
+      子空间的任意一组基 \( \sequence{\vec{\omega}_1,\dots,\vec{\omega}_k} \)，
+      并把它扩充成整个
+      空间的一组基
+      \( \sequence{\vec{\omega}_1,\dots,\vec{\omega}_k,
+                     \vec{\beta}_{k+1},\dots,\vec{\beta}_n} \)。
+      于是原子空间的补具有这组基
+      \( \sequence{\vec{\beta}_{k+1},\dots,\vec{\beta}_n} \)。  
+     \end{answer}
+  \recommended \item 
+    设 \( W_1, W_2 \) 是某个向量空间的子空间。
+    \begin{exparts}
+      \partsitem 假设
+        集合 \( S_1 \) 张成 \( W_1 \)，且集合 \( S_2 \) 张成
+        \( W_2 \)。
+        \( S_1\union S_2 \) 能张成 \( W_1+W_2 \) 吗？
+        它必定张成吗？
+      \partsitem 假设 \( S_1 \) 是 \( W_1 \) 的一个线性无关
+        子集，
+        且 \( S_2 \) 是 \( W_2 \) 的一个线性无关子集。
+        \( S_1\union S_2 \) 能是
+        \( W_1+W_2 \) 的线性无关子集吗？
+        它必定是吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 它必定张成。
+          我们可以把 \( W_1+W_2 \) 的任何成员写成 \( \vec{w}_1+\vec{w}_2 \)，
+          其中 \( \vec{w}_1\in W_1 \) 且 \( \vec{w}_2\in W_2 \)。
+          由于 \( S_1 \) 张成 \( W_1 \)，向量 \( \vec{w}_1 \) 是
+          \( S_1 \) 中成员的组合。
+          类似地，\( \vec{w}_2 \) 是 \( S_2 \) 中成员的组合。
+        \partsitem 看出它可以是线性无关的一个简单方法
+          是取两者都为空集。
+          另一方面，在空间 $\Re^1$ 中，
+          若 \( W_1=\Re^1 \) 且 \( W_2=\Re^1 \)，而 $S_1=\set{1}$，
+          $S_2=\set{2}$，则它们的并 $S_1\union S_2$ 不是无关的。
+      \end{exparts}  
+     \end{answer}
+  \item \label{exer:BasesSumTwoSubs}
+    当我们把一个向量空间分解为直和时，各子空间的
+    维数相加等于空间的维数。
+    而当一个空间是作为其子空间的和给出时，情形
+    就没有这么简单。
+    本练习考虑两个子空间的特殊情形。
+    \begin{exparts}
+      \partsitem 对 \( \matspace_{\nbyn{2}} \) 的这些子空间，求
+        \( W_1\intersection W_2 \)、\( \dim(W_1\intersection W_2) \)、
+        \( W_1+W_2 \) 与 \( \dim(W_1+W_2) \)。
+        \begin{equation*}
+          W_1=\set{\begin{mat}
+                    0  &0  \\
+                    c  &d
+                  \end{mat} \suchthat c,d\in\Re  }
+          \qquad
+         W_2=\set{\begin{mat}
+                    0  &b  \\
+                    c  &0
+                  \end{mat} \suchthat b,c\in\Re  }
+       \end{equation*}
+     \partsitem 设 \( U \) 与 \( W \) 是某个向量空间的
+       子空间。
+       设序列
+       \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_k} \)
+       是
+       \( U\intersection W \) 的一组基。
+       最后，设前述序列已被扩充，得到
+       \( U \) 的一组基 \( \sequence{\vec{\mu}_1,\dots,\vec{\mu}_j,
+       \vec{\beta}_1,\dots,\vec{\beta}_k} \)，
+       以及 \( W \) 的一组基
+       \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_k,
+          \vec{\omega}_1,\dots,\vec{\omega}_p} \)。
+       证明序列
+       \begin{equation*}
+         \sequence{\vec{\mu}_1,\dots,\vec{\mu}_j,
+              \vec{\beta}_1,\dots,\vec{\beta}_k,
+              \vec{\omega}_1,\dots,\vec{\omega}_p}
+       \end{equation*}
+       是和 \( U+W \) 的一组基。
+      \partsitem 由此得出结论
+          $\dim (U+W)=\dim(U)+\dim(W)-\dim(U\intersection W)$。
+      \partsitem 设 \( W_1 \) 与 \( W_2 \) 是十维空间的两个八维
+        子空间。
+       列出 \( \dim(W_1\intersection W_2) \) 的所有可能取值。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 交与和是
+          \begin{equation*}
+             \set{\begin{mat}
+                    0  &0  \\
+                    c  &0
+                  \end{mat} \suchthat c\in\Re  }
+             \qquad
+             \set{\begin{mat}
+                    0  &b  \\
+                    c  &d
+                   \end{mat} \suchthat b,c,d\in\Re  }
+          \end{equation*}
+         其维数分别为一与三。
+      \partsitem 我们把 $U\intersection W$ 的基记为
+        $B_{U\intersection W}$，
+        把 $U$ 的基记为 $B_U$，
+        把 $W$ 的基记为 $B_W$，
+        而把正在考虑的基记为 $B_{U+W}$。
+
+        为看出 $B_{U+W}$ 张成 $U+W$，注意我们可以把
+        $U+W$ 中的任一向量 $c\vec{u}+d\vec{w}$ 写成
+        $B_{U+W}$ 中向量的线性
+        组合，
+        只需把 $\vec{u}$ 用
+        $B_U$ 表示、把 $\vec{w}$ 用 $B_W$ 表示即可。
+
+         我们最后证明 $B_{U+W}$ 线性无关。 
+         考察
+         \begin{equation*}
+           c_1\vec{\mu}_1+\dots+c_{j+1}\vec{\beta}_1+\dots
+              +c_{j+k+p}\vec{\omega}_p=\zero
+         \end{equation*}
+         它可以如下改写。
+         \begin{equation*}
+           c_1\vec{\mu}_1+\dots+c_j\vec{\mu}_j=
+             -c_{j+1}\vec{\beta}_1-\dots-c_{j+k+p}\vec{\omega}_p
+         \end{equation*}
+         注意左边求和得到 \( U \) 中的向量，而
+         右边求和得到 \( W \) 中的向量，于是两边求和都得到
+         $U\intersection W$ 的一个成员。
+         由于左边是 $U\intersection W$ 的成员，
+         它可以用 $B_{U\intersection W}$ 的成员表示，
+         这给出：上式左边 $\vec{\mu}$ 的组合
+         等于 $\vec{\beta}$ 的一个组合。 
+         但是，基 $B_U$ 线性无关这一事实表明
+         任何这样的组合
+         都是平凡的，特别地，上面左边的系数 $c_1$, \ldots,
+         $c_j$ 全为零。
+         类似地，\( \vec{\omega} \) 的系数也全为零。
+         这使上面的方程成为
+         \( \vec{\beta} \) 之间的一个线性关系，
+         但 $B_{U\intersection W}$ 线性无关，
+         因此 $\vec{\beta}$ 的所有系数也都
+         为零。
+        \partsitem 只需数一数上一项中的
+          基向量：~$\dim(U+W)=j+k+p$，而 $\dim(U)=j+k$，$\dim(W)=k+p$，
+          以及 $\dim(U\intersection W)=k$。
+        \partsitem  我们知道
+          \( \dim(W_1+W_2)=\dim(W_1)+\dim(W_2)-\dim(W_1\intersection W_2) \)。
+          因为 \( W_1\subseteq W_1+W_2 \)，
+          我们知道 \( W_1+W_2 \) 的维数必定大于
+          $W_1$ 的维数，也就是说，其维数必定是八、九或十。
+          代入得到三种可能：
+          $8=8+8-\dim(W_1\intersection W_2)$、
+          $9=8+8-\dim(W_1\intersection W_2)$ 或
+          $10=8+8-\dim(W_1\intersection W_2)$。
+          因此 \( \dim(W_1\intersection W_2) \) 必定是
+          八、七或六。
+          （要举例说明这三种情形中的每一种都可能
+          出现是容易的，例如在 \( \Re^{10} \) 中。）  
+      \end{exparts}
+    \end{answer}
+  \item 
+    设 \( V=W_1\directsum\cdots\directsum W_k \)，并对每个下标
+    \( i \)，设 \( S_i \) 是
+    \( W_i \) 的一个线性无关子集。
+    证明诸 \( S_i \) 的并集线性无关。
+    \begin{answer}
+      把每个 \( S_i \) 扩充成 \( W_i \) 的一组基 $B_i$。
+      这些基的连接 $\cat{\cat{B_1}{\cdots}}{B_k}$
+      是 \( V \) 的一组基，因此其中的成员构成一个线性无关
+      集合。
+      但并集 $S_1\union\cdots\union S_k$ 是这个线性无关集合的
+      子集，因此它自身
+      也线性无关。  
+     \end{answer}
+  \item 
+    一个矩阵是\definend{对称的}\index{matrix!symmetric}%
+    \index{symmetric matrix}，若对每一对下标 \( i \) 与
+    \( j \)，\( i,j \) 元等于 \( j,i \) 元。
+    一个矩阵是\definend{反对称的}\index{matrix!antisymmetric}%
+    \index{antisymmetric matrix}，若每个 \( i,j \) 元是
+    \( j,i \) 元的负值。
+    \begin{exparts}
+      \partsitem 给出一个对称的 $\nbyn{2}$ 矩阵和一个反对称的
+        $\nbyn{2}$ 矩阵。
+        （\textit{注}：
+        对于第二个，要当心对角线上的元素。）
+      \partsitem 对称方阵与它的转置之间有什么关系？
+        反对称方阵与它的转置之间呢？
+      \partsitem 证明 \( \matspace_{\nbyn{n}} \) 是对称矩阵空间与反对称
+        矩阵空间的直和。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这样的两个矩阵如下。
+          \begin{equation*}
+            \begin{mat}[r]
+              1  &2  \\
+              2  &3
+            \end{mat}
+            \qquad
+            \begin{mat}[r]
+              0  &1  \\
+              -1 &0
+            \end{mat}
+          \end{equation*}
+          对于反对称的那个，对角线上的元素必须为零。
+        \partsitem 对称方阵等于它的转置。
+          反对称方阵等于它的转置的负值。
+        \partsitem 证明这两个集合是子空间是容易的。
+         设 \( A\in\matspace_{\nbyn{n}} \)。
+         为把 $A$ 表示成一个对称矩阵与一个反对称矩阵的和，
+         我们注意到
+         \begin{equation*}
+            A=(1/2)(A+\trans{A}) + (1/2)(A-\trans{A})
+         \end{equation*}
+         并注意第一个加项是对称的，而第二个是
+         反对称的。
+         因此 \( \matspace_{\nbyn{n}} \) 是这两个子空间的和。
+         为证明这个和是直和，
+         设矩阵 \( A \) 既是对称的
+         \( A=\trans{A} \) 又是反对称的 \( A=-\trans{A} \)。
+         则 \( A=-A \)，于是 \( A \) 的所有元素都是零。  
+      \end{exparts}
+     \end{answer}
+  \item 
+    设 \( W_1,W_2,W_3 \) 是某个向量空间的子空间。
+    证明 \( (W_1\intersection W_2)+(W_1\intersection W_3)\subseteq
+              W_1\intersection (W_2+W_3) \)。
+    这个包含关系能反向吗？
+    \begin{answer}
+      设
+      \( \vec{v}\in (W_1\intersection W_2)+(W_1\intersection W_3) \)。
+      则 \( \vec{v}=\vec{w}_2+\vec{w}_3 \)，其中
+      \( \vec{w}_2\in W_1\intersection W_2 \) 且
+      \( \vec{w}_3\in W_1\intersection W_3 \)。
+      注意 \( \vec{w}_2,\vec{w}_3\in W_1 \)，又子空间对加法
+      封闭，故 \( \vec{w}_2+\vec{w}_3\in W_1 \)。
+      于是 \( \vec{v}=\vec{w}_2+\vec{w}_3\in W_1\intersection(W_2+W_3) \)。
+
+      这个例子证明包含可能是严格的：
+      在 \( \Re^2 \) 中取 \( W_1 \) 为 \( x \) 轴，取 \( W_2 \)
+      为 \( y \) 轴，取 \( W_3 \) 为直线 \( y=x \)。
+      则 \( W_1\intersection W_2 \) 与 \( W_1\intersection W_3 \)
+      都是平凡的，因此它们的和是平凡的。
+      但 \( W_2+W_3 \) 是整个 \( \Re^2 \)，所以
+      \( W_1\intersection(W_2+W_3) \) 是 \( x \) 轴。  
+     \end{answer}
+  \item 
+    \( \Re^2 \) 中 $x$ 轴与 $y$ 轴的例子
+    表明 \( W_1\directsum W_2=V \) 并不蕴含
+    \( W_1\union W_2=V \)。
+    \( W_1\directsum W_2=V \) 与 \( W_1\union W_2=V \)
+    能同时发生吗？
+    \begin{answer}
+      当 \( W_1,W_2 \) 中至少有一个是平凡的时，这会发生。
+      但这是它可能发生的唯一方式。
+
+      为证明这一点，设两者都是非平凡的，
+      从各自中取非零向量 \( \vec{w}_1, \vec{w}_2 \)，
+      并考察 \( \vec{w}_1+\vec{w}_2 \)。
+      这个和不属于 \( W_1 \)，因为
+      \( \vec{w}_1+\vec{w}_2=\vec{v}\in W_1 \) 将蕴含
+      \( \vec{w}_2=\vec{v}-\vec{w}_1 \) 属于 \( W_1 \)，
+      这与子空间无关性的假设矛盾。
+      类似地，\( \vec{w}_1+\vec{w}_2 \) 不属于 \( W_2 \)。
+      于是 \( V \) 中有一个元素不属于 \( W_1\union W_2 \)。
+     \end{answer}
+%   \recommended \item
+%     Our model for complementary subspaces, the $x$-axis and the
+%     $y$-axis in \( \Re^2 \), has one property not used here.
+%     Where \( U \) is a subspace of \( \Re^n \) we define the
+%     \definend{orthocomplement}\index{subspace!orthocomplement} 
+%     of \( U \) to be
+%     \begin{equation*}
+%       U^\perp=
+%       \set{\vec{v}\in\Re^n \suchthat \text{\( \vec{v}\dotprod\vec{u}=0 \)
+%                                             for all \( \vec{u}\in U \)}}
+%     \end{equation*}
+%     (read ``\( U \) perp'').
+%     \begin{exparts}
+%       \partsitem Find the orthocomplement of the \( x \)-axis in \( \Re^2 \).
+%       \partsitem Find the orthocomplement of the \( x \)-axis in \( \Re^3 \).
+%       \partsitem Find the orthocomplement of the \( xy \)-plane in \( \Re^3 \).
+%       \partsitem Show that the orthocomplement of a subspace is a subspace.
+%       \partsitem Show that if \( W \) is the orthocomplement of \( U \) then
+%         \( U \) is the orthocomplement of \( W \).
+%       \partsitem Prove that a subspace and its orthocomplement have a trivial
+%         intersection.
+%       \partsitem Conclude that for any \( n \) and subspace 
+%         \( U\subseteq \Re^n \) we have that \( \Re^n=U\directsum U^\perp \).
+%       \partsitem Show that 
+%         \( \dim(U)+\dim(U^\perp) \) equals the dimension of the
+%         enclosing space.
+%     \end{exparts}
+%     \begin{answer}
+%       \begin{exparts}
+%         \partsitem The set 
+%           \begin{equation*}
+%             \set{\colvec{v_1 \\ v_2} 
+%                \suchthat \colvec{v_1 \\ v_2}\dotprod\colvec{x \\ 0}=0 
+%                               \text{\ for all $x\in\Re$}}
+%           \end{equation*}
+%           is easily seen to be the $y$-axis.
+%         \partsitem The \( yz \)-plane.
+%         \partsitem The \( z \)-axis.
+%         \partsitem 
+%           Assume that \( U \) is a subspace of some \( \Re^n \).
+%           Because $U^\perp$ contains the zero vector, since that
+%           vector is perpendicular to everything, we need only show that the
+%           orthocomplement is closed under linear combinations of two elements.
+%           If \( \vec{w}_1, \vec{w}_2\in U^\perp \) then
+%           \( \vec{w}_1\dotprod\vec{u}=0 \) and \( \vec{w}_2\dotprod\vec{u}=0 \)
+%           for all \( \vec{u}\in U \).
+%           Thus \( (c_1\vec{w}_1+c_2\vec{w}_2)\dotprod\vec{u}=
+%               c_1(\vec{w}_1\dotprod\vec{u})+c_2(\vec{w}_2\dotprod\vec{u})=0 \)
+%           for all \( \vec{u}\in U \) and so \( U^\perp \) is closed under
+%           linear combinations.
+%         \partsitem The only vector orthogonal to itself is the zero vector.
+%         \partsitem This is immediate.
+%         \partsitem To prove that the dimensions add, 
+%           it suffices by \nearbycorollary{cor:DirSumDimsAdd} and 
+%           \nearbylemma{le:DirectSumTwoSp} to show that 
+%           \( U\intersection U^\perp \) is the trivial subspace
+%           \( \set{\zero} \).
+%           But this is one of the prior items in this problem.
+%       \end{exparts}  
+%      \end{answer}
+  \item 
+    考察\nearbycorollary{cor:DirSumDimsAdd}。
+    它反过来也成立吗\Dash 也就是说，
+    设 \( V=W_1+\dots+ W_k \)，
+    是否 \( V=W_1\directsum\cdots\directsum W_k \) 当且仅当
+    \( \dim(V)=\dim(W_1)+\dots+\dim(W_k) \)？
+    \begin{answer}
+      是。
+      从左到右的蕴含就是
+      \nearbycorollary{cor:DirSumDimsAdd}。
+      对于另一个方向，
+      设 \( \dim(V)=\dim(W_1)+\dots+\dim(W_k) \)。
+      取 \( B_1,\dots, B_k \) 为 \( W_1,\dots, W_k \) 的基。
+      由于 $V$ 是这些子空间的和，我们可以把
+      任一 \( \vec{v}\in V \) 写成
+      \( \vec{v}=\vec{w}_1+\cdots+\vec{w}_k \)，而把每个
+      \( \vec{w}_i \) 表示成相应
+      基 \( B_i \) 中向量的组合，即表明连接
+      \( \cat{B_1}{\cat{\cdots}{B_k}}  \) 张成 \( V \)。
+      现在，这个连接有
+      \( \dim(W_1)+\dots+\dim(W_k) \) 个成员，因此它是一个大小为
+      \( \dim(V) \) 的张成集。
+      所以这个连接是 \( V \) 的一组基。
+      于是 \( V \) 是直和。
+     \end{answer}
+  \item 
+    我们知道，若 \( V=W_1\directsum W_2 \)，则 \( V \) 有一组基
+    可以拆分成 \( W_1 \) 的一组基与
+    \( W_2 \) 的一组基。
+    我们能作出更强的论断，说 \( V \) 的每一组基都能拆分成
+    \( W_1 \) 的一组基与 \( W_2 \) 的一组基吗？
+    \begin{answer}
+      不能。
+      \( \Re^2 \) 的标准基不能拆分成互补子空间，即直线 \( x=y \) 与直线
+      \( x=-y \) 的基。  
+    \end{answer}
+  \item 
+     我们可以问一问 `$+$' 运算的代数性质。
+     \begin{exparts}
+       \partsitem 它是否交换；即 \( W_1+W_2=W_2+W_1 \) 是否成立？
+       \partsitem 它是否结合；即 \( (W_1+W_2)+W_3=W_1+(W_2+W_3) \)
+         是否成立？
+       \partsitem 设 \( W \) 是某个向量空间的子空间。
+         证明 \( W+W=W \)。
+       \partsitem 必须存在单位元吗？
+         也就是一个子空间 \( I \)，使得 \( I+W=W+I=W \)
+         对一切子空间 \( W \) 成立？ 
+       \partsitem 左消去成立吗：~若
+          \( W_1+W_2=W_1+W_3 \)，则 \( W_2=W_3 \)？
+          右消去呢？
+     \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem  是的，对一切子空间 \( W_1,W_2 \)
+          都有 \( W_1+W_2=W_2+W_1 \)，
+          因为每一边都是 \( W_1\union W_2=W_2\union W_1 \) 的张成。
+        \partsitem 这一条与前一条类似\Dash 该等式的每一边
+          都是
+          \( (W_1\union W_2)\union W_3=W_1\union (W_2\union W_3) \)
+          的张成。
+        \partsitem 由于这是集合之间的等式，我们可以用相互包含
+          来证明它成立。
+          显然 \( W\subseteq W+W \)。
+          对于 \( W+W\subseteq W \)，只需记得每个子集都对加法封闭，
+          所以形如 \( \vec{w}_1+\vec{w}_2 \) 的任何和都在
+          \( W \) 中。
+        \partsitem 在每个向量空间中，关于子空间加法的
+          单位元是平凡子空间。
+        \partsitem   左消去与右消去都不必成立。
+          举个例子，在 \( \Re^3 \) 中取 \( W_1 \) 为
+          \( xy \) 平面，取 \( W_2 \) 为 \( x \) 轴，
+          取 \( W_3 \) 为 \( y \) 轴。  
+      \end{exparts}
+     \end{answer}
+  % 2014-Dec-19 I commented this out to make the pages fit better; it is perfectly fine
+  % \item 
+  %   Consider the algebraic properties of the direct sum operation.
+  %   \begin{exparts}
+  %      \partsitem Does direct sum commute: does \( V=W_1\directsum W_2 \) imply
+  %        that \( V=W_2\directsum W_1 \)?
+  %     \partsitem Prove that direct sum is associative:
+  %       \( (W_1\directsum W_2)\directsum W_3=
+  %           W_1\directsum(W_2\directsum W_3) \).
+  %      \partsitem Show that \( \Re^3 \) is the direct sum of the three axes
+  %        (the relevance here is that by the previous item,
+  %         we needn't specify which two of the three axes are combined first).
+  %      \partsitem Does the direct sum operation left-cancel:~does
+  %        \( W_1\directsum W_2=W_1\directsum W_3 \) imply \( W_2=W_3 \)?
+  %        Does it right-cancel?
+  %      \partsitem There is an identity element with respect to this operation.
+  %        Find it.
+  %      \partsitem Do some, or all, subspaces have inverses with respect to this
+  %        operation:~is there a subspace \( W \) of some vector space such
+  %        that there is a subspace \( U \) with the property that
+  %        \( U\directsum W \) equals the identity element from
+  %        the prior item?
+  %   \end{exparts}
+  %   \begin{answer}
+  %     \begin{exparts}
+  %        \partsitem They are equal because for each, 
+  %          \( V \) is the direct sum if
+  %          and only if we can write each \( \vec{v}\in V \) in a unique
+  %          way as a sum \( \vec{v}=\vec{w}_1+\vec{w}_2 \) and
+  %          \( \vec{v}=\vec{w}_2+\vec{w}_1 \).
+  %        \partsitem They are equal because for each, 
+  %          \( V \) is the direct sum if
+  %          and only if we can write each \( \vec{v}\in V \) in a unique
+  %          way as a sum of a vector from each
+  %          $\vec{v}=(\vec{w}_1+\vec{w}_2)+\vec{w}_3$
+  %          and $\vec{v}=\vec{w}_1+(\vec{w}_2+\vec{w}_3)$.
+  %        \partsitem We can decompose any vector in \( \Re^3 \) uniquely into
+  %          the sum of a vector from each axis.
+  %        \partsitem No.
+  %          For an example, in \( \Re^2 \) take \( W_1 \) to be the
+  %          \( x \)-axis, take \( W_2 \) to be the \( y \)-axis, and
+  %          take \( W_3 \) to be the line \( y=x \).
+  %        \partsitem In any vector space the trivial subspace acts as 
+  %          the identity element with respect to direct sum.
+  %        \partsitem In any vector space, only the trivial subspace has
+  %          a direct-sum inverse (namely, itself).
+  %          One way to see this is that dimensions add, and so increase.
+  %     \end{exparts}  
+  %    \end{answer}
+\end{exercises}
+\index{direct sum|)}

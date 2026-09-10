@@ -1,0 +1,509 @@
+        对于来自 $\Re^2$ 的三个向量，上一小项的论证仍然适用，只是略有变化：高斯消元法现在只留下至少一个自由变量（但这仍然给出无穷多解）。
+      \partsitem 上一小项表明，$\Re^2$ 中任何三元素子集都不是线性无关的。
+        我们知道，$\Re^2$ 中存在线性无关的二元素子集\Dash 例如
+        \begin{equation*}
+          \set{\colvec{1  \\ 0},\colvec{0  \\ 1}}
+        \end{equation*}
+        因此答案是二。
+     \end{exparts}
+    \end{answer}
+  \item
+    在 \( \Re^3 \) 中是否存在由四个向量组成的集合，使得其中任何三个向量都构成一个线性无关的集合？
+    \begin{answer}
+      存在；下面就是一例。
+      \begin{equation*}
+         \set{\colvec{1 \\ 0 \\ 0},
+              \colvec{0 \\ 1 \\ 0},
+              \colvec{0 \\ 0 \\ 1},
+              \colvec{1 \\ 1 \\ 1} }
+      \end{equation*}
+    \end{answer}
+  \item
+    是否每个线性相关的集合都既有一个线性相关的子集，又有一个线性无关的子集？
+    \begin{answer}
+      是的。
+      任取一个向量空间~$V$，并设 $S$ 是~$V$ 的一个线性相关子集。
+      至于~$S$ 的线性相关子集，取~$S$ 本身即可。
+      至于~$S$ 的线性无关子集，可以取空集。
+    \end{answer}
+  \item
+    在 \( \Re^4 \) 中，你能找到的最大的线性无关集合是什么？
+    最小的呢？
+    最大的线性相关集合呢？
+    最小的呢？
+    （“最大”与“最小”是指不存在具有同样性质的超集或子集。）
+    \begin{answer}
+      在 \( \Re^4 \) 中，最大的线性无关集合含有四个向量。
+      这样的集合有很多例子，下面是一个。
+      \begin{equation*}
+        \set{\colvec{1 \\ 0 \\ 0 \\ 0},
+             \colvec{0 \\ 1 \\ 0 \\ 0},
+             \colvec{0 \\ 0 \\ 1 \\ 0},
+             \colvec{0 \\ 0 \\ 0 \\ 1}  }
+      \end{equation*}
+      为了看出任何含五个或更多向量的集合都不可能线性无关，列出
+      \begin{equation*}
+             c_1\colvec{a_{1,1} \\ a_{2,1} \\ a_{3,1} \\ a_{4,1}}
+            +c_2\colvec{a_{1,2} \\ a_{2,2} \\ a_{3,2} \\ a_{4,2}}
+            +c_3\colvec{a_{1,3} \\ a_{2,3} \\ a_{3,3} \\ a_{4,3}}
+            +c_4\colvec{a_{1,4} \\ a_{2,4} \\ a_{3,4} \\ a_{4,4}}
+            +c_5\colvec{a_{1,5} \\ a_{2,5} \\ a_{3,5} \\ a_{4,5}}
+             =\colvec{0 \\ 0 \\ 0 \\ 0}
+      \end{equation*}
+      并注意由此得到的线性方程组
+      \begin{equation*}
+        \begin{linsys}{5}
+          a_{1,1}c_1 &+ &a_{1,2}c_2 &+ &a_{1,3}c_3
+              &+ &a_{1,4}c_4 &+ &a_{1,5}c_5 &=  &0   \\
+          a_{2,1}c_1 &+ &a_{2,2}c_2 &+ &a_{2,3}c_3
+              &+ &a_{2,4}c_4 &+ &a_{2,5}c_5 &=  &0   \\
+          a_{3,1}c_1 &+ &a_{3,2}c_2 &+ &a_{3,3}c_3
+              &+ &a_{3,4}c_4 &+ &a_{3,5}c_5 &=  &0   \\
+          a_{4,1}c_1 &+ &a_{4,2}c_2 &+ &a_{4,3}c_3
+              &+ &a_{4,4}c_4 &+ &a_{4,5}c_5 &=  &0
+        \end{linsys}
+      \end{equation*}
+      有四个方程与五个未知数，
+      所以高斯消元法结束时至少有一个 \( c \) 变量是自由变量，
+      故有无穷多解，
+      从而上述四个分量的向量之间的线性关系，其解不只是平凡解。
+
+      最小的线性无关集合是空集。
+
+      最大的线性相关集合是 \( \Re^4 \)。
+      最小的是 \( \set{\zero} \)。
+    \end{answer}
+  \recommended \item
+    线性无关与线性相关都是集合的性质。
+    于是我们自然要问：这两个性质相对于大家熟悉的初等集合关系与运算，表现如何。
+    在本小节正文中，我们已经讨论了子集与超集关系。
+    我们也可以考虑交、补与并这几种运算。
+    \begin{exparts}
+       \partsitem 线性无关与交有什么关系：~线性无关集合的交可能是线性无关的吗？
+         一定是吗？
+       \partsitem 线性无关与补运算有什么关系？
+       \partsitem 证明：两个线性无关集合的并可以是线性无关的。
+       \partsitem 证明：两个线性无关集合的并未必是线性无关的。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 两个线性无关集合的交 $S\intersection T$ 必定线性无关，
+          因为它是线性无关集合 $S$ 的子集
+          （当然，也是线性无关集合 $T$ 的子集）。
+        \partsitem 线性无关集合的补是线性相关的，
+          因为它包含零向量。
+        \partsitem \( \Re^2 \) 中的一个简单例子是下面这两个集合。
+          \begin{equation*}
+            S=\set{\colvec{1 \\ 0}}
+            \qquad
+            T=\set{\colvec{0 \\ 1}}
+          \end{equation*}
+          一个稍微精细些的例子，同样取自 \( \Re^2 \)，是下面这两个。
+          \begin{equation*}
+            S=\set{\colvec{1 \\ 0}}
+            \qquad
+            T=\set{\colvec{1 \\ 0}, \colvec{0 \\ 1}}
+          \end{equation*}
+        \partsitem 我们必须构造一个例子。
+          \( \Re^2 \) 中的一个例子是
+          \begin{equation*}
+            S=\set{\colvec{1 \\ 0}}
+            \qquad
+            T=\set{\colvec{2 \\ 0}}
+          \end{equation*}
+          因为 \( S_1\union S_2 \) 的线性相关性显而易见。
+      \end{exparts}
+    \end{answer}
+  \item \textit{承接上一练习。}
+    线性无关这一性质与并这一运算之间的相互作用是怎样的？
+    \begin{exparts}
+       \partsitem 我们可以猜测：线性无关集合的并 $S\union T$ 线性无关，当且仅当它们的张成之交是平凡的，即 $\spanof{S}\intersection \spanof{T}=\set{\zero}$。
+          对于该猜想的“若”方向，下面这个论证有什么问题？
+          “如果并 $S\union T$ 线性无关，那么
+          $c_1\vec{s}_1+\cdots+c_n\vec{s}_n
+            +d_1\vec{t}_1+\cdots+d_m\vec{t}_m
+            =\zero$
+          的唯一解是平凡解 $c_1=0$，\ldots，$d_m=0$。
+          所以张成之交中的任何元素必定是零向量，因为在
+          $c_1\vec{s}_1+\cdots+c_n\vec{s}_n
+            =d_1\vec{t}_1+\cdots+d_m\vec{t}_m$
+          中每个标量都是零。”
+       \partsitem 给出一个例子，说明该猜想不成立。
+       \partsitem 求线性无关集合 \( S \) 与 \( T \)，
+          使得 \( S-(S\cap T)\) 与 \( T-(S\cap T) \) 的并线性无关，
+          但并 \( S\cup T \) 却不线性无关。
+       \partsitem 用张成空间的交来刻画两个线性无关集合的并何时线性无关。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \nearbylemma{le:LDIffANonTrivLinRel}
+          要求诸向量
+          $\vec{s}_1,\ldots,\vec{s}_n,\vec{t}_1,\ldots,\vec{t}_m$
+          互不相同。
+          但可能出现这种情况：并 $S\cup T$ 线性无关，而某个 $\vec{s}_i$ 等于某个 $\vec{t}_j$。
+        \partsitem \( \Re^2 \) 中的一个例子是下面这两个。
+          \begin{equation*}
+            S=\set{\colvec{1 \\ 0}}
+            \qquad
+            T=\set{\colvec{1 \\ 0}, \colvec{0 \\ 1}}
+          \end{equation*}
+        \partsitem
+          取自 \( \Re^2 \) 的一个例子是这些集合。
+          \begin{equation*}
+            S=\set{\colvec{1 \\ 0}, \colvec{0 \\ 1}}
+            \qquad
+            T=\set{\colvec{1 \\ 0}, \colvec{1 \\ 1}}
+          \end{equation*}
+        \partsitem 两个线性无关集合的并 $S\union T$
+          线性无关，当且仅当 \( S \) 的张成
+          与 \( T-(S\cap T)\) 的张成之交是平凡的，
+          即 $\spanof{S}\intersection \spanof{T-(S\cap T)}=\set{\zero}$。
+          为证明这一点，设 \( S \) 与 \( T \) 是某个向量空间中的线性
+          无关子集。
+
+          对于“仅当”方向，设张成之交是平凡的
+          \( \spanof{S}\intersection \spanof{T-(S\cap T)}=\set{\zero} \)。
+          考虑集合 $S\union (T-(S\cap T))=S\union T$，
+          并考虑线性关系
+          $c_1\vec{s}_1+\dots+c_n\vec{s}_n
+            +d_1\vec{t}_1+\dots+d_m\vec{t}_m=\zero$。
+          移项得
+          $c_1\vec{s}_1+\dots+c_n\vec{s}_n=
+            -d_1\vec{t}_1-\dots-d_m\vec{t}_m$。
+          该等式左边求和得到 $\spanof{S}$ 中的一个向量，
+          而右边是 $\spanof{T-(S\cap T)}$ 中的一个向量。
+          因此，由于张成之交是平凡的，两边都等于零向量。
+          因为 $S$ 线性无关，所以所有 $c$ 都是零。
+          因为 $T$ 线性无关，所以 $T-(S\cap T)$ 也线性无关，
+          从而所有 $d$ 都是零。
+          于是，$S\union T$ 中各向量之间的这个线性关系
+          只有在所有系数都为零时才成立。
+          因此，$S\union T$ 线性无关。
+
+          对于“若”这一半，我们可以把同样的论证反着进行。
+          设并 $S\union T$ 线性无关。
+          考虑 $S$ 与 $T-(S\cap T)$ 中向量之间的一个线性关系。
+          $c_1\vec{s}_1+\cdots+c_n\vec{s}_n
+            +d_1\vec{t}_1+\cdots+d_m\vec{t}_m
+            =\zero$
+          注意没有哪个 $\vec{s}_i$ 等于某个 $\vec{t}_j$，
+          所以这是互不相同的向量的组合，正如
+          \nearbylemma{le:LDIffANonTrivLinRel}
+          所要求的那样。
+          于是唯一解
+          是平凡解 $c_1=0$，\ldots，$d_m=0$。
+          由于张成交集
+          $\spanof{S}\intersection \spanof{T-(S\cap T)}$
+          中的任意向量 $\vec{v}$
+          都可以写成
+          $\vec{v}=c_1\vec{s}_1+\cdots+c_n\vec{s}_n
+            =-d_1\vec{t}_1-\cdots-d_m\vec{t}_m$，
+          而每个标量都是零，故它必是零向量。
+      \end{exparts}
+    \end{answer}
+  \item \label{exer:FillIndDetProofSetHasLISub}
+    对于 \nearbycorollary{th:AlwaysAnLDSubset}，
+    \begin{exparts}
+       \partsitem 补全证明中的归纳部分；
+       \partsitem 给出另一种证法：从空集出发，
+         逐步构造给定有限集的一系列线性无关子集，
+         直到出现一个与给定集合张成相同的子集。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 我们对有限集
+           \( S \) 中向量的个数作归纳。
+
+           基础情形是 $S$ 没有元素。
+           此时 $S$ 线性无关，无需检验任何东西\Dash
+           与 $S$ 张成相同的 $S$ 的子集就是 $S$
+           本身。
+
+           归纳步骤：假设该定理对大小为 $n=0$、$n=1$、\ldots、$n=k$
+           的所有集合都成立，以此证明当 \( S \) 有 $n=k+1$ 个元素时它也成立。
+           若 $k+1$ 元集合 \( S=\set{\vec{s}_0,\dots,\vec{s}_{k}} \)
+           线性无关，则定理平凡成立，
+           故设它是线性相关的。
+           由 \nearbycorollary{cor:LDMeansLC}，存在某个 \( \vec{s}_i \)，
+           它是 \( S \) 中其他向量的线性组合。
+           令 \( S_1=S-\set{\vec{s}_i} \)，并注意
+           由 \nearbycorollary{cor:OmitVecNotShrinkSpanIffVecIsDep}，
+           \( S_1 \) 与 \( S \) 有相同的张成。
+           集合 \( S_1 \) 有 \( k \) 个元素，
+           故归纳假设适用，于是它有一个张成相同的线性无关子集。
+           \( S_1 \) 的这个子集就是所要求的 \( S \) 的子集。
+         \partsitem 下面是论证的概要。
+           我们略去了归纳论证的细节。
+
+           若有限集 \( S \) 为空，则无需证明。
+           若 \( S=\set{\zero} \)，则取空子集即可。
+
+           否则，取某个非零向量 \( \vec{s}_1\in S \)，
+           并令 \( S_1=\set{\vec{s}_1} \)。
+           若 \( \spanof{S_1}=\spanof{S} \)，则
+           注意到 \( S_1 \) 线性无关，本证明即告完成。
+
+           若不然，则存在非零
+           向量 \( \vec{s}_2\in S-\spanof{S_1} \)
+           （因为若每个 \( \vec{s}\in S \) 都属于 \( \spanof{S_1} \)，则
+           \( \spanof{S_1}=\spanof{S} \)）。
+           令 \( S_2=S_1\union\set{\vec{s}_2} \)。
+           若 \( \spanof{S_2}=\spanof{S} \)，则
+           可利用 \nearbytheorem{cor:LDMeansLC}
+           证明 \( S_2 \) 线性无关，证明即告完成。
+
+           将上一段重复进行，直到出现一个张成足够大的集合。
+           这最终必定发生，因为 \( S \) 是有限的，并且
+           最迟在我们用尽
+           \( S \) 中的全部向量时就会达到 \( \spanof{S} \)。
+      \end{exparts}
+    \end{answer}
+  \item
+     通过一些计算，我们可以得到判定一个向量集合是否线性无关的公式。
+     \begin{exparts}
+       \partsitem 证明 \( \Re^2 \) 的这个子集
+         \begin{equation*}
+           \set{\colvec{a \\ c},\colvec{b \\ d}}
+         \end{equation*}
+         线性无关当且仅当 \( ad-bc\neq 0 \)。
+       \partsitem 证明 \( \Re^3 \) 的这个子集
+         \begin{equation*}
+           \set{\colvec{a \\ d \\ g},
+                \colvec{b \\ e \\ h},
+                \colvec{c \\ f \\ i}  }
+         \end{equation*}
+         线性无关当且仅当
+         \( aei+bfg+cdh-hfa-idb-gec \neq 0 \)。
+       \partsitem \( \Re^3 \) 的这个子集
+         \begin{equation*}
+           \set{\colvec{a \\ d \\ g},
+                \colvec{b \\ e \\ h} }
+         \end{equation*}
+         何时线性无关？
+       \partsitem 这是一个观点问题：~对于来自 \( \Re^4 \) 的四个向量组成的集合，
+         是否必定存在一个涉及这十六个分量、能判定该集合是否线性无关的公式？
+         （你不必给出这样的公式，只需判断这样的公式是否存在。）
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          先设 \( a\neq 0 \)，
+          \begin{equation*}
+            x\colvec{a \\ c}
+            +y\colvec{b \\ d}
+            =\colvec{0 \\ 0}
+          \end{equation*}
+          给出
+          \begin{equation*}
+            \begin{linsys}{2}
+               ax  &+  &by &=  &0  \\
+               cx  &+  &dy &=  &0
+            \end{linsys}
+            \grstep{-(c/a)\rho_1+\rho_2}
+            \begin{linsys}{2}
+               ax  &+  &by           &=  &0  \\
+                   &   &(-(c/a)b+d)y &=  &0
+             \end{linsys}
+          \end{equation*}
+          它有解当且仅当
+          \( 0\neq-(c/a)b+d=(-cb+ad)/d \)
+          （这一情形我们已设 \( a\neq 0 \)，
+          故回代给出唯一解）。
+
+          \( a=0 \) 的情形也不难\Dash
+          把它分成 \( c\neq 0 \) 与 \( c=0 \) 两种子情形，
+          并注意在这些情形 \( ad-bc=0\cdot d-bc \)。
+
+          \textit{评注。}
+          前面的一道练习已证明：由两个向量组成的集合线性相关，
+          当且仅当其中一个向量是另一个的标量倍。
+          我们也可以利用那个结论来进行这里的计算。
+        \partsitem 方程
+          \begin{equation*}
+            c_1\colvec{a \\ d \\ g}
+            +c_2\colvec{b \\ e \\ h}
+            +c_3\colvec{c \\ f \\ i}
+            =\colvec{0 \\ 0 \\ 0}
+          \end{equation*}
+         表示一个齐次线性方程组。
+         我们将它写成矩阵形式并应用高斯消元法。
+
+         我们先把矩阵化为上三角形式。
+         设 \( a\neq 0 \)。
+         有了这一点，我们就可以对第一列向下消元。
+         \begin{equation*}
+           \grstep{(1/a)\rho_1}
+           \begin{amat}{3}
+              1   &b/a   &c/a  &0 \\
+              d   &e     &f    &0 \\
+              g   &h     &i    &0
+            \end{amat}
+           \grstep[-g\rho_1+\rho_3]{-d\rho_1+\rho_2}
+           \begin{amat}{3}
+              1   &b/a           &c/a        &0   \\
+              0   &(ae-bd)/a     &(af-cd)/a  &0   \\
+              0   &(ah-bg)/a     &(ai-cg)/a  &0
+            \end{amat}
+         \end{equation*}
+         然后我们把第二行、第二列处的元素变成 $1$。
+         （为执行这一行化简步骤，暂时设 \( ae-bd\neq 0 \)。）
+         \begin{equation*}
+           \grstep{(a/(ae-bd))\rho_2}
+           \begin{amat}{3}
+              1   &b/a           &c/a             &0  \\
+              0   &1             &(af-cd)/(ae-bd) &0  \\
+              0   &(ah-bg)/a     &(ai-cg)/a       &0
+            \end{amat}
+         \end{equation*}
+         然后，在上述假设下，我们施行行变换 $((ah-bg)/a)\rho_2+\rho_3$，
+         得到下式。
+         \begin{equation*}
+           % \grstep{((ah-bg)/a)\rho_2+\rho_3}
+           \begin{amat}{3}
+              1   &b/a   &c/a                              &0 \\
+              0   &1     &(af-cd)/(ae-bd)                   &0 \\
+              0   &0     &(aei+bgf+cdh-hfa-idb-gec)/(ae-bd) &0
+            \end{amat}
+         \end{equation*}
+         因此，原方程组是非奇异的
+         当且仅当上面的 \( 3,3 \) 元非零
+         （由于 \( ae-bd\neq 0 \) 的假设，这个分式有定义）。
+         它等于零当且仅当分子为零。
+
+         接下来我们处理这些假设。
+         首先，若 \( a\neq 0 \) 但 \( ae-bd=0 \)，则我们作对换
+         \begin{multline*}
+           \begin{amat}{3}
+              1   &b/a           &c/a        &0   \\
+              0   &0             &(af-cd)/a  &0   \\
+              0   &(ah-bg)/a     &(ai-cg)/a  &0
+            \end{amat}                                    \\
+           \grstep{\rho_2\leftrightarrow\rho_3}
+           \begin{amat}{3}
+              1   &b/a           &c/a        &0   \\
+              0   &(ah-bg)/a     &(ai-cg)/a  &0   \\
+              0   &0             &(af-cd)/a  &0
+            \end{amat}
+         \end{multline*}
+         并得出结论：方程组非奇异当且仅当
+         \( ah-bg=0 \) 或 \( af-cd=0 \)。
+         这等价于问它们的乘积是否为零：
+         \begin{align*}
+            ahaf-ahcd-bgaf+bgcd
+            &=0                   \\
+            ahaf-ahcd-bgaf+aegc
+            &=0                   \\
+            a(haf-hcd-bgf+egc)
+            &=0
+         \end{align*}
+         （从第一行到第二行，我们利用了情形假设 $ae-bd=0$，
+         用 $ae$ 代替 $bd$）。
+         由于我们已设 \( a\neq 0 \)，
+         我们便有 \( haf-hcd-bgf+egc=0 \)。
+         利用 $ae-bd=0$，我们可以把它改写成所需的形式：~
+         在这个 \( a\neq 0 \) 且 \( ae-bd=0 \) 的情形中，
+         当
+         \( haf-hcd-bgf+egc-i(ae-bd)=0 \) 时，
+         给定方程组非奇异，正如所要求的。
+
+         其余的情形具有同样的特点。
+         对于 \( a=0 \) 但 \( d\neq 0 \) 的情形，以及 \( a=0 \) 且
+         \( d=0 \) 但 \( g\neq 0 \) 的情形，
+         先对换行，然后照上面那样继续进行。
+         \( a=0 \)、\( d=0 \)、\( g=0 \) 的情形很简单\Dash
+         含零向量的集合线性相关，而公式算出来恰好为零。
+       \partsitem 它线性相关当且仅当其中一个向量是另一个的倍数。
+          也就是说，它不独立当且仅当
+          \begin{equation*}
+            \colvec{a \\ d \\ g}=r\cdot\colvec{b \\ e \\ h}
+            \quad\text{或}\quad
+            \colvec{b \\ e \\ h}=s\cdot\colvec{a \\ d \\ g}
+          \end{equation*}
+          （或两者同时成立），其中 $r$ 与 $s$ 是标量。
+          消去 $r$ 与 $s$，以便只用给定的字母 $a$、$b$、$d$、$e$、$g$、$h$
+          来重新陈述这个条件，我们得到：它不独立\Dash
+          即线性相关\Dash 当且仅当
+          \( ae-bd=ah-gb=dh-ge \)。
+        \partsitem 相关还是无关是下标的函数，所以确实存在一个公式
+          （尽管乍看之下人们可能以为该公式要分情况讨论：
+          “如果第一个向量的第一个分量为零，那么\ldots”，
+          但这个猜测并不正确）。
+       \end{exparts}
+     \end{answer}
+  \recommended \item
+    \begin{exparts}
+      \partsitem 证明：当 \( n>1 \) 时，来自
+        \( \Re^n \) 的由两个互相垂直的非零向量组成的集合是线性无关的。
+      \partsitem 若 \( n=1 \) 呢？
+        \( n=0 \) 呢？
+      \partsitem 推广到多于两个向量的情形。
+    \end{exparts}
+    \begin{answer}
+      回想一下，\( \Re^n \) 中的两个向量垂直当且仅当它们的点积为零。
+      \begin{exparts}
+         \partsitem 设 \( \vec{v} \) 与 \( \vec{w} \) 是
+           $\Re^n$ 中互相垂直的非零向量，其中 \( n>1 \)。
+           对于线性关系 \( c\vec{v}+d\vec{w}=\zero \)，
+           在两边点乘 \( \vec{v} \)，得到 \( c\cdot\norm{\vec{v}}^2+d\cdot 0=0 \)。
+           因为 \( \vec{v}\neq\zero \)，所以 \( c=0 \)。
+           类似地用 \( \vec{w} \) 点乘可知 \( d=0 \)。
+         \partsitem \( \Re^1 \) 中的两个向量垂直当且仅当
+           其中至少有一个是零向量。
+
+           我们把 \( \Re^0 \) 定义为平凡空间，
+           因此 $\vec{v}$ 与 $\vec{w}$ 都是零向量。
+         \partsitem 正确的推广是考察由
+           \definend{两两正交}
+           （也称为 \definend{两两垂直}）的向量组成的集合
+           \( \set{\vec{v}_1,\dots,\vec{v}_n}\subseteq\Re^k \)：~若
+           \( i\neq j \)，则 \( \vec{v}_i \) 垂直于
+           \( \vec{v}_j \)。
+           模仿上面第一小项的证明可知，这样的非零向量集合是线性无关的。
+      \end{exparts}
+    \end{answer}
+  \item
+    考虑从区间
+    $\openinterval{-1}{1}\subseteq \Re$
+    到 $\Re$ 的函数全体组成的集合。
+    \begin{exparts}
+      \partsitem 证明：在通常的运算下，这个集合是一个向量空间。
+      \partsitem 回想无穷几何级数的求和公式：
+         对所有 \( x\in(-1..1) \)，\( 1+x+x^2+\cdots=1/(1-x) \)。
+         为什么这并不表示集合 $\set{g(x)=1/(1-x),f_0(x)=1,f_1(x)=x,f_2(x)=x^2,\ldots}$
+         （在我们所考虑的向量空间中）内部的一个相关关系？
+         （\textit{提示。}
+         复习线性组合的定义。）
+      \partsitem 证明上一小项中的集合是线性无关的。
+    \end{exparts}
+    这表明某些向量空间存在无穷的线性无关子集。
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 这个检验是常规的。
+        \partsitem 该求和是无穷的（有无穷多项）。
+          而线性组合的定义只涉及有限和。
+        \partsitem \( \set{g,f_0,f_1,\ldots} \) 中成员的任何非平凡有限和
+           都不会加成零对象：~设
+           \begin{equation*}
+              c_0\cdot (1/(1-x))+c_1\cdot 1+\dots+c_n\cdot x^n=0
+           \end{equation*}
+           （任何有限和都有一个最高次幂，这里是 \( n \)）。
+           两边乘以 \( 1-x \) 可知每个系数都为零，
+           因为仅当多项式是零多项式时，它才描述零函数。
+      \end{exparts}
+     \end{answer}
+  \item
+    证明：设 \( S \) 是 \( V \) 的子空间，若 \( S \) 的子集 $T$ 在
+    \( S \) 中线性无关，则 $T$ 在 \( V \) 中也线性无关。
+    反过来的“仅当”方向也成立吗？
+    \begin{answer}
+      “若”与“仅当”两个方向都成立。
+
+      设 \( T \) 是向量空间 \( V \) 的子空间 \( S \) 的一个子集。
+      断言“\( T \) 中成员之间的任何线性关系
+      $c_1\vec{t}_1+\dots+c_n\vec{t}_n=\zero$
+      必定是平凡关系 $c_1=0$，\ldots，$c_n=0$”
+      这一命题在 \( S \) 中成立当且仅当它在 \( V \) 中成立，
+      因为子空间 \( S \) 的加法与
+      标量乘法运算继承自 \( V \)。
+    \end{answer}
+\end{exercises}

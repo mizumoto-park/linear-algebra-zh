@@ -1,0 +1,475 @@
+% Chapter 4, Topic _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2012-Jun-18
+\topic{Chiò 方法}
+\index{Chi\`o's method|(}
+
+对只含整数的矩阵做高斯消元时，人们常常希望保持这一特点。
+为了在对下面这个矩阵化简时避免分数
+\begin{equation*}
+  A=
+  \begin{mat}
+    2 &1 &1 \\
+    3 &4 &-1 \\
+    1 &5 &1 
+  \end{mat}
+\end{equation*}
+可以先把下面的行乘以~$2$
+\begin{equation*}
+  \grstep[2\rho_3]{2\rho_2}
+  \begin{mat}
+    2 &1 &1 \\
+    6 &8 &-2 \\
+    2 &10 &2 
+  \end{mat}
+  \tag{$*$}
+\end{equation*}
+使得第一列的消元过程如下进行。
+\begin{equation*}
+  \grstep[-\rho_1+\rho_3]{-3\rho_1+\rho_2}
+  \begin{mat}
+    2 &1 &1 \\
+    0 &5 &-5 \\
+    0 &8 &0 
+  \end{mat}
+  \tag{$**$}
+\end{equation*}
+这种全整数的做法便于心算。
+而且，在计算机上用整数运算可以避免浮点计算带来的一些棘手问题 \cite{Kahan}。
+因此这种做法有充分的理由。
+
+这种做法的另一个优点是，我们可以方便地对~($**$) 的第一列用
+Laplace 展开，然后只要记得除以~$4$（因为~($*$)）就能得到行列式。
+
+下面是这种求行列式方法的一般 $\nbyn{3}$ 情形。
+首先，假设 $a_{1,1}\neq 0$，我们可以把下面的行倍乘。
+\begin{equation*}
+  A=
+  \begin{mat}
+    a_{1,1} &a_{1,2} &a_{1,3}  \\
+    a_{2,1} &a_{2,2} &a_{2,3}  \\
+    a_{3,1} &a_{3,2} &a_{3,3}  
+  \end{mat}
+  \grstep[a_{1,1}\rho_3]{a_{1,1}\rho_2}
+  \begin{mat}
+    a_{1,1}       &a_{1,2}       &a_{1,3}        \\
+    a_{2,1}a_{1,1} &a_{2,2}a_{1,1} &a_{2,3}a_{1,1}   \\
+    a_{3,1}a_{1,1} &a_{3,2}a_{1,1} &a_{3,3}a_{1,1}   
+  \end{mat}
+\end{equation*}
+这将行列式缩放了 $a_{1,1}^2$ 倍。
+现在沿第一列消元。
+\begin{equation*}
+   \grstep[-a_{3,1}\rho_1+\rho_3]{-a_{2,1}\rho_1+\rho_2}
+  \begin{mat}
+    a_{1,1}       &a_{1,2}       &a_{1,3}       \\
+    0 
+       &a_{2,2}a_{1,1}-a_{2,1}a_{1,2} 
+       &a_{2,3}a_{1,1}-a_{2,1}a_{1,3}               \\
+    0 
+       &a_{3,2}a_{1,1}-a_{3,1}a_{1,2} 
+       &a_{3,3}a_{1,1}-a_{3,1}a_{1,3}                   
+  \end{mat}
+\end{equation*}
+设 $C$ 是 $1,1$ 子式。
+由 Laplace 公式，上述矩阵的行列式为 $a_{1,1}\det(C)$。
+于是 $a_{1,1}^2\det(A)=a_{1,1}\det(C)$，又因 $a_{1,1}\neq 0$，
+故得 $\det(A)=\det(C)/a_{1,1}$。
+
+要处理更大的矩阵，我们必须弄清楚如何计算子式的元素。
+上面的模式是：子式的每个元素都是一个
+$\nbyn{2}$~行列式。
+例如，子式左上角的元素 $a_{2,2}a_{1,1}-a_{2,1}a_{1,2}$，也就是上面矩阵中的 $2,2$~元素，
+是 $A$ 的这四个
+元素所成矩阵的行列式。
+\begin{equation*}
+  \begin{mat}
+    \highlight{$a_{1,1}$} &\highlight{$a_{1,2}$} &a_{1,3}  \\
+    \highlight{$a_{2,1}$} &\highlight{$a_{2,2}$} &a_{2,3}  \\
+    a_{3,1}               &a_{3,2}               &a_{3,3}  
+  \end{mat}
+\end{equation*}
+而子式的左下角，即上面的 $3,2$ 元素，
+是矩阵 
+中这四个元素
+\begin{equation*}
+  \begin{mat}
+    \highlight{$a_{1,1}$} &\highlight{$a_{1,2}$} &a_{1,3}  \\
+    a_{2,1}               &a_{2,2}               &a_{2,3}  \\
+    \highlight{$a_{3,1}$} &\highlight{$a_{3,2}$} &a_{3,3}  
+  \end{mat}
+\end{equation*}
+
+于是，当 $A$ 是 $n\geq 3$ 的~$\nbyn{n}$ 矩阵时，我们令 Chiò 矩阵 $C$ 为
+$\nbyn{(n-1)}$ 矩阵，其 $i,j$ 元素是行列式
+\begin{equation*}
+  \begin{vmat}
+    a_{1,1}  &a_{1,j+1} \\
+    a_{i+1,1}    &a_{i+1,j+1}
+  \end{vmat}
+\end{equation*}
+其中 $1<i,j\leq n$。
+求 $A$ 的行列式的\definend{Chiò 方法}\index{Chi\`o's method} 
+是：若 $a_{1,1}\neq 0$，则
+$\det(A)=\det(C)/a_{1,1}^{n-2}$。
+（顺便说一句，
+Chiò 公式并不要求这些数是整数；它对实数同样适用。）
+
+为了说明，我们求这个 $\nbyn{3}$ 矩阵的行列式。
+\begin{equation*} 
+  A=
+  \begin{mat}
+    2 &1 &1 \\
+    3 &4 &-1 \\
+    1 &5 &1 
+  \end{mat}
+\end{equation*}
+这就是 Chiò 矩阵。
+\begin{equation*}
+  C=
+  \begin{mat}
+    \begin{vmat}
+      2 &1 \\
+      3 &4
+    \end{vmat}
+   &
+   \begin{vmat}
+     2 &1 \\
+     3 &-1
+   \end{vmat}        \\[3ex]      
+   \begin{vmat}
+     2 &1 \\
+     1 &5
+   \end{vmat}
+   &
+   \begin{vmat}
+     2 &1 \\
+     1 &1
+   \end{vmat}
+  \end{mat}
+  =
+  \begin{mat}
+    5  &-5  \\
+    9  &1
+  \end{mat}
+\end{equation*}
+$\nbyn{3}$ 矩阵的公式
+$det(A)=\det(C)/a_{1,1}$ 给出 $\det(A)=(50/2)=25$。
+
+对于更大的行列式，我们必须做多个步骤，但每一步只涉及 $\nbyn{2}$ 行列式。
+因此我们常常只需写下一点中间信息就能算出行列式。
+例如，对这个 $\nbyn{4}$ 矩阵
+\begin{equation*}
+  A=
+  \begin{mat}
+    3  &0  &1  &1  \\
+    1  &2  &0  &1  \\
+    2  &-1 &0  &3  \\
+    1  &0  &0  &1
+  \end{mat} 
+\end{equation*}
+我们可以在心里完成每一个
+$\nbyn{2}$ 计算，而只写下
+$\nbyn{3}$ 的结果。
+\begin{equation*}
+  C_3=
+  \begin{mat}
+    \begin{vmat}
+      3 &0 \\
+      1 &2
+    \end{vmat}
+    &\begin{vmat}
+     3 &1 \\
+     1 &0 
+    \end{vmat}
+    &\begin{vmat}
+     3 &1 \\
+     1 &1
+    \end{vmat}                \\[3ex]
+    \begin{vmat}
+     3 &0 \\
+     2 &-1
+    \end{vmat}
+    &\begin{vmat}
+     3 &1 \\
+     2 &0
+    \end{vmat}
+    &\begin{vmat}
+     3 &1 \\
+     2 &3
+    \end{vmat}             \\[3ex]
+    \begin{vmat}
+     3 &0 \\
+     1 &0
+    \end{vmat}
+    &\begin{vmat}
+     3 &1 \\
+     1 &0
+    \end{vmat}
+    &\begin{vmat}
+     3 &1 \\
+     1 &1
+    \end{vmat}
+  \end{mat}
+  =
+  \begin{mat}
+    6  &-1  &2 \\
+   -3 &-2  &7 \\
+    0  &-1  &2
+  \end{mat}
+\end{equation*}
+注意这个矩阵的行列式
+是~$A$ 的行列式的 $a_{1,1}^{4-2}=3^2$ 倍。
+
+最后，迭代即可。
+这是 $C_3$ 的 Chiò 矩阵。
+\begin{equation*}
+  C_2=
+  \begin{mat}    
+    \begin{vmat}
+      6 &-1 \\
+     -3 &-2 
+    \end{vmat}
+    &\begin{vmat}
+      6 &2 \\
+     -3 &7
+    \end{vmat}           \\[3ex]
+    \begin{vmat}
+      6 &-1 \\
+      0 &-1
+    \end{vmat}
+    &\begin{vmat}
+      6 &2 \\
+      0 &2
+    \end{vmat}          
+  \end{mat}
+  =
+  \begin{mat}
+    -15 &48 \\
+    -6 &12
+  \end{mat}
+\end{equation*}
+这个矩阵的行列式
+是~$C_3$ 的行列式的 $6$~倍。
+$C_2$ 的行列式是 $108$。
+于是
+$\det(A)=108/(3^2\cdot 6)=2$。
+
+Laplace 展开公式
+把一个~$\nbyn{n}$ 行列式的计算化为若干个 $\nbyn{(n-1)}$~行列式的求值。
+Chiò 公式也是递归的，
+但它把一个~$\nbyn{n}$ 行列式化成单个~$\nbyn{(n-1)}$ 行列式，
+而后者由若干个 $\nbyn{2}$ 行列式算得。
+不过，对大矩阵而言，高斯消元法比这两种方法都好；
+例如，
+它所需的运算量大约是 Chiò 方法的一半~\cite{FullerLogan}。
+
+
+\begin{exercises}
+  \item 
+    用 Chiò 方法求下列行列式。
+    \begin{exparts*}
+      \partsitem 
+        $
+        \begin{vmat}
+          1  &2  &3  \\
+          4  &5  &6  \\
+          7  &8  &9  
+        \end{vmat}
+        $
+      \partsitem 
+        $
+        \begin{vmat}
+          2  &1  &4  &0  \\
+          0  &1  &4  &0  \\
+          1  &1  &1  &1  \\
+          0  &2  &1  &1  
+        \end{vmat}
+        $
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem Chiò 矩阵是
+        \begin{equation*}
+          C=
+          \begin{mat}
+            -3 &-6 \\
+            -6 &-12
+          \end{mat}
+        \end{equation*}
+        其行列式为 $0$
+        \partsitem 从
+        \begin{equation*}
+          C_3=
+          \begin{mat}
+            2 &8  &0 \\
+            1 &-2 &2 \\
+            4 &2  &2
+          \end{mat}
+        \end{equation*}
+        开始，再下一步得
+        \begin{equation*}
+          C_2=
+          \begin{mat}
+            -12 &4 \\
+            -28 &4
+          \end{mat}
+        \end{equation*}
+        其行列式 $\det(C_2)=64$。 
+        故原矩阵的行列式为 $64/(2^2\cdot 2^1)=8$
+      \end{exparts*} 
+    \end{answer}
+  \item 如果 $a_{1,1}$ 是零怎么办？
+    \begin{answer}
+      与上面 $\nbyn{3}$~情形相同的构造表明，
+      我们可以选取任一非零元素~$a_{i,j}$ 来代替 $a_{1,1}$。
+      Chiò 矩阵的元素 $c_{p,q}$ 是行列式
+      \begin{equation*}
+        \begin{vmat}
+          a_{1,1}    &a_{1,q+1} \\
+          a_{p+1,1}  &a_{p+1,q+1}
+        \end{vmat}
+      \end{equation*}
+      的值，其中 $p+1\neq i$ 且 $q+1\neq j$。
+    \end{answer}
+  \item \definend{Sarrus 法则}\index{Sarrus, Rule of}\index{Rule of Sarrus}
+    是许多人学过的一个帮助记忆
+    $\nbyn{3}$ 行列式公式的口诀。
+    在矩阵右侧抄写前两列。
+    \begin{equation*}
+      \begin{array}{ccc|cc}
+        a &b &c &a &b \\
+        d &e &f &d &e \\
+        g &h &i &g &h
+      \end{array}
+    \end{equation*}
+    于是行列式就是三条左上到右下的对角线之和
+    减去三条左下到右上的对角线之和：
+    $aei+bfg+cdh-gec-hfa-idb$。
+   请数一数 Sarrus 公式与 Chiò 方法各需要多少次运算。
+   \begin{answer}
+     Sarrus 公式用 $12$~次乘法和 $5$ 次加法（减法计入加法之中）。
+     Chiò 公式对四个 $\nbyn{2}$~行列式中的每一个要用两次乘法和一次加法
+     （实际上是减法），
+     对 $\nbyn{2}$~Chiò 行列式还要再用两次乘法和一次加法，
+     最后还要除以 $a_{1,1}$。
+     总共是十一次乘除和五次加减。
+     所以 Chiò 方法胜出。
+   \end{answer}
+  \item 证明 Chiò 公式。
+    \begin{answer}
+      考虑 $\nbyn{n}$ 矩阵
+      \begin{equation*}
+        A=
+        \begin{mat}
+           a_{1,1}  &a_{1,2}   &\cdots &a_{1,n-1}  &a_{1,n} \\
+           a_{2,1}  &a_{2,2}   &\cdots &a_{2,n-1}  &a_{2,n} \\
+                  &\vdots                         \\
+           a_{n-1,1} &a_{n-1,2} &\cdots &a_{n-1,n-1} &a_{n-1,n}  \\ 
+           a_{n,1}  &a_{n,2}   &\cdots &a_{n,n-1}  &a_{n,n} 
+        \end{mat}
+      \end{equation*}
+      把除第一行外的每一行都乘以~$a_{1,1}$。
+      \begin{equation*}
+        \grstep[a_{1,1}\rho_3 \\ \vdots \\ a_{1,1}\rho_{n}]{a_{1,1}\rho_2}  
+        \begin{mat}
+          a_{1,1}         &a_{1,2}        &\cdots &a_{1,n-1}        &a_{1,n} \\
+          a_{2,1}a_{1,1}   &a_{2,2}a_{1,1}  &\cdots &a_{2,n-1}a_{1,1}  &a_{2,n}a_{1,1} \\
+                        &\vdots                         \\
+          a_{n-1,1}a_{1,1} &a_{n-1,2}a_{1,1} &\cdots &a_{n-1,n-1}a_{1,1} &a_{n-1,n}a_{1,1}\\
+          a_{n,1}a_{1,1}  &a_{n,2}a_{1,1}   &\cdots &a_{n,n-1}a_{1,1}  &a_{n,n}a_{1,1} 
+        \end{mat}
+      \end{equation*}
+      这将行列式缩放了~$a_{1,1}^{n-1}$ 倍。 
+
+      接下来对每个行~$i>1$ 执行行变换
+      $-a_{i,1}\rho_1+\rho_i$。
+      这些行变换不改变行列式。
+      \begin{equation*}
+        \grstep[-a_{3,1}\rho_1+\rho_3 \\ \vdotswithin{-a_{3,1}\rho_1+\rho_3} \\ -a_{n,1}\rho_1+\rho_n]{-a_{2,1}\rho_1+\rho_2}         
+      \end{equation*}
+      结果是一个矩阵~$B$，其第一行不变，第一列全为零（除了
+      $1,1$ 元素为 $a_{1,1}$），其余元素如下。
+      \begin{equation*}
+        \begin{mat}
+              a_{1,2}  
+              &\cdots 
+              &a_{1,n-1}  
+              &a_{1,n} 
+              \\
+              a_{2,2}a_{1,1}-a_{2,1}a_{1,2}  
+              &\cdots 
+              &a_{2,n-1}a_{n,n}-a_{2,n-1}a_{1,n-1}  
+              &a_{2,n}a_{n,n}-a_{2,n}a_{1,n}    
+              \\
+              \vdots                         \\
+             a_{n,2}a_{1,1}-a_{n,1}a_{1,2} 
+             &\cdots 
+             &a_{n,n-1}a_{1,1}-a_{n,1}a_{1,n-1} 
+             &a_{n,n}a_{1,1}-a_{n,1}a_{1,n}  
+        \end{mat}
+      \end{equation*}
+       这个 $\nbyn{n}$ 矩阵 $B$ 的行列式是
+       $A$ 的行列式的 $a_{1,1}^{n-1}$~倍。
+
+     用~$C$ 表示矩阵 $B$ 的 $1,1$ 子式，
+     即由最后 $n-1$ 行和最后 $n-1$ 列构成的子矩阵。
+     沿 $B$ 的第一列作 Laplace 展开
+     得到其行列式为 $\det(B) = (-1)^{1+1}a_{1,1}\det(C)$。
+
+      若 $a_{1,1}\neq 0$，则令 $\set(B)$ 的两个表达式相等并约去公因子，
+      得 $\det(A)=\det(C)/a_{n,n}^{n-2}$。       
+    \end{answer}
+\end{exercises}
+
+\announcecomputercode
+下面用计算机语言 Python 实现 Chiò 方法。
+%  (to make it more readable 
+% the code avoids some Python facilities).
+% Note the recursive call in the final line of 
+% \lstinline!chio_det!. 
+\begin{lstlisting}
+#!/usr/bin/python
+# chio.py
+#  Calculate a determinant using Chio's method.
+# Jim Hefferon; Public Domain
+# For demonstration only; for instance, does not handle the M[0][0]=0 case
+
+def det_two(a,b,c,d):
+    """Return the determinant of the 2x2 matrix [[a,b], [c,d]]"""
+    return a*d-b*c
+
+def chio_mat(M):
+    """Return the Chio matrix as a list of the rows
+        M  nxn matrix, list of rows"""
+    dim=len(M)
+    C=[]
+    for row in range(1,dim):
+        C.append([])
+        for col in range(1,dim):  
+            C[-1].append(det_two(M[0][0], M[0][col], M[row][0], M[row][col]))
+    return C
+
+def chio_det(M,show=None):
+    """Find the determinant of M by Chio's method
+        M  mxm matrix, list of rows"""
+    dim=len(M)
+    key_elet=M[0][0]
+    if dim==1:
+        return key_elet
+    return chio_det(chio_mat(M))/(key_elet**(dim-2))
+
+
+if __name__=='__main__':
+    M=[[2,1,1], [3,4,-1], [1,5,1]]
+    print "M=",M
+    print "Det is", chio_det(M)
+\end{lstlisting}
+这是在命令行中调用该程序的结果。
+\begin{lstlisting}
+$ python chio.py
+M=[[2, 1, 1], [3, 4, -1], [1, 5, 1]]
+Det is 25
+\end{lstlisting}
+\index{Chi\`o's method|)}
+\endinput

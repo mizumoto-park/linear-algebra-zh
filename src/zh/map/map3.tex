@@ -1,0 +1,2940 @@
+% 翻译状态：主要正文已初译；待继续翻译与校对。
+% Chapter 3, Section 3 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-12
+\section{线性映射的计算}
+上一节说明，线性映射由它在一组基上的作用确定。等式
+\begin{equation*}
+  h(\vec{v})
+  =h(c_1\cdot\vec{\beta}_1+\dots+c_n\cdot\vec{\beta}_n)
+  =c_1\cdot h(\vec{\beta}_1)+\dots +c_n\cdot h(\vec{\beta}_n)
+\tag*{}\end{equation*}
+说明如何从映射在基向量 $\vec{\beta}_i$ 上的值出发，通过线性扩展求出它在任意向量 $\vec{v}$ 上的值。
+% We just need to  
+% find the $c$'s to express $\vec{v}$ with respect to the basis.
+
+本节给出一种方便的矩阵计算方法，利用
+\( h(\vec{\beta}_1) \)、\ldots、\( h(\vec{\beta}_n) \)
+的表示，由定义域中向量的表示 $\rep{\vec{v}}{B}$
+求出其像在陪域中的表示 $\rep{h(\vec{v})}{D}$。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{用矩阵表示线性映射}
+\index{homomorphism!matrix representing|(}
+\begin{example}  \label{ex:TypLinMapRepByMat}
+为 $\Re^2$ 和 $\Re^3$ 固定以下基。
+\begin{equation*}
+   B=\sequence{
+               \colvec[r]{2 \\ 0},
+               \colvec[r]{1 \\ 4}}
+   \qquad
+   D=\sequence{
+               \colvec[r]{1 \\ 0 \\ 0},
+               \colvec[r]{0 \\ -2 \\ 0},
+               \colvec[r]{1 \\ 0 \\ 1}}
+\end{equation*}
+考虑由下列对应关系确定的映射 $\map{h}{\Re^2}{\Re^3}$。
+\begin{equation*}
+  \colvec[r]{2 \\ 0}
+    \mapsunder{h}
+  \colvec[r]{1 \\ 1 \\ 1}
+  \qquad
+  \colvec[r]{1 \\ 4}
+    \mapsunder{h}
+  \colvec[r]{1 \\ 2 \\ 0}
+\end{equation*}
+为了求出这个映射在定义域中任意向量上的作用，先表示向量 $h(\vec{\beta}_1)$
+\begin{equation*}
+  \colvec[r]{1 \\ 1 \\ 1}=
+         0\colvec[r]{1 \\ 0 \\ 0}
+         -\frac{1}{2}\colvec[r]{0 \\ -2 \\ 0}
+         +1\colvec[r]{1 \\ 0 \\ 1}
+  \qquad
+   \rep{ h(\vec{\beta}_1) }{D}=\colvec[r]{0 \\ -1/2 \\ 1}_D           
+\end{equation*}
+和 $h(\vec{\beta}_2)$。
+\begin{equation*}
+  \colvec[r]{1 \\ 2 \\ 0}=
+        1\colvec[r]{1 \\ 0 \\ 0}
+        -1\colvec[r]{0 \\ -2 \\ 0}
+        +0\colvec[r]{1 \\ 0 \\ 1}
+  \qquad
+  \rep{ h(\vec{\beta}_2) }{D}=\colvec[r]{1 \\ -1 \\ 0}_D
+\end{equation*}
+有了这些表示，就能对定义域中的任意元素 $\vec{v}$ 计算 $h(\vec{v})$。
+\begin{align*}
+  h(\vec{v})
+  &=h(c_1\cdot \colvec[r]{2 \\ 0}+c_2\cdot \colvec[r]{1 \\ 4})   \\
+  &=c_1\cdot h(\colvec[r]{2 \\ 0})+c_2\cdot h(\colvec[r]{1 \\ 4}) \\
+  &=c_1\cdot (
+        0\colvec[r]{1 \\ 0 \\ 0}
+        \!-\frac{1}{2}\colvec[r]{0 \\ -2 \\ 0}
+        \!+1\colvec[r]{1 \\ 0 \\ 1}\!  )
+  +c_2\cdot (
+        1\colvec[r]{1 \\ 0 \\ 0}
+        \!-1\colvec[r]{0 \\ -2 \\ 0}
+        \!+0\colvec[r]{1 \\ 0 \\ 1}\!  )      \\
+  &=(0c_1+1c_2)\cdot \colvec[r]{1 \\ 0 \\ 0}
+   +(-\frac{1}{2}c_1-1c_2)\cdot \colvec[r]{0 \\ -2 \\ 0}
+   +(1c_1+0c_2)\cdot \colvec[r]{1 \\ 0 \\ 1}
+\end{align*}
+因此，
+\begin{center}
+若 $\rep{\vec{v}}{B}=\colvec{c_1 \\ c_2}$，
+则 $\rep{\,h(\vec{v})\,}{D}
+=\colvec{0c_1+1c_2 \\ -(1/2)c_1-1c_2 \\ 1c_1+0c_2}$。
+\end{center}
+例如，
+\begin{center}
+因为 $\rep{\colvec[r]{4 \\ 8}}{B}=\colvec[r]{1 \\ 2}_B$，所以
+$\rep{\,h(\colvec[r]{4 \\ 8})\,}{D}=\colvec[r]{2 \\ -5/2 \\ 1}$。
+\end{center}
+\end{example}
+
+我们用矩阵记号表示上述计算。
+\begin{equation*}
+    \begin{mat}[r]
+      0             &1  \\
+      -1/2          &-1  \\
+      1             &0
+    \end{mat}_{B,D}
+  \colvec{c_1 \\ c_2}_B
+  =
+  \colvec{0c_1+1c_2 \\ (-1/2)c_1-1c_2 \\ 1c_1+0c_2}_D
+\end{equation*}
+中间是映射的自变量 $\vec{v}$，它相对于定义域的基 $B$ 的表示是分量为 $c_1$ 和 $c_2$ 的列向量。
+右边是映射在该自变量处的值 $h(\vec{v})$ 相对于陪域的基 $D$ 的表示。
+左边的矩阵是新出现的对象。我们将用它表示映射，并把上面的等式看作映射作用的表示。
+
+这个矩阵由右边向量中的系数组成：第一行的 $0$ 和 $1$，第二行的 $-1/2$ 和 $-1$，以及第三行的 $1$ 和 $0$。
+也就是说，将表示各个 $h(\vec{\beta}_i)$ 的列向量并排拼接，就得到这个矩阵。
+\begin{equation*}
+  \left(\begin{array}{c|c}
+     \vdots                         &\vdots    \\
+     \rep{\,h(\vec{\beta}_1)\,}{D}  &\rep{\,h(\vec{\beta}_2)\,}{D}  \\
+     \vdots                         &\vdots
+  \end{array}\right)
+\end{equation*}
+
+\begin{definition} \label{def:MatRepMap}
+%<*df:MatRepMap>
+设向量空间 \( V \) 和 \( W \) 的维数分别为 \( n \) 和 \( m \)，基分别为 \( B \) 和 \( D \)，且 \( \map{h}{V}{W} \) 是线性映射。若
+\begin{equation*}
+  \rep{h( \vec{\beta}_1 )}{D}
+  =
+  \colvec{h_{1,1} \\ h_{2,1} \\ \vdots \\ h_{m,1}}_D
+  \quad\ldots\quad
+  \rep{h( \vec{\beta}_n )}{D}
+  =
+  \colvec{h_{1,n} \\ h_{2,n} \\ \vdots \\ h_{m,n}}_D
+\end{equation*}
+则
+\begin{equation*}
+  \rep{h}{B,D}=\generalmatrix{h}{n}{m}_{B,D}
+\end{equation*}
+称为 \definend{\( h \) 相对于 \( B, D \) 的矩阵表示}。%
+\index{representation!of a matrix}\index{matrix!representation}%
+\index{homomorphism!matrix representing}
+%</df:MatRepMap>
+\end{definition}
+
+\noindent 该矩阵的列数~$n$ 是映射定义域的维数，行数~$m$ 是陪域的维数。
+
+\begin{remark}
+与向量表示的记号一样，这里的 $\mbox{Rep}_{B,D}$ 并非标准记号。最常见的另一种记法是 $[h]_{B,D}$。
+\end{remark}
+
+我们用小写字母表示映射，用大写字母表示矩阵，再用小写字母表示矩阵的元素。
+因此，表示映射 \( h \) 的矩阵记为 \( H \)，其元素记为 \( h_{i,j} \)。
+
+\begin{example}  \label{ex:PolyOneToRThree}
+若 \( \map{h}{\Re^3}{\polyspace_1} \) 为
+\begin{equation*}
+  \colvec{a_1 \\ a_2 \\ a_3}
+     \mapsunder{h}
+   (2a_1+a_2)+(-a_3)x
+\end{equation*}
+且取
+\begin{equation*}
+  B=
+  \sequence{\colvec[r]{0 \\ 0 \\ 1},
+            \colvec[r]{0 \\ 2 \\ 0},
+            \colvec[r]{2 \\ 0 \\ 0} }
+  \qquad
+  D=
+  \sequence{1+x,-1+x}
+\end{equation*}
+则 \( h \) 在 \( B \) 上的作用如下。
+\begin{equation*}
+  \colvec[r]{0 \\ 0 \\ 1}\mapsunder{h}-x
+  \qquad \colvec[r]{0 \\ 2 \\ 0}\mapsunder{h}2
+  \qquad \colvec[r]{2 \\ 0 \\ 0}\mapsunder{h}4
+\end{equation*}
+简单计算
+\begin{equation*}
+  \rep{-x}{D}=\colvec[r]{-1/2 \\ -1/2}_D
+  \quad \rep{2}{D}=\colvec[r]{1 \\ -1}_D 
+  \quad \rep{4}{D}=\colvec[r]{2 \\ -2}_D 
+\end{equation*}
+可知，$h$ 相对于这些基的矩阵表示如下。
+\begin{equation*}
+  \rep{h}{B,D}
+   =
+   \begin{mat}[r]
+     -1/2  &1   &2  \\
+     -1/2  &-1  &-2
+   \end{mat}_{B,D}
+\end{equation*}
+\end{example}
+
+\begin{theorem} \label{th:MatMultRepsFuncAppl}
+%<*th:MatMultRepsFuncAppl>
+设向量空间 \( V \) 和 \( W \) 的维数分别为 \( n \) 和 \( m \)，基分别为 \( B \) 和 \( D \)，且 \( \map{h}{V}{W} \) 是线性映射。若 \( h \) 的表示为
+\begin{equation*}
+  \rep{h}{B,D}=\generalmatrix{h}{n}{m}_{B,D}
+\end{equation*}
+而 \( \vec{v}\in V \) 的表示为
+\begin{equation*}
+  \rep{\vec{v}}{B}=\colvec{c_1 \\ c_2 \\ \vdots \\ c_n}_B
+\end{equation*}
+则 $\vec{v}$ 的像的表示如下。
+\begin{equation*}
+  \rep{\, h(\vec{v}) \,}{D}
+  =
+  \colvec{h_{1,1}c_1+h_{1,2}c_2+\dots+h_{1,n}c_n \\
+          h_{2,1}c_1+h_{2,2}c_2+\dots+h_{2,n}c_n \\
+          \vdots \\
+          h_{m,1}c_1+h_{m,2}c_2+\dots+h_{m,n}c_n}_D
+\end{equation*}
+%</th:MatMultRepsFuncAppl>
+\end{theorem}
+
+\begin{proof}
+%<*pf:MatMultRepsFuncAppl>
+这是 \nearbyexample{ex:TypLinMapRepByMat} 的形式化表述。参见 \nearbyexercise{exer:MatVecMultRepLinMap}。
+%</pf:MatMultRepsFuncAppl>
+\end{proof}
+
+\begin{definition} \label{def:MatrixVecProd}
+%<*df:MatrixVecProd>
+\( \nbym{m}{n} \) 矩阵与 \( \nbym{n}{1} \) 向量的
+\definend{矩阵与向量的乘积}\index{multiplication!matrix-vector}%
+\index{matrix!matrix-vector product}定义如下。
+\begin{equation*}
+  \generalmatrix{a}{n}{m}
+  \colvec{c_1 \\ \vdots \\ c_n}
+  =
+  \colvec{a_{1,1}c_1+\dots+a_{1,n}c_n \\
+             a_{2,1}c_1+\dots+a_{2,n}c_n \\
+             \vdots \\ 
+             a_{m,1}c_1+\dots+a_{m,n}c_n}
+\end{equation*}
+%</df:MatrixVecProd>
+\end{definition}
+
+% the product of the matrix $\rep{h}{B,D}$ with the vector $\rep{\vec{v}}{B}$ 
+% is the vector $\rep{h(\vec{v})}{D}$.  
+简言之，线性映射的作用由该映射的表示矩阵与该向量的表示向量的乘积来表示。
+
+\begin{remark}  \label{rem:NotSurprising}
+\nearbytheorem{th:MatMultRepsFuncAppl} 并不令人意外，因为在 \nearbydefinition{def:MatRepMap} 中选取矩阵表示，正是为了让这个定理成立\Dash 如果定理不成立，我们就会调整定义，使它成立。尽管如此，仍然需要验证。
+\end{remark}
+
+\begin{example}
+对于 \nearbyexample{ex:PolyOneToRThree} 中的矩阵，我们可以计算该映射将下面的向量映到何处。
+\begin{equation*}
+  \vec{v}=\colvec[r]{4 \\ 1 \\ 0}
+\end{equation*}
+这个向量相对于定义域的基 $B$ 的表示为
+\begin{equation*}
+  \rep{\vec{v}}{B}=\colvec[r]{0 \\ 1/2 \\ 2}_B
+\end{equation*}
+因此，矩阵与向量的乘积给出 $h(\vec{v})$ 相对于陪域的基 $D$ 的表示。
+\begin{align*}
+  \rep{h(\vec{v})}{D}
+  &=\begin{mat}[r]
+      -1/2  &1   &2  \\
+      -1/2  &-1  &-2
+    \end{mat}_{B,D}
+    \colvec[r]{0 \\ 1/2 \\ 2}_B                            \\
+  &=\colvec{(-1/2)\cdot 0+1\cdot (1/2) + 2\cdot 2 \\ 
+          (-1/2)\cdot 0-1\cdot (1/2) - 2\cdot 2}_D
+  =\colvec[r]{9/2 \\ -9/2}_D
+\end{align*}
+要得到 $h(\vec{v})$ 本身而不只是它的表示，计算 $(9/2)(1+x)-(9/2)(-1+x)=9$ 即可。
+\end{example}
+
+\begin{example}
+设 \( \map{\pi}{\Re^3}{\Re^2} \) 是向 \( xy \) 平面的投影。为了给出表示这个映射的矩阵，先固定基。
+\begin{equation*}
+  B=\sequence{
+              \colvec[r]{1 \\ 0 \\ 0},
+              \colvec[r]{1 \\ 1 \\ 0},
+              \colvec[r]{-1 \\ 0 \\ 1} }
+  \qquad
+  D=\sequence{
+              \colvec[r]{2 \\ 1},
+              \colvec[r]{1 \\ 1} }
+\end{equation*}
+求定义域每个基向量在该映射下的像。
+\begin{equation*}
+  \colvec[r]{1 \\ 0 \\ 0}\mapsunder{\pi}\colvec[r]{1 \\ 0}
+  \quad
+  \colvec[r]{1 \\ 1 \\ 0}\mapsunder{\pi}\colvec[r]{1 \\ 1}
+  \quad
+  \colvec[r]{-1 \\ 0 \\ 1}\mapsunder{\pi}\colvec[r]{-1 \\ 0}
+\end{equation*}
+再求各个像相对于陪域的基的表示。
+\begin{equation*}
+  \rep{\colvec[r]{1 \\ 0}}{D}=\colvec[r]{1 \\ -1}
+  \quad
+  \rep{\colvec[r]{1 \\ 1}}{D}=\colvec[r]{0 \\ 1}
+  \quad
+  \rep{\colvec[r]{-1 \\ 0}}{D}=\colvec[r]{-1 \\ 1}
+\end{equation*}
+最后，将这些表示并排拼接，就得到 \( \pi \) 相对于 \( B,D \) 的表示矩阵。
+\begin{equation*}
+    \rep{\pi}{B,D}
+    =\begin{mat}[r]
+      1  &0  &-1  \\
+      -1 &1  &1
+    \end{mat}_{B,D}
+\end{equation*}
+计算表示下面这个投影作用的矩阵与向量的乘积，可以说明 \nearbytheorem{th:MatMultRepsFuncAppl}。
+\begin{equation*}
+  \pi(
+     \colvec[r]{2 \\ 2 \\ 1}
+     )=\colvec[r]{2 \\ 2}
+\end{equation*}
+将定义域中的向量相对于定义域的基表示出来，
+\begin{equation*}
+   \rep{\colvec[r]{2 \\ 2 \\ 1}}{B}=
+        \colvec[r]{1 \\ 2 \\ 1}_B
+\end{equation*}
+便得到以下乘积。
+\begin{equation*}
+   \rep{ \,\pi(\colvec[r]{2 \\ 2 \\ 1})\,}{D}=
+      \begin{mat}[r]
+        1  &0  &-1  \\
+        -1 &1  &1
+      \end{mat}_{B,D}
+   \colvec[r]{1 \\ 2 \\ 1}_B
+   =
+   \colvec[r]{0 \\ 2}_D
+\end{equation*}
+将它展开成 \( D \) 中向量的线性组合，
+\begin{equation*}
+   0\cdot\colvec[r]{2 \\ 1}
+   +2\cdot\colvec[r]{1 \\ 1}
+   =
+   \colvec[r]{2 \\ 2}
+\end{equation*}
+就验证了映射的作用确实反映在矩阵运算中。有时我们会把这三个展示公式合写成一个。
+\begin{equation*}
+  \colvec[r]{2 \\ 2 \\ 1}=\colvec[r]{1 \\ 2 \\ 1}_B
+    \;\overset{h}{\underset{H}{\longmapsto}}\;
+  \colvec[r]{0 \\ 2}_D=\colvec[r]{2 \\ 2}    
+\end{equation*}
+\end{example}
+
+现在有两种计算投影作用的方法：一种是直接删去三维列向量的第三个分量，得到二维列向量；另一种是上面使用表示以及矩阵与向量乘法的方法。
+第二种方法看起来比第一种复杂，但它自有优点。下例说明，对于某些映射，这种新方法能使公式更简单。
+
+\begin{example} \label{exam:RepsOfRigidPlaneMaps}
+为了表示旋转\index{rotation (or turning)!represented}
+map $\map{t_{\theta}}{\Re^2}{\Re^2}$ that 
+将平面内所有向量逆时针旋转角度 $\theta$
+\begin{center}  \small
+  \includegraphics{map/mp/ch3.15}
+\end{center}
+先将定义域和陪域的基都取为标准基 $\stdbasis_2$，再求定义域中各个基向量在映射下的像。
+\begin{equation*}
+  \colvec[r]{1 \\ 0}\mapsunder{t_\theta}\colvec{\cos\theta \\ \sin\theta}
+  \qquad
+  \colvec[r]{0 \\ 1}\mapsunder{t_\theta}\colvec{-\sin\theta \\ \cos\theta}
+  \tag{$*$}
+\end{equation*}
+将这些像相对于陪域的基表示出来。由于这组基是 $\stdbasis_2$，向量的表示就是它自身。
+将表示并排拼接，就得到映射的表示矩阵。
+\begin{equation*}
+  \rep{t_\theta}{\stdbasis_2,\stdbasis_2}
+  =
+  \begin{mat}
+    \cos\theta  &-\sin\theta \\
+    \sin\theta  &\cos\theta
+  \end{mat}
+\end{equation*}
+这种方法的优点是：只需知道~($*$) 中两个基向量的像的表示，就能得到任意向量的像的公式。
+例如，下面将一个向量旋转 $\theta=\pi/6$。
+\begin{equation*}
+  \colvec[r]{3  \\ -2} = \colvec[r]{3  \\ -2}_{\stdbasis_2}\!\mapsunder{t_{\pi/6}}\;
+  \begin{mat}[r]
+    \sqrt{3}/2  &-1/2  \\
+     1/2        &\sqrt{3}/2
+  \end{mat}
+  \colvec[r]{3  \\ -2}
+  \approx
+  \colvec[r]{3.598 \\ -0.232}_{\stdbasis_2}
+  \!\!=  
+  \colvec[r]{3.598 \\ -0.232}
+\end{equation*}
+更一般地，旋转 $\theta=\pi/6$ 的公式如下。
+\begin{equation*}
+  \colvec[r]{x  \\ y} \mapsunder{t_{\pi/6}}\;
+  \begin{mat}[r]
+    \sqrt{3}/2  &-1/2  \\
+     1/2        &\sqrt{3}/2
+  \end{mat}
+  \colvec[r]{x  \\ y}
+  =
+  \colvec[r]{(\sqrt{3}/2)x-(1/2)y \\ (1/2)x+(\sqrt{3}/2)y }
+\end{equation*}
+\end{example}
+
+\begin{example}
+在矩阵与向量的乘积定义中，矩阵的列数必须等于向量的分量数。因此，下面的乘积没有定义。
+\begin{equation*}
+    \begin{mat}[r]
+      1  &0  &0  \\
+      4  &3  &1
+    \end{mat}
+  \colvec[r]{1 \\ 0}
+\end{equation*}
+这并非无缘无故：三列矩阵表示的映射具有三维定义域，而两个分量的列向量表示二维空间的元素，所以该向量不可能属于这个映射的定义域。
+\end{example}
+
+\nearbydefinition{def:MatrixVecProd} 并不强制我们从表示的角度看待矩阵与向量的乘积。关注各元素如何组合，也能有所启发。
+
+一种有用的理解是：乘积由矩阵各行与列向量的点积组成。
+\begin{equation*}
+    \begin{mat}
+               &\vdots                         \\
+      a_{i,1}  &a_{i,2}  &\ldots   &a_{i,n}    \\
+               &\vdots
+    \end{mat}
+  \colvec{c_1 \\ c_2 \\ \vdots \\ c_n}
+  =
+  \colvec{\vdots \\ a_{i,1}c_1+a_{i,2}c_2+\cdots+a_{i,n}c_n \\ \vdots}
+\end{equation*}
+从这种逐行的角度看，这个新运算推广了点积。
+
+也可以逐列看待这个运算。
+\begin{align*}
+           \generalmatrix{h}{n}{m}
+           \colvec{c_1 \\ c_2 \\ \vdots \\ c_n}
+  &=\colvec{h_{1,1}c_1+h_{1,2}c_2+\dots+h_{1,n}c_n \\
+               h_{2,1}c_1+h_{2,2}c_2+\dots+h_{2,n}c_n \\
+               \vdots \\
+               h_{m,1}c_1+h_{m,2}c_2+\dots+h_{m,n}c_n}    \\
+  &=c_1\colvec{h_{1,1} \\ h_{2,1} \\ \vdots \\ h_{m,1}}
+%   +c_2\colvec{h_{1,2} \\ h_{2,2} \\ \vdots \\ h_{m,2}}
+   +\dots
+   +c_n\colvec{h_{1,n} \\ h_{2,n} \\ \vdots \\ h_{m,n}}
+\end{align*}
+结果是以向量的各个分量为权重，对矩阵各列作线性组合。
+
+\begin{example}
+\begin{equation*}
+    \begin{mat}[r]
+      1  &0  &-1  \\
+      2  &0  &3
+    \end{mat}
+  \colvec[r]{2 \\ -1 \\ 1}
+  =
+  2\colvec[r]{1 \\ 2}
+  -1\colvec[r]{0 \\ 0}
+  +1\colvec[r]{-1 \\ 3}
+  =
+  \colvec[r]{1 \\ 7}
+\end{equation*}
+\end{example}
+
+这样看待矩阵与向量的乘积，就回到了本节开头的目标：将
+\( h(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n) \)
+计算为 \( c_1h(\vec{\beta}_1)+\dots+c_nh(\vec{\beta}_n) \)。
+
+本节开头指出，这两个式子相等，使我们只需知道 $h(\vec{\beta}_1)$、\ldots、$h(\vec{\beta}_n)$，就能计算 $h$ 对任意自变量的作用。
+由此，我们建立了一种计算方法：将表示映射的矩阵与表示自变量的向量相乘。
+这样，相对于任意选定的基，每个线性映射都有矩阵表示。下一小节将说明其逆命题：固定基之后，每个矩阵都有一个对应的线性映射。
+
+
+\begin{exercises}
+  \recommended \item  
+将矩阵
+    \begin{equation*}
+      \begin{mat}[r]
+        1  &3  &1  \\
+        0  &-1 &2  \\
+        1  &1  &0
+      \end{mat}
+    \end{equation*}
+分别乘以下列向量，或指出“没有定义”。
+    \begin{exparts*}
+      \partsitem \( \colvec[r]{2 \\ 1 \\ 0} \)
+      \partsitem \( \colvec[r]{-2 \\ -2} \)
+      \partsitem \( \colvec[r]{0 \\ 0 \\ 0} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+\partsitem \(
+           \colvec{1\cdot 2+3\cdot 1+1\cdot 0         \\
+                        0\cdot 2+(-1)\cdot 1+2\cdot 0 \\
+                        1\cdot 2+1\cdot 1+0\cdot 0}
+           =\colvec[r]{5 \\ -1 \\ 3}   \)
+        \partsitem 没有定义。
+        \partsitem \(  \colvec[r]{0 \\ 0 \\ 0}  \)
+      \end{exparts*}  
+    \end{answer}
+\item 将这个矩阵分别乘以下列向量，或指出“没有定义”。
+    \begin{equation*}
+      \begin{mat}
+        3  &1  \\
+        2  &4
+      \end{mat}
+    \end{equation*}
+    \begin{exparts*}
+      \partsitem $\colvec{1 \\ 2  \\ 1}$
+      \partsitem $\colvec{0 \\ -1}$
+      \partsitem $\colvec{0 \\ 0 \\ 0}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 没有定义。
+\partsitem 有定义。
+          \begin{equation*}
+            \begin{mat}
+              3  &1  \\
+              2  &4
+            \end{mat}
+            \colvec{0 \\ -1}
+            =
+            \colvec{-1 \\ -4}
+          \end{equation*}
+\partsitem 没有定义。
+      \end{exparts}
+    \end{answer}
+  \item 
+在有定义的情况下，计算各个矩阵与向量的乘积。
+    \begin{exparts*}
+      \partsitem $\begin{mat}[r]
+                    2  &1  \\
+                    3  &-1/2
+                  \end{mat}
+                  \colvec[r]{4  \\ 2}$
+      \partsitem $\begin{mat}[r]
+                    1  &1  &0 \\
+                    -2 &1  &0
+                  \end{mat}
+                  \colvec[r]{1 \\ 3 \\ 1}$
+      \partsitem $\begin{mat}[r]
+                    1  &1  \\
+                    -2  &1
+                  \end{mat}
+                  \colvec[r]{1 \\ 3 \\ 1}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+\partsitem $\colvec{2\cdot 4 +1\cdot 2 \\
+                            3\cdot 4-(1/2)\cdot 2}
+                   =\colvec[r]{10 \\ 11}$
+        \partsitem $\colvec[r]{4 \\ 1}$
+        \partsitem 没有定义。
+      \end{exparts*}
+    \end{answer}
+  \item  
+这个矩阵方程表示一个线性方程组。求解它。
+    \begin{equation*}
+      \begin{mat}[r]
+        2  &1  &1  \\
+        0  &1  &3  \\
+        1  &-1 &2
+      \end{mat}
+      \colvec{x \\ y \\ z}
+      =\colvec[r]{8 \\ 4 \\ 4}
+    \end{equation*}
+    \begin{answer}
+矩阵与向量相乘得到一个线性方程组。
+      \begin{equation*}
+        \begin{linsys}{3}
+          2x  &+  &y  &+  &z  &=  &8  \\
+              &   &y  &+  &3z &=  &4  \\
+           x  &-  &y  &+  &2z &=  &4 
+        \end{linsys}
+      \end{equation*}
+高斯消元给出 \( z=1 \)、\( y=1 \) 和 \( x=3 \)。
+    \end{answer}
+  \recommended \item 
+一个从 \( \polyspace_2 \) 到 \( \polyspace_3 \) 的同态将
+    \begin{equation*}
+      1\mapsto 1+x,
+      \quad
+      x\mapsto 1+2x,
+      \quad\text{and}\quad
+      x^2\mapsto x-x^3
+    \end{equation*}
+映到上述元素，它将 \( 1-3x+2x^2 \) 映到哪里？
+    \begin{answer}
+下面给出两种求解方法。
+
+首先，显然 $1-3x+2x^2=1\cdot 1-3\cdot x+2\cdot x^2$，利用保持线性组合的性质得
+$h(1-3x+2x^2)
+       =h(1\cdot 1-3\cdot x+2\cdot x^2)
+       =1\cdot h(1)-3\cdot h(x)+2\cdot h(x^2)
+       =1\cdot (1+x)-3\cdot (1+2x)+2\cdot (x-x^3)
+       =-2-3x-2x^3$。
+
+另一种方法使用本小节建立的计算方案。
+由于知道这些空间元素的像，我们选取 \( B=\sequence{1,x,x^2} \) 为定义域的基。
+陪域的基可任取为 \( D=\sequence{1,x,x^2,x^3} \)。在这些选择下，
+      \begin{equation*}
+        \rep{h}{B,D}
+        =\begin{mat}[r]
+           1   &1  &0  \\
+           1   &2  &1  \\
+           0   &0  &0  \\
+           0   &0  &-1
+         \end{mat}_{B,D}
+      \end{equation*}
+并且，由于
+      \begin{equation*}
+        \rep{1-3x+2x^2}{B}=\colvec[r]{1 \\ -3 \\ 2}_B
+      \end{equation*}
+矩阵与向量的乘法计算给出
+      \begin{equation*}
+        \rep{h(1-3x+2x^2)}{D}=
+         \begin{mat}[r]
+           1   &1  &0  \\
+           1   &2  &1  \\
+           0   &0  &0  \\
+           0   &0  &-1
+         \end{mat}_{B,D}
+         \colvec[r]{1 \\ -3 \\ 2}_B
+         =\colvec[r]{-2 \\ -3 \\ 0 \\ -2}_D
+      \end{equation*}
+因此，\( h(1-3x+2x^2)
+              =-2\cdot 1-3\cdot x+0\cdot x^2-2\cdot x^3
+              =-2-3x-2x^3 \)，与上面相同。
+    \end{answer}
+\item 设线性变换 $\map{h}{\Re^2}{\matspace_{\nbyn{2}}}$ 的作用如下。
+   \begin{equation*}
+     \colvec{1 \\ 0}\mapsto
+     \begin{mat}
+       1  &2  \\
+       0  &1
+     \end{mat}
+     \qquad
+     \colvec{0 \\ 1}\mapsto
+     \begin{mat}
+       0  &-1  \\
+       1  &0
+     \end{mat}
+   \end{equation*}
+它对分量为 $x$ 和~$y$ 的一般向量有何作用？
+   \begin{answer}
+为 $\matspace_{\nbyn{2}}$ 固定以下自然基。
+     \begin{equation*}
+       D=\sequence{
+       \begin{mat}
+          1 &0  \\
+          0 &0
+       \end{mat},
+       \begin{mat}
+          0 &1  \\
+          0 &0
+       \end{mat},
+       \begin{mat}
+          0 &0  \\
+          1 &0
+       \end{mat},
+       \begin{mat}
+          0 &0  \\
+          0 &1
+       \end{mat}}
+     \end{equation*}
+映射~$h$ 相对于 $\stdbasis_2,D$ 的表示如下。
+     \begin{equation*}
+       \rep{h}{\stdbasis_2,D}=
+       \begin{mat}
+         1  &0  \\
+         2  &-1  \\
+         0  &1  \\
+         1  &0
+       \end{mat}
+     \end{equation*}
+由于一般向量相对于~$\stdbasis_2$ 的表示就是它自身，同样，每个矩阵相对于~$D$ 的表示由它自身的元素给出，映射的作用如下。
+     \begin{equation*}
+       \rep{h(\colvec{x \\ y})}{D}
+       =
+       \begin{mat}
+         1  &0  \\
+         2  &-1  \\
+         0  &1  \\
+         1  &0
+       \end{mat}
+       \colvec{x \\ y}
+       =
+       \colvec{x \\ 2x-y \\ y \\ x}
+     \end{equation*}
+   \end{answer}
+  \recommended \item  
+设 \( \map{h}{\Re^2}{\Re^3} \) 由以下作用确定。
+    \begin{equation*}
+      \colvec[r]{1 \\ 0}\mapsto\colvec[r]{2 \\ 2 \\ 0}
+      \qquad
+      \colvec[r]{0 \\ 1}\mapsto\colvec[r]{0 \\ 1 \\ -1}
+    \end{equation*}
+使用标准基，求
+    \begin{exparts}
+\partsitem 表示这个映射的矩阵；
+\partsitem \( h(\vec{v}) \) 的一般公式。
+    \end{exparts}
+    \begin{answer}
+再次回顾本小节所述：相对于 $\stdbasis_i$，列向量的表示就是它自身。
+      \begin{exparts}
+\partsitem 要表示 \( h \) 相对于 \( \stdbasis_2,\stdbasis_3 \) 的矩阵，先求定义域基向量的像，再相对于陪域的基表示这些像。第一个为
+          \begin{equation*}
+            \rep{\,h(\vec{e}_1)\,}{\stdbasis_3}
+            =\rep{\colvec[r]{2 \\ 2 \\ 0}}{\stdbasis_3}
+            =\colvec[r]{2 \\ 2 \\ 0}
+          \end{equation*}
+第二个为
+          \begin{equation*}
+            \rep{\,h(\vec{e}_2)\,}{\stdbasis_3}
+            =\rep{\colvec[r]{0 \\ 1 \\ -1}}{\stdbasis_3}
+            =\colvec[r]{0 \\ 1 \\ -1}
+          \end{equation*}
+将它们并排拼接成矩阵。
+          \begin{equation*}
+            \rep{h}{\stdbasis_2,\stdbasis_3}=
+            \begin{mat}[r]
+              2  &0  \\
+              2  &1  \\
+              0  &-1
+            \end{mat}
+          \end{equation*}
+\partsitem 对定义域 \( \Re^2 \) 中的任意 \( \vec{v} \)，
+          \begin{equation*}
+            \rep{\vec{v}}{\stdbasis_2}
+            =\rep{\colvec{v_1 \\ v_2}}{\stdbasis_2}
+            =\colvec{v_1 \\ v_2}
+          \end{equation*}
+所以
+          \begin{equation*}
+            \rep{\,h(\vec{v})\,}{\stdbasis_3}
+            =\begin{mat}[r]
+              2  &0  \\
+              2  &1  \\
+              0  &-1
+            \end{mat}
+            \colvec{v_1 \\ v_2}
+            =\colvec{2v_1 \\ 2v_1+v_2 \\ -v_2}
+          \end{equation*}
+就是所求的表示。
+      \end{exparts}  
+    \end{answer}
+\item 相对于下列基，表示由以下公式给出的同态 $\map{h}{\Re^3}{\Re^2}$。
+    \begin{equation*}
+      \colvec{x \\ y \\ z}\mapsto\colvec{x+y \\ x+z}
+      \qquad
+       B=\sequence{\colvec{1 \\ 1 \\ 1},
+                   \colvec{1 \\ 1 \\ 0},
+                   \colvec{1 \\ 0 \\ 0}}
+       \quad
+          D=\sequence{\colvec{1 \\ 0},
+                  \colvec{0 \\ 2}}
+    \end{equation*}
+    \begin{answer}
+该映射在定义域基向量上的作用如下。
+      \begin{equation*}
+          \colvec{1 \\ 1 \\ 1}\mapsto\colvec{2 \\ 2}
+          \quad
+          \colvec{1 \\ 1 \\ 0}\mapsto\colvec{2 \\ 1}
+          \quad
+          \colvec{1 \\ 0 \\ 0}\mapsto\colvec{1 \\ 1}
+      \end{equation*}
+将这些像相对于陪域的基表示出来。
+      \begin{equation*}
+        \rep{\colvec{2 \\ 2}}{D}=\colvec{2 \\ 1}_D
+        \quad
+        \rep{\colvec{2 \\ 1}}{D}=\colvec{2 \\ 1/2}_D
+        \quad
+        \rep{\colvec{1 \\ 1}}{D}=\colvec{1 \\ 1/2}_D
+      \end{equation*}
+将它们拼接成矩阵。
+      \begin{equation*}
+        \rep{h}{B,D}=
+        \begin{mat}
+          2 &2   &1 \\
+          1 &1/2 &1/2
+        \end{mat}
+      \end{equation*}      
+    \end{answer}
+  \recommended \item  
+设 \( \map{d/dx}{\polyspace_3}{\polyspace_3} \) 为求导变换。
+    \begin{exparts}
+\partsitem 相对于 \( B,B \) 表示 \( d/dx \)，其中 \( B=\sequence{1,x,x^2,x^3} \)。
+\partsitem 相对于 \( B,D \) 表示 \( d/dx \)，其中 \( D=\sequence{1,2x,3x^2,4x^3} \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem 
+先求定义域中每个基向量的像，再将它相对于陪域的基表示出来。
+        \begin{multline*}
+          \rep{\frac{d\,1}{dx}}{B}=\colvec[r]{0 \\ 0 \\ 0 \\ 0}
+          \quad
+          \rep{\frac{d\,x}{dx}}{B}=\colvec[r]{1 \\ 0 \\ 0 \\ 0}
+          \quad
+          \rep{\frac{d\,x^2}{dx}}{B}=\colvec[r]{0 \\ 2 \\ 0 \\ 0}
+          \\
+          \rep{\frac{d\,x^3}{dx}}{B}=\colvec[r]{0 \\ 0 \\ 3 \\ 0}
+        \end{multline*}
+将这些表示并排拼接，得到映射的表示矩阵。
+        \begin{equation*}
+          \rep{\frac{d}{dx}}{B,B}=
+          \begin{mat}[r]
+            0  &1  &0  &0  \\
+            0  &0  &2  &0  \\
+            0  &0  &0  &3  \\
+            0  &0  &0  &0 
+          \end{mat}  
+        \end{equation*}
+\partsitem 与上一问一样，先表示定义域基向量的像，
+        \begin{multline*}
+          \rep{\frac{d\,1}{dx}}{D}=\colvec[r]{0 \\ 0 \\ 0 \\ 0}
+          \quad
+          \rep{\frac{d\,x}{dx}}{D}=\colvec[r]{1 \\ 0 \\ 0 \\ 0}
+          \quad
+          \rep{\frac{d\,x^2}{dx}}{D}=\colvec[r]{0 \\ 1 \\ 0 \\ 0}
+          \\
+          \rep{\frac{d\,x^3}{dx}}{D}=\colvec[r]{0 \\ 0 \\ 1 \\ 0}
+        \end{multline*}
+再并排拼接成矩阵。
+        \begin{equation*}
+          \rep{\frac{d}{dx}}{B,D}=
+          \begin{mat}[r]
+            0  &1  &0  &0  \\
+            0  &0  &1  &0  \\
+            0  &0  &0  &1  \\
+            0  &0  &0  &0
+          \end{mat}  
+        \end{equation*}
+      \end{exparts*}  
+    \end{answer}
+  \recommended \item 
+相对于各对基表示以下线性映射。
+    \begin{exparts}
+\partsitem 相对于 \( B,B \) 表示 \( \map{d/dx}{\polyspace_n}{\polyspace_n} \)，其中 \( B=\sequence{1,x,\dots,x^n} \)，映射定义为
+        \begin{equation*}
+            a_0+a_1x+a_2x^2+\dots+a_nx^n
+            \mapsto
+            a_1+2a_2x+\dots+na_nx^{n-1}
+        \end{equation*}
+\partsitem 相对于 \( B_n,B_{n+1} \) 表示 \( \map{\int}{\polyspace_n}{\polyspace_{n+1}} \)，其中 \( B_i=\sequence{1,x,\dots,x^i} \)，映射定义为
+        \begin{equation*}
+            a_0+a_1x+a_2x^2+\dots+a_nx^n
+            \mapsto
+            a_0x+\frac{a_1}{2}x^2+\dots+\frac{a_n}{n+1}x^{n+1}
+        \end{equation*}
+\partsitem 相对于 \( B,\stdbasis_1 \) 表示 \( \map{\int^1_0}{\polyspace_n}{\Re} \)，其中 \( B=\sequence{1,x,\dots,x^n} \)，\( \stdbasis_1=\sequence{1} \)，映射定义为
+        \begin{equation*}
+            a_0+a_1x+a_2x^2+\dots+a_nx^n
+            \mapsto
+            a_0+\frac{a_1}{2}+\dots+\frac{a_n}{n+1}
+        \end{equation*}
+\partsitem 相对于 \( B,\stdbasis_1 \) 表示 \( \map{\text{eval}_3}{\polyspace_n}{\Re} \)，其中 \( B=\sequence{1,x,\dots,x^n} \)，\( \stdbasis_1=\sequence{1} \)，映射定义为
+        \begin{equation*}
+            a_0+a_1x+a_2x^2+\dots+a_nx^n
+            \mapsto
+            a_0+a_1\cdot 3+a_2\cdot 3^2+\dots+a_n\cdot 3^n
+        \end{equation*}
+\partsitem 相对于 \( B,B \) 表示 \( \map{\text{slide}_{-1}}{\polyspace_n}{\polyspace_n} \)，其中 \( B=\sequence{1,x,\ldots,x^n} \)，映射定义为
+        \begin{equation*}
+            a_0+a_1x+a_2x^2+\dots+a_nx^n
+            \mapsto
+            a_0+a_1\cdot (x+1)+\dots+a_n\cdot (x+1)^n
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+每一问都要先求定义域各个基向量的像，再将这些像相对于陪域的基表示出来，最后将这些表示并排拼接成矩阵。
+      \begin{exparts}
+\partsitem 定义域基向量的像为
+          \begin{equation*}
+            1\mapsto 0  
+            \quad x\mapsto 1  
+            \quad x^2\mapsto 2x  
+            \quad \ldots
+          \end{equation*}
+这些像相对于陪域的基的表示为
+          \begin{multline*}
+            \rep{0}{B}=\colvec{0 \\ 0 \\ 0 \\ \vdots \\ \  \\  \ }
+            \quad
+            \rep{1}{B}=\colvec{1 \\ 0 \\ 0 \\ \vdots \\ \  \\ \ }
+            \quad
+            \rep{2x}{B}=\colvec{0 \\ 2 \\ 0 \\ \vdots \\ \  \\ \ }        \\
+            \ldots\quad
+            \rep{nx^{n-1}}{B}=\colvec{0 \\ 0 \\ 0 \\ \vdots \\ n \\ 0}
+          \end{multline*}
+矩阵
+          \begin{equation*}
+            \rep{\frac{d}{dx}}{B,B}
+            =\begin{mat}
+              0  &1  &0  &\ldots  &0  \\
+              0  &0  &2  &\ldots  &0  \\
+                 &\vdots             \\
+              0  &0  &0  &\ldots  &n  \\
+              0  &0  &0  &\ldots  &0
+            \end{mat}
+          \end{equation*}
+有 $n+1$ 行和 $n+1$ 列。
+\partsitem 求出定义域基向量在这个映射下的像后，
+          \begin{equation*}
+            1\mapsto x 
+            \quad x\mapsto x^2/2  
+            \quad x^2\mapsto x^3/3 
+            \quad \ldots
+          \end{equation*}
+将它们相对于陪域的基表示出来，
+          \begin{multline*}
+            \rep{x}{B_{n+1}}=\colvec{0 \\ 1 \\ 0 \\ \vdots \\ \ }
+            \quad
+            \rep{x^2/2}{B_{n+1}}=\colvec{0 \\ 0 \\ 1/2 \\ \vdots \\ \ }   \\
+            \ldots\quad
+            \rep{x^{n+1}/(n+1)}{B_{n+1}}
+                     =\colvec{0 \\ 0 \\ 0 \\ \vdots \\ 1/(n+1)}
+          \end{multline*}
+再拼接成矩阵。
+          \begin{equation*}
+            \rep{\int}{B_{n},B_{n+1}}
+            =\begin{mat}
+              0  &0  &\ldots  &0      &0  \\
+              1  &0  &\ldots  &0      &0  \\
+              0  &1/2&\ldots  &0      &0  \\
+                 &\vdots                  \\
+              0  &0  &\ldots  &0      &1/(n+1)
+            \end{mat}
+          \end{equation*}
+\partsitem 定义域基向量的像为
+          \begin{equation*} 
+            1\mapsto 1 
+            \quad x\mapsto 1/2 
+            \quad x^2\mapsto 1/3 
+            \quad \ldots
+          \end{equation*}
+它们相对于陪域的基的表示为
+          \begin{equation*}
+            \rep{1}{\stdbasis_1}=1
+            \quad \rep{1/2}{\stdbasis_1}=1/2
+            \quad \ldots
+          \end{equation*}
+所以矩阵为
+          \begin{equation*}
+            \rep{\int}{B,\stdbasis_1}
+            =\begin{mat}
+              1  &1/2 &\cdots  &1/n    &1/(n+1)
+            \end{mat}
+          \end{equation*}
+（这是一个 $\nbym{1}{(n+1)}$ 矩阵）。
+\partsitem 定义域基向量的像为
+          \begin{equation*}  
+            1\mapsto 1 
+            \quad x\mapsto 3 
+            \quad x^2\mapsto 9
+            \quad \ldots 
+          \end{equation*}
+它们在陪域中的表示为
+          \begin{equation*}
+            \rep{1}{\stdbasis_1}=1
+            \quad\rep{3}{\stdbasis_1}=3
+            \quad\rep{9}{\stdbasis_1}=9
+            \quad \ldots 
+          \end{equation*}
+因此矩阵如下。
+          \begin{equation*}
+            \rep{\text{eval}_3}{B,\stdbasis_1}
+            =\begin{mat}[r]
+              1  &3   &9  &\cdots  &3^n
+            \end{mat}
+          \end{equation*}
+\partsitem 定义域基向量的像为
+$1\mapsto 1$、$x\mapsto x+1=1+x$、$x^2\mapsto (x+1)^2=1+2x+x^2$、
+$x^3\mapsto (x+1)^3=1+3x+3x^2+x^3$，依此类推。它们的表示如下。
+          \begin{equation*}
+            \rep{1}{B}=\colvec[r]{1 \\ 0 \\ 0 \\ 0 \\ \vdotswithin{0} \\ 0}
+            \quad
+            \rep{1+x}{B}=\colvec{1 \\ 1 \\ 0 \\ 0 \\ \vdotswithin{0} \\ 0}
+            \quad
+            \rep{1+2x+x^2}{B}=\colvec{1 \\ 2 \\ 1 \\ 0 \\ \vdotswithin{0} \\ 0}
+            \quad\ldots
+          \end{equation*}
+得到的矩阵
+          \begin{equation*}
+            \renewcommand{\arraystretch}{1.2}
+            \rep{\text{slide}_{-1}}{B,B}
+            =\begin{mat}
+              1  &1   &1  &1  &\ldots  &1           \\
+              0  &1   &2  &3  &\ldots  &\binom{n}{1}  \\
+              0  &0   &1  &3  &\ldots  &\binom{n}{2}  \\
+                 &\vdots                        \\
+              0  &0   &0  &   &\ldots  &1
+            \end{mat}
+          \end{equation*}
+就是\definend{帕斯卡三角形}\index{Pascal's triangle}
+（回顾，$\binom{n}{r}$ 表示从含 $n$ 个元素的集合中不计顺序、不重复地选取 $r$ 个元素的方法数）。
+      \end{exparts}  
+    \end{answer}
+  \item 
+对于任意非平凡空间，相对于 \( B,B \) 表示恒等映射，其中 \( B \) 是任意一组基。
+    \begin{answer}
+若空间的维数为 \( n \)，则
+      \begin{equation*}
+        \rep{\text{id}}{B,B}=
+        \begin{mat}
+          1  &0  \ldots  &0  \\
+          0  &1  \ldots  &0  \\
+             &\vdots         \\
+          0  &0  \ldots  &1
+        \end{mat}_{B,B}
+      \end{equation*}
+是 $\nbyn{n}$ 单位矩阵。
+    \end{answer}
+  \item 
+相对于自然基，表示 $\nbyn{2}$ 矩阵空间 \( \matspace_{\nbyn{2}} \) 上的转置变换。
+    \begin{answer}
+取以下自然基，
+      \begin{equation*}
+        B=\sequence{\vec{\beta}_1,\vec{\beta}_2,\vec{\beta}_3,\vec{\beta}_4}
+         =\sequence{
+            \begin{mat}[r]
+              1  &0  \\
+              0  &0
+            \end{mat},
+            \begin{mat}[r]
+              0  &1  \\
+              0  &0
+            \end{mat},
+            \begin{mat}[r]
+              0  &0  \\
+              1  &0
+            \end{mat},
+            \begin{mat}[r]
+              0  &0  \\
+              0  &1
+            \end{mat}   }
+      \end{equation*}
+转置映射的作用为
+      \begin{equation*}
+        \vec{\beta}_1\mapsto\vec{\beta}_1 
+        \quad \vec{\beta}_2\mapsto\vec{\beta}_3 
+        \quad \vec{\beta}_3\mapsto\vec{\beta}_2 
+        \quad \vec{\beta}_4\mapsto\vec{\beta}_4  
+      \end{equation*}
+将这些像相对于陪域的基表示出来，再将所得列向量并排拼接，得到
+      \begin{equation*}
+        \rep{\text{trans}}{B,B}=
+        \begin{mat}[r]
+          1  &0  &0  &0  \\
+          0  &0  &1  &0  \\
+          0  &1  &0  &0  \\
+          0  &0  &0  &1
+        \end{mat}_{B,B}
+      \end{equation*}   
+     \end{answer}
+  \item 
+设 \( B=\sequence{\vec{\beta}_1,\vec{\beta}_2,\vec{\beta}_3,\vec{\beta}_4} \) 是某向量空间的一组基。
+相对于 \( B,B \) 表示由以下各组关系确定的变换。
+     \begin{exparts}
+       \partsitem \( \vec{\beta}_1\mapsto\vec{\beta}_2 \),
+         \( \vec{\beta}_2\mapsto\vec{\beta}_3 \),
+         \( \vec{\beta}_3\mapsto\vec{\beta}_4 \),
+         \( \vec{\beta}_4\mapsto\zero \)
+       \partsitem \( \vec{\beta}_1\mapsto\vec{\beta}_2 \),
+         \( \vec{\beta}_2\mapsto\zero \),
+         \( \vec{\beta}_3\mapsto\vec{\beta}_4 \),
+         \( \vec{\beta}_4\mapsto\zero \)
+       \partsitem \( \vec{\beta}_1\mapsto\vec{\beta}_2 \),
+         \( \vec{\beta}_2\mapsto\vec{\beta}_3 \),
+         \( \vec{\beta}_3\mapsto\zero \),
+         \( \vec{\beta}_4\mapsto\zero \)
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+\partsitem 定义域基向量的像相对于陪域的基的表示为
+           \begin{equation*}
+             \rep{\vec{\beta}_2}{B}=\colvec[r]{0 \\ 1 \\ 0 \\ 0}
+             \quad
+             \rep{\vec{\beta}_3}{B}=\colvec[r]{0 \\ 0 \\ 1 \\ 0}
+             \quad
+             \rep{\vec{\beta}_4}{B}=\colvec[r]{0 \\ 0 \\ 0 \\ 1}
+             \quad
+             \rep{\zero}{B}=\colvec[r]{0 \\ 0 \\ 0 \\ 0}
+           \end{equation*}
+所以，该变换的表示矩阵如下。
+           \begin{equation*}
+             \begin{mat}[r]
+                   0  &0  &0  &0  \\
+                   1  &0  &0  &0  \\
+                   0  &1  &0  &0  \\
+                   0  &0  &1  &0
+                 \end{mat}  
+         \end{equation*}
+         \partsitem 
+              $\begin{mat}[r]
+                   0  &0  &0  &0  \\
+                   1  &0  &0  &0  \\
+                   0  &0  &0  &0  \\
+                   0  &0  &1  &0
+                 \end{mat}$
+         \partsitem 
+               $\begin{mat}[r]
+                   0  &0  &0  &0  \\
+                   1  &0  &0  &0  \\
+                   0  &1  &0  &0  \\
+                   0  &0  &0  &0
+                 \end{mat}$
+       \end{exparts}  
+     \end{answer}
+  \item
+\nearbyexample{exam:RepsOfRigidPlaneMaps} 说明了如何相对于标准基表示平面旋转变换。也相对于标准基表示下列变换。
+    \begin{exparts}
+\partsitem \definend{伸缩}映射 $d_s$，将所有向量乘以同一标量 $s$\index{dilation!representing}
+\partsitem \definend{反射}映射 $f_\ell$，将所有向量关于过原点的直线 $\ell$ 反射
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem The picture of $\map{d_s}{\Re^2}{\Re^2}$ is this.
+          \begin{center}  \small
+            \includegraphics{map/mp/ch3.75}
+          \end{center}
+这个映射在定义域标准基向量上的作用为
+         \begin{equation*} 
+            \colvec[r]{1 \\ 0}\mapsunder{d_s}\colvec{s \\ 0}
+            \qquad
+            \colvec[r]{0 \\ 1}\mapsunder{d_s}\colvec{0 \\ s}
+         \end{equation*}
+这些像相对于陪域的基（仍为标准基）的表示就是它们自身。
+         \begin{equation*} 
+           \rep{\colvec{s \\ 0}}{\stdbasis_2}=\colvec{s \\ 0}
+           \qquad
+           \rep{\colvec{0 \\ s}}{\stdbasis_2}=\colvec{0 \\ s}
+         \end{equation*}
+因此，伸缩映射的表示如下。
+         \begin{equation*}
+           \rep{d_s}{\stdbasis_2,\stdbasis_2}
+           =\begin{mat}
+              s  &0  \\
+              0  &s
+           \end{mat}
+        \end{equation*}
+      \partsitem The picture of $\map{f_\ell}{\Re^2}{\Re^2}$ is this.
+         \begin{center}  \small
+           \includegraphics{map/mp/ch3.76}
+        \end{center}
+计算可知（参见练习~I.\ref{exer:RigidPlaneMapsAutos}），当直线斜率为 $k$ 时，
+       \begin{equation*}
+         \colvec[r]{1 \\ 0}
+             \mapsunder{f_\ell}\colvec{(1-k^2)/(1+k^2) \\ 2k/(1+k^2)}
+         \qquad
+         \colvec[r]{0 \\ 1}
+             \mapsunder{f_\ell}\colvec{2k/(1+k^2) \\ -(1-k^2)/(1+k^2)}
+       \end{equation*}
+（斜率不存在的情形需另行处理，但很简单），所以反射的表示矩阵如下。
+       \begin{equation*}
+         \rep{f_\ell}{\stdbasis_2,\stdbasis_2}
+         =\frac{1}{1+k^2}\cdot\begin{mat}
+            1-k^2  &2k  \\
+            2k     &-(1-k^2)
+         \end{mat}
+       \end{equation*}
+      \end{exparts}  
+    \end{answer}
+  \recommended \item  
+考虑由下列两个对应关系确定的 \( \Re^2 \) 上的线性变换。
+    \begin{equation*}
+      \colvec[r]{1 \\ 1}\mapsto\colvec[r]{2 \\ 0}
+      \qquad
+      \colvec[r]{1 \\ 0}\mapsto\colvec[r]{-1 \\ 0}
+    \end{equation*}
+    \begin{exparts}
+\partsitem 相对于标准基表示这个变换。
+\partsitem 这个变换将以下向量映到哪里？
+        \begin{equation*}
+          \colvec[r]{0 \\ 5}
+        \end{equation*}
+\partsitem 相对于以下基表示这个变换。
+        \begin{equation*}
+          B=\sequence{\colvec[r]{1 \\ -1},\colvec[r]{1 \\ 1}}
+          \qquad
+          D=\sequence{\colvec[r]{2 \\ 2},\colvec[r]{-1 \\ 1}}
+        \end{equation*}
+\partsitem 使用上一问的 \( B \)，相对于 \( B,B \) 表示这个变换。
+    \end{exparts}
+    \begin{answer}
+将该映射记为 \( \map{t}{\Re^2}{\Re^2} \)。
+      \begin{exparts}
+\partsitem 要相对于标准基表示这个映射，必须求出定义域基向量 $\vec{e}_1$ 和 $\vec{e}_2$ 的像，再表示这些像。$\vec{e}_1$ 的像已给出。
+
+求 $\vec{e}_2$ 的像的一种方法是直接观察\Dash 可以看出
+          \begin{equation*}
+            \colvec[r]{1 \\ 1}-\colvec[r]{1 \\ 0}=\colvec[r]{0 \\ 1}
+            \;\mapsunder{t}\;
+            \colvec[r]{2 \\ 0}-\colvec[r]{-1 \\ 0}=\colvec[r]{3 \\ 0}
+          \end{equation*}
+
+更系统的方法是利用已知信息表示这个变换，再用该表示求像。取以下基，
+          \begin{equation*}
+            C=\sequence{\colvec[r]{1 \\ 1},\colvec[r]{1 \\ 0}}
+          \end{equation*}
+已知信息给出
+          \begin{equation*}
+            \rep{t}{C,\stdbasis_2}
+            \begin{mat}[r]
+              2  &-1  \\
+              0  &0
+            \end{mat}
+          \end{equation*}
+由于
+          \begin{equation*}
+            \rep{\vec{e}_2}{C}=\colvec[r]{1 \\ -1}_C
+          \end{equation*}
+可得
+          \begin{equation*}
+            \rep{t(\vec{e}_2)}{\stdbasis_2}
+            =\begin{mat}[r]
+               2  &-1  \\
+               0  &0
+             \end{mat}_{C,\stdbasis_2}
+            \colvec[r]{1 \\ -1}_C
+            =\colvec[r]{3 \\ 0}_{\stdbasis_2}
+          \end{equation*}
+因此 $t(\vec{e}_2)=3\cdot\vec{e}_1$（因为相对于标准基，这个向量的表示就是它自身）。所以，$t$ 相对于 $\stdbasis_2,\stdbasis_2$ 的表示如下。
+          \begin{equation*}
+            \rep{t}{\stdbasis_2,\stdbasis_2}
+            =\begin{mat}[r]
+               -1 &3   \\
+               0  &0
+             \end{mat}_{\stdbasis_2,\stdbasis_2}
+          \end{equation*}
+\partsitem 为了使用上一问的矩阵，注意到
+          \begin{equation*}
+            \rep{\colvec[r]{0 \\ 5}}{\stdbasis_2}=\colvec[r]{0 \\ 5}_{\stdbasis_2}
+          \end{equation*}
+所以，给定向量的像相对于陪域的基的表示如下。
+          \begin{equation*}
+            \rep{t(\colvec[r]{0 \\ 5})}{\stdbasis_2}
+            =\begin{mat}[r]
+              -1  &3   \\
+               0  &0
+             \end{mat}_{\stdbasis_2,\stdbasis_2}
+            \colvec[r]{0 \\ 5}_{\stdbasis_2}
+            =\colvec[r]{15 \\ 0}_{\stdbasis_2}
+          \end{equation*}
+由于陪域的基是标准基，陪域中向量的表示就是它们自身，故有
+          \begin{equation*}
+            t(\colvec[r]{0 \\ 5})
+            =\colvec[r]{15 \\ 0}
+          \end{equation*}
+\partsitem 先求 \( B \) 中每个元素的像，再将这些像相对于 \( D \) 表示出来。第一步可以使用前面得到的矩阵。
+          \begin{equation*}
+            \rep{\colvec[r]{1 \\-1}}{\stdbasis_2}
+            =\begin{mat}[r]
+              -1  &3   \\
+               0  &0
+             \end{mat}_{\stdbasis_2,\stdbasis_2}
+            \colvec[r]{1 \\ -1}_{\stdbasis_2}
+            =\colvec[r]{-4 \\ 0}_{\stdbasis_2}
+            \quad\text{so}\quad
+            t(\colvec[r]{1 \\ -1})=\colvec[r]{-4 \\ 0}
+          \end{equation*}
+实际上，$B$ 的第二个元素的像已在题目中给出，无须使用矩阵计算。
+          \begin{equation*}
+            t(\colvec[r]{1 \\ 1})=\colvec[r]{2 \\ 0}
+          \end{equation*}
+现在，按常规方法求这些像相对于 $D$ 的表示。
+          \begin{equation*}
+            \rep{\colvec[r]{-4 \\ 0}}{D}=\colvec[r]{-1 \\ 2}_D
+            \quad\text{and}\quad
+            \rep{\colvec[r]{2 \\ 0}}{D}=\colvec[r]{1/2 \\ -1}_D
+          \end{equation*}
+因此矩阵如下。
+          \begin{equation*}
+            \rep{t}{B,D}=
+            \begin{mat}[r]
+              -1  &1/2  \\
+               2  &-1
+            \end{mat}_{B,D}
+          \end{equation*}
+\partsitem 从上一问已知定义域基向量的像。
+          \begin{equation*}
+             t(\colvec[r]{1 \\ -1})=\colvec[r]{-4 \\ 0}
+             \qquad
+             t(\colvec[r]{1 \\ 1})=\colvec[r]{2 \\ 0}
+          \end{equation*}
+可以计算这些像相对于陪域的基的表示。
+          \begin{equation*}
+             \rep{\colvec[r]{-4 \\ 0}}{B}=\colvec[r]{-2 \\ -2}_B
+             \quad\text{and}\quad
+             \rep{\colvec[r]{2 \\ 0}}{B}=\colvec[r]{1 \\ 1}_B
+          \end{equation*}
+因此矩阵如下。
+          \begin{equation*}
+            \rep{t}{B,B}=
+            \begin{mat}[r]
+              -2  &1  \\
+              -2  &1
+            \end{mat}_{B,B}
+          \end{equation*}
+      \end{exparts}  
+    \end{answer}
+  \item 
+设 \( \map{h}{V}{W} \) 是单射。由 \nearbytheorem{th:OOHomoEquivalence}，对任意基
+\( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n}\subset V \)，其像
+\( h(B)=\sequence{h(\vec{\beta}_1),\dots,h(\vec{\beta}_n)} \)
+是 \( h(V) \) 的一组基。（若 \( h \) 为满射，则 \( h(V)=W \)。）
+    \begin{exparts}
+\partsitem 相对于 $\sequence{B,h(B)}$ 表示映射 $h$。
+\partsitem 对定义域中的元素 $\vec{v}$，设其表示的分量为 $c_1$、\ldots、$c_n$，求像向量 \( h(\vec{v}) \) 相对于像基 $h(B)$ 的表示。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 定义域基向量的像为
+          \begin{equation*}
+            \vec{\beta}_1\mapsto h(\vec{\beta}_1)
+            \quad 
+            \vec{\beta}_2\mapsto h(\vec{\beta}_2)
+            \quad\ldots\quad 
+            \vec{\beta}_n\mapsto h(\vec{\beta}_n)
+          \end{equation*}
+这些像相对于陪域的基的表示为
+          \begin{multline*}
+            \rep{\,h(\vec{\beta}_1)\,}{h(B)}=\colvec[r]{1 \\ 0 \\ \vdotswithin{0} \\ 0}
+            \quad
+            \rep{\,h(\vec{\beta}_2)\,}{h(B)}=\colvec[r]{0 \\ 1 \\ \vdotswithin{0} \\ 0}  \\
+            \ldots\quad
+            \rep{\,h(\vec{\beta}_n)\,}{h(B)}=\colvec[r]{0 \\ 0 \\ \vdotswithin{0} \\ 1}
+          \end{multline*}
+所以该矩阵是单位矩阵。
+          \begin{equation*}
+            \rep{h}{B,h(B)}
+            =\begin{mat}
+               1  &0  &\ldots  &0  \\
+               0  &1  &        &0  \\
+                  &   &\ddots      \\
+               0  &0  &        &1 
+            \end{mat}
+          \end{equation*}
+\partsitem 使用上一问的矩阵，得到以下表示。
+          \begin{equation*}
+            \rep{\,h(\vec{v})\,}{h(B)}
+             =\colvec{c_1 \\ \vdots \\ c_n}_{h(B)}
+          \end{equation*}
+        \end{exparts}  
+     \end{answer}
+  \item 
+给出矩阵与 \( \vec{e}_i \) 的乘积公式，其中 \( \vec{e}_i \) 是第 \( i \) 个位置为一、其余位置全为零的列向量。
+    \begin{answer}
+乘积
+      \begin{equation*}
+        \begin{mat}
+          h_{1,1} &\ldots  &h_{1,i} &\ldots &h_{1,n}  \\
+          h_{2,1} &\ldots  &h_{2,i} &\ldots &h_{2,n}  \\
+                  &\vdots                             \\
+          h_{m,1} &\ldots  &h_{m,i} &\ldots &h_{1,n}
+        \end{mat}
+        \colvec{0 \\ \vdots \\ 1 \\ \vdots \\ 0}
+        =
+        \colvec{h_{1,i} \\ h_{2,i} \\ \vdots \\ h_{m,i}}
+      \end{equation*}
+给出矩阵的第 \( i \) 列。
+    \end{answer}
+  \recommended \item 
+对以下各个一元实函数向量空间，相对于 \( B,B \) 表示求导变换。
+    \begin{exparts}
+      \partsitem \( \set{a\cos x+b\sin x \suchthat a,b\in\Re} \),
+         \( B=\sequence{\cos x,\sin x} \)
+      \partsitem \( \set{ae^x+be^{2x} \suchthat a,b\in\Re} \),
+         \( B=\sequence{e^x,e^{2x}} \)
+      \partsitem \( \set{a+bx+ce^x+dxe^{x} \suchthat a,b,c,d\in\Re} \),
+         \( B=\sequence{1,x,e^x,xe^{x}} \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 定义域基向量的像为 \( \cos x\mapsunder{d/dx}-\sin x \) 和 \( \sin x\mapsunder{d/dx}\cos x \)。
+将它们相对于陪域的基（仍为 $B$）表示出来，再并排拼接，得到以下矩阵。
+          \begin{equation*}
+            \rep{\frac{d}{dx}}{B,B}=
+            \begin{mat}[r]
+                0  &1  \\
+               -1  &0
+            \end{mat}_{B,B}
+          \end{equation*}
+\partsitem 定义域基向量的像为 \( e^x\mapsunder{d/dx}e^x \) 和 \( e^{2x}\mapsunder{d/dx}2e^{2x} \)。
+相对于陪域的基表示并拼接，得到以下矩阵。
+          \begin{equation*}
+            \rep{\frac{d}{dx}}{B,B}=
+            \begin{mat}[r]
+                1  &0  \\
+                0  &2
+            \end{mat}_{B,B}
+          \end{equation*}
+\partsitem 定义域基向量的像为 \( 1\mapsunder{d/dx}0 \)、\( x\mapsunder{d/dx}1 \)、\( e^{x}\mapsunder{d/dx}e^{x} \) 和 \( xe^{x}\mapsunder{d/dx}e^x+xe^x \)。
+相对于 $B$ 表示并拼接，得到以下矩阵。
+          \begin{equation*}
+            \rep{\frac{d}{dx}}{B,B}=
+            \begin{mat}[r]
+                0  &1  &0  &0 \\
+                0  &0  &0  &0 \\
+                0  &0  &1  &1 \\
+                0  &0  &0  &1
+            \end{mat}_{B,B}
+          \end{equation*}
+      \end{exparts}  
+    \end{answer}
+  \item 
+求下列各矩阵相对于标准基所表示的 \( \Re^2 \) 上线性变换的值域。
+    \begin{exparts*}
+      \partsitem $\begin{mat}[r]
+            1  &0 \\
+            0  &0
+          \end{mat}$
+      \partsitem $\begin{mat}[r]
+          0  &0  \\
+          3  &2  
+        \end{mat}$
+      \partsitem a matrix of the form 
+        $\begin{mat}
+            a   &b  \\
+            2a  &2b
+          \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 值域由陪域中相对于陪域的基具有以下表示的向量组成。
+          \begin{equation*}
+            \set{
+              \begin{mat}[r]
+                1  &0  \\
+                0  &0
+              \end{mat}
+              \colvec{x  \\ y}
+              \suchthat x,y\in\Re}
+            =\set{\colvec{x  \\ 0}
+                  \suchthat x,y\in\Re}
+          \end{equation*}
+由于陪域的基是 $\stdbasis_2$，每个向量的表示就是它自身，所以该变换的值域是 $x$ 轴。
+\partsitem 值域由陪域中具有以下表示的向量组成。
+          \begin{equation*}
+            \set{
+              \begin{mat}[r]
+                0  &0  \\
+                3  &2
+              \end{mat}
+              \colvec{x  \\ y}
+              \suchthat x,y\in\Re}
+            =\set{\colvec{0  \\ 3x+2y}
+                  \suchthat x,y\in\Re}
+          \end{equation*}
+相对于 $\stdbasis_2$，向量的表示就是它自身，所以这个值域是 $y$ 轴。
+\partsitem 相对于 $\stdbasis_2$ 具有以下表示的向量集合
+          \begin{align*}
+            \set{
+              \begin{mat}
+                a   &b  \\
+                2a  &2b
+              \end{mat}
+              \colvec{x  \\ y}
+              \suchthat x,y\in\Re}
+            &=\set{\colvec{ax+by  \\ 2ax+2by}
+                  \suchthat x,y\in\Re}                    \\
+            &=\set{(ax+by)\cdot\colvec[r]{1  \\ 2}
+                  \suchthat x,y\in\Re}
+          \end{align*}
+在 $a$ 或 $b$ 至少一个不为零时是直线 $y=2x$，在两者均为零时是仅含原点的集合。
+      \end{exparts}  
+    \end{answer}
+  \recommended \item  
+一个矩阵能否表示两个不同的线性映射？也就是说，能否有
+\( \rep{h}{B,D}=\rep{\hat{h}}{\hat{B},\hat{D}} \)？
+    \begin{answer}
+能，有两方面的原因。
+
+首先，两个映射 $h$ 和 $\hat{h}$ 不必具有相同的定义域和陪域。例如，
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &2  \\
+          3  &4
+        \end{mat}
+      \end{equation*}
+相对于标准基表示映射 \( \map{h}{\Re^2}{\Re^2} \)，其作用为
+      \begin{equation*}
+        \colvec[r]{1 \\ 0}\mapsto\colvec[r]{1 \\ 3}
+        \quad\text{and}\quad
+        \colvec[r]{0 \\ 1}\mapsto\colvec[r]{2 \\ 4}
+      \end{equation*}
+同时，它还相对于 \( \sequence{1,x} \) 和 \( \stdbasis_2 \) 表示映射
+\( \map{\hat{h}}{\polyspace_1}{\Re^2} \)，其作用如下。
+      \begin{equation*}
+        1\mapsto\colvec[r]{1 \\ 3}
+        \quad\text{and}\quad
+        x\mapsto\colvec[r]{2 \\ 4}
+      \end{equation*}
+
+其次，即使 \( h \) 和 \( \hat{h} \) 的定义域、陪域相同，不同的基也会产生不同的映射。例如，$\nbyn{2}$ 单位矩阵
+      \begin{equation*}
+        I=\begin{mat}[r]
+          1  &0  \\
+          0  &1
+        \end{mat}
+      \end{equation*}
+相对于 $\stdbasis_2,\stdbasis_2$ 表示 $\Re^2$ 上的恒等映射。
+但若定义域的基为 $\stdbasis_2$，陪域的基为 $D=\sequence{\vec{e}_2,\vec{e}_1}$，同一矩阵 $I$ 就表示交换第一、第二个分量的映射，
+      \begin{equation*}
+        \colvec{x \\ y}\mapsto\colvec{y \\ x}
+      \end{equation*}
+即关于直线 $y=x$ 的反射。
+    \end{answer}
+  \item \label{exer:MatVecMultRepLinMap} 
+证明 \nearbytheorem{th:MatMultRepsFuncAppl}。
+    \begin{answer}
+仿照 \nearbyexample{ex:TypLinMapRepByMat}，只需将数换成字母。
+
+将 \( B \) 写成 \( \sequence{\vec{\beta}_1,\ldots,\vec{\beta}_n} \)，将 \( D \) 写成 \( \sequence{\vec{\delta}_1,\dots,\vec{\delta}_m} \)。
+由映射相对于基的表示的定义，假设
+      \begin{equation*}
+        \rep{h}{B,D}
+        =\begin{mat}
+           h_{1,1} &\ldots  &h_{1,n}  \\
+           \vdots  &        &\vdots   \\
+           h_{m,1} &\ldots  &h_{m,n}
+         \end{mat}
+      \end{equation*}
+意味着 $h(\vec{\beta}_i)=h_{i,1}\vec{\delta}_1+\dots+h_{i,n}\vec{\delta}_n$。
+又由向量相对于基的表示的定义，假设
+      \begin{equation*}
+        \rep{\vec{v}}{B}=\colvec{c_1 \\ \vdots \\ c_n}
+      \end{equation*}
+意味着 \( \vec{v}=c_1\vec{\beta}_1+\cdots+c_n\vec{\beta}_n \)。代入得
+      \begin{align*}
+        h(\vec{v})
+        &=h(c_1\cdot\vec{\beta}_1+\dots+c_n\cdot\vec{\beta}_n)      \\
+        &=c_1\cdot h(\vec{\beta}_1)+\dots+c_n\cdot \vec{\beta}_n    \\
+        &=c_1\cdot (h_{1,1}\vec{\delta}_1+\dots+h_{m,1}\vec{\delta}_m) 
+        +\dots                                         
+        +c_n\cdot (h_{1,n}\vec{\delta}_1+\dots+h_{m,n}\vec{\delta}_m) \\
+        &=(h_{1,1}c_1+\dots+h_{1,n}c_n)\cdot\vec{\delta}_1    
+        +\cdots                                
+        +(h_{m,1}c_1+\dots+h_{m,n}c_n)\cdot\vec{\delta}_m
+      \end{align*}
+因此 $h(\vec{v})$ 的表示正如所求。
+    \end{answer}
+  \recommended \item  
+\nearbyexample{exam:RepsOfRigidPlaneMaps} 说明了如何相对于标准基表示将平面上所有向量绕原点旋转角度 \( \theta \) 的变换。
+    \begin{exparts}
+\partsitem 将三维空间中所有向量绕 \( x \) 轴旋转角度 \( \theta \)，是 $\Re^3$ 上的一个变换。
+相对于标准基表示它。旋转方向规定为：对于脚在原点、头在 \( (1,0,0) \) 的观察者，运动看起来是顺时针的。
+\partsitem 重做上一问，改为绕 \( y \) 轴旋转。（观察者的头位于 $\vec{e}_2$。）
+\partsitem 重做，改为绕 \( z \) 轴旋转。
+\partsitem 将上一问推广到 \( \Re^4 \)。（\textit{提示：}“绕 \( z \) 轴旋转”可改述为“平行于 \( xy \) 平面旋转”。）
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem The picture is this.
+          \begin{center}  \small
+            \includegraphics{map/mp/ch3.77}
+         \end{center}
+定义域基向量的像
+         \begin{equation*}
+           \colvec[r]{1 \\ 0 \\ 0}\mapsto\colvec[r]{1 \\ 0 \\ 0}
+           \qquad
+           \colvec[r]{0 \\ 1 \\ 0}\mapsto\colvec{0 \\ \cos\theta \\ -\sin\theta}
+           \qquad
+           \colvec[r]{0 \\ 0 \\ 1}\mapsto\colvec{0 \\ \sin\theta \\ \cos\theta}
+         \end{equation*}
+相对于陪域的基（仍为 $\stdbasis_3$）的表示就是它们自身，因此并排拼接这些表示得到以下矩阵。
+         \begin{equation*}
+            \rep{r_\theta}{\stdbasis_3,\stdbasis_3}=
+            \begin{mat}
+              1  &0       &0                \\
+              0  &\cos\theta   &\sin\theta   \\
+              0  &-\sin\theta  &\cos\theta
+            \end{mat}                  
+         \end{equation*}
+\partsitem 图形与上一问类似。定义域基向量的像
+         \begin{equation*}
+           \colvec[r]{1 \\ 0 \\ 0}\mapsto\colvec{\cos\theta \\ 0 \\ \sin\theta}
+           \qquad
+           \colvec[r]{0 \\ 1 \\ 0}\mapsto\colvec[r]{0 \\ 1 \\ 0}
+           \qquad
+           \colvec[r]{0 \\ 0 \\ 1}\mapsto\colvec{-\sin\theta \\ 0 \\ \cos\theta}
+         \end{equation*}
+相对于陪域的基 $\stdbasis_3$ 的表示就是它们自身，因此矩阵如下。
+         \begin{equation*}
+            \begin{mat}
+              \cos\theta  &0       &-\sin\theta   \\
+              0           &1       &0             \\
+              \sin\theta  &0       &\cos\theta
+            \end{mat}                  
+         \end{equation*}
+\partsitem 对沿竖直 $z$ 轴站立的观察者，$xy$ 平面上的顺时针旋转从 $y$ 轴正半轴转向 $x$ 轴正半轴。
+也就是说，其方向与 \nearbyexample{exam:RepsOfRigidPlaneMaps} 相反。定义域基向量的像
+         \begin{equation*}
+           \colvec[r]{1 \\ 0 \\ 0}\mapsto\colvec{\cos\theta \\ -\sin\theta \\ 0}
+           \qquad
+           \colvec[r]{0 \\ 1 \\ 0}\mapsto\colvec{\sin\theta \\ \cos\theta \\ 0}
+           \qquad
+           \colvec[r]{0 \\ 0 \\ 1}\mapsto\colvec[r]{0 \\ 0 \\ 1}
+         \end{equation*}
+相对于 $\stdbasis_3$ 的表示就是它们自身，所以矩阵如下。
+         \begin{equation*}
+            \begin{mat}
+              \cos\theta    &\sin\theta  &0   \\
+              -\sin\theta   &\cos\theta  &0    \\
+              0             &0           &1
+            \end{mat}                  
+         \end{equation*}
+        \partsitem 
+            $\begin{mat}
+              \cos\theta  &\sin\theta &0 &0 \\
+              -\sin\theta  &\cos\theta  &0 &0 \\
+              0           &0           &1 &0 \\
+              0           &0           &0 &1
+            \end{mat}$
+      \end{exparts}   
+    \end{answer}
+\item （舒尔三角化引理）\index{Triangularization}%
+\index{matrix!triangular}
+    \begin{exparts}
+\partsitem 设 \( U \) 是 \( V \) 的子空间，固定基 \( B_U\subseteq B_V \)。
+\( U \) 中向量相对于 \( B_U \) 的表示，与该向量作为 \( V \) 中元素相对于 \( B_V \) 的表示，有什么关系？
+\partsitem 对映射又如何？
+\partsitem 固定 \( V \) 的一组基 \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)，注意以下张成空间
+        \begin{equation*}
+          \spanof{\emptyset}=\set{\zero}\subset\spanof{\set{\vec{\beta}_1}}
+                        \subset\spanof{\set{\vec{\beta}_1,\vec{\beta}_2}}
+               \subset \quad\cdots\quad 
+               \subset\spanof{B}=V
+        \end{equation*}
+构成严格递增的子空间链。证明：对任意线性映射 \( \map{h}{V}{W} \)，存在 \( W \) 的子空间链
+\( W_0=\set{\zero}\subseteq W_1\subseteq \dots \subseteq W_m =W \)，使得
+        \begin{equation*}
+          h(\spanof{\set{\vec{\beta}_1,\dots,\vec{\beta}_i}})\subseteq W_i
+        \end{equation*}
+对每个 \( i \) 成立。
+\partsitem 推出：对每个线性映射 \( \map{h}{V}{W} \)，都存在基 \( B,D \)，使得 \( h \) 相对于 \( B,D \) 的表示矩阵为上三角矩阵（即当 \( i>j \) 时，元素 \( h_{i,j} \) 均为零）。
+\item 上三角表示是否唯一？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+将基 \( B_U \) 写为 \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_k} \)，再将 $B_V$ 写为其扩充
+\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_k,\vec{\beta}_{k+1},\dots,\vec{\beta}_n} \)。若
+          \begin{equation*}
+            \rep{\vec{v}}{B_U}=\colvec{c_1 \\ \vdots \\ c_k}
+          \end{equation*}
+即 $\vec{v}=c_1\cdot\vec{\beta}_1+\cdots+c_k\cdot\vec{\beta}_k$，则
+          \begin{equation*}
+            \rep{\vec{v}}{B_V}=\colvec{c_1 \\ \vdots\\ c_k \\ 0 \\ \vdots \\ 0}
+          \end{equation*}
+因为 $\vec{v}=c_1\cdot\vec{\beta}_1+\dots+c_k\cdot\vec{\beta}_k+0\cdot\vec{\beta}_{k+1}+\dots+0\cdot\vec{\beta}_n$。
+        \partsitem
+先明确问题的含义。比较 \( \map{h}{V}{W} \) 及其在子空间上的限制
+\( \map{\restrictionmap{h}{U}}{U}{W} \)。限制映射的值域是 \( W \) 的子空间，故固定这个值域的基 \( D_{h(U)} \)，再将其扩充为 \( W \) 的基 \( D_V \)。我们要找出以下两者的关系。
+          \begin{equation*}
+            \rep{h}{B_V,D_V}
+            \quad\text{and}\quad
+            \rep{\restrictionmap{h}{U}}{B_U,D_{h(U)}}
+          \end{equation*}
+答案可直接由上一问得到：若
+          \begin{equation*}
+            \rep{\restrictionmap{h}{U}}{B_U,D_{h(U)}}
+             =\begin{mat}
+                h_{1,1}  &\ldots  &h_{1,k}  \\
+                \vdots   &        &\vdots   \\
+                h_{p,1}  &\ldots  &h_{p,k}
+              \end{mat}
+          \end{equation*}
+则扩展映射的表示如下。
+          \begin{equation*}
+            \rep{h}{B_V,D_V}
+             =\begin{mat}
+                h_{1,1}  &\ldots  &h_{1,k}  &h_{1,k+1}  &\ldots  &h_{1,n}  \\
+                \vdots   &        &         &           &        &\vdots   \\
+                h_{p,1}  &\ldots  &h_{p,k}  &h_{p,k+1}  &\ldots  &h_{p,n}  \\
+                0        &\ldots  &0        &h_{p+1,k+1}&\ldots  &h_{p+1,n}  \\
+                \vdots   &        &         &           &        &\vdots   \\
+                0        &\ldots  &0        &h_{m,k+1}  &\ldots  &h_{m,n}
+              \end{mat}
+          \end{equation*}
+\partsitem 取 \( W_i \) 为 \( \set{h(\vec{\beta}_1),\dots,h(\vec{\beta}_i)} \) 的张成空间。
+\partsitem 将第二问的答案应用于第三问。
+\partsitem 不唯一。例如，向 \( x \) 轴的投影 \( \map{\pi_x}{\Re^2}{\Re^2} \) 可用以下两个上三角矩阵表示，
+          \begin{equation*}
+             \rep{\pi_x}{\stdbasis_2,\stdbasis_2}=
+             \begin{mat}[r]
+               1  &0  \\
+               0  &0
+             \end{mat}
+             \quad\text{and}\quad
+             \rep{\pi_x}{C,\stdbasis_2}=
+             \begin{mat}[r]
+               0  &1  \\
+               0  &0
+             \end{mat}
+          \end{equation*}
+其中 \( C=\sequence{\vec{e}_2,\vec{e}_1} \)。
+      \end{exparts}  
+    \end{answer}
+\index{homomorphism!matrix representing|)}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{任意矩阵都表示线性映射}
+
+%<*MapDefinedByMat0>
+上一小节说明，相对于适当的基，线性映射 $h$ 的作用由矩阵 $H$ 按如下方式描述。
+\begin{equation*}
+ \vec{v}=\colvec{v_1 \\ \vdots \\ v_n}_B
+  \quad\overset{h}{\underset{H}{\longmapsto}}\quad
+  h(\vec{v})=
+  \colvec{h_{1,1}v_1+\dots+h_{1,n}v_n \\ 
+                     \vdots                      \\
+                     h_{m,1}v_1+\dots+h_{m,n}v_n}_D
+  \tag{$*$}
+\end{equation*}
+这里将证明其逆命题：每个矩阵都表示一个线性映射。
+%</MapDefinedByMat0>
+
+%<*MapDefinedByMat1>
+因此，从一个矩阵出发，
+\begin{equation*}
+  H=\generalmatrix{h}{n}{m}
+\end{equation*}
+说明它如何定义映射~$h$。我们要求该映射由这个矩阵表示。
+先注意，式 ($*$) 中映射定义域的维数是矩阵的列数~$n$，陪域的维数是行数~$m$。
+因此，固定一个 \( n \) 维向量空间 $V$ 作为 $h$ 的定义域，一个 \( m \) 维空间 $W$ 作为陪域。
+再固定它们的基 \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 和
+\( D=\sequence{\vec{\delta}_1,\dots,\vec{\delta}_m} \)。
+%</MapDefinedByMat1>
+
+%<*MapDefinedByMat2>
+现在定义 \( \map{h}{V}{W} \)：若定义域中的 $\vec{v}$ 的表示为
+\begin{equation*}
+  \rep{\vec{v}}{B}
+    =\colvec{v_1 \\ \vdots \\ v_n}_B
+\end{equation*}
+则其像 \( h(\vec{v}) \) 是陪域中具有以下表示的元素。
+\begin{equation*}
+  \rep{\,h(\vec{v})\,}{D}
+    =\colvec{h_{1,1}v_1+\dots+h_{1,n}v_n \\ \vdots \\ 
+                   h_{m,1}v_1+\dots+h_{m,n}v_n}_D
+\end{equation*}
+也就是说，要计算 $h$ 对任意 $\vec{v}\in V$ 的作用，先相对于基写出
+$\vec{v}=v_1\vec{\beta}_1+\dots+v_n\vec{\beta}_n$，然后
+$h(\vec{v})=
+ (h_{1,1}v_1+\dots+h_{1,n}v_n)\cdot\vec{\delta}_1
+  +\dots+
+  (h_{m,1}v_1+\dots+h_{m,n}v_n)\cdot\vec{\delta}_m$。
+%</MapDefinedByMat2>
+
+%<*MapDefinedByMat3>
+上面作了一些选择：例如，$V$ 可以是任意 $n$ 维空间，$B$ 可以是 $V$ 的任意一组基，所以 $H$ 并不定义唯一的函数。
+但一旦固定了 $V$、$B$、$W$ 和 $D$，$h$ 就是良定义的，因为 $\vec{v}$ 相对于基 $B$ 的表示唯一，
+% by Theorem~II.\ref{th:BasisIffUniqueRepWRT} 
+而由表示计算 $\vec{w}$ 的结果也唯一确定。
+%</MapDefinedByMat3>
+
+\begin{example}
+考虑以下矩阵。
+\begin{equation*}
+  H=
+  \begin{mat}
+    1 &2 \\
+    3 &4 \\
+    5 &6
+  \end{mat}
+\end{equation*}
+它是 $\nbym{3}{2}$ 矩阵，所以它定义的映射必定从二维定义域映到三维陪域。
+可选取 $\Re^2$ 和 $\polyspace_2$ 作为定义域、陪域，并取以下基。
+\begin{equation*}
+  B=\sequence{\colvec{1 \\ 1}, \colvec[r]{1 \\ -1}}
+  \qquad
+  D=\sequence{x^2, x^2+x, x^2+x+1}
+\end{equation*}
+设 $\map{h}{\Re^2}{\polyspace_2}$ 是由~$H$ 定义的函数。我们来计算定义域中以下元素在 $h$ 下的像。
+\begin{equation*}
+  \vec{v}=\colvec[r]{-3 \\ 2}
+\end{equation*}
+计算很直接。
+\begin{equation*}
+  \rep{h(\vec{v})}{D}
+  =H\cdot\rep{\vec{v}}{B}
+  =
+  \begin{mat}
+    1  &2  \\
+    3  &4  \\
+    5 &6
+  \end{mat}
+  \colvec{-1/2 \\ -5/2}
+  =\colvec{-11/2 \\ -23/2 \\ -35/2}
+\end{equation*}
+由表示按常规方法算出 $h(\vec{v})$：
+$(-11/2)(x^2)-(23/2)(x^2+x)-(35/2)(x^2+x+1)=(-69/2)x^2-(58/2)x-(35/2)$。
+\end{example}
+
+
+\begin{theorem} \label{th:MatIsLinMap}\index{homomorphism!matrix representing}
+%<*th:MatIsLinMap>
+相对于任意一对基，每个矩阵都表示相应维数的向量空间之间的同态。
+%</th:MatIsLinMap>
+\end{theorem}
+
+\begin{proof}
+%<*pf:MatIsLinMap>
+必须验证：对于任意矩阵 $H$ 及定义域、陪域的任意基 $B,D$，所定义的映射 \( h \) 都是线性的。若 $\vec{v}, \vec{u}\in V$ 满足
+\begin{equation*}
+  \rep{\vec{v}}{B}=\colvec{v_1 \\ \vdots \\ v_n}
+    \qquad
+  \rep{\vec{u}}{B}=\colvec{u_1 \\ \vdots \\ u_n}
+\end{equation*}
+且 \( c,d\in\Re \)，则计算
+\begin{align*}
+  h(c\vec{v}+d\vec{u})
+  &=\bigl(h_{1,1}(cv_1+du_1)+\dots+
+          h_{1,n}(cv_n+du_n)\bigr)\cdot\vec{\delta}_1+  \\
+  & \hbox{}\quad\cdots+\bigl(h_{m,1}(cv_1+du_1)+\dots
+         +h_{m,n}(cv_n+du_n)\bigr)\cdot\vec{\delta}_m  \\
+  &=c\cdot h(\vec{v})+d\cdot h(\vec{u})
+\end{align*}
+就完成了验证。
+%</pf:MatIsLinMap>
+\end{proof}
+
+\begin{example} \label{ex:CngBasesChgMap}
+即使定义域和陪域相同，矩阵所表示的映射仍依赖于所选的基。若
+\begin{equation*}
+  H=
+  \begin{mat}[r]
+    1  &0  \\
+    0  &0
+  \end{mat},
+  \quad
+  B_1=D_1=\sequence{\colvec[r]{1 \\ 0},\colvec[r]{0 \\ 1} },
+  \quad\text{and}\quad
+  B_2=D_2=\sequence{\colvec[r]{0 \\ 1},\colvec[r]{1 \\ 0} },
+\end{equation*}
+则 \( H \) 相对于 \( B_1,D_1 \) 表示的 \( \map{h_1}{\Re^2}{\Re^2} \) 将
+\begin{equation*}
+  \colvec{c_1 \\ c_2}
+  =\colvec{c_1 \\ c_2}_{B_1}
+  \quad
+  \mapsto
+  \quad
+  \colvec{c_1 \\ 0}_{D_1}
+  =
+  \colvec{c_1 \\ 0}
+\end{equation*}
+映到上述向量，而 \( H \) 相对于 \( B_2,D_2 \) 表示的 \( \map{h_2}{\Re^2}{\Re^2} \) 如下。
+\begin{equation*}
+  \colvec{c_1 \\ c_2}
+  =\colvec{c_2 \\ c_1}_{B_2}
+  \quad
+  \mapsto
+  \quad
+  \colvec{c_2 \\ 0}_{D_2}
+  =
+  \colvec{0 \\ c_2}
+\end{equation*}
+这是两个不同的函数。第一个是向 \( x \) 轴的投影，第二个是向 $y$ 轴的投影。
+\end{example}
+
+% So not only is any linear map described by a
+% matrix but any matrix describes a linear map.
+这个结果意味着：在方便时，可以只处理矩阵，直接进行计算，而无须担心所考察的矩阵是否表示某对空间之间的线性映射。
+
+处理矩阵时，如果没有特定的空间或基，可以取定义域、陪域为 $\Re^n$ 和 $\Re^m$，并使用标准基。
+这样很方便，因为相对于标准基，向量的表示一目了然\Dash $\vec{v}$ 的表示就是 $\vec{v}$。
+（这时矩阵的列空间等于映射的值域，因此 \( H \) 的列空间常记为 \( \rangespace{H} \)。）
+
+% With the theorem, we have characterized that for fixed bases we can 
+% pass back and forth between a linear map and its representation as a matrix.
+% Each linear map is described by a matrix and each matrix describes a 
+% linear map
+给定矩阵时，可从许多定义域、陪域以及它们的基中进行选择，得到相应的映射。所以，一个矩阵可以表示许多映射。
+本节最后说明，如何利用矩阵获取相应映射的信息。
+
+\begin{theorem} \label{th:RankMatEqRankMap}
+%<*th:RankMatEqRankMap>
+\index{rank}\index{homomorphism!rank}\index{matrix!rank}
+矩阵的秩等于它所表示的任意映射的秩。
+%</th:RankMatEqRankMap>
+\end{theorem}
+
+\begin{proof}
+%<*pf:RankMatEqRankMap0>
+设矩阵 \( H \) 为 \( \nbym{m}{n} \)。固定维数分别为 $n$ 和~$m$ 的定义域、陪域 $V$ 和 $W$，以及基
+\( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 和 \( D \)。
+则 \( H \) 相对于这些基表示两空间之间的某个线性映射 $h$，其值域空间
+\begin{align*}
+  \set{h(\vec{v})\suchthat \vec{v}\in V}
+  &=\set{h(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)  
+           \suchthat c_1,\dots,c_n\in\Re}                    \\
+  &=\set{c_1h(\vec{\beta}_1)+\dots+c_nh(\vec{\beta}_n)
+            \suchthat c_1,\dots,c_n\in\Re}
+\end{align*}
+是张成空间 $\spanof{\set{h(\vec{\beta}_1),\dots,h(\vec{\beta}_n)}}$。映射 $h$ 的秩就是这个值域空间的维数。
+%</pf:RankMatEqRankMap0>
+
+%<*pf:RankMatEqRankMap1>
+矩阵的秩是其列空间的维数，即各列构成的集合的张成空间
+$\spanof{\,\set{\rep{h(\vec{\beta}_1)}{D},\dots,\rep{h(\vec{\beta}_n)}{D}}\,}$ 的维数。
+%</pf:RankMatEqRankMap1>
+
+%<*pf:RankMatEqRankMap2>
+要看出这两个张成空间维数相同，回顾引理~I.\ref{lem:EqDimImpIso} 的证明：固定一组基之后，相对于该基的表示给出一个同构
+$\map{\mbox{Rep}_D}{W}{\Re^m}$。
+在此同构下，值域空间中的元素之间存在某个线性关系，当且仅当列空间中的对应元素之间存在相同的关系。
+例如，$\zero=c_1\cdot h(\vec{\beta}_1)+\dots+c_n\cdot h(\vec{\beta}_n)$ 当且仅当
+$\zero=c_1\cdot\rep{h(\vec{\beta}_1)}{D}+\dots+c_n\cdot\rep{h(\vec{\beta}_n)}{D}$。
+因此，值域空间的一个子集线性无关，当且仅当列空间中的对应子集线性无关。
+所以，两空间中最大线性无关子集的大小相等，从而维数相同。
+%</pf:RankMatEqRankMap2>
+\end{proof}
+
+这消除了将“秩”同时用于矩阵和映射所产生的表面歧义。
+
+\begin{example}
+由以下矩阵表示的任意映射
+\begin{equation*}
+    \begin{mat}[r]
+      1  &2  &2  \\
+      1  &2  &1  \\
+      0  &0  &3  \\
+      0  &0  &2
+    \end{mat}
+\end{equation*}
+必定具有三维定义域和四维陪域。此外，由于该矩阵的秩为二（可直接观察，也可用高斯消元求得），它所表示的任意映射的值域空间都是二维的。
+\end{example}
+
+\begin{corollary} \label{cor:MatDescsMap}
+%<*co:MatDescsMap>
+设线性映射 $h$ 由矩阵 $H$ 表示。
+则 $h$ 是满射当且仅当 $H$ 的秩等于其行数；$h$ 是单射当且仅当 $H$ 的秩等于其列数。
+%</co:MatDescsMap>
+\end{corollary}
+
+\begin{proof}
+%<*pf:MatDescsMap0>
+先证明满射的部分。$h$ 的值域空间的维数是 $h$ 的秩，由定理又等于 $H$ 的秩。
+由于 $h$ 的陪域维数等于 $H$ 的行数，若 $H$ 的秩等于行数，则值域空间与陪域维数相同。
+但子空间若与包含它的空间维数相同，就必定等于该空间（因为值域空间的任意一组基都是陪域中的线性无关子集，其大小等于陪域维数，所以它也必定是陪域的一组基）。
+%</pf:MatDescsMap0>
+
+%<*pf:MatDescsMap1>
+再证明另一部分。线性映射是单射，当且仅当它是定义域与值域之间的同构，也就是当且仅当定义域与值域维数相同。
+$H$ 的列数是 $h$ 的定义域维数，而由定理，$H$ 的秩等于 $h$ 的值域维数。
+%</pf:MatDescsMap1>
+\end{proof}
+
+\begin{definition}  \label{df:NonsingularMap}
+%<*df:NonsingularMap>
+既是单射又是满射的线性映射称为\definend{非奇异的}\index{homomorphism!nonsingular}%
+\index{nonsingular!homomorphism}，否则称为\definend{奇异的}\index{homomorphism!singular}%
+\index{singular!homomorphism}。
+也就是说，线性映射非奇异当且仅当它是同构。
+%</df:NonsingularMap>
+\end{definition}
+
+\begin{remark}
+有些作者用“非奇异”表示单射，另一些则采用本书的用法。
+差别很小，因为任何映射到其值域空间都是满射，所以单射给出定义域与其值域之间的同构。
+\end{remark}
+
+第一章将非奇异矩阵定义为对应线性方程组具有唯一解的方形系数矩阵。下一个结果说明，这个术语的两种用法是相容的。
+
+\begin{lemma} \label{le:NonsingMatIffNonsingMap}
+\index{homomorphism!nonsingular}\index{matrix!nonsingular}
+\index{nonsingular}
+%<*le:NonsingMatIffNonsingMap>
+非奇异线性映射的表示矩阵是方阵。方阵表示非奇异映射，当且仅当它是非奇异矩阵。
+因此，矩阵表示同构，当且仅当它是非奇异方阵。
+%</le:NonsingMatIffNonsingMap>
+\end{lemma}
+
+\begin{proof}
+%<*pf:NonsingMatIffNonsingMap0>
+设映射 $\map{h}{V}{W}$ 非奇异。
+由 \nearbycorollary{cor:MatDescsMap}，对于表示该映射的任意矩阵 $H$，由于 $h$ 为满射，$H$ 的行数等于它的秩；由于 $h$ 为单射，$H$ 的列数也等于它的秩。
+所以 $H$ 是方阵。
+%</pf:NonsingMatIffNonsingMap0>
+
+%<*pf:NonsingMatIffNonsingMap1>
+再设 $H$ 是 $\nbyn{n}$ 方阵。矩阵~$H$ 非奇异当且仅当其行秩为~$n$；
+由定理~Two.III.\ref{th:RowRankEqualsColumnRank}，这等价于 $H$ 的秩为~$n$；
+由 \nearbytheorem{th:RankMatEqRankMap}，这又等价于 $h$ 的秩为~$n$；
+由定理~I.\ref{th:NDimSpaceIsoRN}，这等价于 $h$ 是同构。
+（最后一步成立，是因为 $h$ 的定义域维数等于 $H$ 的列数，即 $n$。）
+%</pf:NonsingMatIffNonsingMap1>
+\end{proof}
+
+
+\begin{example}
+从 \( \Re^2 \) 到 \( \polyspace_1 \) 的映射，若相对于任意一对基由以下矩阵表示，
+\begin{equation*}
+  \begin{mat}[r]
+     1  &2  \\
+     0  &3  
+  \end{mat}
+\end{equation*}
+就非奇异，因为该矩阵的秩为二。
+\end{example}
+
+\begin{example} \label{ex:NonSMatHasNonSMap}
+由以下矩阵表示的任意映射 \( \map{g}{V}{W} \)
+\begin{equation*}
+  \begin{mat}[r]
+    1  &2  \\
+    3  &6
+  \end{mat}
+\end{equation*}
+都是奇异的，因为该矩阵奇异。
+\end{example}
+
+至此，我们看到映射与矩阵的关系是双向的：相对于特定的一对基，每个线性映射都由矩阵表示，每个矩阵也都描述一个线性映射。
+也就是说，固定空间和基，就得到映射与矩阵之间的对应关系。
+本章余下部分将探究这种对应。例如，已经定义了线性映射的加法和数乘，我们将考察相应的矩阵运算；还将考察与映射复合对应的矩阵运算，以及如何求出表示逆映射的矩阵。
+
+
+\begin{exercises}
+\item 对每个矩阵，指出它所表示的任意映射的定义域维数和陪域维数。
+    \begin{exparts*}
+      \partsitem 
+        $\begin{mat}
+          2  &1  \\
+          3  &4
+        \end{mat}$
+      \partsitem 
+        $\begin{mat}
+          1 &1 &-3 \\ 
+          2 &5 &0
+        \end{mat}$
+      \partsitem 
+        $\begin{mat}
+           1 &3 \\
+           1 &4 \\
+           1 &-1
+        \end{mat}$
+      \partsitem 
+        $\begin{mat}
+           0 &0 &0 \\
+           0 &0 &0
+        \end{mat}$
+      \partsitem 
+        $\begin{mat}
+           1 &-1 &4 &5 \\
+           0 &0  &0 &0
+        \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 定义域：$2$，陪域：$2$
+\partsitem 定义域：$3$，陪域：$2$
+\partsitem 定义域：$2$，陪域：$3$
+\partsitem 定义域：$3$，陪域：$2$
+\partsitem 定义域：$4$，陪域：$2$
+      \end{exparts}
+    \end{answer}
+\item 考虑线性映射 $\map{f}{V}{W}$，相对于某些基 $B,D$ 由以下矩阵表示。判断该映射是否非奇异。
+    \begin{exparts*}
+      \partsitem $\begin{mat}
+           2  &1 \\
+           3  &4
+         \end{mat}$
+      \partsitem $\begin{mat}
+           1 &1 \\  
+          -3 &-3
+         \end{mat}$
+      \partsitem $\begin{mat}
+          3 &0 &0 \\
+          2 &1 &0 \\
+          4 &4 &4
+         \end{mat}$
+      \partsitem $\begin{mat}
+          2 &0 &-2 \\
+          1 &1 &0 \\
+          4 &1 &-4
+         \end{mat}$
+    \end{exparts*}
+    \begin{answer}
+每一问只需判断矩阵是否非奇异，必要时使用高斯消元。（实际上，这些矩阵都可以直接观察。）
+      \begin{exparts}
+\partsitem 该矩阵非奇异，因为第二行不是第一行的倍数，所以映射非奇异。
+\partsitem 矩阵奇异，所以映射奇异。
+\partsitem 非奇异。
+\partsitem 非奇异。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+设 $h$ 是以下矩阵相对于给定基所定义的线性映射，定义域为~$\polyspace_1$，陪域为~$\Re^2$。
+   \begin{equation*}
+     H=
+     \begin{mat}
+       2  &1  \\
+       4  &2
+     \end{mat}
+     \quad
+     B=\sequence{1+x,x},\,
+     D=\sequence{\colvec{1 \\ 1},\colvec{1 \\ 0}}
+   \end{equation*}
+向量 $\vec{v}=2x-1$ 在 $h$ 下的像是什么？
+   \begin{answer}
+该向量相对于 $B$ 的表示如下。
+     \begin{equation*}
+       \rep{2x-1}{B}=\colvec{-1 \\ 3}
+     \end{equation*}
+利用矩阵与向量的乘积，可计算 $\rep{h(\vec{v})}{D}$。
+     \begin{equation*}
+       \rep{h(2x-1)}{D}
+       =
+       \begin{mat}
+         2  &1  \\
+         4  &2
+       \end{mat}
+       \colvec{-1 \\ 3}_B
+       =
+       \colvec{1 \\ 2}_D
+     \end{equation*}
+由这个表示可以求出 $h(\vec{v})$。
+     \begin{equation*}
+       h(2x-1)=1\cdot\colvec{1 \\ 1}+2\cdot\colvec{1 \\ 0}
+       =\colvec{3 \\ 1}
+     \end{equation*}
+   \end{answer}
+ \recommended \item 
+以下矩阵相对于标准基表示从 \( \Re^3 \) 到 \( \Re^2 \) 的映射。判断给定向量是否在该映射的值域中。
+   \begin{exparts*}
+     \partsitem \( \begin{mat}[r]
+                1  &1  &3  \\
+                0  &1  &4
+              \end{mat}  \),~\( \colvec[r]{1 \\ 3} \)
+     \partsitem \( \begin{mat}[r]
+                2  &0  &3  \\
+                4  &0  &6
+              \end{mat}  \),~\( \colvec[r]{1 \\ 1} \)
+   \end{exparts*}
+   \begin{answer} 
+如本小节所述，相对于标准基，表示是直接的。例如，第一个矩阵描述以下映射。
+     \begin{equation*}
+       \colvec[r]{1 \\ 0 \\ 0}=\colvec[r]{1 \\ 0 \\ 0}_{\stdbasis_3}
+          \!\mapsto\colvec[r]{1 \\ 0}_{\stdbasis_2}=\colvec[r]{1 \\ 0}
+       \qquad
+       %\colvec[r]{0 \\ 1 \\ 0}=\colvec[r]{0 \\ 1 \\ 0}_{\stdbasis_3}
+       %   \!\mapsto\colvec[r]{1 \\ 1}_{\stdbasis_2}=\colvec[r]{1 \\ 1}
+       \colvec[r]{0 \\ 1 \\ 0}
+          \!\mapsto\colvec[r]{1 \\ 1}
+       \qquad
+       %\colvec[r]{0 \\ 0 \\ 1}=\colvec[r]{0 \\ 0 \\ 1}_{\stdbasis_3}
+       %   \!\mapsto\colvec[r]{3 \\ 4}_{\stdbasis_2}=\colvec[r]{3 \\ 4}
+       \colvec[r]{0 \\ 0 \\ 1}
+          \!\mapsto\colvec[r]{3 \\ 4}
+     \end{equation*}
+因此，第一问就是问是否存在标量使得
+     \begin{equation*}
+       c_1\colvec[r]{1 \\ 0}+c_2\colvec[r]{1 \\ 1}
+           +c_3\colvec[r]{3 \\ 4}=\colvec[r]{1 \\ 3}
+     \end{equation*}
+即该向量是否在矩阵的列空间中。
+     \begin{exparts}
+\partsitem 是。照常列出相应的线性方程组并使用高斯消元，即可得到结论。
+也可观察列向量等式，发现取 $c_3=3/4$、$c_1=-5/4$、$c_2=0$ 即可。
+第三种方法是注意到矩阵的秩为二，等于陪域维数，所以映射是满射\Dash 值域为整个 $\Re^2$，当然包含给定向量。
+\partsitem 否。矩阵每一列的第二个分量都是第一个的两倍，而给定向量不满足这一点。也可计算矩阵的列空间，得到
+         \begin{equation*}
+           \set{c_1\colvec[r]{2 \\ 4}
+                +c_2\colvec[r]{0 \\ 0}
+                +c_3\colvec[r]{3 \\ 6} \suchthat c_1,c_2,c_3\in\Re}
+           =\set{c\colvec[r]{1 \\ 2}\suchthat c\in\Re}
+         \end{equation*}
+（这正是刚才指出的事实，不过这里通过计算而非观察得到），给定向量不在此集合中。
+     \end{exparts}  
+    \end{answer}
+  \recommended \item  
+考虑以下矩阵，它相对于所给基表示 $\Re^2$ 上的一个变换。
+    \begin{equation*}
+      \frac{1}{2}\cdot
+      \begin{mat}[r]
+        1  &1  \\
+        -1 &1
+      \end{mat}
+      \qquad
+      B=\sequence{\colvec[r]{0 \\ 1},\colvec[r]{1 \\ 0}}
+      \quad 
+      D=\sequence{\colvec[r]{1 \\ 1},\colvec[r]{1 \\ -1}}
+    \end{equation*}
+    \begin{exparts}
+\partsitem $B$ 的第一个元素映到陪域中的哪个向量？
+\partsitem 第二个元素呢？
+\partsitem 定义域中的一般向量（分量为 $x$ 和 $y$）映到哪里？也就是说，该矩阵相对于 \( B,D \) 表示 \( \Re^2 \) 上的什么变换？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 基的第一个元素
+          \begin{equation*}
+            \colvec[r]{0 \\ 1}=\colvec[r]{1 \\ 0}_B
+          \end{equation*}
+映到
+          \begin{equation*}
+            \colvec[r]{1/2 \\ -1/2}_D
+          \end{equation*}
+即陪域中的以下元素。
+          \begin{equation*}
+            \frac{1}{2}\cdot\colvec[r]{1 \\ 1}
+              -\frac{1}{2}\cdot\colvec[r]{1 \\ -1}
+              =\colvec[r]{0 \\ 1}
+          \end{equation*}
+\partsitem 基的第二个元素按如下方式映射，
+          \begin{equation*}
+            \colvec[r]{1 \\ 0}=\colvec[r]{0 \\ 1}_B
+            \mapsto
+            \colvec[r]{(1/2 \\ 1/2}_D 
+          \end{equation*}
+得到陪域中的以下元素。
+          \begin{equation*}
+            \frac{1}{2}\cdot\colvec[r]{1 \\ 1}
+              +\frac{1}{2}\cdot\colvec[r]{1 \\ -1}
+              =\colvec[r]{1 \\ 0}
+          \end{equation*}
+\partsitem 由于矩阵表示的映射在基上是恒等映射，它在整个定义域上必定都是恒等映射。
+也可用另一种方法得到同一结论：考虑
+          \begin{equation*}
+            \colvec{x \\ y}=\colvec{y \\ x}_B
+          \end{equation*}
+它映到
+          \begin{equation*}
+            \colvec{(x+y)/2 \\ (x-y)/2}_D
+          \end{equation*}
+即表示 $\Re^2$ 中的以下元素。
+          \begin{equation*}
+            \frac{x+y}{2}\cdot\colvec[r]{1 \\ 1}
+              +\frac{x-y}{2}\cdot\colvec[r]{1 \\ -1}
+            =\colvec{x \\ y}
+          \end{equation*}
+      \end{exparts}
+    \end{answer}
+\item 考虑同态 $\map{h}{\Re^2}{\Re^2}$，它相对于标准基 $\stdbasis_2,\stdbasis_2$ 由以下矩阵表示。
+    \begin{equation*}
+      \begin{mat}
+        1  &3  \\
+        2  &4
+      \end{mat}
+    \end{equation*}
+求各向量在 $h$ 下的像。
+    \begin{exparts*}
+      \partsitem $\colvec{2  \\ 3}$
+      \partsitem $\colvec{0  \\ 1}$
+      \partsitem $\colvec{-1 \\ 1}$
+    \end{exparts*}
+    \begin{answer}
+由于相对于标准基~$\stdbasis_2$，向量的表示就是它自身，只需计算矩阵与向量的乘积。
+      \begin{exparts}
+        \partsitem 
+          \begin{align*}
+            \rep{h(\colvec{2 \\ 3})}{\stdbasis_2}       
+             &=\rep{h}{\stdbasis_2,\stdbasis_2}\;
+             \rep{\colvec{2 \\ 3}}{\stdbasis_2}        \\
+             &=\begin{mat}
+              1  &3  \\
+              2  &4
+             \end{mat}_{\stdbasis_2,\stdbasis_2}
+             \colvec{2 \\ 3}_{\stdbasis_2}                 \\
+             &=\colvec{11 \\ 16}_{\stdbasis_2}=
+             \colvec{11 \\ 16}
+          \end{align*}
+        \partsitem
+           $\begin{mat}
+              1  &3  \\
+              2  &4
+             \end{mat}
+             \colvec{0 \\ 1}=
+             \colvec{3 \\ 4}$
+        \partsitem
+           $\begin{mat}
+              1  &3  \\
+              2  &4
+             \end{mat}
+             \colvec{-1 \\ 1}=
+             \colvec{2 \\ 2}$
+      \end{exparts}
+    \end{answer}
+  \item 
+以下矩阵相对于
+\( B=\sequence{\cos\theta-\sin\theta,\sin\theta} \) 和
+\( D=\sequence{\cos\theta+\sin\theta,\cos\theta} \)
+表示 \( F=\set{a\cos\theta+b\sin\theta\suchthat a,b\in\Re} \) 上的什么变换？
+    \begin{equation*}
+      \begin{mat}[r]
+          0  &0  \\
+          1  &0
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+定义域中的一般元素相对于定义域的基表示为
+      \begin{equation*}
+        a\cos\theta+b\sin\theta=\colvec{a \\ a+b}_B
+      \end{equation*}
+它映到
+      \begin{equation*}
+        \colvec{0 \\ a}_D
+          \quad\text{representing}\quad
+        0\cdot(\cos\theta+\sin\theta)+a\cdot(\cos\theta)
+      \end{equation*}
+所以，该矩阵相对于这些基表示的线性映射
+      \begin{equation*}
+        a\cos\theta+b\sin\theta  
+            \mapsto
+        a\cos\theta
+      \end{equation*}
+是向第一个分量的投影。
+    \end{answer}
+  \recommended \item  
+以下矩阵相对于 $\stdbasis_3$ 和 $\sequence{1,1+x^2,x}$ 表示从 $\Re^3$ 到 $\polyspace_2$ 的映射。
+判断 $1+2x$ 是否在该映射的值域中。
+     \begin{equation*}
+       \begin{mat}[r]
+         1  &3  &0  \\
+         0  &1  &0  \\
+         1  &0  &1
+       \end{mat}
+     \end{equation*}
+     \begin{answer}
+将给定的 $\polyspace_2$ 的基记为 $B$。线性映射的作用由矩阵与向量的乘法表示。
+因此，$\stdbasis_3$ 中第一个向量映到 $\polyspace_2$ 中相对于~$B$ 具有以下表示的元素，
+       \begin{equation*}
+       \begin{mat}[r]
+         1  &3  &0  \\
+         0  &1  &0  \\
+         1  &0  &1
+       \end{mat}
+       \colvec[r]{1 \\ 0 \\ 0}
+       =
+       \colvec[r]{1 \\ 0 \\ 1}  
+       \end{equation*}
+该元素就是 $1+x$。同样计算另两个基向量的像。
+       \begin{equation*}
+         \begin{mat}[r]
+           1  &3  &0  \\
+           0  &1  &0  \\
+           1  &0  &1
+         \end{mat}
+         \colvec[r]{0 \\ 1 \\ 0}
+         =
+         \colvec[r]{3 \\ 1 \\ 0}=\rep{4+x^2}{B}
+         \quad
+         \begin{mat}[r]
+           1  &3  &0  \\
+           0  &1  &0  \\
+           1  &0  &1
+         \end{mat}
+         \colvec[r]{0 \\ 0 \\ 1}
+         =
+         \colvec[r]{0 \\ 0 \\ 1}=\rep{x}{B}
+       \end{equation*}
+所以，$h$ 的值域由三个多项式 $1+x$、$4+x^2$ 和 $x$ 张成。
+于是，要判断 $1+2x$ 是否在值域中，只需寻找标量 $c_1$、$c_2$ 和 $c_3$，使得
+       \begin{equation*}
+         c_1\cdot(1+x)+c_2\cdot(4+x^2)+c_3\cdot(x)=1+2x
+       \end{equation*}
+显然，取 $c_1=1$、$c_2=0$、$c_3=1$ 即可。因此 $1+2x$ 在值域中，因为它是以下向量的像。
+       \begin{equation*}
+         1\cdot\colvec[r]{1 \\ 0 \\ 0}+0\cdot\colvec[r]{0 \\ 1 \\ 0}
+             +1\cdot\colvec[r]{0 \\ 0 \\ 1}
+       \end{equation*}
+
+\textit{评注。}更简洁的论证是：矩阵非奇异，故秩为~$3$，值域维数也为~$3$；而陪域维数为~$3$，所以映射是满射。
+因此，每个多项式都是某个向量的像，特别地，$1+2x$ 也是定义域中某个向量的像。
+     \end{answer}
+\item 求以下矩阵相对于 $B,B$ 表示的映射。
+    \begin{equation*}
+      \begin{mat}
+        2  &1  \\
+        -1 &0
+      \end{mat}
+      \qquad
+      B=\sequence{\colvec{1 \\ 0},\colvec{1 \\ 1}}
+    \end{equation*}
+    \begin{answer}
+设 $B=\sequence{\vec{\beta}_1,\vec{\beta}_2}$。对于分量为 $x$ 和~$y$ 的一般向量 $\vec{v}$，可直接观察求出 $\rep{\vec{v}}{B}$。
+          \begin{equation*}
+            \colvec{x \\ y}=a\cdot\colvec{1 \\ 0}+b\cdot\colvec{1 \\ 1}
+            \quad\text{gives}\quad  
+            b=y, a=x-y
+          \end{equation*}
+因此，一般向量相对于~$B$ 的表示如下。
+          \begin{equation*}
+            \rep{\colvec{x \\ y}}{B}=\colvec{x-y \\ y}
+          \end{equation*}
+利用矩阵与向量的乘法计算映射的作用。
+          \begin{equation*}
+            \begin{mat}
+              2  &1  \\
+             -1 &0
+            \end{mat}_B
+            \colvec{x-y \\ y}_B
+            =
+            \colvec{2(x-y)+y \\ -(x-y)}_B     
+            =
+            \colvec{2x-y \\ -x+y}_B     
+          \end{equation*}
+最后转回标准的向量表示。
+          \begin{equation*}
+            \colvec{2x-y \\ -x+y}_B     
+            =
+            (2x-y)\cdot\colvec{1 \\ 0}+(-x+y)\cdot\colvec{1 \\ 1}
+            =\colvec{x \\ -x+y}      
+          \end{equation*}
+    \end{answer}
+  \item 
+\nearbyexample{ex:NonSMatHasNonSMap} 给出一个奇异矩阵，因此它所对应的映射都是奇异的。
+由于不知道定义域~$V$、陪域~$W$ 以及两组基 $B$ 和~$D$，我们无法写出相应映射~$g$ 对定义域元素~$\vec{v}\in V$ 的作用。
+但可以计算它们的表示 $\rep{\vec{v}}{B,D}$ 如何变化。
+    \begin{exparts}
+\partsitem 对该矩阵表示的任意映射~$g$，求表示其零空间元素的列向量集合。
+\partsitem 求这样的映射~$g$ 的零度。
+\partsitem 对该矩阵表示的任意映射~$g$，求表示其值域空间元素的列向量集合。
+\partsitem 求这样的映射~$g$ 的秩。
+\partsitem 验证秩加零度等于定义域的维数。
+    \end{exparts}
+    \begin{answer}
+将矩阵记为 $G$，设它相对于基 $B$ 和 $D$ 表示 $\map{g}{V}{W}$。
+由于 $G$ 有两列，定义域 $V$ 为二维；由于 $G$ 有两行，陪域 $W$ 为二维。
+$g$ 对定义域一般元素的表示 $\rep{\vec{v}}{B,D}$ 的作用如下。
+      \begin{equation*}
+        \colvec{x \\ y}_B 
+         \;\mapsto\; 
+        \colvec{x+2y \\ 3x+6y}_D
+      \end{equation*}
+      \begin{exparts}
+\partsitem 无论陪域的基~$D$ 如何，零向量 $\zero_{W}$ 的唯一表示都是
+           \begin{equation*}
+             \rep{\zero}{D}=\colvec[r]{0 \\ 0}_D
+           \end{equation*}
+因此，零空间元素的表示构成以下集合。
+           \begin{equation*}
+             \set{\colvec{x \\ y}_B\suchthat \text{$x+2y=0$ and $3x+6y=0$}}
+             =\set{y\cdot\colvec[r]{-1/2 \\ 1}_D\suchthat y\in\Re}
+           \end{equation*}
+\partsitem 零度为~$1$。表示映射 $\map{\mbox{Rep}_D}{W}{\Re^2}$ 及其逆映射都是同构，因而保持子空间的维数。
+上一问中的 $\Re^2$ 的子空间是一维的，所以它在表示映射的逆映射下的像\Dash $G$ 的零空间\Dash 也是一维的。
+\partsitem 值域空间元素的表示构成以下集合。
+           \begin{align*}
+             \set{\colvec{x+2y \\ 3x+6y}_D\suchthat x,y\in\Re}
+             &=\set{x\cdot\colvec{1 \\ 3}_D+y\cdot\colvec{2 \\ 6}_D\suchthat x,y\in\Re}  \\
+             &=\set{k\cdot\colvec[r]{1 \\ 3}_D\suchthat k\in\Re}
+           \end{align*}
+\partsitem 当然，由 \nearbytheorem{th:RankMatEqRankMap}，映射的秩等于矩阵的秩，即一。
+也可用前面处理零空间的同一论证，说明值域空间的维数为一。
+\partsitem 一加一等于二。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+将以下各矩阵视为相对于标准基表示 $\map{h}{\Re^m}{\Re^n}$ 的矩阵。
+对每个矩阵，(i)~指出 $m$ 和~$n$。
+然后构造增广矩阵：左边为给定矩阵，右边为表示值域元素的向量（例如，若陪域为~$\Re^3$，就在右列放入 $a$、$b$ 和 $c$ 三个元素）。
+作高斯–若尔当消元，据此 (ii)~求 $\rangespace{h}$ 和 $\rank(h)$，并指出相应映射是否为满射；
+(iii)~求 $\nullspace{h}$ 和 $\nullity(h)$，并指出相应映射是否为单射。
+     \begin{exparts}
+       \partsitem     $
+         \begin{mat}
+           2  &1  \\ 
+           -1 &3
+         \end{mat}$
+      \partsitem
+        $\begin{mat}
+          0  &1  &3  \\ 
+          2  &3  &4  \\
+         -2  &-1 &2 
+        \end{mat}$
+      \partsitem
+        $\begin{mat}
+          1  &1  \\ 
+          2  &1  \\
+          3  &1
+       \end{mat}$
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem
+(i)~定义域维数为列数~$m=2$，陪域维数为行数~$n=2$。
+
+其余各问考虑以下矩阵与向量的方程。
+           \begin{equation*}
+             \begin{mat}
+               2  &1  \\ 
+              -1  &3        
+             \end{mat}
+             \colvec{x \\ y}
+             =
+             \colvec{a \\ b}
+             \tag{$*$}
+           \end{equation*}
+解出 $x$ 和~$y$。
+           \begin{equation*}
+             \begin{amat}{2}
+             2  &1 &a  \\ 
+             -1 &3 &b       
+             \end{amat}
+             \grstep{(1/2)\rho_1+\rho_2}
+             \grstep[(2/7)\rho_2]{(1/2)\rho_1}
+             \grstep{-(1/2)\rho_2+\rho_1}
+             \begin{amat}{2}
+               1  &0 &(3/7)a-(1/7)b  \\ 
+               0  &1 &(1/7)a+(2/7)b       
+             \end{amat}
+           \end{equation*}
+(ii)~对于式~($*$) 中的所有
+           \begin{equation*}
+             \colvec{a \\ b}\in\Re^2
+           \end{equation*}
+由计算可知，方程组均有解。所以值域空间就是整个陪域，$\rangespace{h}=\Re^2$。
+映射的秩是值域维数，即~$2$。由于值域空间等于整个陪域，映射是满射。
+
+(iii)~同样由计算可知，为求零空间，在式~($*$) 中令 $a=b=0$，得到 $x=y=0$。
+零空间是定义域的平凡子空间。
+           \begin{equation*}
+             \nullspace{h}=\set{\colvec{0 \\ 0}}
+           \end{equation*}
+零度为零空间的维数，即~$0$。由于零空间平凡，映射是单射。
+         \partsitem
+(i)~定义域维数为矩阵列数~$m=3$，陪域维数为行数~$n=3$。
+
+计算如下。
+            \begin{multline*}
+              \begin{amat}{3}
+                0  &1  &3  &a \\ 
+                2  &3  &4  &b \\
+               -2  &-1 &2  &c
+              \end{amat}
+              \grstep{\rho_1\leftrightarrow\rho_2}
+              \grstep{\rho_1+\rho_3}
+              \grstep{-2\rho_2+\rho_3}                 \\
+              \grstep{(1/2)\rho_1}
+              \grstep{-(3/2)\rho_2+\rho_1}
+              \begin{amat}{3}
+                1  &0 &-5/2 &-(3/2)a+(1/2)b  \\ 
+                0  &1 &3    &a  \\
+                0  &0 &0    &-2a+b+c      
+              \end{amat}
+            \end{multline*}
+(ii)~陪域中存在三元组
+            \begin{equation*}
+              \colvec{a \\ b \\ c}\in\Re^3
+            \end{equation*}
+使方程组无解。具体地，只有当 $-2a+b+c=0$ 时方程组才有解。
+            \begin{equation*}
+              \rangespace{h}=\set{\colvec{a \\ b \\ c}\suchthat a=(b+c)/2}
+                            =\set{\colvec{1/2 \\ 1 \\ 0}b
+                                  +\colvec{1/2 \\ 0 \\ 1}c\suchthat b,c\in\Re} 
+            \end{equation*}
+映射的秩是值域维数，即~$2$。由于值域空间不等于整个陪域，映射不是满射。
+
+(iii)~在计算中令 $a=b=c=0$，得到无穷多个解。以自由变量~$z$ 为参数，零空间可描述如下。
+            \begin{equation*}
+              \nullspace{h}=\set{\colvec{x \\ y \\ z}\suchthat 
+                               \text{$y=-3z$ and $x=(5/2)z$}}
+                           =\set{\colvec{5/2 \\ -3 \\ 1}z\suchthat z\in\Re}
+            \end{equation*}
+零度是零空间的维数，即~$1$。由于零空间非平凡，映射不是单射。
+          \partsitem
+(i)~定义域维数为 $m=2$，陪域维数为~$n=3$。计算如下。
+              \begin{equation*}
+                \begin{amat}{2}
+                  1  &1  &a \\ 
+                  2  &1  &b \\
+                  3  &1  &c
+                \end{amat}
+                \grstep[-3\rho_1+\rho_3]{-2\rho_1+\rho_2}
+                \grstep{-2\rho_2+\rho_3}
+                \grstep{-\rho_2}                 
+                \grstep{-\rho_2+\rho_1}
+                \begin{amat}{2}
+                  1  &0 &-a+b  \\ 
+                  0  &1 &2a-b  \\
+                  0  &0 &a-2b+c      
+                \end{amat}
+              \end{equation*}
+
+(ii)~值域是陪域的以下子空间。
+            \begin{equation*}
+              \rangespace{h}=\set{\colvec{2b-c \\ b \\ c}\suchthat b,c\in\Re}
+                  =\set{\colvec{2 \\ 1 \\ 0}b+\colvec{-1 \\ 0 \\ 1}c\suchthat b,c\in\Re}
+            \end{equation*}
+秩为~$2$，映射不是满射。
+
+(iii)~零空间是定义域的平凡子空间。
+            \begin{equation*}
+              \nullspace{h}=\set{\colvec{x \\ y}=\colvec{0 \\ 0}}
+            \end{equation*}
+零度为~$0$，映射是单射。
+       \end{exparts}
+     \end{answer}
+\item 对以下矩阵使用上一题的方法。
+    \begin{equation*}
+        \begin{mat}
+          1 &0 &-1 \\
+          2 &1 &0  \\
+          2 &2 &2
+        \end{mat}
+    \end{equation*}
+    \begin{answer}
+高斯–若尔当消元如下。
+          \begin{align*}
+            \begin{amat}{3}
+                1 &0 &-1 &a \\
+                2 &1 &0  &b \\
+                2 &2 &2  &c  
+            \end{amat}
+            &\grstep[-2\rho_1+\rho_3]{-2\rho_1+\rho_2}
+            \begin{amat}{3}
+                1 &0 &-1 &a \\
+                0 &1 &2  &-2a+b \\
+                0 &2 &4  &-2a+c  
+            \end{amat}                                    \\
+            &\grstep{-2\rho_2+\rho_3}
+            \begin{amat}{3}
+                1 &0 &-1 &a \\
+                0 &1 &2  &-2a+b \\
+                0 &0 &0  &2a-2b+c  
+            \end{amat}
+          \end{align*}
+(i)~维数为 $m=n=3$。
+(ii)~值域空间由使这个方程组有解的所有陪域元素组成。
+          \begin{equation*}
+            \rangespace{h}=\set{\colvec{b-(1/2)c \\ b \\ c}\suchthat b,c\in\Re}
+          \end{equation*}
+秩为 2。由于秩小于陪域维数~$n=3$，映射不是满射。
+      
+(iii)~零空间由定义域中映到 $a=0$、$b=0$ 和~$c=0$ 的元素组成。
+          \begin{equation*}
+            \nullspace{h}=\set{\colvec{z \\ -2z \\ z}\suchthat z\in\Re}
+          \end{equation*}
+零度为~$1$。由于零度不为~$0$，映射不是单射。
+    \end{answer}
+\item 验证以下矩阵表示的映射是同构。
+        \begin{equation*}
+          \begin{mat}
+            2  &1  &0  \\
+            3  &1  &1  \\
+            7  &2  &1
+          \end{mat}
+        \end{equation*}
+    \begin{answer}
+该矩阵表示的任意映射，其定义域与陪域维数均为~$3$。
+要证明映射是同构，必须证明它既是满射又是单射。
+为此，无须用 $a$、$b$ 和~$c$ 扩充矩阵；以下计算
+             \begin{multline*}
+               \begin{mat}
+                 2  &1  &0 \\ 
+                 3  &1  &1 \\
+                 7  &2  &1
+               \end{mat}
+               \grstep[-(7/2)\rho_1+\rho_3]{-(3/2)\rho_1+\rho_2}
+               \grstep{-3\rho_2+\rho_3}
+               \grstep[-2\rho_2 \\ -(1/2)\rho_3]{(1/2)\rho_1}                 
+               \grstep{2\rho_3+\rho_2}                          \\
+               \grstep{-(1/2)\rho_2+\rho_1}
+               \begin{mat}
+                 1  &0 &0  \\ 
+                 0  &1 &0  \\
+                 0  &0 &1      
+               \end{mat}
+             \end{multline*}
+说明每个陪域向量都恰好对应一个定义域向量。
+    \end{answer}
+\item 下面给出 \nearbylemma{le:NonsingMatIffNonsingMap} 的另一种证明。
+给定 $\nbyn{n}$ 矩阵 $H$，固定相应维数~$n$ 的定义域~$V$、陪域~$W$ 及其基 $B,D$，考虑该矩阵表示的映射~$h$。
+    \begin{exparts}
+      \partsitem
+证明：$h$ 是满射，当且仅当对每个 $\rep{\vec{w}}{D}$，至少有一个 $\rep{\vec{v}}{B}$ 经 $H$ 与之对应。
+      \partsitem
+证明：$h$ 是单射，当且仅当对每个 $\rep{\vec{w}}{D}$，至多有一个 $\rep{\vec{v}}{B}$ 经 $H$ 与之对应。
+      \partsitem
+考虑线性方程组 $H\cdot\rep{\vec{v}}{B}=\rep{\vec{w}}{D}$。
+证明：$H$ 非奇异，当且仅当对每个 $\rep{\vec{w}}{D}$，恰好有一个解~$\rep{\vec{v}}{B}$。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+所定义的映射 $h$ 是满射，当且仅当对每个 $\vec{w}\in W$，都有 $\vec{v}\in V$ 使 $h(\vec{v})=\vec{w}$。
+由于每个向量都恰好有一个表示，转为表示后可知，$h$ 是满射，当且仅当对每个表示 $\rep{\vec{w}}{D}$，都有表示 $\rep{\vec{v}}{B}$ 使
+$H\cdot\rep{\vec{v}}{B}=\rep{\vec{w}}{D}$。
+       \partsitem
+与上一问类似。
+       \partsitem 
+如本小节开头所述，由定义，矩阵 $H$ 所定义的映射 $h$ 将以下定义域向量 $\vec{v}$ 对应到陪域向量 $\vec{w}$。
+          \begin{equation*}
+            \rep{\vec{v}}{B}=\colvec{v_1 \\ \vdots \\ v_n}
+            \qquad
+            \rep{\vec{w}}{D}
+               =
+               H\cdot\rep{\vec{v}}{B}
+               =\colvec{h_{1,1}v_1+\dots+h_{1,n}v_n  \\ 
+                          \vdots \\ 
+                       h_{m,1}v_1+\dots+h_{m,n}v_n}
+          \end{equation*}
+固定 $\vec{w}\in W$，考虑上述等式定义的线性方程组。
+          \begin{equation*}
+            % H\cdot\rep{\vec{v}}{B}=\rep{\vec{w}}{D}
+            % \qquad
+            \begin{linsys}{3}
+              h_{1,1}v_1 &+ &\cdots &+ &h_{1,n}v_n &= &w_1  \\
+              h_{2,1}v_1 &+ &\cdots &+ &h_{2,n}v_n &= &w_2  \\
+                       &  &        & &          &\vdotswithin{=} & \\
+              h_{n,1}v_1 &+ &\cdots &+ &h_{n,n}v_n &= &w_n
+            \end{linsys}
+          \end{equation*}
+（同样，这里的 $w_i$ 是给定值，$v_j$ 是未知数。）
+$H$ 非奇异，当且仅当对所有 $w_1$、\ldots、$w_n$，此方程组都有唯一解。
+由本题前两问，这等价于映射 $h$ 既是满射又是单射，也就等价于 $h$ 是同构。
+       \end{exparts}
+      \end{answer}
+  \recommended \item  
+由于矩阵的秩等于它所表示的任意映射的秩，若一个矩阵表示两个不同的映射
+\( H=\rep{h}{B,D}=\rep{\hat{h}}{\hat{B},\hat{D}} \)
+（其中 \( \map{h,\hat{h}}{V}{W} \)），则 \( h \) 与 \( \hat{h} \) 的值域空间维数相同。
+这些等维值域空间是否必定相同？
+    \begin{answer}
+不一定，值域空间可以不同。\nearbyexample{ex:CngBasesChgMap} 就说明了这一点。
+    \end{answer}
+  \item 
+设 \( V \) 是 \( n \) 维空间，具有基 \( B \) 和 \( D \)。
+考虑以下映射：对 \( \vec{v}\in V\)，将表示 \( \vec{v} \) 相对于 \( B \) 的列向量，映到表示 \( \vec{v} \) 相对于 \( D \) 的列向量。
+证明它是 \( \Re^n \) 上的线性变换。
+    \begin{answer}
+回顾，表示映射
+      \begin{equation*}
+        V\mapsunder{\text{Rep}_{B}}\Re^n
+      \end{equation*}
+是同构。因此其逆映射 $\map{\mbox{Rep}_B^{-1}}{\Re^n}{V}$ 也是同构。
+所求的 $\Re^n$ 上的变换就是以下复合。
+      \begin{equation*}
+        \Re^n\mapsunder{\text{Rep}_{B}^{-1}}
+        V\mapsunder{\text{Rep}_{D}}\Re^n
+      \end{equation*}
+由于同构的复合仍为同构，映射 $\composed{\mbox{Rep}_{D}}{\mbox{Rep}_{B}^{-1}}$ 是同构。
+    \end{answer}
+  \item 
+\nearbyexample{ex:CngBasesChgMap} 说明，即使定义域和陪域不变，改变一对基也可能改变矩阵所表示的映射。
+映射有没有可能不变？是否存在矩阵 \( H \)、向量空间 \( V \) 和 \( W \)，以及相应的两对基 \( B_1,D_1 \) 和 \( B_2,D_2 \)
+（\( B_1\neq B_2 \)、\( D_1\neq D_2 \) 中至少一个成立），使得 \( H \) 相对于 \( B_1,D_1 \) 和 \( B_2,D_2 \) 表示同一个映射？
+    \begin{answer}
+存在。考虑
+      \begin{equation*}
+        H=\begin{mat}[r]
+            1  &0  \\
+            0  &1
+          \end{mat}
+      \end{equation*}
+表示从 \( \Re^2 \) 到 \( \Re^2 \) 的映射。相对于标准基
+\( B_1=\stdbasis_2, D_1=\stdbasis_2 \)，该矩阵表示恒等映射。相对于
+      \begin{equation*}
+        B_2=D_2=\sequence{\colvec[r]{1 \\ 1},\colvec[r]{1 \\ -1}}
+      \end{equation*}
+它仍表示恒等映射。事实上，只要起始基与终止基相同\Dash 即 \( B_i=D_i \)\Dash $H$ 表示的映射就是恒等映射。
+    \end{answer}
+  \recommended \item 
+如果一个方阵除了从左上到右下的对角线上的元素（即 \( 1,1 \)、\( 2,2 \) 等位置的元素）可能非零以外，其余元素全为零，则称它为\definend{对角矩阵}\index{matrix!diagonal}\index{diagonal matrix}。%
+证明：若存在基，使线性映射相对于这些基由对角线上没有零的对角矩阵表示，则该映射是同构。
+    \begin{answer}
+由 \nearbylemma{le:NonsingMatIffNonsingMap} 立即得到。
+    \end{answer}
+  \item 
+从几何上描述以下矩阵相对于标准基 $\stdbasis_2,\stdbasis_2$ 所表示的映射对 \( \Re^2 \) 的作用。
+    \begin{equation*}
+      \begin{mat}[r]
+        3  &0  \\
+        0  &2
+      \end{mat}
+    \end{equation*}
+对以下矩阵做同样的描述。
+    \begin{equation*}
+      \begin{mat}[r]
+        1  &0  \\
+        0  &0
+      \end{mat}
+      \quad
+      \begin{mat}[r]
+        0  &1  \\
+        1  &0
+      \end{mat}
+      \quad
+      \begin{mat}[r]
+        1  &3  \\
+        0  &1
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+第一个映射
+      \begin{equation*}
+        \colvec{x \\ y}=\colvec{x \\ y}_{\stdbasis_2}
+        \mapsto
+        \colvec{3x \\ 2y}_{\stdbasis_2}=\colvec{3x \\ 2y}
+      \end{equation*}
+将向量在 \( x \) 方向伸长为原来的三倍，在 \( y \) 方向伸长为原来的两倍。
+第二个映射
+      \begin{equation*}
+        \colvec{x \\ y}=\colvec{x \\ y}_{\stdbasis_2}
+        \mapsto
+        \colvec{x \\ 0}_{\stdbasis_2}=\colvec{x \\ 0}
+      \end{equation*}
+将向量投影到 \( x \) 轴。第三个映射
+      \begin{equation*}
+        \colvec{x \\ y}=\colvec{x \\ y}_{\stdbasis_2}
+        \mapsto
+        \colvec{y \\ x}_{\stdbasis_2}=\colvec{y \\ x}
+      \end{equation*}
+交换第一、第二个分量（即关于直线 \( y=x \) 的反射）。最后一个映射
+      \begin{equation*}
+        \colvec{x \\ y}=\colvec{x \\ y}_{\stdbasis_2}
+        \mapsto
+        \colvec{x+3y \\ y}_{\stdbasis_2}=\colvec{x+3y \\ y}
+      \end{equation*}
+沿平行于 \( y \) 轴的方向移动向量端点，移动量为端点到该轴距离的三倍（这是一个\definend{错切}）。
+     \end{answer}
+  \item 
+对任意线性映射，秩加零度等于定义域维数。这说明：两空间之间存在满射到第二个空间的同态，其必要条件是维数不能增加。
+即若 $\map{h}{V}{W}$ 为满射，则 $W$ 的维数必须小于或等于 $V$ 的维数。
+     \begin{exparts}
+\partsitem 证明以下较强的逆命题：若维数不增加，就存在这样的同态；而且，任意大小和秩适当的矩阵都表示这样的映射。
+\partsitem 是否存在 $\Re^3$ 的基，使以下矩阵
+          \begin{equation*}
+            H=\begin{mat}[r]
+                1  &0  &0 \\
+                2  &0  &0 \\
+                0  &1  &0 
+              \end{mat}
+          \end{equation*}
+表示从 $\Re^3$ 到 $\Re^3$ 的映射，其值域是 $\Re^3$ 的 $xy$ 平面子空间？
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+\partsitem 由 \nearbytheorem{th:RankMatEqRankMap} 立即得到。
+\partsitem 存在。这由上一问立即得到。
+
+给出一个具体例子：先取 $\stdbasis_3$ 为定义域的基，再寻找陪域 $\Re^3$ 的基 $D$。
+矩阵 $H$ 给出映射的作用如下，
+            \begin{multline*}
+              \colvec[r]{1 \\ 0 \\ 0}=\colvec[r]{1 \\ 0 \\ 0}_{\stdbasis_3}
+                 \mapsto\colvec[r]{1 \\ 2 \\ 0}_D
+              \quad       
+              \colvec[r]{0 \\ 1 \\ 0}=\colvec[r]{0 \\ 1 \\ 0}_{\stdbasis_3}
+                 \mapsto\colvec[r]{0 \\ 0 \\ 1}_D
+              \\  %\quad       
+              \colvec[r]{0 \\ 0 \\ 1}=\colvec[r]{0 \\ 0 \\ 1}_{\stdbasis_3}
+                 \mapsto\colvec[r]{0 \\ 0 \\ 0}_D
+            \end{multline*}
+可以寻找一组基 $D$ 使得
+            \begin{equation*}
+              \rep{\colvec[r]{1 \\ 0 \\ 0}}{D}=\colvec[r]{1 \\ 2 \\ 0}_D
+              \quad\mbox{and}\quad       
+              \rep{\colvec[r]{0 \\ 1 \\ 0}}{D}=\colvec[r]{0 \\ 0 \\ 1}_D
+            \end{equation*}
+即使 $H$ 相对于 $\stdbasis_3,D$ 表示向 $xy$ 平面的投影。
+第二个条件说明 $D$ 的第三个元素为 $\vec{e}_2$。
+第一个条件说明 $D$ 的第一个元素加上第二个元素的两倍等于 $\vec{e}_1$，所以以下基符合要求。
+            \begin{equation*}
+              D=\sequence{\colvec{2 \\ 0 \\ 1},
+                          \colvec{-1/2 \\ 0 \\ -1/2},
+                          \colvec{0 \\ 1 \\ 0}}
+            \end{equation*}
+% sage: load('gauss_method.sage')
+% sage: M = matrix(QQ, [[2,-1/2,0], [0,0,1], [1,-1/2,0]])
+% sage: gauss_method(M)
+% [   2 -1/2    0]
+% [   0    0    1]
+% [   1 -1/2    0]
+% (' take', -1/2, 'times row', 1, 'plus row', 3)
+% [   2 -1/2    0]
+% [   0    0    1]
+% [   0 -1/4    0]
+% (' swap row', 2, 'with row', 3)
+% [   2 -1/2    0]
+% [   0 -1/4    0]
+% [   0    0    1]
+       \end{exparts} 
+     \end{answer}
+  \item 
+设 \( V \) 是 \( n \) 维空间，\( \vec{x}\in\Re^n \)。
+固定 \( V \) 的基 \( B \)，考虑由点积
+$\vec{v}\mapsto\vec{x}\dotprod\rep{\vec{v}}{B}$ 给出的映射 \( \map{h_{\vec{x}}}{V}{\Re} \)。
+    \begin{exparts}
+\partsitem 证明该映射是线性的。
+\partsitem 证明对任意线性映射 \( \map{g}{V}{\Re} \)，都存在 \( \vec{x}\in\Re^n \) 使 \( g=h_{\vec{x}} \)。
+\partsitem 上一问固定基，改变 \( \vec{x} \)，得到了所有可能的线性映射。能否固定一个 \( \vec{x} \)，通过改变基得到所有可能的线性映射？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+\partsitem 回顾，表示映射 $\map{\mbox{Rep}_{B}}{V}{\Re^n}$ 是线性的（实际上是同构，但这里不需要单射性或满射性）。
+将列向量 $x$ 看成 $\nbym{n}{1}$ 矩阵，可知从 $\Re^n$ 到 $\Re$、将列向量映到它与 $\vec{x}$ 的点积的映射是线性的（这是矩阵与向量的乘积，故可用 \nearbytheorem{th:MatIsLinMap}）。
+因此，所考察的 $h_{\vec{x}}$ 是两个线性映射的复合，也是线性的。
+          \begin{equation*}
+            \vec{v}\mapsto \rep{\vec{v}}{B}
+                   \mapsto \vec{x}\cdot\rep{\vec{v}}{B}     
+          \end{equation*}
+\partsitem 任意线性映射 $\map{g}{V}{\Re}$ 都由某个矩阵表示，
+          \begin{equation*}
+            \begin{mat}
+              g_1  &g_2 &\cdots &g_n
+            \end{mat}
+          \end{equation*}
+（由于 $V$ 为 $n$ 维，该矩阵有 $n$ 列；由于 $\Re$ 为一维，它只有一行）。
+取 $\vec{x}$ 为这个矩阵转置所得的列向量，
+          \begin{equation*}
+            \vec{x}=\colvec{g_1 \\ \vdots \\ g_n}
+          \end{equation*}
+就得到所需的作用。
+          \begin{equation*}
+            \vec{v}=\colvec{v_1 \\ \vdots \\ v_n}
+             \mapsto
+            \colvec{g_1 \\ \vdots \\ g_n}\dotprod\colvec{v_1 \\ \vdots \\ v_n}
+            =g_1v_1+\dots+g_nv_n
+          \end{equation*}
+\partsitem 不能。如果 \( \vec{x} \) 有非零分量，则 \( h_{\vec{x}} \) 不可能是零映射；如果 \( \vec{x} \) 是零向量，则 \( h_{\vec{x}} \) 只能是零映射。
+      \end{exparts}  
+    \end{answer}
+  \item
+设向量空间 \( V,W,X \) 的基分别为 \( B,C,D \)。
+    \begin{exparts}
+\partsitem 设 \( \map{h}{V}{W} \) 相对于 \( B,C \) 由矩阵 \( H \) 表示。
+用 \( H \) 表示数乘 \( rh \)（\( r\in\Re \)）相对于 \( B,C \) 的表示矩阵。
+\partsitem 设 \( \map{h,g}{V}{W} \) 相对于 \( B,C \) 分别由 \( H \) 和 \( G \) 表示。
+用 \( H \) 和 \( G \) 表示 \( h+g \) 相对于 \( B,C \) 的表示矩阵。
+\partsitem 设 \( \map{h}{V}{W} \) 相对于 \( B,C \) 由 \( H \) 表示，\( \map{g}{W}{X} \) 相对于 \( C,D \) 由 \( G \) 表示。
+用 \( H \) 和 \( G \) 表示 \( \composed{g}{h} \) 相对于 \( B,D \) 的表示矩阵。
+    \end{exparts}
+    \begin{answer}
+参见下一节。
+    \end{answer}
+\end{exercises}

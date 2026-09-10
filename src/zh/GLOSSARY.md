@@ -35,6 +35,33 @@
 | scalar | 标量 |
 | linear combination | 线性组合 |
 | linearly expressible | 可（线性）表示 |
+| Gaussian elimination | 高斯消去法（与「高斯消元法」区分原文三个同义名） |
+| linear elimination | 线性消去法 |
+| row operations | 行变换 |
+| elementary reduction operations | 初等化简操作 |
+| back-substitution | 回代 |
+| particular solution | 特解 |
+| trivial solution | 平凡解 |
+| contradictory equation | 矛盾方程 |
+| redundant equation | 多余的方程 |
+| extraneous solutions | 多余的解 |
+| leading entry | 首主元 |
+| singleton set | 单元素集 |
+| canonical name | 规范名称 |
+| directed line segment | 有向线段 |
+| tail / head | 起点 / 终点 |
+| parallelogram rule | 平行四边形法则 |
+| resultant | 合向量 |
+| unit vector | 单位向量 |
+| skew lines | 异面直线 |
+| dot product | 点积 |
+| Triangle Inequality | 三角不等式 |
+| Pythagorean theorem | 勾股定理（Pythagorean 定理） |
+| direction angle / direction cosine | 方向角 / 方向余弦 |
+| Leontief | Leontief（里昂惕夫） |
+| sector（投入产出） | 部门 |
+| rounding error | 舍入误差 |
+| partial pivoting | 部分主元法 |
 
 ## 二章：向量空间
 
@@ -102,6 +129,32 @@
 | orthonormal | 标准正交 |
 | length / norm | 长度 / 范数 |
 | distance | 距离 |
+| domain / codomain | 定义域 / 陪域 |
+| identity map | 恒等映射 |
+| preserves structure | 保持结构 |
+| dilation | 伸缩 |
+| rotation / turning map | 旋转 / 转动映射 |
+| reflection / flip | 反射 / 翻转 |
+| injection (natural inclusion in this section) | 嵌入（本节的自然嵌入映射） |
+| equivalence relation / equivalence class | 等价关系 / 等价类 |
+| isomorphism class | 同构类 |
+| representative (of an equivalence class) | （等价类的）代表元 |
+| reflexive / symmetric / transitive | 自反的 / 对称的 / 传递的 |
+| well-defined | 良定义的 |
+| external / internal direct sum | 外直和 / 内直和 |
+| proper subspace | 真子空间 |
+| polar / rectangular coordinates | 极坐标 / 直角坐标 |
+| real space | 实坐标空间 |
+| range space / null space | 值域空间 / 零空间 |
+| zero homomorphism | 零同态 |
+| linear extension / extended linearly | 线性扩展 / 作线性扩展 |
+| linear transformation / linear operator | 线性变换 / 线性算子 |
+| convex set | 凸集 |
+| coset | 陪集 |
+| dual space | 对偶空间 |
+
+2026-09-10：第三章首批初译补充以上术语；`quadratic polynomials`
+在指向量空间 $\mathcal{P}_2$ 时译为“次数不超过二的多项式”，包含常数多项式与零多项式。
 
 ## 四章：行列式
 

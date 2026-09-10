@@ -1,0 +1,955 @@
+\subsection{维数}
+前一小节定义了向量空间的基，并证明了空间可以有许多不同的基。
+% For example, following the definition of a basis, we saw three
+% different bases for $\Re^2$.
+因此，我们不能谈论向量空间的“那个”基。
+诚然，某些向量空间有一些基，在我们看来比其他的基更为自然，例如 $\Re^2$ 的基 $\stdbasis_2$
+% or $\Re^3$'s basis $\stdbasis_3$
+或者 $\polyspace_2$ 的基 $\sequence{1,x,x^2}$。
+但对于
+向量空间 $\set{a_2x^2+a_1x+a_0\suchthat 2a_2-a_0=a_1}$ 而言，
+没有任何一个基会因其自然而从众多基中脱颖而出。
+一般而言，我们无法给一个空间配上任何一个最能刻画它的单独的基。
+
+然而，我们能找到基的某种性质，它是唯一地与空间相联系的。
+本小节将证明，
+一个空间的任意两个基含有相同数目的元素。
+于是对每个空间我们可以配上一个数，
+即它的任一基中向量的个数。
+
+在开始之前，我们首先
+把注意力限制在至少有一个基仅含有限多个成员的空间上。
+
+\begin{definition} \label{df:FiniteDimensional}
+%<*df:FiniteDimensional>
+如果一个向量空间有一个仅含有限多个向量的基，则称它是\definend{有限维的\/}%
+\index{vector space!finite dimensional}\index{finite-dimensional vector space}
+。
+%</df:FiniteDimensional>
+\end{definition}
+
+\noindent 一个非有限维的空间是实系数多项式全体的集合，
+\nearbyexample{ex:PolysOfAllFiniteDegrees}。
+它不能由任何有限子集张成，因为那样的子集会含有一个次数最大的多项式，而这个空间却拥有所有次数的多项式。
+这样的空间有趣且重要，但我们将专注于另一个方向。
+从现在起我们只研究有限维的向量空间。
+在本书的其余部分，我们把“向量空间”理解为
+“有限维的向量空间”。
+
+% \begin{remark}
+% One reason for sticking to finite-dimensional spaces is so that 
+% the representation of a vector with respect to a 
+% basis is a finitely-tall vector and we can easily write it.
+% Another reason is that 
+% the statement `any infinite-dimensional vector space has a basis'
+% is equivalent to a statement called the Axiom of Choice
+% \cite{Blass84} and so covering this would 
+% move us far past this book's scope.
+% (A discussion of the Axiom of Choice is in the
+% Frequently Asked Questions list for \texttt{sci.math}, and
+% another accessible one is \cite{Rucker}.)  
+% \end{remark}
+
+% \begin{theorem} \label{th:AllBasesSameSize}
+% %<*th:AllBasesSameSizeCoord>
+% In any finite-dimensional vector space, all 
+% bases have the same number of elements.\index{basis}
+% %</th:AllBasesSameSizeCoord>
+% \end{theorem}
+
+% \begin{proof}
+% Fix a vector space with at least one finite basis.
+% From among all of this space's bases, choose
+% one \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) of minimal size.
+% We will show that any other basis
+% \( D=\smash{\sequence{\vec{\delta}_1,\vec{\delta}_2,\ldots}} \)
+% has the same number of members, $n$.
+% Because \( B \) has minimal size, \( D \) has no fewer than \( n \) vectors.
+% We will argue that it cannot have more than \( n \) vectors.
+
+% So suppose that
+% $\vec{\delta}_1$, \ldots{}, $\vec{\delta}_{n+1}$ are distinct.
+% The assumption that $D$ is linearly independent gives that
+% the only relationship
+% $a_1\vec{\delta}+1+\dots+a_{n+1}\vec{\delta}_{n+1}=\vec{0}$
+% is the one where each $a_i$ is zero.
+% We shall get a contradiction by finding that 
+% there are nontrivial relationships among these~$n+1$ vectors.
+
+% Represent them with respect to~$B$.
+% \begin{equation*}
+%   \rep{\vec{\delta}_1}{B}=\colvec{c_{1,1} \\ \vdots \\ c_{n,1}}
+%   \quad\cdots\quad
+%   \rep{\vec{\delta}_{n+1}}{B}=\colvec{c_{1,n+1} \\ \vdots \\ c_{n,n+1}}  
+% \end{equation*}
+% \nearbylemma{lem:LinearRelRepresented} says that a relationship
+% holds among the vectors
+% $a_1\vec{\delta}_1+\dots+a_{n+1}\vec{\delta}_{n+1}=\vec{0}$ 
+% if and only if the same relationship holds among the representations.
+% \begin{equation*}
+%   a_1\colvec{c_{1,1} \\ \vdots \\ c_{n,1}}
+%   +\cdots+
+%   a_{n+1}\colvec{c_{1,n+1} \\ \vdots \\ c_{n,n+1}}
+%   =\colvec{0 \\ \vdots \\ 0}  
+% \end{equation*}
+% Here the $c_{i,j}$ are fixed, since they are the coefficients in the 
+% representations of the given vectors, while we are looking for the~$a_i$.
+% Thus the above is a homogeneous linear system
+% \begin{equation*}
+%   \begin{linsys}{3}
+%     c_{1,1}a_1 &+ &\cdots &+ &c_{1,n+1}a_{n+1} &= &0 \\ 
+%               &  &        &  &               &\vdots \\ 
+%     c_{n,1}a_1 &+ &\cdots &+ &c_{n,n+1}a_{n+1} &= &0 
+%   \end{linsys}
+% \end{equation*}
+% with more unknowns, $n+1$, than equations.
+% Such a system does not have only one solution, it has infinitely many solutions.
+% \end{proof}
+
+
+为证明主定理，我们将使用一个技术性的结果——交换引理。
+我们先用一个例子来说明它。
+
+\begin{example}
+这是 $\Re^3$ 的一个基，以及一个表示为该基中成员的线性组合的向量。
+\begin{equation*}
+  B=\sequence{\colvec[r]{1 \\ 0  \\ 0},
+              \colvec[r]{1 \\ 1 \\ 0},
+              \colvec[r]{0 \\ 0 \\ 2}}
+  \qquad
+  \colvec[r]{1 \\ 2 \\ 0}
+  =(-1)\cdot\colvec[r]{1 \\ 0  \\ 0}
+   +2\colvec[r]{1 \\ 1 \\ 0}
+   +0\cdot\colvec[r]{0 \\ 0 \\ 2}
+\end{equation*}
+其中有两个基向量的系数非零。
+任取其中一个，比如第一个。
+用我们已表示为该组合的那个向量替换它
+\begin{equation*}
+  \hat{B}=\sequence{\colvec[r]{1 \\ 2  \\ 0},
+              \colvec[r]{1 \\ 1 \\ 0},
+              \colvec[r]{0 \\ 0 \\ 2}}
+\end{equation*}
+结果得到 \( \Re^3 \) 的另一个基。
+\end{example}
+
+\begin{lemma}[交换引理] \label{lm:ExchangeLemma}
+%<*lm:ExchangeLemma>
+设
+\( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 是向量空间的一个基，并且对于向量 \( \vec{v} \)，关系式 \( \vec{v}=\lincombo{c}{\vec{\beta}} \)
+中 \( c_i\neq 0 \)。
+那么用 \( \vec{v} \) 替换 \( \vec{\beta}_i \) 就得到该空间的另一个
+基。
+%</lm:ExchangeLemma>
+\end{lemma}
+
+\begin{proof}
+%<*pf:ExchangeLemma0>
+把交换的结果记为
+\( \hat{B}=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_{i-1},\vec{v},
+                       \vec{\beta}_{i+1},\dots,\vec{\beta}_n}  \)。
+
+我们先证明 $\hat{B}$ 线性无关。
+$\hat{B}$ 的成员之间的任意关系
+\( d_1\vec{\beta}_1+\dots+d_i\vec{v}+\dots+d_n\vec{\beta}_n=\zero \)，
+在代入 $\vec{v}$ 之后，
+\begin{equation*}
+  d_1\vec{\beta}_1+\dots
+    +d_i\cdot(c_1\vec{\beta}_1+\dots+c_i\vec{\beta}_i+\dots+c_n\vec{\beta}_n)
+    +\dots+d_n\vec{\beta}_n
+  =\zero
+\tag*{($*$)}\end{equation*}
+给出了 $B$ 的成员之间的一个线性关系。
+基 $B$ 线性无关，所以 $\vec{\beta}_i$ 的系数 $d_ic_i$
+为零。
+由于我们假设了 $c_i$ 非零，故 $d_i=0$。
+把它用于方程~$(*)$ 可知，其余的 $d$ 也都
+为零。
+因此 $\hat{B}$ 线性无关。
+%</pf:ExchangeLemma0>
+
+%<*pf:ExchangeLemma1>
+最后我们证明 $\hat{B}$ 与 $B$ 有相同的张成空间。
+论证的一半，即 $\spanof{\smash{\hat{B}}}\subseteq\spanof{B}$，
+是容易的；$\spanof{\smash{\hat{B}}}$ 的任意成员
+$d_1\vec{\beta}_1+\dots+d_i\vec{v}+\dots+d_n\vec{\beta}_n$
+可以写成
+$
+  d_1\vec{\beta}_1+\dots
+    +d_i\cdot(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)
+    +\dots+d_n\vec{\beta}_n
+$，
+它是 $B$ 的成员的线性组合的线性组合，因而属于 $\spanof{B}$。
+对于论证的另一半 $\spanof{B}\subseteq\spanof{\smash{\hat{B}}}$，
+回忆一下，如果
+$\vec{v}=c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n$ 而 $c_i\neq 0$，
+那么我们可以把方程变形为
+$\vec{\beta}_i=(-c_1/c_i)\vec{\beta}_1+\dots+(1/c_i)\vec{v}+\dots
+    +(-c_n/c_i)\vec{\beta}_n$。
+现在，考虑 $\spanof{B}$ 的任意成员
+$d_1\vec{\beta}_1+\dots+d_i\vec{\beta}_i+\dots+d_n\vec{\beta}_n$，
+把 $\vec{\beta}_i$ 替换为它作为 $\hat{B}$ 的成员的线性组合的表达式，
+并像本论证的前一半那样看出，
+结果是 $\hat{B}$ 的成员的线性组合的线性组合，因而属于
+$\spanof{\smash{\hat{B}}}$。
+%</pf:ExchangeLemma1>
+\end{proof}
+
+\begin{theorem} \label{th:AllBasesSameSize}
+%<*th:AllBasesSameSize>
+在任意有限维的向量空间中，所有
+基都含有相同数目的元素。
+%</th:AllBasesSameSize>
+\end{theorem}\index{basis}
+
+\begin{proof}
+%<*pf:AllBasesSameSize0>
+取定一个至少有一个有限基的向量空间。
+从该空间的所有基中，
+选一个规模最小的 \( B=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)。
+我们将证明任何其他的基
+\( D=\smash{\sequence{\vec{\delta}_1,\vec{\delta}_2,\ldots}} \)
+也有相同数目的成员，即 $n$ 个。
+由于 \( B \) 的规模最小，\( D \) 含有不少于 \( n \) 个向量。
+我们将论证它不可能有多于 \( n \) 个向量。
+%</pf:AllBasesSameSize0>
+
+%<*pf:AllBasesSameSize1>
+基 \( B \) 张成该空间，而 \( \vec{\delta}_1 \) 在该空间中，
+所以 \( \vec{\delta}_1 \) 是 \( B \) 的元素的一个非平凡线性组合。
+由交换引理，我们可以用 \( \vec{\delta}_1 \) 换掉来自 \( B \) 的一个
+向量，得到基 \( B_1 \)，它的一个元素是
+\( \vec{\delta}_1 \)，而其余 \( n-1 \) 个元素
+都是 \( \vec{\beta} \)。
+%</pf:AllBasesSameSize1>
+
+%<*pf:AllBasesSameSize2>
+前一段构成了归纳论证的基础步骤。
+归纳步骤从一个基 \( B_k \)（其中 \( 1\leq k<n \)）开始，它包含
+\( D \) 的 \( k \) 个成员和 \( B \) 的 \( n-k \) 个成员。
+我们知道 \( D \) 至少有 \( n \) 个成员，所以存在
+\( \vec{\delta}_{k+1} \)。
+把它表示为 \( B_k \) 的元素的线性组合。
+关键点：~在该表示中，至少有一个非零标量必定与某个
+\( \vec{\beta}_i \) 相关联，否则那个表示将成为线性无关集
+\( D \) 的元素之间的一个非平凡线性关系。
+把 \( \vec{\beta}_i \) 换成 \( \vec{\delta}_{k+1} \)，得到新基
+\( B_{k+1} \)，与前面的基 \( B_k \) 相比，它多了一个
+\( \vec{\delta} \)，少了一个 \( \vec{\beta} \)。
+%</pf:AllBasesSameSize2>
+
+%<*pf:AllBasesSameSize3>
+重复这一步，直到没有 \( \vec{\beta} \) 剩下，于是
+\( B_n \) 包含
+$\vec{\delta}_1,\dots,\vec{\delta}_n$。
+现在，\( D \) 不可能有多于这 \( n \) 个的向量，因为
+剩下的任何 \( \vec{\delta}_{n+1} \) 都将属于
+\( B_n \) 的张成空间（因为它是基），
+从而将是其他 $\vec{\delta}$ 的线性组合，
+这与 $D$ 线性无关矛盾。
+%</pf:AllBasesSameSize3>
+\end{proof}
+
+\begin{definition}  \label{df:Dimension}
+%<*df:Dimension>
+向量空间的\definend{维数}\index{dimension}\index{vector space!dimension}
+是它的任一基中向量的个数。
+%</df:Dimension>
+\end{definition}
+
+\begin{example}
+\( \Re^n \) 的任何基都含有 \( n \) 个向量，因为标准基
+\( \stdbasis_n \) 有 \( n \) 个向量。
+于是，“维数”的这个定义推广了该词
+最常见的用法，即 $\Re^n$ 是 $n$ 维的。
+\end{example}
+
+\begin{example}
+由次数至多为 $n$ 的多项式组成的空间 \( \polyspace_n \)
+的维数是 \( n+1 \)。
+我们可以通过展示任意一个基\Dash 例如想到的
+$\sequence{1,x,\dots,x^n}$\Dash 并数一数其成员的个数来证明这一点。
+\end{example}
+
+\begin{example}
+实变量 $\theta$ 的函数组成的空间
+$\set{a\cdot\cos\theta+b\cdot\sin\theta\suchthat a,b\in\Re}$
+的维数是~$2$，因为这个空间有基
+$\sequence{\cos\theta,\sin\theta}$。
+\end{example}
+
+\begin{example}
+平凡空间是零维的，因为它的基是空的。
+\end{example}
+
+再者，尽管我们有时为强调而说“有限维的”，但从现在起
+我们把所有向量空间都取为有限维的。
+因此在下面的结果中，“空间”一词
+指“有限维的向量空间”。
+
+\begin{corollary} \label{cor:NoLiSetGreatDim}
+%<*co:NoLiSetGreatDim>
+没有哪个线性无关集的规模会大于
+包含它的空间的维数。
+%</co:NoLiSetGreatDim>
+\end{corollary}
+
+\begin{proof}
+%<*pf:NoLiSetGreatDim>
+\nearbytheorem{th:AllBasesSameSize} 的证明
+从未用到 \( D \) 张成该空间，
+只用到了它是线性无关的。
+%</pf:NoLiSetGreatDim>
+\end{proof}
+
+
+\begin{example} \label{ex:RefSubSpDiagram}
+回忆例 I.\ref{ex:SubspRThree} 中展示
+\( \Re^3 \) 的子空间的那幅图。
+每个子空间都用一个极小张成集，即一个基来描述。
+整个空间有一个含三个成员的基，
+平面子空间有含两个成员的基，
+直线子空间有含一个成员的基，
+而平凡子空间有含零个成员的基。
+
+在那一节中我们还不能证明这些就是
+\( \Re^3 \) 仅有的子空间。
+现在我们可以证明这一点了。
+前面的推论证明了，
+三维空间中不会有，比如说，五维的子空间。
+此外，由\nearbydefinition{df:Dimension}，每个空间的维数
+都是整数，所以 $\Re^3$ 中不存在那种介于直线与平面之间、
+不知怎么就是 $1.5$ 维的子空间。
+于是我们给出的子空间清单是完备的；
+\( \Re^3 \) 仅有的子空间要么是三\hbox{}维的、二\hbox{}维的、
+一\hbox{}维的，要么是零维的。
+\end{example}
+
+
+\begin{corollary} \label{cor:LIExpBas}
+%<*co:LIExpBas>
+任何线性无关集都可以扩充成一个基。
+%</co:LIExpBas>
+\end{corollary}
+
+\begin{proof}
+%<*pf:LIExpBas>
+如果一个线性无关集本身还不是基，那么它必定不张成该空间。
+向该集合添加一个不在张成空间中的向量，
+由引理 II.\ref{lm:AddVecLiSetIsLiIffVecNotInSpan} 将保持线性无关。
+不断添加，直到所得的集合确实张成该空间，
+而前面的推论
+表明这只需有限多步就会发生。
+%</pf:LIExpBas>
+\end{proof}
+
+\begin{corollary}  \label{co:SpanningSetShrinksToABasis}
+%<*co:SpanningSetShrinksToABasis>
+任何张成集都可以缩减成一个基。
+%</co:SpanningSetShrinksToABasis>
+\end{corollary}
+
+\begin{proof}
+%<*pf:SpanningSetShrinksToABasis>
+把该张成集记为 \( S \)。
+如果 \( S \) 为空，那么它已经是一个基（此时该空间必是平凡
+空间）。
+如果 \( S=\set{\zero} \)，那么可以把它缩减为空基，
+从而使之线性无关，而不改变其张成空间。
+
+否则，$S$ 包含一个向量 $\vec{s}_1$，$\vec{s}_1\neq\zero$，
+我们可以构造基 \( B_1=\sequence{\vec{s}_1} \)。
+如果 \( \spanof{B_1}=\spanof{S} \)，那么就完成了。
+如果不是，那么存在 \( \vec{s}_2\in\spanof{S} \) 使得
+\( \vec{s}_2\not\in\spanof{B_1} \)。
+令 \( B_2=\sequence{\vec{s}_1,\vec{s_2}} \)；
+由引理~II.\ref{lm:AddVecLiSetIsLiIffVecNotInSpan}，它是线性无关的，
+所以如果 \( \spanof{B_2}=\spanof{S} \)，那么就完成了。
+
+我们可以重复这一过程，直到两个张成空间相等，
+而这必定在至多有限多步内发生。
+%</pf:SpanningSetShrinksToABasis>
+\end{proof}
+
+
+\begin{corollary} \label{cor:NVecsRNSpanIffLI}
+%<*co:NVecsRNSpanIffLI>
+在 \( n \) 维空间中，由 \( n \) 个向量组成的集合线性
+无关当且仅当它张成该空间。
+%</co:NVecsRNSpanIffLI>
+\end{corollary}
+
+\begin{proof}
+%<*pf:NVecsRNSpanIffLI>
+首先我们将
+证明一个含 \( n \) 个向量的子集线性无关当且
+仅当它是一个基。
+“若”的部分平凡地成立\Dash 基是线性无关的。
+“仅当”成立，
+因为线性无关集可以扩充成一个基，而基有
+\( n \) 个元素，所以这个扩充实际上就是
+我们开始时的那个集合。
+
+为完成证明，我们将证明任何含 \( n \) 个向量的子集张成该空间
+当且仅当它是一个基。
+同样，“若”是平凡的。
+“仅当”
+成立，因为任何张成集都可以缩减成一个基，而基有
+\( n \) 个元素，所以这个缩减后的集合正是
+我们开始时的那个集合。
+%</pf:NVecsRNSpanIffLI>
+\end{proof}
+
+本小节的主要结果，即有限维的
+向量空间中所有
+基都含有相同数目的元素，是本书中最重要的一条
+结果。
+正如\nearbyexample{ex:RefSubSpDiagram}
+所表明的，它刻画了可能存在怎样的向量空间与子空间。
+
+一个直接的推论把我们带回到
+考虑“极小张成集”一词可能有的两种含义的时候。
+当时我们把“极小”定义为线性无关，
+但我们指出过，
+该词另一个合理的解释是
+当一个张成集在所有具有相同张成空间的集合中元素个数最少时，它是“极小的”。
+既然我们已经证明了所有的基都有相同数目的元素，我们知道
+“极小”的这两种意义是等价的。
+
+
+\begin{exercises}
+  \item[{\em 除非另有说明，假设所有空间都是有限维的。}]
+  \recommended \item  
+    求 \(  \polyspace_2 \) 的一个基及其维数。
+    \begin{answer}
+      一个基是 \( \sequence{1,x,x^2} \)，于是
+      维数是三。
+    \end{answer}
+  \item 
+    求该方程组的
+    解集的一个基及其维数。
+    \begin{equation*}
+      \begin{linsys}{4}
+         x_1  &-  &4x_2  &+  &3x_3  &-  &x_4  &=  &0  \\
+        2x_1  &-  &8x_2  &+  &6x_3  &-  &2x_4 &=  &0  
+      \end{linsys}
+    \end{equation*}
+    \begin{answer}
+      解集为
+      \begin{equation*}
+        \set{\colvec{4x_2-3x_3+x_4 \\ x_2 \\ x_3 \\ x_4}
+               \suchthat x_2,x_3,x_4\in\Re}
+      \end{equation*}
+      于是一个自然的基是这个
+      \begin{equation*}
+       \sequence{\colvec[r]{4 \\ 1 \\ 0 \\ 0},
+                   \colvec[r]{-3 \\ 0 \\ 1 \\ 0},
+                   \colvec[r]{1 \\ 0 \\ 0 \\ 1}  }
+      \end{equation*}  
+      （检验线性无关是容易的）。
+      于是维数是三。
+    \end{answer}
+  \recommended \item 求下面每个空间的一个基及其维数。
+    \begin{exparts}
+      \partsitem
+        $
+          \set{\colvec{x \\ y \\ z \\ w}\in\Re^4
+               \suchthat x-w+z=0}
+        $
+      \partsitem 仅有的非零元都
+        在对角线上的 $\nbym{5}{5}$ 矩阵组成的集合（例如，在 $1,1$ 元与 $2,2$ 元等处）
+      \partsitem 
+        $\set{a_0+a_1x+a_2x^2+a_3x^3\suchthat 
+            \text{$a_0+a_1=0$ 且 $a_2-2a_3=0$}}\subseteq\polyspace_3$ 
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          参数化，得到该空间的如下描述。
+          \begin{equation*}
+            \set{\colvec{w-z \\ y \\ z \\ w}
+                 =\colvec{0 \\ 1 \\ 0 \\ 0}y+
+                 \colvec{-1 \\ 0 \\ 1 \\ 0}z+
+                 \colvec{1 \\ 0 \\ 0 \\ 1}w
+                 \suchthat y,z,w\in\Re}
+          \end{equation*}
+          这把该空间表示为那个由三个向量组成的集合的张成空间。
+          为证明这个三向量集构成一个基，我们检验它是
+          线性无关的。
+          \begin{equation*}
+             \colvec{0 \\ 0 \\ 0 \\ 0}
+                 =\colvec{0 \\ 1 \\ 0 \\ 0}c_1+
+                 \colvec{-1 \\ 0 \\ 1 \\ 0}c_2+
+                 \colvec{1 \\ 0 \\ 0 \\ 1}c_3
+          \end{equation*}
+          第二个分量给出 $c_1=0$，第三、第四个
+          分量给出 $c_2=0$ 和~$c_3=0$。
+          于是一个基是这个。
+          \begin{equation*}
+              \sequence{
+                 \colvec{0 \\ 1 \\ 0 \\ 0},
+                 \colvec{-1 \\ 0 \\ 1 \\ 0},
+                 \colvec{1 \\ 0 \\ 0 \\ 1} 
+              } 
+          \end{equation*}
+          维数是基中向量的个数：$3$。
+        \partsitem
+          自然的参数化是这个。
+          \begin{multline*}
+            \set{
+              \begin{mat}
+                a &0 &0 &0 &0 \\
+                0 &b &0 &0 &0 \\
+                0 &0 &c &0 &0 \\
+                0 &0 &0 &d &0 \\
+                0 &0 &0 &0 &e 
+              \end{mat}
+              \suchthat a,\ldots,e\in\Re}   \\
+            \set{
+              \begin{mat}
+                1 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 
+              \end{mat}\cdot a
+              +\begin{mat}
+                0 &0 &0 &0 &0 \\
+                0 &1 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 
+              \end{mat}\cdot b
+              +\cdots
+              \suchthat a,\ldots,e\in\Re}
+          \end{multline*}
+          检验这个五元集线性无关是平凡的。
+          所以这是一个基；维数是 $5$。
+          \begin{equation*}
+            \sequence{
+              \begin{mat}
+                1 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 
+              \end{mat},
+              \begin{mat}
+                0 &0 &0 &0 &0 \\
+                0 &1 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 
+              \end{mat},
+              \,\ldots\,,
+              \begin{mat}
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &0 \\
+                0 &0 &0 &0 &1 
+              \end{mat}
+          }
+          \end{equation*}
+        \partsitem
+          这些约束条件构成一个两个方程、四个未知数的线性方程组。
+          将该方程组参数化，用自由变量表示
+          首变量，得到 $a_0=-a_1$、$a_1=a_1$、$a_2=2a_3$ 以及~$a_3=a_3$。
+          \begin{multline*}
+            \set{-a_1+a_1x+2a_3x^2+a_3x^3\suchthat a_1,a_3\in\Re}         \\
+            =\set{(-1+x)\cdot a_1+(2x^2+x^3)\cdot a_3\suchthat a_1,a_3\in\Re}
+          \end{multline*}
+          该描述表明这个空间是二元集
+          $\set{-1+x,x^2+x^3}$ 的张成空间。
+          只要证明该集合线性无关即完成证明。
+          关系式
+          \begin{equation*}
+            0+0x+0x^2+0x^3=(-1+x)\cdot c_1+(2x^2+x^3)\cdot c_2
+          \end{equation*}
+          由常数项给出 $c_1=0$，由
+          三次项给出 $c_2=0$。
+          该空间的一个基是 $\sequence{-1+x,2x^2+x^3}$。
+          这是一个二维空间。
+
+      \end{exparts}
+    \end{answer}
+  \item
+    求 \( \matspace_{\nbyn{2}} \) 的一个基及其维数，
+    即 \( \nbyn{2} \) 矩阵组成的向量空间。
+    \begin{answer}
+      对这个空间
+      \begin{multline*}
+        \set{\begin{mat}
+               a  &b  \\
+               c  &d
+             \end{mat} \suchthat a,b,c,d\in\Re}            \\
+        =\set{a\cdot\begin{mat}[r]
+             1  &0  \\
+             0  &0
+           \end{mat}
+           +\dots+
+           d\cdot\begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat} \suchthat a,b,c,d\in\Re}
+      \end{multline*}
+      这是一个自然的基。
+      \begin{equation*}
+        \sequence{
+           \begin{mat}[r]
+             1  &0  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &1  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             1  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat}  }
+      \end{equation*}
+      维数是四。 
+    \end{answer}
+  \item 
+    求矩阵
+    \begin{equation*}
+      \begin{mat}
+        a  &b  \\
+        c  &d
+      \end{mat}
+    \end{equation*}
+    所组成的向量空间分别满足下列各条件时的维数。
+    \begin{exparts}
+      \item $a, b, c, d\in\Re$ 
+      \item $a-b+2c=0$ 且~$d\in\Re$
+      \item $a+b+c=0$，$a+b-c=0$，以及~$d\in\Re$
+    \end{exparts}
+    \begin{answer}
+     \begin{exparts}
+      \partsitem 与前面的练习一样，不加限制的矩阵空间 $\matspace_{\nbyn{2}}$ 
+        有这个基
+        \begin{equation*}
+         \sequence{
+           \begin{mat}[r]
+             1  &0  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &1  \\
+             0  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             1  &0
+           \end{mat},
+           \begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat}  }
+        \end{equation*}
+        于是维数是四。
+      \partsitem 对这个空间
+        \begin{multline*}
+         \set{\begin{mat}
+               a  &b  \\
+               c  &d
+             \end{mat} \suchthat \text{$a=b-2c$ 且 $d\in\Re$}}     \\
+         =\set{b\cdot\begin{mat}[r]
+             1  &1  \\
+             0  &0
+           \end{mat}
+           +c\cdot\begin{mat}[r]
+             -2  &0  \\
+              1  &0
+           \end{mat}
+           +d\cdot\begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat} \suchthat b,c,d\in\Re}
+        \end{multline*}
+        这是一个自然的基。
+        \begin{equation*}
+          \sequence{
+            \begin{mat}[r]
+              1  &1  \\
+              0  &0
+            \end{mat},
+            \begin{mat}[r]
+              -2  &0  \\
+               1  &0
+            \end{mat},
+            \begin{mat}[r]
+              0  &0  \\
+              0  &1
+            \end{mat}  }
+        \end{equation*}
+        维数是三。 
+      \partsitem 对该两个方程的线性方程组应用高斯消元法，得到
+        $c=0$ 以及 $a=-b$。
+        于是，我们有这个描述
+        \begin{equation*}
+         \set{\begin{mat}
+               -b  &b  \\
+                0  &d
+             \end{mat} \suchthat b,d\in\Re}
+         =\set{b\cdot\begin{mat}[r]
+             -1  &1  \\
+             0  &0
+           \end{mat}
+           +d\cdot\begin{mat}[r]
+             0  &0  \\
+             0  &1
+           \end{mat} \suchthat b,d\in\Re}
+        \end{equation*}
+        因此这是一个自然的基。
+        \begin{equation*}
+          \sequence{
+            \begin{mat}[r]
+              -1  &1  \\
+               0  &0
+            \end{mat},
+            \begin{mat}[r]
+              0  &0  \\
+              0  &1
+            \end{mat}  }
+        \end{equation*}
+        维数是二。 
+     \end{exparts} 
+    \end{answer}
+  \recommended \item
+    求这个 $\Re^2$ 的子空间的维数。
+    \begin{equation*}
+      S=\set{\colvec{a+b \\ a+c}\suchthat a,b,c\in\Re}
+    \end{equation*}
+    \begin{answer}
+      我们不能简单地数参数的个数。
+      也就是说，答案不是~$3$。
+      相反，注意我们可以把每个成员
+      $\binom{x}{y}\in\Re^2$ 表示成
+      \begin{equation*}
+        \colvec{x \\ y}=\colvec{a+b \\ a+c}  
+      \end{equation*}
+      的形式，其中取 $a=0$、$b=x$ 和 $c=y$ 
+      （其他取法也是可能的）。
+      所以 $S$ 就是集合 $S=\Re^2$。
+      它的维数是~$2$。
+    \end{answer}
+  \recommended \item 
+    求各自的维数。
+    \begin{exparts}
+      \partsitem  满足 $p(7)=0$ 的
+        三次多项式 $p(x)$ 组成的空间
+      \partsitem  满足 $p(7)=0$ 且~$p(5)=0$ 的
+        三次多项式 $p(x)$ 组成的空间
+      \partsitem  满足 $p(7)=0$、$p(5)=0$ 以及~$p(3)=0$ 的
+        三次多项式 $p(x)$ 组成的空间
+      \partsitem  满足 $p(7)=0$、$p(5)=0$、$p(3)=0$ 以及~$p(1)=0$ 的
+        三次多项式 $p(x)$ 组成的空间
+    \end{exparts}
+    \begin{answer}
+      这些空间的基已
+      在前一小节的答案集中导出。
+      \begin{exparts}
+        \partsitem 一个基是 \( \sequence{-7+x,-49+x^2,-343+x^3} \)。
+          维数是三。
+        \partsitem 一个基是 $\sequence{35-12x+x^2,420-109x+x^3}$，于是
+          维数是二。
+        \partsitem 一个基是 $\set{-105+71x-15x^2+x^3}$。
+          维数是一。
+        \partsitem 这是 $\polyspace_3$ 的平凡子空间，因此
+          基是空的。
+          维数是零。
+      \end{exparts}  
+    \end{answer}
+  \item 
+     集合 $\set{\cos^2\theta,\sin^2\theta,\cos2\theta,\sin2\theta}$
+     的张成空间的维数是多少？
+     这个张成空间是一个实变量的所有实值函数组成的
+     空间的一个子空间。
+     \begin{answer}
+       先回忆 $\cos2\theta=\cos^2\theta-\sin^2\theta$，所以
+       从该集合中去掉 $\cos2\theta$ 不会改变张成空间。
+       剩下的，即集合
+       $\set{\cos^2\theta,\sin^2\theta,\sin2\theta}$，线性无关
+       （考虑关系式
+       $c_1\cos^2\theta+c_2\sin^2\theta+c_3\sin2\theta=Z(\theta)$，
+       其中 $Z$ 是零函数，然后取
+       $\theta=0$、$\theta=\pi/4$ 和 $\theta=\pi/2$，
+       即可断定每个 $c$ 都是零）。
+       因此它是其张成空间的一个基。
+       这表明该张成空间是一个维数为三的向量空间。
+     \end{answer}
+  \item  
+    求 \( \C^{47} \)，即由 $47$ 元复数组组成的向量空间，
+    的维数。
+    \begin{answer}
+      这是一个基
+      \begin{equation*}
+        \sequence{(1+0i,0+0i,\dots,0+0i),\,
+                  (0+1i,0+0i,\dots,0+0i),(0+0i,1+0i,\dots,0+0i),\ldots }
+      \end{equation*}   
+      于是维数是 \( 2\cdot 47=94 \)。
+    \end{answer}
+  \item  
+    \( \nbym{3}{5} \) 矩阵组成的向量空间 $\matspace_{\nbym{3}{5}}$ 
+    的维数是多少？
+    \begin{answer}
+      一个基是
+      \begin{equation*}
+        \sequence{
+          \begin{mat}[r]
+            1  &0  &0  &0  &0  \\
+            0  &0  &0  &0  &0  \\
+            0  &0  &0  &0  &0
+          \end{mat},
+          \begin{mat}[r]
+            0  &1  &0  &0  &0  \\
+            0  &0  &0  &0  &0  \\
+            0  &0  &0  &0  &0
+          \end{mat},
+          \ldots,
+          \begin{mat}[r]
+            0  &0  &0  &0  &0  \\
+            0  &0  &0  &0  &0  \\
+            0  &0  &0  &0  &1
+          \end{mat}  }
+      \end{equation*}
+      于是维数是 \( 3\cdot 5=15 \)。  
+    \end{answer}
+  \recommended \item 
+    证明这是 $\Re^4$ 的一个基。
+    \begin{equation*}
+      \sequence{\colvec[r]{1 \\ 0 \\ 0 \\ 0},
+        \colvec[r]{1 \\ 1 \\ 0 \\ 0},
+        \colvec[r]{1 \\ 1 \\ 1 \\ 0},
+        \colvec[r]{1 \\ 1 \\ 1 \\ 1} }
+    \end{equation*}
+    （我们可以利用本小节的结果来简化这项工作。）
+    \begin{answer}
+       在四维空间中，由四个向量组成的集合线性
+       无关当且仅当它张成该空间。
+       这些向量的形式使线性无关容易证明
+       （先看第四个分量的方程，再看第三个分量的
+       方程，等等）。  
+    \end{answer}
+  \item 判断下面每个集合是否是 $\polyspace_{2}$ 的基。
+    \begin{exparts*}
+      \partsitem $\set{1,x^2,x^2-x}$
+      \partsitem $\set{x^2+x,x^2-x}$
+      \partsitem $\set{2x^2+x+1,2x+1,2}$
+      \partsitem $\set{3x^2,-1,3x,x^2-x}$
+    \end{exparts*}
+    \begin{answer}
+      由本节的结果，因为 $\polyspace_2$ 的维数是~$3$，
+      要证明一个线性无关集是一个基，我们只需
+      观察到它有三个成员。 
+      要证明一个集合不是基，我们
+      只需观察到它没有三个成员（此时
+      我们不必担心线性无关）。 
+      \begin{exparts}
+        \partsitem  这是一个基；一眼即可看出它线性无关
+           （第一个元素没有二次项或一次项，第二个有
+           二次项但没有一次项，第三个有一次项），
+           并且它有三个元素。
+        \partsitem 这不是基，因为它只有两个元素。
+        \partsitem 这个三元素集是一个基。
+        \partsitem 这不是基，因为它有四个元素。
+      \end{exparts}
+    \end{answer}
+  \item 
+     参看\nearbyexample{ex:RefSubSpDiagram}。
+     \begin{exparts}
+       \partsitem 为 $\polyspace_2$ 画一幅类似的子空间图。
+       \partsitem 为 $\matspace_{\nbyn{2}}$ 画一幅。
+     \end{exparts}
+     \begin{answer}
+      \begin{exparts}
+       \partsitem $\polyspace_2$ 的图有四层。
+          最顶层有唯一的三维子空间，
+          即 $\polyspace_2$ 本身。
+          下一层包含二维子空间
+          （\emph{并非}只有一次多项式；任何二维
+          子空间都行，比如形如 $ax^2+b$ 的多项式）。
+          再下面是一维子空间。
+          最后，当然是唯一的零维子空间，
+          即平凡子空间。
+        \partsitem 对 $\matspace_{\nbyn{2}}$，图有五层，
+          包括维数从四到零的子空间。
+     \end{exparts}
+    \end{answer}
+  \recommended \item \label{exer:DimDomToR}
+    设 \( S \) 是一个集合，函数
+    \( \map{f}{S}{\Re} \) 在自然运算下构成一个向量空间：
+    和 $f+g$ 是由
+    \( f+g\,(s)=f(s)+g(s) \) 给出的函数，而标量乘积是
+    \( r\cdot f \, (s)=r\cdot f(s) \)。
+    对每个定义域，所得空间的维数是多少？
+    \begin{exparts*}
+      \partsitem \( S=\set{1} \)
+      \partsitem \( S=\set{1,2} \)
+      \partsitem \( S=\set{1,\ldots,n} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem 一
+        \partsitem 二
+        \partsitem \( n \)
+      \end{exparts*}  
+    \end{answer}
+  \item  
+    （参见\nearbyexercise{exer:DimDomToR}。）
+    证明下面的空间是无限维的：
+    所有函数 \( \map{f}{\Re}{\Re} \) 组成的集合，在自然
+    运算之下。
+    \begin{answer}
+      我们只需给出一个无限的线性无关集。
+      一个这样的序列是 \( \sequence{f_1,f_2,\ldots} \)，其中
+      \( \map{f_i}{\Re}{\Re} \)
+      为
+      \begin{equation*}
+         f_i(x)=\begin{cases}
+                   1  &\text{若 \( x=i \)}  \\
+                   0  &\text{其他情形}
+                \end{cases}
+      \end{equation*}  
+      即仅在 $x=i$ 处取值 $1$ 的函数。
+    \end{answer}
+  \item  
+    （参见\nearbyexercise{exer:DimDomToR}。）
+    函数 $\map{f}{S}{\Re}$ 在自然运算下组成的向量空间，
+    当定义域 $S$ 是空集时，其维数是多少？
+    \begin{answer}
+      函数是有序对
+      $(x,f(x))$ 组成的集合。
+      所以以空集为定义域的函数只有一个，即空集本身。
+      只含一个元素的向量空间是平凡向量空间，
+      其维数是零。
+    \end{answer}
+  \item  
+    证明
+    \( \Re^2 \) 中任何由四个向量组成的集合都线性相关。
+    \begin{answer}
+      应用\nearbycorollary{cor:NoLiSetGreatDim}。
+    \end{answer}
+  \item  
+    证明
+    \( \sequence{\vec{\alpha}_1,\vec{\alpha}_2,\vec{\alpha}_3}\subset\Re^3 \)
+    是一个基当且仅当没有过原点的平面
+    包含所有这三个向量。
+    \begin{answer}
+      平面具有
+      $\set{\vec{p}+t_1\vec{v}_1+t_2\vec{v}_2\suchthat t_1,t_2\in\Re}$ 的形式。
+      （第一章也把它称为“$2$-平坦集”，其中
+      还讨论了为什么这等价于微积分中常采用的描述，即
+      满足形如 $ax+by+cz=d$ 的条件的点 $(x,y,z)$
+      组成的集合）。
+      当平面过原点时，我们可以取特向量
+      $\vec{p}$ 为 $\zero$。
+      于是，用本章建立的语言来说，过原点的平面是
+      由两个向量组成的集合的张成空间。
+

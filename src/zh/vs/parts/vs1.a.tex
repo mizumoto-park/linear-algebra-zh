@@ -1,0 +1,754 @@
+% Chapter 2, Section 1 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-10
+\chapter{向量空间}
+第一章结束时，我们已经对高斯消元法如何求解线性方程组有了相当好的理解。
+它系统地取各行的线性组合。
+这里我们将转向对线性组合的一般研究。
+
+我们需要一个舞台。
+第一章中，我们有时组合来自 $\Re^2$ 的向量，
+有时组合来自 $\Re^3$ 的向量，
+还有时组合来自更高维空间的向量。
+于是我们的第一反应可能是在 $\Re^n$ 中工作，
+而不指明 $n$ 取何值。
+这样做有一个好处：
+所有结果可以同时对 $\Re^2$、对 $\Re^3$
+以及对许多其他空间成立。
+
+但是，如果让结果同时适用于许多空间是有利的，
+那么只局限于 $\Re^n$ 这类空间就太受束缚了。
+我们希望我们的结果也能适用于行向量的组合，
+如第一章最后一节那样。
+我们甚至已经见过一些空间，
+它们并非就是同等尺寸的列向量或行向量全体的集合。
+例如，我们见过某个齐次方程组的解集，
+它是 $\Re^3$ 内的一个平面。
+这个集合是一个封闭系统，因为
+这些解的线性组合仍是解。
+但它并不包含所有高为3的列向量，
+只包含其中的一部分。
+
+我们希望关于线性组合的结果，
+在一切线性组合有意义的场合都适用。
+我们将把任何这样的集合称为\definend{向量空间}。
+我们的结果将不再表述为
+“每当我们有一个可以合理地取线性组合的集合\ldots”，
+而是表述为“在任何向量空间中\ldots”
+
+这样一句话同时描述了许多空间中的情形。
+为了理解从研究单个空间进到研究一类空间的好处，
+请看这个类比。
+设想政府一次只给一个人立法：
+“Leslie Jones 不得乱穿马路。”
+那会很糟糕；
+陈述的优点在于其经济性，即同时适用于许多情形。
+又假设他们说：“Kim Ke 路过事故现场时必须停车。”
+对比一下：“任何医生路过事故现场时必须停车。”
+更一般的陈述，在某些方面，反而更清晰。
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{向量空间的定义}
+\index{vector space|(}
+我们将研究带有两个运算的结构：
+一个加法与一个标量乘法，
+它们须满足一些简单的条件。
+这些条件我们稍后还会进一步思考，
+但初读时请注意它们是多么合理。
+例如，任何可以称作加法的运算
+（如列向量加法、行向量加法或
+实数加法）必定满足下面的条件 (1) 至~(5)。
+
+
+
+\vspace*{1ex}
+\subsection{定义与例题}
+
+\begin{definition}
+\label{def:VecSpace}
+%<*df:VectorSpace>
+一个\definend{向量空间}\index{vector space!definition}
+（在 \( \Re \) 上）由一个集合 \( V \) 连同
+两个运算
+“+”\index{vector!sum}\index{sum!vector}\index{addition of vectors} 
+与“\( \cdot \)”\index{scalar multiple!vector}\index{vector!scalar multiple} 
+组成，它们满足以下条件：
+对所有向量 \( \vec{v},\vec{w},\vec{u}\in V \)
+及所有\definend{标量}\index{scalar}
+\( r,s\in\Re \)：
+% \begin{tfae}
+\begin{compactenum} 
+\item 集合 $V$ 对
+  向量加法封闭，也就是说，
+  \( \vec{v}+\vec{w}\in V \)
+\item 向量加法是交换的，
+  \( \vec{v}+\vec{w}=\vec{w}+\vec{v} \) 
+\item 向量加法是结合的，
+  \( (\vec{v}+\vec{w})+\vec{u}=\vec{v}+(\vec{w}+\vec{u}) \)
+\item 存在一个\definend{零向量}\index{zero vector}
+    \( \zero\in V \)，使得
+    \( \vec{v}+\zero=\vec{v}\, \) 对所有 \( \vec{v}\in V\/ \) 成立
+\item 每个 \( \vec{v}\in V \) 都有一个
+    \definend{加法逆元}\index{additive inverse}\index{inverse!additive}
+    \( \vec{w}\in V \)，使得 \( \vec{w}+\vec{v}=\zero \)
+\item 集合 $V$ 对
+    标量乘法封闭，也就是说，
+   \( r\cdot\vec{v}\in V \)
+\item 标量乘法对标量加法可分配，
+ \( (r+s)\cdot\vec{v}=r\cdot\vec{v}+s\cdot\vec{v} \)
+\item 标量乘法对向量加法可分配，
+  \( r\cdot(\vec{v}+\vec{w})=r\cdot\vec{v}+r\cdot\vec{w} \)
+\item 标量的普通乘法与
+  标量乘法满足结合律，\( (rs)\cdot\vec{v} =r\cdot(s\cdot\vec{v}) \)
+\item 用标量~$1$ 作乘法是
+  恒等运算，\( 1\cdot\vec{v}=\vec{v} \)。
+\end{compactenum}
+% \end{tfae}  
+%</df:VectorSpace>
+\end{definition}
+
+\vspace{-4.5ex}  % why is the extra space there?  Bug in shading code?
+\begin{remark}
+这个定义涉及两种加法与两种乘法，
+因此乍看之下可能令人困惑。
+例如，在条件~(7) 中，
+左边的“$+$”是两个实数的加法，
+而右边的“$+$”是
+\( V\/ \) 中两个向量的加法。
+这些表达式因上下文而无歧义；例如，
+\( r \) 与 \( s \)
+是实数，所以“\( r+s \)”只能表示实数加法。
+同样，条目~(9) 左边的“$rs$”是普通的实数
+乘法，而右边的“$s\cdot\vec{v}$”是
+为这个向量空间定义的标量乘法。
+\end{remark}
+
+\vspace{-0.5ex}  % why is the extra space there?  Bug in shading code?
+要理解这个定义，最好的方法是逐个考察下面的例子，
+并对每个例子验证全部十条条件。
+第一个例子包含这一验证，写得十分详细。
+请把它作为其余各例的范本。
+特别重要的是\definend{封闭性}\index{vector space!closure}
+条件，即 (1) 与~(6)。
+它们规定加法与标量乘法运算总是有意义的\Dash 即它们对每一对向量、
+每一个标量与向量都有定义，
+并且运算的结果是该集合的成员。
+
+
+\begin{example}  \label{PlaneThruOriginSubsp}
+\( \Re^2 \) 的这个子集是过原点的一条直线。
+\begin{equation*}
+  L=\set{ \colvec{x \\ y}  \suchthat y=3x}
+\end{equation*}
+我们将验证，在“+”与“\(\cdot\)”的通常意义下
+它构成向量空间。
+\begin{equation*}
+  \colvec{x_1 \\ y_1}
+  +
+  \colvec{x_2 \\ y_2}
+  =
+  \colvec{x_1+x_2 \\ y_1+y_2}
+  \qquad
+  r\cdot
+  \colvec{x \\ y}
+  =
+  \colvec{rx \\ ry}
+\end{equation*}
+这些运算
+就是通常的运算，只是在它的子集 $L$ 上重新使用。
+我们说 \( L \) 从 \( \Re^2 \)
+\definend{继承\/}\index{inherited operations} 这些运算。
+
+我们将验证全部十条条件。
+与加法有关的条件共有五条。
+对于条件~(1)，即对加法封闭，
+假设我们从直线~$L$ 上取两个向量，
+\begin{equation*}
+  \vec{v}_1=\colvec{x_1 \\ y_1}
+  \quad
+  \vec{v}_2=\colvec{x_2 \\ y_2}
+\end{equation*}
+于是它们满足限制
+$y_1=3x_1$ 与~$y_2=3x_2$。
+它们的和
+\begin{equation*}
+  \vec{v}_1+\vec{v}_2
+  =\colvec{x_1+x_2 \\ y_1+y_2}
+\end{equation*}
+也在直线 $L$ 上，
+因为其第二个分量是第一个分量的三倍
+$y_1+y_2=3(x_1+x_2)$，这由
+$\vec{v}_1$ 与~$\vec{v}_2$ 所受的限制可得。
+对于~(2)，即向量加法可交换，
+只需比较
+\begin{equation*}
+  \vec{v}_1+\vec{v}_2
+  =\colvec{x_1+x_2 \\ y_1+y_2}
+  \quad
+  \vec{v}_2+\vec{v}_1
+  =\colvec{x_2+x_1 \\ y_2+y_1}
+\end{equation*}
+并注意它们相等，因为它们的分量是实数而
+实数可交换。
+（向量满足位于该直线上的限制与本条件无关；
+它们可交换只是因为平面中的所有向量都可交换。）
+条件~(3)，即向量加法的结合律，是类似的。
+\begin{align*}
+  (\colvec{x_1 \\ y_1}
+  +\colvec{x_2 \\ y_2})
+  +\colvec{x_3 \\ y_3}
+  &=\colvec{(x_1+x_2)+x_3 \\ (y_1+y_2)+y_3}  \\
+  &=\colvec{x_1+(x_2+x_3) \\ y_1+(y_2+y_3)}  \\
+  &=\colvec{x_1 \\ y_1}
+  +(\colvec{x_2 \\ y_2}
+  +\colvec{x_3 \\ y_3})
+\end{align*}
+对于第四条条件，我们必须给出一个充当
+零元的向量。
+全部分量为零的向量即可。
+\begin{equation*}
+  \colvec{x \\ y}
+  +\colvec{0 \\ 0}
+  =\colvec{x \\ y}
+\end{equation*}
+注意 $\zero\in L$，因为其第二个分量是第一个分量的三倍。
+对于~(5)，即给任意~$\vec{v}\in L$ 都能
+产生一个加法逆元，我们有
+\begin{equation*}
+  \colvec{-x \\ -y}
+  +\colvec{x \\ y}
+  =\colvec{0 \\ 0}
+\end{equation*}
+所以向量 $-\vec{v}$ 就是想要的逆元。
+与前一条条件一样，这里注意若 $\vec{v}\in L$，即
+$y=3x$，则 $-\vec{v}\in L$ 也成立，因为 $-y=3(-x)$。
+
+与标量乘法有关的五条条件的验证是类似的。
+对于~(6)，即对标量乘法封闭，
+假设 $r\in\R$ 且 $\vec{v}\in L$，即
+\begin{equation*}
+  \vec{v}=\colvec{x \\ y}
+\end{equation*}
+满足~$y=3x$。
+那么
+\begin{equation*}
+  r\cdot\vec{v}=r\cdot\colvec{x \\ y}
+  =\colvec{rx \\ ry}
+\end{equation*}
+也在 $L$ 中：~关系式 $ry=3\cdot rx$ 成立，因为
+$y=3x$。
+接下来，这验证了~(7)。
+\begin{equation*}
+  (r+s)\cdot\colvec{x \\ y}
+  =\colvec{(r+s)x \\ (r+s)y}
+  =\colvec{rx+sx \\ ry+sy}
+  =r\cdot\colvec{x \\ y}+s\cdot\colvec{x \\ y}
+\end{equation*}
+对于~(8)，我们有：
+\begin{equation*}
+  r\cdot(\colvec{x_1 \\ y_1}+\colvec{x_2 \\ y_2})
+  =\colvec{r(x_1+x_2) \\ r(y_1+y_2)}
+  =\colvec{rx_1+rx_2 \\ ry_1+ry_2}
+  =r\cdot\colvec{x_1 \\ y_1}+r\cdot\colvec{x_2 \\ y_2}
+\end{equation*}
+第九条
+\begin{equation*}
+  (rs)\cdot\colvec{x \\ y}
+  =\colvec{(rs)x \\ (rs)y}
+  =\colvec{r(sx) \\ r(sy)}
+  =r\cdot(s\cdot\colvec{x \\ y})
+\end{equation*}
+与第十条条件也同样直接。
+\begin{equation*}
+  1\cdot\colvec{x \\ y}
+  =\colvec{1x \\ 1y}
+  =\colvec{x \\ y}
+\end{equation*}
+\end{example}
+
+\begin{example}  \label{ex:RealVecSpaces}
+整个平面，即集合
+\( \Re^2 \)，是一个向量空间，其中运算“\( + \)”与“\( \cdot \)”
+取通常的意义。
+\begin{equation*}
+  \colvec{x_1 \\ y_1}
+  +
+  \colvec{x_2 \\ y_2}
+  =
+  \colvec{x_1+x_2 \\ y_1+y_2}
+  \qquad
+  r\cdot
+  \colvec{x \\ y}
+  =
+  \colvec{rx \\ ry}
+\end{equation*}
+我们只验证其中的两条条件，即封闭性条件。
+
+对于 (1)，注意向量和
+\begin{equation*}
+  \colvec{x_1 \\ y_1}
+  +\colvec{x_2 \\ y_2}
+  =\colvec{x_1+x_2 \\ y_1+y_2}
+\end{equation*}
+的结果是一个带有两个实分量的列阵列，所以是
+平面~\( \Re^2 \) 的成员。
+与前面的例题相比，这里对向量的
+第一个与第二个分量没有任何限制。
+
+条件 (6) 类似。
+向量
+\begin{equation*}
+  r\cdot\colvec{x \\ y}
+  =\colvec{rx \\ ry}
+\end{equation*}
+有两个实分量，所以是~\( \Re^2 \) 的成员。
+\end{example}
+
+类似地，
+每个 \( \Re^n \) 都是向量空间，带有通常的向量加法
+与标量乘法运算。
+（在 \( \Re^1 \) 中，我们通常不把成员写成
+列向量，也就是说，我们通常不写“\( (\pi) \)”。
+而是直接写“\( \pi \)”。）
+
+\begin{example} \label{ex:ColsIntEntNotVS}
+\nearbyexample{PlaneThruOriginSubsp} 给出了 $\Re^2$ 的一个
+构成向量空间的子集。
+% \nearbyexample{ex:RealVecSpaces} shows that the entire
+% set of two-tall vectors with real entries is also a vector space. 
+作为对比，考虑
+由分量为整数的
+高为2的列组成的集合，
+运算仍是同样的按分量的
+加法与标量乘法。
+它是 $\Re^2$ 的一个子集，但它不是向量空间：
+它对标量乘法不封闭，
+也就是说，它不满足条件~(6)。
+例如，下面的左边是一个具有整数分量的向量，以及一个标量。
+\begin{equation*}
+  0.5
+  \cdot
+  \colvec[r]{4 \\ 3}
+  =
+  \colvec[r]{2 \\ 1.5}
+\end{equation*}
+右边是一个不属于该集合的列向量，因为
+它的分量不全是整数。
+\end{example}
+
+\begin{example}  \label{ex:TrivSbspReFour}
+单元素集
+\begin{equation*}
+  \set{ \colvec[r]{0 \\ 0 \\ 0 \\ 0} }
+\end{equation*}
+在下述运算下构成向量空间
+\begin{equation*}
+  \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+  +
+  \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+  =
+  \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+  \qquad
+  r\cdot
+  \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+  =
+  \colvec[r]{0 \\ 0 \\ 0 \\ 0}
+\end{equation*}
+这些运算继承自 \( \Re^4 \)。
+\end{example}
+
+向量空间必须至少有一个元素，即它的零向量。
+因此，单元素向量空间是可能的最小情形。
+
+\begin{definition} \label{df:TrivialVectorSpace}
+%<*df:TrivialVectorSpace>
+单元素向量空间是\definend{平凡的}\index{vector space!trivial}%
+\index{trivial space}
+空间。
+%</df:TrivialVectorSpace>
+\end{definition}
+
+迄今的例子涉及的都是带有通常运算的列向量的集合。
+但向量空间不必是列向量的集合，甚至不必是行
+向量的集合。
+下面是其他一些类型的向量空间。
+“向量空间”一词并不意味着“实数列的集合”。
+它的含义更像是
+“任何线性组合都有意义的集合”。
+
+\begin{example} \label{ex:PolySpaceThree}
+考虑
+\( \polyspace_3=\set{a_0+a_1x+a_2x^2+a_3x^3\suchthat a_0,\ldots,a_3\in\Re} \)，
+即次数不超过三的多项式之集
+（在本书中，我们把常数多项式，包括零多项式，
+取为零次）。
+在以下运算下它是向量空间
+\begin{multline*}
+   (a_0+a_1x+a_2x^2+a_3x^3)+(b_0+b_1x+b_2x^2+b_3x^3)  \\
+     =(a_0+b_0)+(a_1+b_1)x+(a_2+b_2)x^2+(a_3+b_3)x^3
+\end{multline*}
+与
+\begin{equation*}
+   r\cdot(a_0+a_1x+a_2x^2+a_3x^3)=
+     (ra_0)+(ra_1)x+(ra_2)x^2+(ra_3)x^3
+\end{equation*}
+（验证很容易）。
+这个向量空间值得关注，因为
+这些是高中代数中熟悉的多项式运算。
+例如，
+$
+  3\cdot(1-2x+3x^2-4x^3)-2\cdot(2-3x+x^2-(1/2)x^3)=-1+7x^2-11x^3$。
+
+虽然这个空间不是任何 \( \Re^n \) 的子集，
+但在某种意义下我们可以把 $\polyspace_3$ 看作与
+\( \Re^4 \) “相同”。
+如果我们按如下方式将这两个空间的元素对应起来
+\begin{equation*}
+  a_0+a_1x+a_2x^2+a_3x^3
+  \quad\text{对应于}\quad
+  \colvec{a_0 \\ a_1 \\ a_2 \\ a_3}
+\end{equation*}
+那么运算也相互对应。
+下面是一个对应加法的例子。
+\begin{equation*}
+  \mbox{\begin{tabular}{lr}
+       &\(1-2x+0x^2+1x^3\) \\
+     + &\(2+3x+7x^2-4x^3\) \\ \hline
+       &\(3+1x+7x^2-3x^3\)
+  \end{tabular}  }
+  \quad\text{对应于}\quad
+  \colvec[r]{1 \\ -2 \\ 0 \\ 1}
+  +
+  \colvec[r]{2 \\ 3 \\ 7 \\ -4}
+  =
+  \colvec[r]{3 \\ 1 \\ 7 \\ -3}
+\end{equation*}
+我们视为“相同”的事物相加得到“相同”的和。
+第三章将把这种向量空间对应的思想精确化。
+现在我们只把它当作一种直观。
+\end{example}
+
+一般地，我们用
+\( \polyspace_n \) 表示
+次数不超过~$n$ 的多项式组成的向量空间
+\( \set{a_0+a_1x+a_2x^2+\cdots+a_nx^n\suchthat a_0,\ldots,a_n\in\Re} \)，
+其运算为通常的多项式加法与标量
+乘法。\index{vector space!of polynomials}
+我们会经常使用这些空间作为例子。
+
+\begin{example} \label{ex:MatSpaceTwoByTwo}
+\( \nbym{2}{2} \) 的实元素矩阵之集 \( \matspace_{\nbym{2}{2}} \)
+在自然的逐元素
+运算下构成向量空间。
+\begin{equation*}
+  \begin{mat}
+    a  &b \\
+    c  &d
+  \end{mat}
+  +
+  \begin{mat}
+    w  &x \\
+    y  &z
+  \end{mat}
+  =
+  \begin{mat}
+    a+w  &b+x \\
+    c+y  &d+z
+  \end{mat}
+  \qquad
+  r\cdot
+  \begin{mat}
+    a  &b \\
+    c  &d
+  \end{mat}
+  =
+  \begin{mat}
+    ra  &rb \\
+    rc  &rd
+  \end{mat}
+\end{equation*}
+与前面的例题一样，我们可以认为这个空间
+与 \( \Re^4 \) 是“相同的”。
+\end{example}
+
+我们用
+\( \matspace_{\nbym{n}{m}} \) 表示
+$\nbym{n}{m}$ 矩阵
+在自然的矩阵加法与标量
+乘法运算下的向量空间。\index{vector space!of matrices}
+与多项式空间一样，
+我们会经常用它们作为例子。
+
+\begin{example}   \label{ex:FcnsNToRIsVecSp}
+全体以一个自然数为自变量的实值函数之集
+\( \set{f\suchthat \map{f}{\N}{\Re} } \)
+在以下运算下构成向量空间
+\begin{equation*}
+  (f_1+f_2)\,(n)=f_1(n)+f_2(n)
+  \qquad
+  (r\cdot f)\,(n)=r\,f(n)
+\end{equation*}
+于是，例如若 \( f_1(n)=n^2+2\sin(n) \) 且
+\( f_2(n)=-\sin(n)+0.5 \)，
+则 \( (f_1+2f_2)\,(n)=n^2+1 \)。
+
+我们可以把这个空间看作
+\nearbyexample{ex:RealVecSpaces} 的推广\Dash 这些函数不是
+高为$2$的向量，而像是无限高的
+向量。
+\begin{equation*}
+  \text{
+    \begin{tabular}{c|c}
+      \( n \)      &\( f(n)=n^2+1 \)  \\ \hline
+      \( 0      \) &\( 1      \)    \\
+      \( 1      \) &\( 2      \)    \\
+      \( 2      \) &\( 5      \)    \\
+      $3$          &$10$            \\
+      \( \vdots \) &\( \vdots \)    
+    \end{tabular} }
+    \quad\text{对应于}\quad
+    \colvec[r]{
+           1           \\
+           2           \\
+           5           \\
+           10          \\
+           \vdotswithin{10}      }
+\end{equation*}
+加法与标量乘法都是按分量的，
+如\nearbyexample{ex:RealVecSpaces} 中那样。
+（我们可以把“无限高”形式化：说它表示一个无穷
+序列，或者说它表示一个从 $\N$ 到 $\Re$ 的函数。）
+\end{example}
+
+\begin{example} \label{ex:PolysOfAllFiniteDegrees}
+实系数多项式之集
+\begin{equation*}
+ \set{ a_0+a_1x+\cdots+a_nx^n\suchthat n\in\N
+    \text{ 且 } a_0,\ldots,a_n\in\Re} 
+\end{equation*}
+在赋予自然的“$+$”
+\begin{multline*}
+  (a_0+a_1x+\cdots+a_nx^n)+(b_0+b_1x+\cdots+b_nx^n)  \\
+     =(a_0+b_0)+(a_1+b_1)x+\cdots +(a_n+b_n)x^n
+\end{multline*}
+与“$\cdot$”之后
+\begin{equation*}
+  r\cdot (a_0+a_1x+\ldots a_nx^n)
+   =
+  (ra_0)+(ra_1)x+\ldots (ra_n)x^n
+\end{equation*}
+便构成向量空间。
+这个空间不同于
+\nearbyexample{ex:PolySpaceThree} 的空间 $\polyspace_3$。
+这个空间包含的不只是三次多项式，
+还有三十次的与三百次的
+多项式。
+当然，每个多项式的次数都是有限的，
+但该集合对其所有成员的次数没有一个统一的界。
+
+与前面的例题一样，我们可以
+用无穷元组来思考这个例子。
+例如，我们可以认为 \( 1+3x+5x^2 \) 对应于
+\( (1,3,5,0,0,\ldots) \)。
+然而，这个空间不同于
+\nearbyexample{ex:FcnsNToRIsVecSp} 中的空间。
+这里，集合的每个成员都有有限的次数，也就是说，
+在这个对应下，本空间中没有元素
+与 \( (1,2,5,10,\,\ldots\,) \) 匹配。
+这个空间中的向量对应于
+以零结尾的无穷元组。
+\end{example}
+
+\begin{example}  \label{ex:RealValuedFcns}
+全体以一个实数为自变量的实值函数之集
+\( \set{f\suchthat \map{f}{\Re}{\Re} } \)
+在这些运算下构成向量空间。
+\begin{equation*}
+  (f_1+f_2)\,(x)=f_1(x)+f_2(x)
+  \qquad
+  (r\cdot f)\,(x)=r\,f(x)
+\end{equation*}
+它与\nearbyexample{ex:FcnsNToRIsVecSp} 的差别在于
+函数的定义域。
+\end{example}
+
+\begin{example}\label{ex:ACos+BSin}
+实变量 \( \theta \) 的实值函数之集
+\( F=\{ a\cos\theta+b\sin\theta \suchthat a,b\in\Re\} \)
+在以下运算下构成向量空间
+%\nearbyexample{ex:RealValuedFcns}:
+\begin{equation*}
+  (a_1\cos\theta+b_1\sin\theta)+(a_2\cos\theta+b_2\sin\theta)
+    =(a_1+a_2)\cos\theta+(b_1+b_2)\sin\theta
+\end{equation*}
+与
+\begin{equation*}
+  r\cdot (a\cos\theta+b\sin\theta)
+   =(ra)\cos\theta+(rb)\sin\theta
+\end{equation*}
+这些运算继承自前面例题中的空间。
+（我们可以把 \( F \) 看作与 \( \Re^2 \) “相同”，
+因为 $a\cos\theta+b\sin\theta$ 对应于
+分量为 $a$ 和 $b$ 的向量。）
+\end{example}
+
+\begin{example}  \label{ex:SpaceSatisfyingDiffQ}
+集合
+\begin{equation*}
+  \set{\map{f}{\Re}{\Re}\suchthat \dfrac{d^2f}{dx^2}+f=0}
+\end{equation*}
+在如今已很自然的解释下构成向量空间。
+\begin{equation*}
+  (f+g)\,(x)=f(x)+g(x)
+  \qquad
+  (r\cdot f)\,(x)=r\,f(x)
+\end{equation*}
+特别地，注意初等微积分给出
+\begin{equation*}
+   \frac{d^2(f+g)}{dx^2}+(f+g)
+   =(\frac{d^2f}{dx^2}+f)+(\frac{d^2g}{dx^2}+g)
+\end{equation*}
+以及
+\begin{equation*}
+   \frac{d^2(rf)}{dx^2}+(rf)
+   =r(\frac{d^2 f}{dx^2}+f)
+\end{equation*}
+所以该空间对加法与标量乘法封闭。
+结果这个空间就等于前面例题中的空间\Dash 满足
+此微分方程的函数形如
+$a\cos\theta+b\sin\theta$\Dash 但这一描述提示可将其推广到其他
+微分方程的解集。
+\end{example}
+
+\begin{example} \label{ex:HomoSlnMakesVS}
+\( n \) 个变量的齐次线性方程组的解集，
+在从 \( \Re^n \) 继承的运算下构成向量空间。
+例如，为验证对加法封闭，
+考虑该方程组中一个典型的方程
+$c_1x_1+\cdots+c_nx_n=0$，并假设这两个向量
+\begin{equation*}
+   \vec{v}=\colvec{v_1 \\ \vdotswithin{v_1} \\ v_n}
+   \qquad
+   \vec{w}=\colvec{w_1 \\ \vdotswithin{w_1} \\ w_n}
+\end{equation*}
+都满足该方程。
+那么它们的和
+\( \vec{v}+\vec{w}\/ \) 也满足该方程：
+\(
+  c_1(v_1+w_1)+\cdots+c_n(v_n+w_n)
+  =(c_1v_1+\cdots+c_nv_n)+(c_1w_1+\cdots+c_nw_n)
+  =0
+\)。
+其余向量空间条件的验证同样常规。
+\end{example}
+
+在标量与向量之间，我们常省略
+乘号“\( \cdot \)”。
+我们凭上下文区分
+\( c_1v_1 \) 中的乘法与 \( r\vec{v}\, \) 中的乘法，因为若两个
+相乘的都是实数，则必是
+实数与实数的乘法；而若其中一个是向量，则必是
+标量与向量的乘法。
+
+\nearbyexample{ex:HomoSlnMakesVS} 让我们回到了出发点，因为它是我们的
+动机性例子之一。
+现在，对满足向量空间
+定义的各类结构有了些许感受之后，
+我们可以反思这个定义。
+例如，为什么在定义中规定条件
+\( 1\cdot\vec{v}=\vec{v} \)，
+而不规定条件 \( 0\cdot\vec{v}=\zero \)？
+
+一个回答是：这只是一个定义\Dash 它给出规则，
+而你需要遵循这些规则才能继续。
+
+另一个回答也许更令人满意。
+这个领域的人们一直在努力发展
+威力与一般性之间的恰当平衡。
+这个定义的设计，使得它包含了证明线性组合空间
+一切有趣而重要性质所需的条件。
+随着我们的推进，我们将从定义给出的条件出发，
+导出线性组合的集合所自然具有的全部性质。
+
+下面的结果就是一例。
+我们无需把这些性质纳入向量空间的定义，
+因为它们可以由其中已列出的性质推出。
+
+\begin{lemma} \label{lm:ElementaryPropertiesOfVectorSpaces}
+%<*lm:ElementaryPropertiesOfVectorSpaces>
+在任何向量空间 \( V \) 中，
+对任意 \( \vec{v}\in V \) 与 \( r\in\Re \)，有
+(1)~\( 0\cdot\vec{v}=\zero \)，
+(2)~\( (-1\cdot\vec{v})+\vec{v}=\zero \)，以及
+(3)~\( r\cdot\zero=\zero \)。
+%</lm:ElementaryPropertiesOfVectorSpaces>
+\end{lemma}
+
+\begin{proof}
+%<*pf:ElementaryPropertiesOfVectorSpaces0>
+对于 (1)，注意
+\( \vec{v}=(1+0)\cdot\vec{v}=\vec{v}+(0\cdot\vec{v}) \)。
+在两边加上 \( \vec{v} \) 的加法逆元，
+即满足 \( \vec{w}+\vec{v}=\zero \) 的向量 \( \vec{w} \)。
+\begin{align*}
+  \vec{w}+\vec{v}
+  &=\vec{w}+\vec{v}+0\cdot\vec{v}  \\
+  \zero
+  &=\zero+0\cdot\vec{v}                   \\
+  \zero
+  &=0\cdot\vec{v}
+\end{align*}
+条目~(2) 很容易：
+\(  (-1\cdot\vec{v})+\vec{v}=(-1+1)\cdot\vec{v}=0\cdot\vec{v}=\zero \)。
+对于 (3)，
+\( r\cdot\zero
+  =
+  r\cdot(0\cdot\zero)
+  =
+  (r\cdot 0)\cdot\zero
+  =
+  \zero \)
+即可。
+%</pf:ElementaryPropertiesOfVectorSpaces0>
+\end{proof}
+
+第二条
+表明我们可以把 \( \vec{v} \) 的加法逆元
+写作“\( -\vec{v}\, \)”，而不必担心
+与 \( (-1)\cdot\vec{v} \) 混淆。
+
+\medskip
+回顾一下：
+第一章中对高斯消去法的研究
+使我们去考虑线性组合的集合。
+因此在本章中我们把向量空间定义为
+可以形成这种组合的结构，
+% expressions of the form \( c_1\cdot\vec{v}_1+\dots+c_n\cdot\vec{v}_n \)
+并对加法与标量
+乘法运算施加一些简单条件。
+一言以蔽之：~向量空间是
+研究线性性的恰当语境。
+
+% Finally, a comment.
+由于它构成了完整的一章，尤其因为这还是第一章，
+读者可能会猜想本书的目的
+就是研究线性方程组。
+事实是：我们并非在用向量空间来研究线性方程组，
+而是让线性方程组
+引领我们开始对向量空间的研究。
+本小节中各式各样的例子表明，对向量空间的研究
+本身就有趣且重要。
+线性方程组不会消失。
+但从今以后，我们主要的研究对象将是向量空间。
+

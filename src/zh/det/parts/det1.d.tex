@@ -1,0 +1,587 @@
+\begin{exercises}
+  \item[{\em 做这些题时，假设 $\nbyn{n}$ 行列式
+      函数对一切 $n$ 都存在。}]
+  \recommended \item 通过执行一次行变换求每个行列式。
+    \begin{exparts*}
+      \partsitem \( \begin{vmat}[r]
+                 1  &-2  &1  &2 \\
+                 2  &-4  &1  &0 \\
+                 0  &0  &-1  &0 \\
+                 0  &0  &0  &5
+               \end{vmat} \)
+      \partsitem \( \begin{vmat}[r]
+                 1  &1  &-2  \\
+                 0  &0  &4  \\
+                 0  &3  &-6
+               \end{vmat} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+       \partsitem 作 $2\rho_1+\rho_2$ 化为阶梯形，然后沿对角线相乘。
+          行列式为~$0$。
+          % sage: M = matrix(QQ, [[1,-2,1,2], [2,-4,1,0], [0,0,-1,0], [0,0,0,5]])
+          % sage: M.determinant()
+          % 0
+        \partsitem 对换第二行与第三行即可将其化为阶梯形（同时改变行列式的符号）。
+          沿对角线相乘得~$12$，故所给矩阵的行列式为~$-12$。
+          % sage: M = matrix(QQ, [[1,1,-2], [0,0,4], [0,3,-6]])
+          % sage: M.determinant()
+          % -12
+      \end{exparts}
+    \end{answer}
+  \recommended \item 
+    用高斯消元法求每个行列式。
+    \begin{exparts*}
+      \partsitem \( \begin{vmat}[r]
+                 3  &1  &2  \\
+                 3  &1  &0  \\
+                 0  &1  &4
+               \end{vmat} \)
+      \partsitem \( \begin{vmat}[r]
+                 1  &0  &0  &1 \\
+                 2  &1  &1  &0 \\
+                -1  &0  &1  &0 \\
+                 1  &1  &1  &0
+               \end{vmat} \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+      \partsitem \( \begin{vmat}[r]
+                 3  &1  &2  \\
+                 3  &1  &0  \\
+                 0  &1  &4
+               \end{vmat}
+               =
+               \begin{vmat}[r]
+                 3  &1  &2  \\
+                 0  &0  &-2 \\
+                 0  &1  &4
+               \end{vmat}
+               =
+               -\begin{vmat}[r]
+                 3  &1  &2  \\
+                 0  &1  &4  \\
+                 0  &0  &-2
+               \end{vmat}
+               =6  \)
+      \partsitem \( \begin{vmat}[r]
+                 1  &0  &0  &1 \\
+                 2  &1  &1  &0 \\
+                -1  &0  &1  &0 \\
+                 1  &1  &1  &0
+               \end{vmat}
+               =
+               \begin{vmat}[r]
+                 1  &0  &0  &1 \\
+                 0  &1  &1  &-2\\
+                 0  &0  &1  &1 \\
+                 0  &1  &1  &-1
+               \end{vmat}
+               =
+               \begin{vmat}[r]
+                 1  &0  &0  &1 \\
+                 0  &1  &1  &-2\\
+                 0  &0  &1  &1 \\
+                 0  &0  &0  &1
+               \end{vmat}
+               =1    \)
+      \end{exparts} 
+    \end{answer}
+  \item 用高斯消元法求每个行列式。
+    \begin{exparts*}
+      \partsitem \( \begin{vmat}[r]
+                 2  &-1  \\
+                -1 &-1
+               \end{vmat}  \)
+      \partsitem \( \begin{vmat}[r]
+                 1  &1  &0  \\
+                 3  &0  &2  \\
+                 5  &2  &2
+               \end{vmat} \)
+    \end{exparts*}
+    \begin{answer}
+     \begin{exparts}
+      \partsitem \(
+        \begin{vmat}[r]
+                 2  &-1  \\
+                 -1 &-1
+               \end{vmat}
+             =\begin{vmat}[r]
+                 2  &-1  \\
+                 0  &-3/2
+               \end{vmat}=-3  \);
+      \partsitem \( \begin{vmat}[r]
+                 1  &1  &0  \\
+                 3  &0  &2  \\
+                 5  &2  &2
+               \end{vmat}
+              =\begin{vmat}[r]
+                 1  &1  &0  \\
+                 0  &-3 &2  \\
+                 0  &-3 &2
+               \end{vmat}
+              =\begin{vmat}[r]
+                 1  &1  &0  \\
+                 0  &-3 &2  \\
+                 0  &0  &0
+               \end{vmat}
+              =0 \)
+     \end{exparts}  
+    \end{answer}
+  \item 
+    对哪些 \( k \) 值，该方程组
+    有唯一解？
+    \begin{equation*}
+       \begin{linsys}{4}
+          x  &  &  &+ &z  &-  &w  &=  &2  \\
+             &  &y &- &2z &   &   &=  &3  \\
+          x  &  &  &+ &kz &   &   &=  &4  \\
+             &  &  &  &z  &-  &w  &=  &2
+        \end{linsys}
+    \end{equation*}
+    \begin{answer}
+     什么时候行列式不为零？
+      \begin{equation*}
+         \begin{vmat}
+           1  &0  &1  &-1  \\
+           0  &1  &-2 &0   \\
+           1  &0  &k  &0   \\
+           0  &0  &1  &-1
+         \end{vmat}
+         =
+         \begin{vmat}
+           1  &0  &1  &-1  \\
+           0  &1  &-2 &0   \\
+           0  &0  &k-1&1   \\
+           0  &0  &1  &-1
+         \end{vmat}           
+      \end{equation*}
+      显然，
+      $k=1$ 给出非奇异性，从而行列式非零。
+      若 $k\neq 1$，则
+      用倍加 $(-1/k-1)\rho_3+\rho_4$ 可得到阶梯形。
+      \begin{equation*}
+         =
+         \begin{vmat}
+           1  &0  &1  &-1  \\
+           0  &1  &-2 &0   \\
+           0  &0  &k-1&1   \\
+           0  &0  &0  &-1-(1/k-1)
+         \end{vmat}
+      \end{equation*}
+      沿对角线相乘得 $(k-1)(-1-(1/k-1))=-(k-1)-1=-k$。
+      因此，该矩阵的行列式非零，从而方程组
+      有唯一解，当且仅当 \( k\neq 0 \)。  
+    \end{answer}
+  \recommended \item 
+    将下列各式用 \( \deter{H} \) 表示。
+    \begin{exparts}
+      \partsitem \( \begin{vmat}
+            h_{3,1}  &h_{3,2} &h_{3,3} \\
+            h_{2,1}  &h_{2,2} &h_{2,3} \\
+            h_{1,1}  &h_{1,2} &h_{1,3}
+          \end{vmat} \)
+      \partsitem \( \begin{vmat}
+           -h_{1,1}   &-h_{1,2}  &-h_{1,3} \\
+           -2h_{2,1}  &-2h_{2,2} &-2h_{2,3} \\
+           -3h_{3,1}  &-3h_{3,2} &-3h_{3,3}
+          \end{vmat} \)
+      \partsitem \( \begin{vmat}
+            h_{1,1}+h_{3,1}  &h_{1,2}+h_{3,2} &h_{1,3}+h_{3,3} \\
+            h_{2,1}          &h_{2,2}         &h_{2,3} \\
+            5h_{3,1}         &5h_{3,2}        &5h_{3,3}
+          \end{vmat} \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 行列式定义中的条件~(2)
+          经对换 $\rho_1\leftrightarrow\rho_3$ 适用。
+          \begin{equation*}
+            \begin{vmat}
+              h_{3,1}  &h_{3,2} &h_{3,3} \\
+              h_{2,1}  &h_{2,2} &h_{2,3} \\
+              h_{1,1}  &h_{1,2} &h_{1,3}
+            \end{vmat}
+            =
+            -\begin{vmat}
+              h_{1,1}  &h_{1,2} &h_{1,3} \\
+              h_{2,1}  &h_{2,2} &h_{2,3} \\
+              h_{3,1}  &h_{3,2} &h_{3,3} 
+            \end{vmat}
+          \end{equation*}
+        \partsitem 条件~(3) 适用。
+          \begin{multline*}
+            \begin{vmat}
+             -h_{1,1}   &-h_{1,2}  &-h_{1,3} \\
+             -2h_{2,1}  &-2h_{2,2} &-2h_{2,3} \\
+             -3h_{3,1}  &-3h_{3,2} &-3h_{3,3}
+            \end{vmat}
+            =
+            (-1)\cdot(-2)\cdot(-3)\cdot
+            \begin{vmat}
+             h_{1,1}   &h_{1,2}  &h_{1,3} \\
+             h_{2,1}   &h_{2,2}  &h_{2,3} \\
+             h_{3,1}   &h_{3,2}  &h_{3,3}
+            \end{vmat}                                  \\
+            =
+            (-6)\cdot
+            \begin{vmat}
+             h_{1,1}   &h_{1,2}  &h_{1,3} \\
+             h_{2,1}   &h_{2,2}  &h_{2,3} \\
+             h_{3,1}   &h_{3,2}  &h_{3,3}
+            \end{vmat}
+          \end{multline*}
+        \partsitem 
+          \begin{multline*}
+          \begin{vmat}
+            h_{1,1}+h_{3,1}  &h_{1,2}+h_{3,2} &h_{1,3}+h_{3,3} \\
+            h_{2,1}          &h_{2,2}         &h_{2,3} \\
+            5h_{3,1}         &5h_{3,2}        &5h_{3,3}
+          \end{vmat}                                                 \\
+          \begin{aligned}
+          &=
+          5\cdot     
+          \begin{vmat}
+            h_{1,1}+h_{3,1}  &h_{1,2}+h_{3,2} &h_{1,3}+h_{3,3} \\
+            h_{2,1}          &h_{2,2}         &h_{2,3} \\
+            h_{3,1}          &h_{3,2}         &h_{3,3}
+          \end{vmat}                                     \\
+          &=5\cdot
+          \begin{vmat}
+            h_{1,1}          &h_{1,2}         &h_{1,3} \\
+            h_{2,1}          &h_{2,2}         &h_{2,3} \\
+            h_{3,1}          &h_{3,2}         &h_{3,3}
+          \end{vmat}
+          \end{aligned}
+          \end{multline*}
+      \end{exparts}  
+     \end{answer}
+  \recommended \item 
+    求对角矩阵的行列式。
+    \begin{answer}
+       对角矩阵已是阶梯形，所以
+       行列式就是对角线上元素的乘积。
+    \end{answer}
+  \item 
+    若系数矩阵的行列式非零，试描述一个齐次线性方程组的解集。
+    \begin{answer}
+      它就是平凡子空间。  
+    \end{answer}
+  \recommended \item 
+    证明此行列式为零。
+    \begin{equation*}
+      \begin{vmat}
+        y+z  &x+z  &x+y  \\
+        x    &y    &z    \\
+        1    &1    &1
+      \end{vmat}
+    \end{equation*}
+    \begin{answer} 
+      把第二行加到第一行，得到的矩阵其第一行
+      是第三行的 $x+y+z$ 倍。  
+    \end{answer}
+  \item 
+    \begin{exparts}
+      \partsitem 求以 $(-1)^{i+j}$ 为 $i,j$ 元的
+        $\nbyn{1}$、$\nbyn{2}$ 与 $\nbyn{3}$ 矩阵。  
+      \partsitem 求以 \( (-1)^{i+j} \) 为 \( i,j \)
+        元的方阵的行列式。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+          $\begin{mat}[r]
+            1
+          \end{mat}$,
+          $\begin{mat}[r]
+            1  &-1  \\
+            -1  &1
+          \end{mat}$,
+          $\begin{mat}[r]
+            1   &-1  &1   \\
+            -1  &1   &-1  \\
+            1   &-1  &1
+          \end{mat}$
+        \partsitem $\nbyn{1}$ 情形的行列式为 $1$。
+          在其余各种情形中，第二行都是第一行的相反数，
+          因此矩阵是奇异的，行列式为零。 
+      \end{exparts} 
+    \end{answer}
+  \item 
+    \begin{exparts}
+      \partsitem 求以 $i+j$ 为 $i,j$ 元的
+        $\nbyn{1}$、$\nbyn{2}$ 与 $\nbyn{3}$ 矩阵。  
+      \partsitem 求以 $i+j$ 为 
+        $i,j$ 元的方阵的行列式。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+          $\begin{mat}[r]
+            2
+          \end{mat}$,
+          $\begin{mat}[r]
+            2  &3  \\
+            3  &4
+          \end{mat}$,
+          $\begin{mat}[r]
+            2  &3  &4  \\
+            3  &4  &5  \\
+            4  &5  &6
+          \end{mat}$
+        \partsitem $\nbyn{1}$ 与 $\nbyn{2}$ 情形给出如下结果。
+          \begin{equation*}
+            \begin{vmat}[r]
+              2
+            \end{vmat}
+            =2
+            \qquad
+            \begin{vmat}[r]
+              2  &3  \\
+              3  &4
+            \end{vmat}=-1
+          \end{equation*}
+          而 $n\geq 3$ 的 $\nbyn{n}$ 矩阵都是奇异的，例如
+          \begin{equation*}
+            \begin{vmat}[r]
+              2  &3  &4  \\
+              3  &4  &5  \\
+              4  &5  &6
+            \end{vmat}=0
+          \end{equation*}
+          因为第二行的两倍减去第一行
+          等于第三行。
+          验证这一点是例行的。
+      \end{exparts} 
+    \end{answer}
+  \recommended \item 
+    通过给出一个 \( \deter{A+B}\neq\deter{A}+\deter{B} \) 的例子，
+    证明行列式函数不是线性的。
+    \begin{answer}
+      取这一个
+      \begin{equation*}
+         A=B=
+         \begin{mat}[r]
+           1  &2  \\
+           3  &4
+         \end{mat}
+      \end{equation*}
+      容易验证
+      \begin{equation*}
+         \deter{A+B}
+         =
+         \begin{vmat}[r]
+           2  &4  \\
+           6  &8
+         \end{vmat}
+         =-8
+         \qquad
+         \deter{A}+\deter{B}
+         =
+         -2-2
+         =-4
+      \end{equation*}
+      顺便说一下，这也给出了一个标量乘法不被保持的例子：
+      $\deter{2\cdot A}\neq 2\cdot\deter{A}$。  
+     \end{answer}
+  \item 
+    定义中的第二个条件，即行对换改变
+    行列式的符号，多少有些令人烦恼。
+    它意味着我们必须记录对换的次数，以计算
+    符号如何交替变化。
+    我们能否摆脱它？
+    能否把它换成行对换使行列式
+    保持不变这一条件？
+    （若可行，那么我们就需要新的 $\nbyn{1}$、
+     $\nbyn{2}$ 与 $\nbyn{3}$ 公式，但那只是小事一桩。）
+    \begin{answer}
+      不行，不能替换。
+      \nearbyremark{rem:SwapRowsRedun}
+      表明替换之后的四个条件会
+      相互矛盾 \Dash  没有函数同时满足这四个条件。
+    \end{answer}
+  \item 
+    证明任何三角矩阵的行列式，无论是上三角的还是下三角的，
+    都是其对角线上元素的乘积。
+    \begin{answer}
+      上三角矩阵已是阶梯形。
+
+      下三角矩阵要么奇异要么非奇异。
+      若它奇异，则其对角线上有零，从而其
+      行列式（即零）确实是对角线上元素的乘积。 
+      若它非奇异，则其对角线上没有零，并且
+      我们可以用高斯消元法将其化简为阶梯形，
+      而不改变对角线。  
+    \end{answer}
+  \item
+    参见“矩阵乘法的机制”小节中初等矩阵的定义。
+    \begin{exparts}
+      \partsitem 每种初等矩阵的行列式是什么？
+      \partsitem 证明若 \( E \) 是任一初等矩阵，则对任意阶数匹配的
+        \( S \) 都有
+        \( \deter{ES}=\deter{E}\deter{S} \)。
+      \partsitem \textit{（此问题不涉及行列式。）}
+        证明若 \( T \) 奇异，则乘积 \( TS \)
+        也奇异。
+      \partsitem 证明 \( \deter{TS}=\deter{T}\deter{S} \)。
+      \partsitem 证明若 \( T \) 非奇异，则
+          \( \deter{T^{-1}}=\deter{T}^{-1} \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 行列式定义中的诸性质表明
+          \( \deter{M_i(k)}=k \)、
+          \( \deter{P_{i,j}}=-1 \)
+          以及
+          \( \deter{C_{i,j}(k)}=1 \)。
+        \partsitem 回想左乘每类矩阵的作用，三种情形都容易验证。
+        \partsitem 若 \( TS \) 可逆，即 \( (TS)M=I \)，则
+          由矩阵乘法的结合律，
+          \( T(SM)=I \) 表明 \( T \) 可逆。
+          所以若 \( T \) 不可逆，则 \( TS \) 也不可逆。
+        \partsitem 若 \( T \) 奇异，则应用前面的答案：
+          \( \deter{TS}=0 \) 且
+          \( \deter{T}\cdot\deter{S}=0\cdot\deter{S}=0 \)。
+          若 \( T \) 不奇异，则可将它写成初等矩阵的乘积
+          $
+            \deter{TS}=\deter{E_r\cdots E_1S}=
+            \deter{E_r}\cdots\deter{E_1}\cdot\deter{S}=
+            \deter{E_r\cdots E_1}\deter{S}=\deter{T}\deter{S}
+          $。
+        \partsitem \( 1=\deter{I}=\deter{T\cdot T^{-1}}
+                     =\deter{T}\deter{T^{-1}} \)
+      \end{exparts}  
+     \end{answer} 
+  \item 
+    按下面的方式证明乘积的行列式等于行列式的乘积
+    \( \deter{TS}=\deter{T}\,\deter{S} \)。
+    取定 \( \nbyn{n} \) 矩阵 \( S \)，考虑函数
+    \( \map{d}{\matspace_{\nbyn{n}}}{\Re} \)，其由
+    \( T\mapsto \deter{TS}/\deter{S} \) 给出。
+    \begin{exparts}
+      \partsitem 验证 \( d \) 满足行列式函数定义中的条件~(1)。
+      \partsitem 验证条件~(2)。
+      \partsitem 验证条件~(3)。
+      \partsitem 验证条件~(4)。
+      \partsitem 由此得出结论：乘积的行列式等于行列式的乘积。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 我们必须证明：若
+          \begin{equation*}
+            T\grstep{k\rho_i+\rho_j}\hat{T}
+          \end{equation*}
+          则 $d(T)=\deter{TS}/\deter{S}
+          =\deter{\hat{T}S}/\deter{S}=d(\hat{T})$。
+          如果我们能证明先组合行、再相乘得到 \( \hat{T}S \)，
+          与先相乘得到 \( TS \)、再组合行，结果相同
+          （因为行列式 \( \deter{TS} \) 不受该倍加的影响，所以我们就有
+          \( \deter{\hat{T}S}=\deter{TS} \)，从而 \( d(\hat{T})=d(T) \)），
+          便完成证明。
+          该论证如下：~把 \( TS \) 的第~\( i \) 行的 \( k \) 倍加到
+          \( TS \) 的第~$j$ 行之后，第 \( j,p \) 元为
+          \( (kt_{i,1}+t_{j,1})s_{1,p}+\dots+(kt_{i,r}+t_{j,r})s_{r,p} \)，
+          这正是 \( \hat{T}S \) 的第 \( j,p \) 元。
+        \partsitem 我们只需证明：对换
+          $
+            T\smash[b]{\grstep{\rho_i\swap\rho_j}}\hat{T}
+          $
+          之后相乘得到 \( \hat{T}S \)，与先把 \( T \) 乘以 \( S \)、再对换行，
+          结果相同（因为行列式 \( \deter{TS} \) 在行对换下变号，
+         所以我们就有 \( \deter{\hat{T}S}=-\deter{TS} \)，
+          于是 \( d(\hat{T})=-d(T) \)）。
+          该论证与前一个论证的进行方式相同。
+        \partsitem 正如现在所期待的，我们只需证明：
+          把某行乘以一个标量
+          $
+            T\smash[b]{\grstep{k\rho_i}}\hat{T}
+          $
+          之后计算 \( \hat{T}S \)，与先计算 \( TS \)、再把该行乘以 \( k \)，
+          结果相同（由于行列式 \( \deter{TS} \) 在该倍乘下被乘以 \( k \)，
+          我们就有 \( \deter{\hat{T}S}=k\deter{TS} \)，
+          所以 \( d(\hat{T})=k\,d(T) \)）。
+          论证的进行方式与上面完全一样。
+        \partsitem 显然。
+        \partsitem 由于我们已经证明 \( d(T) \) 是一个行列式，
+          并且行列式函数（若存在）是唯一的，
+          我们便有
+          所以 \( \deter{T}=d(T)=\deter{TS}/\deter{S} \)。
+      \end{exparts}  
+    \end{answer}
+  \item 
+    给定矩阵 $A$ 的\definend{子矩阵}\index{submatrix}\index{matrix!submatrix} 
+    指删除 $A$ 的某些行和某些列
+    之后得到的矩阵。
+    于是，这里第一个矩阵是第二个矩阵的子矩阵。
+    \begin{equation*}
+      \begin{mat}[r]
+        3  &1  \\
+        2  &5
+      \end{mat}
+      \qquad
+      \begin{mat}[r]
+        3  &4  &1  \\
+        0  &9  &-2 \\
+        2  &-1 &5
+      \end{mat}
+    \end{equation*}
+    证明：对任意方阵，
+    矩阵的秩为 $r$ 当且仅当
+    \( r \) 是使得存在一个行列式非零的
+    \( \nbyn{r} \) 子矩阵的
+    最大整数。
+    \begin{answer}
+      我们首先论证：秩为 \( r \) 的矩阵有一个行列式非零的
+      \( \nbyn{r} \) 子矩阵。
+      秩为 \( r \) 的矩阵有一个由 \( r \) 行组成的线性无关集合。
+      由这些行构成的矩阵行秩为 \( r \)，因而其
+      列秩也为 \( r \)。
+      结论：从这 \( r \) 行中可以取出一组由 \( r \) 列组成的线性无关集合，
+      于是原矩阵有一个秩为 \( r \) 的
+      \( \nbyn{r} \) 子矩阵。
+
+      最后我们证明：若 \( r \) 是具有该性质的最大整数，
+      则矩阵的秩为 \( r \)。
+      由 \( r \) 的最大性，我们只需证明：
+      若一个矩阵有行列式非零的
+      \( \nbyn{k} \) 子矩阵，则该矩阵的秩至少为 \( k \)。
+      考虑这样一个 \( \nbyn{k} \) 子矩阵。
+      它的行是原矩阵的行的一部分，显然
+      完整的行的集合是线性无关的。
+      于是原矩阵的行秩至少为 \( k \)，而矩阵的行秩
+      等于其秩。  
+   \end{answer}
+  \item
+    证明元素全为有理数的矩阵的行列式是有理数。
+    \begin{answer}
+      元素全为有理数的矩阵用高斯
+      消元法化简时，只用到有理数运算即可化为阶梯形矩阵。
+      因此对角线上的元素必定是有理数，从而
+      对角线上元素的乘积是有理数。  
+    \end{answer}
+  \puzzle \item 
+     \cite{Monthly53p115}
+     求以下各组操作的共同点：(a)~约简一个分数，(b)~给鼻子扑粉，
+     (c)~给教堂修建新台阶，(d)~让荣休教授留驻校园，
+     (e)~把 \( B \)、\( C \)、\( D \) 放入行列式
+     \begin{equation*}
+       \begin{vmat}
+         1   &a   &a^2  &a^3  \\
+         a^3 &1   &a    &a^2  \\
+         B   &a^3 &1    &a    \\
+         C   &D   &a^3  &1
+       \end{vmat}.
+     \end{equation*}
+     \begin{answer}
+       \answerasgiven
+       行列式的值 \( (1-a^4)^3 \) 与
+       \( B \)、\( C \)、\( D \) 的取值无关。
+       因此操作~(e) 不改变行列式的值，
+       只是改变了它的外观。
+       于是在 (a)、(b)、(c)、(d)、(e) 中，
+       共同点仅仅在于主要对象的外观被改变了。
+       同样的共同点还出现在 (f)~改换玫瑰的名称标签、
+       (g)~把一个十进制整数写成 \( 12 \) 进制、(h)~给百合花镀金、
+       (i)~给政客粉饰门面，以及 (j)~授予荣誉学位。
+    \end{answer}
+\end{exercises}

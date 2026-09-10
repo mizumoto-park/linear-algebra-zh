@@ -23,6 +23,83 @@
 | Accuracy of Computations | 计算的精度 |
 | Analyzing Networks | 网络分析 |
 
+## 第二章标题与术语（向量空间）
+
+| 英文 | 中文 |
+|------|------|
+| Vector Spaces（章名） | 向量空间 |
+| Definition of Vector Space | 向量空间的定义 |
+| Definition and Examples | 定义与例题 |
+| Subspaces and Spanning Sets | 子空间与张成集 |
+| Linear Independence | 线性无关 |
+| Basis and Dimension | 基与维数 |
+| Basis | 基 |
+| Dimension | 维数 |
+| Vector Spaces and Linear Systems | 向量空间与线性系统 |
+| Combining Subspaces | 子空间的组合 |
+| Crystals（专题） | 晶体 |
+| Fields（专题） | 域 |
+| Voting Paradoxes（专题） | 投票悖论 |
+| Dimensional Analysis（专题） | 量纲分析 |
+
+| 英文 | 中文 |
+|------|------|
+| spanning set | 张成集 |
+| proper subspace | 真子空间 |
+| nontrivial | 非平凡的 |
+| closed under / closure（性质） | 对……封闭 / 封闭性 |
+| component-wise | 按分量的 |
+| vector space over … | ……上的向量空间 |
+| function space / polynomial space | 函数空间 / 多项式空间 |
+| solution space | 解空间 |
+| set of quadratic polynomials | 二次多项式（的）集合 |
+| exchange lemma | 交换引理 |
+| sum / intersection（of subspaces） | （子空间的）和 / 交 |
+| direct sum | 直和 |
+| restriction | 限制 |
+| isomorphic / isomorphism | 同构的 / 同构（GLOSSARY 已有） |
+| finite set / infinite set | 有限集 / 无限集 |
+| congruent figures | 全等图形 |
+
+## 第四章标题与术语（行列式）
+
+| 英文 | 中文 |
+|------|------|
+| Determinants（章名） | 行列式 |
+| Definition（第 I 节名） | 定义 |
+| Exploration | 探索 |
+| Properties of Determinants | 行列式的性质 |
+| The Permutation Expansion | 置换展开 |
+| Determinants Exist | 行列式的存在性 |
+| Geometry of Determinants | 行列式的几何 |
+| Determinants as Size Functions | 作为大小函数的行列式 |
+| Laplace's Formula | Laplace 公式 |
+| Laplace's Expansion | Laplace 展开 |
+| Cramer's Rule（专题） | Cramer 法则（克拉默法则） |
+| Speed of Calculating Determinants（专题） | 行列式计算的速度 |
+| Chi\`o's Method（专题） | Chiò 方法 |
+| Projective Geometry（专题） | 射影几何 |
+| Computer Graphics（专题） | 计算机图形学 |
+
+| 英文 | 中文 |
+|------|------|
+| multilinear | 多重线性的 |
+| alternating（函数性质） | 交变的（行对换变号） |
+| signed / unsigned area | 有符号面积 / 无符号面积 |
+| signed volume | 有符号体积 |
+| box（行列式几何） | 箱体 |
+| scale factor | 缩放因子 |
+| orientation | 定向 |
+| expansion along a row / column | 按行 / 按列展开 |
+| minor / cofactor | 子式 / 代数余子式 |
+| adjugate | 伴随（矩阵） |
+| triangular / diagonal matrix | 三角矩阵 / 对角矩阵 |
+| pivot rows / pivot columns（行列式上下文） | 主元行 / 主元列 |
+| projective plane / point at infinity | 射影平面 / 无穷远点 |
+| homogenize / dehomogenize | 齐次化 / 去齐次化 |
+| vanishing point | 消失点 |
+| Chi\`o's apparatus | Chiò 装置 |
+
 ## 高频术语补充（GLOSSARY 未覆盖者）
 
 | 英文 | 中文 |
@@ -85,3 +162,7 @@
   `tabular` 内的英文表头文字翻译
 - 图形文件名 `\includegraphics{...}` 不动
 - `\Dash`、`\absval{}`、`\colvec`、`\amat`、`\zero`、`\suchthat`、`\set{}{}` 等宏原样保留，仅译其参数中的英文文字
+- **`\Dash` 之后必须跟一个空格**（xeCJK 下 `\ignorespaces` 紧跟激活态汉字会报
+  "Undefined control sequence"；英文原文 `\Dash` 后本就有空格，照抄即可）
+- 一个源 `\definend{...}` 对应恰好一个译文 `\definend{...}`：语句可按中文语序
+  重排，但不可把一个术语拆成两个 `\definend`，也不可增删个数

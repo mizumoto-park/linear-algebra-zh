@@ -1,0 +1,695 @@
+\begin{exercises}
+  \recommended \item 
+     求下列各矩阵的行列式。
+     \begin{exparts*}
+       \partsitem \(
+            \begin{mat}[r]
+                3    &1   \\
+               -1    &1
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                2    &0   &1  \\
+                3    &1   &1 \\
+               -1    &0   &1
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                4    &0   &1  \\
+                0    &0   &1 \\
+                1    &3   &-1
+            \end{mat}    \)
+     \end{exparts*}
+     \begin{answer}
+       \begin{exparts*}
+         \partsitem \( 4 \)
+         \partsitem \( 3 \)
+         \partsitem \( -12 \)
+       \end{exparts*}  
+     \end{answer}
+  \item 
+     求下列各矩阵的行列式。
+     \begin{exparts*}
+        \partsitem \( \begin{mat}[r]
+                    2  &0  \\
+                   -1  &3
+                 \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+                    2  &1  &1  \\
+                    0  &5  &-2 \\
+                    1  &-3 &4
+                 \end{mat} \)
+        \partsitem \( \begin{mat}[r]
+                    2  &3  &4  \\
+                    5  &6  &7  \\
+                    8  &9  &1
+                 \end{mat} \)
+     \end{exparts*}
+    \begin{answer}
+      \begin{exparts*}
+        \partsitem \( 6 \)
+        \partsitem \( 21 \)
+        \partsitem \( 27 \)
+      \end{exparts*}  
+    \end{answer}
+  \recommended \item  
+    验证上三角的
+    $\nbyn{3}$ 矩阵的行列式是对角元之积。
+    \begin{equation*}
+       \det(
+       \begin{mat}
+           a    &b   &c    \\
+           0    &e   &f    \\
+           0    &0   &i
+       \end{mat}
+       )
+       =aei
+    \end{equation*}
+    下三角矩阵也是如此吗？
+    \begin{answer}
+      对于第一个，应用本节中的公式，注意任何
+      含有 \( d \)、\( g \) 或 \( h \) 的项都是零，再化简即可。
+      下三角矩阵也是如此。  
+    \end{answer}
+  \recommended \item 
+     用行列式判断下列各矩阵是奇异的还是
+     非奇异的。
+     \begin{exparts*}
+       \partsitem \(
+            \begin{mat}[r]
+                2    &1   \\
+                3    &1
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                0    &1   \\
+                1    &-1
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                4    &2   \\
+                2    &1
+            \end{mat}    \)
+     \end{exparts*}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem 非奇异的，行列式为 \( -1 \)。
+         \partsitem 非奇异的，行列式为 \( -1 \)。
+         \partsitem 奇异的，行列式为 \( 0 \)。
+       \end{exparts}  
+     \end{answer}
+  \item 
+     奇异的还是非奇异的？
+     用行列式来判断。
+     \begin{exparts*}
+       \partsitem \(
+            \begin{mat}[r]
+                2    &1   &1  \\
+                3    &2   &2 \\
+                0    &1   &4
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                1    &0   &1  \\
+                2    &1   &1 \\
+                4    &1   &3
+            \end{mat}    \)
+       \partsitem \(
+            \begin{mat}[r]
+                2    &1   &0  \\
+                3    &-2  &0 \\
+                1    &0   &0
+            \end{mat}    \)
+     \end{exparts*}
+     \begin{answer}
+      \begin{exparts}
+         \partsitem 非奇异的，行列式为 \( 3 \)。
+         \partsitem 奇异的，行列式为 \( 0 \)。
+         \partsitem 奇异的，行列式为 \( 0 \)。
+       \end{exparts}  
+     \end{answer}
+  \recommended \item
+    下面每一对矩阵仅相差一次行变换。
+    请利用这次行变换
+    来比较 \( \det(A) \) 与 \( \det(B) \)。
+     \begin{exparts}
+        \partsitem \( A=\begin{mat}[r]
+                      1  &2  \\
+                      2  &3
+                   \end{mat} \), 
+               \(  B=\begin{mat}[r]
+                      1  &2  \\
+                      0  &-1
+                   \end{mat}  \)
+        \partsitem \( A=\begin{mat}[r]
+                      3  &1  &0  \\
+                      0  &0  &1  \\
+                      0  &1  &2
+                   \end{mat} \),
+              \(   B=\begin{mat}[r]
+                      3  &1  &0  \\
+                      0  &1  &2  \\
+                      0  &0  &1
+                   \end{mat}  \)
+        \partsitem \( A=\begin{mat}[r]
+                      1  &-1 &3  \\
+                      2  &2  &-6 \\
+                      1  &0  &4
+                   \end{mat} \),
+              \(   B=\begin{mat}[r]
+                      1  &-1 &3  \\
+                      1  &1  &-3 \\
+                      1  &0  &4
+                   \end{mat}  \)
+     \end{exparts}
+     \begin{answer}
+       \begin{exparts}
+         \partsitem \( \det(B)=\det(A) \)，通过 \( -2\rho_1+\rho_2 \)
+         \partsitem \( \det(B)=-\det(A) \)，通过 
+             \( \rho_2\leftrightarrow\rho_3 \)
+         \partsitem \( \det(B)=(1/2)\cdot \det(A) \)，通过 \( (1/2)\rho_2 \)
+       \end{exparts}   
+     \end{answer}
+  \recommended \item 按如下方案求这个 $\nbyn{4}$ 矩阵的行列式：~先做高斯消元，
+    并留意行列式在倍加时保持不变，在
+    对换两行时变号，在某行倍乘时相应倍乘，
+    且阶梯形矩阵的行列式等于
+    其对角元之积。
+    \begin{equation*}
+      \begin{mat}
+        1 &2 &0  &2 \\
+        2 &4 &1  &0 \\
+        0 &0 &-1 &3 \\
+        3 &-1 &1 &4
+      \end{mat}
+    \end{equation*}
+    \begin{answer}
+      高斯消元法正是这样做的。
+      % [ 0 -7  1 -2]
+      %  swap row 2 with row 4
+      % [ 1  2  0  2]
+      % [ 0 -7  1 -2]
+      % [ 0  0 -1  3]
+      % [ 0  0  1 -4]
+      %  take 1 times row 3 plus row 4
+      % [ 1  2  0  2]
+      % [ 0 -7  1 -2]
+      % [ 0  0 -1  3]
+      % [ 0  0  0 -1]
+      \begin{equation*}
+        \begin{mat}
+          1 &2 &0  &2 \\
+          2 &4 &1  &0 \\
+          0 &0 &-1 &3 \\
+          3 &-1 &1 &4
+        \end{mat}
+        \grstep[-3\rho_1+\rho_4]{-2\rho_1+\rho_2}
+        \grstep{\rho_2\leftrightarrow\rho_4}
+        \grstep{\rho_3+\rho_4}      
+        \begin{mat}
+          1 &2 &0  &2 \\
+          0 &-7 &1  &-2 \\
+          0 &0 &-1 &3 \\
+          0 &0 &0 &-1
+        \end{mat}
+      \end{equation*}
+      阶梯形矩阵的对角元之积为 
+       $1\cdot(-7)\cdot(-1)\cdot(-1)=-7$。
+      在高斯消元的过程中没有行被倍乘，但有
+      一次行对换，所以求行列式时须变号，
+      得 $+7$。
+    \end{answer}
+  \item 
+     证明此式。
+      \begin{equation*}
+         \det(
+         \begin{mat}
+             1    &1   &1    \\
+             a    &b   &c    \\
+             a^2  &b^2 &c^2
+         \end{mat}
+         )
+         =(b-a)(c-a)(c-b)
+      \end{equation*}
+     \begin{answer}
+       利用 $\nbyn{3}$ 矩阵的行列式公式，
+       我们将左边展开
+       \begin{equation*}
+         1\cdot b\cdot c^2+1\cdot c\cdot a^2+1\cdot a\cdot b^2
+          -b^2\cdot c\cdot 1 -c^2\cdot a\cdot 1-a^2\cdot b\cdot 1
+       \end{equation*}
+       而将右边展开则得
+       \begin{equation*}
+         (bc-ba-ac+a^2)\cdot(c-b)
+         =c^2b-b^2c-bac+b^2a-ac^2+acb+a^2c-a^2b
+       \end{equation*}
+       于是只需验证两者相等即可。
+       （\textit{注}。
+       这是
+       \definend{Vandermonde 行列式}\index{Vandermonde!determinant}%
+       \index{determinant!Vandermonde}的 \( \nbyn{3} \) 情形，
+       它出现在许多应用中）。
+     \end{answer}
+   \recommended \item 
+      哪些实数 \( x \) 使这个矩阵是奇异的？
+      \begin{equation*}
+         \begin{mat}
+            12-x  &4  \\
+            8    &8-x
+         \end{mat}
+      \end{equation*}
+      \begin{answer}
+         这个方程
+         \begin{equation*}
+           0=
+           \det(
+             \begin{mat}
+                12-x  &4  \\
+                8    &8-x
+             \end{mat}
+           )
+           =64-20x+x^2
+           =(x-16)(x-4) 
+       \end{equation*}
+       有根 \( x=16 \) 和 \( x=4 \)。  
+     \end{answer}
+  \item \label{exer:ThreeByThreeDetForm} 
+    做高斯消元，以验证本节引言中
+    所述的 $\nbyn{3}$ 矩阵公式。
+    \begin{center}
+      \( \begin{mat}
+               a  &b  &c  \\
+               d  &e  &f  \\
+               g  &h  &i
+         \end{mat} \)
+      是非奇异的当且仅当
+      \( aei+bfg+cdh-hfa-idb-gec \neq 0 \)
+    \end{center}
+    \begin{answer}
+      我们先把矩阵化成阶梯形。
+      首先，假设 \( a\neq 0 \) 且 \( ae-bd\neq 0 \)。
+      \begin{multline*}
+        \grstep{(1/a)\rho_1}
+        \begin{mat}
+           1   &b/a   &c/a   \\
+           d   &e     &f     \\
+           g   &h     &i
+         \end{mat}                                           
+        \grstep[-g\rho_1+\rho_3]{-d\rho_1+\rho_2}
+        \begin{mat}
+           1   &b/a           &c/a           \\
+           0   &(ae-bd)/a     &(af-cd)/a     \\
+           0   &(ah-bg)/a     &(ai-cg)/a
+         \end{mat}                                            \\
+        \grstep{(a/(ae-bd))\rho_2}
+        \begin{mat}
+           1   &b/a           &c/a             \\
+           0   &1             &(af-cd)/(ae-bd) \\
+           0   &(ah-bg)/a     &(ai-cg)/a
+         \end{mat}
+      \end{multline*}
+      这一步完成了计算。
+      \begin{equation*}
+        \grstep{((ah-bg)/a)\rho_2+\rho_3}
+        \begin{mat}
+           1   &b/a    &c/a             \\
+           0   &1      &(af-cd)/(ae-bd)      \\
+           0   &0      &(aei+bgf+cdh-hfa-idb-gec)/(ae-bd)
+         \end{mat}
+      \end{equation*}
+      现在假设 $a\neq 0$ 且 \( ae-bd\neq 0 \)，
+      原矩阵是非奇异的
+      当且仅当上面第 \( 3,3 \) 处的元素非零。
+      也就是说，在这些假设下，原矩阵
+      是非奇异的当且仅当 $aei+bgf+cdh-hfa-idb-gec\neq 0$，
+      即为所证。
+
+      最后我们逐一看一下，若为方便起见而在前一段中所作的假设不成立，
+      会发生什么。
+      首先，若 \( a\neq 0 \) 但 \( ae-bd=0 \)，那么我们可以对换
+      \begin{equation*}
+        \begin{mat}
+           1   &b/a           &c/a           \\
+           0   &0             &(af-cd)/a     \\
+           0   &(ah-bg)/a     &(ai-cg)/a
+         \end{mat}                                  
+        \grstep{\rho_2\leftrightarrow\rho_3}
+        \begin{mat}
+           1   &b/a           &c/a           \\
+           0   &(ah-bg)/a     &(ai-cg)/a     \\
+           0   &0             &(af-cd)/a
+         \end{mat}
+      \end{equation*}
+      从而得出结论：矩阵是非奇异的当且仅当
+      \( ah-bg=0 \) 或 \( af-cd=0 \)。
+      条件‘\( ah-bg=0 \) 或 \( af-cd=0 \)’等价于
+      条件‘\( (ah-bg)(af-cd)=0 \)’。
+      乘开并利用本情形的假设 $ae-bd=0$，以 $ae$ 代 $bd$，便得
+      \begin{multline*}
+         0=ahaf-ahcd-bgaf+bgcd
+          =ahaf-ahcd-bgaf+aegc            \\
+          =a(haf-hcd-bgf+egc)
+      \end{multline*}
+      由于 \( a\neq 0 \)，故矩阵
+      是非奇异的当且仅当 \( haf-hcd-bgf+egc=0 \)。
+      因此，在 \( a\neq 0 \) 且 \( ae-bd=0 \) 的情形下，
+      当
+      \( haf-hcd-bgf+egc-i(ae-bd)=0 \) 时矩阵
+      是非奇异的。
+
+      余下的情形是常规的。
+      对于 \( a=0 \) 但 \( d\neq 0 \) 的情形，以及 \( a=0 \)、\( d=0 \)
+      但 \( g\neq 0 \) 的情形，都先对换两行，然后
+      照上面那样继续即可。
+      \( a=0 \)、\( d=0 \) 且 \( g=0 \) 的情形则很简单\Dash 该矩阵是
+      奇异的，因为它的列构成一个线性相关的组，而且
+      行列式算出来为零。  
+    \end{answer}
+  \item 
+     证明 \( \Re^2 \) 中过 \( (x_1,y_1) \)
+     与 \( (x_2,y_2) \) 的直线方程由这个行列式给出。
+     \begin{equation*}
+        \det(
+        \begin{mat}
+           x   &y   &1  \\
+           x_1 &y_1 &1  \\
+           x_2 &y_2 &1
+        \end{mat})=0 \qquad x_1\neq x_2
+     \end{equation*}
+     \begin{answer}
+       算出行列式并做一点代数运算，便得到
+       \begin{align*}
+          0
+          &=y_1x+x_2y+x_1y_2-y_2x-x_1y-x_2y_1     \\
+          (x_2-x_1)\cdot y
+          &=(y_2-y_1)\cdot x+x_2y_1-x_1y_2              \\
+          y
+          &=\frac{y_2-y_1}{x_2-x_1}\cdot x+\frac{x_2y_1-x_1y_2}{x_2-x_1}
+       \end{align*}
+       注意这是一个直线的方程（特别地，
+       其中含有熟悉的斜率表达式），
+       并注意 \( (x_1,y_1) \) 与 \( (x_2,y_2) \) 都满足它。 
+     \end{answer}
+  \item
+    许多人学过
+    计算这个 \( \nbyn{3} \)
+    矩阵行列式的口诀：~把前两列抄到矩阵右侧，
+    然后取沿正向对角线的乘积并相加，
+    再取沿反向对角线的乘积并相减。
+    也就是说，先写成
+    \begin{equation*}
+        \begin{pmat}{ccc|cc}
+          h_{1,1} &h_{1,2} &h_{1,3} &h_{1,1} &h_{1,2} \\
+          h_{2,1} &h_{2,2} &h_{2,3} &h_{2,1} &h_{2,2} \\
+          h_{3,1} &h_{3,2} &h_{3,3} &h_{3,1} &h_{3,2}
+        \end{pmat}
+     \end{equation*}
+     然后计算这个式子。
+     \begin{equation*}
+      \begin{array}{l}
+      h_{1,1}h_{2,2}h_{3,3}+h_{1,2}h_{2,3}h_{3,1}+h_{1,3}h_{2,1}h_{3,2} \\
+      \>-h_{3,1}h_{2,2}h_{1,3}-h_{3,2}h_{2,3}h_{1,1}
+        -h_{3,3}h_{2,1}h_{1,2}
+      \end{array}
+    \end{equation*}
+    \begin{exparts}
+      \partsitem 验证这与本节引言中
+        给出的公式一致。
+      \partsitem 它能否推广到其他阶数的行列式？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 与本节引言中给出的公式比较，很容易。
+        \partsitem 它对 \( \nbyn{2} \) 矩阵成立
+          \begin{align*}
+            \begin{pmat}{cc|c}
+              h_{1,1} &h_{1,2} &h_{1,1} \\
+              h_{2,1} &h_{2,2} &h_{2,1}
+            \end{pmat}
+            &=\begin{array}[t]{@{}l@{}}
+              h_{1,1}h_{2,2}+h_{1,2}h_{2,1}  \\
+              \>-h_{2,1}h_{1,2}-h_{2,2}h_{1,1}
+            \end{array}                                     \\
+            &=h_{1,1}h_{2,2}-h_{1,2}h_{2,1}
+          \end{align*}
+          但对 \( \nbyn{4} \) 矩阵不成立。
+          例如，这个矩阵是
+          奇异的，因为第二行与第三行相等
+          \begin{equation*}
+            \begin{mat}[r]  
+              1  &0  &0  &1   \\
+              0  &1  &1  &0   \\
+              0  &1  &1  &0   \\
+             -1  &0  &0  &1  
+            \end{mat}
+          \end{equation*}
+          但按口诀的方案算并不得到零。
+          \begin{equation*}
+            \begin{pmat}{rrrr|rrr}
+                       1  &0  &0  &1  &1  &0  &0  \\
+                       0  &1  &1  &0  &0  &1  &1  \\
+                       0  &1  &1  &0  &0  &1  &1  \\
+                      -1  &0  &0  &1  &-1 &0  &0
+            \end{pmat}
+            =\begin{array}[t]{@{}l@{}}
+               1+0+0+0 \\
+               \>-(-1)-0-0-0
+              \end{array}
+           \end{equation*}
+      \end{exparts}  
+     \end{answer}
+  \item 
+    向量
+    \begin{equation*}
+      \vec{x}=\colvec{x_1 \\ x_2 \\ x_3}
+      \qquad
+      \vec{y}=\colvec{y_1 \\ y_2 \\ y_3}
+    \end{equation*}
+    的
+    \definend{叉积}\index{cross product}\index{vector!cross product} 
+    是按这个行列式算出的向量。
+    \begin{equation*}
+      \vec{x}\times\vec{y}=
+      \det(\begin{mat}
+        \vec{e}_1  &\vec{e}_2  &\vec{e}_3  \\
+        x_1        &x_2        &x_3        \\
+        y_1        &y_2        &y_3
+      \end{mat})
+    \end{equation*}
+    注意第一行的元素是向量，即 $\Re^3$ 的
+    标准基中的向量。
+    证明两个向量的叉积与每个向量都垂直。
+    \begin{answer}
+      该行列式为 
+      $
+        (x_2y_3-x_3y_2)\vec{e}_1
+          +(x_3y_1-x_1y_3)\vec{e}_2
+          +(x_1y_2-x_2y_1)\vec{e}_3
+      $。
+      要检验垂直性，我们检验它与第一个向量的点积
+      为零
+      \begin{equation*}
+        \colvec{x_1 \\ x_2 \\ x_3}
+        \dotprod
+        \colvec{x_2y_3-x_3y_2 \\ x_3y_1-x_1y_3 \\ x_1y_2-x_2y_1}
+        =x_1x_2y_3-x_1x_3y_2+x_2x_3y_1-x_1x_2y_3+x_1x_3y_2-x_2x_3y_1=0
+      \end{equation*}
+      而它与第二个向量的点积也为零。
+      \begin{equation*}
+        \colvec{y_1 \\ y_2 \\ y_3}
+        \dotprod
+        \colvec{x_2y_3-x_3y_2 \\ x_3y_1-x_1y_3 \\ x_1y_2-x_2y_1}
+        =x_2y_1y_3-x_3y_1y_2+x_3y_1y_2-x_1y_2y_3+x_1y_2y_3-x_2y_1y_3=0
+      \end{equation*}  
+    \end{answer}
+  \item 
+    证明下列每个论断对 $\nbyn{2}$ 矩阵成立。  
+    \begin{exparts}
+      \partsitem 乘积的行列式
+        等于行列式的乘积
+        $\det(ST)=\det(S)\cdot\det(T)$。
+      \partsitem 若 \( T \) 是可逆的，则
+        逆矩阵的行列式等于行列式的倒数
+        \( \det(T^{-1})=(\,\det(T)\,)^{-1} \)。
+    \end{exparts}
+    矩阵 $T$ 与 $T^\prime$ 称为
+    \definend{相似的}\index{similar}，若存在
+    非奇异矩阵 $P$ 使得 $T^\prime=PTP^{-1}$。
+    （我们将在第五章考察这一关系。）
+    证明相似的 \( \nbyn{2} \) 矩阵有相同的
+    行列式。
+    \begin{answer}
+       \begin{exparts}
+        \partsitem 直接代入计算：
+          乘积的行列式为
+          \begin{align*}
+             \det(\begin{mat}
+                       a  &b  \\
+                       c  &d
+                    \end{mat}
+                    \begin{mat}
+                       w  &x  \\
+                       y  &z
+                    \end{mat}  )
+             &=
+             \det(\begin{mat}
+                 aw+by  &ax+bz  \\
+                 cw+dy  &cx+dz
+              \end{mat} )                 \\
+             &=
+             \begin{array}[t]{@{}l@{}} 
+                 acwx+adwz+bcxy+bdyz  \\
+                 \> -acwx-bcwz-adxy-bdyz
+             \end{array}
+          \end{align*}
+          而行列式的乘积为
+          \begin{equation*}
+             \det(\begin{mat}
+                a  &b  \\
+                c  &d
+             \end{mat})
+             \cdot\det(\begin{mat}
+                w  &x  \\
+                y  &z
+             \end{mat})
+             =
+             (ad-bc)\cdot (wz-xy)
+          \end{equation*}
+          验证两者相等很容易。
+        \partsitem 利用前一小题。
+       \end{exparts}  
+       \noindent 由上面两条立即得到：相似矩阵有相同的行列式
+       $
+          \det(PTP^{-1})=\det(P)\cdot\det(T)\cdot\det(P^{-1})
+       $。
+     \end{answer}
+  \recommended \item
+    证明平面内这个区域的面积
+    \begin{center}
+      \includegraphics{det/mp/ch4.30}
+    \end{center}
+    等于这个行列式的值。
+    \begin{equation*}
+       \det(
+       \begin{mat}
+          x_1  &x_2  \\
+          y_1  &y_2
+       \end{mat})
+    \end{equation*}
+    并与这个比较。
+    \begin{equation*}
+       \det(
+       \begin{mat}
+          x_2  &x_1  \\
+          y_2  &y_1
+       \end{mat})
+    \end{equation*}
+    \begin{answer}
+      一种方法是数出这些面积
+      \begin{center}
+        \includegraphics{det/mp/ch4.31}
+      \end{center}
+      即取整个矩形的面积，再减去
+      左上矩形 $A$、上中三角形 $B$、
+      右上三角形 $D$、左下三角形 $C$、
+      下中三角形 $E$ 与右下矩形 $F$ 的面积
+      \( (x_1+x_2)(y_1+y_2)-x_2y_1-(1/2)x_1y_1-(1/2)x_2y_2
+              -(1/2)x_2y_2-(1/2)x_1y_1-x_2y_1 \)。
+      化简即得行列式公式。
+
+      这个行列式是上面那个的相反数；该公式
+      区分了第二列是否在第一列的
+      逆时针方向。  
+     \end{answer}
+  \item 
+    证明对 \( \nbyn{2} \) 矩阵，矩阵的行列式
+    等于其转置的行列式。
+    这对 \( \nbyn{3} \) 矩阵也成立吗？
+    \begin{answer}
+      对 \( \nbyn{2} \) 矩阵，利用
+      引言中引用的公式，计算很容易。
+      它对 \( \nbyn{3} \) 矩阵也成立；其
+      计算是常规的。  
+    \end{answer}
+  \item 
+    行列式函数是线性的吗 \Dash  即
+    \( \det(x\cdot T+y\cdot S)=x\cdot \det(T)+y\cdot \det(S) \) 成立吗？
+    \begin{answer}
+      不成立。
+      我们用 $\nbyn{2}$ 行列式来说明。
+      回想常数可以每次提出一行。
+      \begin{equation*}
+         \det(
+         \begin{mat}[r]
+            2  &4  \\
+            2  &6  \\
+         \end{mat})
+         =
+         2\cdot\det(\begin{mat}[r]
+            1  &2  \\
+            2  &6  \\
+         \end{mat})
+         =
+         2\cdot 2\cdot \det(\begin{mat}[r]
+            1  &2  \\
+            1  &3  \\
+         \end{mat})
+      \end{equation*}
+      这与线性性矛盾（这里我们不需要 \( S \)，也就是说，我们可以
+      取 $S$ 为零矩阵）。  
+    \end{answer}
+  \item 
+    证明：若 \( A \) 是 \( \nbyn{3} \) 的，则
+    \( \det(c\cdot A)=c^3\cdot \det(A) \) 对任意标量 \( c \) 成立。
+    \begin{answer}
+       把 \( c \) 一次一行地提出来。  
+    \end{answer}
+  \item 
+    哪些实数 \( \theta \) 使
+    \begin{equation*}
+       \begin{mat}
+          \cos\theta  &-\sin\theta  \\
+          \sin\theta  &\cos\theta
+       \end{mat}
+    \end{equation*}
+    奇异？
+    从几何上解释。
+    \begin{answer}
+      不存在使该矩阵奇异的实数 \( \theta \)，
+      因为矩阵的行列式
+      \( \cos^2\theta+\sin^2\theta \) 永不为 $0$，它对所有 $\theta$
+      都等于 $1$。
+      从几何上看，关于标准基，
+      这个矩阵表示
+      平面旋转角度 \( \theta \) 的转动。
+      每个这样的映射都是单射 \Dash  例如，它是可逆的。  
+    \end{answer}
+  \puzzle \item  
+    \cite{Monthly55p257}
+    若一个三阶行列式的元素为
+    \( 1 \), \( 2 \), \ldots, \( 9 \)，它可能取到的最大值
+    是多少？
+    \begin{answer}
+      \answerasgiven
+      设 \( P \) 为行列式中三个正项之和，
+      \( -N \) 为三个负项之和。
+      \( P \) 的最大值为
+      \begin{equation*}
+        9\cdot 8\cdot 7 +6\cdot 5\cdot 4 +3\cdot 2\cdot 1=630.
+      \end{equation*}
+      与 \( P \) 相容的 \( N \) 的最小值为
+      \begin{equation*}
+        9\cdot 6\cdot 1 +8\cdot 5\cdot 2 +7\cdot 4\cdot 3=218.
+      \end{equation*}
+      \( P \) 的任何改变都会使该和的降低量超过
+      \( 4 \)。
+      因此 \( 412 \) 是该行列式的最大值，而该行列式的一种形式是
+      \begin{equation*}
+         \begin{vmat}[r]
+            9  &4  &2  \\
+            3  &8  &6  \\
+            5  &1  &7
+         \end{vmat}.
+      \end{equation*}  
+    \end{answer}
+\end{exercises}

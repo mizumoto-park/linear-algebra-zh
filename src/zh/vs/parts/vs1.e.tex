@@ -1,0 +1,687 @@
+\begin{exercises}
+  \recommended \item
+    下列 \( \nbyn{2} \) 矩阵构成的向量空间中的哪些子集，在继承的运算下是子空间？
+    对每一个是子空间的，给出其参数化描述。
+    对每一个不是的，给出一条不满足的条件。
+    \begin{exparts}
+      \partsitem \( \set{\begin{mat}
+                      a  &0  \\
+                      0  &b
+                    \end{mat}  \suchthat a,b\in\Re}  \)
+      \partsitem \( \set{\begin{mat}
+                      a  &0  \\
+                      0  &b
+                    \end{mat}  \suchthat a+b=0} \)
+      \partsitem \( \set{\begin{mat}
+                      a  &0  \\
+                      0  &b
+                    \end{mat}  \suchthat a+b=5} \)
+      \partsitem \( \set{\begin{mat}
+                      a  &c  \\
+                      0  &b
+                    \end{mat}  \suchthat a+b=0, c\in\Re} \)
+    \end{exparts}
+    \begin{answer}
+      根据 \nearbylemma{th:SubspIffClosed}，要判断 $\matspace_{\nbyn{2}}$
+      的每个子集是否为子空间，只需检查它是否非空且封闭。
+      \begin{exparts}
+        \partsitem 是，容易验证它非空且封闭。
+          这就是它的一个参数化描述。
+          \begin{equation*}
+            \set{a\begin{mat}[r]
+                    1  &0  \\
+                    0  &0
+                  \end{mat}
+                 +b\begin{mat}[r]
+                    0  &0  \\
+                    0  &1
+                   \end{mat}
+                 \suchthat a,b\in\Re}
+          \end{equation*}
+          顺便指出，这个参数化描述本身也表明它是一个子空间，
+          因为它被表示为由两个矩阵构成的集合张成，
+          而任何张成都是子空间。
+        \partsitem 是；容易验证它非空且封闭。
+         或者，如前一个答案所述，参数化描述的存在性
+         表明它是一个子空间。
+         要得到参数化描述，
+         可将条件 $a+b=0$ 改写为 $a=-b$。
+         于是有下式。
+          \begin{equation*}
+            \set{\begin{mat}
+                    -b  &0  \\
+                    0   &b
+                  \end{mat}
+                 \suchthat b\in\Re}
+            =\set{b\begin{mat}[r]
+                    -1  &0  \\
+                    0   &1
+                  \end{mat}
+                 \suchthat b\in\Re}
+          \end{equation*}
+        \partsitem 不是。
+          它对加法不封闭。
+          例如，
+          \begin{equation*}
+            \begin{mat}[r]
+              5  &0  \\
+              0  &0
+            \end{mat}
+            +\begin{mat}[r]
+              5  &0  \\
+              0  &0
+            \end{mat}
+            =\begin{mat}[r]
+              10  &0  \\
+              0  &0
+            \end{mat}
+          \end{equation*}
+          不在该集合中。
+          （这个集合对标量乘法也不封闭，
+          例如，它不包含零矩阵。）
+        \partsitem 是。
+          \begin{equation*}
+            \set{b\begin{mat}[r]
+                    -1  &0  \\
+                    0   &1
+                  \end{mat}
+                 +c\begin{mat}[r]
+                    0  &1  \\
+                    0  &0
+                   \end{mat}
+                 \suchthat b,c\in\Re}
+          \end{equation*}
+      \end{exparts}
+     \end{answer}
+  \recommended \item
+    这是 \( \polyspace_2 \) 的子空间吗：
+    \( \set{a_0+a_1x+a_2x^2\suchthat a_0+2a_1+a_2=4} \)？
+    如果是，给出其参数化描述。
+    \begin{answer}
+      不是，它不封闭。
+      具体来说，它对标量乘法不封闭，因为它
+      不包含零多项式。
+    \end{answer}
+  \item 下面的向量是否在该集合的张成之中？
+    \begin{equation*}
+      \colvec{1 \\ 0 \\ 3}
+      \quad
+      \set{\colvec{2 \\ 1 \\ -1},
+           \colvec{1 \\ -1 \\ 1}}
+    \end{equation*}
+    \begin{answer}
+      方程
+      \begin{equation*}
+        \colvec{1 \\ 0 \\ 3} =
+                 c_1\colvec{2 \\ 1 \\ -1}
+                 +c_2\colvec{1 \\ -1 \\ 1}
+      \end{equation*}
+      给出一个线性方程组
+      \begin{equation*}
+        \begin{amat}{2}
+          2  &1  &1  \\
+          1  &-1 &0  \\
+          -1 &1  &3
+        \end{amat}
+        \grstep[(1/2)\rho_1+\rho_3]{(-1/2)\rho_1+\rho_2}
+        \begin{amat}{2}
+          2  &1    &1  \\
+          0  &-3/2 &-1/2  \\
+          0  &0  &3
+        \end{amat}
+      \end{equation*}
+      该方程组无解，所以该向量不在张成之中。
+    \end{answer}
+  \recommended \item
+    判断该向量是否张成于该集合的张成之中，所在
+    空间如下。
+    \begin{exparts}
+      \partsitem \( \colvec[r]{2 \\ 0 \\ 1} \),
+        \( \set{\colvec[r]{1 \\ 0 \\ 0},
+                \colvec[r]{0 \\ 0 \\ 1}  } \),
+        在 \( \Re^3 \) 中
+      \partsitem \( x-x^3 \),
+        \( \set{x^2,2x+x^2,x+x^3} \),
+        在 \( \polyspace_3 \) 中
+      \partsitem \( \begin{mat}[r]
+                 0  &1  \\
+                 4  &2
+               \end{mat}  \),
+        \( \set{\begin{mat}[r]
+                  1  &0  \\
+                  1  &1
+                \end{mat},
+                \begin{mat}[r]
+                  2  &0  \\
+                  2  &3
+                \end{mat}  } \),
+        在 \( \matspace_{\nbyn{2}} \) 中
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 是，由
+          \begin{equation*}
+            r_1\colvec[r]{1 \\ 0 \\ 0}+r_2\colvec[r]{0 \\ 0 \\ 1}
+              =\colvec[r]{2 \\ 0 \\ 1}
+          \end{equation*}
+          得到的线性方程组的解给出 \( r_1=2 \) 与 \( r_2=1 \)。
+        \partsitem 是；由
+          \( r_1(x^2)+r_2(2x+x^2)+r_3(x+x^3)=x-x^3 \)
+          \begin{equation*}
+            \begin{linsys}{3}
+                  &  &2r_2 &+ &r_3 &= &1  \\
+              r_1 &+ &r_2  &  &    &= &0  \\
+                  &  &     &  &r_3 &= &-1
+            \end{linsys}
+          \end{equation*}
+          可得 \( -1(x^2)+1(2x+x^2)-1(x+x^3)=x-x^3 \)。
+       \partsitem 不是；所给两个矩阵的任意组合，其右上角元素都为零。
+      \end{exparts}
+    \end{answer}
+  \item % \cite{Cleary} credit removed at request Cleary 2022-Sep-13
+    一位超级英雄位于二维平面上的原点处。
+    超级英雄有两件装置：一块悬浮滑板，可沿方向 $\binom{3}{1}$
+    移动任意距离；
+    以及一张魔毯，可沿方向
+    $\binom{1}{2}$ 移动任意距离。
+    \begin{exparts}
+      \partsitem 一个邪恶反派藏身于平面上点
+        $(-5,7)$ 处。
+        超级英雄要移动多少个悬浮滑板单位和多少个魔毯单位，
+        才能到达反派所在处？
+     \partsitem 平面上是否存在某个地方，可以让反派安全藏身而不被找到？
+        如果存在，给出一个这样的位置。
+        如果不存在，解释原因。
+     \partsitem 超级英雄和反派被传送到了一个三维空间，此时超级英雄拥有三件装置。
+        \begin{equation*}
+          \text{悬浮滑板: }\colvec{-1 \\ 0 \\ 3}
+          \quad
+          \text{魔毯: }\colvec{2 \\ 1 \\ 0}
+          \quad
+          \text{滑板车: }\colvec{5 \\ 4 \\ -9}
+        \end{equation*}
+        是否还有可以让反派安全藏身的地方？
+        如果有，给出一个这样的位置；如果没有，解释原因。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 关系式
+          \begin{equation*}
+            \colvec{-5 \\ 7}=a\colvec{3 \\ 1}+b\colvec{1 \\ 2}
+          \end{equation*}
+          给出如下方程组。
+          \begin{equation*}
+            \begin{linsys}{2}
+              3a &+ &b  &= &-5 \\
+               a &+ &2b &= &7
+            \end{linsys}
+            \grstep{-(1/3)\rho_1+\rho_2}
+            \begin{linsys}{2}
+              3a &+ &b      &= &-5 \\
+                 &  &(5/3)b &= &26/3
+            \end{linsys}
+          \end{equation*}
+          所以 $b=26/5$。
+          代入 $3a+(26/5)=-5$ 得 $a=-17/5$。
+          用本小节的术语来说，向量 $\binom{-5}{7}$
+          在另外两个向量构成的集合的张成之中。
+        \partsitem 没有藏身之处。
+          下面的高斯消元法化简
+          \begin{equation*}
+            \begin{linsys}{2}
+              3a &+ &b  &= &x \\
+               a &+ &2b &= &y
+            \end{linsys}
+            \grstep{-(1/3)\rho_1+\rho_2}
+            \begin{linsys}{2}
+              3a &+ &b      &= &x\hfill\hbox{} \\
+                 &  &(5/3)b &= &-(1/3)x+y
+            \end{linsys}
+          \end{equation*}
+          表明，对任意 $x,y\in\R$ 都存在一对 $a,b\in\R$。
+          用本小节的术语来说，这两个向量的张成
+          是整个平面。
+        \partsitem 没有藏身之处。
+          考虑这个方程组。
+          \begin{equation*}
+            a\colvec{-1 \\ 0 \\ 3}+b\colvec{2 \\ 1 \\ 0}+c\colvec{5 \\ 4 \\ -9}
+                = \colvec{x \\ y \\ z}
+          \end{equation*}
+          化简后
+          \begin{align*}
+            \begin{linsys}{3}
+              -a &+ &2b &+ &5c &= &x \\
+                 &  &b  &+ &4c &= &y \\
+              3a &  &   &- &9c &= &z \\
+            \end{linsys}
+            & \grstep{3\rho_1+\rho_3}
+            \begin{linsys}{3}
+              -a &+ &2b  &+ &5c &= &x\hfill\hbox{} \\
+                 &  &b   &+ &4c &= &y\hfill\hbox{} \\
+                 &  &6b  &+ &6c &= &3x+z \\
+            \end{linsys}                                  \\
+            & \grstep{-6\rho_2+\rho_3}
+            \begin{linsys}{3}
+              -a &+ &2b  &+ &5c  &= &x\hfill\hbox{} \\
+                 &  &b   &+ &4c  &= &y\hfill\hbox{} \\
+                 &  &    & &-18c &= &3x+-6y+z \\
+            \end{linsys}
+          \end{align*}
+          表明，对任意 $x,y,z\in\R$，
+          所需的 $a$、$b$ 与~$c$ 都存在。
+          超级英雄的装置张成了整个空间。
+      \end{exparts}
+    \end{answer}
+  \item
+    下列哪些是实变量实值函数构成的向量空间中
+    张成
+    \( \spanof{\set{\cos^2x,\sin^2x} } \)
+    的成员？
+    \begin{exparts*}
+      \partsitem \( f(x)=1 \)
+      \partsitem \( f(x)=3+x^2 \)
+      \partsitem \( f(x)=\sin x \)
+      \partsitem \( f(x)=\cos (2x) \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 是；它在那个张成之中，因为
+          \( 1\cdot\cos^2x+1\cdot\sin^2x=f(x) \)。
+        \partsitem 不是，因为 \( r_1\cos^2x+r_2\sin^2x=3+x^2 \) 没有对
+          所有 \( x \) 都成立的标量解。
+          例如，取 $x$ 为 $0$ 和 $\pi$ 得到两个方程 $r_1\cdot 1+r_2\cdot 0=3$ 与
+          $r_1\cdot 1+r_2\cdot 0=3+\pi^2$，二者
+          相互矛盾。
+        \partsitem 不是；考虑取 $x$ 为 $\pi/2$ 与
+          $3\pi/2$ 时的结果。
+        \partsitem 是，\( \cos (2x)=1\cdot\cos^2(x)-1\cdot\sin^2(x) \)。
+      \end{exparts}
+     \end{answer}
+  \recommended \item
+    下列哪些集合张成 \( \Re^3 \)？
+    也就是说，下列哪些集合具有这样的性质：任意三元
+    向量都可以表示为该集合元素的某个适当
+    线性组合？
+    \begin{exparts*}
+      \partsitem \( \set{ \colvec[r]{1 \\ 0 \\ 0},
+               \colvec[r]{0 \\ 2 \\ 0},
+               \colvec[r]{0 \\ 0 \\ 3}  } \)
+      \partsitem \( \set{ \colvec[r]{2 \\ 0 \\ 1},
+               \colvec[r]{1 \\ 1 \\ 0},
+               \colvec[r]{0 \\ 0 \\ 1}  } \)
+      \partsitem \( \set{ \colvec[r]{1 \\ 1 \\ 0},
+               \colvec[r]{3 \\ 0 \\ 0}  } \)
+      \partsitem \( \set{ \colvec[r]{1 \\ 0 \\ 1},
+               \colvec[r]{3 \\ 1 \\ 0},
+               \colvec[r]{-1 \\ 0 \\ 0},
+               \colvec[r]{2 \\ 1 \\ 5}  } \)
+      \partsitem \( \set{ \colvec[r]{2 \\ 1 \\ 1},
+               \colvec[r]{3 \\ 0 \\ 1},
+               \colvec[r]{5 \\ 1 \\ 2},
+               \colvec[r]{6 \\ 0 \\ 2}  } \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 是，对任意 \( x,y,z\in\Re \)，方程
+          \begin{equation*}
+             r_1\colvec[r]{1 \\ 0 \\ 0}
+             +r_2\colvec[r]{0 \\ 2 \\ 0}
+             +r_3\colvec[r]{0 \\ 0 \\ 3}
+             =\colvec{x \\ y \\ z}
+          \end{equation*}
+          有解 \( r_1=x \)，\( r_2=y/2 \) 与
+          \( r_3=z/3 \)。
+        \partsitem 是，方程
+          \begin{equation*}
+            r_1\colvec[r]{2 \\ 0 \\ 1}
+            +r_2\colvec[r]{1 \\ 1 \\ 0}
+            +r_3\colvec[r]{0 \\ 0 \\ 1}
+            =\colvec{x \\ y \\ z}
+          \end{equation*}
+          给出如下
+          \begin{equation*}
+            \begin{linsys}{3}
+              2r_1 &+  &r_2  &  &    &=  &x \\
+                   &   &r_2  &  &    &=  &y \\
+               r_1 &   &     &+ &r_3 &=  &z \\
+            \end{linsys}
+            \grstep{-(1/2)\rho_1+\rho_3}\repeatedgrstep{(1/2)\rho_2+\rho_3}
+            \begin{linsys}{3}
+              2r_1 &+  &r_2  &  &    &=  &x\hfill\hbox{} \\
+                   &   &r_2  &  &    &=  &y\hfill\hbox{} \\
+                   &   &     &  &r_3 &=  &-(1/2)x+(1/2)y+z \\
+            \end{linsys}
+          \end{equation*}
+          于是，给定任意 $x$、$y$ 和 $z$，我们可以算出
+          \( r_3=(-1/2)x+(1/2)y+z \)、\( r_2=y \) 与
+          \( r_1=(1/2)x-(1/2)y \)。
+        \partsitem 不是。
+          特别地，我们无法得到向量
+          \begin{equation*}
+            \colvec[r]{0 \\ 0 \\ 1}
+          \end{equation*}
+          的线性组合，因为所给的两个
+          向量的第三个分量都为零。
+       \partsitem 是。
+         方程
+         \begin{equation*}
+           r_1\colvec[r]{1 \\ 0 \\ 1}
+           +r_2\colvec[r]{3 \\ 1 \\ 0}
+           +r_3\colvec[r]{-1\\ 0 \\ 0}
+           +r_4\colvec[r]{2 \\ 1 \\ 5}
+           =\colvec{x \\ y \\ z}
+         \end{equation*}
+         导出如下化简。
+         \begin{equation*}
+           \begin{amat}{4}
+             1  &3  &-1  &2  &x  \\
+             0  &1  &0   &1  &y  \\
+             1  &0  &0   &5  &z
+           \end{amat}
+           \grstep{-\rho_1+\rho_3}\repeatedgrstep{3\rho_2+\rho_3}
+           \begin{amat}{4}
+             1  &3  &-1  &2  &x \\
+             0  &1  &0   &1  &y  \\
+             0  &0  &1   &6  &-x+3y+z
+           \end{amat}
+         \end{equation*}
+         它有无穷多解。
+         例如，我们可以取 $r_4$ 为零，然后按通常的
+         回代方法，用 $x$、$y$ 和 $z$ 解出
+         $r_3$、$r_2$ 和 $r_1$。
+       \partsitem 不是。
+         方程
+         \begin{equation*}
+           r_1\colvec[r]{2 \\ 1 \\ 1}
+           +r_2\colvec[r]{3 \\ 0 \\ 1}
+           +r_3\colvec[r]{5 \\ 1 \\ 2}
+           +r_4\colvec[r]{6 \\ 0 \\ 2}
+           =\colvec{x \\ y \\ z}
+         \end{equation*}
+         导出如下化简。
+         \begin{multline*}
+           \begin{amat}{4}
+             2  &3  &5   &6  &x  \\
+             1  &0  &1   &0  &y  \\
+             1  &1  &2   &2  &z
+           \end{amat}                                             \\
+           \grstep[-(1/2)\rho_1+\rho_3]{-(1/2)\rho_1+\rho_2}
+           \repeatedgrstep{-(1/3)\rho_2+\rho_3}
+           \begin{amat}{4}
+             2  &3     &5     &6  &x \\
+             0  &-3/2  &-3/2  &-3 &-(1/2)x+y  \\
+             0  &0     &0     &0  &-(1/3)x-(1/3)y+z
+           \end{amat}
+         \end{multline*}
+         这表明并非每个三元向量都能如此表示。
+         只有满足约束 $-(1/3)x-(1/3)y+z=0$ 的向量才在张成之中。
+         （要看出任何这样的向量确实可以表示，
+         可取 $r_3$ 与 $r_4$
+         为零，然后用回代法以 $x$、$y$ 和
+         $z$ 解出 $r_1$ 与 $r_2$。）
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    对每个子空间的描述给出参数化。
+    然后把每个子空间表示为一个张成。
+    \begin{exparts}
+      \partsitem  三宽行向量中的子集
+        \( \set{\rowvec{a &b &c}\suchthat a-c=0}   \)
+      \partsitem \( \matspace_{\nbyn{2}} \) 的这个子集
+        \begin{equation*}
+          \set{\begin{mat}
+                 a  &b  \\
+                 c  &d
+               \end{mat}  \suchthat a+d=0}
+        \end{equation*}
+      \partsitem \( \matspace_{\nbyn{2}} \) 的这个子集
+        \begin{equation*}
+          \set{\begin{mat}
+                 a  &b  \\
+                 c  &d
+               \end{mat}  \suchthat \text{\( 2a-c-d=0 \)
+                                               且 \( a+3b=0 \)} }
+        \end{equation*}
+      \partsitem 子集 \( \set{a+bx+cx^3\suchthat a-2b+c=0} \)，
+        属于 \( \polyspace_3 \)
+      \partsitem \( \polyspace_2 \) 的子集：满足 \( p(7)=0 \) 的
+        次数不超过二的多项式 \( p \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem \( \set{\rowvec{c &b &c}\suchthat b,c\in\Re}
+                      =\set{b\rowvec{0 &1 &0}+c\rowvec{1 &0 &1}
+                        \suchthat b,c\in\Re} \)
+           张成集合的显然选择是
+           $\set{\rowvec{0 &1 &0},\rowvec{1 &0 &1}}$。
+        \partsitem \( \set{\begin{mat}
+                       -d &b  \\
+                       c  &d
+                      \end{mat} \suchthat b,c,d\in\Re}
+                     =\set{b\begin{mat}[r]
+                       0  &1  \\
+                       0  &0
+                      \end{mat}
+                     +c\begin{mat}[r]
+                       0  &0  \\
+                       1  &0
+                      \end{mat}
+                     +d\begin{mat}[r]
+                       -1  &0  \\
+                       0  &1
+                      \end{mat}  \suchthat b,c,d\in\Re} \)
+            张成这个空间的一个集合就由这三个矩阵组成。
+        \partsitem 方程组
+          \begin{equation*}
+            \begin{linsys}{4}
+              a  &+  &3b  &   &   &  &  &=  &0  \\
+             2a  &   &    &   &-c &- &d &=  &0
+            \end{linsys}
+          \end{equation*}
+          给出 \( b=-(c+d)/6 \) 与 \( a=(c+d)/2 \)。
+          于是一种描述如下。
+          \begin{equation*}
+            \set{c\begin{mat}[r]
+                       1/2  &-1/6  \\
+                       1    &0
+                      \end{mat}
+                     +d\begin{mat}[r]
+                       1/2  &-1/6  \\
+                       0    &1
+                      \end{mat}  \suchthat c,d\in\Re}
+           \end{equation*}
+          这表明张成该子空间的一个集合由那
+          两个矩阵组成。
+        \partsitem 由 $a=2b-c$ 可知，集合
+           \( \set{(2b-c)+bx+cx^3 \suchthat b,c\in\Re} \)
+           等于集合
+           \( \set{b(2+x)+c(-1+x^3) \suchthat b,c\in\Re}  \)。
+           所以该子空间是集合 $\set{2+x, -1+x^3}$ 的张成。
+        \partsitem 集合
+          \( \set{a+bx+cx^2\suchthat a+7b+49c=0} \)
+          可以参数化为
+          \begin{equation*}
+            \set{b(-7+x)+c(-49+x^2)\suchthat b,c\in\Re}
+          \end{equation*}
+          因此
+          有张成集 $\set{-7+x,-49+x^2}$。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    对给定空间中的给定子空间，求一个张成它的集合。
+    （\textit{提示。}先对每一个作参数化。）
+    \begin{exparts}
+      \partsitem  \( \Re^3 \) 中的 \( xz \) 平面
+      \partsitem \( \set{\colvec{x \\ y \\ z}\suchthat 3x+2y+z=0} \)
+            在 \( \Re^3 \) 中
+      \partsitem \( \set{\colvec{x \\ y \\ z \\ w}\suchthat
+                       2x+y+w=0 \text{\ 且\ } y+2z=0} \)
+            在 \( \Re^4 \) 中
+      \partsitem \( \set{a_0+a_1x+a_2x^2+a_3x^3\suchthat
+                        a_0+a_1=0 \text{\ 且\ } a_2-a_3=0} \)
+            在 \( \polyspace_3 \) 中
+      \partsitem 空间 \( \polyspace_4 \) 中的集合 \( \polyspace_4 \)
+      \partsitem \( \matspace_{\nbyn{2}} \) 中的 \( \matspace_{\nbyn{2}} \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 我们可以这样参数化
+          \begin{equation*}
+             \set{\colvec{x \\ 0 \\ z}\suchthat x,z\in\Re}
+             =\set{x\colvec[r]{1 \\ 0 \\ 0}
+                  +z\colvec[r]{0 \\ 0 \\ 1}\suchthat x,z\in\Re}
+          \end{equation*}
+          由此得到张成集如下。
+          \begin{equation*}
+             \set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 0 \\ 1}}
+          \end{equation*}
+        \item 这是参数化描述，以及相应的张成集。
+          \begin{equation*}
+             \set{y\colvec[r]{-2/3 \\ 1 \\ 0}+z\colvec[r]{-1/3 \\ 0 \\ 1}
+                 \suchthat y,z\in\Re }
+             \qquad
+             \set{\colvec[r]{-2/3 \\ 1 \\ 0},\colvec[r]{-1/3 \\ 0 \\ 1} }
+          \end{equation*}
+        \partsitem \( \set{\colvec[r]{1 \\ -2 \\ 1 \\ 0},
+                      \colvec[r]{-1/2 \\ 0 \\ 0 \\ 1} } \)
+        \partsitem 把描述参数化为
+          \( \set{-a_1+a_1x+a_3x^2+a_3x^3\suchthat a_1,a_3\in\Re } \)
+          得到 \( \set{-1+x,x^2+x^3}. \)
+        \partsitem \( \set{1,x,x^2,x^3,x^4} \)
+        \partsitem \( \set{ \begin{mat}[r]
+                   1  &0  \\
+                   0  &0
+                 \end{mat},
+                 \begin{mat}[r]
+                   0  &1  \\
+                   0  &0
+                 \end{mat},
+                 \begin{mat}[r]
+                   0  &0  \\
+                   1  &0
+                 \end{mat},
+                 \begin{mat}[r]
+                   0  &0  \\
+                   0  &1
+                 \end{mat} } \)
+      \end{exparts}
+    \end{answer}
+  \item
+    \( \Re^2 \) 是 \( \Re^3 \) 的子空间吗？
+    \begin{answer}
+      严格地说，不是。
+      \( \Re^3 \) 的子空间都是三元向量构成的集合，而
+      \( \Re^2 \) 是二元向量构成的集合。
+      不过显然，\( \Re^2 \) 与 \( \Re^3 \) 的这个子空间“几乎
+      一样”。
+      \begin{equation*}
+        \set{\colvec{x \\ y \\ 0}\suchthat x,y\in\Re}
+      \end{equation*}
+    \end{answer}
+  \recommended \item
+    判断下列每一个是否为实变量实值函数构成的向量空间的子空间。
+    \begin{exparts}
+      \partsitem \definend{偶}\index{function!even}\index{even functions} 函数
+        \( \set{\map{f}{\Re}{\Re} \suchthat f(-x)=f(x) \text{对一切 } x} \)。
+        例如，该集合的两个成员是 $f_1(x)=x^2$
+        与 $f_2(x)=\cos (x)$。
+      \partsitem \definend{奇}\index{function!odd}\index{odd function}
+        函数
+        \( \set{\map{f}{\Re}{\Re} \suchthat f(-x)=-f(x) \text{对一切 } x} \)。
+        两个成员是 $f_3(x)=x^3$ 与 $f_4(x)=\sin(x)$。
+    \end{exparts}
+    \begin{answer}
+      当然，加法与标量乘法运算就是
+      从外围空间继承的那两个运算。
+      \begin{exparts}
+        \partsitem 这是一个子空间。
+          它不是空集，因为它至少包含上面给出的两个示例函数。
+          它是封闭的，因为若 \( f_1,f_2 \) 是偶函数且
+          \( c_1,c_2 \) 是标量，则有下式。
+          \begin{equation*}
+            (c_1f_1+c_2f_2)\,(-x)
+            =c_1\,f_1(-x)+c_2\,f_2(-x)
+            =c_1\,f_1(x)+c_2\,f_2(x)
+            =(c_1f_1+c_2f_2)\,(x)
+          \end{equation*}
+        \partsitem 这也是一个子空间；验证方法与
+          前一个类似。
+      \end{exparts}
+    \end{answer}
+  \item
+    \nearbyexample{ex:SpanSingVec} 说明，对向量空间 $V$ 中任一向量 $\vec{v}$，
+    集合 $\set{r\cdot\vec{v}\suchthat r\in\Re}$
+    是 $V$ 的一个子空间。
+    （这不过是单元素集 $\set{\vec{v}}$ 的
+    张成\index{span!of a singleton}。）
+    这样的子空间是否一定是真子空间？
+    \begin{answer}
+      它可以不是真子空间。
+      例如，
+      若向量空间是 \( \Re^1 \) 且 \( \vec{v}\neq\zero\, \)，
+      则子空间 $\set{r\cdot\vec{v}\suchthat r\in\Re}$
+      就是整个 $\Re^1$。
+    \end{answer}
+  \item
+    向量空间定义之后的一个例子表明，
+    齐次线性方程组的解集是一个向量空间。
+    用本小节的术语来说，当方程组有 $n$ 个变量时，它是 $\Re^n$ 的一个子空间。
+    那么非齐次线性方程组呢；它的解是否构成一个
+    子空间（在继承的运算下）？
+    \begin{answer}
+      不构成，这样的集合不封闭。
+      首先，它不包含零向量。
+    \end{answer}
+  \item \cite{Cleary}
+   就下列每一条给出一个例子，或者解释为什么
+   不可能给出。
+   \begin{exparts}
+     \item $\matspace_{\nbyn{2}}$ 的一个不是
+       子空间的非空子集。
+     \item $\Re^2$ 中一个不张成该空间的两向量集合。
+   \end{exparts}
+   \begin{answer}
+     \begin{exparts}
+       \item $\matspace_{\nbyn{2}}$ 的这个非空子集不是子空间。
+         \begin{equation*}
+           A=\set{
+             \begin{mat}[r]
+               1 &2 \\
+               3 &4
+             \end{mat},
+             \begin{mat}[r]
+               5 &6 \\
+               7 &8
+             \end{mat}}
+         \end{equation*}
+         它不是 $\matspace_{\nbyn{2}}$ 的子空间的一个理由是
+         它不包含零矩阵。
+         （另一个理由是它对加法不封闭，因为两者的和
+         不是 $A$ 的元素。
+         它对标量乘法也不封闭。）
+        \item 这个由两个向量构成的集合不张成 $\Re^2$。
+          \begin{equation*}
+            \set{\colvec[r]{1 \\ 1},\colvec[r]{3 \\ 3}}
+          \end{equation*}
+          这两个向量的任何线性组合都无法给出
+          第二个分量不等于第一个分量的向量。
+      \end{exparts}
+   \end{answer}
+  \item
+    \nearbyexample{ex:SubspRThree} 表明
+    $\Re^3$ 有无穷多个子空间。
+    是否每个非平凡空间都有无穷多个子空间？
+    \begin{answer}
+      不是。
+      \( \Re^1 \) 仅有的子空间是它本身与其
+      平凡子空间。
+      $\Re$ 的任何包含非零成员 $\vec{v}$ 的子空间 $S$
+      必须包含其全部标量倍数构成的集合
+      $\set{r\cdot\vec{v}\suchthat r\in\Re}$。
+      但这个集合就是整个 $\Re$。
+    \end{answer}
+  \item \label{exer:SubspIffClosed}
+    补全 \nearbylemma{th:SubspIffClosed} 的证明。
+    \begin{answer}
+      第~(1) 项已在正文中验证。
+

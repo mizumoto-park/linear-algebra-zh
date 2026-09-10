@@ -1,0 +1,2657 @@
+% 翻译状态：第 II 节全部初译（含练习和答案）；待人工校对。
+% Chapter 3, Section 2 _Linear Algebra_ Jim Hefferon
+%  http://joshua.smcvt.edu/linearalgebra
+%  2001-Jun-11
+\section{同态}
+同构的定义有两个条件。
+本节只考察第二个条件。
+我们将研究只要求保持结构、
+而不要求是一一对应的映射。
+
+经验表明，这些映射非常有用。
+例如，在下面的第二小节中我们将看到：
+同构描述空间怎样“相同”，而这些映射可以理解为描述空间怎样“相似”。
+
+
+
+
+
+
+
+
+\subsection{定义}
+
+\begin{definition}  \label{def:Homo}
+%<*df:Homo>
+向量空间之间的函数 \( \map{h}{V}{W} \)，若
+保持\index{preserves structure}\index{structure! preservation}
+加法
+\begin{center}
+  若 \( \vec{v}_1,\vec{v}_2\in V \)，则
+      \( h(\vec{v}_1+\vec{v}_2)=h(\vec{v}_1)+h(\vec{v}_2) \)
+\end{center}
+以及标量乘法
+\begin{center}
+      若 \( \vec{v}\in V \) 且 \( r\in\Re \)，则
+      \( h(r\cdot\vec{v})=r\cdot h(\vec{v}) \)
+\end{center}
+就称为\definend{同态}\index{homomorphism}\index{linear map}%
+\index{function!structure preserving!\see{homomorphism}}%
+\index{vector space!homomorphism}\index{vector space!map}
+或\definend{线性映射}\index{linear map|seealso{homomorphism}}。
+%</df:Homo>
+\end{definition}
+
+\begin{example}    \label{ex:RThreeHomoRTwoFirst}
+投影\index{projection}
+映射 \( \map{\pi}{\Re^3}{\Re^2} \)
+\begin{equation*}
+   \colvec{x \\ y \\ z}
+    \mapsunder{\pi}
+   \colvec{x \\ y}
+\end{equation*}
+是同态。
+它保持加法
+\begin{equation*}
+  \pi(\colvec{x_1 \\ y_1 \\ z_1}\!+\!\colvec{x_2 \\ y_2 \\ z_2})
+  =
+  \pi(\colvec{x_1+x_2 \\ y_1+y_2 \\ z_1+z_2})
+  =
+  \colvec{x_1+x_2 \\ y_1+y_2}
+  =
+  \pi(\colvec{x_1 \\ y_1 \\ z_1})
+  +
+  \pi(\colvec{x_2 \\ y_2 \\ z_2})
+\end{equation*}
+以及标量乘法。
+\begin{equation*}
+  \pi(r\cdot\colvec{x_1 \\ y_1 \\ z_1})
+  =
+  \pi(\colvec{rx_1 \\ ry_1 \\ rz_1})
+  =
+  \colvec{rx_1 \\ ry_1}
+  =
+  r\cdot\pi(\colvec{x_1 \\ y_1 \\ z_1})
+\end{equation*}
+它不是同构，因为它不是单射。
+例如，$\Re^3$ 中的 $\zero$ 与 $\vec{e}_3$ 都映到
+$\Re^2$ 中的零向量。
+\end{example}
+
+\begin{example} \label{exam:TwoMapsHomoNotIso}
+定义域和陪域不一定是列向量空间。
+下面两个映射都是同态；验证很直接。
+\begin{enumerate}
+  \item \( \map{f_1}{\polyspace_2}{\polyspace_3} \) 定义为
+    \begin{equation*}
+      a_0+a_1x+a_2x^2 \;\mapsto\; a_0x+(a_1/2)x^2+(a_2/3)x^3 
+    \end{equation*}
+  \item \( \map{f_2}{M_{\nbyn{2}}}{\Re} \) 定义为
+    \begin{equation*}
+      \begin{mat}
+        a  &b  \\
+        c  &d
+      \end{mat}
+        \mapsto
+      a+d
+    \end{equation*}
+\end{enumerate}
+\end{example}
+
+\begin{example}
+任意两个空间之间都有一个\definend{零同态}，%
+\index{zero homomorphism}\index{homomorphism!zero}\index{function!zero}
+它把定义域中的每个向量都映到陪域中的零向量。
+\end{example}
+
+我们将交替使用“同态”和“线性映射”这两个术语。
+
+\begin{example}
+下面两个例子说明为什么使用“线性映射”这个名称。
+\begin{enumerate}
+  \item 映射 \( \map{g}{\Re^3}{\Re} \) 定义为
+    \begin{equation*}
+      \colvec{x \\ y \\ z}
+        \mapsunder{g}
+      3x+2y-4.5z
+    \end{equation*}
+    它是线性的，也就是说，它是同态。
+    这很容易验证。
+    相比之下，映射 \( \map{\hat{g}}{\Re^3}{\Re} \) 定义为
+    \begin{equation*}
+      \colvec{x \\ y \\ z}
+        \mapsunder{\hat{g}}
+      3x+2y-4.5z+1
+    \end{equation*}
+    它不是线性的。
+    要说明这一点，只需给出一个它不保持的线性组合。
+    下面就是一个例子。
+    \begin{equation*}
+      \hat{g}(\colvec[r]{0 \\ 0 \\ 0}+\colvec[r]{1 \\ 0 \\ 0})=4
+      \qquad
+      \hat{g}(\colvec[r]{0 \\ 0 \\ 0})
+      +\hat{g}(\colvec[r]{1 \\ 0 \\ 0})=5
+    \end{equation*}
+  \item 下列两个映射 \( \map{t_1,t_2}{\Re^3}{\Re^2} \) 中，
+    第一个是线性的，第二个不是。
+    \begin{equation*}
+      \colvec{x \\ y \\ z}
+        \mapsunder{t_1}
+      \colvec{5x-2y \\ x+y}
+      \qquad
+      \colvec{x \\ y \\ z}
+        \mapsunder{t_2}
+      \colvec{5x-2y \\ xy}
+    \end{equation*}
+    很容易找到一个第二个映射不保持的线性组合。
+\end{enumerate}
+% The homomorphisms have 
+% coordinate functions that are linear combinations of the arguments.
+% See also \nearbyexercise{exer:GrpahNotALine}.
+\end{example}
+
+因此，可以把“同态”理解为对“同构”的推广
+（去掉映射必须是一一对应这一条件）。
+这样做的动机是：同构的许多性质只与保持结构有关。
+下面两个结果就体现了这一点。
+在前一节中，我们已经分别给出证明，
+它们只用到保持加法和保持标量乘法，因而也适用于同态。
+
+\begin{lemma}       \label{le:HomoSendsZeroToZero}
+%<*lm:HomoSendsZeroToZero>
+线性映射把零向量映到零向量。
+%</lm:HomoSendsZeroToZero>
+\end{lemma}
+
+\begin{lemma}  \label{le:HomoPreserveLinCombo}
+%<*lm:HomoPreserveLinCombo>
+对向量空间之间的任意映射
+\( \map{f}{V}{W} \)，下列命题等价。
+\begin{tfae}
+  \item 
+    $f$ 是同态
+  \item 
+    对任意 \( c_1,c_2\in\Re \) 和 \( \vec{v}_1,\vec{v}_2\in V \)，有
+    $f(c_1\cdot\vec{v}_1+c_2\cdot\vec{v}_2)
+      =c_1\cdot f(\vec{v}_1)+c_2\cdot f(\vec{v}_2)$
+  \item
+    对任意 \( c_1,\dots,c_n\in\Re \) 和
+    \( \vec{v}_1,\ldots,\vec{v}_n\in V \)，有
+    $f(c_1\cdot\vec{v}_1+\dots+c_n\cdot\vec{v}_n)
+    =c_1\cdot f(\vec{v}_1)+\dots+c_n\cdot f(\vec{v}_n)$
+\end{tfae}
+%</lm:HomoPreserveLinCombo>
+\end{lemma}
+
+\begin{example}
+函数 \( \map{f}{\Re^2}{\Re^4} \) 定义为
+\begin{equation*}
+  \colvec{x \\ y}
+    \mapsunder{f}
+  \colvec{x/2 \\ 0 \\ x+y \\ 3y}
+\end{equation*}
+它是线性的，因为它满足第~(2) 项。
+\begin{equation*}
+  \colvec{r_1(x_1/2)+r_2(x_2/2) \\ 0 \\ 
+                 r_1(x_1+y_1)+r_2(x_2+y_2) \\ r_1(3y_1)+r_2(3y_2)}
+   =
+  r_1\colvec{x_1/2 \\ 0 \\ x_1+y_1 \\ 3y_1}
+   +
+  r_2\colvec{x_2/2 \\ 0 \\ x_2+y_2 \\ 3y_2}
+\end{equation*}
+\end{example}
+
+不过，有些对同构成立的结论，对同态并不成立。
+例如，引理~I.\ref{lem:IsoImpliesSameDim} 的证明说明，
+空间之间的同构给出了它们的基之间的一一对应。
+同态不会给出这样的对应；\nearbyexample{ex:RThreeHomoRTwoFirst}
+已经说明这一点，两个非平凡空间之间的零映射也是一个例子。
+对于同态，我们有一个较弱但仍然非常有用的结果。
+
+\begin{theorem} \label{th:HomoDetActOnBasis}
+%<*th:HomoDetActOnBasis>
+同态由它在一组基上的作用唯一确定：~设 $V$ 是向量空间，基为
+\( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)，
+$W$ 是向量空间，且 \( \vec{w}_1,\dots,\vec{w}_n\in W \)
+（这些陪域元素不必互不相同），
+则存在唯一一个从 \( V \) 到 \( W \) 的同态，
+把每个 \( \vec{\beta}_i \) 映到 \( \vec{w}_i \)。
+%</th:HomoDetActOnBasis>
+\end{theorem}
+
+\begin{proof}
+%<*pf:HomoDetActOnBasis0>
+对于任意输入 $\vec{v}\in V$，设它关于这组基的表示为
+\( \vec{v}=c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n \)。
+使用相同的坐标定义相应的输出：
+$h(\vec{v})=c_1\vec{w}_1+\dots+c_n\vec{w}_n$。
+这是良定义的，因为定义域中每个向量 \( \vec{v} \) 关于这组基的表示都是唯一的。
+%</pf:HomoDetActOnBasis0>
+
+%<*pf:HomoDetActOnBasis1>
+这个映射是同态，因为它保持线性组合：
+若 \( \vec{v_1}=c_1\vec{\beta}_1+\cdots+c_n\vec{\beta}_n \) 且
+\( \vec{v_2}=d_1\vec{\beta}_1+\cdots+d_n\vec{\beta}_n \)，则计算如下。
+\begin{align*}
+  h(r_1\vec{v}_1+r_2\vec{v}_2)
+  &=h(\,(r_1c_1+r_2d_1)\vec{\beta}_1+\dots+(r_1c_n+r_2d_n)\vec{\beta}_n\,)  \\
+  &=(r_1c_1+r_2d_1)\vec{w}_1+\dots+(r_1c_n+r_2d_n)\vec{w}_n   \\
+  &=r_1h(\vec{v}_1)+r_2h(\vec{v}_2)
+\end{align*}
+%</pf:HomoDetActOnBasis1>
+
+%<*pf:HomoDetActOnBasis2>
+这个映射是唯一的，因为若 \( \map{\hat{h}}{V}{W} \) 是另一个同态，
+对每个 \( i \) 都满足 \( \hat{h}(\vec{\beta}_i)=\vec{w}_i \)，
+则 \( h \) 与 \( \hat{h} \) 对定义域中的所有向量都有相同的作用。
+\begin{multline*}
+  \hat{h}(\vec{v})
+  =\hat{h}(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)  
+  =c_1 \hat{h}(\vec{\beta}_1)+\dots+c_n \hat{h}(\vec{\beta}_n)  \\  
+  =c_1\vec{w}_1+\dots+c_n\vec{w}_n 
+  =h(\vec{v})
+\end{multline*}
+它们的作用相同，所以是同一个函数。
+%</pf:HomoDetActOnBasis2>
+\end{proof}
+
+\begin{definition} \label{df:ExtendedLinearly}
+%<*df:ExtendedLinearly>
+设 $V$ 与~$W$ 是向量空间，
+$B=\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_n}$ 是~$V$ 的一组基。
+如果定义在这组基上的函数 $\map{f}{B}{W}$
+扩展为函数 $\map{\hat{f}}{V}{W}$，且对所有满足
+$\vec{v}=c_1\vec{\beta}_1+\cdots+c_n\vec{\beta}_n$ 的 $\vec{v}\in V$，
+映射的作用都是
+$\hat{f}(\vec{v})=c_1\cdot f(\vec{\beta}_1)
+  +\cdots+c_n\cdot f(\vec{\beta}_n)$，
+则称这个函数作了\definend{线性扩展}\index{extended, linearly}\index{function!extended linearly}\index{linear extension of a function}。
+%</df:ExtendedLinearly>
+\end{definition}
+
+
+\begin{example}
+若规定映射 \( \map{h}{\Re^2}{\Re^2} \)
+在标准基 $\stdbasis_2$ 上的作用如下
+\begin{equation*}
+  h(\colvec[r]{1 \\ 0})=\colvec[r]{-1 \\ 1}
+  \qquad
+  h(\colvec[r]{0 \\ 1})=\colvec[r]{-4 \\ 4}
+\end{equation*}
+就也规定了 $h$ 对定义域中其他任意元素的作用。
+例如，$h$ 在下面这个输入上的取值
+\begin{equation*}
+  h(\colvec[r]{3 \\ -2})=h(3\cdot \colvec[r]{1 \\ 0}-2\cdot \colvec[r]{0 \\ 1})
+                      =3\cdot h(\colvec[r]{1 \\ 0})-2\cdot h(\colvec[r]{0 \\ 1})
+                      =\colvec[r]{5 \\ -5}
+\end{equation*}
+可直接由 $h$ 在基向量上的取值推出。
+\end{example}
+
+本章后面将利用矩阵，为这样的计算建立一套方便的方法。
+
+% Just as the isomorphisms of a space with itself are useful and interesting, 
+% so too are the homomorphisms of a space with itself.
+
+\begin{definition} \label{df:LinearTransformation}
+%<*df:LinearTransformation>
+从一个空间到它自身的线性映射 \( \map{t}{V}{V} \)，称为
+\definend{线性变换}\index{linear transformation}\index{linear transformation|seealso{transformation}}。
+%</df:LinearTransformation>
+\end{definition}
+
+\begin{remark}
+本书只在陪域与定义域相同时使用“线性变换”这一术语。
+请注意，有些资料把它用作“线性映射”的同义词。
+另一个同义词是“线性算子”。
+\end{remark}
+
+\begin{example}
+把 $\Re^2$ 中所有向量投影到 $x$ 轴上的映射是线性变换。
+\begin{equation*}
+  \colvec{x \\ y}\mapsto\colvec{x \\ 0}
+\end{equation*}
+\end{example}
+
+\begin{example}
+求导映射 \( \map{d/dx}{\polyspace_n}{\polyspace_n} \)
+\begin{equation*}
+  a_0+a_1x+\cdots+a_nx^n
+    \mapsunder{d/dx}
+  a_1+2a_2x+3a_3x^2+\cdots+na_nx^{n-1}
+\end{equation*}
+是线性变换，微积分中的下列结果说明了这一点：
+\( d(c_1f+c_2g)/dx=c_1\,(df/dx)+c_2\,(dg/dx) \)。
+\end{example}
+
+\begin{example} \label{ex:MatTransMapLinear}
+矩阵转置运算
+\begin{equation*}
+  \begin{mat}
+    a  &b  \\
+    c  &d
+  \end{mat}
+  \;\mapsto\;
+  \begin{mat}
+    a  &c  \\
+    b  &d
+  \end{mat}
+\end{equation*}
+是 \( \matspace_{\nbyn{2}} \) 上的线性变换。
+（转置既是单射又是满射，因此实际上是自同构。）
+\end{example}
+
+在结束这个关于映射的小节前，回顾一下：映射也可以作线性组合。
+例如，对下面两个从 \( \Re^2 \) 到自身的映射
+\begin{equation*}
+  \colvec{x \\ y}
+   \mapsunder{f}
+  \colvec{2x \\ 3x-2y}
+  \quad\text{且}\quad
+  \colvec{x \\ y}
+   \mapsunder{g}
+  \colvec{0 \\ 5x}
+\end{equation*}
+线性组合 \( 5f-2g \) 也是~$\Re^2$ 上的变换。
+\begin{equation*}
+  \colvec{x \\ y}
+   \mapsunder{5f-2g}
+  \colvec{10x \\ 5x-10y}
+\end{equation*}
+
+\begin{lemma} \label{le:SpLinFcns}
+%<*lm:SpLinFcns>
+对于向量空间 \( V \) 和 \( W \)，
+从 \( V \) 到 \( W \) 的所有线性函数组成的集合本身也是向量空间，
+是从 \( V \) 到 \( W \) 的所有函数组成的空间的子空间。
+%</lm:SpLinFcns>
+\end{lemma}
+
+%<*SpLinFcns>
+\noindent 把从 $V$ 到~$W$ 的线性映射所成的空间记为
+\( \linmaps{V}{W} \)。\index{linear maps, vector space of}
+%</SpLinFcns>
+
+\begin{proof}
+%<*pf:SpLinFcns>
+这个集合包含零同态，因此非空。
+所以，要证明它是子空间，只需验证它对运算封闭。
+设 \( \map{f,g}{V}{W} \) 是线性映射。
+函数相加后仍保持线性组合
+\begin{align*}
+   (f+g)(c_1\vec{v}_1+c_2\vec{v}_2)
+   &=f(c_1\vec{v}_1+c_2\vec{v}_2) + 
+   g(c_1\vec{v}_1+c_2\vec{v}_2)       \\
+   &=c_1f(\vec{v}_1)+c_2f(\vec{v}_2)
+   +c_1g(\vec{v}_1)+c_2g(\vec{v}_2)   \\
+   &=c_1\bigl(f+g\bigr)(\vec{v}_1)+c_2\bigl(f+g\bigr)(\vec{v}_2)
+\end{align*}
+函数乘以标量后也仍保持线性组合。
+\begin{align*}
+   (r\cdot f)(c_1\vec{v}_1+c_2\vec{v}_2)
+   &=r(c_1f(\vec{v}_1)+c_2f(\vec{v}_2))  \\
+   &=c_1(r\cdot f)(\vec{v}_1)+c_2(r\cdot f)(\vec{v}_2)
+\end{align*}
+因此 \( \linmaps{V}{W} \) 是子空间。
+%</pf:SpLinFcns>
+\end{proof}
+
+本节开头，我们从“同构”中单独抽出保持结构这一性质，
+定义了作为其推广的“同态”。
+关于同构的一些结论可以原样沿用，另一些则需要调整。
+
+不过，“同态”的概念绝不是次于“同构”的概念。
+本章其余部分主要研究同态。
+部分原因是，关于同态的结论自动适用于同构；
+更主要的原因是，虽然同构的概念更自然，
+但我们将看到，同态的概念能带来更多成果，对进一步研究更为关键。
+
+\begin{exercises}
+  \recommended \item
+    判断下列各映射 \( \map{h}{\Re^3}{\Re^2} \) 是否线性。
+    \begin{exparts*}
+      \partsitem \( h(\colvec{x \\ y \\ z})=\colvec{x \\ x+y+z}  \)
+      \partsitem \( h(\colvec{x \\ y \\ z})=\colvec[r]{0 \\ 0}  \)
+      \partsitem \( h(\colvec{x \\ y \\ z})=\colvec[r]{1 \\ 1}  \)
+      \partsitem \( h(\colvec{x \\ y \\ z})=\colvec{2x+y \\ 3y-4z}  \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 是。
+          验证很直接。
+          \begin{align*}
+            h( c_1\cdot\colvec{x_1 \\ y_1 \\ z_1}
+               +c_2\cdot\colvec{x_2 \\ y_2 \\ z_2} )
+            &=h( \colvec{c_1x_1+c_2x_2 \\ c_1y_1+c_2y_2 \\ c_1z_1+c_2z_2} ) \\
+            &=\colvec{c_1x_1+c_2x_2 \\ 
+                     c_1x_1+c_2x_2+c_1y_1+c_2y_2+c_1z_1+c_2z_2}          \\
+            &=c_1\cdot\colvec{x_1 \\ x_1+y_1+z_1}
+               +c_2\cdot\colvec{x_2 \\ c_2+y_2+z_2}                       \\  
+            &=c_1\cdot h(\colvec{x_1 \\ y_1 \\ z_1}) 
+               +c_2\cdot h(\colvec{x_2 \\ y_2 \\ z_2})
+          \end{align*}
+        \partsitem 是。
+          很容易验证。
+          \begin{align*}
+            h(c_1\cdot\colvec{x_1 \\ y_1 \\ z_1}
+              +c_2\cdot\colvec{x_2 \\ y_2 \\ z_2})
+            &=h( \colvec{c_1x_1+c_2x_2 \\ c_1y_1+c_2y_2 \\ c_1z_1+c_2z_2} ) \\
+            &=\colvec[r]{0 \\ 0}                                      \\
+            &=c_1\cdot h(\colvec{x_1 \\ y_1 \\ z_1}) 
+               +c_2\cdot h(\colvec{x_2 \\ y_2 \\ z_2})            
+          \end{align*}
+        \partsitem 不是。
+          下面给出一个不保持加法的例子。
+          \begin{equation*}
+            h(\colvec[r]{0 \\ 0 \\ 0}+\colvec[r]{0 \\ 0 \\ 0})
+            =\colvec[r]{1 \\ 1}
+            \neq h(\colvec[r]{0 \\ 0 \\ 0})+h(\colvec[r]{0 \\ 0 \\ 0})
+          \end{equation*}
+        \partsitem 是。
+           验证很直接。
+          \begin{align*}
+            h( c_1\cdot\colvec{x_1 \\ y_1 \\ z_1}
+               +c_2\cdot\colvec{x_2 \\ y_2 \\ z_2} )
+            &=h( \colvec{c_1x_1+c_2x_2 \\ c_1y_1+c_2y_2 \\ c_1z_1+c_2z_2} ) \\
+            &=\colvec{2(c_1x_1+c_2x_2)+(c_1y_1+c_2y_2) \\ 
+                      3(c_1y_1+c_2y_2)-4(c_1z_1+c_2z_2)}          \\
+            &=c_1\cdot\colvec{2x_1+y_1 \\ 3y_1-4z_1}
+               +c_2\cdot\colvec{2x_2+y_2 \\ 3y_2-4z_2}            \\  
+            &=c_1\cdot h(\colvec{x_1 \\ y_1 \\ z_1}) 
+               +c_2\cdot h(\colvec{x_2 \\ y_2 \\ z_2})
+          \end{align*}
+      \end{exparts}  
+    \end{answer}
+  \recommended \item
+    判断下列各映射 \( \map{h}{\matspace_{\nbyn{2}}}{\Re} \) 是否线性。
+    \begin{exparts}
+      \partsitem \( h(\begin{mat} a &b  \\ c &d \end{mat})=a+d  \)
+      \partsitem \( h(\begin{mat} a &b  \\ c &d \end{mat})=ad-bc  \)
+      \partsitem \( h(\begin{mat} a &b \\ c &d \end{mat})=2a+3b+c-d  \)
+      \partsitem \( h(\begin{mat} a &b  \\ c &d \end{mat})=a^2+b^2  \)
+    \end{exparts}
+    \begin{answer} 
+      对每一题，要么验证映射保持线性组合，
+      要么给出一个它不保持的线性组合。
+      \begin{exparts*}
+         \partsitem 是。
+           很容易验证它保持线性组合。
+           \begin{align*}
+             h(r_1\cdot\begin{mat}
+                 a_1  &b_1  \\
+                 c_1  &d_1
+               \end{mat}
+              +r_2\cdot\begin{mat}
+                 a_2  &b_2  \\
+                 c_2  &d_2
+               \end{mat})
+              &=h(\begin{mat}
+                 r_1a_1+r_2a_2  &r_1b_1+r_2b_2  \\
+                 r_1c_1+r_2c_2  &r_1d_1+r_2d_2
+               \end{mat})                    \\
+              &=(r_1a_1+r_2a_2)+(r_1d_1+r_2d_2)    \\
+              &=r_1(a_1+d_1)+r_2(a_2+d_2)          \\
+              &=r_1\cdot h(\begin{mat}
+                             a_1  &b_1  \\
+                             c_1  &d_1
+                            \end{mat})
+                +r_2\cdot h(\begin{mat}
+                             a_2  &b_2  \\
+                             c_2  &d_2
+                            \end{mat})
+           \end{align*}
+        \partsitem 不是。
+          例如，它不保持乘以标量 $2$ 的运算。
+          \begin{equation*}
+            h(2\cdot\begin{mat}[r]
+                1  &0  \\
+                0  &1  
+              \end{mat})
+            =h(\begin{mat}[r]
+                2  &0  \\
+                0  &2  
+              \end{mat})
+            =4
+            \quad\text{而}\quad
+            2\cdot h(\begin{mat}[r]
+                1  &0  \\
+                0  &1  
+              \end{mat})
+            =2\cdot 1=2
+          \end{equation*}
+        \partsitem 是。
+           下面验证它保持定义域中两个元素的线性组合。
+           \begin{multline*}
+             h(r_1\cdot\begin{mat} a_1 &b_1 \\ c_1 &d_1 \end{mat}
+               +r_2\cdot\begin{mat} a_2 &b_2 \\ c_2 &d_2 \end{mat})     \\
+             \begin{aligned}
+             &=h(\begin{mat} 
+                   r_1a_1+r_2a_2 &r_1b_1+r_2b_2   \\ 
+                   r_1c_1+r_2c_2 &r_1d_1+r_2d_2 
+                 \end{mat})                                 \\
+             &=2(r_1a_1+r_2a_2)+3(r_1b_1+r_2b_2)
+                    +(r_1c_1+r_2c_2)-(r_1d_1+r_2d_2)              \\
+             &=r_1(2a_1+3b_1+c_1-d_1)
+               +r_2(2a_2+3b_2+c_2-d_2)              \\
+             &=r_1\cdot h(\begin{mat} a_1 &b_1 \\ c_1 &d_1 \end{mat}
+               +r_2\cdot h(\begin{mat} a_2 &b_2 \\ c_2 &d_2 \end{mat})
+             \end{aligned}
+           \end{multline*}
+        \partsitem 不是。
+          下面给出一个不保持线性组合的例子：
+          按一种次序计算得到
+          \begin{equation*}
+            h(\begin{mat}[r]
+              1  &0  \\
+              0  &0
+            \end{mat}
+            +\begin{mat}[r]
+              1  &0  \\
+              0  &0
+            \end{mat})
+           =h(\begin{mat}[r]
+              2  &0  \\
+              0  &0
+            \end{mat})
+           =4
+           \end{equation*}
+          而按另一种次序计算得到
+           \begin{equation*}
+            h(\begin{mat}[r]
+              1  &0  \\
+              0  &0
+            \end{mat})
+            +h(\begin{mat}[r]
+              1  &0  \\
+              0  &0
+            \end{mat})
+            =1+1
+            =2
+          \end{equation*}
+      \end{exparts*}   
+    \end{answer}
+  \recommended \item
+    证明下列映射都是同态。
+    它们互为逆映射吗？
+    \begin{exparts}
+      \partsitem \( \map{d/dx}{\polyspace_3}{\polyspace_2} \)，
+        把 \( a_0+a_1x+a_2x^2+a_3x^3 \) 映到
+        \( a_1+2a_2x+3a_3x^2 \)
+      \partsitem \( \map{\int}{\polyspace_2}{\polyspace_3} \)，
+        把 \( b_0+b_1x+b_2x^2 \) 映到 \( b_0x+(b_1/2)x^2+(b_2/3)x^3 \)
+    \end{exparts}
+    \begin{answer}
+      很容易验证它们都是同态。
+      下面验证求导映射。
+      \begin{multline*}
+        \frac{d}{dx}(r\cdot (a_0+a_1x+a_2x^2+a_3x^3)
+                    +s\cdot (b_0+b_1x+b_2x^2+b_3x^3))                 \\
+        \begin{aligned}
+           &=\frac{d}{dx}((ra_0+sb_0)+(ra_1+sb_1)x+(ra_2+sb_2)x^2
+                                                    +(ra_3+sb_3)x^3)  \\
+           &=(ra_1+sb_1)+2(ra_2+sb_2)x+3(ra_3+sb_3)x^2         \\
+           &=r\cdot (a_1+2a_2x+3a_3x^2)+s\cdot (b_1+2b_2x+3b_3x^2)         \\
+           &=r\cdot \frac{d}{dx}(a_0+a_1x+a_2x^2+a_3x^3)
+                    +s\cdot \frac{d}{dx} (b_0+b_1x+b_2x^2+b_3x^3)
+        \end{aligned}
+      \end{multline*}
+      （另一种证明只需指出，这是微积分中熟悉的求导性质。）
+
+      这两个映射不互为逆映射，因为下面的复合
+      对这个定义域元素的作用不同于恒等映射。
+      \begin{equation*}
+        1\in\polyspace_3\;\mapsunder{d/dx}\;
+        0\in\polyspace_2\;\mapsunder{\int}\;
+        0\in\polyspace_3
+      \end{equation*}   
+     \end{answer}
+  \item  
+    从 \( \Re^3 \) 到 \( xz \) 平面的（垂直）投影是同态吗？
+    到 \( yz \) 平面的投影呢？
+    到 \( x \) 轴、\( y \) 轴、\( z \) 轴的投影呢？
+    到原点的投影呢？
+    \begin{answer}
+      这些投影都是同态。
+      到 $xz$ 平面和 $yz$ 平面的投影分别为
+      \begin{equation*}
+         \colvec{x \\ y \\ z}\mapsto\colvec{x \\ 0 \\ z}
+           \qquad
+         \colvec{x \\ y \\ z}\mapsto\colvec{0 \\ y \\ z}
+      \end{equation*}
+      到 $x$ 轴、$y$ 轴和 $z$ 轴的投影分别为
+      \begin{equation*}
+         \colvec{x \\ y \\ z}\mapsto\colvec{x \\ 0 \\ 0}
+           \qquad
+         \colvec{x \\ y \\ z}\mapsto\colvec{0 \\ y \\ 0}
+           \qquad
+         \colvec{x \\ y \\ z}\mapsto\colvec{0 \\ 0 \\ z}
+      \end{equation*}
+      到原点的投影为
+      \begin{equation*}
+         \colvec{x \\ y \\ z}\mapsto\colvec[r]{0 \\ 0 \\ 0}
+      \end{equation*}
+      很容易验证它们都是同态。
+      （当然，最后一个是 $\Re^3$ 上的零变换。）
+     \end{answer}
+  \item 验证下列各映射都是同态。
+    \begin{exparts}
+      \partsitem $\map{h}{\polyspace_2}{\Re^2}$ 定义为
+        \begin{equation*}
+          ax^2+bx+c\mapsto \colvec{a+b \\ a+c}
+        \end{equation*}
+      \partsitem $\map{f}{\Re^2}{\Re^3}$ 定义为
+        \begin{equation*}
+          \colvec{x \\ y}\mapsto\colvec{0 \\ x-y \\ 3y} 
+        \end{equation*}
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          下式验证这个映射保持线性组合。
+          根据\nearbylemma{le:HomoPreserveLinCombo}，这足以说明它是同态。
+          \begin{multline*}
+            h(\,d_1(a_1x^2+b_1x+c_1)+d_2(a_2x^2+b_2x+c_2)\,)      \\
+             \begin{aligned}
+             &=h((d_1a_1+d_2a_2)x^2+(d_1b_1+d_2b_2)x+(d_1c_1+d_2c_2))  \\
+             &=\colvec{(d_1a_1+d_2a_2)+(d_1b_1+d_2b_2) \\ 
+             (d_1a_1+d_2a_2)+(d_1c_1+d_2c_2)} \\
+             &=\colvec{d_1a_1+d_1b_1 \\  d_1a_1+d_1c_1}+
+                 \colvec{d_2a_2+d_2b_2 \\  d_2a_2+d_2c_2}  \\
+             &=d_1\colvec{a_1+b_1 \\  a_1+c_1}+
+                 d_2\colvec{a_2+b_2 \\  a_2+c_2}  \\
+            &=d_1\cdot h(a_1x^2+b_1x+c_1)+d_2\cdot h(a_2x^2+b_2x+c_2)
+            \end{aligned}
+          \end{multline*}
+        \partsitem
+          它保持线性组合。
+          \begin{align*}
+            f(\,a_1\colvec{x_1 \\ y_1}+a_2\colvec{x_2 \\ y_2}\,)
+              &=f(\,\colvec{a_1x_1+a_2x_2 \\ a_1y_1+a_2y_2}\,)  \\
+              &=\colvec{0 \\ (a_1x_1+a_2x_2)-(a_1y_1+a_2y_2) \\ 
+              3(a_1y_1+a_2y_2) }  \\
+              &=a_1\colvec{0 \\ x_1-y_1 \\ 3y_1}
+                 +a_2\colvec{0 \\ x_2-y_2 \\ 3y_2}  \\
+              &=a_1f(\colvec{x_1 \\ y_1})+a_2f(\colvec{x_2 \\ y_2})
+          \end{align*}
+      \end{exparts}
+    \end{answer}
+
+
+  \item 
+    证明：\nearbyexample{exam:TwoMapsHomoNotIso} 中的映射
+    虽然保持线性运算，但并不是同构。
+    \begin{answer}
+      第一个不是满射；例如，没有多项式被映到常数多项式 $p(x)=1$。
+      第二个不是单射；定义域中的下列两个元素
+      \begin{equation*}
+        \begin{mat}[r]
+          1  &0  \\
+          0  &0  
+        \end{mat}
+        \quad\text{且}\quad
+        \begin{mat}[r]
+          0  &0  \\
+          0  &1  
+        \end{mat}
+      \end{equation*}
+      都映到陪域中的同一个元素 $1\in\Re$。
+     \end{answer}
+  \item 
+    恒等映射是线性变换吗？
+    \begin{answer}
+      是；~在任意空间中，\( \text{id}(c\cdot \vec{v}+d\cdot \vec{w})
+      = c\cdot \vec{v}+d\cdot \vec{w}
+      = c\cdot\text{id}(\vec{v})+d\cdot\text{id}(\vec{w}) \)。
+    \end{answer}
+  \recommended \item \label{exer:GrpahNotALine}
+    说一个函数是“线性的”，与说它的图像是一条直线，并不是一回事。
+    \begin{exparts}
+      \partsitem 由 \( f_1(x)=2x-1 \) 定义的函数 \( \map{f_1}{\Re}{\Re} \)
+        的图像是一条直线。证明它不是线性函数。
+      \partsitem 函数 \( \map{f_2}{\Re^2}{\Re} \) 定义为
+        \begin{equation*}
+          \colvec{x \\ y} \mapsto x+2y
+        \end{equation*}
+        它的图像不是直线。
+        证明它是线性函数。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+         \partsitem 这个映射不保持结构，因为
+           \( f(1+1)=3 \)，而 \( f(1)+f(1)=2 \)。
+         \partsitem 验证很直接。
+           \begin{align*}
+             f(r_1\cdot\colvec{x_1 \\ y_1}+r_2\cdot\colvec{x_2 \\ y_2})
+             &=f(\colvec{r_1x_1+r_2x_2 \\ r_1y_1+r_2y_2})               \\
+             &=(r_1x_1+r_2x_2)+2(r_1y_1+r_2y_2)                          \\
+             &=r_1\cdot (x_1+2y_1)+r_2\cdot (x_2+2y_2)                   \\
+             &=r_1\cdot f(\colvec{x_1 \\ y_1})+r_2\cdot f(\colvec{x_2 \\ y_2})
+           \end{align*}
+      \end{exparts}   
+     \end{answer}
+  \recommended \item 
+    线性函数的定义要求它保持加法。
+    线性函数保持减法吗？
+    \begin{answer}
+      保持。
+      若 \( \map{h}{V}{W} \) 是线性的，则
+      \( h(\vec{u}-\vec{v})
+         =h(\vec{u}+(-1)\cdot\vec{v})
+         =h(\vec{u})+(-1)\cdot h(\vec{v})
+         =h(\vec{u})-h(\vec{v}) \)。
+    \end{answer}
+  \item 
+    假设 \( h \) 是 \( V \) 上的线性变换，
+    \( \sequence{\vec{\beta}_1,\ldots,\vec{\beta}_n} \) 是 \( V \) 的一组基。
+    证明下列各命题。
+    \begin{exparts}
+      \partsitem 若每个基向量都满足 \( h(\vec{\beta}_i)=\zero \)，
+        则 \( h \) 是零映射。
+      \partsitem 若每个基向量都满足 \( h(\vec{\beta}_i)=\vec{\beta}_i \)，
+        则 \( h \) 是恒等映射。
+      \partsitem 若存在标量 \( r \)，使每个基向量都满足
+        \( h(\vec{\beta}_i)=r\cdot\vec{\beta}_i \)，
+        则对 $V$ 中的所有向量，都有 \( h(\vec{v})=r\cdot\vec{v} \)。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+       \partsitem 设 \( \vec{v}\in V \) 关于这组基的表示为
+         \( \vec{v}=c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n \)。
+         则 \( h(\vec{v})=h(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)
+                  =c_1h(\vec{\beta}_1)+\dots+c_nh(\vec{\beta}_n)
+                  =c_1\cdot\zero+\dots+c_n\cdot\zero
+                  =\zero \)。
+       \partsitem 论证与前一题类似。
+         设 \( \vec{v}\in V \) 关于这组基的表示为
+         \( \vec{v}=c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n \)。
+         则 \( h(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)
+            =c_1h(\vec{\beta}_1)+\dots+c_nh(\vec{\beta}_n)
+            =c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n
+            =\vec{v} \)。
+       \partsitem 与上面一样，只是此时
+         \( c_1h(\vec{\beta}_1)+\dots+c_nh(\vec{\beta}_n)
+            =c_1r\vec{\beta}_1+\dots+c_nr\vec{\beta}_n
+            =r(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)
+            =r\vec{v} \)。
+      \end{exparts}  
+     \end{answer}
+  \item
+    考虑向量空间 \( \Re^+ \)，其向量加法和标量乘法
+    不沿用 $\Re$ 中的运算，而定义如下：
+    \( a+b \) 是 \( a \) 与 \( b \) 的乘积，\( r\cdot a \) 是
+    \( a \) 的 \( r \) 次幂。
+    （前面的练习已经证明这是向量空间。）
+    验证自然对数映射 \( \map{\ln}{\Re^+}{\Re} \)
+    是这两个空间之间的同态。
+    它是同构吗？
+    \begin{answer}
+      它是同态，可由熟悉的对数运算法则推出：
+      乘积的对数等于对数之和 $\ln(ab)=\ln(a)+\ln(b)$，
+      幂的对数等于对数的倍数 $\ln(a^r)=r\ln(a)$。
+      这个映射是同构，因为它有逆映射，即指数映射，
+      所以它是一一对应，从而是同构。
+     \end{answer}
+  \item 
+    考虑平面 \( \Re^2 \) 上的下列变换。
+     \begin{equation*}
+       \colvec{x \\ y} \mapsto \colvec{x/2 \\ y/3}
+     \end{equation*}
+    求下列椭圆在这个映射下的像。
+     \begin{equation*}
+       \set{\colvec{x \\ y} \suchthat (x^2/4)+(y^2/9)=1}
+     \end{equation*}
+     \begin{answer}
+       令 \( \hat{x}=x/2 \) 且 \( \hat{y}=y/3 \)，则像集为
+       \begin{equation*}
+         \set{\colvec{\hat{x} \\ \hat{y}} \suchthat
+           \frac{\displaystyle (2\hat{x})^2}{\displaystyle 4}
+           +\frac{\displaystyle (3\hat{y})^2}{\displaystyle 9}=1}
+         =\set{\colvec{\hat{x} \\ \hat{y}} \suchthat
+            \hat{x}^2+\hat{y}^2=1}
+       \end{equation*}
+       即 \( \hat{x}\hat{y} \) 平面上的单位圆。
+     \end{answer}
+  \recommended \item
+    设想一根绳子紧贴地球赤道绕一圈（假设地球是球体）。
+    要使整圈绳子都离地面六英尺，需要增加多长的绳子？
+    \begin{answer}
+      圆周长函数 $r\mapsto 2\pi r$ 是线性的。
+      因此有
+      $2\pi\cdot (r_{\text{地球}}+6)-
+         2\pi\cdot (r_{\text{地球}})=12\pi$。
+      注意，把紧绕篮球的绳圈抬高到离篮球表面六英尺处，
+      与把紧绕地球的绳圈抬高到离地面六英尺处，所需增加的绳长相同。
+     \end{answer}
+  \recommended \item 
+    验证映射 \( \map{h}{\Re^3}{\Re} \)
+    \begin{equation*}
+      \colvec{x \\ y \\ z}\;\mapsto\;
+      \colvec{x \\ y \\ z}\dotprod\colvec[r]{3 \\ -1 \\ -1}=3x-y-z
+    \end{equation*}
+    是线性的。
+    将此结论推广。
+    \begin{answer}
+      很容易验证它是线性的。
+      \begin{align*}
+        h(c_1\cdot \colvec{x_1 \\ y_1 \\ z_1}
+          +c_2\cdot \colvec{x_2 \\ y_2 \\ z_2})
+        &=h(\colvec{c_1x_1+c_2x_2 \\ c_1y_1+c_2y_2 \\ c_1z_1+c_2z_2})   \\
+        &=3(c_1x_1+c_2x_2)-(c_1y_1+c_2y_2)-(c_1z_1+c_2z_2)             \\
+        &=c_1\cdot (3x_1-y_1-z_1)+c_2\cdot (3x_2-y_2-z_2)             \\
+        &=c_1\cdot h(\colvec{x_1 \\ y_1 \\ z_1})
+          +c_2\cdot h(\colvec{x_2 \\ y_2 \\ z_2})
+      \end{align*}
+      一个自然的推广猜想是：对任意固定的 \( \vec{k}\in\Re^3 \)，
+      映射 \( \vec{v}\mapsto\vec{v}\dotprod\vec{k} \) 是线性的。
+      这个命题成立。
+      它可由前面见过的点积性质推出：
+      \( (\vec{v}+\vec{u})\dotprod\vec{k}=\vec{v}\dotprod\vec{k}+
+         \vec{u}\dotprod\vec{k} \)
+      和 \( (r\vec{v})\dotprod\vec{k}=r(\vec{v}\dotprod\vec{k}) \)。
+      （进一步自然地猜想：从 \( \Re^n \) 到 \( \Re \) 的映射，
+      若其作用是把输入与固定向量 \( \vec{k}\in\Re^n \) 作点积，
+      则它是线性的。这个结论也成立。）
+    \end{answer}
+  \item \label{exer:HomoRONeMultByScalar}
+    证明：从 \( \Re^1 \) 到 \( \Re^1 \) 的任意同态，
+    其作用都是乘以一个标量。
+    推出 \( \Re^1 \) 上每个非平凡线性变换都是同构。
+    对 \( \Re^2 \) 上的变换，这个结论也成立吗？
+    对 \( \Re^n \) 呢？
+    \begin{answer}
+      设 \( \map{h}{\Re^1}{\Re^1} \) 是线性的。
+      线性映射由它在基上的作用确定，因此固定 \( \Re^1 \) 的基 \( \sequence{1} \)。
+      对任意 \( r\in\Re^1 \)，有 \( h(r)=h(r\cdot 1)=r\cdot h(1) \)，
+      所以 \( h \) 对任意输入 $r$ 的作用都是乘以常数 \( h(1) \)。
+      若 \( h(1) \) 不为零，则这个映射是一一对应\Dash 其逆映射是除以
+      \( h(1) \)\Dash 所以 $\Re^1$ 上任意非平凡变换都是同构。
+
+      下面的投影映射说明，当 \( n>1 \) 时（包括 $n=2$），
+      并非 \( \Re^n \) 上的每个变换都是乘以常数。
+      \begin{equation*}
+        \colvec{x_1 \\ x_2 \\ \vdots \\ x_n}
+          \mapsto\colvec{x_1 \\ 0 \\ \vdots \\ 0}
+      \end{equation*}  
+    \end{answer}
+  \item 
+    %(This will be used in \nearbyexercise{exer:Cosets} below.)
+    证明：对任意标量 \( a_{1,1},\dots, a_{m,n}  \)，
+    下列映射 \( \map{h}{\Re^n}{\Re^m} \) 都是同态。
+    \begin{equation*}
+      \colvec{x_1 \\ \vdots \\ x_n}
+        \mapsto
+      \colvec{a_{1,1}x_1+\dots+a_{1,n}x_n \\ 
+                   \vdots \\
+                   a_{m,1}x_1+\cdots+a_{m,n}x_n}
+    \end{equation*}
+    \begin{answer}
+      设 \( c \) 和 \( d \) 为标量，则有
+          \begin{multline*}
+            h(c\cdot \colvec{x_1 \\ \vdots \\ x_n} 
+              +d\cdot \colvec{y_1 \\ \vdots \\ y_n})                     \\
+            \begin{aligned}
+            &=h(\colvec{cx_1+dy_1 \\ \vdots \\ cx_n+dy_n})        \\
+            &=\colvec{a_{1,1}(cx_1+dy_1)+\dots+a_{1,n}(cx_n+dy_n) \\
+                         \vdots                                   \\
+                         a_{m,1}(cx_1+dy_1)+\dots+a_{m,n}(cx_n+dy_n)} \\
+            &=c\cdot\colvec{a_{1,1}x_1+\dots+a_{1,n}x_n \\ 
+                         \vdots                     \\ 
+                         a_{m,1}x_1+\dots+a_{m,n}x_n}
+            +d\cdot\colvec{a_{1,1}y_1+\dots+a_{1,n}y_n \\ 
+                         \vdots \\ 
+                         a_{m,1}y_1+\dots+a_{m,n}y_n} \\
+            &=c\cdot h(\colvec{x_1 \\ \vdots \\ x_n})
+              +d\cdot h(\colvec{y_1 \\ \vdots \\ y_n})
+            \end{aligned}
+          \end{multline*}
+     \end{answer}
+  \item 考虑多项式空间 \( \polyspace_n \)。
+     \begin{exparts}
+      \partsitem 证明：对每个 $i$，\( i \) 阶求导算子
+          $d^i/dx^i$ 都是这个空间上的线性变换。
+       \partsitem
+          推出：对任意标量 \( c_k,\ldots, c_0 \)，下列映射
+          都是这个空间上的线性变换。
+          \begin{equation*}
+            f\;\mapsto\;
+            c_{k}\frac{d^k}{dx^k}f+c_{k-1}\frac{d^{k-1}}{dx^{k-1}}f
+               +\dots+
+            c_1\frac{d}{dx}f+c_0f
+          \end{equation*}
+      \end{exparts}
+      \begin{answer}
+        \begin{exparts}
+          \partsitem 求导算子的每个幂 $i$ 都是线性的，
+            这是因为微积分中熟悉的下列法则成立。
+            \begin{equation*}
+              \frac{d^i}{dx^i}(\,f(x)+g(x)\,)=\frac{d^i}{dx^i}f(x)
+                                         +\frac{d^i}{dx^i}g(x)
+              \qquad
+              \frac{d^i}{dx^i}\,r\cdot f(x)=r\cdot\frac{d^i}{dx^i}f(x)
+            \end{equation*}
+         \partsitem 
+          线性映射的任意线性组合仍是线性映射。
+          因此，所给映射是 \( \polyspace_n \) 上的线性变换。
+        \end{exparts}
+      \end{answer}
+  \item 
+    \nearbylemma{le:SpLinFcns} 说明，线性函数之和是线性的，
+    线性函数的标量倍数也是线性的。
+    再证明：线性函数的复合也是线性的。
+    \begin{answer}
+      （这个论证已经在同构是等价关系的证明中出现过。）
+      设 $\map{f}{U}{V}$ 与 $\map{g}{V}{W}$ 是线性的。
+      复合映射保持线性组合
+      \begin{multline*}
+        \composed{g}{f}(c_1\vec{u}_1+c_2\vec{u}_2)
+        =g(\,f(c_1\vec{u}_1+c_2\vec{u}_2)\,)          
+        =g(\,c_1f(\vec{u}_1)+c_2f(\vec{u}_2)\,)              \\          
+        =c_1\cdot g(f(\vec{u}_1))+c_2\cdot g(f(\vec{u}_2))          
+        =c_1\cdot \composed{g}{f}(\vec{u}_1)
+           +c_2\cdot \composed{g}{f}(\vec{u}_2)          
+      \end{multline*}
+      其中 $\vec{u}_1,\vec{u}_2\in U$，$c_1,c_2$ 为标量。
+    \end{answer}
+  \item
+    设 \( \map{f}{V}{W} \) 是线性的，且
+    \( f(\vec{v}_1)=\vec{w}_1 \)，\ldots，\( f(\vec{v}_n)=\vec{w}_n \)，
+    其中 \( \vec{w}_1 \)，\ldots，\( \vec{w}_n \) 是 \( W \) 中的向量。
+    \begin{exparts}
+      \partsitem 若各个 \( \vec{w}\, \) 组成的集合线性无关，
+        则各个 \( \vec{v}\, \) 组成的集合一定也线性无关吗？
+      \partsitem 若各个 \( \vec{v}\, \) 组成的集合线性无关，
+        则各个 \( \vec{w}\, \) 组成的集合一定也线性无关吗？
+      \partsitem 若各个 \( \vec{w}\, \) 组成的集合张成 \( W \)，
+        则各个 \( \vec{v}\, \) 组成的集合一定张成 \( V \) 吗？
+      \partsitem 若各个 \( \vec{v}\, \) 组成的集合张成 \( V \)，
+        则各个 \( \vec{w}\, \) 组成的集合一定张成 \( W \) 吗？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 是。
+          若各个 $\vec{v}\,$ 线性相关，则各个 $\vec{w}\,$ 不可能线性无关，
+          因为定义域中的任意非平凡关系
+          \( \zero_V=c_1\vec{v}_1+\dots+c_n\vec{v}_n \)
+          都会给出值域中的一个非平凡关系
+          \( f(\zero_V)=\zero_W=f(c_1\vec{v}_1+\dots+c_n\vec{v}_n)
+             =c_1f(\vec{v}_1)+\dots+c_nf(\vec{v}_n)
+             =c_1\vec{w}+\dots+c_n\vec{w}_n \)。
+        \partsitem 不一定。
+          例如，\( \Re^2 \) 上的变换定义为
+          \begin{equation*}
+            \colvec{x \\ y} \mapsto \colvec{x+y \\ x+y}
+          \end{equation*}
+          它把定义域中下面这个线性无关集映成线性相关集。
+          \begin{equation*}
+            \set{\vec{v}_1,\vec{v}_2}=\set{\colvec[r]{1 \\ 0},\colvec[r]{1 \\ 1}}
+            \;\mapsto\;
+            \set{\colvec[r]{1 \\ 1},\colvec[r]{2 \\ 2}}=\set{\vec{w}_1,\vec{w}_2}
+          \end{equation*}
+        \partsitem 不一定。
+          例如投影映射 \( \map{\pi}{\Re^3}{\Re^2} \)
+          \begin{equation*}
+            \colvec{x \\ y \\ z}\mapsto\colvec{x \\ y}
+          \end{equation*}
+          将下面这个不张成定义域的集合，映成张成陪域的集合。
+          \begin{equation*}
+            \set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 1 \\ 0}}
+            \mapsunder{\pi}\set{\colvec[r]{1 \\ 0},\colvec[r]{0 \\ 1}}
+          \end{equation*}
+        \partsitem 不一定。
+          例如，嵌入映射 $\map{\iota}{\Re^2}{\Re^3}$ 把定义域的标准基
+          $\stdbasis_2$ 映成一个不张成陪域的集合。
+          （\textit{注。}
+          不过，各个 $\vec{w}$ 组成的集合确实张成值域。
+          这很容易证明。）
+      \end{exparts}  
+     \end{answer}
+  \item  
+    推广\nearbyexample{ex:MatTransMapLinear}：证明对于任意合适的定义域和陪域，
+    矩阵转置映射都是线性的。
+    合适的定义域和陪域有哪些？
+    \begin{answer}
+      回顾一下，$M$ 的转置中第~$i$ 行第~$j$ 列的元素，
+      是 $M$ 中第~$j$ 行第~$i$ 列的元素 $m_{j,i}$。
+      现在很容易验证。
+      从线性组合的转置开始。
+      \begin{equation*}
+        \trans{[r\cdot\begin{mat}
+                \    &\vdots          \\
+             \cdots &a_{i,j} &\cdots \\
+                    &\vdots
+           \end{mat}
+         +s\cdot\begin{mat}
+                \    &\vdots          \\
+             \cdots &b_{i,j} &\cdots \\
+                    &\vdots
+           \end{mat}]} 
+      \end{equation*}
+      先作线性组合，再转置。
+      \begin{equation*}
+        =\trans{\begin{mat}
+                 \       &\vdots                    \\
+                  \cdots &ra_{i,j}+sb_{i,j} &\cdots \\
+                         &\vdots
+                \end{mat}}                               
+        =\begin{mat}
+              \     &\vdots                    \\
+            \cdots &ra_{j,i}+sb_{j,i} &\cdots \\
+                   &\vdots
+          \end{mat}                               
+      \end{equation*}
+      然后提出标量，并将各项写回转置形式。
+      \begin{multline*} 
+        =r\cdot\begin{mat}
+             \     &\vdots          \\
+            \cdots &a_{j,i} &\cdots \\
+                   &\vdots
+          \end{mat}
+         +s\cdot\begin{mat}
+             \      &\vdots          \\
+            \cdots &b_{j,i} &\cdots \\
+                   &\vdots
+          \end{mat}                             \\   
+        =r\cdot\trans{\begin{mat}
+             \      &\vdots          \\
+            \cdots &a_{j,i} &\cdots \\
+                   &\vdots
+          \end{mat} }
+         +s\cdot\trans{\begin{mat}
+              \     &\vdots          \\
+            \cdots &b_{j,i} &\cdots \\
+                   &\vdots
+          \end{mat} }
+      \end{multline*}
+      定义域是 \( \matspace_{\nbym{m}{n}} \)，
+      陪域是 \( \matspace_{\nbym{n}{m}} \)。
+     \end{answer}
+  \item 
+    \begin{exparts}
+     \partsitem 对 \( \vec{u},\vec{v}\in \Re^n \)，连接它们的线段定义为集合
+        \( \ell=\set{t\cdot\vec{u}+(1-t)\cdot\vec{v}\suchthat t\in [0..1]} \)。
+        证明：$\vec{u}$ 与 $\vec{v}$ 之间的线段在同态 $h$ 下的像，
+        是 $h(\vec{u})$ 与 $h(\vec{v})$ 之间的线段。
+     \partsitem 若 \( \Re^n \) 的一个子集中任意两点之间的线段
+       都完全包含在该子集中，就称它是\definend{凸的}\index{convex set}。
+       （球的内部是凸的，球面却不是。）
+       证明从 \( \Re^n \) 到 \( \Re^m \) 的线性映射保持集合的凸性。
+     \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 对任意同态 \( \map{h}{\Re^n}{\Re^m} \)，有
+          \begin{equation*}
+            h(\ell)
+            =\set{h(t\cdot\vec{u}+(1-t)\cdot\vec{v})\suchthat t\in [0..1]}
+            =\set{t\cdot h(\vec{u})+(1-t)\cdot h(\vec{v})\suchthat t\in [0..1]}
+          \end{equation*}
+          这就是从 $h(\vec{u})$ 到 $h(\vec{v})$ 的线段。
+        \partsitem 需要证明：定义域中的凸集的像，作为值域的子集，也是凸集。
+          设 \( C\subseteq \Re^n \) 是凸集，考虑它的像 $h(C)$。
+          要证明 $h(C)$ 是凸集，必须证明它的任意两个元素
+          $\vec{d}_1$ 与 $\vec{d}_2$ 之间的线段
+          \begin{equation*}
+            \ell=\set{t\cdot\vec{d}_1+(1-t)\cdot\vec{d}_2\suchthat t\in [0..1]}
+          \end{equation*}
+          是 $h(C)$ 的子集。
+
+          任取线段上的元素 $\hat{t}\cdot\vec{d}_1+(1-\hat{t})\cdot\vec{d}_2$。
+          因为 $\ell$ 的端点在 $C$ 的像中，所以 $C$ 中存在映到它们的元素，
+          设 $h(\vec{c}_1)=\vec{d}_1$ 且 $h(\vec{c}_2)=\vec{d}_2$。
+          对于本段开头固定的标量 $\hat{t}$，注意
+          $h(\hat{t}\cdot\vec{c}_1+(1-\hat{t})\cdot\vec{c}_2)
+          =\hat{t}\cdot h(\vec{c}_1)+(1-\hat{t})\cdot h(\vec{c}_2)
+          =\hat{t}\cdot\vec{d}_1+(1-\hat{t})\cdot\vec{d}_2$。
+          因此 $\ell$ 中的每个元素都属于 $h(C)$，所以 $h(C)$ 是凸集。
+      \end{exparts}
+    \end{answer}
+  \recommended \item \label{exer:HomosPresLinStruc}
+    设 \( \map{h}{\Re^n}{\Re^m} \) 是同态。
+    \begin{exparts}
+      \partsitem 证明：\( \Re^n \) 中的直线在 \( h \) 下的像，
+        是 \( \Re^m \) 中的一条（可能退化的）直线。
+      \partsitem \( k \) 维线性曲面的像是什么？
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 对 \( \vec{v}_0,\vec{v}_1\in\Re^n \)，
+          经过 \( \vec{v}_0 \)、方向为 \( \vec{v}_1 \) 的直线是集合
+          $\set{\vec{v}_0+t\cdot \vec{v}_1\suchthat t\in\Re}$。
+          这条直线在 $h$ 下的像
+          $\set{h(\vec{v}_0+t\cdot \vec{v}_1)\suchthat t\in\Re}
+             =\set{h(\vec{v}_0)+t\cdot h(\vec{v}_1)\suchthat t\in\Re}$
+          是经过 $h(\vec{v}_0)$、方向为 $h(\vec{v}_1)$ 的直线。
+          若 \( h(\vec{v}_1) \) 是零向量，则这条直线退化。
+        \partsitem \( \Re^n \) 中的 \( k \) 维线性曲面映到
+          \( \Re^m \) 中的 \( k \) 维线性曲面（可能退化）。
+          证明与直线的情形一样。
+      \end{exparts}  
+     \end{answer}
+  \item 
+    证明：同态在定义域的一个子空间上的限制仍是同态。
+    \begin{answer}
+      设 \( \map{h}{V}{W} \) 是同态，\( S \) 是 \( V \) 的子空间。
+      考虑由 \( \hat{h}(\vec{s})=h(\vec{s}) \)
+      定义的映射 \( \map{\hat{h}}{S}{W} \)。
+      （$\hat{h}$ 与 $h$ 的唯一区别在于定义域。）
+      这个新映射是线性的：
+      \( \hat{h}(c_1\cdot\vec{s}_1+c_2\cdot\vec{s}_2)=
+              h(c_1\vec{s}_1+c_2\vec{s}_2)=c_1h(\vec{s}_1)+c_2h(\vec{s}_2)=
+              c_1\cdot\hat{h}(\vec{s}_1)+c_2\cdot\hat{h}(\vec{s}_2) \)。
+    \end{answer}
+  \item 
+    假设 \( \map{h}{V}{W} \) 是线性的。
+    \begin{exparts}
+      \partsitem 证明这个映射的\definend{值域空间}
+        \( \set{h(\vec{v})\suchthat \vec{v}\in V} \) 是陪域 \( W \) 的子空间。
+      \partsitem 证明这个映射的\definend{零空间}
+        \( \set{\vec{v}\in V\suchthat h(\vec{v})=\zero_W} \)
+        是定义域 \( V \) 的子空间。
+      \partsitem 证明：若 \( U \) 是定义域 \( V \) 的子空间，
+        则它的像 \( \set{h(\vec{u})\suchthat \vec{u}\in U} \)
+        是陪域 \( W \) 的子空间。
+        这推广了第一题。
+      \partsitem 推广第二题。
+    \end{exparts}
+    \begin{answer} 下一小节将把这一结果作为引理。
+      \begin{exparts}
+        \partsitem 值域非空，因为 \( V \) 非空。
+          最后只需证明它对线性组合封闭。
+          值域向量的线性组合具有如下形式，其中 \( \vec{v}_1,\dots,\vec{v}_n\in V \)，
+          \begin{equation*}
+            c_1\cdot h(\vec{v}_1)+\dots+c_n\cdot h(\vec{v}_n)
+            =
+            h(c_1\vec{v}_1)+\dots+h(c_n\vec{v}_n)
+            =
+            h(c_1\cdot \vec{v}_1+\dots+c_n\cdot \vec{v}_n),
+          \end{equation*}
+          它本身也在值域中，因为 \( c_1\cdot \vec{v}_1+\dots+c_n\cdot \vec{v}_n \)
+          属于定义域 \( V \)。
+          因此值域是子空间。
+        \partsitem 零空间包含 $\zero_V$，因此非空，
+          因为 \( \zero_V \) 映到 \( \zero_W \)。
+          它对线性组合封闭，因为若 \( \vec{v}_1,\dots,\vec{v}_n\in V \)
+          属于原像 \( \set{\vec{v}\in V\suchthat h(\vec{v})=\zero_W} \)，
+          则对 \( c_1,\ldots,c_n\in\Re \)，有
+          \begin{equation*}
+            \zero_W=c_1\cdot h(\vec{v}_1)+\dots+c_n\cdot h(\vec{v}_n)
+            =h(c_1\cdot \vec{v}_1+\dots+c_n\cdot \vec{v}_n)
+          \end{equation*}
+          所以 \( c_1\cdot \vec{v}_1+\dots+c_n\cdot \vec{v}_n \)
+          也在 \( \zero_W \) 的原像中。
+        \partsitem \( U \) 的像非空，因为 \( U \) 非空。
+          关于对线性组合的封闭性，若 \( \vec{u}_1,\ldots,\vec{u}_n\in U \)，则
+          \begin{equation*}
+            c_1\cdot h(\vec{u}_1)+\dots+c_n\cdot h(\vec{u}_n)
+            =
+            h(c_1\cdot \vec{u}_1)+\dots+h(c_n\cdot \vec{u}_n)
+            =
+            h(c_1\cdot \vec{u}_1+\dots+c_n\cdot \vec{u}_n)
+          \end{equation*}
+          它本身也属于 \( h(U) \)，因为
+          \( c_1\cdot \vec{u}_1+\dots+c_n\cdot \vec{u}_n \) 属于 \( U \)。
+          因此这个集合是子空间。
+        \partsitem 自然的推广是：子空间的原像仍是子空间。
+
+          设 \( X \) 是 \( W \) 的子空间。
+          注意 \( \zero_W\in X \)，所以集合
+          \( \set{\vec{v}\in V \suchthat h(\vec{v})\in X} \) 非空。
+          要证明它对线性组合封闭，取 \( V \) 中的元素 \( \vec{v}_1,\dots,\vec{v}_n \)，
+          使得 \( h(\vec{v}_1)=\vec{x}_1 \)，\ldots，
+          \( h(\vec{v}_n)=\vec{x}_n \)，并注意
+          \begin{equation*}
+            h(c_1\cdot \vec{v}_1+\dots+c_n\cdot \vec{v}_n)
+            =c_1\cdot h(\vec{v}_1)+\dots+c_n\cdot h(\vec{v}_n)
+            =c_1\cdot \vec{x}_1+\dots+c_n\cdot \vec{x}_n
+          \end{equation*}
+          所以 \( h^{-1}(X) \) 中元素的线性组合仍属于 \( h^{-1}(X) \)。
+      \end{exparts}  
+     \end{answer}
+  \item 
+    考虑从一个向量空间到它自身的所有同构组成的集合。
+    它是该空间到自身的同态空间 \( \linmaps{V}{V} \) 的子空间吗？
+    \begin{answer}
+      不是；同构的集合不包含零映射（除非空间是平凡的）。
+    \end{answer}
+  \item 
+   \nearbytheorem{th:HomoDetActOnBasis} 是否需要
+   $\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_n}$ 是基这一条件？
+   也就是说，如果去掉各个 $\vec{\beta}$ 线性无关的条件，
+   或去掉它们张成定义域的条件，还能得到一个良定义且唯一的同态吗？
+   \begin{answer}
+     若 $\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_n}$ 不张成整个空间，
+     则映射不一定唯一。
+     例如，若只规定 $\vec{e}_1$ 映到自身，来定义 $\Re^2$ 到自身的映射，
+     则可能的同态不止一个；恒等映射和投影到第一个分量的映射都满足这个条件。
+
+     若去掉 $\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_n}$ 线性无关的条件，
+     则给定的要求可能互相矛盾（即这样的映射可能不存在）。
+     例如，考虑 $\sequence{\vec{e}_2,\vec{e}_1,2\vec{e}_1}$，
+     尝试定义 $\Re^2$ 到自身的映射，使 $\vec{e}_2$ 映到自身，
+     而 $\vec{e}_1$ 和 $2\vec{e}_1$ 都映到 $\vec{e}_1$。
+     不存在满足这三个条件的同态。
+   \end{answer}
+  \item 
+    设 \( V \) 是向量空间，映射 \( \map{f_1,f_2}{V}{\Re^1} \) 是线性的。
+    \begin{exparts}
+      \partsitem 定义映射 \( \map{F}{V}{\Re^2} \)，使其分量函数为给定的线性函数。
+        \begin{equation*}
+           \vec{v}\mapsto\colvec{f_1(\vec{v}) \\ f_2(\vec{v})}
+        \end{equation*}
+        证明 \( F \) 是线性的。
+      \partsitem 逆命题成立吗\Dash 从 \( V \) 到 \( \Re^2 \) 的任意线性映射，
+        是否都由两个到 \( \Re^1 \) 的线性分量函数组成？
+      \partsitem 推广此结论。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 线性的验证简述如下。
+          \begin{multline*}
+            F(r_1\cdot \vec{v}_1+r_2\cdot \vec{v}_2)
+            =\colvec{f_1(r_1\vec{v}_1+r_2\vec{v}_2) \\ 
+                        f_2(r_1\vec{v}_1+r_2\vec{v}_2)}           \\
+            =r_1\colvec{f_1(\vec{v}_1) \\ f_2(\vec{v}_1)}
+            +r_2\colvec{f_1(\vec{v}_2) \\ f_2(\vec{v}_2)}
+            =r_1\cdot F(\vec{v}_1)+r_2\cdot F(\vec{v}_2)
+          \end{multline*}
+        \partsitem 成立。
+          设 \( \map{\pi_1}{\Re^2}{\Re^1} \) 和
+          \( \map{\pi_2}{\Re^2}{\Re^1} \) 是投影
+          \begin{equation*}
+            \colvec{x \\ y}\mapsunder{\pi_1} x
+              \quad\text{且}\quad
+            \colvec{x \\ y}\mapsunder{\pi_2} y
+          \end{equation*}
+          分别投到两个坐标轴上。
+          令 \( f_1(\vec{v})=\pi_1(F(\vec{v})) \) 且
+          \( f_2(\vec{v})=\pi_2(F(\vec{v})) \)，
+          就得到所需的分量函数。
+          \begin{equation*}
+            F(\vec{v})=
+            \colvec{f_1(\vec{v}) \\ f_2(\vec{v})}
+          \end{equation*}
+          它们是线性的，因为它们是线性函数的复合，
+          而线性函数的复合仍是线性的，
+          这一点已在同构是等价关系的证明中说明
+          （也可以直接验证它们是线性的）。
+        \partsitem 一般地，从向量空间 \( V \) 到 \( \Re^n \) 的映射是线性的，
+          当且仅当它的每个分量函数都是线性的。
+          验证与前一题相同。
+      \end{exparts}  
+     \end{answer}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{值域空间与零空间}
+同构与同态都保持结构。
+区别在于，同态的限制较少，因为它不必是满射，也不必是单射。
+我们将考察同态可能出现、而同构不可能出现的情形。
+
+首先考虑同态不必是满射这一事实。
+当然，每个函数到某个集合都是满射，即到它的值域。
+例如，嵌入映射 \( \map{\iota}{\Re^2}{\Re^3} \)
+\begin{equation*}
+  \colvec{x \\ y} \mapsto \colvec{x \\ y \\ 0}
+\end{equation*}
+是同态，但到 $\Re^3$ 不是满射。
+不过，它到 $xy$ 平面是满射。
+
+\begin{lemma}   \label{le:RangeIsSubSp}
+%<*lm:RangeIsSubSp>
+在同态下，定义域中任意子空间的像都是陪域的子空间。
+特别地，整个定义域空间的像，即同态的值域，是陪域的子空间。
+%</lm:RangeIsSubSp>
+\end{lemma}
+
+\begin{proof}
+%<*pf:RangeIsSubSp>
+设 $\map{h}{V}{W}$ 是线性的，$S$ 是定义域 $V$ 的子空间。
+像 $h(S)$ 是陪域 $W$ 的子集，且因 $S$ 非空而非空。
+因此，要证明 $h(S)$ 是 $W$ 的子空间，只需证明它对两个向量的线性组合封闭。
+若 $h(\vec{s}_1)$ 和 $h(\vec{s}_2)$ 属于 $h(S)$，则
+$c_1\cdot h(\vec{s}_1)+c_2\cdot h(\vec{s}_2)
+  =
+  h(c_1\cdot \vec{s}_1)+h(c_2\cdot \vec{s}_2)
+  =
+  h(c_1\cdot \vec{s}_1+c_2\cdot \vec{s}_2)$
+也属于 $h(S)$，因为它是 \( S \) 中
+\( c_1\cdot \vec{s}_1+c_2\cdot \vec{s}_2 \) 的像。
+%</pf:RangeIsSubSp>
+\end{proof}
+
+\begin{definition} \label{df:RangeSpace}
+%<*df:RangeSpace>
+同态 \( \map{h}{V}{W} \) 的\definend{值域空间}\index{range space}\index{homomorphism!range space}
+定义为
+\begin{equation*}
+  \rangespace{h}=\set{h(\vec{v})\suchthat \vec{v}\in V}
+\end{equation*}
+有时也记为 \( h(V) \)。
+值域空间的维数称为映射的\definend{秩}。\index{rank!of a homomorphism}
+%</df:RangeSpace>
+\end{definition}
+\noindent
+我们很快就会看到映射的秩与矩阵的秩之间的联系。
+
+\begin{example}  \label{ex:DerivMapRnge}
+对于求导映射 \( \map{d/dx}{\polyspace_3}{\polyspace_3} \)，
+其作用为 \( a_0+a_1x+a_2x^2+a_3x^3 \mapsto a_1+2a_2x+3a_3x^2 \)，
+值域空间 \( \rangespace{d/dx} \) 是次数不超过二的多项式集合
+\( \set{r+sx+tx^2\suchthat r,s,t\in\Re } \)。
+因此，这个映射的秩为~\( 3 \)。
+\end{example}
+
+\begin{example}  \label{ex:MatToPolyRnge}
+对于同态 \( \map{h}{M_{\nbyn{2}}}{\polyspace_3} \)
+\begin{equation*}
+  \begin{mat}
+    a  &b  \\
+    c  &d
+  \end{mat}
+  \mapsto
+  (a+b+2d)+cx^2+cx^3
+\end{equation*}
+值域中的像向量可以有任意常数项，$x$ 的系数必须为零，
+而 $x^2$ 与 $x^3$ 的系数必须相同。
+也就是说，值域空间为
+\( \rangespace{h}=\set{r+sx^2+sx^3\suchthat r,s\in\Re} \)，
+因此秩为~\( 2 \)。
+\end{example}
+
+前面的结果表明，从同构的定义推广到同态的定义时，
+去掉满射要求，并不会带来本质区别。
+任何同态到某个空间都是满射，即到它的值域。
+
+不过，去掉单射条件确实会带来区别。
+同态可能把定义域中的许多元素映到陪域中的同一个元素。
+下面的豆形示意图表示集合之间的一个多对一映射。\appendrefs{many-to-one maps}\spacefactor=1000 %
+图中陪域的三个元素，每个都是定义域中许多元素的像。
+（为避免画出许多单独的 $\mapsto$ 箭头，每组多个输入到同一个输出的对应只画一支箭头。）
+\begin{center}  
+  \includegraphics{map/mp/ch3.5}  % bean to bean; many to one
+\end{center}
+%<*InverseImage>
+回顾一下，对任意函数 $\map{h}{V}{W}$，
+$V$ 中映到 \( \vec{w}\in W \) 的所有元素组成的集合，称为\definend{原像\/}\index{inverse image}%
+\index{function! inverse image}
+$h^{-1}(\vec{w})=\set{\vec{v}\in V\suchthat h(\vec{v})=\vec{w}}$。
+%</InverseImage>
+上图左侧画出了三个原像集合。
+
+\begin{example}
+考虑投影\index{projection}
+\( \map{\pi}{\Re^3}{\Re^2} \)
+\begin{equation*}
+   \colvec{x \\ y \\ z}
+    \mapsunder{\pi}
+   \colvec{x \\ y}
+\end{equation*}
+这是一个多对一的同态。
+每个原像集合都是定义域中沿一条竖直直线排列的向量。
+\begin{center}
+  \includegraphics{map/mp/ch3.11}
+\end{center}
+下面是一个例子。
+\begin{equation*}
+  \pi^{-1}(\colvec[r]{1 \\ 3})=\set{\colvec[r]{1 \\ 3 \\ z}\suchthat z\in\Re}
+\end{equation*}
+\end{example}
+
+\begin{example} \label{ex:RTwoHomoREasyOneMap}
+同态 $\map{h}{\Re^2}{\Re^1}$
+\begin{equation*}
+  \colvec{x \\ y}
+   \mapsunder{h}
+  x+y
+\end{equation*}
+也是多对一的。
+固定 $w\in\Re^1$，原像 $h^{-1}(w)$
+\begin{center}
+  \includegraphics{map/mp/ch3.12}
+\end{center}
+是分量之和为 $w$ 的所有平面向量组成的集合。
+\end{example}
+
+% The above examples have only to do with the
+% fact that we are considering functions,
+% specifically, many-to-one functions.
+% They show the inverse images 
+% as sets of vectors that are 
+% related to the image vector $\vec{w}$.
+% But these are more than just arbitrary functions, they are
+% homomorphisms; what do the two preservation
+% conditions say about the relationships?
+
+从同构推广到同态时，去掉单射条件，
+就失去了定义域与值域直观上“相同”这一性质，
+也就是说，定义域不再与值域完全一一对应。
+下面的例子说明，我们仍然保留了这样的认识：
+同态描述定义域如何与值域“相类似”或“相像”。
+
+\begin{example}    \label{ex:RThreeHomoRTwo} %\label{exPicProj}
+我们把 $\Re^3$ 看作类似于 $\Re^2$，只是向量多了一个分量。
+也就是说，分量为 $x$、$y$ 和~$z$ 的向量，
+被看作类似于分量为 $x$ 和~$y$ 的向量。
+定义投影映射 $\pi$，就精确规定了定义域中的哪些元素
+与陪域中的哪些元素相联系。
+
+要理解同态定义中的保持条件如何说明定义域元素与陪域元素相像，
+先把 $\Re^2$ 画成 $\Re^3$ 内的 $xy$ 平面
+（$\Re^3$ 内的 $xy$~平面由第三个分量为零的三维列向量组成，
+因此并不恰好等于二维列向量集合~$\Re^2$，
+但这样的嵌入能使图形清楚得多）。
+保持加法意味着，\( \Re^3 \) 中的向量像它们在平面上的影子那样运算。
+\begin{center}  \small
+  \begin{tabular}{@{}c@{}c@{}c@{}c@{}c@{}}
+    \includegraphics{map/mp/ch3.1}
+    &&\includegraphics{map/mp/ch3.2}
+    &&\includegraphics{map/mp/ch3.3} \\[1.5ex]
+    {\small  $\colvec{x_1 \\ y_1 \\ z_1}$ 在 $\colvec{x_1 \\ y_1}$ 上方}
+    &{\small \ 加\ }
+    &{\small $\colvec{x_2 \\ y_2 \\ z_2}$ 在 $\colvec{x_2 \\ y_2}$ 上方}
+    &{\small \ 等于\ }
+    &{\small $\colvec{x_1+x_2 \\ y_1+y_2 \\ z_1+z_2}$
+              在 $\colvec{x_1+x_2 \\ y_1+y_2}$ 上方}
+  \end{tabular}
+\end{center}
+\noindent
+把 $\pi(\vec{v})$ 看作 $\vec{v}$ 在平面上的“影子”，就可以重新表述为：
+影子之和 $\pi(\vec{v}_1)+\pi(\vec{v}_2)$ 等于和的影子
+$\pi(\vec{v}_1+\vec{v}_2)$。
+保持标量乘法的含义与此类似。
+
+把陪域 $\Re^2$ 画在右边，图形虽然不如前面美观，
+却更忠实于上面的豆形示意图。
+\begin{center}  \small
+  \includegraphics{map/mp/ch3.4}
+\end{center}
+同样，定义域中映到 $\vec{w}_1$ 的向量位于一条竖直直线上；
+图中用灰色画出了其中一个。
+把原像 $\pi^{-1}(\vec{w}_1)$ 的任意元素称为“$\vec{w}_1$~向量”。
+类似地，还有一条由“$\vec{w}_2$~向量”组成的竖直直线，
+以及一条由“$\vec{w}_1+\vec{w}_2$~向量”组成的竖直直线。
+说 $\pi$ 是同态，就是说：若 $\pi(\vec{v}_1)=\vec{w}_1$ 且 $\pi(\vec{v}_2)=\vec{w}_2$，
+则 $\pi(\vec{v}_1+\vec{v}_2)=\pi(\vec{v}_1)+\pi(\vec{v}_2)
+  =\vec{w}_1+\vec{w}_2$。
+也就是说，这些类可以相加：~任意一个 \( \vec{w}_1 \)~向量
+加上任意一个 \( \vec{w}_2 \)~向量，
+都得到一个 \( \vec{w}_1+\vec{w}_2 \)~向量。
+标量乘法也类似。
+
+所以，虽然 $\Re^3$ 与 $\Re^2$ 不同构，
+但 $\pi$ 描述了它们相像的一个方面：~$\Re^3$ 中的向量
+像 $\Re^2$ 中相应的向量那样相加\Dash 向量像它们的影子那样相加。
+\end{example}
+
+\begin{example}   \label{ex:RTwoHomoRHardOne}
+同态还可以表达比前面更细致的空间之间的类比。
+对于\nearbyexample{ex:RTwoHomoREasyOneMap} 中的映射
+\begin{equation*}
+  \colvec{x \\ y}
+   \mapsunder{h}
+  x+y
+\end{equation*}
+固定值域中的两个数 $w_1, w_2\in\Re$。
+映到 $w_1$ 的 $\vec{v}_1$ 的分量之和为 $w_1$，
+所以原像 $h^{-1}(w_1)$ 是终点在斜直线 $x+y=w_1$ 上的向量集合。
+把它们看作“$w_1$ 向量”。
+类似地，还有“$w_2$ 向量”和“$w_1+w_2$ 向量”。
+保持加法表达了如下关系。
+\begin{center}  \small
+  \begin{tabular}{@{}ccccc@{}}
+    \includegraphics{map/mp/ch3.6}
+    &&\includegraphics{map/mp/ch3.7}
+    &&\includegraphics{map/mp/ch3.8}  \\[1.5ex]
+    {\small 一个“$w_1$ 向量”}
+    &{\small 加}
+    &{\small 一个“$w_2$ 向量”}
+    &{\small 等于}
+    &{\small 一个“$w_1+w_2$ 向量”}
+  \end{tabular}
+\end{center}
+换句话说，将一个 $w_1$~向量与一个 $w_2$~向量相加，
+所得结果在 $h$ 下的像为 $w_1+w_2$。
+简言之，像的和等于和的像。
+更简洁地说，\( h(\vec{v}_1)+h(\vec{v}_2)=h(\vec{v}_1+\vec{v}_2) \)。
+% (The preservation of scalar multiplication condition has a
+% similar restatement.)
+\end{example}
+
+\begin{example}   \label{ex:PicRThreeToRTwo}
+原像也可以是直线以外的结构。
+对于线性映射 \( \map{h}{\Re^3}{\Re^2} \)
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+    \mapsto
+  \colvec{x \\ x}
+\end{equation*}
+原像集合是平面 $x=0$、$x=1$ 等，
+它们垂直于 \( x \) 轴。
+\begin{center}  \small
+  \includegraphics{map/mp/ch3.9}
+\end{center}
+\end{example}
+
+我们不会逐一描述所用的每个同态如何体现类比，
+因为“在……方面相像”的正式含义就是“存在一个同态，使得……”。
+尽管如此，把两个空间之间的同态理解为：
+定义域中的向量被分成若干类，而这些类像值域中的向量那样运算，
+仍是理解同态的一种好方法。
+
+不对所有同态都作上述处理，还有一个原因：
+许多向量空间很难画出来，例如多项式空间。
+不过，利用能够画出来的空间并没有什么问题：
+从例题 \ref{ex:RThreeHomoRTwo}、\ref{ex:RTwoHomoRHardOne}
+和~\ref{ex:PicRThreeToRTwo} 中，我们得到两点认识。
+
+第一点是，三个例子中，值域零向量的原像都是过原点的直线或平面。
+因此，它是定义域的子空间。
+
+\begin{lemma}  \label{le:NullspIsSubSp}
+%<*lm:NullspIsSubSp>
+对任意同态，值域的一个子空间的原像是定义域的子空间。
+特别地，值域的平凡子空间的原像是定义域的子空间。
+%</lm:NullspIsSubSp>
+\end{lemma}
+
+\noindent （上面的例子考察单个向量的原像，
+而这个结果讨论集合的原像
+$h^{-1}(S)=\set{\vec{v}\in V\suchthat h(\vec{v})\in S}$。
+我们把单个元素的原像 $h^{-1}(\vec{w})$
+看作单元素集合的原像 $h^{-1}(\set{\vec{w}})$，
+因而对两者使用同一个术语。）
+
+\begin{proof}
+%<*pf:NullspIsSubSp>
+设 $\map{h}{V}{W}$ 是同态，$S$ 是 $h$ 的值域空间的子空间。
+考虑 $S$ 的原像。
+它包含 $\zero_V$，所以非空，因为 \( h(\zero_V)=\zero_W \)，
+而 \( \zero_W \) 属于 $S$，这是由于 $S$ 是子空间。
+最后证明 $h^{-1}(S)$ 对线性组合封闭。
+设 \( \vec{v}_1 \) 和 \( \vec{v}_2 \) 是其中两个元素，
+因此 $h(\vec{v}_1)$ 和 $h(\vec{v}_2)$ 属于 $S$。
+那么 $c_1\vec{v}_1+c_2\vec{v}_2$ 属于原像 $h^{-1}(S)$，因为
+$h(c_1\vec{v}_1+c_2\vec{v}_2)
+  =c_1h(\vec{v}_1)+c_2h(\vec{v}_2)$
+属于 $S$。
+%</pf:NullspIsSubSp>
+\end{proof}
+
+\begin{definition} \label{df:NullSpace}
+%<*df:NullSpace>
+线性映射 \( \map{h}{V}{W} \) 的\definend{零空间}\index{homomorphism!null space}\index{null space}
+或\definend{核}\index{kernel, of linear map}，是 $\zero_W$ 的原像。
+\begin{equation*}
+  \nullspace{h}=h^{-1}(\zero_W)=\set{\vec{v}\in V\suchthat h(\vec{v})=\zero_W}
+\end{equation*}
+零空间的维数称为映射的\definend{零度}\index{nullity}\index{homomorphism!nullity}。
+%</df:NullSpace>
+\end{definition}
+
+\begin{center}
+  \includegraphics{map/mp/ch3.10}
+\end{center}
+
+\begin{example}
+\nearbyexample{ex:DerivMapRnge} 中的映射具有零空间
+\( \nullspace{d/dx}=\set{a_0+0x+0x^2+0x^3\suchthat a_0\in\Re} \)，
+因此它的零度为 $1$。
+\end{example}
+
+\begin{example}
+\nearbyexample{ex:MatToPolyRnge} 中的映射具有下面的零空间，零度为 $2$。
+\begin{equation*}
+   \nullspace{h}=\set{\begin{mat}
+                         a  &b          \\
+                         0  &-(a+b)/2
+                      \end{mat}\suchthat a,b\in\Re}
+\end{equation*}
+\end{example}
+
+现在来看从上述例子得到的第二点认识。
+在\nearbyexample{ex:RThreeHomoRTwo} 中，每条竖直直线都被压成一个点\Dash
+从定义域到值域，$\pi$ 把所有这些一维竖直直线各自映到一个点，
+使值域比定义域少了一个维数。
+类似地，在\nearbyexample{ex:RTwoHomoRHardOne} 中，
+二维定义域被划分成斜直线，每条直线都映到值域中的一个元素，
+因而压缩为一维值域。
+最后，在\nearbyexample{ex:PicRThreeToRTwo} 中，
+定义域被分成平面，每个平面都被压成一个点，
+所以映射从三维定义域出发，减少两个维数，得到一维值域。
+（陪域是二维的，但值域是一维的；这里关键的是值域的维数。）
+
+\begin{theorem} \label{th:RankPlusNullEqDim}
+\index{rank!of a homomorphism}
+%<*th:RankPlusNullEqDim>
+线性映射的秩与零度之和，等于定义域的维数。
+%</th:RankPlusNullEqDim>
+\end{theorem}
+
+\begin{proof}
+%<*pf:RankPlusNullEqDim0>
+设 \( \map{h}{V}{W} \) 是线性的，
+\( B_N=\sequence{\vec{\beta}_1,\ldots,\vec{\beta}_k} \)
+是零空间的一组基。
+利用推论~Two.III.\ref{cor:LIExpBas}，将它扩充为整个定义域的一组基
+\( B_V=\sequence{\vec{\beta}_1,\dots,\vec{\beta}_k,
+       \vec{\beta}_{k+1},\dots,\vec{\beta}_n} \)。
+我们将证明
+\( B_R=\sequence{ h(\vec{\beta}_{k+1}),\dots,h(\vec{\beta}_n)} \)
+是值域空间的一组基。
+再数出各组基中的元素个数，就得到结论。
+%</pf:RankPlusNullEqDim0>
+
+%<*pf:RankPlusNullEqDim1>
+要证明 \( B_R \) 线性无关，考虑
+\( \zero_W=c_{k+1}h(\vec{\beta}_{k+1})+\dots+c_nh(\vec{\beta}_n) \)。
+有 \( \zero_W=h(c_{k+1}\vec{\beta}_{k+1}+\dots+c_n\vec{\beta}_n) \)，
+所以 \( c_{k+1}\vec{\beta}_{k+1}+\dots+c_n\vec{\beta}_n \) 属于 $h$ 的零空间。
+由于 \( B_N\) 是零空间的一组基，存在标量
+\( c_1,\dots,c_k \) 满足下列关系。
+\begin{equation*}
+   c_1\vec{\beta}_1+\dots+c_k\vec{\beta}_k
+   =
+   c_{k+1}\vec{\beta}_{k+1}+\dots+c_n\vec{\beta}_n
+\end{equation*}
+但这是 \( B_V \) 中元素之间的等式，
+而它是 \( V \) 的基，所以每个 $c_i$ 都等于 $0$。
+因此 \( B_R \) 线性无关。
+%</pf:RankPlusNullEqDim1>
+
+%<*pf:RankPlusNullEqDim2>
+要证明 \( B_R \) 张成值域空间，考虑其中任意元素 \( h(\vec{v}) \)。
+将 \( \vec{v} \) 写成 \( B_V \) 中元素的线性组合
+$\vec{v}=c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n$，得到
+$h(\vec{v})=h(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)
+     =c_1h(\vec{\beta}_1)+\dots+c_kh(\vec{\beta}_k)
+     +c_{k+1}h(\vec{\beta}_{k+1})+\dots+c_nh(\vec{\beta}_n)$。
+由于 $\vec{\beta}_1$，\ldots，$\vec{\beta}_k$ 都在零空间中，有
+$h(\vec{v})=\zero+\dots+\zero
+     +c_{k+1}h(\vec{\beta}_{k+1})+\dots+c_nh(\vec{\beta}_n)$。
+因此 $h(\vec{v})$ 是 \( B_R \) 中元素的线性组合，
+所以 $B_R$ 张成值域空间。
+%</pf:RankPlusNullEqDim2>
+\end{proof}
+
+\begin{example}
+设 \( \map{h}{\Re^3}{\Re^4} \) 为
+\begin{equation*}
+  \colvec{x \\ y \\ z}
+    \mapsunder{h}
+  \colvec{x \\ 0 \\ y \\ 0}
+\end{equation*}
+它的值域空间与零空间为
+\begin{equation*}
+  \rangespace{h}=
+    \set{\colvec{a \\ 0 \\ b \\ 0}\suchthat a,b\in\Re }
+  \quad\text{且}\quad
+  \nullspace{h}=
+    \set{\colvec{0 \\ 0 \\ z}\suchthat z\in\Re }
+\end{equation*}
+因此 $h$ 的秩为 $2$，零度为 $1$。
+\end{example}
+
+\begin{example}
+若 \( \map{t}{\Re}{\Re} \) 是线性变换 \( x\mapsto -4x, \)
+则值域为 \(  \rangespace{t}=\Re \)。
+秩为 $1$，零度为 $0$。
+\end{example}
+
+\begin{corollary}
+\label{cor:RankDecreases}
+线性映射的秩不大于定义域的维数。
+等号成立，当且仅当映射的零度为 $0$。
+\end{corollary}
+
+我们知道，两个空间之间存在同构，当且仅当值域与定义域的维数相等。
+现在又看到，同态存在的一个必要条件是：值域的维数不能大于定义域的维数。
+例如，不存在从 \( \Re^2 \) 满射到 \( \Re^3 \) 的同态。
+从 \( \Re^2 \) 到 \( \Re^3 \) 的同态有很多，但没有一个是满射。
+
+线性映射的值域空间的维数可能严格小于定义域的维数，
+所以定义域中的线性无关集可能映到值域中的线性相关集。
+（\nearbyexample{ex:DerivMapRnge} 中 $\polyspace_3$ 上的求导变换，
+其定义域维数为~$4$，值域维数为~$3$，
+它把 $\set{1,x,x^2,x^3}$ 映到 $\set{0,1,2x,3x^2}$。）
+也就是说，同态可能使线性无关性丧失。
+相比之下，线性相关性会保留下来。
+
+\begin{lemma} \label{lm:ImageLinearlyDependentIsLinearlyDependent}
+%<*lm:ImageLinearlyDependentIsLinearlyDependent>
+在线性映射下，线性相关集的像仍然线性相关。
+%</lm:ImageLinearlyDependentIsLinearlyDependent>
+\end{lemma}
+
+\begin{proof}
+%<*pf:ImageLinearlyDependentIsLinearlyDependent>
+假设 \( c_1\vec{v}_1+\dots+c_n\vec{v}_n=\zero_V \)，其中某个 $c_i$ 非零。
+对两边应用 $h$：
+\( h(c_1\vec{v}_1+\dots+c_n\vec{v}_n)=c_1h(\vec{v}_1)+\dots+c_nh(\vec{v}_n) \)，
+且 \( h(\zero_V)=\zero_W \)。
+因此 $c_1h(\vec{v}_1)+\dots+c_nh(\vec{v}_n)=\zero_W$，其中某个 $c_i$ 非零。
+%</pf:ImageLinearlyDependentIsLinearlyDependent>
+\end{proof}
+
+什么时候线性无关性不会丧失？
+一个明显的充分条件是同态为同构。
+这个条件也是必要的；见\nearbyexercise{exer:NonSingIffPreservLI}。
+在结束本小节对同态与同构的比较时，我们指出：
+单射同态是从定义域到其值域的同构。
+
+% \begin{definition}
+% A linear map that is one-to-one is 
+% {\em nonsingular}\index{homomorphism!nonsingular}%
+% \index{nonsingular!homomorphism}.
+% \end{definition}
+% %\begin{remark}
+% \noindent (In the next section we will see the connection
+% between this use of `nonsingular' for maps and its familiar
+% use for matrices.)
+
+\begin{example}
+下面这个单射同态 \( \map{\iota}{\Re^2}{\Re^3} \)
+\begin{equation*}
+  \colvec{x \\ y}
+    \mapsunder{\iota}
+  \colvec{x \\ y \\ 0}
+\end{equation*}
+给出了 \( \Re^2 \) 与 \( \Re^3 \) 中的 \( xy \) 平面子集之间的一一对应。
+\end{example}
+
+% The prior observation allows us to adapt some results about isomorphisms.
+
+\begin{theorem}  \label{th:OOHomoEquivalence}
+%<*th:OOHomoEquivalence>
+设 \( V \) 是 \( n \) 维向量空间，
+关于线性映射 \( \map{h}{V}{W} \) 的下列命题等价。
+\begin{tfae}
+  \item \( h \) 是单射
+  \item \( h \) 有从值域到定义域的逆映射，且逆映射是线性的
+  \item \( \nullspace{h}=\set{\zero\,} \)，即 \( \nullity(h)=0 \)
+  \item \( \rank (h)=n \)
+  \item 若 \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 是 \( V \) 的基，
+        则 \( \sequence{h(\vec{\beta}_1),\dots,h(\vec{\beta}_n)} \)
+        是 \( \rangespace{h} \) 的基
+\end{tfae}
+%</th:OOHomoEquivalence>
+\end{theorem}
+
+\begin{proof}
+%<*pf:OOHomoEquivalence0>
+先证明 \( \text{(1)} \Longleftrightarrow \text{(2)} \)。
+再证明
+\(
+  \text{(1)}\implies \text{(3)}\implies
+  \text{(4)}\implies \text{(5)}\implies \text{(2)}
+\)。
+%</pf:OOHomoEquivalence0>
+
+%<*pf:OOHomoEquivalence1>
+对于 \( \text{(1)} \Longrightarrow \text{(2)} \)，
+假设线性映射 $h$ 是单射，因此有逆映射
+$\map{h^{-1}}{\rangespace{h}}{V}$。
+逆映射的定义域是 $h$ 的值域，
+所以其中两个元素的线性组合具有 $c_1h(\vec{v}_1)+c_2h(\vec{v}_2)$ 的形式。
+逆映射 \( h^{-1} \) 对这个线性组合的作用如下。
+\begin{align*}
+  h^{-1}(c_1h(\vec{v}_1)+c_2h(\vec{v}_2))
+  &=h^{-1}(h(c_1\vec{v}_1+c_2\vec{v}_2))  \\
+  &=\composed{h^{-1}}{h}\;(c_1\vec{v}_1+c_2\vec{v}_2) \\
+  &=c_1\vec{v}_1+c_2\vec{v}_2 \\
+%   &=c_1\composed{h^{-1}}{h}\,(\vec{v}_1)
+%            +c_2\composed{h^{-1}}{h}\,(\vec{v}_2) \\
+  &=c_1\cdot h^{-1}(h(\vec{v}_1))+c_2\cdot h^{-1}(h(\vec{v}_2))
+\end{align*}
+因此，若线性映射有逆映射，则逆映射必定线性。
+这也给出 \( \text{(2)} \Longrightarrow \text{(1)} \)，
+因为逆映射本身必定是单射。
+%</pf:OOHomoEquivalence1>
+
+%<*pf:OOHomoEquivalence2>
+在其余蕴含关系中，\( \text{(1)}\implies \text{(3)} \) 成立，
+因为任意同态都把 \( \zero_V \) 映到 \( \zero_W \)，
+而单射至多把 \( V \) 中的一个元素映到 \( \zero_W \)。
+
+其次，\( \text{(3)} \implies \text{(4)} \) 成立，
+因为秩加零度等于定义域的维数。
+%</pf:OOHomoEquivalence2>
+
+%<*pf:OOHomoEquivalence3>
+对于 \( \text{(4)} \implies \text{(5)} \)，要证明
+\( \sequence{h(\vec{\beta}_1),\dots,h(\vec{\beta}_n)} \) 是值域空间的一组基，
+只需证明它是张成集，因为根据假设，值域的维数为 $n$。
+考虑 $h(\vec{v})\in\rangespace{h}$。
+把 $\vec{v}$ 写成基向量的线性组合，得到
+\( h(\vec{v})=h(\lincombo{c}{\vec{\beta}}) \)，
+因而 \( h(\vec{v})=c_1h(\vec{\beta}_1)+\dots+c_nh(\vec{\beta}_n) \)，
+正如所需。
+%</pf:OOHomoEquivalence3>
+
+%<*pf:OOHomoEquivalence4>
+最后，对于 \( \text{(5)}\implies \text{(2)} \)，
+假设 \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 是 \( V \) 的基，
+因此 \( \sequence{h(\vec{\beta}_1),\dots,h(\vec{\beta}_n)} \)
+是 \( \rangespace{h} \) 的基。
+那么，每个 \( \vec{w}\in\rangespace{h} \) 都有唯一的表示
+\( \vec{w}=c_1h(\vec{\beta}_1)+\dots+c_nh(\vec{\beta}_n) \)。
+定义从 \( \rangespace{h} \) 到 $V$ 的映射如下
+\begin{equation*}
+    \vec{w} \;\mapsto\; \lincombo{c}{\vec{\beta}}
+\end{equation*}
+（表示的唯一性保证它是良定义的）。
+很容易验证它是线性的，且是 $h$ 的逆映射。
+%</pf:OOHomoEquivalence3>
+\end{proof}
+
+我们已经看到，线性映射表达定义域的结构如何与值域的结构相像。
+可以把这样的映射看作将定义域空间划分为值域中各点的原像。
+特别地，若映射是单射，每个原像就只有一个点，
+此时该映射是定义域与值域之间的同构。
+
+
+\begin{exercises}
+  \recommended \item 
+    设 \( \map{h}{\polyspace_3}{\polyspace_4} \)
+    定义为 \( p(x)\mapsto x\cdot p(x) \)。
+    下列哪些元素在零空间中？哪些在值域空间中？
+    \begin{exparts*}
+      \partsitem \( x^3 \)
+      \partsitem \( 0 \)
+      \partsitem \( 7 \)
+      \partsitem \( 12x-0.5x^3 \)
+      \partsitem \( 1+3x^2-x^3 \)
+    \end{exparts*}
+    \begin{answer}
+      首先，要回答多项式是否在零空间中，
+      必须把它看作定义域 $\polyspace_3$ 的元素。
+      要回答它是否在值域空间中，则要把它看作陪域 $\polyspace_4$ 的元素。
+      也就是说，对于 $p(x)=x^4$，问它是否在值域空间中是有意义的，
+      但问它是否在零空间中则没有意义，因为它甚至不在定义域中。
+      \begin{exparts}
+        \partsitem 多项式 $x^3\in\polyspace_3$ 不在零空间中，
+            因为 $h(x^3)=x^4$ 不是 $\polyspace_4$ 中的零多项式。
+            多项式 $x^3\in\polyspace_4$ 在值域空间中，
+            因为 $h$ 把 $x^2\in\polyspace_3$ 映到 $x^3$。
+        \partsitem 两个问题的答案都是“在，因为 $h(0)=0$”。
+            多项式 $0\in\polyspace_3$ 在零空间中，
+            因为它被 $h$ 映到 $\polyspace_4$ 中的零多项式。
+            多项式 $0\in\polyspace_4$ 在值域空间中，
+            因为它是 $0\in\polyspace_3$ 在 $h$ 下的像。
+        \partsitem 多项式 $7\in\polyspace_3$ 不在零空间中，
+            因为 $h(7)=7x$ 不是 $\polyspace_4$ 中的零多项式。
+            多项式 $7\in\polyspace_4$ 不在值域空间中，
+            因为定义域中没有元素乘以 $x$ 后能得到常数多项式 $p(x)=7$。
+        \partsitem 多项式 $12x-0.5x^3\in\polyspace_3$ 不在零空间中，
+            因为 $h(12x-0.5x^3)=12x^2-0.5x^4$。
+            多项式 $12x-0.5x^3\in\polyspace_4$ 在值域空间中，
+            因为它是 $12-0.5x^2$ 的像。
+        \partsitem 多项式 $1+3x^2-x^3\in\polyspace_3$ 不在零空间中，
+            因为 $h(1+3x^2-x^3)=x+3x^3-x^4$。
+            多项式 $1+3x^2-x^3\in\polyspace_4$ 不在值域空间中，
+            因为它有非零常数项。
+      \end{exparts}
+    \end{answer}
+  \item 求下列各同态的值域空间和秩。
+    \begin{exparts}
+      \partsitem
+      $\map{h}{\polyspace_3}{\Re^2}$ 定义为
+        \begin{equation*}
+           ax^2+bx+c\mapsto \colvec{a+b \\ a+c}
+        \end{equation*}
+      \partsitem $\map{f}{\Re^2}{\Re^3}$ 定义为
+        \begin{equation*}
+          \colvec{x \\ y}\mapsto\colvec{0 \\ x-y \\ 3y} 
+        \end{equation*}     
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem
+          $h$ 的值域是整个陪域~$\Re^2$，因为给定
+          \begin{equation*}
+            \colvec{x \\ y}\in\Re^2
+          \end{equation*}
+          它是定义域向量 $0x^2+bx+c$ 在~$h$ 下的像。
+          所以~$h$ 的秩为~$2$。
+        \partsitem
+          值域是 $yz$~平面。任意
+          \begin{equation*}
+            \colvec{0 \\ a \\ b}
+          \end{equation*}
+          都是定义域中下列向量在~$f$ 下的像。
+          \begin{equation*}
+            \colvec{a+b/3  \\ b/3}
+          \end{equation*}
+          所以这个映射的秩为~$2$。
+      \end{exparts}
+    \end{answer}
+  \recommended \item
+    求下列各映射的值域空间和秩。
+    \begin{exparts}
+      \partsitem \( \map{h}{\Re^2}{\polyspace_3} \) 定义为
+        \begin{equation*}
+          \colvec{a \\ b}\mapsto a+ax+ax^2
+        \end{equation*}
+      \partsitem \( \map{h}{\matspace_{\nbyn{2}}}{\Re} \) 定义为
+        \begin{equation*}
+          \begin{mat}
+            a  &b  \\
+            c  &d
+          \end{mat}
+          \mapsto a+d
+        \end{equation*}
+      \partsitem \( \map{h}{\matspace_{\nbyn{2}}}{\polyspace_2} \) 定义为
+        \begin{equation*}
+          \begin{mat}
+            a  &b  \\
+            c  &d
+          \end{mat}
+          \mapsto a+b+c+dx^2
+        \end{equation*}
+      \partsitem 零映射 \( \map{Z}{\Re^3}{\Re^4} \)
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 值域空间为
+          \begin{equation*}
+            \rangespace{h}
+            =\set{a+ax+ax^2\in\polyspace_3\suchthat a,b\in\Re}
+            =\set{a\cdot(1+x+x^2)\suchthat a\in\Re}
+          \end{equation*}
+          因此秩为一。
+        \partsitem 值域空间
+          \begin{equation*}
+            \rangespace{h}=
+             \set{a+d\suchthat a,b,c,d\in\Re}
+          \end{equation*}
+          是整个 $\Re$（令 $d$ 为 $0$，$a$ 为所需的数，就能得到任意实数）。
+          因此秩为一。
+        \partsitem 值域空间为
+          $\rangespace{h}=\set{r+sx^2\suchthat r,s\in\Re}$。
+          秩为二。
+        \partsitem 值域空间是 \( \Re^4 \) 的平凡子空间，因此秩为零。
+      \end{exparts}  
+    \end{answer}
+  \recommended \item
+    对上一题中的每个线性映射，求其零空间和零度。
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 零空间为
+          \begin{align*}
+            \nullspace{h}
+              &=\set{\colvec{a \\ b}\in\Re^2\suchthat 
+                                    a+ax+ax^2+0x^3=0+0x+0x^2+0x^3}  \\
+              &=\set{\colvec{0 \\ b}\suchthat b\in\Re}
+          \end{align*}
+          因此零度为一。
+        \partsitem 零空间如下。
+          \begin{equation*}
+            \nullspace{h}
+             =\set{\begin{mat}
+                     a  &b  \\
+                     c  &d
+                   \end{mat} \suchthat a+d=0}
+             =\set{\begin{mat}
+                     -d  &b  \\
+                      c  &d
+                   \end{mat} \suchthat b,c,d\in\Re }
+          \end{equation*}
+          因此零度为三。
+        \partsitem 零空间
+          \begin{equation*}
+            \nullspace{h}
+             =\set{\begin{mat}
+                     a  &b  \\
+                     c  &d
+                   \end{mat} \suchthat a+b+c=0,\,d=0}
+             =\set{\begin{mat}
+                     -b-c  &b  \\
+                      c  &0
+                   \end{mat} \suchthat b,c\in\Re }
+          \end{equation*}
+          是维数为~$2$ 的空间，因此零度为二。
+        \partsitem 定义域中的每个向量都被映到零向量，
+          所以零空间为 $\nullspace{h}=\Re^3$。
+      \end{exparts}  
+    \end{answer}
+  \recommended \item 
+    求下列各映射的零度。
+    \begin{exparts*}
+      \partsitem 秩为五的 \( \map{h}{\Re^5}{\Re^8} \)
+      \partsitem 秩为一的 \( \map{h}{\polyspace_3}{\polyspace_3} \)
+      \partsitem 满射 \( \map{h}{\Re^6}{\Re^3} \)
+      \partsitem 满射 \( \map{h}{\matspace_{\nbyn{3}}}{\matspace_{\nbyn{3}}} \)
+    \end{exparts*}
+    \begin{answer}
+      每一题都利用秩加零度等于定义域维数这一结果。
+      \begin{exparts*}
+        \partsitem $0$
+        \partsitem $3$ 
+        \partsitem $3$
+        \partsitem $0$
+      \end{exparts*}
+    \end{answer}
+  \recommended \item 
+    求导变换 \( \map{d/dx}{\polyspace_n}{\polyspace_n} \) 的零空间是什么？
+    将二阶求导看作 \( \polyspace_n \) 上的变换，其零空间是什么？
+    \( k \) 阶求导呢？
+    \begin{answer}
+      因为
+      \begin{equation*}
+        \frac{d}{dx}\,(a_0+a_1x+\cdots+a_nx^n)
+        =a_1+2a_2x+3a_3x^2+\cdots+na_nx^{n-1}
+      \end{equation*}
+      所以有
+      \begin{align*}
+        \nullspace{\frac{d}{dx}}
+        &=\set{a_0+\cdots+a_nx^n\suchthat a_1+2a_2x+\cdots+na_nx^{n-1}
+                                         =0+0x+\cdots+0x^{n-1}}       \\
+        &=\set{a_0+\cdots+a_nx^n\suchthat 
+               \text{$a_1=0$，且 $a_2=0$，\ldots，$a_n=0$}}  \\
+        &=\set{a_0+0x+0x^2+\cdots+0x^n\suchthat a_0\in\Re}
+      \end{align*}
+      同理，
+      \begin{equation*}
+        \nullspace{\frac{d^k}{dx^k}}
+        =\set{a_0+a_1x+\cdots+a_{k-1}x^{k-1}\suchthat a_0,\ldots,a_{k-1}\in\Re}
+      \end{equation*}
+      其中 \( k\leq n \)。
+    \end{answer}
+  \item 映射 $\map{h}{\Re^3}{\Re^2}$ 定义为
+      \begin{equation*}
+        \colvec{x \\  y \\ z}
+          \mapsto
+          \colvec{x+y \\ x+z}
+      \end{equation*}
+      求其值域空间、秩、零空间和零度。
+      \begin{answer}
+        要证明值域空间是整个~$\Re^2$，只需注意：
+        对任意 $u,v\in\Re$，下列方程组都有解。
+        \begin{equation*}
+          \begin{linsys}{3}
+            x &+ &y &  &  &= &u  \\
+            x &  &  &+ &z &= &v
+          \end{linsys}
+          \grstep{-\rho_1+\rho_2}
+          \begin{linsys}{3}
+            x &+ &y  &  &  &= &u  \\
+              &  &-y &+ &z &= &-u+v
+          \end{linsys}
+        \end{equation*}
+        （事实上，因为有自由变量 $z$，它有无穷多个解。）
+        因此秩，即值域空间的维数，为~$2$。
+
+        由于秩加零度等于定义域的维数，零度为~$1$。
+        求出零空间可以验证这一点：
+        \begin{equation*}
+          \begin{linsys}{3}
+            x &+ &y &  &  &= &0  \\
+            x &  &  &+ &z &= &0
+          \end{linsys}
+          \grstep{-\rho_1+\rho_2}
+          \begin{linsys}{3}
+            x &+ &y  &  &  &= &0  \\
+              &  &-y &+ &z &= &0
+          \end{linsys}
+        \end{equation*}
+        零空间是集合
+        \begin{equation*}
+          \set{\colvec{-1 \\ 1 \\ 1}\cdot z\suchthat z \in \Re}
+        \end{equation*}
+        它是一维的。
+      \end{answer}
+  \item  \label{exer:CondTwoProjMap}
+    \nearbyexample{ex:RThreeHomoRTwo} 把同态定义的第一个条件
+    重新表述为“和的影子是影子的和”。
+    用同样的方式重新表述第二个条件。
+    \begin{answer}
+      标量倍数的影子，等于影子的相应标量倍数。
+    \end{answer}
+  \item 
+    同态 \( \map{h}{\polyspace_3}{\polyspace_3} \)
+    定义为 \( h(a_0+a_1x+a_2x^2+a_3x^3)=a_0+(a_0+a_1)x+(a_2+a_3)x^3 \)，
+    求下列集合。
+    \begin{exparts*}
+      \partsitem \( \nullspace{h} \)
+      \partsitem \( h^{-1}(2-x^3) \)
+      \partsitem \( h^{-1}(1+x^2) \)
+    \end{exparts*}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 令 $a_0+(a_0+a_1)x+(a_2+a_3)x^3=0+0x+0x^2+0x^3$，
+           得到 $a_0=0$、$a_0+a_1=0$ 且 $a_2+a_3=0$，因此零空间为
+           \( \set{-a_3x^2+a_3x^3\suchthat a_3\in\Re} \)。
+        \partsitem 令 $a_0+(a_0+a_1)x+(a_2+a_3)x^3=2+0x+0x^2-x^3$，
+           得到 $a_0=2$、$a_1=-2$ 且 $a_2+a_3=-1$。
+           取 $a_3$ 为参数，并改记为 $a_3=a$，得到集合描述
+           \( \set{2-2x+(-1-a)x^2+ax^3\suchthat a\in\Re}
+                =\set{(2-2x-x^2)+a\cdot(-x^2+x^3)\suchthat a\in\Re} \)。
+        \partsitem 这个集合为空，因为 $h$ 的值域只包含二次项为 $0x^2$ 的多项式。
+      \end{exparts}  
+    \end{answer}
+  \recommended \item 
+    映射 \( \map{f}{\Re^2}{\Re} \) 定义为
+    \begin{equation*}
+       f(\colvec{x \\ y})=2x+y
+    \end{equation*}
+    画出下列原像集合：~\( f^{-1}(-3) \)、\( f^{-1}(0) \)
+    和 \( f^{-1}(1) \)。
+    \begin{answer}
+      所有原像都是斜率为 $-2$ 的直线。
+      \begin{center}
+        \includegraphics{map/mp/ch3.74}
+     \end{center}
+    \end{answer}
+  \recommended \item 
+    下列 \( \polyspace_3 \) 上的变换都是单射。
+    分别求出逆映射。
+    \begin{exparts}
+      \partsitem \( a_0+a_1x+a_2x^2+a_3x^3\mapsto a_0+a_1x+2a_2x^2+3a_3x^3 \)
+      \partsitem \( a_0+a_1x+a_2x^2+a_3x^3\mapsto a_0+a_2x+a_1x^2+a_3x^3 \)
+      \partsitem \( a_0+a_1x+a_2x^2+a_3x^3\mapsto a_1+a_2x+a_3x^2+a_0x^3 \)
+      \partsitem \( a_0+a_1x+a_2x^2+a_3x^3\mapsto
+              a_0+(a_0+a_1)x+(a_0+a_1+a_2)x^2+(a_0+a_1+a_2+a_3)x^3 \)
+    \end{exparts}
+    \begin{answer}
+      逆映射如下。
+      \begin{exparts}
+        \partsitem \( a_0+a_1x+a_2x^2+a_3x^3\mapsto
+                        a_0+a_1x+(a_2/2)x^2+(a_3/3)x^3 \)
+        \partsitem \( a_0+a_1x+a_2x^2+a_3x^3\mapsto a_0+a_2x+a_1x^2+a_3x^3 \)
+        \partsitem \( a_0+a_1x+a_2x^2+a_3x^3\mapsto a_3+a_0x+a_1x^2+a_2x^3 \)
+        \partsitem \( a_0+a_1x+a_2x^2+a_3x^3\mapsto
+                        a_0+(a_1-a_0)x+(a_2-a_1)x^2+(a_3-a_2)x^3 \)
+      \end{exparts} 
+      例如，对第二题，题目中的映射把
+      $0+1x+2x^2+3x^3\mapsto 0+2x+1x^2+3x^3$，
+      而上面的逆映射再把 $0+2x+1x^2+3x^3\mapsto 0+1x+2x^2+3x^3$。
+      所以这个映射实际上与自身互逆。
+     \end{answer}
+  \item 
+    描述由 \( \vec{v}\mapsto 2\vec{v} \) 给出的变换的零空间和值域空间。
+    \begin{answer}
+       对任意向量空间 $V$，零空间
+       \begin{equation*}
+         \set{\vec{v}\in V\suchthat 2\vec{v}=\zero}
+       \end{equation*}
+       是平凡的，而值域空间
+       \begin{equation*}
+         \set{\vec{w}\in V\suchthat 
+                 \text{存在 $\vec{v}\in V$ 使 $\vec{w}=2\vec{v}$}}
+       \end{equation*}
+       是整个 \( V \)，因为每个向量 $\vec{w}$ 都是另一个向量的两倍，
+       具体地说，是 $(1/2)\vec{w}$ 的两倍。
+       （因此，这个变换实际上是自同构。）
+    \end{answer}
+  \item 
+    列出从 $\Re^5$ 到 $\Re^3$ 的线性映射所有可能的
+    \( (\text{rank}(h),\text{nullity}(h)) \) 数对。
+    \begin{answer}
+      由于秩加零度等于定义域的维数（这里为五），且秩至多为三，
+      所以可能的数对为：~\( (3,2) \)、\( (2,3) \)、
+      \( (1,4) \) 和~\( (0,5) \)。
+      很容易给出线性映射，说明每个数对确实都可能出现。
+    \end{answer}
+  \item 
+    求导映射 \( \map{d/dx}{\polyspace_n}{\polyspace_n} \) 有逆映射吗？
+    \begin{answer}
+      没有（除非 \( \polyspace_n \) 是平凡空间），因为两个多项式
+      \( f_0(x)=0 \) 和 \( f_1(x)=1 \) 的导数相同；
+      一个映射必须是单射，才有逆映射。
+    \end{answer}
+  \recommended \item
+    求下列映射 \( \map{h}{\polyspace_n}{\Re} \) 的零度。
+    \begin{equation*}
+      a_0+a_1x+\dots+a_nx^n\mapsto\int_{x=0}^{x=1}a_0+a_1x+\dots+a_nx^n\,dx
+    \end{equation*}
+    \begin{answer}
+      零空间如下。
+      \begin{multline*}
+        \set{a_0+a_1x+\dots+a_nx^n\suchthat
+                   a_0(1)+\frac{\displaystyle a_1}{\displaystyle 2}(1^2)
+                   +\dots
+                   +\frac{\displaystyle a_n}{\displaystyle n+1}(1^{n+1})=0} \\
+        =\set{a_0+a_1x+\dots+a_nx^n\suchthat
+                   a_0+(a_1/2)+\dots+(a_{n}/n+1)=0}
+      \end{multline*}
+      因此零度为 \( n \)。
+     \end{answer}
+  \item 
+    \begin{exparts}
+      \partsitem 证明：同态是满射，当且仅当其秩等于陪域的维数。
+      \partsitem 推出：同维数向量空间之间的同态是单射，当且仅当它是满射。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 一个方向显然成立：~若同态是满射，则值域就是陪域，
+          因此秩等于陪域的维数。
+          反过来，假设映射的秩等于陪域的维数。
+          则值域是陪域的子空间，且维数等于陪域的维数。
+          因此值域必定等于陪域，映射是满射。
+          （这里“因此”的理由是：值域中存在一个线性无关子集，
+          其元素个数等于陪域的维数；
+          陪域中这样的线性无关子集必定是陪域的基，所以值域等于陪域。）
+        \partsitem 根据\nearbytheorem{th:OOHomoEquivalence}，
+          同态是单射，当且仅当零度为零。
+          由于秩加零度等于定义域的维数，
+          同态是单射，当且仅当秩等于定义域的维数。
+          但这里定义域与陪域同维，因此映射是单射，当且仅当它是满射。
+      \end{exparts}
+   \end{answer}
+  \item \label{exer:NonSingIffPreservLI} 
+    证明：线性映射是单射，当且仅当它保持线性无关性。
+    \begin{answer}
+      要证明的是：\( \map{h}{V}{W} \) 是单射，当且仅当
+      对 \( V \) 的每个线性无关子集 \( S \)，
+      \( W \) 的子集 \( h(S)=\set{h(\vec{s})\suchthat \vec{s}\in S} \)
+      都线性无关。
+
+      一个方向很容易\Dash 根据\nearbytheorem{th:OOHomoEquivalence}，
+      若 \( h \) 不是单射，则零空间非平凡，即其中不仅有零向量。
+      因此，取零空间中的 \( \vec{v}\neq\zero_V \)，
+      单元素集合 \( \set{\vec{v\,}} \) 线性无关，
+      而其像 \( \set{h(\vec{v})}=\set{\zero_W} \) 不是线性无关的。
+
+      反过来，假设 \( h \) 是单射，
+      则根据\nearbytheorem{th:OOHomoEquivalence}，其零空间平凡。
+      于是，对任意 \( \vec{v}_1,\dots,\vec{v}_n\in V \)，关系
+      \begin{equation*}
+        \zero_W=
+        c_1\cdot h(\vec{v}_1)+\dots+c_n\cdot h(\vec{v}_n)
+        =h(c_1\cdot \vec{v}_1+\dots+c_n\cdot \vec{v}_n)
+      \end{equation*}
+      蕴含 \( c_1\cdot \vec{v}_1+\dots+c_n\cdot \vec{v}_n=\zero_V \)。
+      因此，若 \( V \) 的子集线性无关，则它在 \( W \) 中的像也线性无关。
+
+      \textit{注。}
+      这里说的是：线性映射是单射，当且仅当它对\emph{所有}集合都保持线性无关性
+      （即一个集合线性无关时，它的像也线性无关）。
+      不是单射的映射完全可能保持某些集合的线性无关性。
+      例如，下面这个从 $\Re^3$ 到 $\Re^2$ 的映射。
+      \begin{equation*}
+        \colvec{x \\ y \\ z}\mapsto\colvec{x+y+z \\ 0}
+      \end{equation*}
+      它保持下面这个集合的线性无关性
+      \begin{equation*}
+        \set{\colvec[r]{1 \\ 0 \\ 0}}\mapsto\set{\colvec[r]{1 \\ 0}}
+      \end{equation*}
+      也保持下面这个集合的线性无关性（这个例子稍微巧妙一些）
+      \begin{equation*}
+        \set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 1 \\ 0}}
+        \mapsto\set{\colvec[r]{1 \\ 0}}
+      \end{equation*}
+      （回顾一下，集合中的重复元素不计两次）。
+      不过，确实存在一些集合，其线性无关性不被这个映射保持
+      \begin{equation*}
+        \set{\colvec[r]{1 \\ 0 \\ 0},\colvec[r]{0 \\ 2 \\ 0}}
+        \mapsto\set{\colvec[r]{1 \\ 0},\colvec[r]{2 \\ 0}}
+      \end{equation*}
+      所以它并不保持所有集合的线性无关性。
+    \end{answer}
+  \item \label{exer:DimRngLessImpMapOnto}
+    \nearbycorollary{cor:RankDecreases} 说明，
+    从向量空间 $V$ 到向量空间 $W$ 存在满射同态的必要条件是：
+    $W$ 的维数不大于 $V$ 的维数。
+    证明这个条件也充分；利用\nearbytheorem{th:HomoDetActOnBasis} 证明，
+    若 $W$ 的维数不大于 $V$ 的维数，则存在从 $V$ 到 $W$ 的满射同态。
+    \begin{answer}
+      （沿用\nearbytheorem{th:HomoDetActOnBasis} 中的记号。）
+      固定 $V$ 的基 $\sequence{\vec{\beta}_1,\dots,\vec{\beta}_n}$
+      和 $W$ 的基 $\sequence{\vec{w}_1,\ldots,\vec{w}_k}$。
+      若 $W$ 的维数 $k$ 不大于 $V$ 的维数 $n$，
+      则由定理得到如下确定的从 $V$ 到 $W$ 的线性映射。
+      \begin{equation*}
+        \vec{\beta}_1\mapsto\vec{w}_1,\,\dots,\,\vec{\beta}_k\mapsto\vec{w}_k
+        \quad\text{且}\quad
+        \vec{\beta}_{k+1}\mapsto\vec{w}_k,
+           \,\dots,\,\vec{\beta}_n\mapsto\vec{w}_k
+      \end{equation*}
+      只需验证它是满射。
+
+      $W$ 的任意元素都可以写成基向量的线性组合
+      $c_1\cdot \vec{w}_1+\dots+c_k\cdot \vec{w}_k$。
+      这个向量是
+      $c_1\cdot \vec{\beta}_1+\dots+c_k\cdot \vec{\beta}_k
+      +0\cdot \vec{\beta}_{k+1}\dots+0\cdot \vec{\beta}_n$
+      在上述映射下的像。
+      因此映射是满射。
+    \end{answer}  
+  \recommended \item
+    回顾一下，零空间是定义域的子集，值域空间是陪域的子集。
+    它们一定不同吗？是否存在一个同态，其零空间与值域空间有非平凡的交？
+    \begin{answer}
+      存在。
+      对于 \( \Re^2 \) 上的变换
+      \begin{equation*}
+        \colvec{x \\ y}\mapsunder{h}\colvec{0 \\ x}
+      \end{equation*}
+      有
+      \begin{equation*}
+        \nullspace{h}=\set{\colvec{0 \\ y}\suchthat y\in\Re}
+        =\rangespace{h}
+      \end{equation*}
+      \textit{注。}
+      第五章将进一步讨论这种情形。
+    \end{answer}
+  \item 
+    证明：张成空间的像等于像的张成空间。
+    即设 \( \map{h}{V}{W} \) 是线性的，
+    证明若 \( S \) 是 \( V \) 的子集，
+    则 \( h(\spanof{S}) \) 等于 \( \spanof{h(S)} \)。
+    这推广了\nearbylemma{le:RangeIsSubSp}，因为它说明：
+    若 \( U \) 是 \( V \) 的任意子空间，
+    则其像 \( \set{h(\vec{u})\suchthat \vec{u}\in U} \)
+    是 \( W \) 的子空间，因为集合 $U$ 的张成空间就是 $U$。
+    \begin{answer}
+      只需简单计算。
+          \begin{align*}
+            h(\spanof{S})
+            &=\set{h(c_1\vec{s}_1+\dots+c_n\vec{s}_n)
+                 \suchthat \text{\( c_1,\dots,c_n\in\Re \)
+                                 且 \( \vec{s}_1,\dots,\vec{s}_n\in S \)} } \\
+            &=\set{c_1h(\vec{s}_1)+\dots+c_nh(\vec{s}_n)
+                 \suchthat \text{\( c_1,\dots,c_n\in\Re \)
+                                 且 \( \vec{s}_1,\dots,\vec{s}_n\in S \)} } \\
+            &=\spanof{h(S)}
+          \end{align*}   
+     \end{answer}
+  \item \label{exer:Cosets}   
+    \begin{exparts}
+    \partsitem 证明：对任意线性映射 \( \map{h}{V}{W} \) 和任意
+      \( \vec{w}\in W \)，集合 \( h^{-1}(\vec{w}) \) 具有如下形式
+      \begin{equation*}
+        h^{-1}(\vec{w})=
+        \set{\vec{v}+\vec{n}\suchthat \text{$\vec{v},\vec{n}\in V$
+                                            且 $\vec{n}\in\nullspace{h}$
+                                            且 $h(\vec{v})=\vec{w}$}}
+      \end{equation*}
+      （若 \( h \) 不是满射，且 $\vec{w}$ 不在 $h$ 的值域中，
+      则这个集合为空，因为第三个条件无法满足）。
+      这样的集合称为 \( \nullspace{h} \) 的\definend{陪集}\index{coset}，
+      记为 \( \vec{v}+\nullspace{h} \)。
+    \partsitem 考虑映射 \( \map{t}{\Re^2}{\Re^2} \)，定义为
+      \begin{equation*}
+        \colvec{x \\ y}
+          \mapsunder{t}
+        \colvec{ax+by \\ cx+dy}
+      \end{equation*}
+      其中 $a$、$b$、$c$、$d$ 为标量。
+      证明 \( t \) 是线性的。
+    \partsitem
+      根据前两题，推出对任意形如下式的线性方程组
+      \begin{equation*}
+        \begin{linsys}{2}
+          ax  &+  &by  &=  &e \\
+          cx  &+  &dy  &=  &f 
+        \end{linsys}
+      \end{equation*}
+      其解集都可以写成（向量属于 $\Re^2$）
+      \begin{equation*}
+        \set{\vec{p}+\vec{h}\suchthat
+             \text{\( \vec{h} \) 满足相应的齐次方程组} }
+      \end{equation*}
+      其中 \( \vec{p} \) 是该线性方程组的一个特解
+      （若不存在特解，则上面的集合为空）。
+    \partsitem 证明下列映射 \( \map{h}{\Re^n}{\Re^m} \) 是线性的
+      \begin{equation*}
+        \colvec{x_1 \\ \vdots \\ x_n}
+          \mapsto
+        \colvec{a_{1,1}x_1+\dots+a_{1,n}x_n \\ 
+                     \vdots \\ 
+                     a_{m,1}x_1+\dots+a_{m,n}x_n}
+      \end{equation*}
+      其中 \( a_{1,1} \)，\ldots，\( a_{m,n} \) 为任意标量。
+      推广前一题的结论。
+    \partsitem 证明：对每个 \( k \)，\( k \) 阶求导映射都是
+      \( \polyspace_n \) 上的线性变换。
+      证明下列映射也是这个空间上的线性变换
+      \begin{equation*}
+        f\mapsto
+        \frac{d^k}{dx^k}f+c_{k-1}\frac{d^{k-1}}{dx^{k-1}}f
+           +\dots+
+        c_1\frac{d}{dx}f+c_0f
+      \end{equation*}
+      其中 \( c_k \)，\ldots，\( c_0 \) 为任意标量。
+      得出与上面类似的结论。
+    \end{exparts}
+    \begin{answer}
+      \begin{exparts}
+        \partsitem 
+          通过互相包含来证明集合相等
+          $h^{-1}(\vec{w})
+            =\set{\vec{v}+\vec{n}\suchthat \vec{n}\in\nullspace{h} }$。
+          对于
+          $\set{\vec{v}+\vec{n}\suchthat \vec{n}\in\nullspace{h} }
+            \subseteq h^{-1}(\vec{w})$，
+          只需注意 $h(\vec{v}+\vec{n})=h(\vec{v})+h(\vec{n})$ 等于 $\vec{w}$，
+          因此前一个集合的任意元素都属于后一个集合。
+          对于
+          $h^{-1}(\vec{w})
+            \subseteq\set{\vec{v}+\vec{n}\suchthat \vec{n}\in\nullspace{h} }$，
+          考虑 $\vec{u}\in h^{-1}(\vec{w})$。
+          由于 \( h \) 是线性的，\( h(\vec{u})=h(\vec{v}) \)
+          蕴含 \( h(\vec{u}-\vec{v})=\zero \)。
+          把 \( \vec{u}-\vec{v} \) 记为 \( \vec{n} \)，
+          则 $\vec{u}\in\set{\vec{v}+\vec{n}\suchthat \vec{n}\in\nullspace{h} }$，
+          因为 $\vec{u}=\vec{v}+(\vec{u}-\vec{v})$，正如所需。
+        \partsitem 验证很直接。
+        \partsitem 结论立即成立。
+        \partsitem 简述线性的验证：设 \( c,d \) 是标量，
+          \( \vec{x},\vec{y}\in\Re^n \) 的分量分别为
+          \( x_1,\dots,x_n \) 和 \( y_1,\dots,y_n \)，则有
+          \begin{align*}
+            h(c\cdot \vec{x}+d\cdot \vec{y})
+            &=\colvec{a_{1,1}(cx_1+dy_1)+\dots+a_{1,n}(cx_n+dy_n) \\ 
+                         \vdots \\ 
+                         a_{m,1}(cx_1+dy_1)+\dots+a_{m,n}(cx_n+dy_n)}    \\
+            &=\colvec{a_{1,1}cx_1+\dots+a_{1,n}cx_n \\ 
+                         \vdots \\ 
+                         a_{m,1}cx_1+\dots+a_{m,n}cx_n}
+            +\colvec{a_{1,1}dy_1+\dots+a_{1,n}dy_n \\ 
+                         \vdots \\                           
+                         a_{m,1}dy_1+\dots+a_{m,n}dy_n}        \\
+            &=c\cdot h(\vec{x})+d\cdot h(\vec{y})
+          \end{align*}
+          相应的结论是
+          \( \text{通解}=\text{特解}+\text{齐次解} \)。
+        \partsitem 求导算子的每个幂都是线性的，因为微积分中的法则
+          \begin{equation*}
+            \frac{d^k}{dx^k}(f(x)+g(x))=\frac{d^k}{dx^k}f(x)
+                                         +\frac{d^k}{dx^k}g(x)
+            \quad\text{且}\quad
+            \frac{d^k}{dx^k}rf(x)=r\frac{d^k}{dx^k}f(x)
+          \end{equation*}
+          成立。
+          因此，给定映射是这个空间上的线性变换，
+          因为根据\nearbylemma{le:SpLinFcns}，线性映射的任意线性组合仍是线性映射。
+          相应的结论为
+          \( \text{通解}=\text{特解}+\text{齐次解} \)，
+          其中对应的齐次微分方程右端的常数为 \( 0 \)。
+      \end{exparts}  
+     \end{answer}
+  \item 
+    证明：对任意秩为一的变换 \( \map{t}{V}{V} \)，
+    将该算子与自身复合所得的映射 \( \map{\composed{t}{t}}{V}{V} \)
+    满足 \( \composed{t}{t}=r\cdot t \)，其中 \( r \) 为某个实数。
+    \begin{answer}
+      由于 \( t \) 的秩为一，\( t \) 的值域空间是一维的。
+      取 $\sequence{h(\vec{v})}$ 为基（其中 $\vec{v}$ 选取得当），
+      则对任意 $\vec{w}\in V$，像 $h(\vec{w})\in V$ 都是这个基向量的倍数\Dash
+      每个 $\vec{w}$ 都对应一个标量 \( c_{\vec{w}} \)，
+      使得 \( t(\vec{w})=c_{\vec{w}}t(\vec{v}) \)。
+      对等式两边应用 \( t \)，并取 \( r \) 为 \( c_{t(\vec{v})} \)，
+      \begin{equation*}
+        \composed{t}{t}(\vec{w})
+        =t(c_{\vec{w}}\cdot t(\vec{v}))
+        =c_{\vec{w}}\cdot\composed{t}{t}(\vec{v})
+        =c_{\vec{w}}\cdot c_{t(\vec{v})}\cdot t(\vec{v})
+        =c_{\vec{w}}\cdot r\cdot t(\vec{v})
+        =r\cdot c_{\vec{w}}\cdot t(\vec{v})
+        =r\cdot t(\vec{w})
+      \end{equation*}
+      就得到所需结论。
+    \end{answer}
+  \item 
+    设 \( \map{h}{V}{\Re} \) 是一个非零同态。
+    证明：若 \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 是零空间的基，
+    且 \( \vec{v}\in V \) 不在零空间中，
+    则 \( \sequence{\vec{v},\vec{\beta}_1,\dots,\vec{\beta}_n} \)
+    是整个定义域 \( V \) 的一组基。
+    \begin{answer}
+      根据假设，\( h \) 不是零映射，所以存在不在零空间中的向量 \( \vec{v}\in V \)。
+      注意 \( \sequence{h(\vec{v})} \) 是 \( \Re \) 的一组基，
+      因为它是 \( \Re \) 的单元素线性无关子集。
+      因而 \( h \) 是满射，因为对任意 \( r\in\Re \)，
+      存在标量 \( c \) 使 \( r=c\cdot h(\vec{v}) \)，所以 \( r=h(c\vec{v}) \)。
+
+      因此 \( h \) 的秩为一。
+      由于零度为 $n$，\( h \) 的定义域，即向量空间 \( V \)，维数为 \( n+1 \)。
+      最后只需证明 \( \set{\vec{v},\vec{\beta}_1,\dots,\vec{\beta}_n} \) 线性无关，
+      因为它是维数为~$n+1$ 的空间中含~$n+1$ 个元素的子集。
+      由于 \( \set{\vec{\beta}_1,\dots,\vec{\beta}_n} \) 线性无关，
+      只需证明 \( \vec{v} \) 不是其余向量的线性组合。
+      但若 \( c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n=\vec{v} \)，
+      则 \( -\vec{v}+c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n=\zero \)，
+      对两边应用 \( h \) 就会产生矛盾。
+    \end{answer}
+  \item 
+    证明：对任意维数为 \( n \) 的空间 \( V \)，其
+    \definend{对偶空间}\index{dual space}\index{vector space!dual}
+    \begin{equation*}
+      \linmaps{V}{\Re}=\set{\map{h}{V}{\Re}\suchthat \text{\( h \) 是线性的}}
+    \end{equation*}
+    同构于 \( \Re^n \)。
+    对偶空间常记为 $V^\ast$。
+    推出 \( V^\ast\isomorphicto V \)。
+    \begin{answer}
+      固定 \( V \) 的一组基 \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)。
+      我们将证明下列映射
+      \begin{equation*}
+        h\mapsunder{\Phi}
+        \colvec{h(\vec{\beta}_1) \\ \vdots \\ h(\vec{\beta}_n)}
+      \end{equation*}
+      是从 \( V^\ast \) 到 \( \Re^n \) 的同构。
+
+      要证明 $\Phi$ 是单射，设 $h_1$ 和 $h_2$ 属于 $V^\ast$，
+      且 $\Phi(h_1)=\Phi(h_2)$。
+      则
+      \begin{equation*}
+        \colvec{h_1(\vec{\beta}_1) \\ \vdots \\ h_1(\vec{\beta}_n)}
+        =\colvec{h_2(\vec{\beta}_1) \\ \vdots \\ h_2(\vec{\beta}_n)}
+      \end{equation*}
+      因而 $h_1(\vec{\beta}_1)=h_2(\vec{\beta}_1)$，依此类推。
+      但同态由它在基上的作用确定，所以 \( h_1=h_2 \)，因此 \( \Phi \) 是单射。
+
+      要证明 $\Phi$ 是满射，考虑
+      \begin{equation*}
+        \colvec{x_1 \\ \vdots \\ x_n}
+      \end{equation*}
+      其中 \( x_1,\ldots,x_n\in\Re \)。
+      下面这个从 $V$ 到 $\Re$ 的函数 $h$
+      \begin{equation*}
+        c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n
+        \mapsunder{h} c_1x_1+\dots+c_nx_n
+      \end{equation*}
+      是线性的，且 $\Phi$ 将它映到 $\Re^n$ 中给定的向量，
+      所以 \( \Phi \) 是满射。
+
+      映射 \( \Phi \) 也保持结构：~若
+      \begin{align*}
+        c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n
+        &\mapsunder{h_1}
+        c_1h_1(\vec{\beta}_1)+\dots+c_nh_1(\vec{\beta}_n)    \\
+        c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n
+        &\mapsunder{h_2}
+        c_1h_2(\vec{\beta}_1)+\dots+c_nh_2(\vec{\beta}_n)
+      \end{align*}
+      则有
+      \begin{multline*}
+        (r_1h_1+r_2h_2)(c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n)       \\
+        \begin{aligned}
+        &=
+        c_1(r_1h_1(\vec{\beta}_1)+r_2h_2(\vec{\beta}_1))
+          +\dots
+          +c_n(r_1h_1(\vec{\beta}_n)+r_2h_2(\vec{\beta}_n))    \\
+        &=
+        r_1(c_1h_1(\vec{\beta}_1)+\dots+c_nh_1(\vec{\beta}_n))
+          + r_2(c_1h_2(\vec{\beta}_1)+\dots+c_nh_2(\vec{\beta}_n))
+        \end{aligned}
+      \end{multline*}
+      所以 \( \Phi(r_1h_1+r_2h_2)=r_1\Phi(h_1)+r_2\Phi(h_2) \)。
+    \end{answer}
+  \item 
+    证明：任意线性映射都可以写成秩为一的映射之和。
+    \begin{answer}
+      设 \( \map{h}{V}{W} \) 是线性的，固定 \( V \) 的一组基
+      \( \sequence{\vec{\beta}_1,\dots,\vec{\beta}_n} \)。
+      考虑下面 \( n \) 个从 \( V \) 到 \( W \) 的映射
+      \begin{equation*}
+        h_1(\vec{v})=c_1\cdot h(\vec{\beta}_1),
+        \quad
+        h_2(\vec{v})=c_2\cdot h(\vec{\beta}_2),
+        \quad\ldots\quad,
+        h_n(\vec{v})=c_n\cdot h(\vec{\beta}_n)
+      \end{equation*}
+      其中 \( \vec{v}=c_1\vec{\beta}_1+\dots+c_n\vec{\beta}_n \) 为任意向量。
+      显然，\( h \) 是各个 \( h_i \) 之和。
+      只需验证每个 \( h_i \) 都是线性的：~若
+      \( \vec{u}=d_1\vec{\beta}_1+\dots+d_n\vec{\beta}_n \)，则
+      \( h_i(r\vec{v}+s\vec{u})=rc_i+sd_i=rh_i(\vec{v})+sh_i(\vec{u}) \)。
+    \end{answer}
+ \item 
+   “同态于”是等价关系吗？
+   （\textit{提示：}~难点在于为引号内的短语选择恰当的含义。）
+   \begin{answer}
+     可以是（显然成立），也可以不是（几乎显然）。
+
+     如果把 \( V \) “同态于” \( W \) 理解为存在从 \( V \) 到
+     \( W \) 的同态（不一定是满射），
+     那么每个空间都同态于其他任意空间，因为零映射总是存在。
+
+     如果把 \( V \) “同态于” \( W \) 理解为存在从 \( V \) 到 \( W \) 的满射同态，
+     那么这个关系就不是等价关系。
+     例如，存在从 \( \Re^3 \) 到 \( \Re^2 \) 的满射同态
+     （投影就是一个），但根据\nearbycorollary{cor:RankDecreases}，
+     不存在从 \( \Re^2 \) 满射到 \( \Re^3 \) 的同态，
+     所以这个关系不具有自反性。\appendrefs{equivalence relations}
+   \end{answer}
+  \item 
+    证明：线性映射 \( \map{t}{V}{V} \) 的各次幂的值域空间
+    和零空间分别构成降链
+    \begin{equation*}
+      V\supseteq \rangespace{t}\supseteq\rangespace{t^2}\supseteq\ldots
+    \end{equation*}
+    和升链
+    \begin{equation*}
+     \set{\vec{0}}\subseteq\nullspace{t}\subseteq\nullspace{t^2}\subseteq\ldots
+    \end{equation*}
+    。再证明：若 \( k \) 满足 \( \rangespace{t^k}=\rangespace{t^{k+1}} \)，
+    则所有后续值域空间都相等：
+    \( \rangespace{t^k}=\rangespace{t^{k+1}}=\rangespace{t^{k+2}}\ldots\, \)。
+    类似地，若 \( \nullspace{t^k}=\nullspace{t^{k+1}} \)，
+    则 \( \nullspace{t^k}=\nullspace{t^{k+1}}=\nullspace{t^{k+2}}=\ldots\, \)。
+    \begin{answer}
+      它们构成上述链是显然的。
+      对于其余结论，这里证明
+      \( \rangespace{t^{j+1}}=\rangespace{t^{j}} \)
+      蕴含 \( \rangespace{t^{j+2}}=\rangespace{t^{j+1}} \)，
+      然后应用数学归纳法即可。
+
+      假设 \( \rangespace{t^{j+1}}=\rangespace{t^{j}} \)。
+      则 \( \map{t}{\rangespace{t^{j+1}}}{\rangespace{t^{j+2}}} \)
+      与 \( \map{t}{\rangespace{t^{j}}}{\rangespace{t^{j+1}}} \)
+      是同一个映射，定义域也相同。
+      因此值域相同：\( \rangespace{t^{j+2}}=\rangespace{t^{j+1}} \)。
+    \end{answer}
+\end{exercises}
