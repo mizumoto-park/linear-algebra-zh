@@ -1,28 +1,10 @@
-% 中文版封面：在 zh 树内覆盖 \covergraphic 的标题绘制部分，英文版不受影响
-% 原 \title 与版式结构照抄 covernew.tex
+% 中文版封面（covernew）：版式结构照抄英文版，标题绘制由 zhcover.sty 覆盖
+% （zhcover 由主文件 book-zh.tex 在导言区加载；\include 的文件内不能用 \usepackage）
 \title{线性代数}
 \newgeometry{margin=1in}
 \author{Jim Hef{}feron}
 \date{\today}
 \thispagestyle{empty}
-\makeatletter
-\renewcommand{\covergraphic}[1][]{%
-\setlength{\unitlength}{1in}
-\begin{picture}(0,0)(-0.8,0)
-  \put(-0.3,-2.5){{\color{black}\fontsize{55pt}{8pt}{\sffamily\bfseries 线性代数}}}
-  \put(3.6,-1.95){{\color{coverlightcolor}\fontsize{14pt}{8pt}{\fontfamily{ugq}\selectfont LINEAR ALGEBRA}}}
-  \thicklines
-  \put(-0.26,-2.675){\color{coverhighlightcolor}\rule{5.78in}{2.5pt}}
-  \put(5.5,-3.015){\makebox[0pt][r]{\color{coverdarkcolor}\fontsize{20pt}{8pt}{\fontfamily{ugq}\selectfont Jim Hef{}feron}}}
-  \put(5.5,-3.3){\makebox[0pt][r]{\color{coverdarkcolor}\fontsize{16pt}{8pt}{\sffamily 第四版}}}
-  \put(5.5,-1.85){\makebox[0pt][r]{\color{coverdarkcolor}\fontsize{20pt}{8pt}{
-\sffamily #1}}}
-  \put(-0.0,-6.9){\includegraphics{cover/asy/shadow.pdf}}
-  \put(0,-6.5){\includegraphics{cover/asy/axesgraphic.pdf}}
-  \put(2.32,-6.4){{\color{coverlightcolor}\large \texttt{hefferon.net/linearalgebra}}}
-\end{picture}
-}
-\makeatother
 \setlength{\unitlength}{1in}
 \noindent\begin{picture}(0,0)
   \put(-.75,0){\covergraphic}

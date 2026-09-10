@@ -12,6 +12,8 @@
 #                    XeLaTeX; fast)
 #   make zh-book     build src/zh/book-zh.pdf (Chinese edition; translated
 #                    chapters fall back to English until translated)
+#   make zh-answers  build src/zh/jhanswer-zh.pdf (Chinese answer book;
+#                    needs a prior `make zh-book` which writes bookans.tex)
 #   make zh-progress show per-file translation progress
 #   make zh-view     open the Chinese test PDF
 #   make clean       remove ignored build artifacts under src/ (aux files,
@@ -35,7 +37,7 @@ ZH_FILES := cover/covernew pref/pref \
 	jc/jc1 jc/jc2 jc/jc3 jc/jc4 jc/powers jc/pops jc/search jc/recur \
 	jc/wilber jc/innerproduct appen/appen
 
-.PHONY: help book answers slides zh-test zh-book zh-progress zh-view clean clean-zh
+.PHONY: help book answers slides zh-test zh-book zh-answers zh-progress zh-view clean clean-zh
 
 help:
 	@echo "Linear Algebra -- build workflows"
@@ -44,6 +46,7 @@ help:
 	@echo "  make slides      beamer slide decks (long)"
 	@echo "  make zh-test     Chinese test      -> $(SRC)/zh/test-zh.pdf (XeLaTeX)"
 	@echo "  make zh-book     Chinese edition   -> $(SRC)/zh/book-zh.pdf (XeLaTeX)"
+	@echo "  make zh-answers  Chinese answers   -> $(SRC)/zh/jhanswer-zh.pdf (XeLaTeX)"
 	@echo "  make zh-progress translation progress checklist"
 	@echo "  make zh-view     open the Chinese test PDF"
 	@echo "  make clean       git clean -Xd $(SRC)/  (removes ignored artifacts only)"
@@ -69,6 +72,21 @@ zh-book:
 	cd $(SRC)/zh && TEXINPUTS="$(SRC_ABS)//:" xelatex -interaction=nonstopmode book-zh.tex
 	cd $(SRC)/zh && TEXINPUTS="$(SRC_ABS)//:" xelatex -interaction=nonstopmode book-zh.tex
 	@echo "Built $(SRC)/zh/book-zh.pdf"
+
+# 答案书中文版：前置条件是先跑过 make zh-book（其写出中文答案 bookans.tex）。
+# bookans.tex 中节标题前缀 "Section I:" 为 bookans.sty 写出时烘焙的英文，
+# 这里在生成 bookans-zh.tex 时一并汉化为 "第 I 节："。
+zh-answers:
+	cd $(SRC)/zh && sed -e 's/section {Section I: /section {第 I 节：/' \
+	  -e 's/section {Section II: /section {第 II 节：/' \
+	  -e 's/section {Section III: /section {第 III 节：/' \
+	  -e 's/section {Section IV: /section {第 IV 节：/' \
+	  -e 's/section {Section V: /section {第 V 节：/' \
+	  -e 's/section {Section VI: /section {第 VI 节：/' \
+	  bookans.tex > bookans-zh.tex
+	cd $(SRC)/zh && TEXINPUTS="$(SRC_ABS)//:" xelatex -interaction=nonstopmode jhanswer-zh.tex
+	cd $(SRC)/zh && TEXINPUTS="$(SRC_ABS)//:" xelatex -interaction=nonstopmode jhanswer-zh.tex
+	@echo "Built $(SRC)/zh/jhanswer-zh.pdf"
 
 zh-progress:
 	@total=0; done=0; partial=0; \

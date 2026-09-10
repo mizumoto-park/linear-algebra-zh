@@ -45,6 +45,7 @@ src/slides/*.zip
 
 
 src/zh/book-zh.pdf
+src/zh/jhanswer-zh.pdf
 
 # ---- independent sample repo (has its own git) ----
 sample/

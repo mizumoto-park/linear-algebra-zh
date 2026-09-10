@@ -1,0 +1,68 @@
+% jhanswer-zh.tex -- 《线性代数（习题解答）》中文版主文件
+% 前置条件：先编译过 book-zh.tex（其会写出中文答案文件 bookans.tex）。
+% 编译：在 src/zh/ 目录下（或仓库根目录 `make zh-answers`）：
+%   TEXINPUTS="<仓库>/src//:" xelatex -interaction=nonstopmode jhanswer-zh.tex
+% 结构照抄英文版 jhanswer.tex；差异：
+%   * 载入 zhsetup（字体、名称汉化、第X章/第I节 页眉）与 zhcover（中文封面宏）
+%   * 前言为中文
+%   * 答案条目超链接指向 book-zh.pdf（英文版为 book.pdf）
+%   * 读入 bookans-zh.tex（由 Makefile 从 bookans.tex 生成，节标题前缀已汉化）
+\documentclass[twoside]{book}
+\usepackage{color,graphicx}
+\usepackage{answerjh,linalgjh}
+\usepackage{zhsetup}
+\usepackage{zhcover}
+
+\includeonly{coverans,symlist}
+
+% 答案条目链接指向中文版主书（answerjh 默认硬编码 book.pdf）
+\makeatletter
+\renewenvironment{ans}[1]{%
+  \begin{answerlist}%
+    \ifinsidetopic
+      \item[\hyperref{book-zh.pdf}{exercise}{\thesubsection.#1}{#1}\hypertarget{ans.\thesubsection.#1}{}]
+    \else
+      \item[\hyperref{book-zh.pdf}{exercise}{#1}{#1}\hypertarget{ans.#1}{}]
+    \fi }{%
+  \end{answerlist}
+}
+\makeatother
+
+% 读入由 Makefile 生成的汉化版答案汇编（缺省机制同英文版）
+\makeatletter
+\def\ansfile{bookans-zh}
+\makeatother
+
+\begin{document}
+\include{coverans}\include{symlist}
+\frontmatter
+\chapter*{前言}
+本书是吉姆·赫弗伦（Jim~Hef{}feron）《线性代数》
+一书中全部习题的解答。
+此处标为 One.II.3.4 的解答，
+对应第一章、第二节、第三小节中编号为~4~的题目。
+各章末尾的专题单独编号。
+
+如果你拿到的是本文件的电子版，
+请把它与主书放在同一目录下。
+这样，在主书中点击题号即可跳到相应解答，
+在这里点击解答编号即可跳回原题
+（主书文件须名为 book-zh.pdf，本文件须名为 jhanswer-zh.pdf——
+由于 PDF 链接语言的限制，这两个文件不能改名）。
+
+欢迎勘误与建议。
+联系方式见本书主页
+\url{http://joshua.smcvt.edu/linearalgebra}。
+
+\vspace{.5in}
+\begin{raggedright}
+Jim Hef{}feron     \\
+Saint Michael's College, Colchester VT USA \\
+\input{publicationdate}
+\end{raggedright}
+\clearemptydoublepage\tableofcontents
+\setcounter{page}{1}
+\mainmatter
+\thispagestyle{empty}
+\input{\ansfile}
+\end{document}

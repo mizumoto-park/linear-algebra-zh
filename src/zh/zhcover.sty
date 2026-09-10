@@ -1,0 +1,23 @@
+% zhcover.sty -- 中文版封面绘制（覆盖 covergraphic.sty 的英文版宏）
+% 供 zh/cover/covernew.tex 与 zh/cover/coverans.tex 共用。
+% 依赖：bookjh 已加载（提供 covergraphic.sty 的颜色与图片资源）。
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{zhcover}[2026/09/10 Chinese cover for _Linear Algebra_]
+\makeatletter
+\renewcommand{\covergraphic}[1][]{%
+\setlength{\unitlength}{1in}
+\begin{picture}(0,0)(-0.8,0)
+  \put(-0.3,-2.5){{\color{black}\fontsize{55pt}{8pt}{\sffamily\bfseries 线性代数}}}
+  \put(3.6,-1.95){{\color{coverlightcolor}\fontsize{14pt}{8pt}{\fontfamily{ugq}\selectfont LINEAR ALGEBRA}}}
+  \thicklines
+  \put(-0.26,-2.675){\color{coverhighlightcolor}\rule{5.78in}{2.5pt}}
+  \put(5.5,-3.015){\makebox[0pt][r]{\color{coverdarkcolor}\fontsize{20pt}{8pt}{\fontfamily{ugq}\selectfont Jim Hef{}feron}}}
+  \put(5.5,-3.3){\makebox[0pt][r]{\color{coverdarkcolor}\fontsize{16pt}{8pt}{\sffamily 第四版}}}
+  \put(5.5,-1.85){\makebox[0pt][r]{\color{coverdarkcolor}\fontsize{20pt}{8pt}{
+\sffamily #1}}}
+  \put(-0.0,-6.9){\includegraphics{cover/asy/shadow.pdf}}
+  \put(0,-6.5){\includegraphics{cover/asy/axesgraphic.pdf}}
+  \put(2.32,-6.4){{\color{coverlightcolor}\large \texttt{hefferon.net/linearalgebra}}}
+\end{picture}
+}
+\makeatother
